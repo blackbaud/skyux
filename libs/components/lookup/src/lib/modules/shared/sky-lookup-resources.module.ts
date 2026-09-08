@@ -101,7 +101,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_lookup_show_more_select: { message: 'Sélectionner' },
     skyux_lookup_show_more_select_context: { message: 'Sélectionner {0}' },
-    skyux_lookup_tokens_summary: { message: '{0} articles sélectionnés' },
+    skyux_lookup_tokens_summary: { message: '{0} éléments sélectionnés' },
     skyux_search_aria_label_descriptor: { message: 'Rechercher {0}' },
     skyux_search_dismiss: { message: 'Omettre la recherche' },
     skyux_search_label: { message: 'Rechercher des articles' },

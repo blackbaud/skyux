@@ -20,6 +20,22 @@ describe('forms-storybook - input box', () => {
         );
       });
 
+      it('should render the character limit', () => {
+        cy.skyReady('app-input-box', [], ['#input-box-character-limit']);
+
+        cy.get('#input-box-character-limit').screenshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-character-limit`,
+        );
+
+        cy.get('#input-box-character-limit').percySnapshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-character-limit`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+            scope: '#input-box-character-limit',
+          },
+        );
+      });
+
       it('should properly focus a standard input box', () => {
         cy.skyReady('app-input-box', [], ['#input-box-basic'])
           .get('#input-box-basic input')

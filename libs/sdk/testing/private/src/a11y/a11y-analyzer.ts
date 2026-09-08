@@ -108,8 +108,9 @@ export abstract class _SkyA11yAnalyzer {
 
     return new Promise((resolve, reject) => {
       const callback: axe.RunCallback = (error, results) => {
-        if (error?.message) {
-          reject(error);
+        // axe reports some failures as a bare string rather than an Error.
+        if (error) {
+          reject(error instanceof Error ? error : new Error(String(error)));
           return;
         }
 

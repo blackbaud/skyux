@@ -93,6 +93,14 @@ function migrateSdkTestingImports(): Rule {
               new: SUPPORTED_PACKAGE,
             },
           },
+          // Vitest has no `expectAsync`; its `expect` handles both. The import
+          // itself is dropped later since `expect` is a Vitest global.
+          {
+            classNames: {
+              expectAsync: 'expect',
+            },
+            moduleName: DEPRECATED_PACKAGE,
+          },
         ],
       );
 

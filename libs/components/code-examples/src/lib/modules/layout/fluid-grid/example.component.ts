@@ -10,8 +10,7 @@ import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
   styles: [
     `
       .highlight-columns .sky-column {
-        background-color: #97eced;
-        border: 1px solid #56e0e1;
+        border: 1px solid var(--sky-theme-color-classify-1-heavy);
         overflow-wrap: break-word;
       }
     `,

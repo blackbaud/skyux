@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, Validators } from '@angular/forms';
+import { FormControl, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-input-box',
@@ -12,6 +12,13 @@ export class InputBoxComponent implements OnInit {
     disabled: true,
     value: 'Disabled value',
   });
+
+  protected readonly characterLimitUnderField = new FormControl('Under');
+  protected readonly characterLimitAtField = new FormControl('0123456789');
+  protected readonly characterLimitLongLabelField = new FormControl('Value');
+  protected readonly characterLimitOverField = new FormControl(
+    'Over the limit',
+  );
 
   public errorField = new UntypedFormControl('', [Validators.required]);
 

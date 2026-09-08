@@ -10,6 +10,9 @@ type LabelParts = {
 
 /**
  * Harness for interacting with a character counter indicator component in tests.
+ *
+ * @deprecated Use `SkyInputBoxHarness` with an input box that sets the
+ * `characterLimit` input instead.
  */
 export class SkyCharacterCounterIndicatorHarness extends SkyComponentHarness {
   /**

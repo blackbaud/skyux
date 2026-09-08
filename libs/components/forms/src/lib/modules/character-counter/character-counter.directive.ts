@@ -13,6 +13,8 @@ import { SkyCharacterCounterIndicatorComponent } from './character-counter-indic
  * an `input` or `textarea` element. If users enter more characters than allowed, then the
  * input field is invalid and the component displays an error indicator.
  * @required
+ * @deprecated Use [input box](https://developer.blackbaud.com/skyux/components/input-box)
+ * with its `characterLimit` input instead.
  */
 @Directive({
   selector: '[skyCharacterCounter]',

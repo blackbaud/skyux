@@ -36,6 +36,10 @@
   );
   --sky-override-ag-grid-column-border: 1px solid
     var(--sky-border-color-neutral-medium);
+  --sky-override-ag-grid-filter-border-color: var(
+    --sky-border-color-neutral-medium
+  );
+  --sky-override-ag-grid-filter-border-radius: 3px;
   --sky-override-ag-grid-focus-border-color: var(--sky-highlight-color-info);
   --sky-override-ag-grid-focus-border-width: 2px;
   --sky-override-ag-grid-font-family:

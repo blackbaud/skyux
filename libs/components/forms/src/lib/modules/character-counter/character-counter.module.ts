@@ -8,6 +8,10 @@ import { SkyCharacterCounterIndicatorComponent } from './character-counter-indic
 import { SkyCharacterCounterScreenReaderPipe } from './character-counter-screen-reader.pipe';
 import { SkyCharacterCounterInputDirective } from './character-counter.directive';
 
+/**
+ * @deprecated Use [input box](https://developer.blackbaud.com/skyux/components/input-box)
+ * with its `characterLimit` input instead.
+ */
 @NgModule({
   declarations: [
     SkyCharacterCounterInputDirective,

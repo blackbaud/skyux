@@ -153,6 +153,7 @@
       "codeExamples": {
         "docsIds": [
           "FormsInputBoxBasicExampleComponent",
+          "FormsInputBoxCharacterLimitExample",
           "FormsInputBoxWithCustomFormErrorsExampleComponent",
           "LookupCountryFieldBasicExampleComponent",
           "DatetimeDatepickerBasicExampleComponent",

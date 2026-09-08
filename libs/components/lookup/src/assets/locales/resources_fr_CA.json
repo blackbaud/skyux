@@ -93,7 +93,7 @@
   },
   "skyux_lookup_tokens_summary": {
     "_description": "Texte affiché lorsque l’utilisateur a plus que le nombre maximal d’éléments sélectionné",
-    "message": "{0} articles sélectionnés"
+    "message": "{0} éléments sélectionnés"
   },
   "skyux_search_aria_label_descriptor": {
     "_description": "Étiquette aria par défaut pour une recherche lorsqu’un descripteur est donné",

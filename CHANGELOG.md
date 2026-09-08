@@ -1,6 +1,93 @@
 # Changelog
 
 
+## [15.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.10...15.0.0-alpha.11) (2026-09-03)
+
+
+### Features
+
+* **components/indicators:** use status color tokens for status text, links, icons ([#4736](https://github.com/blackbaud/skyux/issues/4736)) ([#4746](https://github.com/blackbaud/skyux/issues/4746)) ([d4f638d](https://github.com/blackbaud/skyux/commit/d4f638d5e5f463893ce1b4c51874b395790c8a07))
+
+
+### Bug Fixes
+
+* **components/layout:** inline delete cancel button is not transparent in dark modet in dark mode ([#4744](https://github.com/blackbaud/skyux/issues/4744)) ([#4747](https://github.com/blackbaud/skyux/issues/4747)) ([ee762e0](https://github.com/blackbaud/skyux/commit/ee762e0638c2211fd558b707d0ade37083963e9f))
+
+## [15.0.0-alpha.10](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.9...15.0.0-alpha.10) (2026-09-02)
+
+
+### Features
+
+* **components/theme:** darken action links on hover/active in modern theme ([#4738](https://github.com/blackbaud/skyux/issues/4738)) ([#4742](https://github.com/blackbaud/skyux/issues/4742)) ([17b4bb1](https://github.com/blackbaud/skyux/commit/17b4bb1d3fe3ee7b4311b0dfb00527ffea5b2fb7))
+* **components/validation:** add sky email and url signal validators ([#4685](https://github.com/blackbaud/skyux/issues/4685)) ([43c4d01](https://github.com/blackbaud/skyux/commit/43c4d0183a3bba1c3d1e36d10da64c40200bad37)), closes [#4629](https://github.com/blackbaud/skyux/issues/4629) [#4686](https://github.com/blackbaud/skyux/issues/4686) [#4687](https://github.com/blackbaud/skyux/issues/4687) [#4688](https://github.com/blackbaud/skyux/issues/4688) [#4689](https://github.com/blackbaud/skyux/issues/4689) [#4690](https://github.com/blackbaud/skyux/issues/4690) [#4691](https://github.com/blackbaud/skyux/issues/4691) [AB#4008241](https://dev.azure.com/blackbaud/Products/_workitems/edit/4008241)
+* underline inline and link buttons in dark mode with standalone exceptions ([#4729](https://github.com/blackbaud/skyux/issues/4729)) ([#4729](https://github.com/blackbaud/skyux/issues/4729)) ([#4735](https://github.com/blackbaud/skyux/issues/4735)) ([4dd9902](https://github.com/blackbaud/skyux/commit/4dd9902dc609563061e0497eba4078556bcaa655))
+
+
+### Bug Fixes
+
+* **components/avatar:** use correct background colors ([#4727](https://github.com/blackbaud/skyux/issues/4727)) ([#4740](https://github.com/blackbaud/skyux/issues/4740)) ([53a4896](https://github.com/blackbaud/skyux/commit/53a48969a231b1ecbd817ffac7a5c98cd1d9e1bc))
+* **components/data-manager:** getDataStateUpdates no longer drops changes when peers mutate shared state ([#4700](https://github.com/blackbaud/skyux/issues/4700)) ([#4732](https://github.com/blackbaud/skyux/issues/4732)) ([29a7872](https://github.com/blackbaud/skyux/commit/29a78727e718f685fa56e7ce187be356b373a9d8)), closes [AB#4099031](https://dev.azure.com/blackbaud/Products/_workitems/edit/4099031)
+* **components/forms:** remove reference to character counter component in the input box `characterLimit` docs ([#4730](https://github.com/blackbaud/skyux/issues/4730)) ([6c846be](https://github.com/blackbaud/skyux/commit/6c846be2a5062825d9f0a7c871f11b1a4ce4fdc9))
+
+## [14.19.0](https://github.com/blackbaud/skyux/compare/14.18.0...14.19.0) (2026-09-02)
+
+
+### Features
+
+* **components/indicators:** use status color tokens for status text, links, icons ([#4736](https://github.com/blackbaud/skyux/issues/4736)) ([932012d](https://github.com/blackbaud/skyux/commit/932012d3bbd9b20ce77e2548fd23104f798d94f3))
+* **components/theme:** darken action links on hover/active in modern theme ([#4738](https://github.com/blackbaud/skyux/issues/4738)) ([8e3a2f6](https://github.com/blackbaud/skyux/commit/8e3a2f646c46096a0191f16d1d8df6d63e7a56aa))
+
+
+### Bug Fixes
+
+* **components/avatar:** use correct background colors ([#4727](https://github.com/blackbaud/skyux/issues/4727)) ([30634c1](https://github.com/blackbaud/skyux/commit/30634c19f65c8b56e23f780b6a5fc837886baa71))
+* **components/layout:** inline delete cancel button is not transparent in dark modet in dark mode ([#4744](https://github.com/blackbaud/skyux/issues/4744)) ([0241607](https://github.com/blackbaud/skyux/commit/024160753d013e861b255a7c2b09ed9feda9f1dc))
+
+## [14.18.0](https://github.com/blackbaud/skyux/compare/14.17.0...14.18.0) (2026-09-01)
+
+
+### Features
+
+* underline inline and link buttons in dark mode with standalone exceptions ([#4729](https://github.com/blackbaud/skyux/issues/4729)) ([378ac1b](https://github.com/blackbaud/skyux/commit/378ac1b7e88694bd66ee3ea82c985b397f89a9c8))
+
+
+### Bug Fixes
+
+* **components/data-manager:** getDataStateUpdates no longer drops changes when peers mutate shared state ([#4700](https://github.com/blackbaud/skyux/issues/4700)) ([ac9bb3e](https://github.com/blackbaud/skyux/commit/ac9bb3e40f9ce66af2fc9448513b188f4e790c78)), closes [AB#4099031](https://dev.azure.com/blackbaud/Products/_workitems/edit/4099031)
+
+## [15.0.0-alpha.9](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.8...15.0.0-alpha.9) (2026-08-28)
+
+
+### Features
+
+* add sky-btn-icon-borderless-on_prominent button class ([#4683](https://github.com/blackbaud/skyux/issues/4683)) ([#4703](https://github.com/blackbaud/skyux/issues/4703)) ([05664fb](https://github.com/blackbaud/skyux/commit/05664fb49e513890aef6b03149ee64f8753579e4))
+* **components/forms:** deprecate character counter component ([#4714](https://github.com/blackbaud/skyux/issues/4714)) ([380ded6](https://github.com/blackbaud/skyux/commit/380ded612829c9406a36ed8cb6df5ed2753ff20a))
+* dark mode uses new `steel-grey` color scheme ([#4716](https://github.com/blackbaud/skyux/issues/4716)) ([07ab8d3](https://github.com/blackbaud/skyux/commit/07ab8d328821d22594099be870c937ff7918cfd6))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** date filter widgets use grid background and focus styles, inputs use text color ([#4713](https://github.com/blackbaud/skyux/issues/4713)) ([#4717](https://github.com/blackbaud/skyux/issues/4717)) ([f285480](https://github.com/blackbaud/skyux/commit/f2854808455850bf00725822f5d7d44e33820775))
+* **components/forms:** file drop link input uses input box background color in dark mode ([#4720](https://github.com/blackbaud/skyux/issues/4720)) ([#4721](https://github.com/blackbaud/skyux/issues/4721)) ([6ef1041](https://github.com/blackbaud/skyux/commit/6ef1041b75114d286d8a28b82bd50b63abc34557))
+* **components/indicators:** sky-tokens no longer prevents projected content from wrapping ([#4656](https://github.com/blackbaud/skyux/issues/4656)) ([#4679](https://github.com/blackbaud/skyux/issues/4679)) ([ec987f7](https://github.com/blackbaud/skyux/commit/ec987f71d5421bcc1ea642b412c807498339a8a0))
+* **components/packages:** replace `expectAsync` calls with `expect` when migrating tests to vitest ([#4723](https://github.com/blackbaud/skyux/issues/4723)) ([ed574b1](https://github.com/blackbaud/skyux/commit/ed574b1baaf312d965d00c9766266ec18321be11))
+* report the underlying axe error when accessibility checks fail ([#4712](https://github.com/blackbaud/skyux/issues/4712)) ([05a7184](https://github.com/blackbaud/skyux/commit/05a7184456da82d293b089a1a0974f2f09a8839c))
+* support dark mode in fluid grid code example and visual test ([#4718](https://github.com/blackbaud/skyux/issues/4718)) ([#4719](https://github.com/blackbaud/skyux/issues/4719)) ([e70a8ef](https://github.com/blackbaud/skyux/commit/e70a8ef82cd06bc947aae8c166615cd8b744255c))
+
+## [14.17.0](https://github.com/blackbaud/skyux/compare/14.16.0...14.17.0) (2026-08-28)
+
+
+### Features
+
+* dark mode uses new `steel-grey` color scheme ([#4706](https://github.com/blackbaud/skyux/issues/4706)) ([a0e9b74](https://github.com/blackbaud/skyux/commit/a0e9b742b4a0c861ec022715428e19cb9bd6fc30))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** date filter widgets use grid background and focus styles, inputs use text color ([#4713](https://github.com/blackbaud/skyux/issues/4713)) ([8464e4d](https://github.com/blackbaud/skyux/commit/8464e4d4b585d0619a417758c7de7ce53dda8e72))
+* **components/forms:** file drop link input uses input box background color in dark mode ([#4720](https://github.com/blackbaud/skyux/issues/4720)) ([608ee91](https://github.com/blackbaud/skyux/commit/608ee911ce12109d5d29b5ff7faa5833f0c105bf))
+* support dark mode in fluid grid code example and visual test ([#4718](https://github.com/blackbaud/skyux/issues/4718)) ([ff67f1d](https://github.com/blackbaud/skyux/commit/ff67f1dba83cea896f5babe8437850c752d3e8bd))
+
 ## [15.0.0-alpha.8](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.7...15.0.0-alpha.8) (2026-08-27)
 
 

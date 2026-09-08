@@ -7,6 +7,15 @@ sky-datepicker {
   width: calc(100% - var(--sky-margin-inline-xs));
 }
 
-input {
+input.sky-form-control {
   height: calc(var(--ag-header-height) - 2px);
+  background-color: var(--ag-input-background-color);
+  border: none;
+  box-shadow: inset 0 0 0 var(--ag-border-width) var(--ag-border-color);
+  color: var(--ag-input-text-color);
+
+  &:focus {
+    box-shadow: inset var(--ag-focus-shadow);
+    outline: none;
+  }
 }

@@ -72,6 +72,7 @@ export { FormsFileAttachmentHelpKeyExampleComponent } from './lib/modules/forms/
 export { FormsFileDropBasicExampleComponent } from './lib/modules/forms/file-drop/basic/example.component';
 export { FormsFileDropHelpKeyExampleComponent } from './lib/modules/forms/file-drop/help-key/example.component';
 export { FormsInputBoxBasicExampleComponent } from './lib/modules/forms/input-box/basic/example.component';
+export { FormsInputBoxCharacterLimitExample } from './lib/modules/forms/input-box/character-limit/example';
 export { FormsInputBoxWithCustomFormErrorsExampleComponent } from './lib/modules/forms/input-box/custom-form-errors/example.component';
 export { FormsRadioHelpKeyExampleComponent } from './lib/modules/forms/radio/help-key/example.component';
 export { FormsRadioIconExampleComponent } from './lib/modules/forms/radio/icon/example.component';

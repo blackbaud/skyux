@@ -1,7 +1,7 @@
 {
   "skyux_charts.chart.bar.accessible_summary": {
     "_description": "Le résumé accessible annoncé pour une figure de graphique à barres, décrivant sa forme et indiquant qu’un tableau de données est disponible comme solution de rechange",
-    "message": "Graphique à barres Nombre de séries : {0}. Nombre de catégories : {1}. Un tableau de données est disponible dans le menu du contexte du graphique.",
+    "message": "Graphique à barres. Nombre de séries : {0}. Nombre de catégories : {1}. Un tableau de données est disponible dans le menu du contexte du graphique.",
     "_0": "Le nombre de séries",
     "_1": "Le nombre de catégories"
   },

@@ -152,6 +152,21 @@
 
 .sky-autocomplete-action-add {
   float: right;
+  --sky-comp-override-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
+  --sky-comp-override-link-text-decoration-line-disabled: var(
+    --sky-font-text_decoration-standalone_link-disabled
+  );
 
   sky-icon {
     padding-right: var(

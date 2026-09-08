@@ -197,6 +197,7 @@ sky-input-box {
   }
 
   // default and modern, except margin bottom
+  sky-input-box-character-limit,
   sky-character-counter-indicator {
     text-align: right;
     margin-bottom: $sky-margin-half;
@@ -204,6 +205,7 @@ sky-input-box {
   }
 
   // default and modern
+  .sky-control-label + sky-input-box-character-limit,
   .sky-control-label + sky-character-counter-indicator {
     flex-shrink: 0.001;
   }
@@ -404,6 +406,7 @@ sky-input-box {
           var(--sky-comp-input-value-space-inset-left);
 
         .sky-control-label,
+        sky-input-box-character-limit,
         sky-character-counter-indicator {
           margin-bottom: 0;
           position: relative;
@@ -431,13 +434,17 @@ sky-input-box {
           font-style: var(--sky-font-style-input-label);
           font-weight: var(--sky-font-style-input-label);
 
-          &:has(+ sky-character-counter-indicator) {
+          &:has(
+            + sky-input-box-character-limit,
+            + sky-character-counter-indicator
+          ) {
             margin-right: var(--sky-comp-input-label-space-inset-right);
           }
         }
 
         .sky-control-label,
-        .sky-character-count-label {
+        .sky-character-count-label,
+        .sky-input-box-character-limit-label {
           font-size: var(--sky-font-size-input-label);
           letter-spacing: var(--sky-font-letter_spacing-input-label);
           line-height: var(--sky-font-line_height-input-label);
@@ -452,6 +459,7 @@ sky-input-box {
           }
         }
 
+        sky-input-box-character-limit,
         sky-character-counter-indicator {
           margin-left: auto;
           padding: var(--sky-comp-input-label-space-inset-top) 0
