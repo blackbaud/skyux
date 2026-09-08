@@ -1,0 +1,130 @@
+{
+  "skyux_filter_aria_label_descriptor": {
+    "_description": "Etiqueta ARIA predeterminada para un botón de filtro cuando se proporciona un descriptor",
+    "message": "Filtrar {0}"
+  },
+  "skyux_filter_button_title": {
+    "_description": "Texto para el título del botón de filtro",
+    "message": "Filtro"
+  },
+  "skyux_filter_summary_close": {
+    "_description": "Texto para el botón de cierre del componente de resumen de filtros",
+    "message": "Eliminar filtro"
+  },
+  "skyux_filter_summary_header": {
+    "_description": "Texto para el componente de resumen de filtros",
+    "message": "Filtro"
+  },
+  "skyux_infinite_scroll_load_more_button": {
+    "_description": "Texto para cargar más en el botón de desplazamiento infinito",
+    "message": "Cargar más"
+  },
+  "skyux_paging_label": {
+    "_description": "Texto predeterminado para la etiqueta del componente de paginación",
+    "message": "Paginación"
+  },
+  "skyux_paging_loaded": {
+    "_description": "Texto leído por la tecnología de asistencia cuando termina de cargarse el contenido del componente de paginación",
+    "message": "Página {0} cargada."
+  },
+  "skyux_paging_loading": {
+    "_description": "Texto leído por la tecnología de asistencia cuando comienza a cargarse el contenido del componente de paginación",
+    "message": "Cargando la página {0}"
+  },
+  "skyux_paging_next": {
+    "_description": "Texto para la etiqueta del botón Siguiente del componente de paginación",
+    "message": "Siguiente"
+  },
+  "skyux_paging_page_label": {
+    "_description": "Etiqueta ARIA para el grupo de páginas actual",
+    "message": "Página {0} de {1}"
+  },
+  "skyux_paging_page_link_aria_label": {
+    "_description": "Etiqueta ARIA utilizada para el vínculo de paginación",
+    "message": "Página {0}"
+  },
+  "skyux_paging_previous": {
+    "_description": "Texto para la etiqueta del botón Anterior del componente de paginación",
+    "message": "Anterior"
+  },
+  "skyux_repeater_label": {
+    "_description": "Etiqueta para el contenedor de cuadro de lista del componente repetidor",
+    "message": "Lista de elementos"
+  },
+  "skyux_repeater_item_collapse": {
+    "_description": "Etiqueta accesible para el botón de expandir y contraer de un elemento del repetidor. Identifica el elemento mediante su nombre legible para el usuario.",
+    "message": "Contraer {0}"
+  },
+  "skyux_repeater_item_collapse_default": {
+    "_description": "Etiqueta genérica para el botón de expandir y contraer de un elemento del repetidor. Se utiliza cuando no se proporciona un nombre legible para el usuario.",
+    "message": "Contraer"
+  },
+  "skyux_repeater_item_expand": {
+    "_description": "Etiqueta accesible para el botón de expandir y contraer de un elemento del repetidor. Identifica el elemento mediante su nombre legible para el usuario.",
+    "message": "Expandir {0}"
+  },
+  "skyux_repeater_item_expand_default": {
+    "_description": "Etiqueta genérica para el botón de expandir y contraer de un elemento del repetidor. Se utiliza cuando no se proporciona un nombre legible para el usuario.",
+    "message": "Expandir"
+  },
+  "skyux_repeater_item_checkbox_label": {
+    "_description": "Etiqueta accesible para la casilla de verificación de un elemento del repetidor. Identifica el elemento mediante su nombre legible para el usuario.",
+    "message": "Seleccionar {0}"
+  },
+  "skyux_repeater_item_checkbox_label_default": {
+    "_description": "Etiqueta genérica para la casilla de verificación de un elemento del repetidor. Se utiliza cuando no se proporciona un nombre legible para el usuario.",
+    "message": "Seleccionar fila"
+  },
+  "skyux_repeater_item_reorder_cancel": {
+    "_description": "Texto accesible para lectores de pantalla cuando se cancela la reordenación",
+    "message": "Se canceló la reordenación del elemento. El elemento volvió a su posición original."
+  },
+  "skyux_repeater_item_reorder_finish": {
+    "_description": "Texto accesible para lectores de pantalla cuando se cancela la reordenación",
+    "message": "Se colocó el elemento en la posición"
+  },
+  "skyux_repeater_item_reorder_instructions": {
+    "_description": "Instrucciones de operación accesibles para reordenar un elemento del repetidor",
+    "message": "Elemento seleccionado. Presione las teclas de flecha hacia arriba y hacia abajo para cambiar la posición. Presione la barra espaciadora o la tecla Intro para colocar el elemento. Presione la tecla Escape para cancelar."
+  },
+  "skyux_repeater_item_reorder_moved": {
+    "_description": "Informa al usuario de la nueva posición a la que se movió un elemento. No incluye una variable debido al caso de uso.",
+    "message": "Se movió el elemento a la posición"
+  },
+  "skyux_repeater_item_reorder_label_default": {
+    "_description": "Etiqueta genérica para el botón de reordenar de un elemento del repetidor. Se utiliza cuando no se proporciona un nombre legible para el usuario.",
+    "message": "Reordenar"
+  },
+  "skyux_repeater_item_reorder_label": {
+    "_description": "Etiqueta accesible para el botón de reordenar de un elemento del repetidor. Identifica el elemento mediante su nombre legible para el usuario.",
+    "message": "Reordenar {0}"
+  },
+  "skyux_repeater_item_reorder_operation": {
+    "_description": "Instrucciones de operación accesibles para iniciar la reordenación de un elemento del repetidor",
+    "message": "Presione la barra espaciadora o la tecla Intro para reordenar."
+  },
+  "skyux_repeater_item_reorder_top": {
+    "_description": "Texto del botón para mover un elemento del repetidor al principio de la lista",
+    "message": "Parte superior"
+  },
+  "skyux_repeater_item_reorder_top_label": {
+    "_description": "Etiqueta accesible para el botón para mover un elemento del repetidor al principio de la lista. Identifica el elemento mediante su nombre legible para el usuario.",
+    "message": "Mover {0} al principio"
+  },
+  "skyux_repeater_item_reorder_top_label_default": {
+    "_description": "Etiqueta genérica para el botón para mover un elemento del repetidor al principio de la lista. Se utiliza cuando no se proporciona un nombre legible para el usuario.",
+    "message": "Mover al principio"
+  },
+  "skyux_sort_aria_label_descriptor": {
+    "_description": "Etiqueta ARIA predeterminada para un botón de ordenación cuando se proporciona un descriptor",
+    "message": "Ordenar {0}"
+  },
+  "skyux_sort_button_label": {
+    "_description": "Texto para el botón de ordenación",
+    "message": "Ordenar"
+  },
+  "skyux_sort_menu_heading": {
+    "_description": "Texto para el encabezado del menú desplegable de ordenación",
+    "message": "Ordenar por"
+  }
+}

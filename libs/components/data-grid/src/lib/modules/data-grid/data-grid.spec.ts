@@ -1509,7 +1509,7 @@ describe('SkyDataGrid', () => {
     it('should keep SKY UX resource strings when the locale changes', async () => {
       await getCurrentGridApi();
 
-      localeProvider.setLocale('es-ES');
+      localeProvider.setLocale('jp-JP');
 
       const api = await getCurrentGridApi();
 

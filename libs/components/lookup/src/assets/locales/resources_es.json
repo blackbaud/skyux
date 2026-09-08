@@ -1,0 +1,118 @@
+{
+  "skyux_autocomplete_add": {
+    "_description": "Etiqueta del botón Agregar de autocompletar",
+    "message": "Nuevo(a)"
+  },
+  "skyux_autocomplete_multiple_results": {
+    "_description": "Texto solo para lectores de pantalla cuando hay varios resultados disponibles",
+    "message": "Hay {0} resultados disponibles."
+  },
+  "skyux_autocomplete_no_results": {
+    "_description": "Texto de marcador de posición del componente de entrada de autocompletar cuando no se encuentran resultados",
+    "message": "No se encontraron coincidencias"
+  },
+  "skyux_autocomplete_one_result": {
+    "_description": "Texto solo para lectores de pantalla cuando hay un solo resultado disponible",
+    "message": "Hay un resultado disponible."
+  },
+  "skyux_autocomplete_show_all": {
+    "_description": "Texto del elemento de menú que se muestra cuando hay una cantidad desconocida de elementos disponibles para seleccionar",
+    "message": "Mostrar todo"
+  },
+  "skyux_autocomplete_show_all_count": {
+    "_description": "Texto del elemento de menú que se muestra cuando hay una cantidad conocida de elementos disponibles para seleccionar",
+    "message": "Mostrar los {0}"
+  },
+  "skyux_autocomplete_show_matches_count": {
+    "_description": "Texto del elemento de menú que se muestra cuando el usuario ha realizado una búsqueda y hay más elementos para ver",
+    "message": "Mostrar coincidencias ({0})"
+  },
+  "skyux_country_field_dropdown_hint_text": {
+    "_description": "Texto de ayuda dentro de la lista desplegable del campo de país",
+    "message": "Escriba para buscar un país"
+  },
+  "skyux_country_field_search_placeholder": {
+    "_description": "Marcador de posición para el autocompletado de búsqueda de país",
+    "message": "Buscar un país"
+  },
+  "skyux_lookup_search_button_show_more": {
+    "_description": "Etiqueta del botón de búsqueda que abre el cuadro de diálogo de lista de verificación",
+    "message": "Mostrar todos los resultados de búsqueda"
+  },
+  "skyux_lookup_show_more_add": {
+    "_description": "Etiqueta del botón Agregar del cuadro de diálogo Mostrar más de la búsqueda",
+    "message": "Nuevo(a)"
+  },
+  "skyux_lookup_show_more_add_button_aria_label": {
+    "_description": "Texto de la etiqueta ARIA del botón Agregar en la barra de herramientas Mostrar más de la búsqueda",
+    "message": "Agregar {0}"
+  },
+  "skyux_lookup_show_more_displayed_items_updated": {
+    "_description": "Texto del anunciador en vivo cuando cambia el estado de la lista de elementos seleccionables",
+    "message": "Se muestran {1} elementos, de los cuales {0} están seleccionados."
+  },
+  "skyux_lookup_show_more_select_all_button_aria_label": {
+    "_description": "Texto de la etiqueta ARIA del botón Seleccionar todo en la barra de herramientas de selección múltiple Mostrar más de la búsqueda",
+    "message": "Seleccionar los {0}"
+  },
+  "skyux_lookup_show_more_select_all_button_title": {
+    "_description": "Texto del botón Seleccionar todo en la barra de herramientas de selección múltiple Mostrar más de la búsqueda",
+    "message": "Seleccionar todo"
+  },
+  "skyux_lookup_show_more_clear_all_button_aria_label": {
+    "_description": "Texto de la etiqueta ARIA del botón Seleccionar todo en la barra de herramientas de selección múltiple Mostrar más de la búsqueda",
+    "message": "Borrar los {0} seleccionados"
+  },
+  "skyux_lookup_show_more_clear_all_button_title": {
+    "_description": "Texto del botón Borrar todo en la barra de herramientas de selección múltiple Mostrar más de la búsqueda",
+    "message": "Borrar todo"
+  },
+  "skyux_lookup_show_more_show_selected_option_title": {
+    "_description": "Texto de la casilla Mostrar seleccionados en la barra de herramientas de selección múltiple Mostrar más de la búsqueda",
+    "message": "Mostrar solo los {0} seleccionados"
+  },
+  "skyux_lookup_show_more_cancel": {
+    "_description": "Etiqueta del botón Cancelar del cuadro de diálogo Mostrar más de la búsqueda",
+    "message": "Cancelar"
+  },
+  "skyux_lookup_show_more_modal_title": {
+    "_description": "Título predeterminado del cuadro de diálogo Mostrar más según el contexto de selección",
+    "message": "Seleccionar los {0}"
+  },
+  "skyux_lookup_show_more_no_results": {
+    "_description": "Texto de marcador de posición del cuadro de diálogo Mostrar más de la búsqueda cuando no se encuentran resultados",
+    "message": "No se encontraron coincidencias"
+  },
+  "skyux_lookup_show_more_select": {
+    "_description": "Etiqueta del botón Seleccionar (guardar) del cuadro de diálogo Mostrar más de la búsqueda",
+    "message": "Seleccionar"
+  },
+  "skyux_lookup_show_more_select_context": {
+    "_description": "Etiqueta del botón Seleccionar (guardar) del cuadro de diálogo Mostrar más de la búsqueda cuando se proporciona contexto",
+    "message": "Seleccionar los {0}"
+  },
+  "skyux_lookup_tokens_summary": {
+    "_description": "Texto que se muestra cuando el usuario ha seleccionado más elementos que el máximo permitido",
+    "message": "{0} artículos seleccionados"
+  },
+  "skyux_search_aria_label_descriptor": {
+    "_description": "Etiqueta ARIA predeterminada de una búsqueda cuando se proporciona un descriptor",
+    "message": "Buscar {0}"
+  },
+  "skyux_search_dismiss": {
+    "_description": "Etiqueta para descartar la entrada de búsqueda",
+    "message": "Descartar búsqueda"
+  },
+  "skyux_search_label": {
+    "_description": "Etiqueta de la funcionalidad del componente de búsqueda",
+    "message": "Buscar elementos"
+  },
+  "skyux_search_open": {
+    "_description": "Etiqueta para abrir la entrada de búsqueda",
+    "message": "Abrir búsqueda"
+  },
+  "skyux_search_placeholder": {
+    "_description": "Texto de marcador de posición del componente de entrada de búsqueda",
+    "message": "Buscar en esta lista"
+  }
+}
