@@ -62,6 +62,56 @@ const RESOURCES: Record<string, SkyLibResources> = {
     sky_ag_grid_locale_no_rows_to_show: { message: 'No data available' },
     sky_ag_grid_locale_no_matching_rows: { message: 'No matching rows' },
   },
+  ES: {
+    sky_ag_grid_row_selector_aria_label: {
+      message: 'Selector de fila para la fila {0}',
+    },
+    sky_ag_grid_row_selector_column_heading: { message: 'Selección de filas' },
+    sky_ag_grid_cell_editor_datepicker_aria_label: {
+      message: 'Fecha editable {0} para la fila {1}',
+    },
+    sky_ag_grid_cell_editor_datepicker_hint_text: {
+      message: 'Utilice el formato {0}.',
+    },
+    sky_ag_grid_cell_editor_number_aria_label: {
+      message: 'Número editable {0} para la fila {1}',
+    },
+    sky_ag_grid_cell_editor_text_aria_label: {
+      message: 'Texto editable {0} para la fila {1}',
+    },
+    sky_ag_grid_cell_editor_autocomplete_aria_label: {
+      message: 'Autocompletado editable {0} para la fila {1}',
+    },
+    sky_ag_grid_cell_renderer_number_validator_message: {
+      message: 'Introduzca un número válido.',
+    },
+    sky_ag_grid_cell_renderer_currency_validator_message: {
+      message: 'Introduzca un valor de moneda válido.',
+    },
+    skyux_lookup_tokens_summary: { message: '{0} artículos seleccionados' },
+    sky_ag_grid_cell_editor_currency_aria_label: {
+      message: 'Valor de moneda editable {0} para la fila {1}',
+    },
+    sky_ag_grid_column_header_sort_button_aria_label_currently_asc: {
+      message: 'Ordenar columna {0}, actualmente en orden ascendente',
+    },
+    sky_ag_grid_column_header_sort_button_aria_label_currently_desc: {
+      message: 'Ordenar columna {0}, actualmente en orden descendente',
+    },
+    sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted: {
+      message: 'Ordenar columna {0}, actualmente sin ordenar',
+    },
+    sky_ag_grid_column_group_header_expand_aria_label: {
+      message: 'Expandir grupo de columnas {0}',
+    },
+    sky_ag_grid_column_group_header_collapse_aria_label: {
+      message: 'Contraer grupo de columnas {0}',
+    },
+    sky_ag_grid_locale_no_rows_to_show: { message: 'No hay datos disponibles' },
+    sky_ag_grid_locale_no_matching_rows: {
+      message: 'No hay filas coincidentes',
+    },
+  },
   'FR-CA': {
     sky_ag_grid_row_selector_aria_label: {
       message: 'Sélecteur de ligne pour la ligne {0}',
