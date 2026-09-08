@@ -94,7 +94,7 @@ function replaceAttribute(
  *   bare/empty attribute is falsy (the margin was shown); any other value --
  *   including the literal string `"false"` -- is truthy and already hides
  *   the margin, same as `"true"`. A bare/empty attribute becomes
- *   `inset="true"` to keep the margin; any other static value is removed.
+ *   `inset` to keep the margin; any other static value is removed.
  * - A bound literal `true` or `false` is a real boolean, so `[disableMargin]="true"`
  *   (or the equivalent `bind-disableMargin="true"`) is removed (hiding the
  *   margin is now the default) and `[disableMargin]="false"` becomes
@@ -132,13 +132,7 @@ function migrateFluidGrid(
 
   if (staticAttr) {
     if (staticAttr.value.trim() === '') {
-      replaceAttribute(
-        node,
-        STATIC_ATTRIBUTE,
-        'inset="true"',
-        offset,
-        recorder,
-      );
+      replaceAttribute(node, STATIC_ATTRIBUTE, 'inset', offset, recorder);
     } else {
       removeAttribute(node, STATIC_ATTRIBUTE, content, offset, recorder);
     }

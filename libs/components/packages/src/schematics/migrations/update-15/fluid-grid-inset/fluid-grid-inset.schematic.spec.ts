@@ -69,9 +69,10 @@ describe('fluid-grid-inset.schematic', () => {
 </sky-fluid-grid>`);
   });
 
-  it('should replace a bare static attribute with `inset="true"`', async () => {
+  it('should replace a bare static attribute with `inset`', async () => {
     // A bare attribute binds the empty string, which is falsy -- the same
     // as never setting `disableMargin` at all -- so the margin was shown.
+    // `disableMargin` did not cooerce values in the way `inset` does.
     const tree = setupTree({
       '/src/app/test.component.html': `<sky-fluid-grid disableMargin>
   <sky-row></sky-row>
@@ -81,7 +82,7 @@ describe('fluid-grid-inset.schematic', () => {
     await runSchematic(tree);
 
     expect(tree.readText('/src/app/test.component.html'))
-      .toBe(`<sky-fluid-grid inset="true">
+      .toBe(`<sky-fluid-grid inset>
   <sky-row></sky-row>
 </sky-fluid-grid>`);
   });
@@ -127,7 +128,7 @@ describe('fluid-grid-inset.schematic', () => {
     await runSchematic(tree);
 
     expect(tree.readText('/src/app/test.component.html'))
-      .toBe(`<sky-fluid-grid inset="true" inset>
+      .toBe(`<sky-fluid-grid inset>
   <sky-row></sky-row>
 </sky-fluid-grid>`);
   });
@@ -218,7 +219,7 @@ describe('fluid-grid-inset.schematic', () => {
 
   it('should not warn for an element that already sets a static inset attribute', async () => {
     const warnSpy = jest.fn();
-    const template = `<sky-fluid-grid inset="true"></sky-fluid-grid>`;
+    const template = `<sky-fluid-grid inset></sky-fluid-grid>`;
     const tree = setupTree({
       '/src/app/test.component.html': template,
     });
