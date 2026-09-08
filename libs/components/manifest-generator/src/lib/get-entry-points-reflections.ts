@@ -25,6 +25,7 @@ interface EntryPointReflection {
 async function getTypeDocProjectReflection(
   entryPoints: string[],
   projectRoot: string,
+  tsConfigPath: string,
 ): Promise<ProjectReflectionWithChildren> {
   const branch = execSync('git branch --show-current', { encoding: 'utf-8' });
 
@@ -39,7 +40,7 @@ async function getTypeDocProjectReflection(
     gitRemote: 'origin',
     gitRevision: branch,
     logLevel: 'Error',
-    tsconfig: `${projectRoot}/tsconfig.lib.prod.json`,
+    tsconfig: tsConfigPath,
     compilerOptions: {
       skipLibCheck: true,
       resolveJsonModule: true,
@@ -67,14 +68,17 @@ export async function getEntryPointsReflections({
   entryPoints,
   packageName,
   projectRoot,
+  tsConfigPath,
 }: {
   entryPoints: string[];
   packageName: string;
   projectRoot: string;
+  tsConfigPath: string;
 }): Promise<EntryPointReflection[]> {
   const projectRefl = await getTypeDocProjectReflection(
     entryPoints,
     projectRoot,
+    tsConfigPath,
   );
 
   const reflections: EntryPointReflection[] = [
