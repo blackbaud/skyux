@@ -26,6 +26,7 @@ import { SkyDocsCodeSnippetToolbarComponent } from './code-snippet-toolbar.compo
   styleUrls: [
     './code-snippet.component.scss',
     './themes/vscode-modern-light.scss',
+    './themes/vscode-modern-dark.scss',
   ],
   template: `
     @if (!hideToolbar()) {
