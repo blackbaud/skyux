@@ -98,7 +98,7 @@ function replaceAttribute(
  * - A bound literal `true` or `false` is a real boolean, so `[disableMargin]="true"`
  *   (or the equivalent `bind-disableMargin="true"`) is removed (hiding the
  *   margin is now the default) and `[disableMargin]="false"` becomes
- *   `[inset]="true"` (preserving the margin).
+ *   `inset` (preserving the margin).
  * - A bound, non-literal expression becomes `[inset]="!(expression)"`.
  * - If `disableMargin` isn't set at all, nothing changes: the fluid grid's
  *   default behavior is changing, so the file is left for manual review --
@@ -150,7 +150,7 @@ function migrateFluidGrid(
     if (value === 'true') {
       removeAttribute(node, attributeName, content, offset, recorder);
     } else if (value === 'false') {
-      replaceAttribute(node, attributeName, '[inset]="true"', offset, recorder);
+      replaceAttribute(node, attributeName, 'inset', offset, recorder);
     } else {
       replaceAttribute(
         node,
@@ -240,7 +240,7 @@ async function updateSourceFiles(
     context.logger.warn(
       `Found ${notConfiguredCount} <sky-fluid-grid> element(s) that do not set 'disableMargin'. ` +
         "Starting in SKY UX 15, the fluid grid's outer left and right margin is hidden by default. " +
-        'Review these elements and add the \'inset\' input (e.g. [inset]="true") to any that should keep their margin.',
+        "Review these elements and add the 'inset' input (e.g. <sky-fluid-grid inset>) to any that should keep their margin.",
     );
   }
 }

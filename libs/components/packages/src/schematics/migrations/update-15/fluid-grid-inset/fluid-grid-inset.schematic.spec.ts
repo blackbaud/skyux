@@ -86,7 +86,7 @@ describe('fluid-grid-inset.schematic', () => {
 </sky-fluid-grid>`);
   });
 
-  it('should replace a bound literal `false` value with `[inset]="true"`', async () => {
+  it('should replace a bound literal `false` value with `inset`', async () => {
     const tree = setupTree({
       '/src/app/test.component.html': `<sky-fluid-grid [disableMargin]="false">
   <sky-row></sky-row>
@@ -96,7 +96,7 @@ describe('fluid-grid-inset.schematic', () => {
     await runSchematic(tree);
 
     expect(tree.readText('/src/app/test.component.html'))
-      .toBe(`<sky-fluid-grid [inset]="true">
+      .toBe(`<sky-fluid-grid inset>
   <sky-row></sky-row>
 </sky-fluid-grid>`);
   });
@@ -127,7 +127,7 @@ describe('fluid-grid-inset.schematic', () => {
     await runSchematic(tree);
 
     expect(tree.readText('/src/app/test.component.html'))
-      .toBe(`<sky-fluid-grid inset="true" [inset]="true">
+      .toBe(`<sky-fluid-grid inset="true" inset>
   <sky-row></sky-row>
 </sky-fluid-grid>`);
   });
@@ -265,7 +265,7 @@ describe('fluid-grid-inset.schematic', () => {
 
     expect(tree.readText('/src/app/test.component.html')).toBe(
       `<sky-fluid-grid></sky-fluid-grid>
-<sky-fluid-grid [inset]="true"></sky-fluid-grid>
+<sky-fluid-grid inset></sky-fluid-grid>
 <sky-fluid-grid></sky-fluid-grid>`,
     );
   });
