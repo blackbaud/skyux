@@ -68,6 +68,22 @@ describe('forms-storybook - input box', () => {
         );
       });
 
+      it('should properly focus a number input box', () => {
+        cy.skyReady('app-input-box', [], ['#input-box-number'])
+          .get('#input-box-number input')
+          .click();
+        cy.get('#input-box-number').screenshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-number-focus`,
+        );
+        cy.get('#input-box-number').percySnapshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-number-focus`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+            scope: '#input-box-number',
+          },
+        );
+      });
+
       it('should properly focus a input box with buttons', () => {
         cy.skyReady('app-input-box', [], ['#input-box-button-multiple'])
           .get('#input-box-button-multiple input')

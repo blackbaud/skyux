@@ -4,6 +4,7 @@
 .sky-theme-modern {
   .sky-form-control {
     font-size: var(--sky-font-size-body-m);
+    color-scheme: light;
   }
 
   .sky-error-label {
@@ -21,5 +22,11 @@
     color: var(--sky-color-text-deemphasized);
     font-style: var(--sky-font-style-deemphasized-style);
     opacity: 1;
+  }
+}
+
+.sky-theme-modern.sky-theme-mode-dark {
+  .sky-form-control {
+    color-scheme: dark;
   }
 }
