@@ -21,6 +21,13 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_angular_tree_expand_all: { message: 'Expand' },
     skyux_angular_tree_select_all: { message: 'Select all' },
   },
+  ES: {
+    skyux_angular_tree_clear_all: { message: 'Borrar todo' },
+    skyux_angular_tree_click_to_expand: { message: 'Haga clic para expandir' },
+    skyux_angular_tree_collapse_all: { message: 'Contraer' },
+    skyux_angular_tree_expand_all: { message: 'Expandir' },
+    skyux_angular_tree_select_all: { message: 'Seleccionar todo' },
+  },
   'FR-CA': {
     skyux_angular_tree_clear_all: { message: 'Effacer tout' },
     skyux_angular_tree_click_to_expand: { message: 'Cliquez pour agrandir' },
