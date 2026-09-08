@@ -114,6 +114,7 @@ export class ViewGridComponent {
       iconName: 'table',
       searchEnabled: true,
       columnPickerEnabled: true,
+      sortEnabled: true,
       columnOptions: this.#columnDefs.map(
         (colDef): SkyDataManagerColumnPickerOption => ({
           id: colDef.colId!,
