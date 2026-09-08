@@ -9,6 +9,7 @@ import {
 import {
   SkyDataManagerModule,
   SkyDataManagerService,
+  SkyDataManagerSortOption,
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
@@ -75,6 +76,28 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
   public displaySecondGrid = input(false);
   public displayOtherView = input(false);
   public enableTopScroll = input(false);
+  public enableSort = false;
+
+  public sortOptions: SkyDataManagerSortOption[] = [
+    {
+      id: 'az',
+      label: 'First Name (A - Z)',
+      descending: false,
+      propertyName: 'name',
+    },
+    {
+      id: 'za',
+      label: 'First Name (Z - A)',
+      descending: true,
+      propertyName: 'name',
+    },
+    {
+      id: 'byBlank',
+      label: 'Blank column',
+      descending: false,
+      propertyName: 'noHeader',
+    },
+  ];
 
   public gridData = SKY_AG_GRID_DATA;
 
@@ -117,13 +140,18 @@ export class SkyAgGridDataManagerFixtureComponent implements OnInit {
       gridOptions: this.gridOptions,
     });
     this.#dataManagerService.initDataManager({
-      dataManagerConfig: {},
+      dataManagerConfig: this.enableSort
+        ? { sortOptions: this.sortOptions }
+        : {},
       defaultDataState: this.initialDataState,
       activeViewId: this.displayOtherView() ? 'otherView' : this.viewConfig.id,
       settingsKey: 'test',
     });
 
-    this.#dataManagerService.initDataView(this.viewConfig);
+    this.#dataManagerService.initDataView({
+      ...this.viewConfig,
+      sortEnabled: this.enableSort,
+    });
 
     if (this.displayOtherView()) {
       this.#dataManagerService.initDataView({

@@ -13,14 +13,18 @@ import ts from 'typescript';
  * Parse a TypeScript source file from tree
  */
 export function parseSourceFile(tree: Tree, filePath: string): ts.SourceFile {
-  const content = tree.read(filePath);
-  if (!content) {
+  if (tree.read(filePath) === null) {
     throw new Error(`Could not read file: ${filePath}`);
   }
 
+  // `Tree#readText` strips a leading UTF-8 BOM (via `TextDecoder`), matching
+  // the coordinate space `UpdateRecorder` uses internally. Reading raw bytes
+  // and calling `Buffer#toString()` instead keeps the BOM as a `\uFEFF`
+  // character, shifting every AST position by one relative to the recorder
+  // and corrupting edits in BOM-prefixed files.
   return ts.createSourceFile(
     filePath,
-    content.toString(),
+    tree.readText(filePath),
     ts.ScriptTarget.Latest,
     true,
   );

@@ -40,6 +40,7 @@
   );
   --sky-override-label-margin: 0 3px;
   --sky-override-label-padding: 0.3em 0.6em 0.3em 0.6em;
+  --sky-override-label-text-color: #{$sky-text-color-default};
   --sky-override-label-text-padding-left: var(--sky-padding-half);
 }
 
@@ -63,10 +64,33 @@
   .sky-label-danger .sky-label-icon {
     color: var(--sky-color-background-icon_matte-danger);
   }
+
+  .sky-label ::ng-deep a {
+    &:focus-visible:not(:active) {
+      box-shadow: 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-on_status-focus);
+    }
+  }
 }
 
 .sky-label {
-  color: var(--sky-text-color-default);
+  --sky-comp-override-inline-link-text-decoration-line: var(
+    --sky-font-text_decoration-action-tertiary-on_status-base
+  );
+  --sky-comp-override-inline-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-action-tertiary-on_status-hover
+  );
+  --sky-comp-override-inline-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-action-tertiary-on_status-active
+  );
+  --sky-comp-override-inline-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-action-tertiary-on_status-focus
+  );
+  --sky-comp-override-inline-link-text-decoration-line-disabled: var(
+    --sky-font-text_decoration-action-tertiary-on_status-disabled
+  );
+
+  color: var(--sky-override-label-text-color, var(--sky-color-text-on_status));
   display: var(--sky-override-label-display, inline-block);
   align-items: var(--sky-override-label-align-items, center);
   border-radius: var(
@@ -90,18 +114,18 @@
   ::ng-deep a {
     color: var(
       --sky-override-label-link-text-color,
-      var(--sky-color-text-action_contrast)
+      var(--sky-color-text-action_on_status)
     );
-    text-decoration: var(
+    text-decoration-line: var(
       --sky-override-label-link-text-decoration,
-      var(--sky-font-text_decoration-visible_link)
+      var(--sky-font-text_decoration-action-tertiary-on_status-base)
     );
 
     // In modern all states of a link display as "blue", so remove this hover state when default support is dropped
     &:hover {
       color: var(
         --sky-override-label-link-hover-color,
-        var(--sky-color-text-action_contrast)
+        var(--sky-color-text-action_on_status)
       );
     }
   }
@@ -114,7 +138,7 @@
   );
   --sky-icon-svg-path-2-color-input: var(
     --sky-override-label-inner-icon-path-color-success,
-    var(--sky-color-icon-inverse)
+    var(--sky-color-icon-on_status)
   );
 }
 
@@ -125,7 +149,7 @@
   );
   --sky-icon-svg-path-2-color-input: var(
     --sky-override-label-inner-icon-path-color-info,
-    var(--sky-color-icon-inverse)
+    var(--sky-color-icon-on_status)
   );
 }
 
@@ -136,7 +160,7 @@
   );
   --sky-icon-svg-path-2-color-input: var(
     --sky-override-label-inner-icon-path-color-warning,
-    var(--sky-color-icon-default)
+    var(--sky-color-icon-on_status)
   );
 }
 
@@ -147,7 +171,7 @@
   );
   --sky-icon-svg-path-2-color-input: var(
     --sky-override-label-inner-icon-path-color-danger,
-    var(--sky-color-icon-inverse)
+    var(--sky-color-icon-on_status)
   );
 }
 

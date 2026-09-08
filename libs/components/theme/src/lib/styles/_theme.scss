@@ -50,12 +50,12 @@ h6 {
 
 a {
   color: var(--sky-text-color-action-primary);
-  text-decoration: none;
+  text-decoration-line: none;
 
   &:hover,
   &:active {
     color: var(--sky-text-color-action-primary-hover);
-    text-decoration: underline;
+    text-decoration-line: underline;
   }
 
   &.sky-href[href=''],
@@ -64,7 +64,7 @@ a {
     &:hover,
     &:active {
       color: inherit !important;
-      text-decoration: none !important;
+      text-decoration-line: none !important;
     }
   }
 }

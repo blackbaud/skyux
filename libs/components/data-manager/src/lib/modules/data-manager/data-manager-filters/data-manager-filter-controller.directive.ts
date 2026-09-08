@@ -69,12 +69,17 @@ export class SkyDataManagerFilterControllerDirective implements OnInit {
       filters,
     };
 
-    this.#currentDataState.filterData = filterData;
+    // Build a new state rather than mutating `#currentDataState` in place. The data manager
+    // service hands the same state instance to every subscriber, so mutating it directly would
+    // corrupt the "previous" value that other subscribers' distinctUntilChanged comparisons rely
+    // on, silently dropping this update for them.
+    const options = this.#currentDataState.getStateOptions();
+    options.filterData = filterData;
+
+    const newDataState = new SkyDataManagerState(options);
+    this.#currentDataState = newDataState;
 
     // Update the data manager state
-    this.#dataManagerService.updateDataState(
-      this.#currentDataState,
-      this.#sourceId,
-    );
+    this.#dataManagerService.updateDataState(newDataState, this.#sourceId);
   }
 }

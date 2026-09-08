@@ -2,6 +2,27 @@
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
+// modern theme avatar colors are out of chronological order to match the historical order
+$sky-avatar-colors: (
+  var(--sky-theme-color-classify-6-soft),
+  var(--sky-theme-color-classify-1-soft),
+  var(--sky-theme-color-classify-2-soft),
+  var(--sky-theme-color-classify-4-soft),
+  var(--sky-theme-color-classify-3-soft),
+  var(--sky-theme-color-classify-5-soft),
+  var(--sky-theme-color-classify-7-soft)
+);
+
+$sky-avatar-colors-default: (
+  var(--sky-category-color-green),
+  var(--sky-category-color-teal),
+  var(--sky-category-color-purple),
+  var(--sky-category-color-orange),
+  var(--sky-category-color-blue),
+  var(--sky-category-color-yellow),
+  var(--sky-category-color-red)
+);
+
 @include compatMixins.sky-default-overrides('.sky-avatar') {
   $avatar-border-width: 2px;
   $avatar-size-large: 100px;
@@ -48,18 +69,13 @@
     ($avatar-border-width * 2)};
   --sky-override-avatar-wrapper-width-sm: #{$avatar-size-small +
     ($avatar-border-width * 2)};
-}
 
-// begin avatar colors
-$sky-avatar-colors: (
-  var(--sky-category-color-green),
-  var(--sky-category-color-teal),
-  var(--sky-category-color-purple),
-  var(--sky-category-color-orange),
-  var(--sky-category-color-blue),
-  var(--sky-category-color-yellow),
-  var(--sky-category-color-red)
-);
+  @for $i from 1 through list.length($sky-avatar-colors-default) {
+    .sky-avatar-colors-#{$i} {
+      background-color: list.nth($sky-avatar-colors-default, $i);
+    }
+  }
+}
 
 @for $i from 1 through list.length($sky-avatar-colors) {
   .sky-avatar-colors-#{$i} {
