@@ -3,26 +3,14 @@ import {
   Component,
   Input,
   booleanAttribute,
+  computed,
   inject,
   input,
+  signal,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
-
-/**
- * Coerces `inset` the same way `booleanAttribute` does, except `null`/
- * `undefined` are preserved instead of collapsed to `false`. This keeps
- * "not set" distinguishable from "explicitly set to false" -- even when the
- * input is bound to an expression that currently evaluates to `undefined`
- * -- so `inset` can take precedence over the deprecated `disableMargin`
- * input only when it's actually been set.
- */
-function insetTransform(value: unknown): boolean | undefined {
-  return value === undefined || value === null
-    ? undefined
-    : booleanAttribute(value);
-}
 
 /**
  * Wraps the fluid grid to ensure proper spacing. Without the wrapper, the
@@ -38,6 +26,8 @@ function insetTransform(value: unknown): boolean | undefined {
 export class SkyFluidGridComponent {
   #logSvc = inject(SkyLogService);
 
+  #disableMargin = signal<boolean | undefined>(undefined);
+
   /**
    * Disables the outer left and right margin of the fluid grid container.
    * @deprecated Use `inset` instead. Note that the values are inverted:
@@ -46,7 +36,7 @@ export class SkyFluidGridComponent {
    */
   @Input()
   public set disableMargin(value: boolean | undefined) {
-    this.#_disableMargin = value;
+    this.#disableMargin.set(value);
 
     if (value !== undefined) {
       this.#logSvc.deprecated('SkyFluidGridComponent.disableMargin', {
@@ -57,8 +47,9 @@ export class SkyFluidGridComponent {
     }
   }
 
+  /* istanbul ignore next */
   public get disableMargin(): boolean | undefined {
-    return this.#_disableMargin;
+    return this.#disableMargin();
   }
 
   /**
@@ -67,9 +58,7 @@ export class SkyFluidGridComponent {
    * the fluid grid's content extends to the edges of its container.
    * @default false
    */
-  public readonly inset = input<boolean | undefined>(undefined, {
-    transform: insetTransform,
-  });
+  public readonly inset = input(false, { transform: booleanAttribute });
 
   /**
    * The type that defines the size of the padding
@@ -87,16 +76,13 @@ export class SkyFluidGridComponent {
 
   /**
    * Whether the fluid grid's outer left and right margin should be hidden.
-   * `inset`, when explicitly set, takes precedence over the deprecated
-   * `disableMargin` input. If only `disableMargin` is set, it's honored so
-   * existing behavior is preserved until it's removed.
+   * The deprecated `disableMargin` input, when explicitly set, takes
+   * precedence over `inset` so apps mid-migration keep their existing
+   * behavior until `disableMargin` is removed.
    */
-  protected get noMargin(): boolean {
-    const inset = this.inset();
+  protected readonly noMargin = computed(
+    () => this.#disableMargin() ?? !this.inset(),
+  );
 
-    return inset === undefined ? (this.disableMargin ?? true) : !inset;
-  }
-
-  #_disableMargin: boolean | undefined;
   #_gutterSize: SkyFluidGridGutterSizeType = 'large';
 }
