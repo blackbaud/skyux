@@ -4,10 +4,15 @@
 ## [15.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.11...15.0.0-alpha.12) (2026-09-08)
 
 
+### ⚠ BREAKING CHANGES
+
+* hide fluid grid's outer margin by default and add inset input (#4674)
+
 ### Features
 
 * add `@skyux-sdk/testing` and `@skyux-sdk/vitest` public API to manifest ([#4728](https://github.com/blackbaud/skyux/issues/4728)) ([d55def0](https://github.com/blackbaud/skyux/commit/d55def07c0be32fdad5977c431a9faba03371efe))
 * **components/docs-tools:** add dark mode theme for code snippet ([#4765](https://github.com/blackbaud/skyux/issues/4765)) ([#4767](https://github.com/blackbaud/skyux/issues/4767)) ([a5ab7f6](https://github.com/blackbaud/skyux/commit/a5ab7f67f60bb4536ef08a53f198b674458ec9b2))
+* hide fluid grid's outer margin by default and add inset input ([#4674](https://github.com/blackbaud/skyux/issues/4674)) ([ab00d29](https://github.com/blackbaud/skyux/commit/ab00d29c4440dfeb66d56f88ae74a3a0ea00d0db))
 
 
 ### Bug Fixes
