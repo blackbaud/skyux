@@ -1,0 +1,6 @@
+{
+  "skyux_list_skip_to_link": {
+    "_description": "Etiqueta de los vínculos \"Saltar a\" que se muestran en la parte superior de la página",
+    "message": "Saltar a {0}"
+  }
+}
