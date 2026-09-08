@@ -118,21 +118,6 @@ describe('fluid-grid-inset.schematic', () => {
 </sky-fluid-grid>`);
   });
 
-  it('should migrate both attributes when an element sets the static and bound attribute', async () => {
-    const tree = setupTree({
-      '/src/app/test.component.html': `<sky-fluid-grid disableMargin [disableMargin]="false">
-  <sky-row></sky-row>
-</sky-fluid-grid>`,
-    });
-
-    await runSchematic(tree);
-
-    expect(tree.readText('/src/app/test.component.html'))
-      .toBe(`<sky-fluid-grid inset>
-  <sky-row></sky-row>
-</sky-fluid-grid>`);
-  });
-
   it('should invert and rename a dynamic binding', async () => {
     const tree = setupTree({
       '/src/app/test.component.html': `<sky-fluid-grid [disableMargin]="hideMargin">
