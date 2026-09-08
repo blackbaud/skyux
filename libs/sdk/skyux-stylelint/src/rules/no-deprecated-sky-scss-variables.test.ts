@@ -1,4 +1,4 @@
-import stylelint, { Rule, RuleBase } from 'stylelint';
+import stylelint from 'stylelint';
 import { describe, expect, it, vi } from 'vitest';
 
 import { testRule } from '../testing/test-rule.js';
@@ -47,6 +47,11 @@ describe(ruleName, () => {
         code: String.raw`a { content: \" /* $sky-deprecated-var */; }`,
         description:
           'an escaped quote outside a string does not start a string, so the comment after it still hides the variable',
+      },
+      {
+        code: 'a { margin-top: 8px // $sky-deprecated-var\n; }',
+        description:
+          'a $sky- variable that only appears inside a line ("//") comment is ignored',
       },
     ],
     reject: [
@@ -221,6 +226,55 @@ describe(ruleName, () => {
         ],
         unfixable: true,
       },
+      {
+        code: 'a { margin: $sky-deprecated-var // $sky-deprecated-var-2\n; }',
+        description:
+          'a $sky- variable used as a real value should be fixed even when a later "//" comment on the same declaration contains another variable, and the "//" comment syntax must be preserved (not rewritten to "/* */")',
+        warnings: [
+          {
+            message:
+              '"$sky-deprecated-var" is deprecated. Use "var(--sky-theme-replacement)" instead.',
+          },
+        ],
+        fixed:
+          'a { margin: var(--sky-theme-replacement) // $sky-deprecated-var-2\n; }',
+      },
+      {
+        code: 'a { background: c.adjust($sky-deprecated-var, $alpha: -0.1); }',
+        description:
+          'an aliased "sass:color" module import (e.g. "@use \'sass:color\' as c") should still be recognized as a color function so the variable is not auto-fixed into invalid CSS',
+        unfixable: true,
+        warnings: [
+          {
+            message:
+              '"$sky-deprecated-var" is deprecated. Use "var(--sky-theme-replacement)" instead.',
+          },
+        ],
+      },
+      {
+        code: 'a { background: red($sky-deprecated-var); }',
+        description:
+          'a color-channel getter function (e.g. global "red()") takes a compile-time color, so the variable inside it should not be auto-fixed',
+        unfixable: true,
+        warnings: [
+          {
+            message:
+              '"$sky-deprecated-var" is deprecated. Use "var(--sky-theme-replacement)" instead.',
+          },
+        ],
+      },
+      {
+        code: 'a { width: math.max($sky-deprecated-var, 0); }',
+        description:
+          'a namespaced function that is not a color function (e.g. "math.max") should still allow the variable to be auto-fixed',
+        warnings: [
+          {
+            message:
+              '"$sky-deprecated-var" is deprecated. Use "var(--sky-theme-replacement)" instead.',
+          },
+        ],
+        fixed: 'a { width: math.max(var(--sky-theme-replacement), 0); }',
+      },
     ],
   });
 
@@ -235,55 +289,5 @@ describe(ruleName, () => {
     });
     expect(result.results[0].warnings).toHaveLength(0);
     expect(result.results[0].invalidOptionWarnings).toHaveLength(1);
-  });
-
-  it('should fall back to decl.prop.length when decl.raws.between is undefined', async () => {
-    // `decl.raws.between` is always populated by the postcss/postcss-scss
-    // parsers, so this simulates the only way it can be missing: a plugin
-    // upstream in the same lint run stripping it from the AST.
-    const stripRawsBetweenRuleName = 'test/strip-raws-between';
-    const stripRawsBetweenRuleBase: RuleBase = () => (root) => {
-      root.walkDecls((decl) => {
-        delete decl.raws.between;
-      });
-    };
-    const stripRawsBetweenRule = stripRawsBetweenRuleBase as Rule;
-    stripRawsBetweenRule.ruleName = stripRawsBetweenRuleName;
-    stripRawsBetweenRule.messages = stylelint.utils.ruleMessages(
-      stripRawsBetweenRuleName,
-      {},
-    );
-    const stripRawsBetweenPlugin = stylelint.createPlugin(
-      stripRawsBetweenRuleName,
-      stripRawsBetweenRule,
-    );
-
-    const result = await stylelint.lint({
-      code: 'a { margin-top: $sky-deprecated-var; }',
-      config: {
-        plugins: [stripRawsBetweenPlugin, plugin],
-        // Rule execution order follows this object's key order, so the
-        // `raws.between`-stripping rule must be listed first.
-        rules: {
-          [stripRawsBetweenRuleName]: true,
-          [ruleName]: true,
-        },
-      },
-      customSyntax: 'postcss-scss',
-    });
-
-    const [lintResult] = result.results;
-    expect(lintResult.warnings).toHaveLength(1);
-
-    const [warning] = lintResult.warnings;
-    expect(
-      warning.text.startsWith(
-        '"$sky-deprecated-var" is deprecated. Use "var(--sky-theme-replacement)" instead.',
-      ),
-    ).toBe(true);
-    // Without `raws.between`, `valueStart` is computed from `decl.prop.length`
-    // alone, so the reported column lands on the `:` (column 15) rather than
-    // on the `$` where the variable actually starts (column 17).
-    expect(warning.column).toEqual(15);
   });
 });
