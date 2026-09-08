@@ -1,0 +1,16 @@
+<button
+  [class]="'sky-btn sky-btn-' + buttonStyle()"
+  [disabled]="disabled()"
+  [type]="buttonType()"
+  (click)="buttonClick.emit($event)"
+>
+  @if (iconName()) {
+    <sky-icon
+      [class]="{ 'sky-theme-margin-right-xs': !labelHidden() }"
+      [iconName]="iconName()"
+    />
+  }
+  @if (!labelHidden()) {
+    <span>{{ labelText() }}</span>
+  }
+</button>
