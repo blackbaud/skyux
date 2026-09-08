@@ -1,0 +1,34 @@
+{
+  "skyux_filter_bar_clear_filters_confirm_apply_label": {
+    "_description": "Texto de la etiqueta del botón Guardar del cuadro de diálogo de confirmación para borrar filtros",
+    "message": "Borrar valores"
+  },
+  "skyux_filter_bar_clear_filters_confirm_body": {
+    "_description": "Texto del cuerpo del cuadro de diálogo de confirmación para borrar filtros",
+    "message": "Esto no eliminará ningún filtro, pero se borrarán todos los valores que haya establecido."
+  },
+  "skyux_filter_bar_clear_filters_confirm_cancel_label": {
+    "_description": "Texto de la etiqueta del botón Cancelar del cuadro de diálogo de confirmación para borrar filtros",
+    "message": "Cancelar"
+  },
+  "skyux_filter_bar_clear_filters_confirm_title": {
+    "_description": "Texto del título del cuadro de diálogo de confirmación para borrar filtros",
+    "message": "¿Está seguro de que desea restablecer todos los filtros a sus valores originales?"
+  },
+  "skyux_filter_bar_clear_filters_label": {
+    "_description": "Texto de la etiqueta del botón para borrar filtros",
+    "message": "Borrar todos los valores"
+  },
+  "skyux_filter_bar_filter_label": {
+    "_description": "Texto de la etiqueta de la barra de herramientas",
+    "message": "Filtros"
+  },
+  "skyux_filter_bar_filter_picker_descriptor": {
+    "_description": "Texto de los descriptores de elementos del cuadro de diálogo de selección",
+    "message": "filtros"
+  },
+  "skyux_filter_item_n_selected": {
+    "_description": "Texto para varios elementos seleccionados en un elemento de la barra de filtros",
+    "message": "{0} seleccionados"
+  }
+}

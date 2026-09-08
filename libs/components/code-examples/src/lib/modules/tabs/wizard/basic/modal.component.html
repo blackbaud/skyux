@@ -9,7 +9,7 @@
         [(active)]="activeIndex"
       >
         <sky-tab tabHeading="1. Biographical Details">
-          <sky-fluid-grid gutterSize="small" [disableMargin]="true">
+          <sky-fluid-grid gutterSize="small">
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="4">
                 <sky-input-box labelText="First name" [stacked]="true">
@@ -33,7 +33,7 @@
           tabHeading="2. Contact Information"
           [disabled]="isStep2Disabled"
         >
-          <sky-fluid-grid gutterSize="small" [disableMargin]="true">
+          <sky-fluid-grid gutterSize="small">
             <sky-row>
               <sky-column [screenSmall]="12" [screenMedium]="6">
                 <sky-input-box labelText="Phone Number" [stacked]="true">
@@ -51,7 +51,7 @@
           </sky-fluid-grid>
         </sky-tab>
         <sky-tab tabHeading="3. More Information" [disabled]="isStep3Disabled">
-          <sky-fluid-grid gutterSize="small" [disableMargin]="true">
+          <sky-fluid-grid gutterSize="small">
             <sky-row>
               <sky-column [screenSmall]="12">
                 <sky-checkbox

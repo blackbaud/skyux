@@ -1,6 +1,21 @@
 # Changelog
 
 
+## [14.20.0](https://github.com/blackbaud/skyux/compare/14.19.1...14.20.0) (2026-09-08)
+
+
+### Features
+
+* **components/docs-tools:** add dark mode theme for code snippet ([#4765](https://github.com/blackbaud/skyux/issues/4765)) ([f228dc3](https://github.com/blackbaud/skyux/commit/f228dc391314577ff667f6b7f5f911ff33cf94d7))
+
+## [14.19.1](https://github.com/blackbaud/skyux/compare/14.19.0...14.19.1) (2026-09-08)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** apply data manager sort options to the grid ([#4745](https://github.com/blackbaud/skyux/issues/4745)) ([e136be1](https://github.com/blackbaud/skyux/commit/e136be1aae3a15c3ac50e659a4f4fd0ae3780f74)), closes [AB#4104863](https://dev.azure.com/blackbaud/Products/_workitems/edit/4104863)
+* **components/text-editor:** ensure editor area is always white ([#4756](https://github.com/blackbaud/skyux/issues/4756)) ([36d2b29](https://github.com/blackbaud/skyux/commit/36d2b29406b3d8dfcba79d4f10b9fbafb99f3e97))
+
 ## [15.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.10...15.0.0-alpha.11) (2026-09-03)
 
 

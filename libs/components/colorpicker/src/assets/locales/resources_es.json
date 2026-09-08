@@ -1,0 +1,70 @@
+{
+  "skyux_colorpicker_alpha": {
+    "_description": "Etiqueta del campo de entrada alfa",
+    "message": "A:"
+  },
+  "skyux_colorpicker_apply": {
+    "_description": "Etiqueta del botón Aplicar",
+    "message": "Aplicar"
+  },
+  "skyux_colorpicker_aria_alpha": {
+    "_description": "Etiqueta ARIA del campo de entrada alfa",
+    "message": "Valor del canal alfa entre 0 y 1"
+  },
+  "skyux_colorpicker_aria_blue": {
+    "_description": "Etiqueta ARIA del campo de entrada azul",
+    "message": "Valor de azul entre 0 y 255"
+  },
+  "skyux_colorpicker_aria_green": {
+    "_description": "Etiqueta ARIA del campo de entrada verde",
+    "message": "Valor de verde entre 0 y 255"
+  },
+  "skyux_colorpicker_aria_hex": {
+    "_description": "Etiqueta ARIA del campo de entrada hexadecimal",
+    "message": "Código de color hexadecimal"
+  },
+  "skyux_colorpicker_aria_red": {
+    "_description": "Etiqueta ARIA del campo de entrada rojo",
+    "message": "Valor de rojo entre 0 y 255"
+  },
+  "skyux_colorpicker_aria_rgba": {
+    "_description": "Etiqueta ARIA del grupo de campos RGBA",
+    "message": "Valores RGBA"
+  },
+  "skyux_colorpicker_blue": {
+    "_description": "Etiqueta del campo de entrada azul",
+    "message": "B:"
+  },
+  "skyux_colorpicker_close": {
+    "_description": "Etiqueta del botón Cerrar",
+    "message": "Cancelar"
+  },
+  "skyux_colorpicker_dropdown_button": {
+    "_description": "Etiqueta del botón desplegable",
+    "message": "Seleccionar valor de color"
+  },
+  "skyux_colorpicker_green": {
+    "_description": "Etiqueta del campo de entrada verde",
+    "message": "G:"
+  },
+  "skyux_colorpicker_hex": {
+    "_description": "Etiqueta ARIA del campo de entrada hexadecimal",
+    "message": "Hex:"
+  },
+  "skyux_colorpicker_input_default_label": {
+    "_description": "Etiqueta del campo de entrada del componente de selección de color para lectores de pantalla cuando el usuario no ha especificado una etiqueta.",
+    "message": "Valor de color"
+  },
+  "skyux_colorpicker_preset_color": {
+    "_description": "Etiqueta de los colores preestablecidos",
+    "message": "Color preestablecido:"
+  },
+  "skyux_colorpicker_red": {
+    "_description": "Etiqueta del campo de entrada rojo",
+    "message": "R:"
+  },
+  "skyux_colorpicker_reset": {
+    "_description": "Etiqueta del botón Restablecer para volver al color inicial",
+    "message": "Restablecer el valor de color a blanco"
+  }
+}
