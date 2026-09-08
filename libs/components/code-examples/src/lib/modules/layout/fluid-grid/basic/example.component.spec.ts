@@ -7,15 +7,17 @@ import {
   SkyRowHarness,
 } from '@skyux/layout/testing';
 
-import { LayoutFluidGridExampleComponent } from './example.component';
+import { LayoutFluidGridBasicExampleComponent } from './example.component';
 
 describe('Basic fluid grid', () => {
   async function setupTest(): Promise<{
     fluidGridHarness: SkyFluidGridHarness;
-    fixture: ComponentFixture<LayoutFluidGridExampleComponent>;
+    fixture: ComponentFixture<LayoutFluidGridBasicExampleComponent>;
     loader: HarnessLoader;
   }> {
-    const fixture = TestBed.createComponent(LayoutFluidGridExampleComponent);
+    const fixture = TestBed.createComponent(
+      LayoutFluidGridBasicExampleComponent,
+    );
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const fluidGridHarness = await loader.getHarness(
       SkyFluidGridHarness.with({
@@ -28,7 +30,7 @@ describe('Basic fluid grid', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [LayoutFluidGridExampleComponent],
+      imports: [LayoutFluidGridBasicExampleComponent],
     });
   });
 
@@ -42,14 +44,9 @@ describe('Basic fluid grid', () => {
     expect(rows.length).toEqual(12);
   });
 
-  it('should indicate the grid has margins', async () => {
+  it('should indicate the grid has no margins by default', async () => {
     const { fluidGridHarness, fixture } = await setupTest();
 
-    fixture.detectChanges();
-
-    await expectAsync(fluidGridHarness.hasMargin()).toBeResolvedTo(true);
-
-    fixture.componentInstance.disableMargin = true;
     fixture.detectChanges();
 
     await expectAsync(fluidGridHarness.hasMargin()).toBeResolvedTo(false);
