@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.20.0](https://github.com/blackbaud/skyux/compare/14.19.1...14.20.0) (2026-09-08)
+
+
+### Features
+
+* **components/docs-tools:** add dark mode theme for code snippet ([#4765](https://github.com/blackbaud/skyux/issues/4765)) ([f228dc3](https://github.com/blackbaud/skyux/commit/f228dc391314577ff667f6b7f5f911ff33cf94d7))
+
 ## [14.19.1](https://github.com/blackbaud/skyux/compare/14.19.0...14.19.1) (2026-09-08)
 
 
