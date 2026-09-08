@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * **components/ag-grid:** apply data manager sort options to the grid ([#4745](https://github.com/blackbaud/skyux/issues/4745)) ([#4751](https://github.com/blackbaud/skyux/issues/4751)) ([3dfb902](https://github.com/blackbaud/skyux/commit/3dfb902a1b8f7af9e6df91416f39e1171dc0b00f)), closes [AB#4104863](https://dev.azure.com/blackbaud/Products/_workitems/edit/4104863)
+* **components/packages:** legacy resource service migrations should handle utf bom ([#4757](https://github.com/blackbaud/skyux/issues/4757)) ([7493666](https://github.com/blackbaud/skyux/commit/74936662d68664d6579b769bf6e118a14a4433a8))
 
 ## [15.0.0-alpha.11](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.10...15.0.0-alpha.11) (2026-09-03)
 
