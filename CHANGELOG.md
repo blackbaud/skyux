@@ -7,6 +7,7 @@
 ### Features
 
 * add `@skyux-sdk/testing` and `@skyux-sdk/vitest` public API to manifest ([#4728](https://github.com/blackbaud/skyux/issues/4728)) ([d55def0](https://github.com/blackbaud/skyux/commit/d55def07c0be32fdad5977c431a9faba03371efe))
+* **components/docs-tools:** add dark mode theme for code snippet ([#4765](https://github.com/blackbaud/skyux/issues/4765)) ([#4767](https://github.com/blackbaud/skyux/issues/4767)) ([a5ab7f6](https://github.com/blackbaud/skyux/commit/a5ab7f67f60bb4536ef08a53f198b674458ec9b2))
 
 
 ### Bug Fixes
