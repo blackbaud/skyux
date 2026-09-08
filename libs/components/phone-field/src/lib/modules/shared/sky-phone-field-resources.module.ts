@@ -30,6 +30,20 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_phone_field_format_hint_text: { message: 'Example: {0}.' },
   },
+  ES: {
+    skyux_phone_field_country_search_dismiss: {
+      message: 'Descartar búsqueda de país',
+    },
+    skyux_phone_field_country_search_label: {
+      message: 'Descartar búsqueda de país',
+    },
+    skyux_phone_field_country_search_placeholder: { message: 'Buscar un país' },
+    skyux_phone_field_country_select_label: { message: 'Elegir país.' },
+    skyux_phone_field_country_selected_label: {
+      message: 'Actualmente está seleccionado(a) {0}.',
+    },
+    skyux_phone_field_format_hint_text: { message: 'Ejemplo: {0}.' },
+  },
   'FR-CA': {
     skyux_phone_field_country_search_dismiss: {
       message: 'Omettre la recherche du pays',
