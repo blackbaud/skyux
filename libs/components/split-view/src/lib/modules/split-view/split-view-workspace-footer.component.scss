@@ -27,4 +27,37 @@
     --sky-override-split-view-workspace-footer-box-shadow,
     var(--sky-elevation-overflow)
   );
+  // Set here, not with ::ng-deep: inherits through to any a,
+  // .sky-btn-link-inline, or .sky-btn-link a consumer projects into this
+  // footer, regardless of encapsulation — same pattern as sky-modal-footer.
+  --sky-comp-override-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
+  --sky-comp-override-link-text-decoration-line-disabled: var(
+    --sky-font-text_decoration-standalone_link-disabled
+  );
+  --sky-comp-override-inline-link-text-decoration-line: var(
+    --sky-font-text_decoration-standalone_link-base
+  );
+  --sky-comp-override-inline-link-text-decoration-line-hover: var(
+    --sky-font-text_decoration-standalone_link-hover
+  );
+  --sky-comp-override-inline-link-text-decoration-line-active: var(
+    --sky-font-text_decoration-standalone_link-active
+  );
+  --sky-comp-override-inline-link-text-decoration-line-focus: var(
+    --sky-font-text_decoration-standalone_link-focus
+  );
+  --sky-comp-override-inline-link-text-decoration-line-disabled: var(
+    --sky-font-text_decoration-standalone_link-disabled
+  );
 }

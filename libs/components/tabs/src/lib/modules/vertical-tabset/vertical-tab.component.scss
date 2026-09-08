@@ -20,6 +20,7 @@
   --sky-override-vertical-tab-right-arrow-color: #{$sky-text-color-deemphasized};
   --sky-override-vertical-tab-right-arrow-color-selected: #{$sky-text-color-deemphasized};
   --sky-override-vertical-tab-right-arrow-padding: 3px #{$sky-padding} 0 0;
+  --sky-override-vertical-tab-active-text-decoration: none;
 }
 
 .sky-vertical-tab {
@@ -41,6 +42,28 @@
   &.sky-vertical-tab-active {
     color: var(--sky-color-text-selected);
     font-weight: var(--sky-font-style-emphasized);
+
+    &:hover {
+      color: var(--sky-color-text-selected);
+      text-decoration-line: var(
+        --sky-override-vertical-tab-active-text-decoration,
+        var(
+          --sky-comp-override-inline-link-text-decoration-line-hover,
+          var(--sky-font-text_decoration-standalone_link-hover)
+        )
+      );
+    }
+
+    &:active {
+      color: var(--sky-color-text-selected);
+      text-decoration-line: var(
+        --sky-override-vertical-tab-active-text-decoration,
+        var(
+          --sky-comp-override-inline-link-text-decoration-line-active,
+          var(--sky-font-text_decoration-standalone_link-active)
+        )
+      );
+    }
 
     &:not(:focus-visible) {
       background-color: var(

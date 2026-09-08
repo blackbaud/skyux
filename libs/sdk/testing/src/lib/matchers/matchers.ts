@@ -386,6 +386,7 @@ registerJasmineMatchers();
  * Interface for "asynchronous" custom Sky matchers which cannot be paired with a `.not` operator.
  * @deprecated Use the custom matchers registered by `@skyux-sdk/vitest` instead. Run
  * `ng generate @skyux/packages:migrate-karma-to-vitest` to migrate.
+ * @docsId SkyAsyncMatchersSdkTesting
  */
 export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
   /**
@@ -482,6 +483,7 @@ export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
  * Interface for "normal" custom Sky matchers (includes original jasmine matchers).
  * @deprecated Use the custom matchers registered by `@skyux-sdk/vitest` instead. Run
  * `ng generate @skyux/packages:migrate-karma-to-vitest` to migrate.
+ * @docsId SkyMatchersSdkTesting
  */
 export interface SkyMatchers<T> extends jasmine.Matchers<T> {
   /**
@@ -576,6 +578,7 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
  * @deprecated Use Vitest's `expect` with the custom matchers registered by
  * `@skyux-sdk/vitest` instead. Run
  * `ng generate @skyux/packages:migrate-karma-to-vitest` to migrate.
+ * @docsId expectSdkTesting
  */
 export function expect<T>(actual: T): SkyMatchers<T> {
   return windowRef.expect(actual);
@@ -587,6 +590,7 @@ export function expect<T>(actual: T): SkyMatchers<T> {
  * @deprecated Use Vitest's `expect` with the custom matchers registered by
  * `@skyux-sdk/vitest` instead. Run
  * `ng generate @skyux/packages:migrate-karma-to-vitest` to migrate.
+ * @docsId expectAsyncSdkTesting
  */
 export function expectAsync<T, U>(
   actual: T | PromiseLike<T>,

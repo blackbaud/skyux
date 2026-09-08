@@ -509,9 +509,9 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    const dataState =
-      dataManagerToolbarComponent.dataState as SkyDataManagerState;
-    expect(dataState.searchText).toBeUndefined();
+    expect(
+      (dataManagerToolbarComponent.dataState as SkyDataManagerState).searchText,
+    ).toBeUndefined();
 
     setSearchInput('testing');
     triggerSearchInputEnter();
@@ -520,6 +520,8 @@ describe('SkyDataManagerToolbarComponent', () => {
     tick();
     dataManagerToolbarFixture.detectChanges();
 
+    const dataState =
+      dataManagerToolbarComponent.dataState as SkyDataManagerState;
     expect(dataState.searchText).toBe('testing');
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
@@ -536,9 +538,9 @@ describe('SkyDataManagerToolbarComponent', () => {
 
     dataManagerToolbarFixture.detectChanges();
 
-    const dataState =
-      dataManagerToolbarComponent.dataState as SkyDataManagerState;
-    expect(dataState.searchText).toBeUndefined();
+    expect(
+      (dataManagerToolbarComponent.dataState as SkyDataManagerState).searchText,
+    ).toBeUndefined();
 
     setSearchInput('testing');
     triggerSearchApplyButton();
@@ -547,6 +549,8 @@ describe('SkyDataManagerToolbarComponent', () => {
     tick();
     dataManagerToolbarFixture.detectChanges();
 
+    const dataState =
+      dataManagerToolbarComponent.dataState as SkyDataManagerState;
     expect(dataState.searchText).toBe('testing');
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
@@ -671,8 +675,6 @@ describe('SkyDataManagerToolbarComponent', () => {
     const filterBtn = dataManagerToolbarNativeElement.querySelector(
       'sky-filter-button button',
     ) as HTMLButtonElement;
-    const dataState =
-      dataManagerToolbarComponent.dataState as SkyDataManagerState;
 
     filterBtn.click();
 
@@ -683,9 +685,9 @@ describe('SkyDataManagerToolbarComponent', () => {
       });
     }
 
-    expect(dataManagerToolbarComponent.dataState?.filterData).toEqual(
-      filterData,
-    );
+    const dataState =
+      dataManagerToolbarComponent.dataState as SkyDataManagerState;
+    expect(dataState.filterData).toEqual(filterData);
     expect(dataManagerService.updateDataState).toHaveBeenCalledWith(
       dataState,
       'toolbar',
