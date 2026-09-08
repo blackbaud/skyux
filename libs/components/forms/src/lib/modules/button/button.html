@@ -1,13 +1,17 @@
 <button
-  [class]="'sky-btn sky-btn-' + buttonStyle()"
+  [ariaLabel]="labelHidden() ? labelText() : null"
+  [class]="buttonClass()"
   [disabled]="disabled()"
   [type]="buttonType()"
   (click)="buttonClick.emit($event)"
 >
-  @if (iconName()) {
+  @if (iconName(); as iconName) {
     <sky-icon
-      [class]="{ 'sky-theme-margin-right-xs': !labelHidden() }"
-      [iconName]="iconName()"
+      [class]="{
+        'sky-theme-margin-right-xs': !labelHidden(),
+        'sky-btn-block-logo': iconLogo()
+      }"
+      [iconName]="iconName"
     />
   }
   @if (!labelHidden()) {

@@ -1,1 +1,1 @@
-export type SkyButtonType = 'button' | 'cancel' | 'submit';
+export type SkyButtonType = 'button' | 'reset' | 'submit';

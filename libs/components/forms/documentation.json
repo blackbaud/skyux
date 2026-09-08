@@ -3,11 +3,11 @@
   "groups": {
     "button": {
       "development": {
-        "docsIds": ["SkyButton"],
+        "docsIds": ["SkyButton", "SkyButtonStyle", "SkyButtonType"],
         "primaryDocsId": "SkyButton"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": ["SkyButtonHarness", "SkyButtonHarnessFilters"]
       },
       "codeExamples": {
         "docsIds": ["FormsButtonExampleComponent"]
