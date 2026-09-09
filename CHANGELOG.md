@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.20.1](https://github.com/blackbaud/skyux/compare/14.20.0...14.20.1) (2026-09-09)
+
+
+### Bug Fixes
+
+* **components/data-grid:** include LocaleModule ([#4772](https://github.com/blackbaud/skyux/issues/4772)) ([a51d3fb](https://github.com/blackbaud/skyux/commit/a51d3fb22efad5f17d78a7d9fb8a03bc5909592a))
+
 ## [14.20.0](https://github.com/blackbaud/skyux/compare/14.19.1...14.20.0) (2026-09-08)
 
 
