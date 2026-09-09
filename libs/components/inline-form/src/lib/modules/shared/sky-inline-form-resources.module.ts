@@ -20,6 +20,12 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_inline_form_button_done: { message: 'Done' },
     skyux_inline_form_button_save: { message: 'Save' },
   },
+  ES: {
+    skyux_inline_form_button_cancel: { message: 'Cancelar' },
+    skyux_inline_form_button_delete: { message: 'Borrar' },
+    skyux_inline_form_button_done: { message: 'Hecho' },
+    skyux_inline_form_button_save: { message: 'Guardar' },
+  },
   'FR-CA': {
     skyux_inline_form_button_cancel: { message: 'Annuler' },
     skyux_inline_form_button_delete: { message: 'Supprimer' },

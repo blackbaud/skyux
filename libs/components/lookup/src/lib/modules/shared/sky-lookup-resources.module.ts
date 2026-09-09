@@ -57,6 +57,60 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_search_open: { message: 'Open search' },
     skyux_search_placeholder: { message: 'Find in this list' },
   },
+  ES: {
+    skyux_autocomplete_add: { message: 'Nuevo(a)' },
+    skyux_autocomplete_multiple_results: {
+      message: 'Hay {0} resultados disponibles.',
+    },
+    skyux_autocomplete_no_results: {
+      message: 'No se encontraron coincidencias',
+    },
+    skyux_autocomplete_one_result: { message: 'Hay un resultado disponible.' },
+    skyux_autocomplete_show_all: { message: 'Mostrar todo' },
+    skyux_autocomplete_show_all_count: { message: 'Mostrar los {0}' },
+    skyux_autocomplete_show_matches_count: {
+      message: 'Mostrar coincidencias ({0})',
+    },
+    skyux_country_field_dropdown_hint_text: {
+      message: 'Escriba para buscar un país',
+    },
+    skyux_country_field_search_placeholder: { message: 'Buscar un país' },
+    skyux_lookup_search_button_show_more: {
+      message: 'Mostrar todos los resultados de búsqueda',
+    },
+    skyux_lookup_show_more_add: { message: 'Nuevo(a)' },
+    skyux_lookup_show_more_add_button_aria_label: { message: 'Agregar {0}' },
+    skyux_lookup_show_more_displayed_items_updated: {
+      message:
+        'Se muestran {1} elementos, de los cuales {0} están seleccionados.',
+    },
+    skyux_lookup_show_more_select_all_button_aria_label: {
+      message: 'Seleccionar los {0}',
+    },
+    skyux_lookup_show_more_select_all_button_title: {
+      message: 'Seleccionar todo',
+    },
+    skyux_lookup_show_more_clear_all_button_aria_label: {
+      message: 'Borrar los {0} seleccionados',
+    },
+    skyux_lookup_show_more_clear_all_button_title: { message: 'Borrar todo' },
+    skyux_lookup_show_more_show_selected_option_title: {
+      message: 'Mostrar solo los {0} seleccionados',
+    },
+    skyux_lookup_show_more_cancel: { message: 'Cancelar' },
+    skyux_lookup_show_more_modal_title: { message: 'Seleccionar los {0}' },
+    skyux_lookup_show_more_no_results: {
+      message: 'No se encontraron coincidencias',
+    },
+    skyux_lookup_show_more_select: { message: 'Seleccionar' },
+    skyux_lookup_show_more_select_context: { message: 'Seleccionar los {0}' },
+    skyux_lookup_tokens_summary: { message: '{0} artículos seleccionados' },
+    skyux_search_aria_label_descriptor: { message: 'Buscar {0}' },
+    skyux_search_dismiss: { message: 'Descartar búsqueda' },
+    skyux_search_label: { message: 'Buscar elementos' },
+    skyux_search_open: { message: 'Abrir búsqueda' },
+    skyux_search_placeholder: { message: 'Buscar en esta lista' },
+  },
   'FR-CA': {
     skyux_autocomplete_add: { message: 'Nouveau' },
     skyux_autocomplete_multiple_results: {
