@@ -121,6 +121,8 @@ describe('Button harness', () => {
 
     await buttonHarness.click();
 
+    // When a user clicks the button in a browser, a PointerEvent is raised,
+    // but the simulated click here raises a MouseEvent, so check for that.
     expect(clickSpy).toHaveBeenCalledOnceWith(jasmine.any(MouseEvent));
   });
 
