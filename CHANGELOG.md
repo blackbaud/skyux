@@ -10,6 +10,15 @@
 * **components/data-grid:** include LocaleModule ([#4772](https://github.com/blackbaud/skyux/issues/4772)) ([a51d3fb](https://github.com/blackbaud/skyux/commit/a51d3fb22efad5f17d78a7d9fb8a03bc5909592a))
 * **components/forms:** recalculate selection box heights when the grid becomes visible ([#4770](https://github.com/blackbaud/skyux/issues/4770)) ([92d80a2](https://github.com/blackbaud/skyux/commit/92d80a2091a95dd567a321d8ca802790d04d313e))
 
+## [15.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.12...15.0.0-alpha.13) (2026-09-09)
+
+
+### Bug Fixes
+
+* **components/forms:** recalculate selection box heights when the grid becomes visible ([#4770](https://github.com/blackbaud/skyux/issues/4770)) ([#4777](https://github.com/blackbaud/skyux/issues/4777)) ([495f139](https://github.com/blackbaud/skyux/commit/495f13918f67eae2b6c996f7d35eeb078d880d07)), closes [AB#4108383](https://dev.azure.com/blackbaud/Products/_workitems/edit/4108383)
+* **components/text-editor:** ensure editor area is always white ([#4756](https://github.com/blackbaud/skyux/issues/4756)) ([#4760](https://github.com/blackbaud/skyux/issues/4760)) ([fb2ff0d](https://github.com/blackbaud/skyux/commit/fb2ff0d2f7ccaf3ea8b46d4956d73ddbc94df26b))
+* **sdk/skyux-stylelint:** no-deprecated-sky-scss-variables fix should handle scss namespacing ([#4758](https://github.com/blackbaud/skyux/issues/4758)) ([5ea208c](https://github.com/blackbaud/skyux/commit/5ea208cd864d63927447dfc6024616316873570c)), closes [AB#4113536](https://dev.azure.com/blackbaud/Products/_workitems/edit/4113536)
+
 ## [15.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.11...15.0.0-alpha.12) (2026-09-09)
 
 
