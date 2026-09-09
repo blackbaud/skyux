@@ -85,13 +85,13 @@ const RESOURCES: Record<string, SkyLibResources> = {
         'Se muestran {1} elementos, de los cuales {0} están seleccionados.',
     },
     skyux_lookup_show_more_select_all_button_aria_label: {
-      message: 'Seleccionar los {0}',
+      message: 'Seleccionar todos los {0}',
     },
     skyux_lookup_show_more_select_all_button_title: {
       message: 'Seleccionar todo',
     },
     skyux_lookup_show_more_clear_all_button_aria_label: {
-      message: 'Borrar los {0} seleccionados',
+      message: 'Borrar todos los {0} seleccionados',
     },
     skyux_lookup_show_more_clear_all_button_title: { message: 'Borrar todo' },
     skyux_lookup_show_more_show_selected_option_title: {
