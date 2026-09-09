@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [15.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.12...15.0.0-alpha.13) (2026-09-09)
+
+
+### Bug Fixes
+
+* **components/text-editor:** ensure editor area is always white ([#4756](https://github.com/blackbaud/skyux/issues/4756)) ([#4760](https://github.com/blackbaud/skyux/issues/4760)) ([fb2ff0d](https://github.com/blackbaud/skyux/commit/fb2ff0d2f7ccaf3ea8b46d4956d73ddbc94df26b))
+
 ## [15.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.11...15.0.0-alpha.12) (2026-09-09)
 
 
