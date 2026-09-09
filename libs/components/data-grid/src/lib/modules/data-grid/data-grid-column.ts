@@ -1,11 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
   TemplateRef,
+  afterRenderEffect,
   booleanAttribute,
   computed,
   contentChild,
-  effect,
   inject,
   input,
   numberAttribute,
@@ -23,7 +24,7 @@ import { SkyLogService } from '@skyux/core';
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDataGridColumn {
+export class SkyDataGridColumn implements OnInit {
   /**
    * Whether the column is hidden.
    * @default false
@@ -153,7 +154,7 @@ export class SkyDataGridColumn {
 
   constructor() {
     const logger = inject(SkyLogService);
-    effect(() => {
+    afterRenderEffect(() => {
       const columnId = this.columnId();
       const field = this.field();
       if (columnId && field) {
@@ -166,8 +167,11 @@ export class SkyDataGridColumn {
           `A <sky-data-grid-column> must have a columnId or a field.`,
         );
       }
-      this.#initialized.set(true);
     });
+  }
+
+  public ngOnInit(): void {
+    this.#initialized.set(true);
   }
 
   /**
