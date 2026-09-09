@@ -32,12 +32,12 @@ function getCellTemplate(
   ).cellTemplate();
 }
 
-// `initialized` is an internal, protected member consumed only by the grid.
-function isInitialized(column: SkyDataGridColumn): boolean {
-  return (column as unknown as { initialized: () => boolean }).initialized();
-}
-
 describe('SkyDataGridColumn', () => {
+  // `initialized` is an internal, protected member consumed only by the grid.
+  function isInitialized(column: SkyDataGridColumn): boolean {
+    return (column as unknown as { initialized: () => boolean }).initialized();
+  }
+
   let logServiceSpy: jasmine.Spy;
 
   beforeEach(() => {

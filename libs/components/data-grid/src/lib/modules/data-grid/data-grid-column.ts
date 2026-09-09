@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   TemplateRef,
-  afterRenderEffect,
   booleanAttribute,
   computed,
   contentChild,
@@ -159,14 +158,12 @@ export class SkyDataGridColumn {
   protected readonly templateChild = contentChild(TemplateRef);
 
   constructor() {
+    const logger = inject(SkyLogService);
     // A component's own effects run during its view refresh, which happens
     // only after Angular has applied that component's input bindings, and
     // effects always run at least once. This is therefore a reliable signal
     // that it is now safe to read this column's required `headingText` input.
-    effect(() => this.#initialized.set(true));
-
-    const logger = inject(SkyLogService);
-    afterRenderEffect(() => {
+    effect(() => {
       const columnId = this.columnId();
       const field = this.field();
       if (columnId && field) {
@@ -179,6 +176,7 @@ export class SkyDataGridColumn {
           `A <sky-data-grid-column> must have a columnId or a field.`,
         );
       }
+      this.#initialized.set(true);
     });
   }
 
