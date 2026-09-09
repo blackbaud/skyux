@@ -60,7 +60,7 @@
     "message": "Copiar"
   },
   "skyux_text_editor_edit_menu_action_copy_key_shortcut": {
-    "_description": "Texto para el acceso rápido de \"Cortar\" del menú Editar",
+    "_description": "Texto para el acceso rápido de \"Copiar\" del menú Editar",
     "message": "Ctrl+C"
   },
   "skyux_text_editor_edit_menu_action_paste_label": {

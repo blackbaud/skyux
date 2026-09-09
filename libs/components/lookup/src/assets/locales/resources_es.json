@@ -53,7 +53,7 @@
   },
   "skyux_lookup_show_more_select_all_button_aria_label": {
     "_description": "Texto de la etiqueta ARIA del botón Seleccionar todo en la barra de herramientas de selección múltiple Mostrar más de la búsqueda",
-    "message": "Seleccionar los {0}"
+    "message": "Seleccionar todos los {0}"
   },
   "skyux_lookup_show_more_select_all_button_title": {
     "_description": "Texto del botón Seleccionar todo en la barra de herramientas de selección múltiple Mostrar más de la búsqueda",
@@ -61,7 +61,7 @@
   },
   "skyux_lookup_show_more_clear_all_button_aria_label": {
     "_description": "Texto de la etiqueta ARIA del botón Seleccionar todo en la barra de herramientas de selección múltiple Mostrar más de la búsqueda",
-    "message": "Borrar los {0} seleccionados"
+    "message": "Borrar todos los {0} seleccionados"
   },
   "skyux_lookup_show_more_clear_all_button_title": {
     "_description": "Texto del botón Borrar todo en la barra de herramientas de selección múltiple Mostrar más de la búsqueda",
