@@ -17,7 +17,7 @@
   },
   "skyux_phone_field_country_selected_label": {
     "_description": "Texto del lector de pantalla del componente de campo de teléfono para indicar el país seleccionado.",
-    "message": "Actualmente está seleccionado(a) {0}."
+    "message": "País seleccionado actualmente: {0}."
   },
   "skyux_phone_field_format_hint_text": {
     "_description": "Texto de ayuda para el formato de número de teléfono establecido actualmente en el campo de teléfono.",

@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [14.20.1](https://github.com/blackbaud/skyux/compare/14.20.0...14.20.1) (2026-09-09)
+
+
+### Bug Fixes
+
+* **components/data-grid:** avoid NG0950 when columns are created in a loop ([#4753](https://github.com/blackbaud/skyux/issues/4753)) ([f679c72](https://github.com/blackbaud/skyux/commit/f679c72ea11a437f86b695e5da5cbed3f345fdc8)), closes [AB#4109298](https://dev.azure.com/blackbaud/Products/_workitems/edit/4109298) [angular/angular#59067](https://github.com/angular/angular/issues/59067)
+* **components/data-grid:** include LocaleModule ([#4772](https://github.com/blackbaud/skyux/issues/4772)) ([a51d3fb](https://github.com/blackbaud/skyux/commit/a51d3fb22efad5f17d78a7d9fb8a03bc5909592a))
+* **components/forms:** recalculate selection box heights when the grid becomes visible ([#4770](https://github.com/blackbaud/skyux/issues/4770)) ([92d80a2](https://github.com/blackbaud/skyux/commit/92d80a2091a95dd567a321d8ca802790d04d313e))
+
 ## [14.20.0](https://github.com/blackbaud/skyux/compare/14.19.1...14.20.0) (2026-09-08)
 
 
