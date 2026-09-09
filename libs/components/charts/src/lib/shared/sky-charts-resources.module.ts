@@ -30,6 +30,22 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Data table for {0}',
     },
   },
+  ES: {
+    'skyux_charts.chart.bar.accessible_summary': {
+      message:
+        'Gráfico de barras. Número de series: {0}. Número de categorías: {1}. Hay una tabla de datos disponible en el menú contextual del gráfico.',
+    },
+    'skyux_charts.chart.controls.context_menu.accessible_name': {
+      message: 'Menú contextual de {0}',
+    },
+    'skyux_charts.chart.controls.context_menu.view_data_table': {
+      message: 'Ver tabla de datos',
+    },
+    'skyux_charts.data_table_modal.close_button': { message: 'Cerrar' },
+    'skyux_charts.data_table_modal.table_region_label': {
+      message: 'Tabla de datos de {0}',
+    },
+  },
   'FR-CA': {
     'skyux_charts.chart.bar.accessible_summary': {
       message:

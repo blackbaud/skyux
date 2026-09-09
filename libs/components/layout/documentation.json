@@ -161,7 +161,10 @@
         ]
       },
       "codeExamples": {
-        "docsIds": ["LayoutFluidGridExampleComponent"]
+        "docsIds": [
+          "LayoutFluidGridBasicExampleComponent",
+          "LayoutFluidGridInsetExampleComponent"
+        ]
       }
     },
     "format": {

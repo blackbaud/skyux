@@ -23,6 +23,15 @@ export interface SkyChartThemeStyles {
     deemphasizedColor: string;
     lineHeight: number;
   };
+  motion: {
+    /**
+     * How long a chart animates for, in milliseconds. Resolves to `0` when
+     * motion is suppressed — by `sky-animations-disabled` or a
+     * `prefers-reduced-motion` preference — so the canvas honors the same
+     * motion preferences as CSS.
+     */
+    duration: number;
+  };
   height: {
     /** The minimum chart height, in pixels. */
     min: number;
@@ -162,6 +171,9 @@ export function resolveChartThemeStyles(
         color: readString(styles, '--sky-color-text-default'),
         deemphasizedColor: readString(styles, '--sky-color-text-deemphasized'),
         lineHeight: readLineHeight(styles, probe),
+      },
+      motion: {
+        duration: readDuration(styles, '--sky-global-duration-short'),
       },
       height: {
         min: minHeight,
@@ -345,6 +357,23 @@ function readNumber(
  */
 function remToPx(rem: string, rootFontSize: number): number {
   return Number.parseFloat(rem) * rootFontSize;
+}
+
+/**
+ * Reads a CSS duration token as milliseconds. `@skyux/theme` authors the token
+ * as `150ms`, as `1ms` under `prefers-reduced-motion`, or as `0s` when
+ * `sky-animations-disabled` suppresses motion. An unresolved token falls back
+ * to `0` rather than `NaN`, which would break the animation loop.
+ */
+function readDuration(styles: CSSStyleDeclaration, property: string): number {
+  const raw = readString(styles, property);
+  const value = Number.parseFloat(raw);
+
+  if (Number.isNaN(value)) {
+    return 0;
+  }
+
+  return raw.endsWith('ms') ? value : value * 1000;
 }
 
 /**

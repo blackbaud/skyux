@@ -228,6 +228,16 @@
                 ></code>
               </p>
             }
+            @if (property.codeExample) {
+              <h5>Example</h5>
+              <sky-docs-code-snippet
+                bordered
+                class="sky-margin-stacked-lg"
+                hideToolbar
+                [code]="property.codeExample"
+                [language]="property.codeExampleLanguage ?? 'html'"
+              />
+            }
           </sky-docs-type-definition-box>
         }
       }
