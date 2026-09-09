@@ -138,6 +138,15 @@ export class SkyButtonHarness extends SkyComponentHarness {
     return await (await this.#getButton()).hasClass('sky-btn-block');
   }
 
+  /**
+   * Whether the button is displaying a logo. This will return false when no icon
+   * is displayed, even when the logo input is set to true.
+   */
+  public async hasLogo(): Promise<boolean> {
+    const iconHost = await (await this.#getIcon())?.host();
+    return !!iconHost?.hasClass('sky-btn-block-logo');
+  }
+
   async #getAriaLabel(): Promise<string | null> {
     return await (await this.#getButton()).getAttribute('aria-label');
   }

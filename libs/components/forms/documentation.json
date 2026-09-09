@@ -10,7 +10,10 @@
         "docsIds": ["SkyButtonHarness", "SkyButtonHarnessFilters"]
       },
       "codeExamples": {
-        "docsIds": ["FormsButtonExampleComponent"]
+        "docsIds": [
+          "FormsButtonExampleComponent",
+          "FormsButtonToolbarExampleComponent"
+        ]
       }
     },
     "character-count": {

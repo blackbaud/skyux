@@ -80,6 +80,7 @@ describe('Button component', () => {
   });
 
   it('should add the expected CSS class for the specified button style', () => {
+    validateButtonStyle('danger');
     validateButtonStyle('default');
     validateButtonStyle('icon-borderless');
     validateButtonStyle(
@@ -140,24 +141,11 @@ describe('Button component', () => {
     });
 
     it('should add the expected icon logo class', () => {
-      testButton.componentRef.setInput('iconLogo', true);
+      testButton.componentRef.setInput('logo', true);
       testButton.componentRef.setInput('iconName', 'add');
       testButton.detectChanges();
 
       expect(getIcon()).toHaveCssClass('sky-btn-block-logo');
-    });
-
-    it('should add the expected spacing between an icon and label text', () => {
-      testButton.componentRef.setInput('iconName', 'add');
-      testButton.detectChanges();
-
-      expect(getIcon()).toHaveCssClass('sky-theme-margin-right-xs');
-
-      // Don't add space when the button text is not visible.
-      testButton.componentRef.setInput('labelHidden', true);
-      testButton.detectChanges();
-
-      expect(getIcon()).not.toHaveCssClass('sky-theme-margin-right-xs');
     });
   });
 });

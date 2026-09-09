@@ -15,7 +15,11 @@ import { SkyButtonType } from './button-type';
 @Component({
   selector: 'sky-button',
   templateUrl: './button.html',
+  styleUrl: './button.scss',
   imports: [SkyIconModule],
+  host: {
+    '[class.sky-button-block]': 'block()',
+  },
 })
 export class SkyButton {
   /**
@@ -45,7 +49,7 @@ export class SkyButton {
   /**
    * Whether the icon is a logo icon.
    */
-  public readonly iconLogo = input(false, {
+  public readonly logo = input(false, {
     transform: booleanAttribute,
   });
 
@@ -71,19 +75,13 @@ export class SkyButton {
    */
   public readonly buttonClick = output<PointerEvent>();
 
-  protected readonly buttonClass = computed(() => {
-    let buttonStyle: string = this.buttonStyle();
+  protected readonly buttonStyleClass = computed(() => {
+    let buttonStyle = this.buttonStyle() as string;
 
     if (buttonStyle === 'icon-borderless-on-prominent') {
       buttonStyle = 'icon-borderless-on_prominent';
     }
 
-    let buttonClass = `sky-btn sky-btn-${buttonStyle}`;
-
-    if (this.block()) {
-      buttonClass += ' sky-btn-block';
-    }
-
-    return buttonClass;
+    return `sky-btn-${buttonStyle}`;
   });
 }

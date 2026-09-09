@@ -101,6 +101,7 @@ describe('Button harness', () => {
     });
 
     await expectAsync(buttonHarness.isBlock()).toBeResolvedTo(true);
+    await expectAsync(buttonHarness.hasLogo()).toBeResolvedTo(true);
   });
 
   it('should return whether the button is disabled', async () => {

@@ -457,6 +457,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'FormsButtonToolbarExampleComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ FormsButtonToolbarExampleComponent: c }) => c,
+      ),
+  },
+  {
     path: 'FormsCharacterCountExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
