@@ -1,6 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { provideLocationMocks } from '@angular/common/testing';
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, provideRouter, Router } from '@angular/router';
@@ -13,7 +14,7 @@ import { SkyWaitHarness } from '@skyux/indicators/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
-import { getGridApi } from 'ag-grid-community';
+import { ColDef, getGridApi } from 'ag-grid-community';
 import { SkyDataGrid } from './data-grid';
 import { SkyDataGridColumn } from './data-grid-column';
 import { AsyncColumnsTestComponent } from './fixtures/async-columns-test.component';
@@ -1212,13 +1213,15 @@ describe('SkyDataGrid', () => {
       expect(api?.getSelectedNodes()).toHaveSize(2);
     });
 
-    it('should render columns declared with @for after they arrive asynchronously (NG0950 regression)', async () => {
-      // Regression test for angular/angular#59067: Angular populates signal
-      // content queries before it applies the queried components' input
-      // bindings, so reading a required input (`headingText`) off a column
-      // created by `@for` in the same tick it is added throws NG0950. Columns
-      // starting empty and arriving later (e.g. from a resource or async
-      // column-picker selection) reproduces the failure.
+    it('should render columns declared with @for once their bindings have been applied', async () => {
+      // Angular populates signal content queries before it applies the
+      // queried components' input bindings (angular/angular#59067), so a
+      // column created by `@for` briefly appears in the grid's content query
+      // with its required `headingText` input not yet set. The grid must
+      // wait for the column to report that its bindings have been applied
+      // (`SkyDataGridColumn`'s `initialized` signal) before reading it.
+      // Columns starting empty and arriving later (e.g. from a resource or
+      // async column-picker selection) reproduces the scenario.
       const asyncFixture = TestBed.createComponent(AsyncColumnsTestComponent);
       expect(() => {
         asyncFixture.detectChanges();
@@ -1268,9 +1271,12 @@ describe('SkyDataGrid', () => {
       await asyncFixture.whenStable();
     });
 
-    it('should rethrow an unexpected error while building column definitions', () => {
-      // Confirms the NG0950 guard above is scoped to that specific error and
-      // does not silently swallow a genuine bug in column definition building.
+    it('should surface an error from a column instead of dropping the column', () => {
+      // A column's `initialized` signal only tells the grid that binding has
+      // completed, not that the column is otherwise well-formed; an error
+      // while building its column definition (e.g. a bug in a consumer's own
+      // template expression) must fail loudly rather than be swallowed and
+      // the column silently omitted from the grid.
       fixture.detectChanges();
       // `sky-data-grid-column` elements are content, not projected via
       // `<ng-content>`, so they never appear in the rendered DOM tree and
@@ -1293,47 +1299,45 @@ describe('SkyDataGrid', () => {
       expect(() => fixture.detectChanges()).toThrowError('boom');
     });
 
-    it('should rethrow an unrelated error that merely mentions NG0950', () => {
-      // The NG0950 guard must match Angular's own error, not any error whose
-      // message happens to contain the code (e.g. a message that references
-      // NG0950 while describing something else).
+    it("should not read a column's inputs until its bindings are applied", async () => {
       fixture.detectChanges();
+      await fixture.whenStable();
       const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
         .componentInstance as unknown as {
         columns: () => SkyDataGridColumn[];
       };
       const column1 = grid.columns()[0];
-      const message =
-        'Failed to load column config; this is unrelated to NG0950.';
-      (column1 as unknown as { headingText: () => string }).headingText =
-        (): string => {
-          throw new Error(message);
-        };
+      const initialized = signal(false);
+      Object.assign(column1, {
+        initialized,
+        headingText: (): string => {
+          throw new Error('headingText read before the column was initialized');
+        },
+      });
 
+      // Force the content query — and therefore column definition building —
+      // to re-run by structurally removing a sibling column.
       fixture.componentRef.setInput('showCol3', false);
-      expect(() => fixture.detectChanges()).toThrowError(message);
-    });
+      expect(() => fixture.detectChanges()).not.toThrow();
+      await fixture.whenStable();
 
-    it('should rethrow a thrown value that is not an Error instance', () => {
-      // The NG0950 guard only recognizes `Error` instances (Angular's
-      // `RuntimeError` included). Anything else thrown while building a
-      // column definition (e.g. a plain string) must fail the
-      // `instanceof Error` check and be rethrown unchanged.
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api?.getColumnDefs()?.map((def) => (def as ColDef).field)).toEqual(
+        ['column2'],
+      );
+
+      // Once the column reports in, the grid picks it up.
+      Object.assign(column1, { headingText: (): string => 'Column1' });
+      initialized.set(true);
       fixture.detectChanges();
-      const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
-        .componentInstance as unknown as {
-        columns: () => SkyDataGridColumn[];
-      };
-      const column1 = grid.columns()[0];
-      const boom = 'boom, but not an Error instance';
-      (column1 as unknown as { headingText: () => string }).headingText =
-        (): string => {
-          // eslint-disable-next-line @typescript-eslint/only-throw-error
-          throw boom;
-        };
-
-      fixture.componentRef.setInput('showCol3', false);
-      expect(() => fixture.detectChanges()).toThrow(boom);
+      await fixture.whenStable();
+      expect(api?.getColumnDefs()?.map((def) => (def as ColDef).field)).toEqual(
+        ['column1', 'column2'],
+      );
     });
   });
 });

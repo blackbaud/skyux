@@ -44,7 +44,6 @@ import {
   GridOptions,
   GridStateModule,
   IRowNode,
-  LocaleModule,
   ModuleRegistry,
   PaginationModule,
   RenderApiModule,
@@ -85,7 +84,6 @@ ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   EventApiModule,
   GridStateModule,
-  LocaleModule,
   PaginationModule,
   RenderApiModule,
   RowApiModule,
@@ -100,24 +98,12 @@ function arraySorted(arr: string[]): string[] {
 }
 
 /**
- * Whether the error is Angular's NG0950 "required input has no value yet"
- * error. Angular's `RuntimeError` exposes the numeric code (-950), so prefer
- * that; fall back to the formatted message, which is exactly `NG0950` in
- * production builds and `NG0950: <description>` in development builds. A
- * message that merely mentions NG0950 elsewhere is not a match.
+ * Members of `SkyDataGridColumn` that are `protected` because they are for
+ * this grid's use only, not part of the column's public API.
  */
-function isRequiredInputUnsetError(err: unknown): boolean {
-  if (!(err instanceof Error)) {
-    return false;
-  }
-
-  const code = (err as { code?: unknown }).code;
-
-  if (typeof code === 'number') {
-    return Math.abs(code) === 950;
-  }
-
-  return /^NG0950(?::\s|$)/.test(err.message);
+interface SkyDataGridColumnInternal {
+  initialized: Signal<boolean>;
+  cellTemplate: Signal<TemplateRef<unknown> | undefined>;
 }
 
 /**
@@ -408,25 +394,11 @@ export class SkyDataGrid {
 
   readonly #columnDefs = computed<ColDef<SkyDataGridRowData>[]>(() => {
     const columns = this.columns();
-    return columns.flatMap((col) => {
-      try {
-        return [this.#createColDef(col)];
-      } catch (err) {
-        // Angular can populate this content query for a newly created
-        // `SkyDataGridColumn` (e.g. one added by an `@for` loop) before it
-        // applies that column's input bindings, so reading the required
-        // `headingText` input here can throw NG0950 for a single
-        // change-detection pass. Angular tracks a signal read as a reactive
-        // dependency before it runs the "is it set yet" check that throws,
-        // so this computed still re-evaluates once the binding lands and
-        // the column is included on the next read. See
-        // angular/angular#59067. Any other error is a real bug and rethrown.
-        if (isRequiredInputUnsetError(err)) {
-          return [];
-        }
-        throw err;
-      }
-    });
+    return columns
+      .filter((col) =>
+        (col as unknown as SkyDataGridColumnInternal).initialized(),
+      )
+      .map((col) => this.#createColDef(col));
   });
   readonly #hasColumnDefs = computed(() => this.#columnDefs().length > 0);
 
@@ -780,12 +752,10 @@ export class SkyDataGrid {
       (colDef.type as string[]).push(SkyCellType.Text);
       colDef.cellDataType = 'text';
     }
-    const colWithTemplate = col as unknown as {
-      cellTemplate: Signal<TemplateRef<unknown> | undefined>;
-    };
-    if (colWithTemplate.cellTemplate()) {
+    const colInternal = col as unknown as SkyDataGridColumnInternal;
+    if (colInternal.cellTemplate()) {
       (colDef.type as string[]).push(SkyCellType.Template);
-      colDef.cellRendererParams = { template: colWithTemplate.cellTemplate };
+      colDef.cellRendererParams = { template: colInternal.cellTemplate };
     }
     if (!this.autoSort()) {
       colDef.comparator = (): number => 0;

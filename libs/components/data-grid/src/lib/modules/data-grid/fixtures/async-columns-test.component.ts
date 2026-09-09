@@ -17,11 +17,11 @@ interface AsyncColumnDef {
 /**
  * Mirrors a consumer scenario where columns are not known synchronously (for
  * example, resolved from a resource or an async column-picker selection) and
- * are rendered with `@for`. Regression fixture for NG0950 (see
- * angular/angular#59067): Angular populates signal content queries before it
- * applies the queried `sky-data-grid-column` instances' input bindings, so
- * columns created after the grid's first render must not be read from the
- * content query until their bindings have been applied.
+ * are rendered with `@for`. Angular populates signal content queries before
+ * it applies the queried `sky-data-grid-column` instances' input bindings
+ * (see angular/angular#59067), so columns created after the grid's first
+ * render must not be read from the content query until their bindings have
+ * been applied.
  */
 @Component({
   selector: 'sky-async-columns-test',

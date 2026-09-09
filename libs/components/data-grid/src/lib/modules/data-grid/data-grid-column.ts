@@ -6,9 +6,11 @@ import {
   booleanAttribute,
   computed,
   contentChild,
+  effect,
   inject,
   input,
   numberAttribute,
+  signal,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
@@ -146,9 +148,23 @@ export class SkyDataGridColumn {
     transform: booleanAttribute,
   });
 
+  readonly #initialized = signal(false);
+  /**
+   * Whether Angular has applied this column's input bindings. The grid's
+   * content query updates before that happens, so the grid must not read
+   * `headingText` until this flips.
+   */
+  protected readonly initialized = this.#initialized.asReadonly();
+
   protected readonly templateChild = contentChild(TemplateRef);
 
   constructor() {
+    // A component's own effects run during its view refresh, which happens
+    // only after Angular has applied that component's input bindings, and
+    // effects always run at least once. This is therefore a reliable signal
+    // that it is now safe to read this column's required `headingText` input.
+    effect(() => this.#initialized.set(true));
+
     const logger = inject(SkyLogService);
     afterRenderEffect(() => {
       const columnId = this.columnId();

@@ -32,6 +32,11 @@ function getCellTemplate(
   ).cellTemplate();
 }
 
+// `initialized` is an internal, protected member consumed only by the grid.
+function isInitialized(column: SkyDataGridColumn): boolean {
+  return (column as unknown as { initialized: () => boolean }).initialized();
+}
+
 describe('SkyDataGridColumn', () => {
   let logServiceSpy: jasmine.Spy;
 
@@ -192,5 +197,18 @@ describe('SkyDataGridColumn', () => {
     expect(logServiceSpy).toHaveBeenCalledWith(
       'A <sky-data-grid-column> should have either a columnId or a field, but not both.',
     );
+  });
+
+  it('should report that its bindings are applied after the first render', async () => {
+    const fixture = TestBed.createComponent(SkyDataGridColumn);
+    fixture.componentRef.setInput('headingText', 'Test');
+    const component = fixture.componentInstance;
+
+    expect(isInitialized(component)).toBeFalse();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(isInitialized(component)).toBeTrue();
   });
 });
