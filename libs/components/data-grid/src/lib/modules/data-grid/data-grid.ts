@@ -44,6 +44,7 @@ import {
   GridOptions,
   GridStateModule,
   IRowNode,
+  LocaleModule,
   ModuleRegistry,
   PaginationModule,
   RenderApiModule,
@@ -84,6 +85,7 @@ ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   EventApiModule,
   GridStateModule,
+  LocaleModule,
   PaginationModule,
   RenderApiModule,
   RowApiModule,
@@ -434,16 +436,15 @@ export class SkyDataGrid {
   });
   readonly #queryParamPage = toSignal(
     toObservable(this.pageQueryParam).pipe(
-      switchMap(
-        (pageQueryParam): ObservableInput<number> =>
-          pageQueryParam && this.#activatedRoute
-            ? this.#activatedRoute.queryParamMap.pipe(
-                startWith(this.#activatedRoute.snapshot.queryParamMap),
-                map((params) =>
-                  coerceNumberProperty(params.get(pageQueryParam), 1),
-                ),
-              )
-            : [],
+      switchMap((pageQueryParam): ObservableInput<number> =>
+        pageQueryParam && this.#activatedRoute
+          ? this.#activatedRoute.queryParamMap.pipe(
+              startWith(this.#activatedRoute.snapshot.queryParamMap),
+              map((params) =>
+                coerceNumberProperty(params.get(pageQueryParam), 1),
+              ),
+            )
+          : [],
       ),
     ),
     { initialValue: NaN },
