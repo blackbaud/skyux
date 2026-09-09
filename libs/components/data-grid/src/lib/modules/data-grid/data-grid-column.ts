@@ -148,21 +148,11 @@ export class SkyDataGridColumn {
   });
 
   readonly #initialized = signal(false);
-  /**
-   * Whether Angular has applied this column's input bindings. The grid's
-   * content query updates before that happens, so the grid must not read
-   * `headingText` until this flips.
-   */
   protected readonly initialized = this.#initialized.asReadonly();
-
   protected readonly templateChild = contentChild(TemplateRef);
 
   constructor() {
     const logger = inject(SkyLogService);
-    // A component's own effects run during its view refresh, which happens
-    // only after Angular has applied that component's input bindings, and
-    // effects always run at least once. This is therefore a reliable signal
-    // that it is now safe to read this column's required `headingText` input.
     effect(() => {
       const columnId = this.columnId();
       const field = this.field();
