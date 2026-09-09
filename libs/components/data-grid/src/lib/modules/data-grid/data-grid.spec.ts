@@ -1697,8 +1697,7 @@ describe('SkyDataGrid', () => {
     });
 
     it("should not read a column's inputs until its bindings are applied", async () => {
-      fixture.detectChanges();
-      await fixture.whenStable();
+      await flushAgGridWork(fixture);
       const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
         .componentInstance as unknown as {
         columns: () => SkyDataGridColumn[];
@@ -1716,7 +1715,7 @@ describe('SkyDataGrid', () => {
       // to re-run by structurally removing a sibling column.
       fixture.componentRef.setInput('showCol3', false);
       expect(() => fixture.detectChanges()).not.toThrow();
-      await fixture.whenStable();
+      await flushAgGridWork(fixture);
 
       const api = getGridApiSync(
         fixture.nativeElement.querySelector(
@@ -1730,8 +1729,7 @@ describe('SkyDataGrid', () => {
       // Once the column reports in, the grid picks it up.
       Object.assign(column1, { headingText: (): string => 'Column1' });
       initialized.set(true);
-      fixture.detectChanges();
-      await fixture.whenStable();
+      await flushAgGridWork(fixture);
       expect(api?.getColumnDefs()?.map((def) => (def as ColDef).field)).toEqual(
         ['column1', 'column2'],
       );
