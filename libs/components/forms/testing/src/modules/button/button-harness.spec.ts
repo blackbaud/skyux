@@ -23,7 +23,7 @@ describe('Button harness', () => {
     }
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    const buttonHarness: SkyButtonHarness = options.dataSkyId
+    const buttonHarness = options.dataSkyId
       ? await loader.getHarness(
           SkyButtonHarness.with({
             dataSkyId: options.dataSkyId,
