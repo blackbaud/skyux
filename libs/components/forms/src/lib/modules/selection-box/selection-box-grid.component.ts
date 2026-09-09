@@ -3,7 +3,6 @@ import {
   Component,
   ContentChildren,
   ElementRef,
-  HostListener,
   Input,
   NgZone,
   OnDestroy,
@@ -13,10 +12,14 @@ import {
   ViewEncapsulation,
   inject,
 } from '@angular/core';
-import { SkyCoreAdapterService, SkyMutationObserverService } from '@skyux/core';
+import {
+  SkyCoreAdapterService,
+  SkyMutationObserverService,
+  SkyResizeObserverService,
+} from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SkySelectionBoxAdapterService } from './selection-box-adapter.service';
@@ -67,9 +70,11 @@ export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
   public set containerElementRef(value: ElementRef | undefined) {
     this.#_containerElementRef = value;
     this.#destroyMutationObserver();
+    this.#destroyResizeObserver();
     if (value) {
       this.#updateBreakpointClass();
       this.#initMutationObserver();
+      this.#initResizeObserver(value);
     }
   }
 
@@ -78,6 +83,7 @@ export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
   }
 
   #mutationObserver: MutationObserver | undefined;
+  #resizeSubscription: Subscription | undefined;
 
   #ngUnsubscribe = new Subject<void>();
 
@@ -90,6 +96,7 @@ export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
   readonly #hostElRef = inject(ElementRef);
   readonly #mutationObserverSvc = inject(SkyMutationObserverService);
   readonly #ngZone = inject(NgZone);
+  readonly #resizeObserverSvc = inject(SkyResizeObserverService);
   readonly #themeSvc = inject(SkyThemeService, { optional: true });
 
   public ngOnInit(): void {
@@ -108,11 +115,7 @@ export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
     this.#ngUnsubscribe.complete();
 
     this.#destroyMutationObserver();
-  }
-
-  @HostListener('window:resize')
-  public onWindowResize(): void {
-    this.#updateBreakpointClass();
+    this.#destroyResizeObserver();
   }
 
   #initMutationObserver(): void {
@@ -142,6 +145,19 @@ export class SkySelectionBoxGridComponent implements OnDestroy, OnInit {
       this.#mutationObserver.disconnect();
       this.#mutationObserver = undefined;
     }
+  }
+
+  #initResizeObserver(containerElementRef: ElementRef): void {
+    this.#resizeSubscription = this.#resizeObserverSvc
+      .observe(containerElementRef)
+      .subscribe(() => {
+        this.#updateBreakpointClass();
+      });
+  }
+
+  #destroyResizeObserver(): void {
+    this.#resizeSubscription?.unsubscribe();
+    this.#resizeSubscription = undefined;
   }
 
   #updateBreakpointClass(): void {
