@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
+import { SkyFluidGridModule } from '@skyux/layout';
 
 /**
- * @title Fluid grid with basic setup
+ * @title Fluid grid with inset margins
  */
 @Component({
-  selector: 'app-layout-fluid-grid-example',
+  selector: 'app-layout-fluid-grid-inset-example',
   templateUrl: './example.component.html',
   styles: [
     `
@@ -18,7 +18,4 @@ import { SkyFluidGridGutterSizeType, SkyFluidGridModule } from '@skyux/layout';
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyFluidGridModule],
 })
-export class LayoutFluidGridExampleComponent {
-  public gutterSize: SkyFluidGridGutterSizeType | undefined;
-  public disableMargin = false;
-}
+export class LayoutFluidGridInsetExampleComponent {}

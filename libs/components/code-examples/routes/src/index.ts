@@ -835,10 +835,17 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'LayoutFluidGridExampleComponent',
+    path: 'LayoutFluidGridBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
-        ({ LayoutFluidGridExampleComponent: c }) => c,
+        ({ LayoutFluidGridBasicExampleComponent: c }) => c,
+      ),
+  },
+  {
+    path: 'LayoutFluidGridInsetExampleComponent',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ LayoutFluidGridInsetExampleComponent: c }) => c,
       ),
   },
   {

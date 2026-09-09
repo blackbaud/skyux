@@ -282,6 +282,40 @@ export const svc = SkyAppResourcesService;`;
     expect(tree.readText('/src/app/test.ts')).toBe(content);
   });
 
+  it('should swap the service in a file with a UTF-8 BOM', async () => {
+    const bom = '\uFEFF';
+    const tree = setupTree({
+      '/src/app/test.component.ts': `${bom}import { Component, inject } from '@angular/core';
+import { SkyAppResourcesService, SkyI18nModule } from '@skyux/i18n';
+
+@Component({ selector: 'app-test', template: '' })
+export class TestComponent {
+  readonly #resources = inject(SkyAppResourcesService);
+}`,
+    });
+
+    await runSchematic(tree);
+
+    // `Tree#readText` decodes and strips the BOM, so assert against the
+    // BOM-less text here...
+    expect(tree.readText('/src/app/test.component.ts'))
+      .toBe(`import { Component, inject } from '@angular/core';
+import { SkyAppResourcesLegacyService, SkyI18nModule } from '@skyux/i18n';
+
+@Component({ selector: 'app-test', template: '' })
+export class TestComponent {
+  readonly #resources = inject(SkyAppResourcesLegacyService);
+}`);
+
+    // ...and separately confirm the BOM byte sequence is still present (and
+    // the edits weren't shifted) in the raw file content.
+    const rawContent = tree
+      .read('/src/app/test.component.ts')
+      ?.toString('utf-8');
+    expect(rawContent?.startsWith(bom)).toBe(true);
+    expect(rawContent).toContain('SkyAppResourcesLegacyService, SkyI18nModule');
+  });
+
   it('should not change unrelated files', async () => {
     const content = `import { SkyAppLocaleProvider } from '@skyux/i18n';
 

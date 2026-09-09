@@ -116,7 +116,8 @@ export { LayoutDescriptionListHorizontalExampleComponent } from './lib/modules/l
 export { LayoutDescriptionListInlineHelpExampleComponent } from './lib/modules/layout/description-list/inline-help/example.component';
 export { LayoutDescriptionListLongDescriptionExampleComponent } from './lib/modules/layout/description-list/long-description/example.component';
 export { LayoutDescriptionListVerticalExampleComponent } from './lib/modules/layout/description-list/vertical/example.component';
-export { LayoutFluidGridExampleComponent } from './lib/modules/layout/fluid-grid/example.component';
+export { LayoutFluidGridBasicExampleComponent } from './lib/modules/layout/fluid-grid/basic/example.component';
+export { LayoutFluidGridInsetExampleComponent } from './lib/modules/layout/fluid-grid/inset/example.component';
 export { LayoutFormatExampleComponent } from './lib/modules/layout/format/example.component';
 export { LayoutInlineDeleteCustomExampleComponent } from './lib/modules/layout/inline-delete/custom/example.component';
 export { LayoutInlineDeleteRepeaterExampleComponent } from './lib/modules/layout/inline-delete/repeater/example.component';

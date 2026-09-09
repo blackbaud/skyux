@@ -1,6 +1,7 @@
+import type { ProjectDefinition } from './get-project-definitions.js';
+
 export interface SkyManifestOptions {
   codeExamplesPackageName: string;
   outDir: string;
-  projectNames: string[];
-  projectsRootDirectory: string;
+  projects: ProjectDefinition[];
 }
