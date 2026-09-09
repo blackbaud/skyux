@@ -40,7 +40,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_phone_field_country_search_placeholder: { message: 'Buscar un país' },
     skyux_phone_field_country_select_label: { message: 'Elegir país.' },
     skyux_phone_field_country_selected_label: {
-      message: 'Actualmente está seleccionado(a) {0}.',
+      message: 'País seleccionado actualmente: {0}.',
     },
     skyux_phone_field_format_hint_text: { message: 'Ejemplo: {0}.' },
   },
