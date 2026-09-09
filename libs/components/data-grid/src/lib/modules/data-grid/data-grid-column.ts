@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
   TemplateRef,
   afterRenderEffect,
   booleanAttribute,
@@ -9,6 +10,7 @@ import {
   inject,
   input,
   numberAttribute,
+  signal,
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
@@ -22,7 +24,7 @@ import { SkyLogService } from '@skyux/core';
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDataGridColumn {
+export class SkyDataGridColumn implements OnInit {
   /**
    * Whether the column is hidden.
    * @default false
@@ -146,6 +148,8 @@ export class SkyDataGridColumn {
     transform: booleanAttribute,
   });
 
+  readonly #initialized = signal(false);
+  protected readonly initialized = this.#initialized.asReadonly();
   protected readonly templateChild = contentChild(TemplateRef);
 
   constructor() {
@@ -164,6 +168,10 @@ export class SkyDataGridColumn {
         );
       }
     });
+  }
+
+  public ngOnInit(): void {
+    this.#initialized.set(true);
   }
 
   /**
