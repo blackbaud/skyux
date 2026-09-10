@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /**
- * Displays a dropdown menu or a single button to allow users to perform
+ * Wraps a dropdown menu or a single button to display actions that users can perform
  * actions on repeater items. For multiple actions, display the actions in a
  * [`sky-dropdown` component](https://developer.blackbaud.com/skyux/components/dropdown).
  * For a single action, such as edit or delete, use a
