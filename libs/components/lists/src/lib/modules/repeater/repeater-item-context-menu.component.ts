@@ -9,7 +9,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
  * [button](https://developer.blackbaud.com/skyux/components/button)
  * with the `sky-btn-icon-borderless` class.
  *
- * When wrapping a dropdown, this component provides the dropdown's contextual
  * accessibility name.
  */
 @Component({
