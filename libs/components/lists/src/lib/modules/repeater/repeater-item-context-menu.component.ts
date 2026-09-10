@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
  * The context menu styles the dropdown and provides its contextual accessibility name.
  * For a single action, such as edit or delete, use a
  * [button](https://developer.blackbaud.com/skyux/components/button)
- * with the `sky-btn-icon-borderless` class.
+ * with the `sky-btn sky-btn-icon-borderless` class.
  */
 @Component({
   selector: 'sky-repeater-item-context-menu',
