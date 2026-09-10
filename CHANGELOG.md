@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.20.2](https://github.com/blackbaud/skyux/compare/14.20.1...14.20.2) (2026-09-10)
+
+
+### Bug Fixes
+
+* input components native controls match color scheme ([#4769](https://github.com/blackbaud/skyux/issues/4769)) ([4593389](https://github.com/blackbaud/skyux/commit/4593389c831da5252f321364d1cedd82293b5cb2))
+
 ## [14.20.1](https://github.com/blackbaud/skyux/compare/14.20.0...14.20.1) (2026-09-09)
 
 
