@@ -9,7 +9,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
  * [button](https://developer.blackbaud.com/skyux/components/button)
  * with the `sky-btn-icon-borderless` class.
  *
- * accessibility name.
  */
 @Component({
   selector: 'sky-repeater-item-context-menu',
