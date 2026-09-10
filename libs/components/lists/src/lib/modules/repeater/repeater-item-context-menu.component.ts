@@ -8,7 +8,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
  * For a single action, such as edit or delete, use a
  * [button](https://developer.blackbaud.com/skyux/components/button)
  * with the `sky-btn-icon-borderless` class.
- *
  */
 @Component({
   selector: 'sky-repeater-item-context-menu',
