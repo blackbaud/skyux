@@ -1,6 +1,21 @@
 {
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
+    "button": {
+      "development": {
+        "docsIds": ["SkyButton", "SkyButtonStyle", "SkyButtonType"],
+        "primaryDocsId": "SkyButton"
+      },
+      "testing": {
+        "docsIds": ["SkyButtonHarness", "SkyButtonHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "FormsButtonExampleComponent",
+          "FormsButtonToolbarExampleComponent"
+        ]
+      }
+    },
     "character-count": {
       "development": {
         "docsIds": [

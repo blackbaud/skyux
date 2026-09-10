@@ -1,0 +1,18 @@
+<button
+  class="sky-btn"
+  [aria-label]="labelHidden() ? labelText() : null"
+  [class]="buttonStyleClass()"
+  [class.sky-btn-block]="block()"
+  [disabled]="disabled()"
+  [type]="buttonType()"
+  (click)="buttonClick.emit($event)"
+>
+  @if (iconName(); as iconName) {
+    <sky-icon [class.sky-btn-block-logo]="logo()" [iconName]="iconName" />
+  }
+
+  @if (!labelHidden()) {
+    <!-- Wrapping text in a span prevents extra space from rendering between the icon and text -->
+    <span>{{ labelText() }}</span>
+  }
+</button>
