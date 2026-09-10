@@ -384,8 +384,9 @@ registerJasmineMatchers();
 
 /**
  * Interface for "asynchronous" custom Sky matchers which cannot be paired with a `.not` operator.
- * @deprecated Use the custom matchers registered by `@skyux-sdk/vitest` instead. Run
- * `ng generate @skyux/packages:migrate-karma-to-vitest` to migrate.
+ * @deprecated Use the custom matchers registered by `@skyux-sdk/vitest` instead. See
+ * https://developer.blackbaud.com/skyux/learn/develop/migrations/convert-to-vitest-matchers
+ * for migration instructions.
  * @docsId SkyAsyncMatchersSdkTesting
  */
 export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
@@ -481,8 +482,9 @@ export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
 
 /**
  * Interface for "normal" custom Sky matchers (includes original jasmine matchers).
- * @deprecated Use the custom matchers registered by `@skyux-sdk/vitest` instead. Run
- * `ng generate @skyux/packages:migrate-karma-to-vitest` to migrate.
+ * @deprecated Use the custom matchers registered by `@skyux-sdk/vitest` instead. See
+ * https://developer.blackbaud.com/skyux/learn/develop/migrations/convert-to-vitest-matchers
+ * for migration instructions.
  * @docsId SkyMatchersSdkTesting
  */
 export interface SkyMatchers<T> extends jasmine.Matchers<T> {
@@ -576,8 +578,9 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
  * Create an expectation for a spec.
  * @param actual Actual computed value to test expectations against.
  * @deprecated Use Vitest's `expect` with the custom matchers registered by
- * `@skyux-sdk/vitest` instead. Run
- * `ng generate @skyux/packages:migrate-karma-to-vitest` to migrate.
+ * `@skyux-sdk/vitest` instead. See
+ * https://developer.blackbaud.com/skyux/learn/develop/migrations/convert-to-vitest-matchers
+ * for migration instructions.
  * @docsId expectSdkTesting
  */
 export function expect<T>(actual: T): SkyMatchers<T> {
@@ -588,8 +591,9 @@ export function expect<T>(actual: T): SkyMatchers<T> {
  * Create an async expectation for a spec.
  * @param actual Actual computed value to test expectations against.
  * @deprecated Use Vitest's `expect` with the custom matchers registered by
- * `@skyux-sdk/vitest` instead. Run
- * `ng generate @skyux/packages:migrate-karma-to-vitest` to migrate.
+ * `@skyux-sdk/vitest` instead. See
+ * https://developer.blackbaud.com/skyux/learn/develop/migrations/convert-to-vitest-matchers
+ * for migration instructions.
  * @docsId expectAsyncSdkTesting
  */
 export function expectAsync<T, U>(
