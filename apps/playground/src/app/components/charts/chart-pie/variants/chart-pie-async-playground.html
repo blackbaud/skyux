@@ -1,0 +1,22 @@
+<button
+  class="sky-btn sky-btn-default sky-margin-stacked-sm"
+  type="button"
+  [disabled]="donations.isLoading()"
+  (click)="donations.reload()"
+>
+  Reload data
+</button>
+<sky-chart headingText="Donations by channel" [loading]="donations.isLoading()">
+  @if (donations.value(); as data) {
+    <sky-chart-pie
+      categoryLabelText="Channel"
+      valueFormat="currency"
+      valueLabelText="Donations"
+      [displayMode]="displayMode()"
+    >
+      @for (slice of data.slices; track slice.label) {
+        <sky-chart-pie-slice [labelText]="slice.label" [value]="slice.value" />
+      }
+    </sky-chart-pie>
+  }
+</sky-chart>

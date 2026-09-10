@@ -19,6 +19,15 @@ const routes: Routes = [
       library: 'charts',
     },
   },
+  {
+    path: 'chart-pie',
+    loadComponent: () => import('./chart-pie/chart-pie-playground'),
+    data: {
+      name: 'Charts: Pie Chart',
+      icon: 'data-pie',
+      library: 'charts',
+    },
+  },
 ];
 
 export default routes;

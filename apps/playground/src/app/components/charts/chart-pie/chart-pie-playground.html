@@ -1,0 +1,37 @@
+<sky-page layout="blocks">
+  <sky-page-content>
+    <div class="sky-theme-margin-bottom-l">
+      <sky-toggle-switch
+        class="sky-margin-stacked-lg"
+        labelText="Donut display mode"
+        [checked]="isDonut()"
+        (toggleChange)="isDonut.set($event.checked)"
+      />
+    </div>
+    <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
+      <sky-row>
+        <sky-column [screenSmall]="4">
+          <sky-box class="sky-margin-stacked-xl" headingText="Basic">
+            <sky-box-content>
+              <app-chart-pie-basic [displayMode]="displayMode()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box class="sky-margin-stacked-xl" headingText="Currency values">
+            <sky-box-content>
+              <app-chart-pie-value-format [displayMode]="displayMode()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box class="sky-margin-stacked-xl" headingText="Async data">
+            <sky-box-content>
+              <app-chart-pie-async [displayMode]="displayMode()" />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </sky-page-content>
+</sky-page>
