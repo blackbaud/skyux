@@ -1,6 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { provideLocationMocks } from '@angular/common/testing';
+import { signal } from '@angular/core';
 import {
   ComponentFixture,
   discardPeriodicTasks,
@@ -20,10 +21,11 @@ import { SkyWaitHarness } from '@skyux/indicators/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
-import { getGridApi as getAgGridApi, GridApi } from 'ag-grid-community';
+import { ColDef, getGridApi as getAgGridApi, GridApi } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-
 import { SkyDataGrid } from './data-grid';
+import { SkyDataGridColumn } from './data-grid-column';
+import { AsyncColumnsTestComponent } from './fixtures/async-columns-test.component';
 import { ColumnFitTestComponent } from './fixtures/column-fit-test.component';
 import { ColumnWidthTestComponent } from './fixtures/column-width-test.component';
 import { DataGridTestComponent } from './fixtures/data-grid-test.component';
@@ -1509,7 +1511,7 @@ describe('SkyDataGrid', () => {
     it('should keep SKY UX resource strings when the locale changes', async () => {
       await getCurrentGridApi();
 
-      localeProvider.setLocale('es-ES');
+      localeProvider.setLocale('jp-JP');
 
       const api = await getCurrentGridApi();
 
@@ -1605,6 +1607,131 @@ describe('SkyDataGrid', () => {
       expect(api?.isDestroyed()).toBeFalse();
       expect(api?.getGridOption('localeText')?.['noMatches']).toEqual(
         'Sin coincidencias',
+      );
+    });
+
+    it('should render columns declared with @for once their bindings have been applied', async () => {
+      // Angular populates signal content queries before it applies the
+      // queried components' input bindings (angular/angular#59067), so a
+      // column created by `@for` briefly appears in the grid's content query
+      // with its required `headingText` input not yet set. The grid must
+      // wait for the column to report that its bindings have been applied
+      // (`SkyDataGridColumn`'s `initialized` signal) before reading it.
+      // Columns starting empty and arriving later (e.g. from a resource or
+      // async column-picker selection) reproduces the scenario.
+      const asyncFixture = TestBed.createComponent(AsyncColumnsTestComponent);
+      expect(() => {
+        asyncFixture.detectChanges();
+      }).not.toThrow();
+      await asyncFixture.whenStable();
+
+      asyncFixture.componentInstance.columns.set([
+        { field: 'name', headingText: 'Name' },
+        { field: 'age', headingText: 'Age' },
+      ]);
+      expect(() => {
+        asyncFixture.detectChanges();
+      }).not.toThrow();
+      await asyncFixture.whenStable();
+      asyncFixture.detectChanges();
+      await asyncFixture.whenStable();
+
+      const api = getGridApiSync(
+        asyncFixture.nativeElement.querySelector(
+          '[data-sky-id="async-columns-grid"] ag-grid-angular',
+        ),
+      );
+      expect(
+        api
+          ?.getColumnDefs()
+          ?.map((colDef) => (colDef as { headerName?: string }).headerName),
+      ).toEqual(['Name', 'Age']);
+      expect(api?.getDisplayedRowCount()).toBe(2);
+
+      // Removing a column after it has rendered must not throw either.
+      expect(() => {
+        asyncFixture.componentInstance.columns.set([
+          { field: 'name', headingText: 'Name' },
+        ]);
+        asyncFixture.detectChanges();
+      }).not.toThrow();
+      await asyncFixture.whenStable();
+
+      // Reordering columns after they have rendered must not throw either.
+      expect(() => {
+        asyncFixture.componentInstance.columns.set([
+          { field: 'age', headingText: 'Age' },
+          { field: 'name', headingText: 'Name' },
+        ]);
+        asyncFixture.detectChanges();
+      }).not.toThrow();
+      await asyncFixture.whenStable();
+    });
+
+    it('should surface an error from a column instead of dropping the column', () => {
+      // A column's `initialized` signal only tells the grid that binding has
+      // completed, not that the column is otherwise well-formed; an error
+      // while building its column definition (e.g. a bug in a consumer's own
+      // template expression) must fail loudly rather than be swallowed and
+      // the column silently omitted from the grid.
+      fixture.detectChanges();
+      // `sky-data-grid-column` elements are content, not projected via
+      // `<ng-content>`, so they never appear in the rendered DOM tree and
+      // can't be located with `fixture.debugElement.query`. Read the first
+      // column instance off the grid's own content query instead.
+      const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
+        .componentInstance as unknown as {
+        columns: () => SkyDataGridColumn[];
+      };
+      const column1 = grid.columns()[0];
+      const boom = new Error('boom');
+      (column1 as unknown as { headingText: () => string }).headingText =
+        (): string => {
+          throw boom;
+        };
+
+      // Force the content query (and therefore column definition building)
+      // to re-run by structurally removing a sibling column.
+      fixture.componentRef.setInput('showCol3', false);
+      expect(() => fixture.detectChanges()).toThrowError('boom');
+    });
+
+    it("should not read a column's inputs until its bindings are applied", async () => {
+      await flushAgGridWork(fixture);
+      const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
+        .componentInstance as unknown as {
+        columns: () => SkyDataGridColumn[];
+      };
+      const column1 = grid.columns()[0];
+      const initialized = signal(false);
+      Object.assign(column1, {
+        initialized,
+        headingText: (): string => {
+          throw new Error('headingText read before the column was initialized');
+        },
+      });
+
+      // Force the content query — and therefore column definition building —
+      // to re-run by structurally removing a sibling column.
+      fixture.componentRef.setInput('showCol3', false);
+      expect(() => fixture.detectChanges()).not.toThrow();
+      await flushAgGridWork(fixture);
+
+      const api = getGridApiSync(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api?.getColumnDefs()?.map((def) => (def as ColDef).field)).toEqual(
+        ['column2'],
+      );
+
+      // Once the column reports in, the grid picks it up.
+      Object.assign(column1, { headingText: (): string => 'Column1' });
+      initialized.set(true);
+      await flushAgGridWork(fixture);
+      expect(api?.getColumnDefs()?.map((def) => (def as ColDef).field)).toEqual(
+        ['column1', 'column2'],
       );
     });
   });

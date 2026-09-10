@@ -1,6 +1,50 @@
 # Changelog
 
 
+## [14.20.1](https://github.com/blackbaud/skyux/compare/14.20.0...14.20.1) (2026-09-09)
+
+
+### Bug Fixes
+
+* **components/data-grid:** avoid NG0950 when columns are created in a loop ([#4753](https://github.com/blackbaud/skyux/issues/4753)) ([f679c72](https://github.com/blackbaud/skyux/commit/f679c72ea11a437f86b695e5da5cbed3f345fdc8)), closes [AB#4109298](https://dev.azure.com/blackbaud/Products/_workitems/edit/4109298) [angular/angular#59067](https://github.com/angular/angular/issues/59067)
+* **components/data-grid:** include LocaleModule ([#4772](https://github.com/blackbaud/skyux/issues/4772)) ([a51d3fb](https://github.com/blackbaud/skyux/commit/a51d3fb22efad5f17d78a7d9fb8a03bc5909592a))
+* **components/forms:** recalculate selection box heights when the grid becomes visible ([#4770](https://github.com/blackbaud/skyux/issues/4770)) ([92d80a2](https://github.com/blackbaud/skyux/commit/92d80a2091a95dd567a321d8ca802790d04d313e))
+
+## [15.0.0-alpha.13](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.12...15.0.0-alpha.13) (2026-09-09)
+
+
+### Bug Fixes
+
+* **components/forms:** recalculate selection box heights when the grid becomes visible ([#4770](https://github.com/blackbaud/skyux/issues/4770)) ([#4777](https://github.com/blackbaud/skyux/issues/4777)) ([495f139](https://github.com/blackbaud/skyux/commit/495f13918f67eae2b6c996f7d35eeb078d880d07)), closes [AB#4108383](https://dev.azure.com/blackbaud/Products/_workitems/edit/4108383)
+* **components/text-editor:** ensure editor area is always white ([#4756](https://github.com/blackbaud/skyux/issues/4756)) ([#4760](https://github.com/blackbaud/skyux/issues/4760)) ([fb2ff0d](https://github.com/blackbaud/skyux/commit/fb2ff0d2f7ccaf3ea8b46d4956d73ddbc94df26b))
+* **sdk/skyux-stylelint:** no-deprecated-sky-scss-variables fix should handle scss namespacing ([#4758](https://github.com/blackbaud/skyux/issues/4758)) ([5ea208c](https://github.com/blackbaud/skyux/commit/5ea208cd864d63927447dfc6024616316873570c)), closes [AB#4113536](https://dev.azure.com/blackbaud/Products/_workitems/edit/4113536)
+
+## [15.0.0-alpha.12](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.11...15.0.0-alpha.12) (2026-09-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* hide fluid grid's outer margin by default and add inset input (#4674)
+
+### Features
+
+* add `@skyux-sdk/testing` and `@skyux-sdk/vitest` public API to manifest ([#4728](https://github.com/blackbaud/skyux/issues/4728)) ([d55def0](https://github.com/blackbaud/skyux/commit/d55def07c0be32fdad5977c431a9faba03371efe))
+* **components/docs-tools:** add dark mode theme for code snippet ([#4765](https://github.com/blackbaud/skyux/issues/4765)) ([#4767](https://github.com/blackbaud/skyux/issues/4767)) ([a5ab7f6](https://github.com/blackbaud/skyux/commit/a5ab7f67f60bb4536ef08a53f198b674458ec9b2))
+* hide fluid grid's outer margin by default and add inset input ([#4674](https://github.com/blackbaud/skyux/issues/4674)) ([ab00d29](https://github.com/blackbaud/skyux/commit/ab00d29c4440dfeb66d56f88ae74a3a0ea00d0db))
+
+
+### Bug Fixes
+
+* **components/ag-grid:** apply data manager sort options to the grid ([#4745](https://github.com/blackbaud/skyux/issues/4745)) ([#4751](https://github.com/blackbaud/skyux/issues/4751)) ([3dfb902](https://github.com/blackbaud/skyux/commit/3dfb902a1b8f7af9e6df91416f39e1171dc0b00f)), closes [AB#4104863](https://dev.azure.com/blackbaud/Products/_workitems/edit/4104863)
+* **components/packages:** legacy resource service migrations should handle utf bom ([#4757](https://github.com/blackbaud/skyux/issues/4757)) ([7493666](https://github.com/blackbaud/skyux/commit/74936662d68664d6579b769bf6e118a14a4433a8))
+
+## [14.20.0](https://github.com/blackbaud/skyux/compare/14.19.1...14.20.0) (2026-09-08)
+
+
+### Features
+
+* **components/docs-tools:** add dark mode theme for code snippet ([#4765](https://github.com/blackbaud/skyux/issues/4765)) ([f228dc3](https://github.com/blackbaud/skyux/commit/f228dc391314577ff667f6b7f5f911ff33cf94d7))
+
 ## [14.19.1](https://github.com/blackbaud/skyux/compare/14.19.0...14.19.1) (2026-09-08)
 
 
