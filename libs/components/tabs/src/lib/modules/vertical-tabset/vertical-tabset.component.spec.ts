@@ -7,7 +7,11 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyBreakpoint, provideNoopSkyAnimations } from '@skyux/core';
+import {
+  SkyBreakpoint,
+  SkyLayoutHostService,
+  provideNoopSkyAnimations,
+} from '@skyux/core';
 import {
   SkyMediaQueryTestingController,
   provideSkyMediaQueryTesting,
@@ -15,6 +19,7 @@ import {
 
 import { SkyVerticalTabsFixturesModule } from './fixtures/vertical-tabs-fixtures.module';
 import { VerticalTabsetEmptyGroupTestComponent } from './fixtures/vertical-tabset-empty-group.component';
+import { VerticalTabsetLayoutTestComponent } from './fixtures/vertical-tabset-layout.component.fixture';
 import { VerticalTabsetWithNgForTestComponent } from './fixtures/vertical-tabset-ngfor.component.fixture';
 import { VerticalTabsetNoActiveTestComponent } from './fixtures/vertical-tabset-no-active.component.fixture';
 import { VerticalTabsetNoGroupTestComponent } from './fixtures/vertical-tabset-no-group.component.fixture';
@@ -1201,6 +1206,188 @@ describe('Vertical tabset component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  describe('layout', () => {
+    function getTabsetHost(fixture: ComponentFixture<unknown>): HTMLElement {
+      return (fixture.nativeElement as HTMLElement).querySelector(
+        'sky-vertical-tabset',
+      ) as HTMLElement;
+    }
+
+    function getContentWrapper(
+      fixture: ComponentFixture<unknown>,
+    ): HTMLElement {
+      return (fixture.nativeElement as HTMLElement).querySelector(
+        '.sky-vertical-tabset-content',
+      ) as HTMLElement;
+    }
+
+    function createLayoutFixture(): ComponentFixture<VerticalTabsetLayoutTestComponent> {
+      const fixture = TestBed.createComponent(
+        VerticalTabsetLayoutTestComponent,
+      );
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+      return fixture;
+    }
+
+    it('should default the content layout class to "none" when no layout is provided', fakeAsync(() => {
+      const fixture = createLayoutFixture();
+
+      expect(getContentWrapper(fixture)).toHaveCssClass('sky-layout-host-none');
+
+      flush();
+    }));
+
+    it('should apply the active tab layout class to the content wrapper', fakeAsync(() => {
+      const fixture = createLayoutFixture();
+
+      fixture.componentInstance.activeTab.set(1);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(getContentWrapper(fixture)).toHaveCssClass('sky-layout-host-fit');
+      expect(getContentWrapper(fixture)).not.toHaveCssClass(
+        'sky-layout-host-none',
+      );
+
+      flush();
+    }));
+
+    it('should update the layout class when the active tab changes', fakeAsync(() => {
+      const fixture = createLayoutFixture();
+
+      fixture.componentInstance.activeTab.set(2);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(getContentWrapper(fixture)).toHaveCssClass(
+        'sky-layout-host-blocks',
+      );
+
+      fixture.componentInstance.activeTab.set(0);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(getContentWrapper(fixture)).toHaveCssClass('sky-layout-host-none');
+
+      flush();
+    }));
+
+    it('should update the layout class when the active tab layout input changes', fakeAsync(() => {
+      const fixture = createLayoutFixture();
+
+      fixture.componentInstance.tab1Layout.set('list');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(getContentWrapper(fixture)).toHaveCssClass('sky-layout-host-list');
+
+      flush();
+    }));
+
+    it('should fall back to "none" when the active tab layout is set to undefined', fakeAsync(() => {
+      const fixture = createLayoutFixture();
+
+      fixture.componentInstance.tab1Layout.set('list');
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      fixture.componentInstance.tab1Layout.set(undefined);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(getContentWrapper(fixture)).toHaveCssClass('sky-layout-host-none');
+
+      flush();
+    }));
+
+    it('should not set the host layout class when no layout host is available', fakeAsync(() => {
+      // No SkyLayoutHostService is provided in this TestBed, matching the
+      // behavior of SkyTabsetComponent: the host class is only meaningful
+      // inside a layout host, while the content class always tracks the
+      // active tab.
+      const fixture = createLayoutFixture();
+
+      fixture.componentInstance.activeTab.set(1);
+      fixture.detectChanges();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(getTabsetHost(fixture)).toHaveCssClass(
+        'sky-vertical-tabset-layout-none',
+      );
+      expect(getContentWrapper(fixture)).toHaveCssClass('sky-layout-host-fit');
+
+      flush();
+    }));
+
+    describe('with layout host', () => {
+      let layoutHostSvc: SkyLayoutHostService;
+
+      beforeEach(() => {
+        // The outer `beforeEach` already instantiates the TestBed (via
+        // `TestBed.inject(SkyMediaQueryTestingController)`), so the module
+        // must be reset and reconfigured here before a provider can be
+        // overridden.
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({
+          imports: [SkyVerticalTabsFixturesModule],
+          providers: [
+            provideSkyMediaQueryTesting(),
+            provideNoopSkyAnimations(),
+          ],
+        });
+
+        TestBed.overrideProvider(SkyLayoutHostService, {
+          useValue: layoutHostSvc,
+        });
+
+        layoutHostSvc = TestBed.inject(SkyLayoutHostService);
+      });
+
+      it('should set the host layout for the active tab', fakeAsync(() => {
+        const layoutForChildHandler = jasmine.createSpy(
+          'layoutForChildHandler',
+        );
+        layoutHostSvc.hostLayoutForChild.subscribe(layoutForChildHandler);
+
+        const fixture = createLayoutFixture();
+
+        expect(layoutForChildHandler).toHaveBeenCalledWith({ layout: 'none' });
+
+        layoutForChildHandler.calls.reset();
+
+        fixture.componentInstance.activeTab.set(1);
+        fixture.detectChanges();
+        tick();
+        fixture.detectChanges();
+        tick();
+
+        expect(layoutForChildHandler).toHaveBeenCalledWith({ layout: 'fit' });
+        expect(getTabsetHost(fixture)).toHaveCssClass(
+          'sky-vertical-tabset-layout-fit',
+        );
+
+        flush();
+      }));
+    });
   });
 });
 
