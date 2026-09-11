@@ -241,7 +241,6 @@ export class SkyVerticalTabsetComponent
       this.verticalTabsetCssClass = `sky-vertical-tabset-layout-${layout}`;
     }
     this.verticalTabsetContentCssClass = `${LAYOUT_CLASS_PREFIX}${layout}`;
-    console.log(this.verticalTabsetContentCssClass);
     this.#changeRef.markForCheck();
   }
 }
