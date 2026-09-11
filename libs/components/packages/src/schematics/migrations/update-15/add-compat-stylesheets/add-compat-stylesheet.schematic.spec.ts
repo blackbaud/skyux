@@ -57,6 +57,10 @@ describe('Migrations > Add compat stylesheets', () => {
   async function validateCompatStylesheet(
     packageJson: string,
     existingWorkspaceStylesheets: string[] | undefined,
+    expectedContents: string[] = [
+      'COMPONENT: BUTTON',
+      '--sky-compat-btn-disabled-pointer-events: none;',
+    ],
     existingCompatStylesheet?: string,
   ): Promise<void> {
     const projectTargets = ['build', 'test'];
@@ -85,10 +89,9 @@ describe('Migrations > Add compat stylesheets', () => {
 
     const compatStylesheetContents = updatedTree.readText(compatStylesheetPath);
 
-    expect(compatStylesheetContents).toContain(
-      '--sky-compat-btn-disabled-pointer-events: none;',
-    );
-    expect(compatStylesheetContents).toContain('COMPONENT: BUTTON');
+    for (const expected of expectedContents) {
+      expect(compatStylesheetContents).toContain(expected);
+    }
 
     const updatedAngularJson = updatedTree.readJson(
       '/angular.json',
@@ -156,6 +159,7 @@ describe('Migrations > Add compat stylesheets', () => {
         },
       }),
       [],
+      undefined,
       '/* */',
     );
   });
@@ -168,6 +172,7 @@ describe('Migrations > Add compat stylesheets', () => {
         },
       }),
       undefined, // <-- empty array
+      undefined,
       '/* */',
     );
   });
@@ -273,5 +278,34 @@ describe('Migrations > Add compat stylesheets', () => {
 
     // The base `styles` array still gets the compat stylesheet too.
     expect(updatedBuildTarget.options?.styles).toContain(compatStylesheetPath);
+  });
+
+  it('should add a compat stylesheet for @skyux/tabs', async () => {
+    await validateCompatStylesheet(
+      JSON.stringify({ dependencies: { '@skyux/tabs': '15.0.0' } }),
+      [],
+      [
+        'COMPONENT: VERTICAL-TABSET',
+        '--sky-compat-vertical-tabset-content-spacing-xs:',
+        '--sky-compat-vertical-tabset-content-spacing-sm:',
+        '--sky-compat-vertical-tabset-content-overflow-y: auto;',
+        '--sky-compat-vertical-tab-content-pane-margin-bottom-xs:',
+      ],
+    );
+  });
+
+  it('should not add the vertical tabset block when @skyux/tabs is not installed', async () => {
+    const { runSchematic, tree } = await setupTest();
+
+    tree.overwrite(
+      '/package.json',
+      JSON.stringify({ dependencies: { '@skyux/theme': '15.0.0' } }),
+    );
+
+    const updatedTree = await runSchematic();
+    const contents = updatedTree.readText(compatStylesheetPath);
+
+    expect(contents).toContain('COMPONENT: BUTTON');
+    expect(contents).not.toContain('COMPONENT: VERTICAL-TABSET');
   });
 });

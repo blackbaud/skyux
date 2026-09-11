@@ -42,6 +42,39 @@ Pointer events are no longer disabled on elements with the "sky-btn-disabled" cl
         },
       ],
     },
+    {
+      name: '@skyux/tabs',
+      components: [
+        {
+          name: 'vertical-tabset',
+          styles: [
+            {
+              css: `
+/* The --sky-comp-* and --sky-space-stacked-* tokens below are declared only
+   under .sky-theme-modern, so each var() fallback supplies the corresponding
+   default-theme value. One block covers both themes. */
+:root {
+  --sky-compat-vertical-tabset-content-spacing-xs:
+    var(--sky-comp-tab-vertical-content-space-inset-xs-top, 10px)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-right, 0)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-bottom, 0)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-left, 10px);
+  --sky-compat-vertical-tabset-content-spacing-sm:
+    var(--sky-comp-tab-vertical-content-space-inset-sm-top, 10px)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-right, 0)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-bottom, 0)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-left, 10px);
+  --sky-compat-vertical-tabset-content-overflow-y: auto;
+  --sky-compat-vertical-tab-content-pane-margin-bottom-xs: var(--sky-space-stacked-s, 0);
+}
+`,
+              instructions: `
+Vertical tab content spacing and scrolling are now controlled by the "layout" input on each "sky-vertical-tab" element, matching the "layout" input on "sky-tab". Tabs that do not specify a layout, or that specify "none", no longer receive the previous default padding or vertical scrolling. To address this change, set "layout" on each "sky-vertical-tab" to the value that matches its content ("blocks", "fit", or "list"), then remove this block of code.`,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
 

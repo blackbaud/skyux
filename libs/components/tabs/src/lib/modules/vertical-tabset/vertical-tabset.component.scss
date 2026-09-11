@@ -3,11 +3,6 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-vertical-tabset') {
-  --sky-override-vertical-tab-content-pane-margin-bottom: 0;
-  --sky-override-vertical-tabset-content-margin-sm-lg: #{$sky-margin} 0 0
-    #{$sky-margin};
-  --sky-override-vertical-tabset-content-margin-xs: #{$sky-margin} 0 0
-    #{$sky-margin};
   --sky-override-vertical-tabset-group-container-border-right: 1px solid
     #{$sky-border-color-neutral-medium};
   --sky-override-vertical-tabset-group-container-padding: 0;
@@ -63,10 +58,7 @@
 }
 
 .sky-vertical-tabset-content {
-  margin: var(
-    --sky-override-vertical-tabset-content-margin-xs,
-    var(--sky-layout-host-content-spacing, 0)
-  );
+  margin: var(--sky-layout-host-content-spacing, 0);
   flex-grow: var(--sky-layout-host-content-flex-grow, 0);
   overflow: var(--sky-layout-host-content-overflow, visible);
   position: var(--sky-layout-host-content-position, static);
@@ -78,6 +70,14 @@
         --sky-color-background-container-dimmed
       );
     }
+  }
+
+  // Restores the spacing and scrolling that applied to all vertical tabsets
+  // before the `layout` input existed, for apps that install the generated
+  // compat stylesheet. Both themes default to the new behavior otherwise.
+  &.sky-layout-host-none {
+    margin: var(--sky-compat-vertical-tabset-content-spacing-xs, 0);
+    overflow-y: var(--sky-compat-vertical-tabset-content-overflow-y, visible);
   }
 }
 
@@ -127,9 +127,10 @@
 @include mixins.sky-host-responsive-container-sm-min() {
   .sky-vertical-tabset-content {
     flex: 1 1 auto;
-    margin: var(
-      --sky-override-vertical-tabset-content-margin-sm-lg,
-      var(--sky-layout-host-content-spacing, 0)
-    );
+    margin: var(--sky-layout-host-content-spacing, 0);
+
+    &.sky-layout-host-none {
+      margin: var(--sky-compat-vertical-tabset-content-spacing-sm, 0);
+    }
   }
 }
