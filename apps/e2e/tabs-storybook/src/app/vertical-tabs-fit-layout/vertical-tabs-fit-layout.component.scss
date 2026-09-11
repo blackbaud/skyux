@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  background-color: var(--sky-theme-color-background-container-info);
+  color: var(--sky-theme-color-text-action);
+  border: var(--sky-theme-border-container-default);
+  padding: var(--sky-theme-space-inset-balanced-m);
+  justify-content: center;
+  align-items: center;
+}
+
+.placeholder-warning {
+  background-color: var(--sky-theme-color-background-container-warning);
+  color: var(--sky-theme-color-text-default);
+}
+
+.placeholder-danger {
+  background-color: var(--sky-theme-color-background-container-danger);
+  color: var(--sky-theme-color-text-default);
+}

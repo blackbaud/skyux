@@ -44,6 +44,20 @@
   }
 }
 
+:host(.sky-vertical-tabset-layout-fit) {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+
+  .sky-vertical-tabset {
+    flex-grow: 0;
+  }
+}
+
 .sky-vertical-tabset-hidden {
   display: none;
 }
@@ -51,12 +65,20 @@
 .sky-vertical-tabset-content {
   margin: var(
     --sky-override-vertical-tabset-content-margin-xs,
-    var(--sky-comp-tab-vertical-content-space-inset-xs-top)
-      var(--sky-comp-tab-vertical-content-space-inset-xs-right)
-      var(--sky-comp-tab-vertical-content-space-inset-xs-bottom)
-      var(--sky-comp-tab-vertical-content-space-inset-xs-left)
+    var(--sky-layout-host-content-spacing, 0)
   );
-  overflow-y: auto;
+  flex-grow: var(--sky-layout-host-content-flex-grow, 0);
+  overflow: var(--sky-layout-host-content-overflow, visible);
+  position: var(--sky-layout-host-content-position, static);
+
+  &.sky-layout-host {
+    &-fit,
+    &-list {
+      --sky-comp-override-list-header-background-color: var(
+        --sky-color-background-container-dimmed
+      );
+    }
+  }
 }
 
 .sky-vertical-tabset-content-hidden {
@@ -107,10 +129,7 @@
     flex: 1 1 auto;
     margin: var(
       --sky-override-vertical-tabset-content-margin-sm-lg,
-      var(--sky-comp-tab-vertical-content-space-inset-sm-top)
-        var(--sky-comp-tab-vertical-content-space-inset-sm-right)
-        var(--sky-comp-tab-vertical-content-space-inset-sm-bottom)
-        var(--sky-comp-tab-vertical-content-space-inset-sm-left)
+      var(--sky-layout-host-content-spacing, 0)
     );
   }
 }

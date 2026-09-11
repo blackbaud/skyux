@@ -46,7 +46,7 @@
   @if (maintainTabContent || tabService.contentVisible()) {
     <div
       #contentContainerWrapper
-      class="sky-vertical-tabset-content"
+      [class]="'sky-vertical-tabset-content ' + verticalTabsetContentCssClass"
       [class.sky-animation-slide-enter-right]="tabService.isMobile()"
       [ngClass]="{
         'sky-vertical-tabset-content-hidden': !tabService.contentVisible()

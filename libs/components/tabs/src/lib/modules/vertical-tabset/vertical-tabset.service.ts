@@ -1,9 +1,10 @@
-import { ElementRef, Injectable, inject } from '@angular/core';
+import { ElementRef, inject, Injectable, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyMediaQueryService } from '@skyux/core';
 
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 
+import { SkyVerticalTabLayoutType } from './vertical-tab-layout-type';
 import { SkyVerticalTabComponent } from './vertical-tab.component';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetGroupComponent } from './vertical-tabset-group.component';
@@ -12,8 +13,10 @@ import { SkyVerticalTabsetGroupComponent } from './vertical-tabset-group.compone
  * @internal
  */
 @Injectable()
-export class SkyVerticalTabsetService {
+export class SkyVerticalTabsetService implements OnDestroy {
   public activeIndex: number | undefined = undefined;
+
+  public readonly activeTabLayout: Observable<SkyVerticalTabLayoutType>;
 
   public content: ElementRef | undefined;
 
@@ -34,6 +37,8 @@ export class SkyVerticalTabsetService {
   public tabClicked = new ReplaySubject<boolean>(1);
 
   #groups: SkyVerticalTabsetGroupComponent[] = [];
+
+  #activeTabLayout: Subject<SkyVerticalTabLayoutType>;
 
   #contentAdded = false;
 
@@ -67,6 +72,13 @@ export class SkyVerticalTabsetService {
 
         this.#isMobile = nowMobile;
       });
+
+    this.#activeTabLayout = new Subject();
+    this.activeTabLayout = this.#activeTabLayout.asObservable();
+  }
+
+  public ngOnDestroy(): void {
+    this.#activeTabLayout.complete();
   }
 
   public addTab(tab: SkyVerticalTabComponent): void {
@@ -130,6 +142,7 @@ export class SkyVerticalTabsetService {
   public activateTab(tab: SkyVerticalTabComponent): void {
     // deactivate active tab
     const activeTab = this.tabs.find((t) => t.index === this.activeIndex);
+    this.updateActiveTabLayout(tab.layout);
     if (activeTab && activeTab.index !== tab.index) {
       activeTab.active = false;
       activeTab.tabDeactivated();
@@ -146,6 +159,10 @@ export class SkyVerticalTabsetService {
 
   public isMobile(): boolean {
     return this.#isMobile;
+  }
+
+  public updateActiveTabLayout(layout: SkyVerticalTabLayoutType): void {
+    this.#activeTabLayout.next(layout);
   }
 
   public updateContent(): void {

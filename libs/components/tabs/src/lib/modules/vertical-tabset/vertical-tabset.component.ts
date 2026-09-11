@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostBinding,
   Input,
   OnDestroy,
   OnInit,
@@ -22,6 +23,8 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
+import { SkyLayoutHostService } from '@skyux/core';
+import { SkyVerticalTabLayoutType } from './vertical-tab-layout-type';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
@@ -30,6 +33,8 @@ import { SkyVerticalTabsetService } from './vertical-tabset.service';
  * pane for any `tabWidth` value.
  */
 const DEFAULT_TAB_WIDTH = '25%';
+const LAYOUT_CLASS_PREFIX = 'sky-layout-host-';
+const LAYOUT_DEFAULT: SkyVerticalTabLayoutType = 'none';
 
 @Component({
   selector: 'sky-vertical-tabset',
@@ -125,8 +130,14 @@ export class SkyVerticalTabsetComponent
 
   public readonly isMobile = signal(false);
 
+  @HostBinding('class')
+  public verticalTabsetCssClass =
+    `sky-vertical-tabset-layout-${LAYOUT_DEFAULT}`;
+
+  protected verticalTabsetContentCssClass = `${LAYOUT_CLASS_PREFIX}${LAYOUT_DEFAULT}`;
   protected tablistHasFocus = false;
 
+  #layoutHostSvc = inject(SkyLayoutHostService, { optional: true });
   #ngUnsubscribe = new Subject<void>();
   #_ariaRole = 'tablist';
 
@@ -154,6 +165,12 @@ export class SkyVerticalTabsetComponent
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe((mobile: boolean) => {
         this.isMobile.set(mobile);
+      });
+
+    this.tabService.activeTabLayout
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((layout) => {
+        this.#updateLayout(layout);
       });
 
     if (this.tabService.isMobile()) {
@@ -214,4 +231,17 @@ export class SkyVerticalTabsetComponent
   protected readonly tabGroupContainerMaxWidth = computed<string | undefined>(
     () => (this.isMobile() ? undefined : DEFAULT_TAB_WIDTH),
   );
+
+  #updateLayout(layout?: SkyVerticalTabLayoutType): void {
+    if (this.#layoutHostSvc && layout) {
+      this.#layoutHostSvc.setHostLayoutForChild({
+        layout,
+      });
+
+      this.verticalTabsetCssClass = `sky-vertical-tabset-layout-${layout}`;
+    }
+    this.verticalTabsetContentCssClass = `${LAYOUT_CLASS_PREFIX}${layout}`;
+    console.log(this.verticalTabsetContentCssClass);
+    this.#changeRef.markForCheck();
+  }
 }
