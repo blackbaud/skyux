@@ -3,6 +3,7 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
 @include compatMixins.sky-default-overrides('.sky-vertical-tabset') {
+  --sky-override-vertical-tab-content-pane-margin-bottom: 0;
   --sky-override-vertical-tabset-group-container-border-right: 1px solid
     #{$sky-border-color-neutral-medium};
   --sky-override-vertical-tabset-group-container-padding: 0;
@@ -64,6 +65,20 @@
   position: var(--sky-layout-host-content-position, static);
 
   &.sky-layout-host {
+    &-fit {
+      // The global `.sky-layout-host-fit` rule positions a layout host against
+      // the viewport with `position: absolute` plus `--sky-viewport-*` inset
+      // offsets. This element is not a layout host: it only borrows the layout
+      // host custom properties, and its `position` comes from
+      // `--sky-layout-host-content-position` above. The viewport offsets would
+      // otherwise still apply and shift the content by the omnibar height, so
+      // they are neutralized here.
+      top: auto;
+      right: auto;
+      bottom: auto;
+      left: auto;
+    }
+
     &-fit,
     &-list {
       --sky-comp-override-list-header-background-color: var(

@@ -6,6 +6,11 @@ export const routes: Route[] = [
     loadComponent: () => import('./tabs-fit-layout/tabs-fit-layout.component'),
   },
   {
+    path: 'vertical-fit-layout',
+    loadComponent: () =>
+      import('./vertical-tabs-fit-layout/vertical-tabs-fit-layout.component'),
+  },
+  {
     path: 'wizard',
     loadChildren: () =>
       import('./wizard/wizard.module').then((m) => m.WizardModule),

@@ -16,6 +16,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { SkyLayoutHostService } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
 import { Subject } from 'rxjs';
@@ -23,7 +24,6 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
-import { SkyLayoutHostService } from '@skyux/core';
 import { SkyVerticalTabLayoutType } from './vertical-tab-layout-type';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
@@ -232,8 +232,8 @@ export class SkyVerticalTabsetComponent
     () => (this.isMobile() ? undefined : DEFAULT_TAB_WIDTH),
   );
 
-  #updateLayout(layout?: SkyVerticalTabLayoutType): void {
-    if (this.#layoutHostSvc && layout) {
+  #updateLayout(layout: SkyVerticalTabLayoutType): void {
+    if (this.#layoutHostSvc) {
       this.#layoutHostSvc.setHostLayoutForChild({
         layout,
       });

@@ -286,10 +286,27 @@ describe('Migrations > Add compat stylesheets', () => {
       [],
       [
         'COMPONENT: VERTICAL-TABSET',
-        '--sky-compat-vertical-tabset-content-spacing-xs:',
-        '--sky-compat-vertical-tabset-content-spacing-sm:',
-        '--sky-compat-vertical-tabset-content-overflow-y: auto;',
-        '--sky-compat-vertical-tab-content-pane-margin-bottom-xs:',
+        // The `:root` block supplies the default theme values as literals,
+        // since the `--sky-comp-*` tokens are not available on `:root`.
+        `:root {
+  --sky-compat-vertical-tabset-content-spacing-xs: 10px 0 0 10px;
+  --sky-compat-vertical-tabset-content-spacing-sm: 10px 0 0 10px;
+  --sky-compat-vertical-tabset-content-overflow-y: auto;
+}`,
+        // The modern theme values are re-declared on the element that owns the
+        // `--sky-comp-*` tokens.
+        `.sky-theme-modern {
+  --sky-compat-vertical-tabset-content-spacing-xs:
+    var(--sky-comp-tab-vertical-content-space-inset-xs-top)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-right)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-bottom)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-left);
+  --sky-compat-vertical-tabset-content-spacing-sm:
+    var(--sky-comp-tab-vertical-content-space-inset-sm-top)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-right)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-bottom)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-left);
+}`,
       ],
     );
   });

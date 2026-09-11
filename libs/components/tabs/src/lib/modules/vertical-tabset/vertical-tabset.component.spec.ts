@@ -1344,19 +1344,16 @@ describe('Vertical tabset component', () => {
       beforeEach(() => {
         // The outer `beforeEach` already instantiates the TestBed (via
         // `TestBed.inject(SkyMediaQueryTestingController)`), so the module
-        // must be reset and reconfigured here before a provider can be
-        // overridden.
+        // must be reset and reconfigured here before `SkyLayoutHostService`
+        // can be added to the injector.
         TestBed.resetTestingModule();
         TestBed.configureTestingModule({
           imports: [SkyVerticalTabsFixturesModule],
           providers: [
             provideSkyMediaQueryTesting(),
             provideNoopSkyAnimations(),
+            SkyLayoutHostService,
           ],
-        });
-
-        TestBed.overrideProvider(SkyLayoutHostService, {
-          useValue: layoutHostSvc,
         });
 
         layoutHostSvc = TestBed.inject(SkyLayoutHostService);

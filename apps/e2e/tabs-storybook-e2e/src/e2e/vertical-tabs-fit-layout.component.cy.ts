@@ -19,7 +19,10 @@ describe('vertical tabs fit layout', () => {
         cy.get('sky-vertical-tab:nth-of-type(1) .sky-vertical-tab').click();
         cy.get('sky-vertical-tab:nth-of-type(2) .sky-vertical-tab').click();
 
-        cy.get('sky-vertical-tab:nth-of-type(2) .placeholder')
+        // The active tab's content is moved out of its `sky-vertical-tab`
+        // element and into the tabset's content pane, so the assertion must be
+        // rooted at the content pane rather than at the tab.
+        cy.get('.sky-vertical-tabset-content .placeholder-danger')
           .should('exist')
           .should('be.visible');
 
