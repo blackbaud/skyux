@@ -11,15 +11,24 @@
   flex-wrap: nowrap;
   padding: var(
     --sky-override-toolbar-container-padding,
-    var(--sky-comp-toolbar-space-inset-top)
-      var(--sky-comp-toolbar-space-inset-right)
-      var(--sky-comp-toolbar-space-inset-bottom)
-      var(--sky-comp-toolbar-space-inset-left)
+    var(
+      --sky-compat-toolbar-container-padding,
+      var(--sky-comp-override-toolbar-section-space-inset-top, 0)
+        var(--sky-comp-override-toolbar-section-space-inset-right, 0)
+        var(--sky-comp-toolbar-space-inset-bottom)
+        var(--sky-comp-override-toolbar-section-space-inset-left, 0)
+    )
   );
   min-height: $sky-toolbar-min-height;
   align-items: center;
   position: relative;
   overflow-x: auto;
+}
+
+:host(:not(:first-child)) {
+  --sky-comp-override-toolbar-section-space-inset-top: var(
+    --sky-comp-toolbar-space-inset-top
+  );
 }
 
 .sky-toolbar-section-items {
