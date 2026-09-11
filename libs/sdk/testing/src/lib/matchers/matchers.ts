@@ -398,6 +398,7 @@ export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
   /**
    * `expect` an element to be accessible based on Web Content Accessibility
    * Guidelines 2.0 (WCAG20) Level A and AA success criteria.
+   * @deprecated Use the `toBeAccessible` matcher from `@skyux-sdk/vitest` instead.
    * @param config The configuration settings for overwriting or turning off specific accessibility checks.
    * @see https://developer.blackbaud.com/skyux/learn/get-started/advanced/accessibility-unit-tests
    */
@@ -409,6 +410,7 @@ export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
    * `expect` the actual text to equal the text for the expected resource string.
    * Uses `SkyAppResourcesService.getString(name, args)` to fetch the expected resource string
    * and compares using ===.
+   * @deprecated Use the `toEqualResourceText` matcher from `@skyux-sdk/vitest` instead.
    * @param name The resource string to fetch from the resource file and compare against.
    * @param args The string replacement arguments for the expected resource string.
    */
@@ -421,6 +423,7 @@ export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
    * `expect` the actual text to equal the text for the expected resource string.
    * Uses `SkyLibResourcesService.getString(name, args)` to fetch the expected resource string
    * and compares using ===.
+   * @deprecated Use the `toEqualLibResourceText` matcher from `@skyux-sdk/vitest` instead.
    * @param name The resource string to fetch from the resource file and compare against.
    * @param args The string replacement arguments for the expected resource string.
    */
@@ -433,6 +436,7 @@ export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
    * `expect` the actual element to have the text for the expected resource string.
    * Uses `SkyAppResourcesService.getString(name, args)` to fetch the expected resource string
    * and compares using ===.
+   * @deprecated Use the `toHaveResourceText` matcher from `@skyux-sdk/vitest` instead.
    * @param name The resource string to fetch from the resource file and compare against.
    * @param args The string replacement arguments for the expected resource string.
    * @param trimWhitespace [true] Whether or not to trim whitespace from the actual element text before comparison.
@@ -447,6 +451,7 @@ export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
    * `expect` the actual element to have the text for the expected resource string.
    * Uses `SkyLibResourcesService.getString(name, args)` to fetch the expected resource string
    * and compares using ===.
+   * @deprecated Use the `toHaveLibResourceText` matcher from `@skyux-sdk/vitest` instead.
    * @param name The resource string to fetch from the resource file and compare against.
    * @param args The string replacement arguments for the expected resource string.
    * @param trimWhitespace [true] Whether or not to trim whitespace from the actual element text before comparison.
@@ -463,6 +468,7 @@ export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
    * and compares the tokenized element text against the template.
    * Essentially this matches any text that has the non-parameterized text of the template in the order of the template,
    * regardless of the value of each of the parameters.
+   * @deprecated Use the `toMatchResourceTemplate` matcher from `@skyux-sdk/vitest` instead.
    * @param name The resource string to fetch from the resource file and compare against.
    */
   toMatchResourceTemplate(name: string): Promise<jasmine.CustomMatcherResult>;
@@ -473,6 +479,7 @@ export interface SkyAsyncMatchers<T, U> extends jasmine.AsyncMatchers<T, U> {
    * and compares the tokenized element text against the template.
    * Essentially this matches any text that has the non-parameterized text of the template in the order of the template,
    * regardless of the value of each of the parameters.
+   * @deprecated Use the `toMatchLibResourceTemplate` matcher from `@skyux-sdk/vitest` instead.
    * @param name The resource string to fetch from the resource file and compare against.
    */
   toMatchLibResourceTemplate(
@@ -496,28 +503,33 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
   /**
    * `expect` the actual element to be visible.
    * Checks elements style display and visibility and bounding box width/height.
+   * @deprecated Use the `toBeVisible` matcher from `@skyux-sdk/vitest` instead.
    */
   toBeVisible(options?: SkyToBeVisibleOptions): void;
 
   /**
    * `expect` the actual element to exist.
+   * @deprecated Use the `toExist` matcher from `@skyux-sdk/vitest` instead.
    */
   toExist(): void;
 
   /**
    * `expect` the actual element to have the expected css class.
+   * @deprecated Use the `toHaveCssClass` matcher from `@skyux-sdk/vitest` instead.
    * @param expectedClassName The css class name to check for.
    */
   toHaveCssClass(expectedClassName: string): void;
 
   /**
    * `expect` the actual element to have the expected style(s).
+   * @deprecated Use the `toHaveStyle` matcher from `@skyux-sdk/vitest` instead.
    * @param expectedStyles An object representing the style(s) to check for.
    */
   toHaveStyle(expectedStyles: Record<string, string>): void;
 
   /**
    * `expect` the actual element to have the expected text.
+   * @deprecated Use the `toHaveText` matcher from `@skyux-sdk/vitest` instead.
    * @param expectedText The text to check for in the actual element.
    * @param trimWhitespace [true] Whether or not to trim whitespace from the actual element text before comparison.
    */
@@ -526,7 +538,7 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
   /**
    * `expect` the actual component to be accessible based on Web Content Accessibility
    * Guidelines 2.0 (WCAG20) Level A and AA success criteria.
-   * @deprecated Use `await expectAsync(element).toBeAccessible()` instead.
+   * @deprecated Use the `toBeAccessible` matcher from `@skyux-sdk/vitest` instead.
    * @param callback The callback to execute after accessibility checks run.
    * @param config The configuration settings for overwriting or turning off specific accessibility checks.
    * @see https://developer.blackbaud.com/skyux/learn/get-started/advanced/accessibility-unit-tests
@@ -537,7 +549,7 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
    * `expect` the actual text to equal the text for the expected resource string.
    * Uses `SkyAppResourcesService.getString(name, args)` to fetch the expected resource string
    * and compares using ===.
-   * @deprecated Use `await expectAsync('Some message.').toEqualResourceText('foo_bar_key')` instead.
+   * @deprecated Use the `toEqualResourceText` matcher from `@skyux-sdk/vitest` instead.
    * @param name The resource string to fetch from the resource file and compare against.
    * @param args The string replacement arguments for the expected resource string.
    * @param callback The callback to execute when the comparison fails.
@@ -548,7 +560,7 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
    * `expect` the actual element to have the text for the expected resource string.
    * Uses `SkyAppResourcesService.getString(name, args)` to fetch the expected resource string
    * and compares using ===.
-   * @deprecated Use `await expectAsync(element).toHaveResourceText('foo_bar_key')` instead.
+   * @deprecated Use the `toHaveResourceText` matcher from `@skyux-sdk/vitest` instead.
    * @param name The resource string to fetch from the resource file and compare against.
    * @param args The string replacement arguments for the expected resource string.
    * @param trimWhitespace [true] Whether or not to trim whitespace from the actual element text before comparison.
@@ -567,7 +579,7 @@ export interface SkyMatchers<T> extends jasmine.Matchers<T> {
    * and compares the tokenized element text against the template.
    * Essentially this matches any text that has the non-parameterized text of the template in the order of the template,
    * regardless of the value of each of the parameters.
-   * @deprecated Use `await expectAsync(element).toMatchResourceTemplate('foo_bar_key')` instead.
+   * @deprecated Use the `toMatchResourceTemplate` matcher from `@skyux-sdk/vitest` instead.
    * @param name The resource string to fetch from the resource file and compare against.
    * @param callback The callback to execute when the comparison fails.
    */
