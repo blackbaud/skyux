@@ -121,11 +121,18 @@ can state in a sentence.
 
 ### Mirror the nearest sibling
 
-This monorepo is highly repetitive by design. Before writing a component,
-harness, spec, code example, or story, open the equivalent file in a sibling
-library that already does the same job and mirror its structure, naming, and
-file layout. Do not invent a new pattern when an established one exists, and do
-not import patterns from outside this repository.
+This monorepo is highly repetitive by design. Before writing a component, spec,
+code example, or story, open the equivalent file in a sibling library that
+already does the same job and mirror its structure, naming, and file layout. Do
+not invent a new pattern when an established one exists, and do not import
+patterns from outside this repository.
+
+Harnesses are the exception:
+[component-harnesses.instructions.md](.github/instructions/component-harnesses.instructions.md)
+is canonical and takes precedence over a sibling. Open an existing harness only
+to look up facts — which sub-harness a child component exposes, or the CSS
+classes in a template — and do not inherit its structure or naming, which may
+predate the current conventions.
 
 ### Changing existing code
 

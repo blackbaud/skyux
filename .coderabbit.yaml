@@ -107,10 +107,11 @@ reviews:
     custom_checks:
       # The major-release exception is gated on release metadata, not on a
       # prose claim or a `!` marker — both are author-controlled, so either
-      # alone would let any PR bypass the check. The published @skyux/*
-      # packages carry 0.0.0-PLACEHOLDER and are versioned in lockstep from
-      # the root package.json `version`, which is the only authoritative
-      # version in the repo.
+      # alone would let any PR bypass the check. The open-alpha test reads the
+      # BASE branch version, so a version rewritten inside the PR cannot
+      # unlock the exception. The published @skyux/* packages carry
+      # 0.0.0-PLACEHOLDER and are versioned in lockstep from the root
+      # package.json `version`, which is the only authoritative version.
       - name: 'Public API discipline'
         mode: error
         instructions: |
@@ -122,17 +123,21 @@ reviews:
           narrowed parameter type, widened return type, removed overload,
           changed default behavior, or stricter runtime validation) qualifies
           for the major-release exception ONLY when BOTH hold:
-          - The root package.json `version` on the PR head is a prerelease of
-            an unreleased major, matching <major>.0.0-<prerelease> (e.g.
-            15.0.0-alpha.0), or this PR raises the major component of that
-            field above the major on the base branch.
+          - Release metadata confirms it. Compare the root package.json
+            `version` on the base branch against the same field on the PR
+            head. Either the BASE branch value is itself a prerelease of an
+            unreleased major, matching <major>.0.0-<prerelease> (e.g.
+            15.0.0-alpha.0), and the head value is a prerelease of that same
+            major; or this PR raises the major component of that field above
+            the major on the base branch. A version rewritten inside the PR
+            is author-controlled, not release metadata.
           - The PR title carries the Conventional Commits `!` breaking-change
             marker, so release tooling records the break.
           Otherwise FAIL, even when the PR title or description claims the
           change targets a major release. A prose claim, or a `!` marker on a
           released major, is not release metadata.
-          On FAIL, name each breaking or unprefixed export and state the
-          `version` value you checked.
+          On FAIL, name each breaking or unprefixed export and state both
+          `version` values you compared.
       - name: 'New dependencies justified'
         mode: error
         instructions: |
@@ -144,10 +149,14 @@ reviews:
       - name: 'Tests accompany code changes'
         mode: error
         instructions: |
-          PASS if the PR changes no .ts file under libs/. PASS if every changed
-          non-spec .ts file under libs/ has a corresponding change to a .spec.ts
-          file, or the PR description explains why none is needed. Otherwise
-          FAIL and list the files missing test coverage.
+          Consider every changed production source file under libs/ — .ts,
+          .html, and .scss — excluding .spec.ts files. PASS if there are none.
+          PASS if each such file is accompanied by a change to a .spec.ts file,
+          or, for template and style changes, to a .stories.ts visual test, or
+          the PR description explains why none is needed. Otherwise FAIL and
+          list the files missing test coverage.
+          Do not require tests for changes under apps/ — those projects are
+          non-published manual-test, integration, and e2e harnesses.
       - name: 'Conventional commit title'
         mode: error
         instructions: |
