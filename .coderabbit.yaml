@@ -56,13 +56,16 @@ reviews:
         prefixes or signature changes.
     - path: '**/{src/index.ts,testing/src/public-api.ts}'
       instructions: |
-        These barrels define the public API. Apply the "Public API Discipline"
-        section of AGENTS.md as blocking. Any removed or renamed export, changed
-        signature, narrowed parameter type, widened return type, removed
-        overload, changed default behavior, or stricter runtime validation is a
-        breaking change and must be flagged unless the PR targets a major
-        release. Every symbol added to these barrels must be prefixed with
-        `sky`/`Sky`.
+        This glob also matches test fixtures. Ignore anything under a
+        src/testing/fixtures/ path — those are manifest-generator test data,
+        not published barrels, and none of the rules below apply to them.
+        Published barrels define the public API. Apply the "Public API
+        Discipline" section of AGENTS.md to them as blocking. Any removed or
+        renamed export, changed signature, narrowed parameter type, widened
+        return type, removed overload, changed default behavior, or stricter
+        runtime validation is a breaking change and must be flagged unless the
+        PR targets a major release. Every symbol added to a published barrel
+        must be prefixed with `sky`/`Sky`.
     - path: '**/package.json'
       instructions: |
         Apply the "Dependency Discipline" section of AGENTS.md as blocking. For
@@ -108,29 +111,34 @@ reviews:
       # The major-release exception is gated on release metadata, not on a
       # prose claim or a `!` marker — both are author-controlled, so either
       # alone would let any PR bypass the check. The open-alpha test reads the
-      # BASE branch version, so a version rewritten inside the PR cannot
-      # unlock the exception. The published @skyux/* packages carry
+      # BASE branch version only, so a version rewritten or bumped inside the
+      # PR cannot unlock the exception. The published @skyux/* packages carry
       # 0.0.0-PLACEHOLDER and are versioned in lockstep from the root
       # package.json `version`, which is the only authoritative version.
       - name: 'Public API discipline'
         mode: error
         instructions: |
-          Inspect only the diffs of files matching src/index.ts or
-          testing/src/public-api.ts. PASS if none changed. PASS if every change
-          is purely additive and every added symbol is prefixed with `sky` or
-          `Sky`.
+          Inspect only the diffs of published barrels: a library's
+          src/index.ts, its testing/src/public-api.ts, or a secondary entry
+          point such as libs/sdk/testing/private/src/index.ts. Ignore anything
+          under a src/testing/fixtures/ path — those files match the same
+          shape but are manifest-generator test data, not published barrels.
+          PASS if no published barrel changed. PASS if every change is purely
+          additive and every added symbol is prefixed with `sky` or `Sky`.
           A breaking change (removed or renamed export, changed signature,
           narrowed parameter type, widened return type, removed overload,
           changed default behavior, or stricter runtime validation) qualifies
           for the major-release exception ONLY when BOTH hold:
           - Release metadata confirms it. Compare the root package.json
             `version` on the base branch against the same field on the PR
-            head. Either the BASE branch value is itself a prerelease of an
+            head. The BASE branch value must itself be a prerelease of an
             unreleased major, matching <major>.0.0-<prerelease> (e.g.
-            15.0.0-alpha.0), and the head value is a prerelease of that same
-            major; or this PR raises the major component of that field above
-            the major on the base branch. A version rewritten inside the PR
-            is author-controlled, not release metadata.
+            15.0.0-alpha.0), and the head value must be a prerelease of that
+            same major. A version raised or rewritten inside the PR does not
+            qualify: the head is author-controlled, so it cannot authorize
+            its own exception. Opening a new major does not remove barrel
+            exports; breaking changes land on the alpha line in later PRs,
+            which this rule already permits.
           - The PR title carries the Conventional Commits `!` breaking-change
             marker, so release tooling records the break.
           Otherwise FAIL, even when the PR title or description claims the
