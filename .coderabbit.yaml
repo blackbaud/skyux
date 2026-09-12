@@ -4,8 +4,8 @@
 # the coding rules. Keep rule edits there, not here. This file only controls how
 # CodeRabbit is pointed at those rules and which of them block a merge.
 
-# Shapes how comments are phrased (250 char limit). The rules themselves are
-# enforced via `code_guidelines`, `path_instructions`, and `pre_merge_checks`.
+# Shapes how comments are phrased (250 char limit). The rules themselves live
+# in AGENTS.md and are enforced via `code_guidelines` and `pre_merge_checks`.
 tone_instructions: 'Pragmatic senior engineer who values simplicity above all. Be direct and specific: state the problem, state the fix, move on. No hedging, no filler praise, no open-ended questions. Show the simpler alternative inline.'
 
 reviews:
@@ -22,86 +22,32 @@ reviews:
       - 'main'
       - '\d+\.x\.x'
 
-  # The first entry restates the AGENTS.md authoring defaults as concrete things
-  # to look for; pointing at the file alone produces vague findings. The rest
-  # mirror the `applyTo` globs of .github/instructions/*, which Copilot loads
-  # automatically and CodeRabbit otherwise never sees.
+  # These route each path to the right AGENTS.md section, and handle config
+  # artifacts (globs that match more than they should). The rules themselves
+  # live in AGENTS.md and the .github/instructions files, both applied as
+  # review criteria via `code_guidelines` below. Do not restate rules here —
+  # a second copy drifts from the first.
   path_instructions:
     - path: '**/*.ts'
       instructions: |
-        Treat AGENTS.md as enforced review criteria, not ambient context, and do
-        not invent rules beyond it. Check specifically:
-        - Abstractions, base classes, or mixins with a single call site.
-          Recommend inlining.
-        - @Input(), @Output(), parameters, options, or branches with no consumer
-          in this change that exercises them. Recommend deleting.
-        - New components, directives, pipes, services, or modules the PR
-          description does not call for.
-        - Helper classes whose methods are pure functions over their constructor
-          arguments. Recommend plain exported functions. Do not flag Angular
-          components, directives, pipes, or services for being classes.
-        - Options objects for fewer than three parameters.
-        - Type aliases or interfaces used exactly once. Recommend inlining.
-        - Nesting three or more levels deep. Recommend early returns.
-        - Comments that explain what the code does rather than why.
-        - Vague names: data, info, manager, helper, util, handler.
-        - Patterns that diverge from the equivalent file in a sibling library.
-          Name the sibling that establishes the convention.
-        - Refactors, renames, reformatting, or cleanups the task did not
-          require. Flag these as scope creep.
-        - Injectables, widened barrel exports, or inputs that exist only so a
-          spec can reach internal state.
-        Do not flag internal exports (anything not exported from a library's
-        src/index.ts or testing/src/public-api.ts barrel) for missing `sky`
-        prefixes or signature changes.
+        Treat AGENTS.md as enforced review criteria, not ambient context. Apply
+        the defaults under "While writing code" and the priorities under "While
+        reviewing code" to this diff, and do not invent rules beyond that file.
     - path: '**/{src/index.ts,testing/src/public-api.ts}'
       instructions: |
-        This glob also matches test fixtures. Ignore anything under a
-        src/testing/fixtures/ path — those are manifest-generator test data,
-        not published barrels, and none of the rules below apply to them.
-        Published barrels define the public API. Apply the "Public API
-        Discipline" section of AGENTS.md to them as blocking. Any removed or
-        renamed export, changed signature, narrowed parameter type, widened
-        return type, removed overload, changed default behavior, or stricter
-        runtime validation is a breaking change and must be flagged unless the
-        PR targets a major release. Every symbol added to a published barrel
-        must be prefixed with `sky`/`Sky`.
+        This glob also matches manifest-generator test fixtures. Ignore anything
+        under a src/testing/fixtures/ path — those are test data, not published
+        barrels. For published barrels, apply the "Public API Discipline"
+        section of AGENTS.md as blocking.
     - path: '**/package.json'
       instructions: |
-        Apply the "Dependency Discipline" section of AGENTS.md as blocking. For
-        every added dependency, state which Angular, RxJS, or Node.js built-in
-        capability could do the job instead, or confirm none can. A new runtime
-        dependency in a published @skyux/* or @skyux-sdk/* package becomes a
-        transitive dependency for every consumer — treat it as a public API
-        decision. Flag heavy frameworks, utility kitchen-sinks, and packages
-        replaceable by a few lines of plain code.
-    - path: '**/libs/components/**/*.{ts,html}'
-      instructions: |
-        Also apply .github/instructions/angular.instructions.md.
-    - path: '**/apps/**/*.{ts,html}'
-      instructions: |
-        Also apply .github/instructions/angular.instructions.md.
+        Apply the "Dependency Discipline" section of AGENTS.md as blocking.
     - path: '**/libs/components/*/src/lib/**/*.spec.ts'
       instructions: |
-        Also apply .github/instructions/component-unit-testing.instructions.md.
-        Tests must accompany every code change and cover new branches. Flag
-        tests that assert implementation details rather than behavior, and tests
-        that exist only to reach the coverage threshold. Does not apply to
-        libs/components/code-examples.
-    - path: '**/libs/components/code-examples/**'
-      instructions: |
-        Also apply
-        .github/instructions/component-code-examples.instructions.md.
-    - path: '**/libs/components/*/documentation.json'
-      instructions: |
-        Also apply
-        .github/instructions/component-code-examples.instructions.md.
-    - path: '**/libs/components/**/testing/src/modules/**'
-      instructions: |
-        Also apply .github/instructions/component-harnesses.instructions.md.
-    - path: '**/apps/e2e/*-storybook/src/app/**/*.stories.ts'
-      instructions: |
-        Also apply .github/instructions/visual-testing.instructions.md.
+        Apply the "Testing" section of AGENTS.md. This glob also matches
+        libs/components/code-examples, which
+        component-unit-testing.instructions.md excludes — for those specs
+        follow component-code-examples.instructions.md instead.
 
   # AGENTS.md declares these blocking. `error` surfaces them as pre-merge
   # failures rather than comments that can be scrolled past. Downgrade any of
