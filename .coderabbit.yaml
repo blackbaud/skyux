@@ -105,15 +105,34 @@ reviews:
   # these to `warning` if it proves too strict in practice.
   pre_merge_checks:
     custom_checks:
+      # The major-release exception is gated on release metadata, not on a
+      # prose claim or a `!` marker — both are author-controlled, so either
+      # alone would let any PR bypass the check. The published @skyux/*
+      # packages carry 0.0.0-PLACEHOLDER and are versioned in lockstep from
+      # the root package.json `version`, which is the only authoritative
+      # version in the repo.
       - name: 'Public API discipline'
         mode: error
         instructions: |
           Inspect only the diffs of files matching src/index.ts or
           testing/src/public-api.ts. PASS if none changed. PASS if every change
           is purely additive and every added symbol is prefixed with `sky` or
-          `Sky`. PASS if the PR title uses the Conventional Commits `!`
-          breaking-change marker. Otherwise FAIL and name each breaking or
-          unprefixed export.
+          `Sky`.
+          A breaking change (removed or renamed export, changed signature,
+          narrowed parameter type, widened return type, removed overload,
+          changed default behavior, or stricter runtime validation) qualifies
+          for the major-release exception ONLY when BOTH hold:
+          - The root package.json `version` on the PR head is a prerelease of
+            an unreleased major, matching <major>.0.0-<prerelease> (e.g.
+            15.0.0-alpha.0), or this PR raises the major component of that
+            field above the major on the base branch.
+          - The PR title carries the Conventional Commits `!` breaking-change
+            marker, so release tooling records the break.
+          Otherwise FAIL, even when the PR title or description claims the
+          change targets a major release. A prose claim, or a `!` marker on a
+          released major, is not release metadata.
+          On FAIL, name each breaking or unprefixed export and state the
+          `version` value you checked.
       - name: 'New dependencies justified'
         mode: error
         instructions: |
