@@ -1,14 +1,188 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 #
-# CodeRabbit auto-discovers AGENTS.md at the repo root and uses it as review
-# context. AGENTS.md is the single source of truth for the reviewer persona
-# and coding rules — keep edits there, not here.
-tone_instructions: 'See AGENTS.md for reviewer persona, public API, dependency, testing, and feedback rules.'
+# AGENTS.md at the repo root is the single source of truth for the persona and
+# the coding rules. Keep rule edits there, not here. This file only controls how
+# CodeRabbit is pointed at those rules and which of them block a merge.
+
+# Shapes how comments are phrased (250 char limit). The rules themselves are
+# enforced via `code_guidelines`, `path_instructions`, and `pre_merge_checks`.
+tone_instructions: 'Pragmatic senior engineer who values simplicity above all. Be direct and specific: state the problem, state the fix, move on. No hedging, no filler praise, no open-ended questions. Show the simpler alternative inline.'
 
 reviews:
+  # `assertive` stops the default profile from suppressing the naming,
+  # over-engineering, and scope findings that AGENTS.md is mostly made of.
+  profile: assertive
+  poem: false
+  in_progress_fortune: false
+
   auto_review:
     enabled: true
     drafts: true
     base_branches:
       - 'main'
       - '\d+\.x\.x'
+
+  # The first entry restates the AGENTS.md authoring defaults as concrete things
+  # to look for; pointing at the file alone produces vague findings. The rest
+  # mirror the `applyTo` globs of .github/instructions/*, which Copilot loads
+  # automatically and CodeRabbit otherwise never sees.
+  path_instructions:
+    - path: '**/*.ts'
+      instructions: |
+        Treat AGENTS.md as enforced review criteria, not ambient context, and do
+        not invent rules beyond it. Check specifically:
+        - Abstractions, base classes, or mixins with a single call site.
+          Recommend inlining.
+        - @Input(), @Output(), parameters, options, or branches with no consumer
+          in this change that exercises them. Recommend deleting.
+        - New components, directives, pipes, services, or modules the PR
+          description does not call for.
+        - Helper classes whose methods are pure functions over their constructor
+          arguments. Recommend plain exported functions. Do not flag Angular
+          components, directives, pipes, or services for being classes.
+        - Options objects for fewer than three parameters.
+        - Type aliases or interfaces used exactly once. Recommend inlining.
+        - Nesting three or more levels deep. Recommend early returns.
+        - Comments that explain what the code does rather than why.
+        - Vague names: data, info, manager, helper, util, handler.
+        - Patterns that diverge from the equivalent file in a sibling library.
+          Name the sibling that establishes the convention.
+        - Refactors, renames, reformatting, or cleanups the task did not
+          require. Flag these as scope creep.
+        - Injectables, widened barrel exports, or inputs that exist only so a
+          spec can reach internal state.
+        Do not flag internal exports (anything not exported from a library's
+        src/index.ts or testing/src/public-api.ts barrel) for missing `sky`
+        prefixes or signature changes.
+    - path: '**/{src/index.ts,testing/src/public-api.ts}'
+      instructions: |
+        These barrels define the public API. Apply the "Public API Discipline"
+        section of AGENTS.md as blocking. Any removed or renamed export, changed
+        signature, narrowed parameter type, widened return type, removed
+        overload, changed default behavior, or stricter runtime validation is a
+        breaking change and must be flagged unless the PR targets a major
+        release. Every symbol added to these barrels must be prefixed with
+        `sky`/`Sky`.
+    - path: '**/package.json'
+      instructions: |
+        Apply the "Dependency Discipline" section of AGENTS.md as blocking. For
+        every added dependency, state which Angular, RxJS, or Node.js built-in
+        capability could do the job instead, or confirm none can. A new runtime
+        dependency in a published @skyux/* or @skyux-sdk/* package becomes a
+        transitive dependency for every consumer — treat it as a public API
+        decision. Flag heavy frameworks, utility kitchen-sinks, and packages
+        replaceable by a few lines of plain code.
+    - path: '**/libs/components/**/*.{ts,html}'
+      instructions: |
+        Also apply .github/instructions/angular.instructions.md.
+    - path: '**/apps/**/*.{ts,html}'
+      instructions: |
+        Also apply .github/instructions/angular.instructions.md.
+    - path: '**/libs/components/*/src/lib/**/*.spec.ts'
+      instructions: |
+        Also apply .github/instructions/component-unit-testing.instructions.md.
+        Tests must accompany every code change and cover new branches. Flag
+        tests that assert implementation details rather than behavior, and tests
+        that exist only to reach the coverage threshold. Does not apply to
+        libs/components/code-examples.
+    - path: '**/libs/components/code-examples/**'
+      instructions: |
+        Also apply
+        .github/instructions/component-code-examples.instructions.md.
+    - path: '**/libs/components/*/documentation.json'
+      instructions: |
+        Also apply
+        .github/instructions/component-code-examples.instructions.md.
+    - path: '**/libs/components/**/testing/src/modules/**'
+      instructions: |
+        Also apply .github/instructions/component-harnesses.instructions.md.
+    - path: '**/apps/e2e/*-storybook/src/app/**/*.stories.ts'
+      instructions: |
+        Also apply .github/instructions/visual-testing.instructions.md.
+
+  # AGENTS.md declares these blocking. `error` surfaces them as pre-merge
+  # failures rather than comments that can be scrolled past. Downgrade any of
+  # these to `warning` if it proves too strict in practice.
+  pre_merge_checks:
+    custom_checks:
+      - name: 'Public API discipline'
+        mode: error
+        instructions: |
+          Inspect only the diffs of files matching src/index.ts or
+          testing/src/public-api.ts. PASS if none changed. PASS if every change
+          is purely additive and every added symbol is prefixed with `sky` or
+          `Sky`. PASS if the PR title uses the Conventional Commits `!`
+          breaking-change marker. Otherwise FAIL and name each breaking or
+          unprefixed export.
+      - name: 'New dependencies justified'
+        mode: error
+        instructions: |
+          Inspect the `dependencies`, `peerDependencies`, and `devDependencies`
+          of every changed package.json. PASS if no entries were added.
+          Otherwise FAIL unless the PR description explains, for each added
+          package, why Angular, RxJS, Node.js built-ins, or existing project
+          utilities cannot do the job.
+      - name: 'Tests accompany code changes'
+        mode: error
+        instructions: |
+          PASS if the PR changes no .ts file under libs/. PASS if every changed
+          non-spec .ts file under libs/ has a corresponding change to a .spec.ts
+          file, or the PR description explains why none is needed. Otherwise
+          FAIL and list the files missing test coverage.
+      - name: 'Conventional commit title'
+        mode: error
+        instructions: |
+          PASS if the PR title follows the Conventional Commits rules in
+          .github/instructions/commit-message.instructions.md, including the
+          SKY UX type and scope conventions. Otherwise FAIL and supply a
+          corrected title.
+      - name: 'Scope is minimal'
+        mode: warning
+        instructions: |
+          PASS if every changed file is required by the task described in the
+          PR title and description. FAIL if the diff contains refactors,
+          renames, reformatting, or cleanups of code the task did not require,
+          and list them.
+
+  finishing_touches:
+    # Reviews changed code for reuse, quality, and efficiency and applies
+    # targeted improvements — the simplification pass AGENTS.md asks for.
+    simplify:
+      enabled: true
+    # Generated docstrings describe *what* code does; AGENTS.md wants comments
+    # that explain *why*. Authors write their own.
+    docstrings:
+      enabled: false
+    # Most projects enforce 100% coverage with author-written specs, and the
+    # Karma/Jest split means generated tests often target the wrong runner.
+    unit_tests:
+      enabled: false
+
+knowledge_base:
+  # Learnings accumulated from past PR discussions can quietly override
+  # AGENTS.md — a contributor talking CodeRabbit out of a finding teaches it to
+  # stop reporting that finding. `local` keeps them scoped to this repo, and the
+  # approval delay gives admins a week to reject one that contradicts AGENTS.md.
+  learnings:
+    scope: local
+    approval_delay: 7
+  # AGENTS.md is picked up by default, but binding it explicitly applies it as
+  # review criteria on every source file. Listing patterns here replaces the
+  # defaults; CLAUDE.md and .github/copilot-instructions.md are pointers to
+  # AGENTS.md and carry no rules of their own. The .github/instructions files
+  # are bound to their own globs so they act as criteria, not background.
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - files: '**/AGENTS.md'
+        applyTo: '**/*.{ts,html,scss}'
+      - files: '.github/instructions/angular.instructions.md'
+        applyTo: '**/libs/components/**/*.{ts,html}, **/apps/**/*.{ts,html}'
+      - files: '.github/instructions/component-unit-testing.instructions.md'
+        applyTo: '**/libs/components/*/src/lib/**/*.spec.ts'
+      - files: '.github/instructions/component-code-examples.instructions.md'
+        applyTo: '**/libs/components/code-examples/**, **/libs/components/*/documentation.json'
+      - files: '.github/instructions/component-harnesses.instructions.md'
+        applyTo: '**/libs/components/**/testing/src/modules/**'
+      - files: '.github/instructions/visual-testing.instructions.md'
+        applyTo: '**/apps/e2e/*-storybook/src/app/**/*.stories.ts'
