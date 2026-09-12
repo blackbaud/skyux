@@ -1,14 +1,170 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
 #
-# CodeRabbit auto-discovers AGENTS.md at the repo root and uses it as review
-# context. AGENTS.md is the single source of truth for the reviewer persona
-# and coding rules — keep edits there, not here.
-tone_instructions: 'See AGENTS.md for reviewer persona, public API, dependency, testing, and feedback rules.'
+# AGENTS.md at the repo root is the single source of truth for the persona and
+# the coding rules. Keep rule edits there, not here. This file only controls how
+# CodeRabbit is pointed at those rules and which of them block a merge.
+
+# Shapes how comments are phrased (250 char limit). The rules themselves live
+# in AGENTS.md and are enforced via `code_guidelines` and `pre_merge_checks`.
+tone_instructions: 'Pragmatic senior engineer who values simplicity above all. Be direct and specific: state the problem, state the fix, move on. No hedging, no filler praise, no open-ended questions. Show the simpler alternative inline.'
 
 reviews:
+  # `assertive` stops the default profile from suppressing the naming,
+  # over-engineering, and scope findings that AGENTS.md is mostly made of.
+  profile: assertive
+  poem: false
+  in_progress_fortune: false
+
   auto_review:
     enabled: true
     drafts: true
     base_branches:
       - 'main'
       - '\d+\.x\.x'
+
+  # These route each path to the right AGENTS.md section, and handle config
+  # artifacts (globs that match more than they should). The rules themselves
+  # live in AGENTS.md and the .github/instructions files, both applied as
+  # review criteria via `code_guidelines` below. Do not restate rules here —
+  # a second copy drifts from the first.
+  path_instructions:
+    - path: '**/*.ts'
+      instructions: |
+        Treat AGENTS.md as enforced review criteria, not ambient context. Apply
+        the defaults under "While writing code" and the priorities under "While
+        reviewing code" to this diff, and do not invent rules beyond that file.
+    - path: '**/{src/index.ts,testing/src/public-api.ts}'
+      instructions: |
+        This glob also matches manifest-generator test fixtures. Ignore anything
+        under a src/testing/fixtures/ path — those are test data, not published
+        barrels. For published barrels, apply the "Public API Discipline"
+        section of AGENTS.md as blocking.
+    - path: '**/package.json'
+      instructions: |
+        Apply the "Dependency Discipline" section of AGENTS.md as blocking.
+    - path: '**/libs/components/*/src/lib/**/*.spec.ts'
+      instructions: |
+        Apply the "Testing" section of AGENTS.md. This glob also matches
+        libs/components/code-examples, which
+        component-unit-testing.instructions.md excludes — for those specs
+        follow component-code-examples.instructions.md instead.
+
+  # AGENTS.md declares these blocking. `error` surfaces them as pre-merge
+  # failures rather than comments that can be scrolled past. Downgrade any of
+  # these to `warning` if it proves too strict in practice.
+  pre_merge_checks:
+    custom_checks:
+      # The major-release exception is gated on release metadata, not on a
+      # prose claim or a `!` marker — both are author-controlled, so either
+      # alone would let any PR bypass the check. The open-alpha test reads the
+      # BASE branch version only, so a version rewritten or bumped inside the
+      # PR cannot unlock the exception. The published @skyux/* packages carry
+      # 0.0.0-PLACEHOLDER and are versioned in lockstep from the root
+      # package.json `version`, which is the only authoritative version.
+      - name: 'Public API discipline'
+        mode: error
+        instructions: |
+          Inspect only the diffs of published barrels: a library's
+          src/index.ts, its testing/src/public-api.ts, or a secondary entry
+          point such as libs/sdk/testing/private/src/index.ts. Ignore anything
+          under a src/testing/fixtures/ path — those files match the same
+          shape but are manifest-generator test data, not published barrels.
+          PASS if no published barrel changed. PASS if every change is purely
+          additive and every added symbol is prefixed with `sky` or `Sky`.
+          A breaking change (removed or renamed export, changed signature,
+          narrowed parameter type, widened return type, removed overload,
+          changed default behavior, or stricter runtime validation) qualifies
+          for the major-release exception ONLY when BOTH hold:
+          - Release metadata confirms it. Compare the root package.json
+            `version` on the base branch against the same field on the PR
+            head. The BASE branch value must itself be a prerelease of an
+            unreleased major, matching <major>.0.0-<prerelease> (e.g.
+            15.0.0-alpha.0), and the head value must be a prerelease of that
+            same major. A version raised or rewritten inside the PR does not
+            qualify: the head is author-controlled, so it cannot authorize
+            its own exception. Opening a new major does not remove barrel
+            exports; breaking changes land on the alpha line in later PRs,
+            which this rule already permits.
+          - The PR title carries the Conventional Commits `!` breaking-change
+            marker, so release tooling records the break.
+          Otherwise FAIL, even when the PR title or description claims the
+          change targets a major release. A prose claim, or a `!` marker on a
+          released major, is not release metadata.
+          On FAIL, name each breaking or unprefixed export and state both
+          `version` values you compared.
+      - name: 'New dependencies justified'
+        mode: error
+        instructions: |
+          Inspect the `dependencies`, `peerDependencies`, and `devDependencies`
+          of every changed package.json. PASS if no entries were added.
+          Otherwise FAIL unless the PR description explains, for each added
+          package, why Angular, RxJS, Node.js built-ins, or existing project
+          utilities cannot do the job.
+      - name: 'Tests accompany code changes'
+        mode: error
+        instructions: |
+          Consider every changed production source file under libs/ — .ts,
+          .html, and .scss — excluding .spec.ts files. PASS if there are none.
+          PASS if each such file is accompanied by a change to a .spec.ts file,
+          or, for template and style changes, to a .stories.ts visual test, or
+          the PR description explains why none is needed. Otherwise FAIL and
+          list the files missing test coverage.
+          Do not require tests for changes under apps/ — those projects are
+          non-published manual-test, integration, and e2e harnesses.
+      - name: 'Conventional commit title'
+        mode: error
+        instructions: |
+          PASS if the PR title follows the Conventional Commits rules in
+          .github/instructions/commit-message.instructions.md, including the
+          SKY UX type and scope conventions. Otherwise FAIL and supply a
+          corrected title.
+      - name: 'Scope is minimal'
+        mode: warning
+        instructions: |
+          PASS if every changed file is required by the task described in the
+          PR title and description. FAIL if the diff contains refactors,
+          renames, reformatting, or cleanups of code the task did not require,
+          and list them.
+
+  finishing_touches:
+    # Reviews changed code for reuse, quality, and efficiency and applies
+    # targeted improvements — the simplification pass AGENTS.md asks for.
+    simplify:
+      enabled: true
+    # Generated docstrings describe *what* code does; AGENTS.md wants comments
+    # that explain *why*. Authors write their own.
+    docstrings:
+      enabled: false
+    # Most projects enforce 100% coverage with author-written specs, and the
+    # Karma/Jest split means generated tests often target the wrong runner.
+    unit_tests:
+      enabled: false
+
+knowledge_base:
+  # Learnings accumulated from past PR discussions can quietly override
+  # AGENTS.md — a contributor talking CodeRabbit out of a finding teaches it to
+  # stop reporting that finding. `local` keeps them scoped to this repo, and the
+  # approval delay gives admins a week to reject one that contradicts AGENTS.md.
+  learnings:
+    scope: local
+    approval_delay: 7
+  # AGENTS.md is picked up by default, but binding it explicitly applies it as
+  # review criteria on every source file. Listing patterns here replaces the
+  # defaults; CLAUDE.md and .github/copilot-instructions.md are pointers to
+  # AGENTS.md and carry no rules of their own. The .github/instructions files
+  # are bound to their own globs so they act as criteria, not background.
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - files: '**/AGENTS.md'
+        applyTo: '**/*.{ts,html,scss}'
+      - files: '.github/instructions/angular.instructions.md'
+        applyTo: '**/libs/components/**/*.{ts,html}, **/apps/**/*.{ts,html}'
+      - files: '.github/instructions/component-unit-testing.instructions.md'
+        applyTo: '**/libs/components/*/src/lib/**/*.spec.ts'
+      - files: '.github/instructions/component-code-examples.instructions.md'
+        applyTo: '**/libs/components/code-examples/**, **/libs/components/*/documentation.json'
+      - files: '.github/instructions/component-harnesses.instructions.md'
+        applyTo: '**/libs/components/**/testing/src/modules/**'
+      - files: '.github/instructions/visual-testing.instructions.md'
+        applyTo: '**/apps/e2e/*-storybook/src/app/**/*.stories.ts'
