@@ -1,0 +1,186 @@
+<ng-template #repeater>
+  <sky-repeater>
+    @for (activity of recentActivity; track activity) {
+      <sky-repeater-item>
+        <sky-repeater-item-content>
+          <div class="sky-theme-margin-bottom-xs">
+            {{ activity.activity }}
+          </div>
+          <div class="sky-theme-font-body-deemphasized-m">
+            {{ activity.date }}
+          </div>
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    }
+  </sky-repeater>
+</ng-template>
+
+<ng-template #toolbar>
+  <sky-toolbar>
+    <sky-toolbar-item>
+      <button
+        data-sky-id="add-domain-button"
+        class="sky-btn sky-btn-default"
+        type="button"
+      >
+        <sky-icon iconName="add" />
+        Add domain
+      </button>
+    </sky-toolbar-item>
+  </sky-toolbar>
+  <sky-repeater>
+    @for (domain of domains; track domain) {
+      <sky-repeater-item [itemName]="domain.domain_name">
+        <sky-repeater-item-title>
+          <div class="sky-theme-font-body-emphasized-m">
+            {{ domain.domain_name }}
+          </div>
+        </sky-repeater-item-title>
+        <sky-repeater-item-context-menu>
+          <div class="domain-context-menu-col">
+            @if (!domain.apple_pay_verified) {
+              <sky-dropdown
+                data-sky-id="domain-context-menu"
+                buttonType="context-menu"
+              >
+                <sky-dropdown-menu>
+                  <sky-dropdown-item>
+                    <button data-sky-id="verify-button" type="button">
+                      Verify
+                    </button>
+                  </sky-dropdown-item>
+                  <sky-dropdown-item>
+                    <button data-sky-id="delete-button" type="button">
+                      Delete
+                    </button>
+                  </sky-dropdown-item>
+                </sky-dropdown-menu>
+              </sky-dropdown>
+            }
+          </div>
+        </sky-repeater-item-context-menu>
+        <sky-repeater-item-content>
+          @if (domain.apple_pay_verified) {
+            <sky-status-indicator
+              data-sky-id="status-indicator-important-info"
+              descriptionType="important-info"
+              indicatorType="success"
+            >
+              Verified with Apple
+            </sky-status-indicator>
+          }
+          @if (!domain.apple_pay_verified) {
+            <sky-status-indicator
+              data-sky-id="status-indicator-important-info"
+              descriptionType="important-info"
+              indicatorType="danger"
+            >
+              Unverified
+            </sky-status-indicator>
+          }
+        </sky-repeater-item-content>
+      </sky-repeater-item>
+    }
+  </sky-repeater>
+</ng-template>
+
+<div class="sky-padding-even-md">
+  <sky-fluid-grid gutterSize="large" [disableMargin]="true">
+    <sky-row>
+      <sky-column screenMedium="4">
+        <sky-box
+          headingText="Recent activity in a box"
+          class="sky-margin-stacked-lg"
+        >
+          <sky-box-content>
+            <ng-container *ngTemplateOutlet="repeater" />
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
+      <sky-column screenMedium="4">
+        <div class="sky-padding-even-sm sky-margin-stacked-lg">
+          <h2>Recent activity outside a box</h2>
+          <ng-container *ngTemplateOutlet="repeater" />
+        </div>
+      </sky-column>
+    </sky-row>
+    <sky-row>
+      <sky-column screenMedium="4">
+        <sky-tile
+          tileName="payment-method-domains-tile"
+          class="sky-margin-stacked-lg"
+        >
+          <sky-tile-title>Payment domains in a tile</sky-tile-title>
+          <sky-tile-content>
+            <sky-tile-content-section>
+              <ng-container *ngTemplateOutlet="toolbar" />
+            </sky-tile-content-section>
+          </sky-tile-content>
+        </sky-tile>
+      </sky-column>
+      <sky-column screenMedium="4">
+        <div class="sky-padding-even-sm sky-margin-stacked-lg">
+          <h2>Payment domains outside a tile</h2>
+          <ng-container *ngTemplateOutlet="toolbar" />
+        </div>
+      </sky-column>
+    </sky-row>
+    <sky-row>
+      <sky-column screenMedium="4">
+        <sky-box
+          headingText="Nested repeater in a box"
+          class="sky-margin-stacked-lg"
+        >
+          <sky-box-content>
+            <sky-repeater>
+              <sky-repeater-item>
+                <sky-repeater-item-title>Outer item</sky-repeater-item-title>
+                <sky-repeater-item-content>
+                  <ng-container *ngTemplateOutlet="repeater" />
+                </sky-repeater-item-content>
+              </sky-repeater-item>
+            </sky-repeater>
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
+      <sky-column screenMedium="4">
+        <div class="sky-padding-even-sm sky-margin-stacked-lg">
+          <h2>Nested repeater outside a box</h2>
+          <sky-repeater>
+            <sky-repeater-item>
+              <sky-repeater-item-title>Outer item</sky-repeater-item-title>
+              <sky-repeater-item-content>
+                <ng-container *ngTemplateOutlet="repeater" />
+              </sky-repeater-item-content>
+            </sky-repeater-item>
+          </sky-repeater>
+        </div>
+      </sky-column>
+    </sky-row>
+    <sky-row>
+      <sky-column screenMedium="4">
+        <sky-box
+          headingText="Selectable repeater in a box"
+          class="sky-margin-stacked-lg"
+        >
+          <sky-box-content>
+            <sky-repeater selectionMode="multiple">
+              @for (activity of recentActivity; track activity) {
+                <sky-repeater-item>
+                  <sky-repeater-item-content>
+                    <div class="sky-theme-margin-bottom-xs">
+                      {{ activity.activity }}
+                    </div>
+                    <div class="sky-theme-font-body-deemphasized-m">
+                      {{ activity.date }}
+                    </div>
+                  </sky-repeater-item-content>
+                </sky-repeater-item>
+              }
+            </sky-repeater>
+          </sky-box-content>
+        </sky-box>
+      </sky-column>
+    </sky-row>
+  </sky-fluid-grid>
+</div>
