@@ -10,6 +10,7 @@
 
 ### Features
 
+* **components/packages:** remove unused references to SkySelectFieldModule during migration ([#4785](https://github.com/blackbaud/skyux/issues/4785)) ([238b8b3](https://github.com/blackbaud/skyux/commit/238b8b3d1c7fe6c1c79c5fa8a1c64044aef4852f)), closes [AB#4121843](https://dev.azure.com/blackbaud/Products/_workitems/edit/4121843)
 * **sdk/testing:** deprecate `expect` and `expectAsync` matchers ([#4731](https://github.com/blackbaud/skyux/issues/4731)) ([be52060](https://github.com/blackbaud/skyux/commit/be5206028c1ec899257b7821ca7331779d447576)), closes [AB#4087927](https://dev.azure.com/blackbaud/Products/_workitems/edit/4087927)
 
 
