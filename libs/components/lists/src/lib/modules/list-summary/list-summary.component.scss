@@ -18,10 +18,13 @@
   align-items: baseline;
   padding: var(
     --sky-override-list-summary-padding,
-    var(--sky-comp-list_summary-space-inset-top)
-      var(--sky-comp-list_summary-space-inset-right)
-      var(--sky-comp-list_summary-space-inset-bottom)
-      var(--sky-comp-list_summary-space-inset-left)
+    var(
+      --sky-compat-list-summary-padding,
+      var(--sky-comp-list_summary-space-inset-top)
+        var(--sky-comp-override-list-summary-space-inset-right, 0)
+        var(--sky-comp-list_summary-space-inset-bottom)
+        var(--sky-comp-override-list-summary-space-inset-left, 0)
+    )
   );
   background-color: var(
     --sky-override-list-summary-background-color,

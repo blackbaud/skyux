@@ -46,5 +46,9 @@ export class ListSummaryComponent {
       value: 1999,
       labelText: 'Video games',
     },
+    {
+      value: 128,
+      labelText: 'Volunteer hours logged',
+    },
   ];
 }

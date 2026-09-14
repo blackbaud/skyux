@@ -60,6 +60,12 @@ describe('Migrations > Add compat stylesheets', () => {
     expectedContents: string[] = [
       'COMPONENT: BUTTON',
       '--sky-compat-btn-disabled-pointer-events: none;',
+      'COMPONENT: TOOLBAR',
+      '--sky-compat-toolbar-container-padding:',
+      'COMPONENT: FILTER BAR',
+      '--sky-compat-filter-bar-toolbar-padding:',
+      'COMPONENT: LIST SUMMARY',
+      '--sky-compat-list-summary-padding:',
     ],
     existingCompatStylesheet?: string,
   ): Promise<void> {
@@ -133,6 +139,9 @@ describe('Migrations > Add compat stylesheets', () => {
     await validateCompatStylesheet(
       JSON.stringify({
         dependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),
@@ -140,10 +149,34 @@ describe('Migrations > Add compat stylesheets', () => {
     );
   });
 
+  it('should only add compat styles for libraries that are installed', async () => {
+    const { runSchematic, tree } = await setupTest();
+
+    tree.overwrite(
+      '/package.json',
+      JSON.stringify({
+        dependencies: {
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+        },
+      }),
+    );
+
+    const updatedTree = await runSchematic();
+    const contents = updatedTree.readText(compatStylesheetPath);
+
+    expect(contents).toContain('--sky-compat-toolbar-container-padding:');
+    expect(contents).not.toContain('--sky-compat-filter-bar-toolbar-padding:');
+    expect(contents).not.toContain('--sky-compat-list-summary-padding:');
+    expect(contents).not.toContain('--sky-compat-btn-disabled-pointer-events:');
+  });
+
   it('should add a compat stylesheet for libraries in devDependencies', async () => {
     await validateCompatStylesheet(
       JSON.stringify({
         devDependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),
@@ -155,6 +188,9 @@ describe('Migrations > Add compat stylesheets', () => {
     await validateCompatStylesheet(
       JSON.stringify({
         devDependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),
@@ -168,6 +204,9 @@ describe('Migrations > Add compat stylesheets', () => {
     await validateCompatStylesheet(
       JSON.stringify({
         devDependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),
@@ -186,6 +225,9 @@ describe('Migrations > Add compat stylesheets', () => {
       '/package.json',
       JSON.stringify({
         dependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),
@@ -244,6 +286,9 @@ describe('Migrations > Add compat stylesheets', () => {
       '/package.json',
       JSON.stringify({
         dependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),
