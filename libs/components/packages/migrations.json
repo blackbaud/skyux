@@ -49,6 +49,11 @@
       "version": "0.0.0-PLACEHOLDER",
       "factory": "./src/schematics/migrations/update-15/fluid-grid-inset/fluid-grid-inset.schematic",
       "description": "Migrate sky-fluid-grid elements from the deprecated disableMargin input to the new inset input, since hiding the outer margin is now the default behavior."
+    },
+    "remove-select-field": {
+      "version": "0.0.0-PLACEHOLDER",
+      "factory": "./src/schematics/migrations/update-15/remove-select-field/remove-select-field.schematic",
+      "description": "Remove the SkySelectFieldModule import and the @skyux/select-field dependency from projects that do not reference <sky-select-field> in any template."
     }
   }
 }
