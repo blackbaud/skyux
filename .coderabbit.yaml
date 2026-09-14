@@ -15,6 +15,12 @@ reviews:
   poem: false
   in_progress_fortune: false
 
+  # Required for the `error` pre-merge checks below to block a merge. Without
+  # it CodeRabbit reports a failing check but never withholds approval, so
+  # `mode: error` degrades to a comment. CodeRabbit approves once its comments
+  # are resolved and no check is failing.
+  request_changes_workflow: true
+
   auto_review:
     enabled: true
     drafts: true
