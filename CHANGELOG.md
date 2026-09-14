@@ -8,6 +8,11 @@
 
 * toolbar, filter bar, and list summary inherit container padding (#4707)
 
+### Features
+
+* **sdk/testing:** deprecate `expect` and `expectAsync` matchers ([#4731](https://github.com/blackbaud/skyux/issues/4731)) ([be52060](https://github.com/blackbaud/skyux/commit/be5206028c1ec899257b7821ca7331779d447576)), closes [AB#4087927](https://dev.azure.com/blackbaud/Products/_workitems/edit/4087927)
+
+
 ### Bug Fixes
 
 * **components/data-grid:** avoid NG0950 when columns are created in a loop ([#4753](https://github.com/blackbaud/skyux/issues/4753)) ([#4776](https://github.com/blackbaud/skyux/issues/4776)) ([f519f01](https://github.com/blackbaud/skyux/commit/f519f01cca675664ab6cf91a84b0d1025c6807e1))
