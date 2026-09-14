@@ -162,6 +162,50 @@ export class FeatureModule {}
     expect(getDependencies(tree)).toEqual({ '@skyux/core': '^15.0.0' });
   });
 
+  it('should remove the module from both imports and exports arrays when no template uses <sky-select-field>', async () => {
+    const warnSpy = jest.fn();
+    runner.logger.subscribe((entry) => {
+      if (entry.level === 'warn') {
+        warnSpy(entry.message);
+      }
+    });
+
+    const tree = setupTree({
+      '/src/app/shared.module.ts': `import { NgModule } from '@angular/core';
+import { SkySelectFieldModule } from '@skyux/select-field';
+
+@NgModule({
+  imports: [SkySelectFieldModule],
+  exports: [SkySelectFieldModule],
+})
+export class SharedModule {}
+`,
+      '/src/app/test.component.ts': `import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-test',
+  templateUrl: './test.component.html',
+})
+export class TestComponent {}
+`,
+      '/src/app/test.component.html': `<sky-lookup></sky-lookup>`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/shared.module.ts'))
+      .toBe(`import { NgModule } from '@angular/core';
+
+@NgModule({
+  imports: [],
+  exports: [],
+})
+export class SharedModule {}
+`);
+    expect(getDependencies(tree)).toEqual({ '@skyux/core': '^15.0.0' });
+    expect(warnSpy).not.toHaveBeenCalled();
+  });
+
   it('should remove an aliased module import and dependency when no template uses <sky-select-field>', async () => {
     const tree = setupTree({
       '/src/app/feature.module.ts': `import { NgModule } from '@angular/core';
