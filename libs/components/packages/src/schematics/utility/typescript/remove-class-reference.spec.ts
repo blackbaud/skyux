@@ -167,4 +167,27 @@ describe('remove-class-reference', () => {
     );
     expect(removed).toBe(true);
   });
+
+  it('should leave a custom decorator\'s exports array reference, import, and dependency untouched even when "exports" is opted in', () => {
+    const path = 'file.ts';
+    const content = `import { SkyGridModule } from 'module';\n\n@CustomDecorator({\n  exports: [SkyGridModule],\n})\nclass Test {}`;
+    tree.create(path, content);
+    const sourceFile = ts.createSourceFile(
+      path,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    const recorder = tree.beginUpdate(path);
+    const removed = removeClassReference(
+      recorder,
+      sourceFile,
+      'SkyGridModule',
+      'module',
+      ['imports', 'exports'],
+    );
+    tree.commitUpdate(recorder);
+    expect(tree.readText(path)).toBe(content);
+    expect(removed).toBe(false);
+  });
 });
