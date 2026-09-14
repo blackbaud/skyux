@@ -46,13 +46,18 @@ sky-toolbar + :host {
     --sky-comp-override-list-header-background-color,
     var(--sky-override-toolbar-background-color)
   );
-  // This padding override is used by the SkyFilterBar component in modern theme.
   padding: var(
     --sky-override-toolbar-container-padding,
-    var(--sky-comp-toolbar-space-inset-top)
-      var(--sky-comp-toolbar-space-inset-right)
-      var(--sky-comp-toolbar-space-inset-bottom)
-      var(--sky-comp-toolbar-space-inset-left)
+    var(
+      --sky-compat-toolbar-container-padding,
+      var(
+        --sky-comp-override-toolbar-padding,
+        var(--sky-comp-override-toolbar-space-inset-top, 0)
+          var(--sky-comp-override-toolbar-space-inset-right, 0)
+          var(--sky-comp-toolbar-space-inset-bottom)
+          var(--sky-comp-override-toolbar-space-inset-left, 0)
+      )
+    )
   );
   border-top: var(--sky-override-toolbar-border-top-bottom, none);
   border-bottom: var(--sky-override-toolbar-border-top-bottom, none);
