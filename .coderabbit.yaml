@@ -105,10 +105,14 @@ reviews:
         instructions: |
           Consider every changed production source file under libs/ — .ts,
           .html, and .scss — excluding .spec.ts files. PASS if there are none.
-          PASS if each such file is accompanied by a change to a .spec.ts file,
-          or, for template and style changes, to a .stories.ts visual test, or
-          the PR description explains why none is needed. Otherwise FAIL and
-          list the files missing test coverage.
+          Otherwise, each such file must be accompanied by a changed .spec.ts
+          that imports or exercises that specific file — a spec covering an
+          unrelated file does not satisfy the requirement. For a changed .html
+          or .scss file, a changed .stories.ts also satisfies the requirement,
+          but only when that story renders the component the template or style
+          belongs to. A file may also be excused when the PR description
+          explains why no test is appropriate for it. Otherwise FAIL and list
+          the files missing test coverage.
           Do not require tests for changes under apps/ — those projects are
           non-published manual-test, integration, and e2e harnesses.
       - name: 'Conventional commit title'
