@@ -39,39 +39,9 @@ export function isImportedFromPackage(
   identifierName: string,
   packageName: string,
 ): boolean {
-  const importDeclarations = findNodes(
-    sourceFile,
-    ts.SyntaxKind.ImportDeclaration,
-  ) as ts.ImportDeclaration[];
-
-  return importDeclarations.some((importDecl) => {
-    if (
-      !importDecl.moduleSpecifier ||
-      !ts.isStringLiteral(importDecl.moduleSpecifier)
-    ) {
-      return false;
-    }
-
-    if (importDecl.moduleSpecifier.text !== packageName) {
-      return false;
-    }
-
-    if (!importDecl.importClause) {
-      return false;
-    }
-
-    const namedBindings = importDecl.importClause.namedBindings;
-    if (!namedBindings || !ts.isNamedImports(namedBindings)) {
-      return false;
-    }
-
-    return namedBindings.elements.some((element) => {
-      const importedName = element.propertyName
-        ? element.propertyName.text
-        : element.name.text;
-      return importedName === identifierName;
-    });
-  });
+  return (
+    getLocalImportName(sourceFile, identifierName, packageName) !== undefined
+  );
 }
 
 /**
