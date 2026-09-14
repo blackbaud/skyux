@@ -162,6 +162,40 @@ export class FeatureModule {}
     expect(getDependencies(tree)).toEqual({ '@skyux/core': '^15.0.0' });
   });
 
+  it('should remove an aliased module import and dependency when no template uses <sky-select-field>', async () => {
+    const tree = setupTree({
+      '/src/app/feature.module.ts': `import { NgModule } from '@angular/core';
+import { SkySelectFieldModule as SelectFieldModule } from '@skyux/select-field';
+
+@NgModule({
+  imports: [SelectFieldModule],
+})
+export class FeatureModule {}
+`,
+      '/src/app/test.component.ts': `import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-test',
+  templateUrl: './test.component.html',
+})
+export class TestComponent {}
+`,
+      '/src/app/test.component.html': `<sky-lookup></sky-lookup>`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/feature.module.ts'))
+      .toBe(`import { NgModule } from '@angular/core';
+
+@NgModule({
+  imports: [],
+})
+export class FeatureModule {}
+`);
+    expect(getDependencies(tree)).toEqual({ '@skyux/core': '^15.0.0' });
+  });
+
   it('should only rewrite the project that does not use <sky-select-field> in a multi-project workspace', async () => {
     const tree = setupTree({
       '/src/app/feature.module.ts': `import { NgModule } from '@angular/core';

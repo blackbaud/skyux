@@ -7,7 +7,7 @@ import { logOnce } from '../../../utility/log-once';
 import { getElementsByTagName, parseTemplate } from '../../../utility/template';
 import {
   getInlineTemplates,
-  isImportedFromPackage,
+  getLocalImportName,
   parseSourceFile,
 } from '../../../utility/typescript/ng-ast';
 import { removeClassReference } from '../../../utility/typescript/remove-class-reference';
@@ -77,7 +77,12 @@ function removeModuleReferences(
     }
 
     const source = parseSourceFile(tree, filePath);
-    if (!isImportedFromPackage(source, CLASS_NAME, PACKAGE_NAME)) {
+
+    // `SkySelectFieldModule` may be imported under an alias (`SkySelectFieldModule
+    // as Foo`); `removeClassReference`/`removeImport` match on the local
+    // identifier, so resolve it (and confirm the import exists) up front.
+    const localName = getLocalImportName(source, CLASS_NAME, PACKAGE_NAME);
+    if (!localName) {
       return;
     }
 
@@ -85,7 +90,7 @@ function removeModuleReferences(
     const removed = removeClassReference(
       recorder,
       source,
-      CLASS_NAME,
+      localName,
       PACKAGE_NAME,
     );
     tree.commitUpdate(recorder);

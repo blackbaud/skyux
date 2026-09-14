@@ -74,6 +74,61 @@ export function isImportedFromPackage(
   });
 }
 
+/**
+ * Returns the `NamedImports` of `importDecl` when it imports from
+ * `packageName`, or `undefined` otherwise.
+ */
+function getNamedBindingsFromPackage(
+  importDecl: ts.ImportDeclaration,
+  packageName: string,
+): ts.NamedImports | undefined {
+  if (
+    !importDecl.moduleSpecifier ||
+    !ts.isStringLiteral(importDecl.moduleSpecifier) ||
+    importDecl.moduleSpecifier.text !== packageName
+  ) {
+    return undefined;
+  }
+
+  const namedBindings = importDecl.importClause?.namedBindings;
+  return namedBindings && ts.isNamedImports(namedBindings)
+    ? namedBindings
+    : undefined;
+}
+
+/**
+ * Returns the local binding name `identifierName` is imported as from
+ * `packageName` (e.g. `Foo` for `import { Bar as Foo } from packageName`), or
+ * `undefined` if it isn't imported from that package. Utilities that match on
+ * identifier text (e.g. `removeClassReference`) need the local name, not the
+ * exported name, since that's what appears at every use site.
+ */
+export function getLocalImportName(
+  sourceFile: ts.Node,
+  identifierName: string,
+  packageName: string,
+): string | undefined {
+  const importDeclarations = findNodes(
+    sourceFile,
+    ts.SyntaxKind.ImportDeclaration,
+  ) as ts.ImportDeclaration[];
+
+  for (const importDecl of importDeclarations) {
+    const namedBindings = getNamedBindingsFromPackage(importDecl, packageName);
+    const match = namedBindings?.elements.find((element) => {
+      const importedName = element.propertyName
+        ? element.propertyName.text
+        : element.name.text;
+      return importedName === identifierName;
+    });
+    if (match) {
+      return match.name.text;
+    }
+  }
+
+  return undefined;
+}
+
 export function getInlineTemplates(
   sourceFile: ts.SourceFile,
 ): { start: number; end: number }[] {
