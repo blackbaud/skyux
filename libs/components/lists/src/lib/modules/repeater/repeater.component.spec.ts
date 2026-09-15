@@ -2994,6 +2994,166 @@ describe('Repeater item component', () => {
     }));
   });
 
+  describe('first item top spacing', () => {
+    // `--sky-comp-*` design tokens are only defined under these two classes,
+    // so computed-style assertions here require modern theme.
+    beforeEach(() => {
+      document.body.classList.add('sky-theme-modern', 'sky-theme-brand-base');
+    });
+
+    afterEach(() => {
+      document.body.classList.remove(
+        'sky-theme-modern',
+        'sky-theme-brand-base',
+      );
+    });
+
+    // Simulates the repeater being placed inside a sky-box or sky-tile
+    // without depending on those libraries: the spacing rule matches on tag
+    // name alone, so wrapping the rendered element in a plain, unregistered
+    // custom element is a faithful test of it.
+    function wrapInElement(target: Element, tagName: string): void {
+      const wrapper = document.createElement(tagName);
+      target.replaceWith(wrapper);
+      wrapper.appendChild(target);
+    }
+
+    it('should not change the first item’s top padding outside a box or tile', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.detectChanges();
+      tick();
+
+      const items = getRepeaterItems(fixture.nativeElement);
+
+      expect(getComputedStyle(items[0]).paddingTop).toBe(
+        getComputedStyle(items[1]).paddingTop,
+      );
+      expect(getComputedStyle(items[0]).paddingTop).not.toBe('0px');
+
+      flushDropdownTimer();
+    }));
+
+    it('should remove the top padding of a non-selectable repeater’s first item inside a box', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.detectChanges();
+      tick();
+
+      wrapInElement(
+        fixture.nativeElement.querySelector('sky-repeater'),
+        'sky-box-content',
+      );
+
+      const items = getRepeaterItems(fixture.nativeElement);
+
+      expect(getComputedStyle(items[0]).paddingTop).toBe('0px');
+      expect(getComputedStyle(items[1]).paddingTop).not.toBe('0px');
+
+      flushDropdownTimer();
+    }));
+
+    it('should remove the top padding of a non-selectable repeater’s first item inside a tile', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.detectChanges();
+      tick();
+
+      wrapInElement(
+        fixture.nativeElement.querySelector('sky-repeater'),
+        'sky-tile-content',
+      );
+
+      const items = getRepeaterItems(fixture.nativeElement);
+
+      expect(getComputedStyle(items[0]).paddingTop).toBe('0px');
+      expect(getComputedStyle(items[1]).paddingTop).not.toBe('0px');
+
+      flushDropdownTimer();
+    }));
+
+    it('should remove the top spacing of a first item with no title inside a box', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('hideFirstItemTitle', true);
+      fixture.detectChanges();
+      tick();
+
+      wrapInElement(
+        fixture.nativeElement.querySelector('sky-repeater'),
+        'sky-box-content',
+      );
+
+      const el = fixture.nativeElement;
+      const firstItemLeft = el.querySelector('.sky-repeater-item-left');
+      const firstItemContent = el.querySelector(
+        '.sky-repeater-item-content sky-repeater-item-content',
+      );
+
+      expect(getComputedStyle(firstItemLeft).paddingTop).toBe('0px');
+      expect(getComputedStyle(firstItemContent).marginTop).toBe('0px');
+      expect(getComputedStyle(getRepeaterItems(el)[1]).paddingTop).not.toBe(
+        '0px',
+      );
+
+      flushDropdownTimer();
+    }));
+
+    it('should keep the first item’s top padding inside a box when the repeater is selectable', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('selectionMode', 'multiple');
+      fixture.detectChanges();
+      tick();
+
+      wrapInElement(
+        fixture.nativeElement.querySelector('sky-repeater'),
+        'sky-box-content',
+      );
+
+      const items = getRepeaterItems(fixture.nativeElement);
+
+      expect(getComputedStyle(items[0]).paddingTop).not.toBe('0px');
+
+      flushDropdownTimer();
+    }));
+
+    it('should keep the first item’s top padding inside a box in single-select mode', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.componentRef.setInput('selectionMode', 'single');
+      fixture.detectChanges();
+      tick();
+
+      wrapInElement(
+        fixture.nativeElement.querySelector('sky-repeater'),
+        'sky-box-content',
+      );
+
+      const items = getRepeaterItems(fixture.nativeElement);
+
+      expect(getComputedStyle(items[0]).paddingTop).not.toBe('0px');
+
+      flushDropdownTimer();
+    }));
+
+    it('should only tighten a nested repeater’s own first item, inside a box', fakeAsync(() => {
+      const fixture = TestBed.createComponent(NestedRepeaterTestComponent);
+      fixture.detectChanges();
+      tick();
+
+      wrapInElement(
+        fixture.nativeElement.querySelector('sky-repeater'),
+        'sky-box-content',
+      );
+
+      const outerFirstItem = fixture.nativeElement.querySelector(
+        'sky-repeater-item[tag="top-item"] > .sky-repeater-item',
+      );
+      const innerItems = outerFirstItem.querySelectorAll('.sky-repeater-item');
+
+      expect(getComputedStyle(outerFirstItem).paddingTop).toBe('0px');
+      expect(getComputedStyle(innerItems[0]).paddingTop).toBe('0px');
+      expect(getComputedStyle(innerItems[1]).paddingTop).not.toBe('0px');
+
+      flushDropdownTimer();
+    }));
+  });
+
   describe('accessibility tests', () => {
     async function setupTest(args: {
       activeIndex?: number;
