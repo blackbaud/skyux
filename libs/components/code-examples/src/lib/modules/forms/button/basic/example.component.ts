@@ -8,7 +8,6 @@ import { SkyButton } from '@skyux/forms';
   selector: 'app-forms-button-example',
   templateUrl: 'example.component.html',
   imports: [SkyButton],
-  standalone: true,
 })
 export class FormsButtonExampleComponent {
   protected buttonClick(): void {
