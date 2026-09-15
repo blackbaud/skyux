@@ -43,6 +43,45 @@ Pointer events are no longer disabled on elements with the "sky-btn-disabled" cl
       ],
     },
     {
+      name: '@skyux/tabs',
+      components: [
+        {
+          name: 'vertical-tabset',
+          styles: [
+            {
+              css: `
+/* The --sky-comp-* tokens used below are declared on the element that carries
+   the ".sky-theme-modern" class, and var() is substituted on the element that
+   declares the custom property. A ":root" block therefore cannot read them, so
+   the default theme values are written as literals here and the modern theme
+   values are re-declared in a separate ".sky-theme-modern" block. */
+:root {
+  --sky-compat-vertical-tabset-content-spacing-xs: 10px 0 0 10px;
+  --sky-compat-vertical-tabset-content-spacing-sm: 10px 0 0 10px;
+  --sky-compat-vertical-tabset-content-overflow-y: auto;
+}
+
+.sky-theme-modern {
+  --sky-compat-vertical-tabset-content-spacing-xs:
+    var(--sky-comp-tab-vertical-content-space-inset-xs-top)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-right)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-bottom)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-left);
+  --sky-compat-vertical-tabset-content-spacing-sm:
+    var(--sky-comp-tab-vertical-content-space-inset-sm-top)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-right)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-bottom)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-left);
+}
+`,
+              instructions: `
+Vertical tab content spacing and scrolling are now controlled by the "layout" input on each "sky-vertical-tab" element, matching the "layout" input on "sky-tab". Tabs that do not specify a layout, or that specify "none", no longer receive the previous default padding or vertical scrolling. To address this change, set "layout" on each "sky-vertical-tab" to the value that matches its content ("blocks", "fit", or "list"), then remove these blocks of code.`,
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: '@skyux/layout',
       components: [
         {

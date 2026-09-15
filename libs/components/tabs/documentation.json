@@ -67,7 +67,8 @@
           "SkyVerticalTabsetModule",
           "SkyVerticalTabsetComponent",
           "SkyVerticalTabComponent",
-          "SkyVerticalTabsetGroupComponent"
+          "SkyVerticalTabsetGroupComponent",
+          "SkyVerticalTabLayoutType"
         ],
         "primaryDocsId": "SkyVerticalTabsetModule"
       },

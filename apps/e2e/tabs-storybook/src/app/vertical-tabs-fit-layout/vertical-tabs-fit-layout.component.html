@@ -1,0 +1,29 @@
+<sky-page layout="fit">
+  <sky-page-header pageTitle="Fit Layout">
+    <sky-page-header-actions>
+      <button class="sky-btn sky-btn-primary" type="button">
+        <sky-icon iconName="add" />
+        New
+      </button>
+    </sky-page-header-actions>
+  </sky-page-header>
+  <sky-page-content>
+    <sky-vertical-tabset>
+      <sky-vertical-tab tabHeading="tab 1" layout="fit">
+        <div class="placeholder">
+          <p>Tab 1 content</p>
+        </div>
+      </sky-vertical-tab>
+      <sky-vertical-tab tabHeading="tab 2" layout="fit" [active]="true">
+        <div class="placeholder placeholder-danger">
+          <p>Tab 2 content</p>
+        </div>
+      </sky-vertical-tab>
+      <sky-vertical-tab tabHeading="tab 3" layout="fit" [disabled]="true">
+        <div class="placeholder placeholder-warning">
+          <p>Tab 3 content</p>
+        </div>
+      </sky-vertical-tab>
+    </sky-vertical-tabset>
+  </sky-page-content>
+</sky-page>
