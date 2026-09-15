@@ -18,8 +18,11 @@ describe('Icon SVG resolver service', () => {
     name: string,
     size: number,
     variant: SkyIconVariantType,
+    dark = false,
   ): string {
-    return `<symbol viewBox="0 0 ${size} ${size}" id="sky-i-${name}-${size}-${variant}" xmlns="http://www.w3.org/2000/svg">
+    const id = `sky-i-${name}-${size}-${variant}${dark ? '-dark' : ''}`;
+
+    return `<symbol viewBox="0 0 ${size} ${size}" id="${id}" xmlns="http://www.w3.org/2000/svg">
   <path d="1 1 0 0"></path>
 </symbol>`;
   }
@@ -31,8 +34,9 @@ describe('Icon SVG resolver service', () => {
     variant?: SkyIconVariantType,
     expectedError?: string,
     expectedUrl = DEFAULT_SVG_URL,
+    darkMode?: boolean,
   ): Promise<void> {
-    const hrefPromise = resolverSvc.resolveHref(name, size, variant);
+    const hrefPromise = resolverSvc.resolveHref(name, size, variant, darkMode);
 
     if (expectedError) {
       await expectAsync(hrefPromise).toBeRejectedWithError(expectedError);
@@ -65,6 +69,18 @@ describe('Icon SVG resolver service', () => {
     ${buildSymbolHtml('multi-size', 24, 'solid')}
     ${buildSymbolHtml('multi-size', 48, 'line')}
     ${buildSymbolHtml('multi-size', 48, 'solid')}
+    ${buildSymbolHtml('multi-size', 24, 'line', true)}
+    ${buildSymbolHtml('multi-size', 24, 'solid', true)}
+    ${buildSymbolHtml('multi-size', 48, 'line', true)}
+    ${buildSymbolHtml('multi-size', 48, 'solid', true)}
+    ${buildSymbolHtml('themed', 12, 'line')}
+    ${buildSymbolHtml('themed', 12, 'solid')}
+    ${buildSymbolHtml('themed', 12, 'line', true)}
+    ${buildSymbolHtml('themed', 12, 'solid', true)}
+    ${buildSymbolHtml('light-only', 12, 'line')}
+    ${buildSymbolHtml('light-only', 12, 'solid')}
+    ${buildSymbolHtml('moon-dark', 12, 'line')}
+    ${buildSymbolHtml('moon-dark', 12, 'solid')}
   </svg>`,
       ),
     );
@@ -161,6 +177,116 @@ describe('Icon SVG resolver service', () => {
 
     it('should resolve to the icon size closest to the default size when size is not specified', async () => {
       await validate('multi-size', '#sky-i-multi-size-12-line');
+    });
+  });
+
+  describe('with dark mode requested', () => {
+    it('should resolve the dark mode icon', async () => {
+      await validate(
+        'themed',
+        '#sky-i-themed-12-line-dark',
+        12,
+        'line',
+        undefined,
+        undefined,
+        true,
+      );
+      await validate(
+        'themed',
+        '#sky-i-themed-12-solid-dark',
+        12,
+        'solid',
+        undefined,
+        undefined,
+        true,
+      );
+    });
+
+    it('should resolve the default icon when dark mode is not requested', async () => {
+      await validate('themed', '#sky-i-themed-12-line', 12, 'line');
+      await validate(
+        'themed',
+        '#sky-i-themed-12-line',
+        12,
+        'line',
+        undefined,
+        undefined,
+        false,
+      );
+    });
+
+    it('should resolve the default icon when the icon has no dark mode version', async () => {
+      await validate(
+        'light-only',
+        '#sky-i-light-only-12-line',
+        12,
+        'line',
+        undefined,
+        undefined,
+        true,
+      );
+    });
+
+    it('should prefer the dark mode icon over a nearer size in the default icon', async () => {
+      // `multi-size` has an exact 12px match, but its dark mode version is only
+      // available at 24px and 48px. Mode wins over size, so the nearest dark
+      // mode size is used instead of the exact default-icon match.
+      await validate(
+        'multi-size',
+        '#sky-i-multi-size-24-line-dark',
+        12,
+        'line',
+        undefined,
+        undefined,
+        true,
+      );
+    });
+
+    it('should resolve the size nearest the requested size among dark mode icons', async () => {
+      await validate(
+        'multi-size',
+        '#sky-i-multi-size-24-line-dark',
+        24,
+        'line',
+        undefined,
+        undefined,
+        true,
+      );
+      await validate(
+        'multi-size',
+        '#sky-i-multi-size-48-line-dark',
+        40,
+        'line',
+        undefined,
+        undefined,
+        true,
+      );
+    });
+
+    it('should throw an error when neither the default nor dark mode icon exists', async () => {
+      await validate(
+        'invalid',
+        undefined,
+        undefined,
+        undefined,
+        `Icon with name 'invalid' was not found.`,
+        undefined,
+        true,
+      );
+    });
+
+    it('should not treat an icon whose name ends in "-dark" as a dark mode icon', async () => {
+      // Only a trailing `-dark` segment marks the theme mode, so `moon-dark`
+      // is a default icon that happens to end in `-dark` and resolves as-is.
+      await validate(
+        'moon-dark',
+        '#sky-i-moon-dark-12-line',
+        12,
+        'line',
+        undefined,
+        undefined,
+        true,
+      );
     });
   });
 

@@ -6,13 +6,28 @@ import { SkyIconVariantType } from './types/icon-variant-type';
 
 const DEFAULT_SVG_URL = `https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg`;
 
+// A dark mode icon repeats the default icon's ID with this suffix appended,
+// e.g. `sky-i-my-icon-20-line-dark` is the dark mode version of
+// `sky-i-my-icon-20-line`. The suffix is stripped when the icon map is built so
+// that both versions of an icon share a single entry, keyed by the name
+// consumers ask for.
+const DARK_MODE_SUFFIX = '-dark';
+const DARK_MODE_NAME = 'dark';
+
+// The sizes an icon has been optimized for, split by the theme mode each size
+// belongs to. Most icons have no dark mode version, leaving `dark` empty.
+interface IconSizes {
+  default: number[];
+  dark: number[];
+}
+
 // The icon sprite is loaded into (and queried from) the document as a single
 // global element, so only one SKY_ICON_SVG_URL can be active per application
 // at a time. These track which URL "owns" the current icon map.
-let iconMapPromise: Promise<Map<string, number[]>> | undefined;
+let iconMapPromise: Promise<Map<string, IconSizes>> | undefined;
 let loadedSvgUrl: string | undefined;
 
-async function getIconMap(svgUrl: string): Promise<Map<string, number[]>> {
+async function getIconMap(svgUrl: string): Promise<Map<string, IconSizes>> {
   const response = await fetch(svgUrl);
 
   /* istanbul ignore next */
@@ -26,11 +41,21 @@ async function getIconMap(svgUrl: string): Promise<Map<string, number[]>> {
   return buildIconMap();
 }
 
-function buildIconMap(): Map<string, number[]> {
+function buildIconMap(): Map<string, IconSizes> {
   const iconMap = Array.from<SVGSymbolElement>(
     document.querySelectorAll('#sky-icon-svg-sprite symbol'),
   ).reduce((map, el) => {
-    const idParts = el.id.split('-');
+    let idParts = el.id.split('-');
+
+    // Drop a trailing `dark` segment so a dark mode icon shares its default
+    // icon's entry rather than becoming an icon name of its own. Only the
+    // final segment is checked, so an icon whose name ends in `-dark` is
+    // still read as a default icon.
+    const isDarkModeIcon = idParts[idParts.length - 1] === DARK_MODE_NAME;
+
+    if (isDarkModeIcon) {
+      idParts = idParts.slice(0, -1);
+    }
 
     // Construct the icon name by removing `sky-i-` from the beginning
     // and `-<size>-<variant>` from the end.
@@ -39,57 +64,54 @@ function buildIconMap(): Map<string, number[]> {
     let sizes = map.get(name);
 
     if (!sizes) {
-      sizes = [];
+      sizes = { default: [], dark: [] };
       map.set(name, sizes);
     }
 
     // The penultimate segment is the size for which the icon has
     // been optimized.
-    sizes.push(+idParts[idParts.length - 2]);
+    const size = +idParts[idParts.length - 2];
+
+    if (isDarkModeIcon) {
+      sizes.dark.push(size);
+    } else {
+      sizes.default.push(size);
+    }
 
     return map;
-  }, new Map<string, number[]>());
+  }, new Map<string, IconSizes>());
 
   // Sort all the sizes for later comparison.
-  for (const id of iconMap.keys()) {
+  for (const sizes of iconMap.values()) {
     // Dedupe and sort the icon sizes.
-    iconMap.set(id, [...new Set(iconMap.get(id))].sort());
+    sizes.default = [...new Set(sizes.default)].sort();
+    sizes.dark = [...new Set(sizes.dark)].sort();
   }
 
   return iconMap;
 }
 
-function getNearestSize(
-  iconMap: Map<string, number[]>,
-  name: string,
-  pixelSize: number,
-): number | undefined {
-  const sizes = iconMap.get(name);
+function getNearestSize(sizes: number[], pixelSize: number): number {
+  let nearestSizeUnder = -Infinity;
+  let nearestSizeOver = Infinity;
 
-  if (sizes) {
-    let nearestSizeUnder = -Infinity;
-    let nearestSizeOver = Infinity;
-
-    for (const availableSize of sizes) {
-      if (availableSize === pixelSize) {
-        return pixelSize;
-      } else if (availableSize < pixelSize) {
-        nearestSizeUnder = availableSize;
-      } else {
-        nearestSizeOver = availableSize;
-        break;
-      }
+  for (const availableSize of sizes) {
+    if (availableSize === pixelSize) {
+      return pixelSize;
+    } else if (availableSize < pixelSize) {
+      nearestSizeUnder = availableSize;
+    } else {
+      nearestSizeOver = availableSize;
+      break;
     }
-
-    const underDiff = Math.abs(pixelSize - nearestSizeUnder);
-    const overDiff = Math.abs(pixelSize - nearestSizeOver);
-
-    return isNaN(overDiff) || underDiff < overDiff
-      ? nearestSizeUnder
-      : nearestSizeOver;
   }
 
-  return undefined;
+  const underDiff = Math.abs(pixelSize - nearestSizeUnder);
+  const overDiff = Math.abs(pixelSize - nearestSizeOver);
+
+  return isNaN(overDiff) || underDiff < overDiff
+    ? nearestSizeUnder
+    : nearestSizeOver;
 }
 
 /**
@@ -106,10 +128,20 @@ export class SkyIconSvgResolverService {
     this.#warnIfUrlMismatch();
   }
 
+  /**
+   * Resolves the sprite href for an icon.
+   * @param name The icon name.
+   * @param pixelSize The size the icon will be displayed at. The nearest size
+   * the icon has been optimized for is used.
+   * @param variant The icon variant.
+   * @param darkMode Whether to use the icon's dark mode version. Ignored when
+   * the icon has no dark mode version.
+   */
   public async resolveHref(
     name: string,
     pixelSize = 16,
     variant: SkyIconVariantType = 'line',
+    darkMode = false,
   ): Promise<string> {
     if (!iconMapPromise) {
       loadedSvgUrl = this.#svgUrl;
@@ -117,19 +149,26 @@ export class SkyIconSvgResolverService {
     }
 
     const iconMap = await iconMapPromise;
+    const iconSizes = iconMap.get(name);
 
-    let href = `#sky-i-${name}`;
-
-    // Find the icon with the optimal size nearest to the requested size.
-    const nearestSize = getNearestSize(iconMap, name, pixelSize);
-
-    if (!nearestSize) {
+    if (!iconSizes) {
       throw new Error(`Icon with name '${name}' was not found.`);
     }
 
-    href = `${href}-${nearestSize}-${variant}`;
+    // Mode takes priority over size. When the icon has a dark mode version, use
+    // it even if the default version offers a closer match to the requested
+    // size.
+    const useDarkMode = darkMode && iconSizes.dark.length > 0;
 
-    return href;
+    // Find the icon with the optimal size nearest to the requested size.
+    const nearestSize = getNearestSize(
+      useDarkMode ? iconSizes.dark : iconSizes.default,
+      pixelSize,
+    );
+
+    const darkSuffix = useDarkMode ? DARK_MODE_SUFFIX : '';
+
+    return `#sky-i-${name}-${nearestSize}-${variant}${darkSuffix}`;
   }
 
   public refreshIconMap(): void {
