@@ -112,4 +112,82 @@ describe('remove-class-reference', () => {
       ),
     ).toBe(false);
   });
+
+  it('should leave an exports array reference and its import untouched by default', () => {
+    const content = `import { SkyGridModule } from 'module';\n\n@NgModule({\n  exports: [SkyGridModule],\n})\nclass Test {}`;
+    expect(run(content)).toBe(content);
+  });
+
+  it('should remove an exports array reference and the import when "exports" is an opted-in metadata field', () => {
+    const path = 'file.ts';
+    const content = `import { SkyGridModule } from 'module';\n\n@NgModule({\n  imports: [SkyGridModule],\n  exports: [SkyGridModule],\n})\nclass Test {}`;
+    tree.create(path, content);
+    const sourceFile = ts.createSourceFile(
+      path,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    const recorder = tree.beginUpdate(path);
+    const removed = removeClassReference(
+      recorder,
+      sourceFile,
+      'SkyGridModule',
+      'module',
+      ['imports', 'exports'],
+    );
+    tree.commitUpdate(recorder);
+    expect(tree.readText(path)).toBe(
+      `\n@NgModule({\n  imports: [],\n  exports: [],\n})\nclass Test {}`,
+    );
+    expect(removed).toBe(true);
+  });
+
+  it('should remove a reference that appears only in an opted-in exports array', () => {
+    const path = 'file.ts';
+    const content = `import { SkyGridModule } from 'module';\n\n@NgModule({\n  exports: [SkyGridModule],\n})\nclass Test {}`;
+    tree.create(path, content);
+    const sourceFile = ts.createSourceFile(
+      path,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    const recorder = tree.beginUpdate(path);
+    const removed = removeClassReference(
+      recorder,
+      sourceFile,
+      'SkyGridModule',
+      'module',
+      ['imports', 'exports'],
+    );
+    tree.commitUpdate(recorder);
+    expect(tree.readText(path)).toBe(
+      `\n@NgModule({\n  exports: [],\n})\nclass Test {}`,
+    );
+    expect(removed).toBe(true);
+  });
+
+  it('should leave a custom decorator\'s exports array reference, import, and dependency untouched even when "exports" is opted in', () => {
+    const path = 'file.ts';
+    const content = `import { SkyGridModule } from 'module';\n\n@CustomDecorator({\n  exports: [SkyGridModule],\n})\nclass Test {}`;
+    tree.create(path, content);
+    const sourceFile = ts.createSourceFile(
+      path,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    const recorder = tree.beginUpdate(path);
+    const removed = removeClassReference(
+      recorder,
+      sourceFile,
+      'SkyGridModule',
+      'module',
+      ['imports', 'exports'],
+    );
+    tree.commitUpdate(recorder);
+    expect(tree.readText(path)).toBe(content);
+    expect(removed).toBe(false);
+  });
 });
