@@ -1,7 +1,7 @@
 :host {
   display: inline;
 
-  &.sky-button-block {
+  &:has(> .sky-btn-block) {
     display: block;
   }
 }

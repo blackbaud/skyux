@@ -1,27 +1,28 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { booleanAttribute, Component, input, output } from '@angular/core';
 import {
-  booleanAttribute,
-  Component,
-  computed,
-  input,
-  output,
-} from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
-import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
-import { SkyButtonPermalink } from './button-permalink';
-import { SkyButtonStyle } from './button-style';
-import { SkyButtonType } from './button-type';
+  SkyButton,
+  SkyButtonPermalink,
+  SkyButtonStyle,
+  SkyButtonType,
+} from '@skyux/forms';
 
-/**
- * Buttons provide interactive elements for users to trigger actions in the system.
- */
 @Component({
-  selector: 'sky-button',
-  templateUrl: './button.html',
-  styleUrl: './button.scss',
-  imports: [SkyIconModule, NgTemplateOutlet, SkyAppLinkModule, SkyHrefModule],
+  template: `<sky-button
+    data-sky-id="test-button"
+    [block]="block"
+    [buttonStyle]="buttonStyle()"
+    [buttonType]="buttonType()"
+    [disabled]="disabled()"
+    [iconName]="iconName()"
+    [labelHidden]="labelHidden()"
+    [labelText]="labelText()"
+    [logo]="logo()"
+    [permalink]="permalink()"
+    (buttonClick)="buttonClick.emit($event)"
+  />`,
+  imports: [SkyButton],
 })
-export class SkyButton {
+export class ButtonTest {
   /**
    * Whether the button is displayed as a block element that fills the horizontal space of its container.
    * @default false
@@ -82,22 +83,5 @@ export class SkyButton {
    */
   public readonly permalink = input<SkyButtonPermalink>();
 
-  /**
-   * Fires when the button is clicked.
-   */
-  public readonly buttonClick = output<PointerEvent>();
-
-  protected readonly ariaLabel = computed(() =>
-    this.labelHidden() ? this.labelText() : null,
-  );
-
-  protected readonly buttonClass = computed(() => {
-    let buttonClass = `sky-btn sky-btn-${this.buttonStyle()}`;
-
-    if (this.block()) {
-      buttonClass += ' sky-btn-block';
-    }
-
-    return buttonClass;
-  });
+  public buttonClick = output<PointerEvent>();
 }

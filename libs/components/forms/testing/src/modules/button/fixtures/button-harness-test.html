@@ -24,14 +24,24 @@
   logo
 />
 <sky-button
-  data-sky-id="on-prominent-button"
-  buttonStyle="icon-borderless-on-prominent"
-  iconName="add"
-  labelHidden
-  labelText="On prominent"
-/>
-<sky-button
   data-sky-id="disabled-button"
   disabled
   labelText="Disabled button"
+/>
+<sky-button
+  data-sky-id="anchor-button-route"
+  labelText="Anchor button with permalink route"
+  [permalink]="{
+    route: {
+      commands: ['foo', 'bar']
+    }
+  }"
+/>
+
+<sky-button
+  data-sky-id="anchor-button-url"
+  labelText="Anchor button with permalink URL"
+  [permalink]="{
+    url: 'https://example.com/'
+  }"
 />

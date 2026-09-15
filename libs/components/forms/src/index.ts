@@ -73,5 +73,6 @@ export { SkySelectionBoxComponent as λ17 } from './lib/modules/selection-box/se
 export { SkyToggleSwitchComponent as λ19 } from './lib/modules/toggle-switch/toggle-switch.component';
 
 export { SkyButton } from './lib/modules/button/button';
+export { SkyButtonPermalink } from './lib/modules/button/button-permalink';
 export { SkyButtonStyle } from './lib/modules/button/button-style';
 export { SkyButtonType } from './lib/modules/button/button-type';

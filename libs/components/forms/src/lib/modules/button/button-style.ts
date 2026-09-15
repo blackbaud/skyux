@@ -1,8 +1,2 @@
 export type SkyButtonStyle =
-  | 'danger'
-  | 'default'
-  | 'icon-borderless'
-  | 'icon-borderless-on-prominent'
-  | 'link'
-  | 'link-inline'
-  | 'primary';
+  'danger' | 'default' | 'icon-borderless' | 'link' | 'link-inline' | 'primary';

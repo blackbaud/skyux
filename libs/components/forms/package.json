@@ -27,6 +27,7 @@
     "@skyux/icon": "0.0.0-PLACEHOLDER",
     "@skyux/indicators": "0.0.0-PLACEHOLDER",
     "@skyux/popovers": "0.0.0-PLACEHOLDER",
+    "@skyux/router": "0.0.0-PLACEHOLDER",
     "@skyux/theme": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
