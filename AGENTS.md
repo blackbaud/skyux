@@ -170,6 +170,16 @@ what you find **before** handing it over:
   removed overloads, changed default behavior, or stricter runtime validation.
   If a breaking change is truly necessary, defer it to the next major or gate it
   behind a new, additive API.
+- **A breaking change is only permitted on an open major alpha line.** The
+  published packages carry `0.0.0-PLACEHOLDER` and are versioned in lockstep
+  from the root [package.json](package.json) `version`, which is the only
+  authoritative version. The exception applies only when the version on the
+  **base** branch is already a prerelease of an unreleased major
+  (`<major>.0.0-<prerelease>`, e.g. `15.0.0-alpha.0`) and the PR title carries
+  the Conventional Commits `!` marker so release tooling records the break. A
+  version raised inside the PR does not qualify — the head is author-controlled
+  and cannot authorize its own exception — and neither does a prose claim in the
+  PR description.
 - Additions to the public API must be:
   - **Easy to use** — minimal required arguments, sensible defaults, hard to
     misuse, and obvious from the call site what they do.
@@ -184,10 +194,10 @@ what you find **before** handing it over:
 
 ## Dependency Discipline (blocking)
 
-- New npm packages are a last resort. Before adding one, justify why Angular,
-  RxJS, Node.js built-ins (`node:fs`, `node:path`, `node:crypto`,
-  `node:child_process`, `fetch`, `URL`, etc.), or existing project utilities
-  cannot do the job simply.
+- New npm packages are a last resort. Before adding one, justify in the PR
+  description why Angular, RxJS, Node.js built-ins (`node:fs`, `node:path`,
+  `node:crypto`, `node:child_process`, `fetch`, `URL`, etc.), or existing
+  project utilities cannot do the job simply.
 - If a new dependency is genuinely warranted, it must be:
   - **Lightweight** — small install footprint, few or zero transitive deps.
   - **Solving something the platform cannot reasonably handle itself.**
@@ -221,11 +231,18 @@ running specs:
 - **Jest** — `libs/sdk/*` tooling/schematics plus the `manifest` and
   `packages` component projects (look for `jest.config.ts`).
 
-Every code change must include corresponding tests. Most projects enforce
-100% coverage for statements, branches, functions, and lines (see each
+Every code change under `libs/` must include corresponding tests. Most projects
+enforce 100% coverage for statements, branches, functions, and lines (see each
 project's `karma.conf.js` or `jest.config.ts`). Run `npm run test:affected`
 to verify all tests pass and coverage thresholds are met before considering
 a task complete.
+
+A changed `.ts`, `.html`, or `.scss` file needs a spec that imports or
+exercises that specific file; a spec covering an unrelated file does not count.
+For a changed `.html` or `.scss`, a story that renders the owning component
+satisfies the requirement instead. When no test is appropriate for a file, say
+so and why in the PR description. Changes under `apps/` need no tests — those
+projects are non-published manual-test, integration, and e2e harnesses.
 
 Do not restructure production code to make it testable: no injectables added
 purely as seams, no widening a barrel to reach an internal, and no `@Input()`
@@ -233,11 +250,6 @@ that exists only so a spec can set state. Prefer a component harness or public
 behavior over reaching into internals. Code that is hard to test is usually too
 complex — simplify it instead. Coverage is a floor to clear, never a reason to
 add surface area.
-
-## Code Formatting
-
-Run `nx format --files=<comma-separated-paths>` on the files you changed before
-committing. Do not commit unformatted code.
 
 ## Commit Messages
 

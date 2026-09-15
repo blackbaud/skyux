@@ -42,9 +42,9 @@ reviews:
     - path: '**/{src/index.ts,testing/src/public-api.ts}'
       instructions: |
         This glob also matches manifest-generator test fixtures. Ignore anything
-        under a src/testing/fixtures/ path — those are test data, not published
-        barrels. For published barrels, apply the "Public API Discipline"
-        section of AGENTS.md as blocking.
+        under a fixtures/ directory at any level — those are test data, not
+        published barrels. For published barrels, apply the "Public API
+        Discipline" section of AGENTS.md as blocking.
     - path: '**/package.json'
       instructions: |
         Apply the "Dependency Discipline" section of AGENTS.md as blocking.
@@ -58,6 +58,14 @@ reviews:
   # AGENTS.md declares these blocking. `error` surfaces them as pre-merge
   # failures rather than comments that can be scrolled past. Downgrade any of
   # these to `warning` if it proves too strict in practice.
+  #
+  # This is the one place that must restate AGENTS.md. Custom checks run as a
+  # separate agent with access to the diff, PR metadata, and repo search only —
+  # not to `code_guidelines`, so pointing one at an AGENTS.md section the way
+  # `path_instructions` does would leave it with no criteria. The schema also
+  # requires deterministic pass/fail instructions; vague ones return
+  # Inconclusive. AGENTS.md stays authoritative: change it first, then mirror
+  # the change into the affected check.
   pre_merge_checks:
     custom_checks:
       # The major-release exception is gated on release metadata, not on a
@@ -72,9 +80,7 @@ reviews:
         instructions: |
           Inspect only the diffs of published barrels: a library's
           src/index.ts, its testing/src/public-api.ts, or a secondary entry
-          point such as libs/sdk/testing/private/src/index.ts. Ignore anything
-          under a src/testing/fixtures/ path — those files match the same
-          shape but are manifest-generator test data, not published barrels.
+          point such as libs/sdk/testing/private/src/index.ts.
           PASS if no published barrel changed. PASS if every change is purely
           additive and every added symbol is prefixed with `sky` or `Sky`.
           A breaking change (removed or renamed export, changed signature,
@@ -121,13 +127,6 @@ reviews:
           the files missing test coverage.
           Do not require tests for changes under apps/ — those projects are
           non-published manual-test, integration, and e2e harnesses.
-      - name: 'Conventional commit title'
-        mode: error
-        instructions: |
-          PASS if the PR title follows the Conventional Commits rules in
-          .github/instructions/commit-message.instructions.md, including the
-          SKY UX type and scope conventions. Otherwise FAIL and supply a
-          corrected title.
       - name: 'Scope is minimal'
         mode: warning
         instructions: |
@@ -158,11 +157,10 @@ knowledge_base:
   learnings:
     scope: local
     approval_delay: 7
-  # AGENTS.md is picked up by default, but binding it explicitly applies it as
-  # review criteria on every source file. Listing patterns here replaces the
-  # defaults; CLAUDE.md and .github/copilot-instructions.md are pointers to
-  # AGENTS.md and carry no rules of their own. The .github/instructions files
-  # are bound to their own globs so they act as criteria, not background.
+  # These entries are added on top of CodeRabbit's default patterns, not a
+  # replacement for them. The .github/instructions files are matched by default
+  # but would be scoped to the directory they live in, so each is bound here to
+  # the glob it actually governs.
   code_guidelines:
     enabled: true
     filePatterns:
@@ -171,7 +169,7 @@ knowledge_base:
       - files: '.github/instructions/angular.instructions.md'
         applyTo: '**/libs/components/**/*.{ts,html}, **/apps/**/*.{ts,html}'
       - files: '.github/instructions/component-unit-testing.instructions.md'
-        applyTo: '**/libs/components/*/src/lib/**/*.spec.ts'
+        applyTo: '**/libs/components/*/src/lib/**/*.spec.ts, !**/libs/components/code-examples/**'
       - files: '.github/instructions/component-code-examples.instructions.md'
         applyTo: '**/libs/components/code-examples/**, **/libs/components/*/documentation.json'
       - files: '.github/instructions/component-harnesses.instructions.md'
