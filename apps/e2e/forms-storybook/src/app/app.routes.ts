@@ -7,6 +7,11 @@ export const routes: Route[] = [
       import('./input-box/input-box.module').then((m) => m.InputBoxModule),
   },
   {
+    path: 'button',
+    loadChildren: () =>
+      import('./button/button.module').then((m) => m.ButtonModule),
+  },
+  {
     path: 'checkbox',
     loadChildren: () =>
       import('./checkbox/checkbox.module').then((m) => m.CheckboxModule),
