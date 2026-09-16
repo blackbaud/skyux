@@ -1257,6 +1257,40 @@ describe('Colorpicker Component', () => {
       expect(selectedColorAppliedSpy).not.toHaveBeenCalled();
     }));
 
+    it('should still show the required error after resetting an originally-empty, required colorpicker', fakeAsync(() => {
+      component.labelText = 'Label text';
+      component.required = true;
+      component.selectedColor = undefined;
+      fixture.detectChanges();
+      tick();
+
+      const ngModel = debugElement
+        .query(By.directive(NgModel))
+        .injector.get(NgModel);
+
+      openColorpicker(nativeElement);
+      setPresetColor(nativeElement, fixture, 4);
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorModel).toBeTruthy();
+
+      openColorpicker(nativeElement);
+      const buttonElem = getResetButton();
+      buttonElem?.click();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorModel).toBeFalsy();
+      expect(ngModel.control.pristine).toBeTrue();
+      expect(ngModel.control.touched).toBeTrue();
+
+      const formError = fixture.nativeElement.querySelector('sky-form-error');
+      expect(formError).toBeVisible();
+      expect(formError.textContent).toContain('Label text is required.');
+    }));
+
     it('should accept open colorpicker via messageStream.', fakeAsync(() => {
       fixture.detectChanges();
       tick();
@@ -1569,6 +1603,37 @@ describe('Colorpicker Component', () => {
       expect(component.colorControl.pristine).toBeTrue();
       expect(selectedColorChangedSpy).not.toHaveBeenCalled();
       expect(selectedColorAppliedSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should still show the required error after resetting an originally-empty, required colorpicker', fakeAsync(() => {
+      component.labelText = 'Label text';
+      component.required = true;
+      component.initialColor = undefined;
+      component.colorControl.setValue(undefined);
+      fixture.detectChanges();
+      tick();
+
+      openColorpicker(nativeElement);
+      setPresetColor(nativeElement, fixture, 4);
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorControl.value).toBeTruthy();
+
+      openColorpicker(nativeElement);
+      const buttonElem = getResetButton();
+      buttonElem?.click();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorControl.value).toBeFalsy();
+      expect(component.colorControl.pristine).toBeTrue();
+      expect(component.colorControl.touched).toBeTrue();
+
+      const formError = fixture.nativeElement.querySelector('sky-form-error');
+      expect(formError).toBeVisible();
+      expect(formError.textContent).toContain('Label text is required.');
     }));
 
     it('should clear the input and the picker when the form control value is cleared', fakeAsync(async () => {
