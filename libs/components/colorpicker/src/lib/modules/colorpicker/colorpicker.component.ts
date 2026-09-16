@@ -646,12 +646,17 @@ export class SkyColorpickerComponent
         break;
 
       case SkyColorpickerMessageType.Reset:
-        this.updatePickerValues(this.initialColor);
-        this.backgroundColorForDisplay = this.initialColor;
-        this.selectedColorChanged.emit(this.selectedColor);
-        // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.selectedColorApplied.emit({ color: this.selectedColor! });
+        if (this.initialColor) {
+          this.updatePickerValues(this.initialColor);
+          this.backgroundColorForDisplay = this.initialColor;
+          this.selectedColorChanged.emit(this.selectedColor);
+          // TODO: This code assumed non-null pre-strict mode. Reevaluate in the future?
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          this.selectedColorApplied.emit({ color: this.selectedColor! });
+        } else {
+          this.#colorpickerInputSvc.clearValue.next();
+        }
+        this.ngControl?.control?.markAsPristine();
         break;
 
       case SkyColorpickerMessageType.ToggleResetButton:
