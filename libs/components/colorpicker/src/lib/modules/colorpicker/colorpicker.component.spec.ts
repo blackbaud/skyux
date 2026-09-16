@@ -1258,7 +1258,7 @@ describe('Colorpicker Component', () => {
     }));
 
     it('should still show the required error after resetting an originally-empty, required colorpicker', fakeAsync(() => {
-      component.labelText = 'Label text';
+      fixture.componentRef.setInput('labelText', 'Label text');
       component.required = true;
       component.selectedColor = undefined;
       fixture.detectChanges();
