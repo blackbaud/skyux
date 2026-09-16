@@ -111,8 +111,13 @@ export class SkyButtonHarness extends SkyComponentHarness {
    * Whether the button is disabled.
    */
   public async isDisabled(): Promise<boolean> {
-    const disabled = await (await this.#getButton())?.getAttribute('disabled');
-    return disabled !== null;
+    const button = await this.#getButton();
+
+    if (button) {
+      return (await button.getAttribute('disabled')) !== null;
+    }
+
+    return false;
   }
 
   /**

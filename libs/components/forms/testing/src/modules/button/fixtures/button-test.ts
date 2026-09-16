@@ -9,7 +9,7 @@ import {
 @Component({
   template: `<sky-button
     data-sky-id="test-button"
-    [block]="block"
+    [block]="block()"
     [buttonStyle]="buttonStyle()"
     [buttonType]="buttonType()"
     [disabled]="disabled()"
