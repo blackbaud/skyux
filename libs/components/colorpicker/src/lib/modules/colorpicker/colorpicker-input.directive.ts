@@ -178,7 +178,7 @@ export class SkyColorpickerInputDirective
     const element = this.#elementRef.nativeElement;
 
     this.#renderer.addClass(element, 'sky-form-control');
-    this.skyColorpickerInput.initialColor = this.initialColor;
+    this.skyColorpickerInput.initialColor = this.#_initialColor;
     this.skyColorpickerInput.returnFormat = this.returnFormat;
 
     this.skyColorpickerInput.selectedColorChanged
@@ -188,9 +188,17 @@ export class SkyColorpickerInputDirective
         if (newColor) {
           this.#modelValue = this.#formatter(newColor);
 
-          // Write the new value to the reactive form control, which will update the template model
-          this.writeValue(newColor);
+          // Write the new value to the reactive form control, which will
+          // update the template model. This must not capture `newColor` as
+          // the initial/reset color, since it is a color the user applied.
+          this.#applyValue(newColor, false);
         }
+      });
+
+    this.#colorpickerInputSvc.clearValue
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe(() => {
+        this.#clearValue();
       });
 
     this.#colorpickerInputSvc.labelText
@@ -261,7 +269,7 @@ export class SkyColorpickerInputDirective
 
   public setColorPickerDefaults(): void {
     this.skyColorpickerInput.setDialog(
-      this.initialColor,
+      this.#_initialColor,
       this.outputFormat,
       this.presetColors,
       this.alphaChannel,
@@ -285,30 +293,7 @@ export class SkyColorpickerInputDirective
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public writeValue(value: any): void {
-    if (
-      this.skyColorpickerInput &&
-      value &&
-      value !== this.skyColorpickerInput.lastAppliedColor
-    ) {
-      const formattedValue = this.#formatter(value);
-
-      this.#modelValue = formattedValue;
-      this.#writeModelValue(formattedValue);
-
-      if (!this.#_initialColor) {
-        this.#_initialColor = value;
-        this.skyColorpickerInput.initialColor = value;
-      }
-      this.skyColorpickerInput.lastAppliedColor = value;
-
-      const control = this.#injector.get<NgControl>(NgControl, undefined, {
-        optional: true,
-      })?.control;
-
-      if (control) {
-        control.setValue(this.#modelValue, { emitEvent: false });
-      }
-    }
+    this.#applyValue(value, true);
   }
 
   public validate(): ValidationErrors | null {
@@ -353,6 +338,53 @@ export class SkyColorpickerInputDirective
 
     this.#renderer.setStyle(element, 'background-color', setElementValue);
     this.#renderer.setProperty(element, 'value', output);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  #applyValue(value: any, captureInitial: boolean): void {
+    if (
+      this.skyColorpickerInput &&
+      value &&
+      value !== this.skyColorpickerInput.lastAppliedColor
+    ) {
+      const formattedValue = this.#formatter(value);
+
+      this.#modelValue = formattedValue;
+      this.#writeModelValue(formattedValue);
+
+      if (captureInitial && !this.#_initialColor) {
+        this.#_initialColor = value;
+        this.skyColorpickerInput.initialColor = value;
+      }
+      this.skyColorpickerInput.lastAppliedColor = value;
+
+      const control = this.#injector.get<NgControl>(NgControl, undefined, {
+        optional: true,
+      })?.control;
+
+      if (control) {
+        control.setValue(this.#modelValue, { emitEvent: false });
+      }
+    }
+  }
+
+  // Resets the input to its originally-empty state, without falling back to
+  // the deprecated `initialColor` input's white default.
+  #clearValue(): void {
+    this.#modelValue = undefined;
+    this.skyColorpickerInput.lastAppliedColor = undefined;
+    this.skyColorpickerInput.updatePickerValues(undefined);
+    this.skyColorpickerInput.backgroundColorForDisplay = undefined;
+
+    const element = this.#elementRef.nativeElement;
+    this.#renderer.removeStyle(element, 'background-color');
+    this.#renderer.setProperty(element, 'value', '');
+
+    const control = this.#injector.get<NgControl>(NgControl, undefined, {
+      optional: true,
+    })?.control;
+
+    control?.setValue(undefined, { emitEvent: false });
   }
 
   #formatter(
