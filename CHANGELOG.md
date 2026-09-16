@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* **components/toast:** links don't change color on hover ([#4787](https://github.com/blackbaud/skyux/issues/4787)) ([3a4cdaa](https://github.com/blackbaud/skyux/commit/3a4cdaa2a04f87909006ac1049fc3c32d7f67848))
 * input components native controls match color scheme ([#4769](https://github.com/blackbaud/skyux/issues/4769)) ([4593389](https://github.com/blackbaud/skyux/commit/4593389c831da5252f321364d1cedd82293b5cb2))
 
 ## [14.20.1](https://github.com/blackbaud/skyux/compare/14.20.0...14.20.1) (2026-09-09)
