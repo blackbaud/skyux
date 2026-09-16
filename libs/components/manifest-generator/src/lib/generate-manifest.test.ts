@@ -5,7 +5,7 @@ import { readJsonFile } from 'nx/src/utils/fileutils.js';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { generateCodeExamplesManifest } from './generate-code-examples-manifest.js';
-import { getProjectDefinitions } from './get-project-definitions.js';
+import type { ProjectDefinition } from './get-project-definitions.js';
 
 vi.mock('node:child_process');
 vi.mock('node:fs');
@@ -24,8 +24,6 @@ vi.mock('node:fs/promises', async (importOriginal) => {
 });
 vi.mock('nx/src/utils/fileutils.js');
 
-vi.mock('./get-project-definitions.js');
-
 const projectsRootDirectory =
   'libs/components/manifest-generator/src/testing/fixtures/example-packages';
 
@@ -33,7 +31,7 @@ function setup(options: {
   documentationJsonExists: boolean;
   outDirExists: boolean;
   projectNames: string[];
-}): void {
+}): ProjectDefinition[] {
   vi.spyOn(console, 'error').mockImplementation(() => {
     /* */
   });
@@ -58,24 +56,19 @@ function setup(options: {
     return false;
   });
 
-  vi.mocked(getProjectDefinitions).mockImplementation(() => {
-    const definitions = [];
+  return options.projectNames.map((projectName) => {
+    const projectRoot = `${projectsRootDirectory}/${projectName}`;
 
-    for (const projectName of options.projectNames) {
-      const projectRoot = `${projectsRootDirectory}/${projectName}`;
-
-      definitions.push({
-        entryPoints: [
-          `${projectRoot}/src/index.ts`,
-          `${projectRoot}/testing/src/public-api.ts`,
-        ],
-        packageName: `@skyux/${projectName}`,
-        projectName,
-        projectRoot,
-      });
-    }
-
-    return definitions;
+    return {
+      entryPoints: [
+        `${projectRoot}/src/index.ts`,
+        `${projectRoot}/testing/src/public-api.ts`,
+      ],
+      packageName: `@skyux/${projectName}`,
+      projectName,
+      projectRoot,
+      tsConfigPath: `${projectRoot}/tsconfig.lib.prod.json`,
+    };
   });
 }
 
@@ -86,12 +79,10 @@ describe('generate-manifest', () => {
   });
 
   it('should generate manifest', async () => {
-    const projectNames = ['code-examples', 'foo'];
-
-    setup({
+    const projects = setup({
       documentationJsonExists: true,
       outDirExists: true,
-      projectNames,
+      projectNames: ['code-examples', 'foo'],
     });
 
     const { generateManifest } = await import('./generate-manifest.js');
@@ -99,20 +90,17 @@ describe('generate-manifest', () => {
     await generateManifest({
       codeExamplesPackageName: '@skyux/code-examples',
       outDir: '/dist',
-      projectNames,
-      projectsRootDirectory,
+      projects,
     });
 
     expect(fsPromises.writeFile).toMatchSnapshot();
   }, 60000);
 
   it('should create the out directory if it does not exist', async () => {
-    const projectNames = ['foo'];
-
-    setup({
+    const projects = setup({
       documentationJsonExists: false,
       outDirExists: false,
-      projectNames,
+      projectNames: ['foo'],
     });
 
     const { generateManifest } = await import('./generate-manifest.js');
@@ -120,20 +108,17 @@ describe('generate-manifest', () => {
     await generateManifest({
       codeExamplesPackageName: '@skyux/code-examples',
       outDir: '/dist',
-      projectNames,
-      projectsRootDirectory,
+      projects,
     });
 
     expect(fsPromises.mkdir).toHaveBeenCalledWith('/dist');
   }, 60000);
 
   it('should throw for invalid docs IDs', async () => {
-    const projectNames = ['invalid-docs-id'];
-
-    setup({
+    const projects = setup({
       documentationJsonExists: false,
       outDirExists: true,
-      projectNames,
+      projectNames: ['invalid-docs-id'],
     });
 
     const { generateManifest } = await import('./generate-manifest.js');
@@ -142,8 +127,7 @@ describe('generate-manifest', () => {
       generateManifest({
         codeExamplesPackageName: '@skyux/code-examples',
         outDir: '/dist',
-        projectNames,
-        projectsRootDirectory,
+        projects,
       }),
     ).rejects.toThrow(
       'The following errors were encountered when creating the manifest:\n' +
@@ -152,12 +136,10 @@ describe('generate-manifest', () => {
   }, 60000);
 
   it('should throw for invalid documentation.json', async () => {
-    const projectNames = ['code-examples', 'invalid-documentation-json'];
-
-    setup({
+    const projects = setup({
       documentationJsonExists: true,
       outDirExists: true,
-      projectNames,
+      projectNames: ['code-examples', 'invalid-documentation-json'],
     });
 
     const { generateManifest } = await import('./generate-manifest.js');
@@ -166,19 +148,16 @@ describe('generate-manifest', () => {
       generateManifest({
         codeExamplesPackageName: '@skyux/code-examples',
         outDir: '/dist',
-        projectNames,
-        projectsRootDirectory,
+        projects,
       }),
     ).rejects.toThrowErrorMatchingSnapshot();
   }, 60000);
 
   it('should throw when code example does not have a selector', async () => {
-    const projectNames = ['invalid-code-examples'];
-
-    setup({
+    const projects = setup({
       documentationJsonExists: true,
       outDirExists: true,
-      projectNames,
+      projectNames: ['invalid-code-examples'],
     });
 
     const { generateManifest } = await import('./generate-manifest.js');
@@ -186,8 +165,7 @@ describe('generate-manifest', () => {
     const { publicApi } = await generateManifest({
       codeExamplesPackageName: '@skyux/invalid-code-examples',
       outDir: '/dist',
-      projectNames,
-      projectsRootDirectory,
+      projects,
     });
 
     vi.mocked(readJsonFile).mockImplementation((filePath: string): object => {
@@ -204,8 +182,7 @@ describe('generate-manifest', () => {
       generateCodeExamplesManifest({
         codeExamplesPackageName: '@skyux/invalid-code-examples',
         outDir: '/dist',
-        projectNames,
-        projectsRootDirectory,
+        projects,
       }),
     ).rejects.toThrow(
       'The following errors were encountered when creating the code examples manifest:\n' +

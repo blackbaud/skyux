@@ -164,6 +164,31 @@
         var(--sky-comp-layout-header-list-space-inset-xs-bottom)
         var(--sky-comp-layout-header-list-space-inset-xs-left)
     );
+
+    --sky-comp-override-toolbar-space-inset-top: var(
+      --sky-comp-toolbar-space-inset-top
+    );
+    --sky-comp-override-toolbar-space-inset-right: var(
+      --sky-comp-toolbar-space-inset-right
+    );
+    --sky-comp-override-toolbar-space-inset-left: var(
+      --sky-comp-toolbar-space-inset-left
+    );
+    --sky-comp-override-toolbar-section-space-inset-top: var(
+      --sky-comp-toolbar-space-inset-top
+    );
+    --sky-comp-override-toolbar-section-space-inset-right: var(
+      --sky-comp-toolbar-space-inset-right
+    );
+    --sky-comp-override-toolbar-section-space-inset-left: var(
+      --sky-comp-toolbar-space-inset-left
+    );
+    --sky-comp-override-list-summary-space-inset-right: var(
+      --sky-comp-list_summary-space-inset-right
+    );
+    --sky-comp-override-list-summary-space-inset-left: var(
+      --sky-comp-list_summary-space-inset-left
+    );
   }
 
   &-tabs {

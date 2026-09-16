@@ -1,15 +1,10 @@
 :host {
   display: block;
-}
 
-// Default theme sets this toolbar override in the toolbar component.
-:host-context(.sky-theme-modern) .sky-filter-bar-toolbar {
-  --sky-override-toolbar-container-padding: var(
-      --sky-comp-filter_bar-space-inset-top
-    )
-    var(--sky-comp-filter_bar-space-inset-right)
-    var(--sky-comp-filter_bar-space-inset-bottom)
-    var(--sky-comp-filter_bar-space-inset-left);
+  --sky-comp-override-toolbar-padding: var(
+    --sky-compat-filter-bar-toolbar-padding,
+    0 0 var(--sky-comp-filter_bar-space-inset-bottom)
+  );
 }
 
 // When filter bar is a child of data manager toolbar, add a top border as if it were a toolbar section.
@@ -19,4 +14,18 @@
     var(--sky-border-width-divider) var(--sky-border-style-divider)
       var(--sky-color-border-divider)
   );
+
+  --sky-comp-override-toolbar-padding: var(
+      --sky-comp-filter_bar-space-inset-top
+    )
+    0 var(--sky-comp-filter_bar-space-inset-bottom);
+}
+
+:host-context(.sky-layout-host-list) {
+  --sky-comp-override-toolbar-padding: var(
+      --sky-comp-filter_bar-space-inset-top
+    )
+    var(--sky-comp-filter_bar-space-inset-right)
+    var(--sky-comp-filter_bar-space-inset-bottom)
+    var(--sky-comp-filter_bar-space-inset-left);
 }

@@ -15,6 +15,7 @@ import {
 
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': { skyux_list_skip_to_link: { message: 'Skip to {0}' } },
+  ES: { skyux_list_skip_to_link: { message: 'Saltar a {0}' } },
   'FR-CA': { skyux_list_skip_to_link: { message: 'Passer à {0}' } },
 };
 

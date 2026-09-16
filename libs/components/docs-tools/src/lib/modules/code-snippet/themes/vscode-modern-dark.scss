@@ -1,0 +1,57 @@
+.sky-theme-modern.sky-theme-mode-dark {
+  sky-docs-code-snippet {
+    .hljs-keyword,
+    .hljs-doctag,
+    .hljs-variable.language_,
+    .hljs-literal,
+    .hljs-function {
+      color: #569cd6;
+    }
+
+    .hljs-meta,
+    .hljs-title.class_,
+    .hljs-built_in,
+    .hljs-params {
+      color: #4ec9b0;
+    }
+
+    .hljs-attribute,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+
+    .hljs-attr {
+      color: #9cdcfe;
+    }
+
+    .hljs-string {
+      color: #ce9178;
+    }
+
+    .hljs-comment {
+      color: #6a9955;
+    }
+
+    .hljs-attr,
+    .hljs-property,
+    .hljs-variable.constant_ {
+      color: #4fc1ff;
+    }
+
+    .hljs-number {
+      color: #b5cea8;
+    }
+
+    .hljs-tag {
+      .hljs-name {
+        color: #569cd6;
+      }
+      .hljs-attr {
+        color: #9cdcfe;
+      }
+      .hljs-string {
+        color: #ce9178;
+      }
+    }
+  }
+}

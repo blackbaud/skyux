@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  booleanAttribute,
+  computed,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
+import { SkyLogService } from '@skyux/core';
 
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
 
@@ -14,12 +24,41 @@ import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type'
   standalone: false,
 })
 export class SkyFluidGridComponent {
+  #logSvc = inject(SkyLogService);
+
+  #disableMargin = signal<boolean | undefined>(undefined);
+
   /**
    * Disables the outer left and right margin of the fluid grid container.
-   * @default false
+   * @deprecated Use `inset` instead. Note that the values are inverted:
+   * setting `disableMargin` to `true` is equivalent to setting `inset` to
+   * `false`.
    */
   @Input()
-  public disableMargin: boolean | undefined = false;
+  public set disableMargin(value: boolean | undefined) {
+    this.#disableMargin.set(value);
+
+    if (value !== undefined) {
+      this.#logSvc.deprecated('SkyFluidGridComponent.disableMargin', {
+        deprecationMajorVersion: 15,
+        replacementRecommendation:
+          'Use the `inset` input instead. Note that the values are inverted: setting `disableMargin` to `true` is equivalent to setting `inset` to `false`.',
+      });
+    }
+  }
+
+  /* istanbul ignore next */
+  public get disableMargin(): boolean | undefined {
+    return this.#disableMargin();
+  }
+
+  /**
+   * Whether to add padding inside the fluid grid container so its content is
+   * inset from the container's outer left and right edges. When `false`,
+   * the fluid grid's content extends to the edges of its container.
+   * @default false
+   */
+  public readonly inset = input(false, { transform: booleanAttribute });
 
   /**
    * The type that defines the size of the padding
@@ -34,6 +73,16 @@ export class SkyFluidGridComponent {
   public get gutterSize(): SkyFluidGridGutterSizeType {
     return this.#_gutterSize;
   }
+
+  /**
+   * Whether the fluid grid's outer left and right margin should be hidden.
+   * The deprecated `disableMargin` input, when explicitly set, takes
+   * precedence over `inset` so apps mid-migration keep their existing
+   * behavior until `disableMargin` is removed.
+   */
+  protected readonly noMargin = computed(
+    () => this.#disableMargin() ?? !this.inset(),
+  );
 
   #_gutterSize: SkyFluidGridGutterSizeType = 'large';
 }

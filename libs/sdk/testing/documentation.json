@@ -1,0 +1,24 @@
+{
+  "$schema": "../../components/manifest-generator/documentation-schema.json",
+  "groups": {
+    "jasmine-matchers": {
+      "development": {
+        "docsIds": [
+          "expectSdkTesting",
+          "expectAsyncSdkTesting",
+          "SkyAsyncMatchersSdkTesting",
+          "SkyMatchersSdkTesting",
+          "SkyA11yAnalyzerConfigSdkTesting",
+          "SkyToBeVisibleOptionsSdkTesting"
+        ],
+        "primaryDocsId": "SkyMatchersSdkTesting"
+      },
+      "testing": {
+        "docsIds": []
+      },
+      "codeExamples": {
+        "docsIds": []
+      }
+    }
+  }
+}

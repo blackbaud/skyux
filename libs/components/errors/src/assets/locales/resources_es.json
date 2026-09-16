@@ -1,0 +1,34 @@
+{
+  "skyux_errors_broken_description": {
+    "_description": "Mensaje de descripción del componente de error para el tipo de error de funcionamiento",
+    "message": "Algo no funcionó.\nInténtelo de nuevo o vuelva más tarde."
+  },
+  "skyux_errors_broken_title": {
+    "_description": "Mensaje de título del componente de error para el tipo de error de funcionamiento",
+    "message": "Qué extraño..."
+  },
+  "skyux_errors_construction_description": {
+    "_description": "Mensaje de descripción del componente de error para el tipo de error de mantenimiento",
+    "message": "Agradecemos su paciencia mientras\nrealizamos mejoras."
+  },
+  "skyux_errors_construction_title": {
+    "_description": "Mensaje de título del componente de error para el tipo de error de mantenimiento",
+    "message": "Trabajo en curso."
+  },
+  "skyux_errors_not_found_description": {
+    "_description": "Mensaje de descripción del componente de error para el tipo de error de página no encontrada",
+    "message": "Disculpe, pero esta página\nno existe o se ha movido."
+  },
+  "skyux_errors_not_found_title": {
+    "_description": "Mensaje de título del componente de error para el tipo de error no encontrado",
+    "message": "No hay nada que ver aquí."
+  },
+  "skyux_errors_security_description": {
+    "_description": "Mensaje de descripción del componente de error para el tipo de error de seguridad",
+    "message": "Solicite acceso a su administrador."
+  },
+  "skyux_errors_security_title": {
+    "_description": "Mensaje de título del componente de error para el tipo de error de seguridad",
+    "message": "¡Atención!\nSe encuentra en un área restringida."
+  }
+}

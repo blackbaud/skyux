@@ -13,14 +13,18 @@ import ts from 'typescript';
  * Parse a TypeScript source file from tree
  */
 export function parseSourceFile(tree: Tree, filePath: string): ts.SourceFile {
-  const content = tree.read(filePath);
-  if (!content) {
+  if (tree.read(filePath) === null) {
     throw new Error(`Could not read file: ${filePath}`);
   }
 
+  // `Tree#readText` strips a leading UTF-8 BOM (via `TextDecoder`), matching
+  // the coordinate space `UpdateRecorder` uses internally. Reading raw bytes
+  // and calling `Buffer#toString()` instead keeps the BOM as a `\uFEFF`
+  // character, shifting every AST position by one relative to the recorder
+  // and corrupting edits in BOM-prefixed files.
   return ts.createSourceFile(
     filePath,
-    content.toString(),
+    tree.readText(filePath),
     ts.ScriptTarget.Latest,
     true,
   );
@@ -35,39 +39,64 @@ export function isImportedFromPackage(
   identifierName: string,
   packageName: string,
 ): boolean {
+  return (
+    getLocalImportName(sourceFile, identifierName, packageName) !== undefined
+  );
+}
+
+/**
+ * Returns the `NamedImports` of `importDecl` when it imports from
+ * `packageName`, or `undefined` otherwise.
+ */
+function getNamedBindingsFromPackage(
+  importDecl: ts.ImportDeclaration,
+  packageName: string,
+): ts.NamedImports | undefined {
+  if (
+    !importDecl.moduleSpecifier ||
+    !ts.isStringLiteral(importDecl.moduleSpecifier) ||
+    importDecl.moduleSpecifier.text !== packageName
+  ) {
+    return undefined;
+  }
+
+  const namedBindings = importDecl.importClause?.namedBindings;
+  return namedBindings && ts.isNamedImports(namedBindings)
+    ? namedBindings
+    : undefined;
+}
+
+/**
+ * Returns the local binding name `identifierName` is imported as from
+ * `packageName` (e.g. `Foo` for `import { Bar as Foo } from packageName`), or
+ * `undefined` if it isn't imported from that package. Utilities that match on
+ * identifier text (e.g. `removeClassReference`) need the local name, not the
+ * exported name, since that's what appears at every use site.
+ */
+export function getLocalImportName(
+  sourceFile: ts.Node,
+  identifierName: string,
+  packageName: string,
+): string | undefined {
   const importDeclarations = findNodes(
     sourceFile,
     ts.SyntaxKind.ImportDeclaration,
   ) as ts.ImportDeclaration[];
 
-  return importDeclarations.some((importDecl) => {
-    if (
-      !importDecl.moduleSpecifier ||
-      !ts.isStringLiteral(importDecl.moduleSpecifier)
-    ) {
-      return false;
-    }
-
-    if (importDecl.moduleSpecifier.text !== packageName) {
-      return false;
-    }
-
-    if (!importDecl.importClause) {
-      return false;
-    }
-
-    const namedBindings = importDecl.importClause.namedBindings;
-    if (!namedBindings || !ts.isNamedImports(namedBindings)) {
-      return false;
-    }
-
-    return namedBindings.elements.some((element) => {
+  for (const importDecl of importDeclarations) {
+    const namedBindings = getNamedBindingsFromPackage(importDecl, packageName);
+    const match = namedBindings?.elements.find((element) => {
       const importedName = element.propertyName
         ? element.propertyName.text
         : element.name.text;
       return importedName === identifierName;
     });
-  });
+    if (match) {
+      return match.name.text;
+    }
+  }
+
+  return undefined;
 }
 
 export function getInlineTemplates(

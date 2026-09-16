@@ -5,11 +5,10 @@ import fsPromises from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import {
-  generateManifest,
-  getComponentProjectNames,
-} from '../libs/components/manifest-generator/src/index.js';
+import { generateManifest } from '../libs/components/manifest-generator/src/index.js';
 import { SkyManifestPublicApi } from '../libs/components/manifest/src/index.js';
+
+import { getManifestProjects } from './utils/get-manifest-projects.mjs';
 
 const argv = minimist(process.argv.slice(2));
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -117,13 +116,10 @@ async function checkManifest({
 }
 
 void (async (): Promise<void> => {
-  const projectNames = getComponentProjectNames();
-
   const manifest = await generateManifest({
     codeExamplesPackageName: '@skyux/code-examples',
     outDir: 'dist/libs/components/manifest',
-    projectNames,
-    projectsRootDirectory: 'libs/components/',
+    projects: getManifestProjects(),
   });
 
   await checkManifest(manifest);

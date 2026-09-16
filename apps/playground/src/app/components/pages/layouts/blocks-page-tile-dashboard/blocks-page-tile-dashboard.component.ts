@@ -23,7 +23,7 @@ import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard
       }"
     />
     <sky-page-content>
-      <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
+      <sky-fluid-grid gutterSize="medium">
         <sky-row>
           <sky-column [screenLarge]="9">
             <app-page-layout-tile-dashboard />

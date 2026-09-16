@@ -1,0 +1,22 @@
+{
+  "skyux_angular_tree_clear_all": {
+    "_description": "Texto del vínculo para borrar todas las casillas de verificación.",
+    "message": "Borrar todo"
+  },
+  "skyux_angular_tree_click_to_expand": {
+    "_description": "Texto del botón para expandir o contraer los nodos del árbol.",
+    "message": "Haga clic para expandir"
+  },
+  "skyux_angular_tree_collapse_all": {
+    "_description": "Texto del vínculo para contraer todos los nodos del árbol.",
+    "message": "Contraer"
+  },
+  "skyux_angular_tree_expand_all": {
+    "_description": "Texto del vínculo para expandir todos los nodos del árbol.",
+    "message": "Expandir"
+  },
+  "skyux_angular_tree_select_all": {
+    "_description": "Texto del vínculo para seleccionar todas las casillas de verificación.",
+    "message": "Seleccionar todo"
+  }
+}

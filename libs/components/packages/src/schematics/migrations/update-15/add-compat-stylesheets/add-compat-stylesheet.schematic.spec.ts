@@ -85,10 +85,25 @@ describe('Migrations > Add compat stylesheets', () => {
 
     const compatStylesheetContents = updatedTree.readText(compatStylesheetPath);
 
+    expect(compatStylesheetContents).toContain('COMPONENT: BUTTON');
     expect(compatStylesheetContents).toContain(
       '--sky-compat-btn-disabled-pointer-events: none;',
     );
-    expect(compatStylesheetContents).toContain('COMPONENT: BUTTON');
+
+    expect(compatStylesheetContents).toContain('COMPONENT: TOOLBAR');
+    expect(compatStylesheetContents).toContain(
+      '--sky-compat-toolbar-container-padding:',
+    );
+
+    expect(compatStylesheetContents).toContain('COMPONENT: FILTER BAR');
+    expect(compatStylesheetContents).toContain(
+      '--sky-compat-filter-bar-toolbar-padding:',
+    );
+
+    expect(compatStylesheetContents).toContain('COMPONENT: LIST SUMMARY');
+    expect(compatStylesheetContents).toContain(
+      '--sky-compat-list-summary-padding:',
+    );
 
     const updatedAngularJson = updatedTree.readJson(
       '/angular.json',
@@ -130,6 +145,9 @@ describe('Migrations > Add compat stylesheets', () => {
     await validateCompatStylesheet(
       JSON.stringify({
         dependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),
@@ -137,10 +155,34 @@ describe('Migrations > Add compat stylesheets', () => {
     );
   });
 
+  it('should only add compat styles for libraries that are installed', async () => {
+    const { runSchematic, tree } = await setupTest();
+
+    tree.overwrite(
+      '/package.json',
+      JSON.stringify({
+        dependencies: {
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+        },
+      }),
+    );
+
+    const updatedTree = await runSchematic();
+    const contents = updatedTree.readText(compatStylesheetPath);
+
+    expect(contents).toContain('--sky-compat-toolbar-container-padding:');
+    expect(contents).not.toContain('--sky-compat-filter-bar-toolbar-padding:');
+    expect(contents).not.toContain('--sky-compat-list-summary-padding:');
+    expect(contents).not.toContain('--sky-compat-btn-disabled-pointer-events:');
+  });
+
   it('should add a compat stylesheet for libraries in devDependencies', async () => {
     await validateCompatStylesheet(
       JSON.stringify({
         devDependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),
@@ -152,6 +194,9 @@ describe('Migrations > Add compat stylesheets', () => {
     await validateCompatStylesheet(
       JSON.stringify({
         devDependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),
@@ -164,6 +209,9 @@ describe('Migrations > Add compat stylesheets', () => {
     await validateCompatStylesheet(
       JSON.stringify({
         devDependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),
@@ -181,6 +229,9 @@ describe('Migrations > Add compat stylesheets', () => {
       '/package.json',
       JSON.stringify({
         dependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),
@@ -239,6 +290,9 @@ describe('Migrations > Add compat stylesheets', () => {
       '/package.json',
       JSON.stringify({
         dependencies: {
+          '@skyux/filter-bar': 'CURRENT_VERSION.0.0',
+          '@skyux/layout': 'CURRENT_VERSION.0.0',
+          '@skyux/lists': 'CURRENT_VERSION.0.0',
           '@skyux/theme': 'CURRENT_VERSION.0.0',
         },
       }),

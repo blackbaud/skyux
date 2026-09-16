@@ -5,31 +5,52 @@ import ts from 'typescript';
 import { removeImport } from './remove-import';
 
 /**
- * True if `array` is the value of an `imports: [...]` property on an object
- * literal passed directly to a decorator (e.g. `@Component({ imports: [...] })`).
- * A `PropertyAssignment`'s parent is always an `ObjectLiteralExpression` by
- * grammar, so that link doesn't need its own check.
+ * True if `array` is the value of a property (named in `metadataFields`,
+ * e.g. `imports: [...]`) on an object literal passed directly to a
+ * decorator (e.g. `@Component({ imports: [...] })`). A `PropertyAssignment`'s
+ * parent is always an `ObjectLiteralExpression` by grammar, so that link
+ * doesn't need its own check.
+ *
+ * `exports` only exists on Angular's `@NgModule` metadata (`@Component`,
+ * `@Directive`, etc. have no such field), so an `exports` array is only
+ * treated as decorator metadata when the decorator is `@NgModule`. This
+ * keeps `imports` processing available for any decorator (e.g. standalone
+ * `@Component` metadata) while preventing an unrelated custom decorator's
+ * `exports` array from being mistaken for module metadata.
  */
-function isDecoratorImportsArray(array: ts.ArrayLiteralExpression): boolean {
+function isDecoratorMetadataArray(
+  array: ts.ArrayLiteralExpression,
+  metadataFields: readonly string[],
+): boolean {
   const property = array.parent;
   if (
     !ts.isPropertyAssignment(property) ||
-    property.name.getText() !== 'imports'
+    !metadataFields.includes(property.name.getText())
   ) {
     return false;
   }
   const call = property.parent.parent;
-  return ts.isCallExpression(call) && ts.isDecorator(call.parent);
+  if (!ts.isCallExpression(call) || !ts.isDecorator(call.parent)) {
+    return false;
+  }
+  if (
+    property.name.getText() === 'exports' &&
+    !(ts.isIdentifier(call.expression) && call.expression.text === 'NgModule')
+  ) {
+    return false;
+  }
+  return true;
 }
 
 /**
- * Removes every reference to `className` from an Angular decorator's
- * `imports: [...]` array, consuming the adjacent comma so the remaining
- * entries stay well-formed, then removes the import of `className` from
- * `moduleName` - but only if nothing else in the file still references it.
- * References outside a decorator's `imports` array (unrelated arrays, a
- * parameter that shadows the import, direct assignments, etc.) are left
- * untouched, and the import is kept if any of those remain.
+ * Removes every reference to `className` from the given `metadataFields`
+ * arrays (default `['imports']`) of an Angular decorator, consuming the
+ * adjacent comma so the remaining entries stay well-formed, then removes
+ * the import of `className` from `moduleName` - but only if nothing else in
+ * the file still references it. References outside those decorator arrays
+ * (unrelated arrays, a parameter that shadows the import, direct
+ * assignments, etc.) are left untouched, and the import is kept if any of
+ * those remain.
  *
  * Returns `true` when the import statement was removed, `false` when
  * unhandled references kept it in place.
@@ -39,6 +60,7 @@ export function removeClassReference(
   sourceFile: ts.SourceFile,
   className: string,
   moduleName: string,
+  metadataFields: readonly string[] = ['imports'],
 ): boolean {
   const endOfImports = findNodes(
     sourceFile,
@@ -57,7 +79,7 @@ export function removeClassReference(
       reference,
     ): reference is ts.Identifier & { parent: ts.ArrayLiteralExpression } =>
       ts.isArrayLiteralExpression(reference.parent) &&
-      isDecoratorImportsArray(reference.parent),
+      isDecoratorMetadataArray(reference.parent, metadataFields),
   );
   const hasUnhandledReference =
     decoratorArrayReferences.length !== references.length;

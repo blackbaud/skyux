@@ -84,6 +84,19 @@ describe('forms-storybook - input box', () => {
         );
       });
 
+      it('should properly focus a number input box', () => {
+        cy.skyReady('app-input-box', [], ['#input-box-number'])
+          .get('#input-box-number input')
+          .click();
+        cy.skyVisualTest(
+          `inputboxcomponent-inputbox--input-box-${theme}-number-focus`,
+          {
+            overwrite: true,
+          },
+          '#input-box-number',
+        );
+      });
+
       it('should properly focus a input box with buttons', () => {
         cy.skyReady('app-input-box', [], ['#input-box-button-multiple'])
           .get('#input-box-button-multiple input')

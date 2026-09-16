@@ -30,11 +30,7 @@ vi.mock('node:fs/promises', async (importOriginal) => {
 vi.mock('nx/src/utils/fileutils.js');
 vi.mock('fast-glob');
 vi.mock('./get-documentation-config.js');
-vi.mock('./get-project-definitions.js');
 vi.mock('./get-public-api.js');
-
-const projectsRootDirectory =
-  'libs/components/manifest-generator/src/testing/fixtures/example-packages';
 
 function setup(options: {
   outDirExists: boolean;
@@ -163,8 +159,7 @@ export class FooCodeExample1 {}`,
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',
       outDir: '/dist',
-      projectNames: ['code-examples'],
-      projectsRootDirectory,
+      projects: [],
     });
 
     expect(fsPromises.writeFile).toHaveBeenCalledWith(
@@ -200,8 +195,7 @@ export class FooCodeExample1 {}`,
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',
       outDir: '/dist',
-      projectNames: ['code-examples'],
-      projectsRootDirectory,
+      projects: [],
     });
 
     expect(fsPromises.mkdir).toHaveBeenCalledWith('/dist');
@@ -258,8 +252,7 @@ export class FooCodeExampleNoSelector {}`,
       generateCodeExamplesManifest({
         codeExamplesPackageName: '@skyux/invalid-code-examples',
         outDir: '/dist',
-        projectNames: ['invalid-code-examples'],
-        projectsRootDirectory,
+        projects: [],
       }),
     ).rejects.toThrow(
       'The following errors were encountered when creating the code examples manifest:\n' +
@@ -300,8 +293,7 @@ export class FooCodeExampleNoSelector {}`,
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',
       outDir: '/dist',
-      projectNames: ['code-examples'],
-      projectsRootDirectory,
+      projects: [],
     });
 
     expect(fsPromises.writeFile).toHaveBeenCalledWith(
@@ -388,8 +380,7 @@ export class FooCodeExampleHiddenDemo {}`,
     await generateCodeExamplesManifest({
       codeExamplesPackageName: '@skyux/code-examples',
       outDir: '/dist',
-      projectNames: ['code-examples'],
-      projectsRootDirectory,
+      projects: [],
     });
 
     expect(fsPromises.writeFile).toHaveBeenCalledTimes(1);

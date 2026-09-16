@@ -10,7 +10,7 @@ import { type SkyChartJsConfig } from './chart-js';
 function buildBaseChartJsOptions(
   themeStyles: SkyChartThemeStyles,
 ): ChartOptions {
-  const { font, text, tooltip } = themeStyles;
+  const { font, motion, text, tooltip } = themeStyles;
 
   const bodyFont = {
     family: font.family,
@@ -28,7 +28,14 @@ function buildBaseChartJsOptions(
     // Interaction: hovering and tooltips target the nearest point precisely.
     interaction: { mode: 'nearest', intersect: true },
     hover: { mode: 'nearest', intersect: true },
-    animation: { duration: 400, easing: 'easeInOutQuart' },
+
+    // Motion: the canvas cannot inherit CSS transitions, so the theme's
+    // duration drives the animation. `false` skips the animation frames
+    // entirely when motion is suppressed, so the chart paints its final state
+    // on the first frame.
+    animation: motion.duration
+      ? { duration: motion.duration, easing: 'easeInOutQuart' }
+      : false,
 
     plugins: {
       legend: {

@@ -115,13 +115,19 @@ export async function getPublicApi(
     SkyManifestParentDefinition[]
   >();
 
-  for (const { entryPoints, packageName, projectRoot } of projects) {
+  for (const {
+    entryPoints,
+    packageName,
+    projectRoot,
+    tsConfigPath,
+  } of projects) {
     console.log(`Creating manifest for "${projectRoot}"...`);
 
     const entryPointReflections = await getEntryPointsReflections({
       entryPoints,
       packageName,
       projectRoot,
+      tsConfigPath,
     });
 
     for (const { entryName, reflection } of entryPointReflections) {

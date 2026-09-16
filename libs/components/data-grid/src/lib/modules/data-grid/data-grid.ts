@@ -103,6 +103,15 @@ function arraySorted(arr: string[]): string[] {
 }
 
 /**
+ * Members of `SkyDataGridColumn` that are `protected` because they are for
+ * this grid's use only, not part of the column's public API.
+ */
+interface SkyDataGridColumnInternal {
+  initialized: Signal<boolean>;
+  cellTemplate: Signal<TemplateRef<unknown> | undefined>;
+}
+
+/**
  * Displays tabular data in a grid using a declarative set of columns and inputs.
  * Provide the `data` array and one `sky-data-grid-column` for each column to render.
  * @preview
@@ -409,7 +418,11 @@ export class SkyDataGrid {
 
   readonly #columnDefs = computed<ColDef<SkyDataGridRowData>[]>(() => {
     const columns = this.columns();
-    return columns.map((col) => this.#createColDef(col));
+    return columns
+      .filter((col) =>
+        (col as unknown as SkyDataGridColumnInternal).initialized(),
+      )
+      .map((col) => this.#createColDef(col));
   });
   readonly #hasColumnDefs = computed(() => this.#columnDefs().length > 0);
 
@@ -812,12 +825,10 @@ export class SkyDataGrid {
       (colDef.type as string[]).push(SkyCellType.Text);
       colDef.cellDataType = 'text';
     }
-    const colWithTemplate = col as unknown as {
-      cellTemplate: Signal<TemplateRef<unknown> | undefined>;
-    };
-    if (colWithTemplate.cellTemplate()) {
+    const colInternal = col as unknown as SkyDataGridColumnInternal;
+    if (colInternal.cellTemplate()) {
       (colDef.type as string[]).push(SkyCellType.Template);
-      colDef.cellRendererParams = { template: colWithTemplate.cellTemplate };
+      colDef.cellRendererParams = { template: colInternal.cellTemplate };
     }
     if (!this.autoSort()) {
       colDef.comparator = (): number => 0;

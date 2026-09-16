@@ -561,7 +561,7 @@ describe('SkyAgGridService', () => {
     });
 
     it('should let SKY UX resource strings override AG Grid text', () => {
-      const gridOptions = createServiceForLocale('es-ES').getGridOptions({
+      const gridOptions = createServiceForLocale('jp-JP').getGridOptions({
         gridOptions: {},
       });
 

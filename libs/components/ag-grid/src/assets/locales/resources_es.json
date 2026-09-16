@@ -1,0 +1,74 @@
+{
+  "sky_ag_grid_row_selector_aria_label": {
+    "_description": "Etiqueta ARIA de la casilla de verificación para seleccionar una fila",
+    "message": "Selector de fila para la fila {0}"
+  },
+  "sky_ag_grid_row_selector_column_heading": {
+    "_description": "Encabezado de columna sobre las casillas de verificación para seleccionar filas",
+    "message": "Selección de filas"
+  },
+  "sky_ag_grid_cell_editor_datepicker_aria_label": {
+    "_description": "Etiqueta ARIA del editor de celdas de autocompletar",
+    "message": "Fecha editable {0} para la fila {1}"
+  },
+  "sky_ag_grid_cell_editor_datepicker_hint_text": {
+    "_description": "Texto de ayuda para el formato de fecha establecido actualmente en el selector de fecha.",
+    "message": "Utilice el formato {0}."
+  },
+  "sky_ag_grid_cell_editor_number_aria_label": {
+    "_description": "Etiqueta ARIA del editor de celdas numéricas",
+    "message": "Número editable {0} para la fila {1}"
+  },
+  "sky_ag_grid_cell_editor_text_aria_label": {
+    "_description": "Etiqueta ARIA del editor de celdas de texto",
+    "message": "Texto editable {0} para la fila {1}"
+  },
+  "sky_ag_grid_cell_editor_autocomplete_aria_label": {
+    "_description": "Etiqueta ARIA del editor de celdas de autocompletar",
+    "message": "Autocompletado editable {0} para la fila {1}"
+  },
+  "sky_ag_grid_cell_renderer_number_validator_message": {
+    "_description": "Error emergente del validador de números",
+    "message": "Introduzca un número válido."
+  },
+  "sky_ag_grid_cell_renderer_currency_validator_message": {
+    "_description": "Error emergente del validador de moneda",
+    "message": "Introduzca un valor de moneda válido."
+  },
+  "skyux_lookup_tokens_summary": {
+    "_description": "Texto que se muestra cuando el usuario ha seleccionado más elementos que el máximo permitido",
+    "message": "{0} artículos seleccionados"
+  },
+  "sky_ag_grid_cell_editor_currency_aria_label": {
+    "_description": "Etiqueta ARIA del editor de celdas de moneda",
+    "message": "Valor de moneda editable {0} para la fila {1}"
+  },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_asc": {
+    "_description": "Etiqueta ARIA del botón para ordenar el encabezado de columna cuando la columna está ordenada actualmente de forma ascendente",
+    "message": "Ordenar columna {0}, actualmente en orden ascendente"
+  },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_desc": {
+    "_description": "Etiqueta ARIA del botón para ordenar el encabezado de columna cuando la columna está ordenada actualmente de forma descendente",
+    "message": "Ordenar columna {0}, actualmente en orden descendente"
+  },
+  "sky_ag_grid_column_header_sort_button_aria_label_currently_not_sorted": {
+    "_description": "Etiqueta ARIA del botón para ordenar el encabezado de columna cuando la columna no está ordenada actualmente",
+    "message": "Ordenar columna {0}, actualmente sin ordenar"
+  },
+  "sky_ag_grid_column_group_header_expand_aria_label": {
+    "_description": "Etiqueta ARIA del botón para expandir el encabezado del grupo de columnas",
+    "message": "Expandir grupo de columnas {0}"
+  },
+  "sky_ag_grid_column_group_header_collapse_aria_label": {
+    "_description": "Etiqueta ARIA del botón para contraer el encabezado del grupo de columnas",
+    "message": "Contraer grupo de columnas {0}"
+  },
+  "sky_ag_grid_locale_no_rows_to_show": {
+    "_description": "Reemplazo de localeText de ag-grid para el mensaje de superposición de cuadrícula vacía noRowsToShow",
+    "message": "No hay datos disponibles"
+  },
+  "sky_ag_grid_locale_no_matching_rows": {
+    "_description": "Reemplazo de localeText de ag-grid para el mensaje de superposición de resultados de filtro vacíos noMatchingRows",
+    "message": "No hay filas coincidentes"
+  }
+}

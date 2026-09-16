@@ -1,0 +1,18 @@
+{
+  "skyux_inline_form_button_cancel": {
+    "_description": "Texto del botón Cancelar",
+    "message": "Cancelar"
+  },
+  "skyux_inline_form_button_delete": {
+    "_description": "Texto del botón Borrar",
+    "message": "Borrar"
+  },
+  "skyux_inline_form_button_done": {
+    "_description": "Texto del botón Hecho",
+    "message": "Hecho"
+  },
+  "skyux_inline_form_button_save": {
+    "_description": "Texto del botón Guardar",
+    "message": "Guardar"
+  }
+}

@@ -270,7 +270,8 @@
         "^buildInputs",
         "buildInputs",
         "componentDocumentationInputs",
-        "documentationInputs"
+        "documentationInputs",
+        "sdkPublicApiInputs"
       ],
       "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],
@@ -285,7 +286,8 @@
         "^buildInputs",
         "buildInputs",
         "codeExampleInputs",
-        "documentationInputs"
+        "documentationInputs",
+        "sdkPublicApiInputs"
       ],
       "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],

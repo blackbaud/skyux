@@ -6,7 +6,6 @@ import type {
 import fsPromises from 'node:fs/promises';
 
 import { getDocumentationConfig } from './get-documentation-config.js';
-import { getProjectDefinitions } from './get-project-definitions.js';
 import { getPublicApi } from './get-public-api.js';
 import { SkyManifestOptions } from './manifest-options.js';
 import {
@@ -46,10 +45,7 @@ async function writeManifestFiles(
 export async function generateManifest(
   options: SkyManifestOptions,
 ): Promise<{ publicApi: SkyManifestPublicApi }> {
-  const projects = getProjectDefinitions(
-    options.projectsRootDirectory,
-    options.projectNames,
-  );
+  const projects = options.projects;
 
   const [publicApi, publicApiErrors] = await getPublicApi(projects);
 

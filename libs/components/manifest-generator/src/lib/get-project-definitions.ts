@@ -6,17 +6,22 @@ export interface ProjectDefinition {
   packageName: string;
   projectName: string;
   projectRoot: string;
+  tsConfigPath: string;
 }
 
 function ensureTrailingSlash(path: string): string {
   return path.endsWith('/') ? path : `${path}/`;
 }
 
-export function getProjectDefinitions(
-  projectsRootDirectory: string,
-  projectNames: string[],
-): ProjectDefinition[] {
-  projectsRootDirectory = ensureTrailingSlash(projectsRootDirectory);
+export function getProjectDefinitions(options: {
+  packageScope: string;
+  projectNames: string[];
+  projectsRootDirectory: string;
+}): ProjectDefinition[] {
+  const { packageScope, projectNames } = options;
+  const projectsRootDirectory = ensureTrailingSlash(
+    options.projectsRootDirectory,
+  );
 
   const projects: ProjectDefinition[] = [];
 
@@ -30,11 +35,16 @@ export function getProjectDefinitions(
       entryPoints.push(testingEntryPoint);
     }
 
+    const prodTsConfigPath = `${projectRoot}/tsconfig.lib.prod.json`;
+
     projects.push({
       entryPoints,
-      packageName: `@skyux/${projectName}`,
+      packageName: `${packageScope}/${projectName}`,
       projectName,
       projectRoot,
+      tsConfigPath: fs.existsSync(path.normalize(prodTsConfigPath))
+        ? prodTsConfigPath
+        : `${projectRoot}/tsconfig.lib.json`,
     });
   }
 
