@@ -84,10 +84,8 @@ a.sky-btn {
 
   &.sky-btn-disabled,
   &[disabled] {
-    &:hover {
-      color: var(--sky-text-color-action-primary);
-      text-decoration-line: none;
-    }
+    color: var(--sky-text-color-action-primary);
+    text-decoration-line: none;
   }
 }
 
