@@ -84,9 +84,11 @@ function buildIconMap(): Map<string, IconSizesByMode> {
 
   // Sort all the sizes for later comparison.
   for (const sizes of iconMap.values()) {
-    // Dedupe and sort the icon sizes.
-    sizes.default = [...new Set(sizes.default)].sort();
-    sizes.dark = [...new Set(sizes.dark)].sort();
+    // Dedupe and sort the icon sizes. getNearestSize() walks the sizes in
+    // ascending order, so they must be compared numerically; the default
+    // string comparison would place 16 before 8.
+    sizes.default = [...new Set(sizes.default)].sort((a, b) => a - b);
+    sizes.dark = [...new Set(sizes.dark)].sort((a, b) => a - b);
   }
 
   return iconMap;

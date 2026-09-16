@@ -83,6 +83,12 @@ describe('Icon SVG resolver service', () => {
     ${buildSymbolHtml('moon-dark', 12, 'solid')}
     ${buildSymbolHtml('dark-only', 12, 'line', true)}
     ${buildSymbolHtml('dark-only', 12, 'solid', true)}
+    ${buildSymbolHtml('mixed-digit-size', 8, 'line')}
+    ${buildSymbolHtml('mixed-digit-size', 8, 'solid')}
+    ${buildSymbolHtml('mixed-digit-size', 16, 'line')}
+    ${buildSymbolHtml('mixed-digit-size', 16, 'solid')}
+    ${buildSymbolHtml('mixed-digit-size', 8, 'line', true)}
+    ${buildSymbolHtml('mixed-digit-size', 16, 'line', true)}
   </svg>`,
       ),
     );
@@ -179,6 +185,23 @@ describe('Icon SVG resolver service', () => {
 
     it('should resolve to the icon size closest to the default size when size is not specified', async () => {
       await validate('multi-size', '#sky-i-multi-size-12-line');
+    });
+
+    it('should compare sizes numerically rather than as strings', async () => {
+      // `mixed-digit-size` is optimized for 8px and 16px. Sorting those as
+      // strings puts 16 before 8, which breaks the ascending order that
+      // getNearestSize() relies on.
+      await validate('mixed-digit-size', '#sky-i-mixed-digit-size-8-line', 8);
+      await validate('mixed-digit-size', '#sky-i-mixed-digit-size-16-line', 20);
+      await validate(
+        'mixed-digit-size',
+        '#sky-i-mixed-digit-size-16-line-dark',
+        20,
+        'line',
+        undefined,
+        undefined,
+        true,
+      );
     });
   });
 
