@@ -6,6 +6,7 @@ import {
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import { VERSION } from '../../../../version';
+import { builderHasStylesOption } from '../../../utility/builders';
 import { readRequiredFile } from '../../../utility/tree';
 import { getSourceRoot } from '../../../utility/workspace';
 
@@ -166,33 +167,44 @@ function addStylesheetToWorkspace(): Rule {
   return () =>
     updateWorkspace((workspace) => {
       for (const project of workspace.projects.values()) {
+        if (project.extensions['projectType'] !== 'application') {
+          continue;
+        }
+
         for (const targetName of ['build', 'test']) {
-          if (project.extensions['projectType'] === 'application') {
-            const target = project.targets.get(targetName);
-            const sourceRoot = getProjectAppPath(project);
-            const filePath = `${sourceRoot}/${COMPAT_CSS_FILE_NAME}`;
+          const target = project.targets.get(targetName);
 
-            /* istanbul ignore else */
-            if (target && target.options) {
-              target.options['styles'] ??= [];
+          if (!target) {
+            continue;
+          }
 
+          if (!builderHasStylesOption(target.builder)) {
+            continue;
+          }
+
+          const sourceRoot = getProjectAppPath(project);
+          const filePath = `${sourceRoot}/${COMPAT_CSS_FILE_NAME}`;
+
+          /* istanbul ignore else */
+          if (target.options) {
+            target.options['styles'] ??= [];
+
+            addStylesheetToStylesArray(
+              target.options['styles'] as string[],
+              filePath,
+            );
+
+            // A configuration's `styles` array replaces (rather than
+            // merges with) the target's base `styles` array, so any
+            // configuration that already declares its own `styles` needs
+            // the compatibility stylesheet appended too.
+            for (const configuration of Object.values(
+              target.configurations ?? {},
+            )) {
               addStylesheetToStylesArray(
-                target.options['styles'] as string[],
+                configuration?.['styles'] as string[] | undefined,
                 filePath,
               );
-
-              // A configuration's `styles` array replaces (rather than
-              // merges with) the target's base `styles` array, so any
-              // configuration that already declares its own `styles` needs
-              // the compatibility stylesheet appended too.
-              for (const configuration of Object.values(
-                target.configurations ?? {},
-              )) {
-                addStylesheetToStylesArray(
-                  configuration?.['styles'] as string[] | undefined,
-                  filePath,
-                );
-              }
             }
           }
         }
