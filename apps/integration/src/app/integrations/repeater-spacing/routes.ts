@@ -9,5 +9,13 @@ export const routes: Routes = [
       icon: 'arrow-repeat-all',
     },
   },
+  {
+    path: 'modal',
+    loadComponent: () => import('./repeater-spacing-in-modal.component'),
+    data: {
+      name: 'Repeater spacing in modal',
+      icon: 'arrow-repeat-all',
+    },
+  },
 ];
 export default routes;

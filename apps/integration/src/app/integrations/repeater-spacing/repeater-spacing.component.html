@@ -1,6 +1,6 @@
 <ng-template #repeater>
   <sky-repeater>
-    @for (activity of recentActivity; track activity) {
+    @for (activity of recentActivity(); track activity) {
       <sky-repeater-item>
         <sky-repeater-item-content>
           <div class="sky-theme-margin-bottom-xs">
@@ -29,7 +29,7 @@
     </sky-toolbar-item>
   </sky-toolbar>
   <sky-repeater>
-    @for (domain of domains; track domain) {
+    @for (domain of domains(); track domain) {
       <sky-repeater-item [itemName]="domain.domain_name">
         <sky-repeater-item-title>
           <div class="sky-theme-font-body-emphasized-m">
@@ -84,103 +84,166 @@
   </sky-repeater>
 </ng-template>
 
-<div class="sky-padding-even-md">
-  <sky-fluid-grid gutterSize="large" [disableMargin]="true">
-    <sky-row>
-      <sky-column screenMedium="4">
-        <sky-box
-          headingText="Recent activity in a box"
-          class="sky-margin-stacked-lg"
-        >
-          <sky-box-content>
-            <ng-container *ngTemplateOutlet="repeater" />
-          </sky-box-content>
-        </sky-box>
-      </sky-column>
-      <sky-column screenMedium="4">
-        <div class="sky-padding-even-sm sky-margin-stacked-lg">
-          <h2>Recent activity outside a box</h2>
-          <ng-container *ngTemplateOutlet="repeater" />
-        </div>
-      </sky-column>
-    </sky-row>
-    <sky-row>
-      <sky-column screenMedium="4">
-        <sky-tile
-          tileName="payment-method-domains-tile"
-          class="sky-margin-stacked-lg"
-        >
-          <sky-tile-title>Payment domains in a tile</sky-tile-title>
-          <sky-tile-content>
-            <sky-tile-content-section>
-              <ng-container *ngTemplateOutlet="toolbar" />
-            </sky-tile-content-section>
-          </sky-tile-content>
-        </sky-tile>
-      </sky-column>
-      <sky-column screenMedium="4">
-        <div class="sky-padding-even-sm sky-margin-stacked-lg">
-          <h2>Payment domains outside a tile</h2>
-          <ng-container *ngTemplateOutlet="toolbar" />
-        </div>
-      </sky-column>
-    </sky-row>
-    <sky-row>
-      <sky-column screenMedium="4">
-        <sky-box
-          headingText="Nested repeater in a box"
-          class="sky-margin-stacked-lg"
-        >
-          <sky-box-content>
-            <sky-repeater>
-              <sky-repeater-item>
-                <sky-repeater-item-title>Outer item</sky-repeater-item-title>
-                <sky-repeater-item-content>
-                  <ng-container *ngTemplateOutlet="repeater" />
-                </sky-repeater-item-content>
-              </sky-repeater-item>
-            </sky-repeater>
-          </sky-box-content>
-        </sky-box>
-      </sky-column>
-      <sky-column screenMedium="4">
-        <div class="sky-padding-even-sm sky-margin-stacked-lg">
-          <h2>Nested repeater outside a box</h2>
-          <sky-repeater>
-            <sky-repeater-item>
-              <sky-repeater-item-title>Outer item</sky-repeater-item-title>
-              <sky-repeater-item-content>
+<ng-template #navigate>
+  <a
+    aria-label="Link to repeater spacing integration page"
+    class="sky-theme-margin-right-xl sky-btn sky-btn-default"
+    routerLink="/integrations/repeater-spacing"
+    [queryParams]="{ layout: undefined }"
+    >Repeater spacing</a
+  >
+  <a
+    aria-label="Link to list layout page"
+    class="sky-theme-margin-right-xl sky-btn sky-btn-default"
+    routerLink="/integrations/repeater-spacing"
+    [queryParams]="{ layout: 'repeater' }"
+    >List layout</a
+  >
+  <a
+    aria-label="Link to toolbar list layout page"
+    class="sky-theme-margin-right-xl sky-btn sky-btn-default"
+    routerLink="/integrations/repeater-spacing"
+    [queryParams]="{ layout: 'toolbar' }"
+    >Toolbar list layout</a
+  >
+</ng-template>
+
+@switch (layout()) {
+  @case ('repeater') {
+    <sky-page layout="list">
+      <sky-page-header pageTitle="List layout">
+        <sky-page-header-actions>
+          <ng-container *ngTemplateOutlet="navigate" />
+        </sky-page-header-actions>
+      </sky-page-header>
+      <sky-page-content>
+        <ng-container *ngTemplateOutlet="repeater" />
+      </sky-page-content>
+    </sky-page>
+  }
+  @case ('toolbar') {
+    <sky-page layout="list">
+      <sky-page-header pageTitle="Toolbar list layout">
+        <sky-page-header-actions>
+          <ng-container *ngTemplateOutlet="navigate" />
+        </sky-page-header-actions>
+      </sky-page-header>
+      <sky-page-content>
+        <ng-container *ngTemplateOutlet="toolbar" />
+      </sky-page-content>
+    </sky-page>
+  }
+  @default {
+    <div class="sky-padding-even-md">
+      <sky-fluid-grid gutterSize="large" [disableMargin]="true">
+        @if (!hideNavigation()) {
+          <sky-row>
+            <sky-column screenMedium="12">
+              <div class="sky-theme-padding-bottom-xl">
+                <ng-container *ngTemplateOutlet="navigate" />
+              </div>
+            </sky-column>
+          </sky-row>
+        }
+        <sky-row>
+          <sky-column screenMedium="4">
+            <sky-box
+              headingText="Recent activity in a box"
+              class="sky-margin-stacked-lg"
+            >
+              <sky-box-content>
                 <ng-container *ngTemplateOutlet="repeater" />
-              </sky-repeater-item-content>
-            </sky-repeater-item>
-          </sky-repeater>
-        </div>
-      </sky-column>
-    </sky-row>
-    <sky-row>
-      <sky-column screenMedium="4">
-        <sky-box
-          headingText="Selectable repeater in a box"
-          class="sky-margin-stacked-lg"
-        >
-          <sky-box-content>
-            <sky-repeater selectionMode="multiple">
-              @for (activity of recentActivity; track activity) {
+              </sky-box-content>
+            </sky-box>
+          </sky-column>
+          <sky-column screenMedium="4">
+            <div class="sky-padding-even-sm sky-margin-stacked-lg">
+              <h2>Recent activity outside a box</h2>
+              <ng-container *ngTemplateOutlet="repeater" />
+            </div>
+          </sky-column>
+        </sky-row>
+        <sky-row>
+          <sky-column screenMedium="4">
+            <sky-tile
+              tileName="payment-method-domains-tile"
+              class="sky-margin-stacked-lg"
+            >
+              <sky-tile-title>Payment domains in a tile</sky-tile-title>
+              <sky-tile-content>
+                <sky-tile-content-section>
+                  <ng-container *ngTemplateOutlet="toolbar" />
+                </sky-tile-content-section>
+              </sky-tile-content>
+            </sky-tile>
+          </sky-column>
+          <sky-column screenMedium="4">
+            <div class="sky-padding-even-sm sky-margin-stacked-lg">
+              <h2>Payment domains outside a tile</h2>
+              <ng-container *ngTemplateOutlet="toolbar" />
+            </div>
+          </sky-column>
+        </sky-row>
+        <sky-row>
+          <sky-column screenMedium="4">
+            <sky-box
+              headingText="Nested repeater in a box"
+              class="sky-margin-stacked-lg"
+            >
+              <sky-box-content>
+                <sky-repeater>
+                  <sky-repeater-item>
+                    <sky-repeater-item-title
+                      >Outer item</sky-repeater-item-title
+                    >
+                    <sky-repeater-item-content>
+                      <ng-container *ngTemplateOutlet="repeater" />
+                    </sky-repeater-item-content>
+                  </sky-repeater-item>
+                </sky-repeater>
+              </sky-box-content>
+            </sky-box>
+          </sky-column>
+          <sky-column screenMedium="4">
+            <div class="sky-padding-even-sm sky-margin-stacked-lg">
+              <h2>Nested repeater outside a box</h2>
+              <sky-repeater>
                 <sky-repeater-item>
+                  <sky-repeater-item-title>Outer item</sky-repeater-item-title>
                   <sky-repeater-item-content>
-                    <div class="sky-theme-margin-bottom-xs">
-                      {{ activity.activity }}
-                    </div>
-                    <div class="sky-theme-font-body-deemphasized-m">
-                      {{ activity.date }}
-                    </div>
+                    <ng-container *ngTemplateOutlet="repeater" />
                   </sky-repeater-item-content>
                 </sky-repeater-item>
-              }
-            </sky-repeater>
-          </sky-box-content>
-        </sky-box>
-      </sky-column>
-    </sky-row>
-  </sky-fluid-grid>
-</div>
+              </sky-repeater>
+            </div>
+          </sky-column>
+        </sky-row>
+        <sky-row>
+          <sky-column screenMedium="4">
+            <sky-box
+              headingText="Selectable repeater in a box"
+              class="sky-margin-stacked-lg"
+            >
+              <sky-box-content>
+                <sky-repeater selectionMode="multiple">
+                  @for (activity of recentActivity(); track activity) {
+                    <sky-repeater-item>
+                      <sky-repeater-item-content>
+                        <div class="sky-theme-margin-bottom-xs">
+                          {{ activity.activity }}
+                        </div>
+                        <div class="sky-theme-font-body-deemphasized-m">
+                          {{ activity.date }}
+                        </div>
+                      </sky-repeater-item-content>
+                    </sky-repeater-item>
+                  }
+                </sky-repeater>
+              </sky-box-content>
+            </sky-box>
+          </sky-column>
+        </sky-row>
+      </sky-fluid-grid>
+    </div>
+  }
+}
