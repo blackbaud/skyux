@@ -9,8 +9,3 @@
   // does not need its own top inset here.
   --sky-comp-override-repeater-first-item-space-inset-top: 0;
 }
-
-// Reset to use the repeater's default first-item spacing when using the list layout pattern.
-:host-context(.sky-layout-host-list) {
-  --sky-comp-override-repeater-first-item-space-inset-top: initial;
-}

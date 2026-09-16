@@ -82,8 +82,3 @@ sky-box {
     }
   }
 }
-
-// Reset to use the repeater's default first-item spacing when using the list layout pattern.
-.sky-layout-host-list .sky-box sky-box-content {
-  --sky-comp-override-repeater-first-item-space-inset-top: initial;
-}
