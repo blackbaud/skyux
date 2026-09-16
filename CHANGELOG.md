@@ -8,6 +8,11 @@
 
 * **sdk/stylelint-config-skyux:** include `skyux-stylelint/no-sky-theme-imports` in recommended configuration ([#4795](https://github.com/blackbaud/skyux/issues/4795)) ([2233d71](https://github.com/blackbaud/skyux/commit/2233d71e685afca1185b8a66b8bfc8510a8dc774)), closes [AB#4125223](https://dev.azure.com/blackbaud/Products/_workitems/edit/4125223)
 
+
+### Bug Fixes
+
+* **components/lists:** remove repeater item extra vertical space ([#4702](https://github.com/blackbaud/skyux/issues/4702)) ([b10c528](https://github.com/blackbaud/skyux/commit/b10c528cac55a575eddddafe6ad1a89a44ed672b)), closes [AB#3648129](https://dev.azure.com/blackbaud/Products/_workitems/edit/3648129)
+
 ## [15.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.13...15.0.0-alpha.14) (2026-09-14)
 
 
