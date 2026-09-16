@@ -4,4 +4,8 @@
   border-style: var(--sky-override-tile-content-border-style, none);
   border-width: var(--sky-override-tile-content-border-width, 0);
   border-image: none;
+
+  // The tile already supplies inset padding around its content, so a repeater's first item
+  // does not need its own top inset here.
+  --sky-comp-override-repeater-first-item-space-inset-top: 0;
 }

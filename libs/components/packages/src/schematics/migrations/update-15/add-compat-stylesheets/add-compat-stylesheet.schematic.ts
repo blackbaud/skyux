@@ -106,6 +106,20 @@ The list summary no longer applies its own left and right padding unless it is i
             },
           ],
         },
+        {
+          name: 'repeater',
+          styles: [
+            {
+              css: `
+:root {
+  --sky-compat-repeater-first-item-space-inset-top: var(--sky-comp-repeater_item-space-inset-top);
+}
+`,
+              instructions: `
+A repeater's first item no longer applies its own top padding when the repeater is the first thing inside a box, modal, or tile, since that container already supplies its own inset padding. To address this change, remove this block of code, then remove any negative margins or spacing overrides your app applied to compensate for the missing top padding.`,
+            },
+          ],
+        },
       ],
     },
   ],
