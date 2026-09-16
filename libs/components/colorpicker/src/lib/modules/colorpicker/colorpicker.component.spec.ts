@@ -1571,6 +1571,30 @@ describe('Colorpicker Component', () => {
       expect(selectedColorAppliedSpy).not.toHaveBeenCalled();
     }));
 
+    it('should clear the input and the picker when the form control value is cleared', fakeAsync(async () => {
+      component.initialColor = undefined;
+      fixture.detectChanges();
+      tick();
+
+      await verifyColorpicker(nativeElement, 'rgba(0,0,255,1)', '0, 0, 255');
+
+      component.colorControl.setValue(undefined);
+      fixture.detectChanges();
+      tick();
+
+      const inputElement = getInputElement(nativeElement);
+
+      expect(inputElement?.value).toBe('');
+      expect(inputElement?.style.backgroundColor).toBe('');
+      expect(colorpickerComponent.lastAppliedColor).toBeUndefined();
+
+      openColorpicker(nativeElement);
+
+      expect(getInputElements().hex.value).toBe('#fff');
+
+      flush();
+    }));
+
     it('should accept open colorpicker via messageStream.', fakeAsync(() => {
       fixture.detectChanges();
       tick();

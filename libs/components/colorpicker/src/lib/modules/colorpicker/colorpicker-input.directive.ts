@@ -293,6 +293,14 @@ export class SkyColorpickerInputDirective
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public writeValue(value: any): void {
+    if (!value) {
+      if (this.#modelValue) {
+        this.#clearInputDisplay();
+      }
+
+      return;
+    }
+
     this.#applyValue(value, true);
   }
 
@@ -371,20 +379,31 @@ export class SkyColorpickerInputDirective
   // Resets the input to its originally-empty state, without falling back to
   // the deprecated `initialColor` input's white default.
   #clearValue(): void {
-    this.#modelValue = undefined;
-    this.skyColorpickerInput.lastAppliedColor = undefined;
-    this.skyColorpickerInput.updatePickerValues(undefined);
-    this.skyColorpickerInput.backgroundColorForDisplay = undefined;
-
-    const element = this.#elementRef.nativeElement;
-    this.#renderer.removeStyle(element, 'background-color');
-    this.#renderer.setProperty(element, 'value', '');
+    this.#clearInputDisplay();
 
     const control = this.#injector.get<NgControl>(NgControl, undefined, {
       optional: true,
     })?.control;
 
     control?.setValue(undefined, { emitEvent: false });
+  }
+
+  #clearInputDisplay(): void {
+    this.#modelValue = undefined;
+
+    if (this.skyColorpickerInput) {
+      this.skyColorpickerInput.lastAppliedColor = undefined;
+      // Return the picker itself to the state it has before any color is
+      // selected so that it neither displays nor reapplies the cleared color.
+      this.skyColorpickerInput.updatePickerValues(
+        SKY_COLORPICKER_DEFAULT_COLOR,
+      );
+      this.skyColorpickerInput.backgroundColorForDisplay = undefined;
+    }
+
+    const element = this.#elementRef.nativeElement;
+    this.#renderer.removeStyle(element, 'background-color');
+    this.#renderer.setProperty(element, 'value', '');
   }
 
   #formatter(
