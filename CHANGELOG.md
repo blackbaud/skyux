@@ -11,6 +11,7 @@
 
 ### Bug Fixes
 
+* **components/colorpicker:** reset an originally-empty field to empty and pristine ([#4794](https://github.com/blackbaud/skyux/issues/4794)) ([#4797](https://github.com/blackbaud/skyux/issues/4797)) ([f3ca15a](https://github.com/blackbaud/skyux/commit/f3ca15a0a73064fb8b3e427c7bd18bac010af8a9)), closes [AB#4109461](https://dev.azure.com/blackbaud/Products/_workitems/edit/4109461)
 * **components/lists:** remove repeater item extra vertical space ([#4702](https://github.com/blackbaud/skyux/issues/4702)) ([b10c528](https://github.com/blackbaud/skyux/commit/b10c528cac55a575eddddafe6ad1a89a44ed672b)), closes [AB#3648129](https://dev.azure.com/blackbaud/Products/_workitems/edit/3648129)
 
 ## [15.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.13...15.0.0-alpha.14) (2026-09-14)
