@@ -6,6 +6,7 @@ export const WEBPACK_BUILDERS = [
 export const ESBUILD_BUILDERS = [
   '@angular/build:application',
   '@angular-devkit/build-angular:application',
+  '@angular-devkit/build-angular:browser-esbuild',
   '@blackbaud-internal/skyux-build:application',
 ];
 
