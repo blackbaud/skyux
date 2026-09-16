@@ -81,6 +81,8 @@ describe('Icon SVG resolver service', () => {
     ${buildSymbolHtml('light-only', 12, 'solid')}
     ${buildSymbolHtml('moon-dark', 12, 'line')}
     ${buildSymbolHtml('moon-dark', 12, 'solid')}
+    ${buildSymbolHtml('dark-only', 12, 'line', true)}
+    ${buildSymbolHtml('dark-only', 12, 'solid', true)}
   </svg>`,
       ),
     );
@@ -180,8 +182,8 @@ describe('Icon SVG resolver service', () => {
     });
   });
 
-  describe('with dark mode requested', () => {
-    it('should resolve the dark mode icon', async () => {
+  describe('with dark mode icons', () => {
+    it('should resolve the dark mode icon when dark mode is requested', async () => {
       await validate(
         'themed',
         '#sky-i-themed-12-line-dark',
@@ -272,6 +274,18 @@ describe('Icon SVG resolver service', () => {
         `Icon with name 'invalid' was not found.`,
         undefined,
         true,
+      );
+    });
+
+    it('should throw an error when the icon has no default version', async () => {
+      // The icon library guarantees a dark mode icon always ships alongside a
+      // default one, so an icon with only dark mode sizes is malformed.
+      await validate(
+        'dark-only',
+        undefined,
+        12,
+        'line',
+        `Icon with name 'dark-only' was not found.`,
       );
     });
 

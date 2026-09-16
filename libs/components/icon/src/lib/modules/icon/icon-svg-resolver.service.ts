@@ -6,17 +6,16 @@ import { SkyIconVariantType } from './types/icon-variant-type';
 
 const DEFAULT_SVG_URL = `https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg`;
 
-// A dark mode icon repeats the default icon's ID with this suffix appended,
+// A dark mode icon repeats the default icon's ID with this as a final segment,
 // e.g. `sky-i-my-icon-20-line-dark` is the dark mode version of
-// `sky-i-my-icon-20-line`. The suffix is stripped when the icon map is built so
-// that both versions of an icon share a single entry, keyed by the name
+// `sky-i-my-icon-20-line`. The segment is stripped when the icon map is built
+// so that both versions of an icon share a single entry, keyed by the name
 // consumers ask for.
-const DARK_MODE_SUFFIX = '-dark';
-const DARK_MODE_NAME = 'dark';
+const DARK_MODE_SUFFIX = 'dark';
 
 // The sizes an icon has been optimized for, split by the theme mode each size
 // belongs to. Most icons have no dark mode version, leaving `dark` empty.
-interface IconSizes {
+interface IconSizesByMode {
   default: number[];
   dark: number[];
 }
@@ -24,10 +23,12 @@ interface IconSizes {
 // The icon sprite is loaded into (and queried from) the document as a single
 // global element, so only one SKY_ICON_SVG_URL can be active per application
 // at a time. These track which URL "owns" the current icon map.
-let iconMapPromise: Promise<Map<string, IconSizes>> | undefined;
+let iconMapPromise: Promise<Map<string, IconSizesByMode>> | undefined;
 let loadedSvgUrl: string | undefined;
 
-async function getIconMap(svgUrl: string): Promise<Map<string, IconSizes>> {
+async function getIconMap(
+  svgUrl: string,
+): Promise<Map<string, IconSizesByMode>> {
   const response = await fetch(svgUrl);
 
   /* istanbul ignore next */
@@ -41,7 +42,7 @@ async function getIconMap(svgUrl: string): Promise<Map<string, IconSizes>> {
   return buildIconMap();
 }
 
-function buildIconMap(): Map<string, IconSizes> {
+function buildIconMap(): Map<string, IconSizesByMode> {
   const iconMap = Array.from<SVGSymbolElement>(
     document.querySelectorAll('#sky-icon-svg-sprite symbol'),
   ).reduce((map, el) => {
@@ -51,7 +52,7 @@ function buildIconMap(): Map<string, IconSizes> {
     // icon's entry rather than becoming an icon name of its own. Only the
     // final segment is checked, so an icon whose name ends in `-dark` is
     // still read as a default icon.
-    const isDarkModeIcon = idParts[idParts.length - 1] === DARK_MODE_NAME;
+    const isDarkModeIcon = idParts[idParts.length - 1] === DARK_MODE_SUFFIX;
 
     if (isDarkModeIcon) {
       idParts = idParts.slice(0, -1);
@@ -79,7 +80,7 @@ function buildIconMap(): Map<string, IconSizes> {
     }
 
     return map;
-  }, new Map<string, IconSizes>());
+  }, new Map<string, IconSizesByMode>());
 
   // Sort all the sizes for later comparison.
   for (const sizes of iconMap.values()) {
@@ -151,7 +152,7 @@ export class SkyIconSvgResolverService {
     const iconMap = await iconMapPromise;
     const iconSizes = iconMap.get(name);
 
-    if (!iconSizes) {
+    if (!iconSizes?.default.length) {
       throw new Error(`Icon with name '${name}' was not found.`);
     }
 
@@ -166,7 +167,7 @@ export class SkyIconSvgResolverService {
       pixelSize,
     );
 
-    const darkSuffix = useDarkMode ? DARK_MODE_SUFFIX : '';
+    const darkSuffix = useDarkMode ? `-${DARK_MODE_SUFFIX}` : '';
 
     return `#sky-i-${name}-${nearestSize}-${variant}${darkSuffix}`;
   }

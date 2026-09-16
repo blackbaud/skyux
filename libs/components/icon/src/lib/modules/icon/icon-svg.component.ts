@@ -2,7 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyThemeComponentClassDirective, SkyThemeService } from '@skyux/theme';
 
-import { EMPTY, catchError, map, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
 
 import { SkyIconSvgResolverService } from './icon-svg-resolver.service';
 import { SkyIconSize } from './types/icon-size';
@@ -42,11 +42,12 @@ export class SkyIconSvgComponent {
   readonly #resolverSvc = inject(SkyIconSvgResolverService);
 
   // Some icons have a dark mode version. Tracking the mode here keeps the
-  // resolved href in sync when the theme changes without a reload.
+  // resolved href in sync when the theme changes without a reload. Without a
+  // theme service there is no dark mode to track.
   readonly #darkMode = toSignal(
     inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
       map((change) => change.currentSettings.mode.name === 'dark'),
-    ) ?? EMPTY,
+    ) ?? of(false),
     { initialValue: false },
   );
 
