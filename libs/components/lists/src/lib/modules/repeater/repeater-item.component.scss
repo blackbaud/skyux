@@ -76,28 +76,22 @@ sky-repeater-item {
   }
 }
 
-// Inside a sky-box or sky-tile, the container already supplies inset padding around its content.
-sky-box-content .sky-repeater,
-sky-modal-content .sky-repeater,
-sky-tile-content .sky-repeater {
+// A container that already supplies inset padding around its content (sky-box-content,
+// sky-modal-content, sky-tile-content) zeroes out this space by setting
+// --sky-comp-override-repeater-first-item-space-inset-top on itself. When no such container
+// is present, the var() fallback below keeps the default inset.
+.sky-repeater
   > sky-repeater-item:first-of-type
-    > .sky-repeater-item:not(.sky-repeater-item-selectable):not(
-      .sky-repeater-item-selection-single
-    ) {
-    --sky-repeater-item-space-inset-top: 0;
-  }
-}
-
-// Reset to use the default spacing when using the list layout pattern.
-.sky-layout-host-list {
-  sky-box-content .sky-repeater,
-  sky-tile-content .sky-repeater {
-    > sky-repeater-item:first-of-type > .sky-repeater-item {
-      --sky-repeater-item-space-inset-top: var(
-        --sky-comp-repeater_item-space-inset-top
-      );
-    }
-  }
+  > .sky-repeater-item:not(.sky-repeater-item-selectable):not(
+    .sky-repeater-item-selection-single
+  ) {
+  --sky-repeater-item-space-inset-top: var(
+    --sky-compat-repeater-first-item-space-inset-top,
+    var(
+      --sky-comp-override-repeater-first-item-space-inset-top,
+      var(--sky-comp-repeater_item-space-inset-top)
+    )
+  );
 }
 
 sky-repeater-item {

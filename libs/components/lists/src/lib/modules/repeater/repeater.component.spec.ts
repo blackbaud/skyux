@@ -3006,19 +3006,28 @@ describe('Repeater item component', () => {
         'sky-theme-modern',
         'sky-theme-brand-base',
       );
+      document.documentElement.style.removeProperty(
+        '--sky-compat-repeater-first-item-space-inset-top',
+      );
     });
 
-    // Simulates the repeater being placed inside a sky-box or sky-tile
-    // without depending on those libraries: the spacing rule matches on tag
-    // name alone, so wrapping the rendered element in a plain, unregistered
-    // custom element is a faithful test of it.
-    function wrapInElement(target: Element, tagName: string): void {
-      const wrapper = document.createElement(tagName);
+    // Containers such as sky-box-content, sky-modal-content, and
+    // sky-tile-content signal that they already supply inset padding by
+    // setting --sky-comp-override-repeater-first-item-space-inset-top on
+    // themselves. Wrapping the rendered element in a plain div with that
+    // property set is a faithful simulation of any of those containers,
+    // without depending on their libraries.
+    function simulateInsetContainer(target: Element): void {
+      const wrapper = document.createElement('div');
       target.replaceWith(wrapper);
       wrapper.appendChild(target);
+      (wrapper as HTMLElement).style.setProperty(
+        '--sky-comp-override-repeater-first-item-space-inset-top',
+        '0',
+      );
     }
 
-    it('should not change the first item’s top padding outside a box or tile', fakeAsync(() => {
+    it('should not change the first item’s top padding outside a container', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.detectChanges();
       tick();
@@ -3033,14 +3042,13 @@ describe('Repeater item component', () => {
       flushDropdownTimer();
     }));
 
-    it('should remove the top padding of a non-selectable repeater’s first item inside a box', fakeAsync(() => {
+    it('should remove the top padding of a non-selectable repeater’s first item inside a container', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.detectChanges();
       tick();
 
-      wrapInElement(
+      simulateInsetContainer(
         fixture.nativeElement.querySelector('sky-repeater'),
-        'sky-box-content',
       );
 
       const items = getRepeaterItems(fixture.nativeElement);
@@ -3051,33 +3059,14 @@ describe('Repeater item component', () => {
       flushDropdownTimer();
     }));
 
-    it('should remove the top padding of a non-selectable repeater’s first item inside a tile', fakeAsync(() => {
-      const fixture = TestBed.createComponent(RepeaterTestComponent);
-      fixture.detectChanges();
-      tick();
-
-      wrapInElement(
-        fixture.nativeElement.querySelector('sky-repeater'),
-        'sky-tile-content',
-      );
-
-      const items = getRepeaterItems(fixture.nativeElement);
-
-      expect(getComputedStyle(items[0]).paddingTop).toBe('0px');
-      expect(getComputedStyle(items[1]).paddingTop).not.toBe('0px');
-
-      flushDropdownTimer();
-    }));
-
-    it('should remove the top spacing of a first item with no title inside a box', fakeAsync(() => {
+    it('should remove the top spacing of a first item with no title inside a container', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.componentRef.setInput('hideFirstItemTitle', true);
       fixture.detectChanges();
       tick();
 
-      wrapInElement(
+      simulateInsetContainer(
         fixture.nativeElement.querySelector('sky-repeater'),
-        'sky-box-content',
       );
 
       const el = fixture.nativeElement;
@@ -3095,15 +3084,14 @@ describe('Repeater item component', () => {
       flushDropdownTimer();
     }));
 
-    it('should keep the first item’s top padding inside a box when the repeater is selectable', fakeAsync(() => {
+    it('should keep the first item’s top padding inside a container when the repeater is selectable', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.componentRef.setInput('selectionMode', 'multiple');
       fixture.detectChanges();
       tick();
 
-      wrapInElement(
+      simulateInsetContainer(
         fixture.nativeElement.querySelector('sky-repeater'),
-        'sky-box-content',
       );
 
       const items = getRepeaterItems(fixture.nativeElement);
@@ -3113,15 +3101,14 @@ describe('Repeater item component', () => {
       flushDropdownTimer();
     }));
 
-    it('should keep the first item’s top padding inside a box in single-select mode', fakeAsync(() => {
+    it('should keep the first item’s top padding inside a container in single-select mode', fakeAsync(() => {
       const fixture = TestBed.createComponent(RepeaterTestComponent);
       fixture.componentRef.setInput('selectionMode', 'single');
       fixture.detectChanges();
       tick();
 
-      wrapInElement(
+      simulateInsetContainer(
         fixture.nativeElement.querySelector('sky-repeater'),
-        'sky-box-content',
       );
 
       const items = getRepeaterItems(fixture.nativeElement);
@@ -3131,14 +3118,13 @@ describe('Repeater item component', () => {
       flushDropdownTimer();
     }));
 
-    it('should only tighten a nested repeater’s own first item, inside a box', fakeAsync(() => {
+    it('should only tighten a nested repeater’s own first item, inside a container', fakeAsync(() => {
       const fixture = TestBed.createComponent(NestedRepeaterTestComponent);
       fixture.detectChanges();
       tick();
 
-      wrapInElement(
+      simulateInsetContainer(
         fixture.nativeElement.querySelector('sky-repeater'),
-        'sky-box-content',
       );
 
       const outerFirstItem = fixture.nativeElement.querySelector(
@@ -3149,6 +3135,26 @@ describe('Repeater item component', () => {
       expect(getComputedStyle(outerFirstItem).paddingTop).toBe('0px');
       expect(getComputedStyle(innerItems[0]).paddingTop).toBe('0px');
       expect(getComputedStyle(innerItems[1]).paddingTop).not.toBe('0px');
+
+      flushDropdownTimer();
+    }));
+
+    it('should keep the first item’s top padding inside a container when the compat variable is set', fakeAsync(() => {
+      const fixture = TestBed.createComponent(RepeaterTestComponent);
+      fixture.detectChanges();
+      tick();
+
+      simulateInsetContainer(
+        fixture.nativeElement.querySelector('sky-repeater'),
+      );
+      document.documentElement.style.setProperty(
+        '--sky-compat-repeater-first-item-space-inset-top',
+        '16px',
+      );
+
+      const items = getRepeaterItems(fixture.nativeElement);
+
+      expect(getComputedStyle(items[0]).paddingTop).not.toBe('0px');
 
       flushDropdownTimer();
     }));
