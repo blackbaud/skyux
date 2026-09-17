@@ -1,7 +1,12 @@
 # Changelog
 
 
-## [14.20.2](https://github.com/blackbaud/skyux/compare/14.20.1...14.20.2) (2026-09-16)
+## [14.21.0](https://github.com/blackbaud/skyux/compare/14.20.1...14.21.0) (2026-09-17)
+
+
+### Features
+
+* **components/icon:** resolve dark mode icon variants ([#4791](https://github.com/blackbaud/skyux/issues/4791)) ([5ca104d](https://github.com/blackbaud/skyux/commit/5ca104dd57786af8449d26369a47afb7c91540e5))
 
 
 ### Bug Fixes
