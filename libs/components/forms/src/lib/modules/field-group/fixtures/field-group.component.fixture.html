@@ -9,6 +9,7 @@
     [helpKey]="helpKey"
     [helpPopoverContent]="helpPopoverContent"
     [helpPopoverTitle]="helpPopoverTitle"
+    (helpInvoked)="onHelpInvoked()"
   >
     <sky-input-box labelText="Name">
       <input type="text" formControlName="name" />

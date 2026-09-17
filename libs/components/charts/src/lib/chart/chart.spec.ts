@@ -23,6 +23,7 @@ class MockChartBarComponent {
       [headingLevel]="headingLevel"
       [headingStyle]="headingStyle"
       [headingText]="headingText"
+      [helpPopoverContent]="helpPopoverContent"
       [loading]="loading"
       [subheadingText]="subheadingText"
     >
@@ -38,6 +39,7 @@ class TestComponent {
   public headingLevel: unknown;
   public headingStyle: unknown;
   public headingText = 'Test heading';
+  public helpPopoverContent: string | undefined;
   public loading: boolean | undefined;
   public subheadingText: string | undefined;
 }
@@ -103,6 +105,18 @@ describe('Chart component', () => {
     fixture.detectChanges();
 
     expect(getHeading()).toBeNull();
+  });
+
+  it('should emit helpInvoked when the heading help inline button is clicked', () => {
+    fixture.componentInstance.helpPopoverContent = 'My help content';
+    fixture.detectChanges();
+
+    const helpInvokedSpy = jasmine.createSpy('helpInvoked');
+    fixture.componentInstance.chart.helpInvoked.subscribe(helpInvokedSpy);
+
+    fixture.nativeElement.querySelector('.sky-help-inline').click();
+
+    expect(helpInvokedSpy).toHaveBeenCalled();
   });
 
   it('should not name the figure when the heading is visible', () => {

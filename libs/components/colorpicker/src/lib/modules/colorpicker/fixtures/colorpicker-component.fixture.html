@@ -12,6 +12,7 @@
     [labelText]="labelText"
     [messageStream]="colorpickerController"
     [stacked]="stacked"
+    (helpInvoked)="onHelpInvoked()"
     (selectedColorApplied)="lastColorApplied = $event"
   >
     <input

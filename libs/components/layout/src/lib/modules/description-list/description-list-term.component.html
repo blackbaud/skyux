@@ -8,6 +8,7 @@
         [helpKey]="content?.helpKey"
         [popoverTitle]="content?.helpPopoverTitle"
         [popoverContent]="content?.helpPopoverContent"
+        (actionClick)="content?.helpInvoked.emit()"
       />
     } @else {
       <ng-content select=".sky-control-help" />

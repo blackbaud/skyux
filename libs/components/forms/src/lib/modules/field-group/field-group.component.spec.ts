@@ -162,6 +162,16 @@ describe('Field group component', function () {
     helpController.expectCurrentHelpKey('helpKey.html');
   });
 
+  it('should emit helpInvoked when the help inline button is clicked', () => {
+    const helpInvokedSpy = spyOn(componentInstance, 'onHelpInvoked');
+    componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    fixture.nativeElement.querySelector('.sky-help-inline').click();
+
+    expect(helpInvokedSpy).toHaveBeenCalled();
+  });
+
   it('should pass accessibility', async () => {
     fixture.detectChanges();
     await fixture.whenStable();

@@ -24,6 +24,7 @@
         [index]="index"
         [node]="node"
         [templates]="templates"
+        (helpInvoked)="onHelpInvoked()"
       >
         @if (showContextMenus) {
           <sky-dropdown

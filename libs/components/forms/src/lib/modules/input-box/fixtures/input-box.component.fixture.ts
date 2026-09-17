@@ -99,4 +99,8 @@ export class InputBoxFixtureComponent {
   public removeErrorFormRequiredValidator(): void {
     this.errorField.removeValidators(Validators.required);
   }
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

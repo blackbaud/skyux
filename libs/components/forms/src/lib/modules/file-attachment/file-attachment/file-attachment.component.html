@@ -32,6 +32,7 @@
           [helpKey]="helpKey"
           [popoverTitle]="helpPopoverTitle"
           [popoverContent]="helpPopoverContent"
+          (actionClick)="helpInvoked.emit()"
         />
       </span>
     }

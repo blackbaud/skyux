@@ -596,6 +596,17 @@ describe('Colorpicker Component', () => {
       helpController.expectCurrentHelpKey('helpKey.html');
     });
 
+    it('should emit helpInvoked when the help inline button is clicked', () => {
+      const helpInvokedSpy = spyOn(component, 'onHelpInvoked');
+      component.labelText = 'label';
+      component.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      getHelpInlineButton(nativeElement)?.click();
+
+      expect(helpInvokedSpy).toHaveBeenCalled();
+    });
+
     it('should render the hintText when provided', () => {
       const hintText = 'Hint text';
       component.hintText = hintText;

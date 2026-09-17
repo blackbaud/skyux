@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   input,
+  output,
   type TemplateRef,
 } from '@angular/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
@@ -24,6 +25,7 @@ export class SkyChartHeading {
   public readonly helpKey = input<string>();
   public readonly helpPopoverContent = input<string | TemplateRef<unknown>>();
   public readonly helpPopoverTitle = input<string>();
+  public readonly helpInvoked = output<void>();
 
   protected readonly headingClass = computed(() => {
     return `sky-font-heading-${this.headingStyle()}`;

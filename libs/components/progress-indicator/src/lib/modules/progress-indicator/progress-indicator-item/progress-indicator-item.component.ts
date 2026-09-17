@@ -6,6 +6,7 @@ import {
   OnInit,
   TemplateRef,
   inject,
+  output,
 } from '@angular/core';
 
 import { SkyProgressIndicatorItemStatus } from '../types/progress-indicator-item-status';
@@ -61,6 +62,13 @@ export class SkyProgressIndicatorItemComponent implements OnInit {
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * Fires when users invoke help. The component displays the help content
+   * itself, so handle this event only when you need to react to help usage,
+   * such as for analytics.
+   */
+  public readonly helpInvoked = output<void>();
 
   public set status(value: SkyProgressIndicatorItemStatus | undefined) {
     if (value === this.#_status) {

@@ -10,7 +10,13 @@ export class StatusIndicatorTestComponent {
 
   public descriptionType: string | undefined;
 
+  public helpPopoverContent: string | undefined;
+
   public indicatorType: string | undefined;
 
   public showHelp = false;
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

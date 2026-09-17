@@ -93,6 +93,7 @@
               [labelText]="nodeName"
               [popoverContent]="helpPopoverContent"
               [popoverTitle]="helpPopoverTitle"
+              (actionClick)="helpInvoked.emit()"
             />
           } @else {
             <ng-content select=".sky-control-help" />

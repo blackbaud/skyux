@@ -26,6 +26,8 @@ export class TileTestComponent {
 
   public tileHelpClick(): void {}
 
+  public onHelpInvoked(): void {}
+
   public collapsedStateCallback(isCollapsed: boolean): void {
     this.collapsedOutputCalled = isCollapsed;
   }

@@ -84,6 +84,10 @@ export class SkyRadioGroupReactiveFixtureComponent implements OnInit {
     });
   }
 
+  public onHelpInvoked(): void {
+    /* */
+  }
+
   public changeOptions(): void {
     this.options = [
       { name: 'Lily Corr', disabled: false },

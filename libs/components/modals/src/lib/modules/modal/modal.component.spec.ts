@@ -758,6 +758,31 @@ describe('Modal component', () => {
     closeModal(modalInstance);
   }));
 
+  it('should emit helpInvoked when the help inline button is clicked', fakeAsync(() => {
+    const modalInstance = openModal(ModalTestComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useValue: {
+            headingText: 'My modal',
+            helpPopoverContent: 'Popover content here.',
+          } satisfies Partial<ModalTestContext>,
+        },
+      ],
+    });
+
+    const helpInvokedSpy = spyOn(
+      modalInstance.componentInstance,
+      'onHelpInvoked',
+    );
+
+    getHelpInlineButton()?.click();
+
+    expect(helpInvokedSpy).toHaveBeenCalled();
+
+    closeModal(modalInstance);
+  }));
+
   it('should not render help inline if popover content provided but headingText undefined', fakeAsync(() => {
     const modalInstance = openModal(ModalTestComponent, {
       providers: [

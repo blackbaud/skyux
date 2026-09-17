@@ -49,6 +49,7 @@ import { SkyCheckboxModule } from './checkbox.module';
       [stacked]="stacked"
       [(indeterminate)]="indeterminate"
       (change)="checkboxChange($event)"
+      (helpInvoked)="onHelpInvoked()"
     >
       <sky-checkbox-label>
         Simple checkbox
@@ -88,6 +89,10 @@ class SingleCheckboxComponent implements AfterViewInit {
 
   public checkboxChange($event: SkyCheckboxChange): void {
     this.isChecked = $event.checked;
+  }
+
+  public onHelpInvoked(): void {
+    /* */
   }
 }
 
@@ -605,6 +610,17 @@ describe('Checkbox component', () => {
       fixture.detectChanges();
 
       helpController.expectCurrentHelpKey('helpKey.html');
+    });
+
+    it('should emit helpInvoked when the help inline button is clicked', () => {
+      const helpInvokedSpy = spyOn(fixture.componentInstance, 'onHelpInvoked');
+      fixture.componentInstance.labelText = 'Label';
+      fixture.componentInstance.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      fixture.nativeElement.querySelector('.sky-help-inline').click();
+
+      expect(helpInvokedSpy).toHaveBeenCalled();
     });
 
     it('should have the lg margin class if stacked is true', () => {

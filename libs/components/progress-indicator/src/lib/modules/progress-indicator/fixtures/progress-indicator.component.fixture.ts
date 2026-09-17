@@ -191,4 +191,8 @@ export class SkyProgressIndicatorFixtureComponent {
     this.helpPopoverContent = content;
     this.#changeDetector.markForCheck();
   }
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

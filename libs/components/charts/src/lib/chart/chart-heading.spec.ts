@@ -75,6 +75,19 @@ describe('Chart heading component', () => {
     expect(getHelpInline()).not.toBeNull();
   });
 
+  it('should emit helpInvoked when the help inline button is clicked', () => {
+    setInputs(3, 3, 'My heading');
+    fixture.componentRef.setInput('helpPopoverContent', 'My help content');
+    fixture.detectChanges();
+
+    const helpInvokedSpy = jasmine.createSpy('helpInvoked');
+    fixture.componentInstance.helpInvoked.subscribe(helpInvokedSpy);
+
+    fixture.nativeElement.querySelector('.sky-help-inline').click();
+
+    expect(helpInvokedSpy).toHaveBeenCalled();
+  });
+
   describe('a11y', () => {
     it('should be accessible', async () => {
       setInputs(3, 3, 'My heading');

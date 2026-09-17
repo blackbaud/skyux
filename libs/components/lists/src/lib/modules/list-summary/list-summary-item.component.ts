@@ -4,6 +4,7 @@ import {
   TemplateRef,
   computed,
   input,
+  output,
 } from '@angular/core';
 import { SkyNumericModule, SkyNumericOptions } from '@skyux/core';
 import { SkyKeyInfoModule } from '@skyux/indicators';
@@ -52,6 +53,13 @@ export class SkyListSummaryItemComponent {
    * also specified.
    */
   public helpPopoverTitle = input<string>();
+
+  /**
+   * Fires when users invoke help. The component displays the help content
+   * itself, so handle this event only when you need to react to help usage,
+   * such as for analytics.
+   */
+  public readonly helpInvoked = output<void>();
 
   protected numericValue = computed((): number | undefined => {
     const value = this.value();

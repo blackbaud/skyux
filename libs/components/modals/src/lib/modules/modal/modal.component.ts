@@ -14,6 +14,7 @@ import {
   booleanAttribute,
   inject,
   input,
+  output,
 } from '@angular/core';
 import {
   SkyCoreAdapterService,
@@ -108,6 +109,13 @@ export class SkyModalComponent implements AfterViewInit, OnDestroy, OnInit {
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * Fires when users invoke help. The component displays the help content
+   * itself, so handle this event only when you need to react to help usage,
+   * such as for analytics.
+   */
+  public readonly helpInvoked = output<void>();
 
   /**
    * Used by the confirm component to set a different role for the modal.

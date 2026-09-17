@@ -73,6 +73,10 @@ export class SkyTreeViewFixtureComponent {
     this.expandedNodeIds = treeState.expandedNodeIds;
   }
 
+  public onHelpInvoked(): void {
+    /* */
+  }
+
   public updateState(): void {
     this.state = {
       selectedLeafNodeIds: {

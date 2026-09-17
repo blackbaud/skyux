@@ -20,4 +20,8 @@ export class BoxTestComponent {
   public helpPopoverContent: string | undefined;
   public helpPopoverTitle: string | undefined;
   public showHeader = true;
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

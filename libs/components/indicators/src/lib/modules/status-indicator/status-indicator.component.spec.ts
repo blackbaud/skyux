@@ -144,6 +144,21 @@ describe('Status indicator component', () => {
     expect(statusIndicatorEl).toHaveText('Indicator textHelp inline');
   });
 
+  it('should emit helpInvoked when the help inline button is clicked', () => {
+    const fixture = TestBed.createComponent(StatusIndicatorTestComponent);
+    const helpInvokedSpy = spyOn(fixture.componentInstance, 'onHelpInvoked');
+    fixture.componentInstance.descriptionType = 'none';
+    fixture.componentInstance.helpPopoverContent = 'popover content';
+
+    fixture.detectChanges();
+
+    getStatusIndicatorEl(fixture)
+      .querySelector<HTMLElement>('.sky-help-inline')
+      ?.click();
+
+    expect(helpInvokedSpy).toHaveBeenCalled();
+  });
+
   it('should add the expected screen reader description based on `descriptionType`', () => {
     const fixture = TestBed.createComponent(StatusIndicatorTestComponent);
     fixture.componentInstance.customDescription = 'Custom description';

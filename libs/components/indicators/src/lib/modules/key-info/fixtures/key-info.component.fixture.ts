@@ -10,4 +10,8 @@ import { SkyKeyInfoLayoutType } from '../key-info-layout-type';
 export class KeyInfoTestComponent {
   public helpContent: string | undefined = undefined;
   public layout: SkyKeyInfoLayoutType | undefined = 'vertical';
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

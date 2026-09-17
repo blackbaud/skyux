@@ -8,6 +8,7 @@
   [labelHidden]="labelHidden"
   [labelText]="labelText"
   [tabIndex]="customTabIndex"
+  (helpInvoked)="onHelpInvoked()"
   (toggleChange)="checkChanged($event)"
 >
   @if (showLabel) {

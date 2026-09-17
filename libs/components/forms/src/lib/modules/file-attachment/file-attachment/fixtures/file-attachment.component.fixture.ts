@@ -59,4 +59,8 @@ export class FileAttachmentTestComponent {
       attachment: this.attachment,
     });
   }
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

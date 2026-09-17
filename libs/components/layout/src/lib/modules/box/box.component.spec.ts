@@ -280,4 +280,14 @@ describe('BoxComponent', () => {
 
     helpController.expectCurrentHelpKey('helpKey.html');
   });
+
+  it('should emit helpInvoked when the help inline button is clicked', () => {
+    const helpInvokedSpy = spyOn(component, 'onHelpInvoked');
+    component.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    fixture.nativeElement.querySelector('.sky-help-inline').click();
+
+    expect(helpInvokedSpy).toHaveBeenCalled();
+  });
 });

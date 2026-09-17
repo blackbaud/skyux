@@ -67,4 +67,8 @@ export class TextEditorFixtureComponent {
   public labelText: string | undefined;
   public hintText: string | undefined;
   public stacked: boolean | undefined;
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

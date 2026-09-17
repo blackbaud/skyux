@@ -13,6 +13,7 @@ import {
   booleanAttribute,
   forwardRef,
   inject,
+  output,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -125,6 +126,13 @@ export class SkyToggleSwitchComponent
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * Fires when users invoke help. The component displays the help content
+   * itself, so handle this event only when you need to react to help usage,
+   * such as for analytics.
+   */
+  public readonly helpInvoked = output<void>();
 
   /**
    * The tab index for the toggle switch. If not defined, the index is set to the position
