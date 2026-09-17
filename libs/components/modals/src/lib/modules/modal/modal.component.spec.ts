@@ -771,9 +771,14 @@ describe('Modal component', () => {
       ],
     });
 
+    const helpInvokedSpy = spyOn(
+      modalInstance.componentInstance,
+      'onHelpInvoked',
+    );
+
     getHelpInlineButton()?.click();
 
-    expect(modalInstance.componentInstance.helpInvoked).toBeTrue();
+    expect(helpInvokedSpy).toHaveBeenCalled();
 
     closeModal(modalInstance);
   }));
