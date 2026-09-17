@@ -1,24 +1,15 @@
-import { Rule, chain } from '@angular-devkit/schematics';
+import { chain, Rule } from '@angular-devkit/schematics';
 import {
   ProjectDefinition,
   updateWorkspace,
 } from '@schematics/angular/utility';
 
+import {
+  builderHasStylesOption,
+  ESBUILD_BUILDERS,
+  WEBPACK_BUILDERS,
+} from '../../utility/builders';
 import { Schema } from './schema';
-
-const SUPPORTED_BUILD_BUILDERS = [
-  '@angular/build:application',
-  '@angular-devkit/build-angular:application',
-  '@angular-devkit/build-angular:browser',
-  '@blackbaud-internal/skyux-angular-builders:browser',
-  '@blackbaud-internal/skyux-build:application',
-];
-
-const SUPPORTED_TEST_BUILDERS = [
-  '@angular/build:karma',
-  '@angular-devkit/build-angular:karma',
-  '@blackbaud-internal/skyux-angular-builders:karma',
-];
 
 export default function addSkyuxToProject(options: Schema): Rule {
   const { project: projectName } = options;
@@ -42,7 +33,10 @@ function configureAllowedCommonJsDependencies(
 ): void {
   const target = project.targets.get('build');
 
-  if (target && SUPPORTED_BUILD_BUILDERS.includes(target.builder)) {
+  if (
+    target &&
+    WEBPACK_BUILDERS.concat(ESBUILD_BUILDERS).includes(target.builder)
+  ) {
     target.options ??= {};
     target.options['allowedCommonJsDependencies'] ??= [];
 
@@ -70,14 +64,10 @@ function configureStyles(project: ProjectDefinition): void {
     '@skyux/theme/css/themes/modern/styles.css',
   ];
 
-  const supportedBuilders = SUPPORTED_BUILD_BUILDERS.concat(
-    SUPPORTED_TEST_BUILDERS,
-  );
-
   for (const target of ['build', 'test']) {
     const def = project.targets.get(target);
 
-    if (def && supportedBuilders.includes(def.builder)) {
+    if (def && builderHasStylesOption(def.builder)) {
       def.options ??= {};
       def.options['styles'] ??= [];
 
