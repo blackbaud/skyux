@@ -5,6 +5,15 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expectAsync } from '@skyux-sdk/testing';
+import {
+  SkyTheme,
+  SkyThemeMode,
+  SkyThemeService,
+  SkyThemeSettings,
+  SkyThemeSettingsChange,
+} from '@skyux/theme';
+
+import { BehaviorSubject } from 'rxjs';
 
 import { SkyIconSvgResolverService } from './icon-svg-resolver.service';
 import { SkyIconSvgComponent } from './icon-svg.component';
@@ -13,6 +22,7 @@ import { SkyIconModule } from './icon.module';
 describe('Icon SVG component', () => {
   let resolverSvc: jasmine.SpyObj<SkyIconSvgResolverService>;
   let fixture: ComponentFixture<SkyIconSvgComponent>;
+  let settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
 
   function detectUrlChanges(): void {
     fixture.detectChanges();
@@ -32,14 +42,35 @@ describe('Icon SVG component', () => {
     expect(useEl?.href.baseVal).toBe(expectedId);
   }
 
+  function setThemeMode(mode: SkyThemeMode): void {
+    settingsChange.next({
+      currentSettings: new SkyThemeSettings(SkyTheme.presets.modern, mode),
+      previousSettings: settingsChange.value.currentSettings,
+    });
+  }
+
   beforeEach(() => {
+    settingsChange = new BehaviorSubject<SkyThemeSettingsChange>({
+      currentSettings: new SkyThemeSettings(
+        SkyTheme.presets.modern,
+        SkyThemeMode.presets.light,
+      ),
+      previousSettings: undefined,
+    });
+
     resolverSvc = jasmine.createSpyObj<SkyIconSvgResolverService>(
       'SkyIconSvgResolverService',
       ['resolveHref'],
     );
 
-    resolverSvc.resolveHref.and.callFake((src, size, variant) => {
-      return Promise.resolve(`#${src}-${size}-${variant ?? 'line'}`);
+    // Mirror the real resolver, which appends `-dark` to the icon ID when dark
+    // mode is requested and the icon has a dark mode version.
+    resolverSvc.resolveHref.and.callFake((src, size, variant, colorMode) => {
+      const darkSuffix = colorMode === 'dark' ? '-dark' : '';
+
+      return Promise.resolve(
+        `#${src}-${size}-${variant ?? 'line'}${darkSuffix}`,
+      );
     });
 
     TestBed.configureTestingModule({
@@ -49,6 +80,7 @@ describe('Icon SVG component', () => {
           provide: SkyIconSvgResolverService,
           useValue: resolverSvc,
         },
+        { provide: SkyThemeService, useValue: { settingsChange } },
       ],
     });
 
@@ -85,6 +117,23 @@ describe('Icon SVG component', () => {
     detectUrlChanges();
 
     validateIconId('#test-24-solid');
+  }));
+
+  it('should resolve the icon again when the theme mode changes', fakeAsync(() => {
+    fixture.componentRef.setInput('iconName', 'test');
+    detectUrlChanges();
+
+    validateIconId('#test-20-line');
+
+    setThemeMode(SkyThemeMode.presets.dark);
+    detectUrlChanges();
+
+    validateIconId('#test-20-line-dark');
+
+    setThemeMode(SkyThemeMode.presets.light);
+    detectUrlChanges();
+
+    validateIconId('#test-20-line');
   }));
 
   it('should handle errors', fakeAsync(() => {

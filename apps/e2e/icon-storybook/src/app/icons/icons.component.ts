@@ -15,6 +15,8 @@ import {
 } from '@skyux/icon';
 import { IconPreviewService } from '@skyux/storybook/icon-preview';
 
+import { getIconNames } from '../icon-names';
+
 @Component({
   selector: 'app-icons',
   templateUrl: './icons.component.html',
@@ -34,21 +36,7 @@ export class IconsComponent {
     const iconsReady = this.#starIcon.hasValue();
     const iconsPreviewReady = this.#iconPreview.ready();
     if (iconsReady && iconsPreviewReady) {
-      const iconSymbols = this.#doc.querySelectorAll(
-        '#sky-icon-svg-sprite symbol',
-      );
-      return Array.from(
-        new Set(
-          Array.from(iconSymbols)
-            .map((el) => {
-              const idParts = el.id.split('-');
-              // Construct the icon name by removing `sky-i-` from the beginning
-              // and `-<size>-<variant>` from the end.
-              return idParts.slice(2, idParts.length - 2).join('-');
-            })
-            .filter(Boolean),
-        ),
-      ).sort((a, b) => a.localeCompare(b));
+      return getIconNames(this.#doc);
     }
     return undefined;
   });
