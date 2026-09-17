@@ -11,6 +11,7 @@ import {
   booleanAttribute,
   forwardRef,
   inject,
+  output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SkyIdService, SkyLogService } from '@skyux/core';
@@ -245,6 +246,13 @@ export class SkyRadioComponent implements OnDestroy, ControlValueAccessor {
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * Fires when users invoke help. The component displays the help content
+   * itself, so handle this event only when you need to react to help usage,
+   * such as for analytics.
+   */
+  public readonly helpInvoked = output<void>();
 
   /**
    * The SVG icon to display in place of the radio button. To group radio buttons like in

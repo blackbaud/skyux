@@ -1676,6 +1676,19 @@ describe('Text editor', () => {
       helpController.expectCurrentHelpKey('helpKey.html');
     });
 
+    it('should emit helpInvoked when the help inline button is clicked', () => {
+      const helpInvokedSpy = spyOn(testComponent, 'onHelpInvoked');
+      testComponent.labelText = 'Text Editor';
+      testComponent.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      fixture.nativeElement
+        .querySelector('.sky-help-inline:not(.sky-control-help)')
+        .click();
+
+      expect(helpInvokedSpy).toHaveBeenCalled();
+    });
+
     it('should not render help inline popover if title is provided without content', () => {
       testComponent.helpPopoverContent = undefined;
       testComponent.helpPopoverTitle = 'popover title';

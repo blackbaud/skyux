@@ -10,6 +10,7 @@
     [hintText]="hintText"
     [maxFileSize]="maxFileSize"
     [stacked]="stacked"
+    (helpInvoked)="onHelpInvoked()"
   >
     @if (showLabel) {
       <sky-file-attachment-label>

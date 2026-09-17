@@ -18,6 +18,7 @@
               [labelText]="tileName"
               [popoverContent]="helpPopoverContent"
               [popoverTitle]="helpPopoverTitle"
+              (actionClick)="helpInvoked.emit()"
             />
           </span>
         }

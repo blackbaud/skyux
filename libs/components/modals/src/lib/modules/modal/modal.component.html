@@ -35,6 +35,7 @@
             [helpKey]="helpKey"
             [helpPopoverContent]="helpPopoverContent"
             [helpPopoverTitle]="helpPopoverTitle"
+            (helpInvoked)="helpInvoked.emit()"
           />
         } @else {
           <ng-content select="sky-modal-header" />

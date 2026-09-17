@@ -14,6 +14,7 @@ import {
   TemplateRef,
   ViewChild,
   inject,
+  output,
 } from '@angular/core';
 import {
   SkyIdModule,
@@ -85,6 +86,13 @@ export class SkyTileComponent implements AfterViewInit, OnChanges, OnDestroy {
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * Fires when users invoke help. The component displays the help content
+   * itself, so handle this event only when you need to react to help usage,
+   * such as for analytics.
+   */
+  public readonly helpInvoked = output<void>();
 
   /**
    * Whether to display a settings button in the tile header. To display the

@@ -754,6 +754,24 @@ describe('Input box component', () => {
       helpController.expectCurrentHelpKey('index.html');
     });
 
+    it('should emit helpInvoked when the help inline button is clicked', () => {
+      const fixture = TestBed.createComponent(InputBoxFixtureComponent);
+      fixture.detectChanges();
+
+      const helpInvokedSpy = spyOn(fixture.componentInstance, 'onHelpInvoked');
+      fixture.componentInstance.easyModeHelpPopoverContent = "What's this?";
+      fixture.detectChanges();
+
+      const easyModeInput = getDefaultEls(fixture, 'input-easy-mode');
+      (
+        easyModeInput.inlineHelpEl?.querySelector(
+          '.sky-help-inline',
+        ) as HTMLElement
+      ).click();
+
+      expect(helpInvokedSpy).toHaveBeenCalled();
+    });
+
     it('should add character count', async () => {
       const fixture = TestBed.createComponent(InputBoxFixtureComponent);
 

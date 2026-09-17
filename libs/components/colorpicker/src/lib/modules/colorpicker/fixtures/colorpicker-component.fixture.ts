@@ -58,4 +58,8 @@ export class ColorpickerTestComponent {
   public sendMessage(type: SkyColorpickerMessageType) {
     this.colorpickerController.next({ type });
   }
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

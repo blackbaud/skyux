@@ -10,6 +10,7 @@
     [headingStyle]="headingStyle"
     [required]="required"
     [stacked]="stacked"
+    (helpInvoked)="onHelpInvoked()"
   >
     <sky-checkbox formControlName="email" labelText="Email" />
     <sky-checkbox formControlName="phone" labelText="Phone" />

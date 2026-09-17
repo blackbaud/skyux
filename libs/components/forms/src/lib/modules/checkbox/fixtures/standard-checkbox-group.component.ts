@@ -65,6 +65,10 @@ export class SkyStandardCheckboxGroupComponent {
     this.contactMethod.get('text')?.addValidators(Validators.requiredTrue);
   }
 
+  public onHelpInvoked(): void {
+    /* */
+  }
+
   protected onSubmit(): void {
     this.formGroup.markAllAsTouched();
   }

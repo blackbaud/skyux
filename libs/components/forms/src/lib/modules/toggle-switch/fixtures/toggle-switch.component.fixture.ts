@@ -22,4 +22,8 @@ export class SkyToggleSwitchFixtureComponent {
   public checkChanged(event: { checked: boolean }): void {
     this.isChecked = event.checked;
   }
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

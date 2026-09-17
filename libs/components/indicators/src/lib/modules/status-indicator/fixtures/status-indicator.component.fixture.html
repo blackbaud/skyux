@@ -2,7 +2,9 @@
   id="status-indicator-with-indicator-type"
   [customDescription]="customDescription"
   [descriptionType]="descriptionType"
+  [helpPopoverContent]="helpPopoverContent"
   [indicatorType]="indicatorType"
+  (helpInvoked)="onHelpInvoked()"
 >
   Indicator text
   @if (showHelp) {

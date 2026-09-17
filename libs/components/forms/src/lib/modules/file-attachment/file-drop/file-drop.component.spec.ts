@@ -1402,6 +1402,18 @@ describe('File drop component', () => {
 
     helpController.expectCurrentHelpKey('helpKey.html');
   });
+
+  it('should emit helpInvoked when the help inline button is clicked', () => {
+    const helpInvokedSpy = jasmine.createSpy('helpInvoked');
+    componentInstance.helpInvoked.subscribe(helpInvokedSpy);
+    componentInstance.labelText = 'label';
+    componentInstance.helpPopoverContent = 'popover content';
+    fixture.detectChanges();
+
+    fixture.nativeElement.querySelector('.sky-help-inline').click();
+
+    expect(helpInvokedSpy).toHaveBeenCalled();
+  });
 });
 
 describe('File drop reactive component', () => {

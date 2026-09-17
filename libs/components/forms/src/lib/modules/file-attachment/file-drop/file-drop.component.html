@@ -25,6 +25,7 @@
             [labelText]="labelText"
             [popoverTitle]="helpPopoverTitle"
             [popoverContent]="helpPopoverContent"
+            (actionClick)="helpInvoked.emit()"
           />
         </span>
       }

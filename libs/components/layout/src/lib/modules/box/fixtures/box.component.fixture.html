@@ -9,6 +9,7 @@
   [helpKey]="helpKey"
   [helpPopoverContent]="helpPopoverContent"
   [helpPopoverTitle]="helpPopoverTitle"
+  (helpInvoked)="onHelpInvoked()"
 >
   @if (showHeader) {
     <sky-box-header>

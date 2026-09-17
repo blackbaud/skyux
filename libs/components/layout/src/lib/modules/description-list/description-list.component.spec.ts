@@ -110,6 +110,16 @@ describe('Description list component', () => {
     );
   });
 
+  it('should emit helpInvoked when the help inline button is clicked', () => {
+    const helpInvokedSpy = spyOn(fixture.componentInstance, 'onHelpInvoked');
+
+    getListEl(fixture.nativeElement, 5)
+      ?.querySelector<HTMLElement>('.sky-help-inline')
+      ?.click();
+
+    expect(helpInvokedSpy).toHaveBeenCalled();
+  });
+
   it('should set list item width when in horizontal mode', () => {
     fixture.componentInstance.mode = 'horizontal';
     const dlEls = getDlEls(fixture.nativeElement);

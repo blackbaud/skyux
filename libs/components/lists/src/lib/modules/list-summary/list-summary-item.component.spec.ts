@@ -99,6 +99,20 @@ describe('List summary item component', () => {
     expect(keyInfoComponent.helpPopoverTitle).toBe('Help title');
   });
 
+  it('should emit helpInvoked when the help inline button is clicked', () => {
+    componentRef.setInput('value', 100);
+    componentRef.setInput('labelText', 'Test Label');
+    componentRef.setInput('helpPopoverContent', 'Help content');
+    fixture.detectChanges();
+
+    const helpInvokedSpy = jasmine.createSpy('helpInvoked');
+    component.helpInvoked.subscribe(helpInvokedSpy);
+
+    fixture.nativeElement.querySelector('.sky-help-inline').click();
+
+    expect(helpInvokedSpy).toHaveBeenCalled();
+  });
+
   it('should apply display-4 font class to value', () => {
     componentRef.setInput('value', 100);
     componentRef.setInput('labelText', 'Test Label');

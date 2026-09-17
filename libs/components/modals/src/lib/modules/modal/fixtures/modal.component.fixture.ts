@@ -10,5 +10,11 @@ import { ModalTestContext } from './modal-context';
 export class ModalTestComponent {
   public longContent = false;
 
+  public helpInvoked = false;
+
+  public onHelpInvoked(): void {
+    this.helpInvoked = true;
+  }
+
   protected context = inject(ModalTestContext, { optional: true });
 }

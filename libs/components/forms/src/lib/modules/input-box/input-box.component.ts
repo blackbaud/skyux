@@ -18,6 +18,7 @@ import {
   TemplateRef,
   ViewEncapsulation,
   inject,
+  output,
 } from '@angular/core';
 import {
   AbstractControlDirective,
@@ -135,6 +136,13 @@ export class SkyInputBoxComponent
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * Fires when users invoke help. The component displays the help content
+   * itself, so handle this event only when you need to react to help usage,
+   * such as for analytics.
+   */
+  public readonly helpInvoked = output<void>();
 
   /**
    * The content of the help popover. When specified along with `labelText`, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)

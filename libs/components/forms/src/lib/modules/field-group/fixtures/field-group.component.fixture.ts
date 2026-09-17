@@ -39,4 +39,8 @@ export class FieldGroupComponent {
       name: new FormControl(),
     });
   }
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

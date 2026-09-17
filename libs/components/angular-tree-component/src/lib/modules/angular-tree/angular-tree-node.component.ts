@@ -9,6 +9,7 @@ import {
   TemplateRef,
   ViewChild,
   inject,
+  output,
 } from '@angular/core';
 import {
   ITreeState,
@@ -91,6 +92,13 @@ export class SkyAngularTreeNodeComponent implements AfterViewInit, OnInit {
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * Fires when users invoke help. The component displays the help content
+   * itself, so handle this event only when you need to react to help usage,
+   * such as for analytics.
+   */
+  public readonly helpInvoked = output<void>();
 
   public set childFocusIndex(value: number | undefined) {
     if (value !== this.#_childFocusIndex) {

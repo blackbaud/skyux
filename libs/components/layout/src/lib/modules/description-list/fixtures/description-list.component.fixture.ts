@@ -56,4 +56,8 @@ export class SkyDescriptionListTestComponent {
       description: scheduled(['Example 3'], asyncScheduler),
     },
   ];
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

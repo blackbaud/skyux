@@ -454,6 +454,20 @@ describe('Tile component', () => {
     expect(getHelpInlineButton(fixture)).toBeDefined();
   });
 
+  it('should emit helpInvoked when the help inline button is clicked', () => {
+    const fixture = TestBed.createComponent(TileTestComponent);
+    const helpInvokedSpy = spyOn(fixture.componentInstance, 'onHelpInvoked');
+
+    fixture.componentInstance.tileName = 'Tile 1';
+    fixture.componentInstance.helpPopoverContent = 'Example popover content.';
+
+    fixture.detectChanges();
+
+    getHelpInlineButton(fixture)?.click();
+
+    expect(helpInvokedSpy).toHaveBeenCalled();
+  });
+
   it('should not render help inline if popover content provided but tile name undefined', () => {
     const fixture = TestBed.createComponent(TileTestComponent);
 

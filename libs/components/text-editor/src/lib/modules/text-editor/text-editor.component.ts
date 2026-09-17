@@ -14,6 +14,7 @@ import {
   ViewEncapsulation,
   booleanAttribute,
   inject,
+  output,
 } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { SkyCoreAdapterService, SkyIdModule, SkyIdService } from '@skyux/core';
@@ -150,6 +151,13 @@ export class SkyTextEditorComponent
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * Fires when users invoke help. The component displays the help content
+   * itself, so handle this event only when you need to react to help usage,
+   * such as for analytics.
+   */
+  public readonly helpInvoked = output<void>();
 
   /**
    * [Persistent inline help text](https://developer.blackbaud.com/skyux/design/guidelines/user-assistance#inline-help) that provides

@@ -3,6 +3,7 @@
   [helpKey]="helpKey()"
   [helpPopoverContent]="helpPopoverContent()"
   [helpPopoverTitle]="helpPopoverTitle()"
+  (helpInvoked)="helpInvoked.emit()"
 >
   <sky-key-info-value class="sky-font-display-4">
     @if (numericValue() !== undefined) {

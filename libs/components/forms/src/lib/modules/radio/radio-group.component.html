@@ -53,6 +53,7 @@
             [labelText]="headingText"
             [popoverTitle]="helpPopoverTitle"
             [popoverContent]="helpPopoverContent"
+            (actionClick)="helpInvoked.emit()"
           />
         </span>
       }

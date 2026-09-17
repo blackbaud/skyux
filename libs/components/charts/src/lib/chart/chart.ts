@@ -5,6 +5,7 @@ import {
   computed,
   inject,
   input,
+  output,
   type TemplateRef,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -98,6 +99,13 @@ export class SkyChart {
    * The title of the help popover. This property only applies when `helpPopoverContent` is also specified.
    */
   public readonly helpPopoverTitle = input<string>();
+
+  /**
+   * Fires when users invoke help. The component displays the help content
+   * itself, so handle this event only when you need to react to help usage,
+   * such as for analytics.
+   */
+  public readonly helpInvoked = output<void>();
 
   /**
    * Whether the chart's data is being loaded. When `true`, a wait overlay

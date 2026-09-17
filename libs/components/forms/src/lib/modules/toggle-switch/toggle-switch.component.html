@@ -57,6 +57,7 @@
           [labelText]="labelText"
           [popoverTitle]="helpPopoverTitle"
           [popoverContent]="helpPopoverContent"
+          (actionClick)="helpInvoked.emit()"
         />
       }
       <ng-content select=".sky-control-help" />

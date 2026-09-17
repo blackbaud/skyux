@@ -48,4 +48,8 @@ export class SkyRadioTestComponent {
   public onDisabledChange(): void {
     /* */
   }
+
+  public onHelpInvoked(): void {
+    /* */
+  }
 }

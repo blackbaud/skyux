@@ -292,6 +292,16 @@ describe('tree view', () => {
 
       helpController.expectCurrentHelpKey('foo.html');
     });
+
+    it('should emit helpInvoked when the help inline button is clicked', () => {
+      const helpInvokedSpy = spyOn(component, 'onHelpInvoked');
+      component.nodes[0].helpPopoverContent = 'Example popover content.';
+      fixture.detectChanges();
+
+      fixture.nativeElement.querySelector('.sky-help-inline')?.click();
+
+      expect(helpInvokedSpy).toHaveBeenCalled();
+    });
   });
 
   describe('toolbar', () => {

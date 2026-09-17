@@ -1848,6 +1848,17 @@ describe('File attachment', () => {
     helpController.expectCurrentHelpKey('index.html');
   });
 
+  it('should emit helpInvoked when the help inline button is clicked', () => {
+    const helpInvokedSpy = spyOn(fixture.componentInstance, 'onHelpInvoked');
+    fixture.componentInstance.labelText = 'labelText';
+    fixture.componentInstance.popoverContent = 'popover content';
+    fixture.detectChanges();
+
+    fixture.nativeElement.querySelector('.sky-help-inline').click();
+
+    expect(helpInvokedSpy).toHaveBeenCalled();
+  });
+
   it('should render hint if `hintText` is set', () => {
     const hintText = 'hint text';
     fixture.componentInstance.hintText = hintText;

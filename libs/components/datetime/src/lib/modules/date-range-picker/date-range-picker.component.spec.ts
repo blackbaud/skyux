@@ -1220,5 +1220,19 @@ describe('Date range picker', function () {
 
       helpController.expectCurrentHelpKey('helpKey.html');
     });
+
+    it('should emit helpInvoked when the help inline button is clicked', () => {
+      component.helpPopoverContent = 'content';
+      fixture.detectChanges();
+
+      const helpInvokedSpy = jasmine.createSpy('helpInvoked');
+      component.dateRangePicker.helpInvoked.subscribe(helpInvokedSpy);
+
+      fixture.nativeElement
+        .querySelector('.sky-help-inline:not(.sky-control-help)')
+        .click();
+
+      expect(helpInvokedSpy).toHaveBeenCalled();
+    });
   });
 });

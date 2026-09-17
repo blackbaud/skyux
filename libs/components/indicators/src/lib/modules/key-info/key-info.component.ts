@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, Input, TemplateRef, output } from '@angular/core';
 import { SkyIdModule } from '@skyux/core';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 
@@ -33,6 +33,13 @@ export class SkyKeyInfoComponent {
    */
   @Input()
   public helpPopoverTitle: string | undefined;
+
+  /**
+   * Fires when users invoke help. The component displays the help content
+   * itself, so handle this event only when you need to react to help usage,
+   * such as for analytics.
+   */
+  public readonly helpInvoked = output<void>();
 
   /**
    * The layout for the key info. The vertical layout places the label under the

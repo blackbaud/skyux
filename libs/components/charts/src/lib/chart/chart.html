@@ -8,6 +8,7 @@
         [helpKey]="helpKey()"
         [helpPopoverContent]="helpPopoverContent()"
         [helpPopoverTitle]="helpPopoverTitle()"
+        (helpInvoked)="helpInvoked.emit()"
       />
       @if (subheadingText(); as subheadingText) {
         <sky-chart-subheading [subheadingText]="subheadingText" />

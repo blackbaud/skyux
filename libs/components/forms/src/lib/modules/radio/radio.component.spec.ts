@@ -412,6 +412,19 @@ describe('Radio component', function () {
 
       helpController.expectCurrentHelpKey('helpKey.html');
     });
+
+    it('should emit helpInvoked when the help inline button is clicked', () => {
+      const helpInvokedSpy = spyOn(componentInstance, 'onHelpInvoked');
+      componentInstance.labelText1 = 'Radio button';
+      componentInstance.helpPopoverContent = 'popover content';
+      fixture.detectChanges();
+
+      fixture.nativeElement
+        .querySelector('.sky-help-inline:not(.sky-control-help)')
+        .click();
+
+      expect(helpInvokedSpy).toHaveBeenCalled();
+    });
   });
 
   describe('Radio icon component', () => {
