@@ -67,6 +67,10 @@ sky-box {
   }
 
   sky-box-content {
+    // The box already supplies inset padding around its content, so a repeater's first item
+    // does not need its own top inset here.
+    --sky-comp-override-repeater-first-item-space-inset-top: 0;
+
     .sky-box-content {
       padding: var(
         --sky-override-box-content-padding,

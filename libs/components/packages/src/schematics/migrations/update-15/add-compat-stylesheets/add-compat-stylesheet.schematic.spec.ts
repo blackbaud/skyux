@@ -105,6 +105,11 @@ describe('Migrations > Add compat stylesheets', () => {
       '--sky-compat-list-summary-padding:',
     );
 
+    expect(compatStylesheetContents).toContain('COMPONENT: REPEATER');
+    expect(compatStylesheetContents).toContain(
+      '--sky-compat-repeater-first-item-space-inset-top:',
+    );
+
     const updatedAngularJson = updatedTree.readJson(
       '/angular.json',
     ) as unknown as TestAngularJson;
@@ -173,6 +178,9 @@ describe('Migrations > Add compat stylesheets', () => {
     expect(contents).toContain('--sky-compat-toolbar-container-padding:');
     expect(contents).not.toContain('--sky-compat-filter-bar-toolbar-padding:');
     expect(contents).not.toContain('--sky-compat-list-summary-padding:');
+    expect(contents).not.toContain(
+      '--sky-compat-repeater-first-item-space-inset-top:',
+    );
     expect(contents).not.toContain('--sky-compat-btn-disabled-pointer-events:');
   });
 
