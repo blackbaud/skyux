@@ -15,6 +15,8 @@ import {
 } from '@skyux/icon';
 import { IconPreviewService } from '@skyux/storybook/icon-preview';
 
+import { getIconNames } from '../icon-names';
+
 @Component({
   selector: 'app-icons-by-row',
   templateUrl: './icons-by-row.component.html',
@@ -42,21 +44,7 @@ export class IconsByRowComponent {
     const page = this.page() - 1;
     const pages = this.pages();
     if (iconsReady && iconsPreviewReady) {
-      const iconSymbols = this.#doc.querySelectorAll(
-        '#sky-icon-svg-sprite symbol',
-      );
-      const icons = Array.from(
-        new Set(
-          Array.from(iconSymbols)
-            .map((el) => {
-              const idParts = el.id.split('-');
-              // Construct the icon name by removing `sky-i-` from the beginning
-              // and `-<size>-<variant>` from the end.
-              return idParts.slice(2, idParts.length - 2).join('-');
-            })
-            .filter(Boolean),
-        ),
-      ).sort((a, b) => a.localeCompare(b));
+      const icons = getIconNames(this.#doc);
       if (pages > 0) {
         const pageSize = Math.ceil(this.#az.length / pages);
         const beginsWith = this.#az.slice(
