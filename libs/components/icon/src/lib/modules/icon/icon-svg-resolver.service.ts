@@ -2,11 +2,12 @@ import { inject, Injectable } from '@angular/core';
 
 import { SKY_ICON_SVG_URL, SkyLogService } from '@skyux/core';
 
+import { SkyIconColorModeType } from './types/icon-color-mode-type';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
 const DEFAULT_SVG_URL = `https://sky.blackbaudcdn.net/static/skyux-icons/10/assets/svg/skyux-icons.svg`;
 
-// A dark mode icon repeats the default icon's ID with this as a final segment,
+// A dark mode icon repeats the standard icon's ID with this as a final segment,
 // e.g. `sky-i-my-icon-20-line-dark` is the dark mode version of
 // `sky-i-my-icon-20-line`. The segment is stripped when the icon map is built
 // so that both versions of an icon share a single entry, keyed by the name
@@ -16,7 +17,7 @@ const DARK_MODE_SUFFIX = 'dark';
 // The sizes an icon has been optimized for, split by the theme mode each size
 // belongs to. Most icons have no dark mode version, leaving `dark` empty.
 interface IconSizesByMode {
-  default: number[];
+  standard: number[];
   dark: number[];
 }
 
@@ -48,10 +49,10 @@ function buildIconMap(): Map<string, IconSizesByMode> {
   ).reduce((map, el) => {
     let idParts = el.id.split('-');
 
-    // Drop a trailing `dark` segment so a dark mode icon shares its default
+    // Drop a trailing `dark` segment so a dark mode icon shares its standard
     // icon's entry rather than becoming an icon name of its own. Only the
     // final segment is checked, so an icon whose name ends in `-dark` is
-    // still read as a default icon.
+    // still read as a standard icon.
     const isDarkModeIcon = idParts[idParts.length - 1] === DARK_MODE_SUFFIX;
 
     if (isDarkModeIcon) {
@@ -65,7 +66,7 @@ function buildIconMap(): Map<string, IconSizesByMode> {
     let sizes = map.get(name);
 
     if (!sizes) {
-      sizes = { default: [], dark: [] };
+      sizes = { standard: [], dark: [] };
       map.set(name, sizes);
     }
 
@@ -76,7 +77,7 @@ function buildIconMap(): Map<string, IconSizesByMode> {
     if (isDarkModeIcon) {
       sizes.dark.push(size);
     } else {
-      sizes.default.push(size);
+      sizes.standard.push(size);
     }
 
     return map;
@@ -85,9 +86,9 @@ function buildIconMap(): Map<string, IconSizesByMode> {
   // Sort all the sizes for later comparison.
   for (const sizes of iconMap.values()) {
     // Dedupe and sort the icon sizes. getNearestSize() walks the sizes in
-    // ascending order, so they must be compared numerically; the default
+    // ascending order, so they must be compared numerically; the built-in
     // string comparison would place 16 before 8.
-    sizes.default = [...new Set(sizes.default)].sort((a, b) => a - b);
+    sizes.standard = [...new Set(sizes.standard)].sort((a, b) => a - b);
     sizes.dark = [...new Set(sizes.dark)].sort((a, b) => a - b);
   }
 
@@ -137,14 +138,14 @@ export class SkyIconSvgResolverService {
    * @param pixelSize The size the icon will be displayed at. The nearest size
    * the icon has been optimized for is used.
    * @param variant The icon variant.
-   * @param darkMode Whether to use the icon's dark mode version. Ignored when
-   * the icon has no dark mode version.
+   * @param colorMode The color mode to display the icon in. Ignored when the
+   * icon has no dark mode version.
    */
   public async resolveHref(
     name: string,
     pixelSize = 16,
     variant: SkyIconVariantType = 'line',
-    darkMode = false,
+    colorMode: SkyIconColorModeType = 'light',
   ): Promise<string> {
     if (!iconMapPromise) {
       loadedSvgUrl = this.#svgUrl;
@@ -154,18 +155,18 @@ export class SkyIconSvgResolverService {
     const iconMap = await iconMapPromise;
     const iconSizes = iconMap.get(name);
 
-    if (!iconSizes?.default.length) {
+    if (!iconSizes?.standard.length) {
       throw new Error(`Icon with name '${name}' was not found.`);
     }
 
     // Mode takes priority over size. When the icon has a dark mode version, use
-    // it even if the default version offers a closer match to the requested
+    // it even if the standard version offers a closer match to the requested
     // size.
-    const useDarkMode = darkMode && iconSizes.dark.length > 0;
+    const useDarkMode = colorMode === 'dark' && iconSizes.dark.length > 0;
 
     // Find the icon with the optimal size nearest to the requested size.
     const nearestSize = getNearestSize(
-      useDarkMode ? iconSizes.dark : iconSizes.default,
+      useDarkMode ? iconSizes.dark : iconSizes.standard,
       pixelSize,
     );
 

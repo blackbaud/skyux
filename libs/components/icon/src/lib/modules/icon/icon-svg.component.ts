@@ -5,6 +5,7 @@ import { SkyThemeComponentClassDirective, SkyThemeService } from '@skyux/theme';
 import { catchError, map, of, switchMap } from 'rxjs';
 
 import { SkyIconSvgResolverService } from './icon-svg-resolver.service';
+import { SkyIconColorModeType } from './types/icon-color-mode-type';
 import { SkyIconSize } from './types/icon-size';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
@@ -44,11 +45,14 @@ export class SkyIconSvgComponent {
   // Some icons have a dark mode version. Tracking the mode here keeps the
   // resolved href in sync when the theme changes without a reload. Without a
   // theme service there is no dark mode to track.
-  readonly #darkMode = toSignal(
+  readonly #colorMode = toSignal(
     inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
-      map((change) => change.currentSettings.mode.name === 'dark'),
-    ) ?? of(false),
-    { initialValue: false },
+      map(
+        (change): SkyIconColorModeType =>
+          change.currentSettings.mode.name === 'dark' ? 'dark' : 'light',
+      ),
+    ) ?? of<SkyIconColorModeType>('light'),
+    { initialValue: 'light' as SkyIconColorModeType },
   );
 
   public readonly iconName = input.required<string>();
@@ -62,7 +66,7 @@ export class SkyIconSvgComponent {
       src: this.iconName(),
       iconSize: this.iconSize(),
       variant: this.iconVariant(),
-      darkMode: this.#darkMode(),
+      colorMode: this.#colorMode(),
     };
   });
 
@@ -73,7 +77,7 @@ export class SkyIconSvgComponent {
           info.src,
           FIXED_SIZES.get(info.iconSize),
           info.variant,
-          info.darkMode,
+          info.colorMode,
         ),
       ),
       catchError(() => of('')),

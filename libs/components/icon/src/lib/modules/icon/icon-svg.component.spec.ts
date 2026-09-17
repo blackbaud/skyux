@@ -65,8 +65,8 @@ describe('Icon SVG component', () => {
 
     // Mirror the real resolver, which appends `-dark` to the icon ID when dark
     // mode is requested and the icon has a dark mode version.
-    resolverSvc.resolveHref.and.callFake((src, size, variant, darkMode) => {
-      const darkSuffix = darkMode ? '-dark' : '';
+    resolverSvc.resolveHref.and.callFake((src, size, variant, colorMode) => {
+      const darkSuffix = colorMode === 'dark' ? '-dark' : '';
 
       return Promise.resolve(
         `#${src}-${size}-${variant ?? 'line'}${darkSuffix}`,

@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { SKY_ICON_SVG_URL, SkyLogService } from '@skyux/core';
 
 import { SkyIconSvgResolverService } from './icon-svg-resolver.service';
+import { SkyIconColorModeType } from './types/icon-color-mode-type';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
 const DEFAULT_SVG_URL =
@@ -34,9 +35,9 @@ describe('Icon SVG resolver service', () => {
     variant?: SkyIconVariantType,
     expectedError?: string,
     expectedUrl = DEFAULT_SVG_URL,
-    darkMode?: boolean,
+    colorMode?: SkyIconColorModeType,
   ): Promise<void> {
-    const hrefPromise = resolverSvc.resolveHref(name, size, variant, darkMode);
+    const hrefPromise = resolverSvc.resolveHref(name, size, variant, colorMode);
 
     if (expectedError) {
       await expectAsync(hrefPromise).toBeRejectedWithError(expectedError);
@@ -200,7 +201,7 @@ describe('Icon SVG resolver service', () => {
         'line',
         undefined,
         undefined,
-        true,
+        'dark',
       );
     });
   });
@@ -214,7 +215,7 @@ describe('Icon SVG resolver service', () => {
         'line',
         undefined,
         undefined,
-        true,
+        'dark',
       );
       await validate(
         'themed',
@@ -223,11 +224,11 @@ describe('Icon SVG resolver service', () => {
         'solid',
         undefined,
         undefined,
-        true,
+        'dark',
       );
     });
 
-    it('should resolve the default icon when dark mode is not requested', async () => {
+    it('should resolve the standard icon when dark mode is not requested', async () => {
       await validate('themed', '#sky-i-themed-12-line', 12, 'line');
       await validate(
         'themed',
@@ -236,11 +237,11 @@ describe('Icon SVG resolver service', () => {
         'line',
         undefined,
         undefined,
-        false,
+        'light',
       );
     });
 
-    it('should resolve the default icon when the icon has no dark mode version', async () => {
+    it('should resolve the standard icon when the icon has no dark mode version', async () => {
       await validate(
         'light-only',
         '#sky-i-light-only-12-line',
@@ -248,14 +249,14 @@ describe('Icon SVG resolver service', () => {
         'line',
         undefined,
         undefined,
-        true,
+        'dark',
       );
     });
 
-    it('should prefer the dark mode icon over a nearer size in the default icon', async () => {
+    it('should prefer the dark mode icon over a nearer size in the standard icon', async () => {
       // `multi-size` has an exact 12px match, but its dark mode version is only
       // available at 24px and 48px. Mode wins over size, so the nearest dark
-      // mode size is used instead of the exact default-icon match.
+      // mode size is used instead of the exact standard-icon match.
       await validate(
         'multi-size',
         '#sky-i-multi-size-24-line-dark',
@@ -263,7 +264,7 @@ describe('Icon SVG resolver service', () => {
         'line',
         undefined,
         undefined,
-        true,
+        'dark',
       );
     });
 
@@ -275,7 +276,7 @@ describe('Icon SVG resolver service', () => {
         'line',
         undefined,
         undefined,
-        true,
+        'dark',
       );
       await validate(
         'multi-size',
@@ -284,11 +285,11 @@ describe('Icon SVG resolver service', () => {
         'line',
         undefined,
         undefined,
-        true,
+        'dark',
       );
     });
 
-    it('should throw an error when neither the default nor dark mode icon exists', async () => {
+    it('should throw an error when neither the standard nor dark mode icon exists', async () => {
       await validate(
         'invalid',
         undefined,
@@ -296,13 +297,13 @@ describe('Icon SVG resolver service', () => {
         undefined,
         `Icon with name 'invalid' was not found.`,
         undefined,
-        true,
+        'dark',
       );
     });
 
-    it('should throw an error when the icon has no default version', async () => {
+    it('should throw an error when the icon has no standard version', async () => {
       // The icon library guarantees a dark mode icon always ships alongside a
-      // default one, so an icon with only dark mode sizes is malformed.
+      // standard one, so an icon with only dark mode sizes is malformed.
       await validate(
         'dark-only',
         undefined,
@@ -314,7 +315,7 @@ describe('Icon SVG resolver service', () => {
 
     it('should not treat an icon whose name ends in "-dark" as a dark mode icon', async () => {
       // Only a trailing `-dark` segment marks the theme mode, so `moon-dark`
-      // is a default icon that happens to end in `-dark` and resolves as-is.
+      // is a standard icon that happens to end in `-dark` and resolves as-is.
       await validate(
         'moon-dark',
         '#sky-i-moon-dark-12-line',
@@ -322,7 +323,7 @@ describe('Icon SVG resolver service', () => {
         'line',
         undefined,
         undefined,
-        true,
+        'dark',
       );
     });
   });

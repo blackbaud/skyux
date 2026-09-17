@@ -1,4 +1,4 @@
-// A dark mode icon repeats its default icon's ID with `-dark` appended, e.g.
+// A dark mode icon repeats its standard icon's ID with `-dark` appended, e.g.
 // `sky-i-my-icon-20-line-dark`.
 const DARK_MODE_SUFFIX = 'dark';
 
