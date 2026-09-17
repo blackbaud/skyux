@@ -81,6 +81,12 @@ a.sky-btn {
   border-color: transparent;
   text-decoration: underline;
   outline: none;
+
+  &.sky-btn-disabled,
+  &[disabled] {
+    color: var(--sky-text-color-action-primary);
+    text-decoration-line: none;
+  }
 }
 
 .sky-btn-link-inline {
