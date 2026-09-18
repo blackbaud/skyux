@@ -23,11 +23,12 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { BehaviorSubject, of as observableOf } from 'rxjs';
+import { BehaviorSubject, Subject, of as observableOf } from 'rxjs';
 
 import { SkyDropdownItemComponent } from './dropdown-item.component';
 import { SkyDropdownFixturesModule } from './fixtures/dropdown-fixtures.module';
 import { DropdownFixtureComponent } from './fixtures/dropdown.component.fixture';
+import { SkyDropdownMessage } from './types/dropdown-message';
 import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
 describe('Dropdown component', () => {
@@ -455,6 +456,43 @@ describe('Dropdown component', () => {
         expect(spy).toHaveBeenCalledWith({
           type: SkyDropdownMessageType.FocusFirstItem,
         });
+      }));
+    });
+
+    describe('message stream interactions', () => {
+      it('should support changing message stream after initialization', fakeAsync(() => {
+        fixture.componentInstance.trigger = 'click';
+        detectChangesFakeAsync();
+
+        fixture.componentInstance.messageStream.next({
+          type: SkyDropdownMessageType.Open,
+        });
+        detectChangesFakeAsync();
+
+        let dropdownMenu = getMenuElement();
+        expect(isElementVisible(dropdownMenu)).toEqual(true);
+
+        const originalMessageStream =
+          fixture.componentInstance.dropdownRef?.messageStream;
+
+        fixture.componentInstance.messageStream =
+          new Subject<SkyDropdownMessage>();
+        detectChangesFakeAsync();
+
+        // Validate that the message stream did change on the underlying dropdown component.
+        expect(originalMessageStream).toBeTruthy();
+        expect(fixture.componentInstance.dropdownRef?.messageStream).not.toBe(
+          originalMessageStream,
+        );
+
+        fixture.componentInstance.messageStream?.next({
+          type: SkyDropdownMessageType.Close,
+        });
+        detectChangesFakeAsync();
+
+        dropdownMenu = getMenuElement();
+
+        expect(dropdownMenu).toBeNull();
       }));
     });
 
