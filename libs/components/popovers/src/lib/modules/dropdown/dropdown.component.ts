@@ -146,7 +146,6 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set messageStream(value: Subject<SkyDropdownMessage>) {
-    this.#_messageStream?.complete();
     this.#_messageStream?.unsubscribe();
 
     this.#_messageStream = value;

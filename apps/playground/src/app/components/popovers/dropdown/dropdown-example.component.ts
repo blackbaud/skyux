@@ -40,9 +40,8 @@ export class DropdownExampleComponent {
   );
 
   protected readonly lazyLoadedItems = resource({
-    params: () => ({
-      dropdownOpen: this.#dropdownInitialOpen(),
-    }),
+    // Trigger loading the first time the message stream receives an "open" message.
+    params: () => this.#dropdownInitialOpen(),
     loader: () => this.#itemsSvc.getItems(),
   });
 
