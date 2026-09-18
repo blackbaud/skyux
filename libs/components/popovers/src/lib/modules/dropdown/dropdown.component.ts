@@ -145,10 +145,10 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    * The RxJS `Subject` to send commands to the dropdown that respect the `SkyDropdownMessage` type.
    */
   @Input()
-  public set messageStream(value: Subject<SkyDropdownMessage>) {
+  public set messageStream(value: Subject<SkyDropdownMessage> | undefined) {
     this.#_messageStream?.unsubscribe();
 
-    this.#_messageStream = value;
+    this.#_messageStream = value ?? new Subject<SkyDropdownMessage>();
 
     this.#_messageStream
       ?.pipe(takeUntil(this.#ngUnsubscribe))
