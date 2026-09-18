@@ -1,0 +1,47 @@
+@if (!disabled() && permalink(); as permalink) {
+  @if (permalink.route?.commands) {
+    <a
+      href=""
+      [aria-label]="ariaLabel()"
+      [class]="buttonClass()"
+      [fragment]="permalink.route.extras?.fragment"
+      [queryParams]="permalink.route.extras?.queryParams"
+      [queryParamsHandling]="permalink.route.extras?.queryParamsHandling"
+      [skyAppLink]="permalink.route.commands"
+      (click)="buttonClick.emit($event)"
+    >
+      <ng-container *ngTemplateOutlet="buttonContent" />
+    </a>
+  } @else if (permalink.url) {
+    <a
+      href=""
+      [aria-label]="ariaLabel()"
+      [class]="buttonClass()"
+      [skyHref]="permalink.url"
+      (click)="buttonClick.emit($event)"
+    >
+      <ng-container *ngTemplateOutlet="buttonContent" />
+    </a>
+  }
+} @else {
+  <button
+    [aria-label]="ariaLabel()"
+    [class]="buttonClass()"
+    [disabled]="disabled()"
+    [type]="buttonType()"
+    (click)="buttonClick.emit($event)"
+  >
+    <ng-container *ngTemplateOutlet="buttonContent" />
+  </button>
+}
+
+<ng-template #buttonContent>
+  @if (iconName(); as iconName) {
+    <sky-icon [class.sky-btn-block-logo]="logo()" [iconName]="iconName" />
+  }
+
+  @if (!labelHidden()) {
+    <!-- Wrapping text in a span prevents extra space from rendering between the icon and text -->
+    <span>{{ labelText() }}</span>
+  }
+</ng-template>
