@@ -9,11 +9,33 @@ import {
   Type,
 } from '@angular/core';
 
+export type SkyInstrumentationContextType = Record<string, unknown>;
+
 @Directive({
+  // host: {
+  //   '[attr.data-sky-instrumentation-context]': 'skyInstrumentationContext()',
+  // },
   selector: '[skyInstrumentationContext]',
 })
 export class SkyInstrumentationContext {
-  public readonly skyInstrumentationContext = input.required<unknown>();
+  readonly #parentContext = inject(SkyInstrumentationContext, {
+    optional: true,
+    skipSelf: true,
+  });
+
+  public readonly skyInstrumentationContext =
+    input.required<SkyInstrumentationContextType>();
+
+  public resolveContext(): SkyInstrumentationContextType {
+    if (this.#parentContext?.skyInstrumentationContext()) {
+      return {
+        ...this.#parentContext?.skyInstrumentationContext(),
+        ...this.skyInstrumentationContext(),
+      };
+    }
+
+    return this.skyInstrumentationContext();
+  }
 }
 
 export interface SkyUserEventEmitter {
@@ -26,14 +48,14 @@ export function createSkyUserEventEmitter(): SkyUserEventEmitter {
 
   return {
     emit: (eventName: string): void => {
-      svc?.broadcast(eventName, context);
+      svc?.broadcast(eventName, context?.resolveContext());
     },
   } satisfies SkyUserEventEmitter;
 }
 
 export interface SkyUserEvent {
   eventName: string;
-  context: unknown;
+  context?: SkyInstrumentationContextType;
 }
 
 export abstract class SkyUserEventListener {
@@ -65,11 +87,12 @@ export function provideSkyUserEventListener(
 export class SkyUserEventService {
   readonly #listeners = inject(SKY_USER_EVENT_LISTENERS, { optional: true });
 
-  public broadcast(eventName: string, context: unknown): void {
-    if (this.#listeners) {
-      for (const listener of this.#listeners) {
-        listener.onUserEvent({ eventName, context });
-      }
+  public broadcast(
+    eventName: string,
+    context: SkyInstrumentationContextType | undefined,
+  ): void {
+    for (const listener of this.#listeners ?? []) {
+      listener.onUserEvent({ eventName, context });
     }
   }
 }

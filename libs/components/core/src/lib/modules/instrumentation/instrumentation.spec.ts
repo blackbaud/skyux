@@ -35,9 +35,13 @@ class TestAnalyticsService {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyInstrumentationContext],
   template: `
-    <div [skyInstrumentationContext]="{ productId: 'foo123' }">
-      <button type="button" (click)="doSomething()">Click me</button>
-    </div>
+    <button
+      type="button"
+      [skyInstrumentationContext]="{ productId: 'foo123' }"
+      (click)="doSomething()"
+    >
+      Click me
+    </button>
   `,
 })
 class TestButton {
