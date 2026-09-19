@@ -6,8 +6,8 @@ import {
   InjectionToken,
   input,
   makeEnvironmentProviders,
+  Type,
 } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Directive({
   selector: '[skyInstrumentationContext]',
@@ -25,7 +25,7 @@ export function createSkyUserEventEmitter(): SkyUserEventEmitter {
   const svc = inject(SkyUserEventService, { optional: true });
 
   return {
-    emit: (eventName: string) => {
+    emit: (eventName: string): void => {
       svc?.broadcast(eventName, context);
     },
   } satisfies SkyUserEventEmitter;
@@ -36,8 +36,8 @@ export interface SkyUserEvent {
   context: unknown;
 }
 
-export interface SkyUserEventListener {
-  events: Observable<SkyUserEvent>;
+export abstract class SkyUserEventListener {
+  public abstract onUserEvent(evt: SkyUserEvent): void;
 }
 
 export const SKY_USER_EVENT_LISTENERS = new InjectionToken<
@@ -45,12 +45,12 @@ export const SKY_USER_EVENT_LISTENERS = new InjectionToken<
 >('SKY_USER_EVENT_LISTENERS');
 
 export function provideSkyUserEventListener(
-  svc: SkyUserEventListener,
+  svc: Type<SkyUserEventListener>,
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
     {
       provide: SKY_USER_EVENT_LISTENERS,
-      useExisting: svc,
+      useClass: svc,
       multi: true,
     },
   ]);
@@ -68,6 +68,7 @@ export class SkyUserEventService {
   public broadcast(eventName: string, context: unknown): void {
     if (this.#listeners) {
       for (const listener of this.#listeners) {
+        listener.onUserEvent({ eventName, context });
       }
     }
   }
