@@ -59,15 +59,26 @@ describe('Migrations > Add compat stylesheets', () => {
     existingWorkspaceStylesheets: string[] | undefined,
     expectedContents: string[] = [
       'COMPONENT: BUTTON',
-      '--sky-compat-btn-disabled-pointer-events: none;',
+      // A literal value, so `:root` is correct here.
+      `:root {
+  --sky-compat-btn-disabled-pointer-events: none;
+}`,
+      // The rest read `--sky-comp-*` tokens, which are only declared on the
+      // element carrying `.sky-theme-modern`. Asserting the whole block keeps
+      // these sensitive to the scope, not just the property name.
       'COMPONENT: TOOLBAR',
-      '--sky-compat-toolbar-container-padding:',
+      `.sky-theme-modern {
+  --sky-compat-toolbar-container-padding: var(--sky-comp-toolbar-space-inset-top)`,
       'COMPONENT: FILTER BAR',
-      '--sky-compat-filter-bar-toolbar-padding:',
+      `.sky-theme-modern {
+  --sky-compat-filter-bar-toolbar-padding: var(--sky-comp-filter_bar-space-inset-top)`,
       'COMPONENT: LIST SUMMARY',
-      '--sky-compat-list-summary-padding:',
+      `.sky-theme-modern {
+  --sky-compat-list-summary-padding: var(--sky-comp-list_summary-space-inset-top)`,
       'COMPONENT: REPEATER',
-      '--sky-compat-repeater-first-item-space-inset-top:',
+      `.sky-theme-modern {
+  --sky-compat-repeater-first-item-space-inset-top: var(--sky-comp-repeater_item-space-inset-top);
+}`,
     ],
     existingCompatStylesheet?: string,
   ): Promise<void> {

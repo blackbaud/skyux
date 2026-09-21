@@ -90,7 +90,12 @@ Vertical tab content spacing and scrolling are now controlled by the "layout" in
           styles: [
             {
               css: `
-:root {
+/* The --sky-comp-* tokens are declared on the element carrying the
+   ".sky-theme-modern" class, and var() is substituted on the element that
+   declares the custom property, so a ":root" block cannot read them. The
+   default theme is unaffected: it keeps its own
+   --sky-override-toolbar-container-padding, which takes precedence. */
+.sky-theme-modern {
   --sky-compat-toolbar-container-padding: var(--sky-comp-toolbar-space-inset-top)
     var(--sky-comp-toolbar-space-inset-right)
     var(--sky-comp-toolbar-space-inset-bottom)
@@ -112,7 +117,12 @@ The toolbar no longer applies its own left, right, and top padding unless it is 
           styles: [
             {
               css: `
-:root {
+/* The --sky-comp-* tokens are declared on the element carrying the
+   ".sky-theme-modern" class, and var() is substituted on the element that
+   declares the custom property, so a ":root" block cannot read them. The filter
+   bar only applied this padding in the modern theme; the default theme took its
+   padding from the toolbar component. */
+.sky-theme-modern {
   --sky-compat-filter-bar-toolbar-padding: var(--sky-comp-filter_bar-space-inset-top)
     var(--sky-comp-filter_bar-space-inset-right)
     var(--sky-comp-filter_bar-space-inset-bottom)
@@ -134,7 +144,12 @@ The filter bar no longer applies its own left, right, and top padding unless it 
           styles: [
             {
               css: `
-:root {
+/* The --sky-comp-* tokens are declared on the element carrying the
+   ".sky-theme-modern" class, and var() is substituted on the element that
+   declares the custom property, so a ":root" block cannot read them. The
+   default theme is unaffected: it keeps its own
+   --sky-override-list-summary-padding, which takes precedence. */
+.sky-theme-modern {
   --sky-compat-list-summary-padding: var(--sky-comp-list_summary-space-inset-top)
     var(--sky-comp-list_summary-space-inset-right)
     var(--sky-comp-list_summary-space-inset-bottom)
@@ -151,7 +166,12 @@ The list summary no longer applies its own left and right padding unless it is i
           styles: [
             {
               css: `
-:root {
+/* The --sky-comp-* tokens are declared on the element carrying the
+   ".sky-theme-modern" class, and var() is substituted on the element that
+   declares the custom property, so a ":root" block cannot read them. The
+   default theme is unaffected: it keeps its own
+   --sky-override-repeater-item-padding, which takes precedence. */
+.sky-theme-modern {
   --sky-compat-repeater-first-item-space-inset-top: var(--sky-comp-repeater_item-space-inset-top);
 }
 `,
