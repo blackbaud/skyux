@@ -61,11 +61,10 @@ export {
   SkyInstrumentationContext,
   provideSkyInstrumentationContextFrom,
 } from './lib/modules/instrumentation/instrumentation-context';
-export type { SkyInstrumentationContextType } from './lib/modules/instrumentation/instrumentation-context-type';
 export type { SkyInstrumentationUserEvent } from './lib/modules/instrumentation/user-event';
 export {
-  SkyInstrumentationUserEventEmitter,
   createSkyInstrumentationUserEventEmitter,
+  type SkyInstrumentationUserEventEmitter,
 } from './lib/modules/instrumentation/user-event-emitter';
 export {
   SkyInstrumentationUserEventListener,

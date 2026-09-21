@@ -5,36 +5,37 @@ import {
   input,
   StaticProvider,
 } from '@angular/core';
-import { SkyInstrumentationContextType } from './instrumentation-context-type';
-import { SkyInstrumentationUserEventService } from './user-event-service';
+import {
+  notifyUserEventListeners,
+  SKY_USER_EVENT_LISTENERS,
+} from './user-event-listener';
 
 @Directive({
   exportAs: 'skyInstrumentationContext',
   selector: '[skyInstrumentationContext]',
 })
 export class SkyInstrumentationContext {
+  readonly #listeners = inject(SKY_USER_EVENT_LISTENERS, { optional: true });
   readonly #parentContext = inject(SkyInstrumentationContext, {
     optional: true,
     skipSelf: true,
   });
 
-  readonly #userEventSvc = inject(SkyInstrumentationUserEventService);
-
   public readonly skyInstrumentationContext =
-    input.required<SkyInstrumentationContextType>();
+    input.required<Record<string, unknown>>();
 
   public emitUserEvent(
     eventName: string,
     eventProperties?: Record<string, unknown>,
   ): void {
-    this.#userEventSvc.notify({
+    notifyUserEventListeners(this.#listeners, {
       eventName,
       eventProperties,
       context: this.resolve(),
     });
   }
 
-  public resolve(): SkyInstrumentationContextType {
+  public resolve(): Record<string, unknown> {
     if (this.#parentContext?.skyInstrumentationContext()) {
       return {
         ...this.#parentContext?.resolve(),
@@ -59,23 +60,3 @@ export function provideSkyInstrumentationContextFrom(
     ? [{ provide: SkyInstrumentationContext, useValue: context }]
     : [];
 }
-
-// export const SKY_INSTRUMENTATION_CONTEXT =
-//   new InjectionToken<SkyInstrumentationContextType>(
-//     'SKY_INSTRUMENTATION_CONTEXT',
-//   );
-
-// export function provideSkyInstrumentationContext(
-//   context: SkyInstrumentationContextType,
-// ): Provider {
-//   return {
-//     provide: SKY_INSTRUMENTATION_CONTEXT,
-//     useFactory: () => ({
-//       ...inject(SKY_INSTRUMENTATION_CONTEXT, {
-//         optional: true,
-//         skipSelf: true,
-//       }),
-//       ...context,
-//     }),
-//   };
-// }

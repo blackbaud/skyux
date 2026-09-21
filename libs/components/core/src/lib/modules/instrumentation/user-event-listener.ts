@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import { SkyInstrumentationUserEvent } from './user-event';
 
-export abstract class SkyInstrumentationUserEventListener {
-  public abstract onUserEvent(evt: SkyInstrumentationUserEvent): void;
+export interface SkyInstrumentationUserEventListener {
+  onUserEvent(evt: SkyInstrumentationUserEvent): void;
 }
 
 export const SKY_USER_EVENT_LISTENERS = new InjectionToken<
@@ -25,4 +25,13 @@ export function provideSkyInstrumentationUserEventListener(
       multi: true,
     },
   ]);
+}
+
+export function notifyUserEventListeners(
+  listeners: SkyInstrumentationUserEventListener[] | null,
+  evt: SkyInstrumentationUserEvent,
+): void {
+  for (const listener of listeners ?? []) {
+    listener.onUserEvent(evt);
+  }
 }

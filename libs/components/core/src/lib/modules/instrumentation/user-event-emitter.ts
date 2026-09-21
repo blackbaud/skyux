@@ -1,18 +1,20 @@
-import { inject, Injectable } from '@angular/core';
+import { inject } from '@angular/core';
 
 import { SkyInstrumentationContext } from './instrumentation-context';
-import { SkyInstrumentationUserEventService } from './user-event-service';
+import {
+  notifyUserEventListeners,
+  SKY_USER_EVENT_LISTENERS,
+} from './user-event-listener';
 
-@Injectable()
 export class SkyInstrumentationUserEventEmitter {
   readonly #context = inject(SkyInstrumentationContext, { optional: true });
-  readonly #evtSvc = inject(SkyInstrumentationUserEventService);
+  readonly #listeners = inject(SKY_USER_EVENT_LISTENERS, { optional: true });
 
   public emit(
     eventName: string,
     eventProperties?: Record<string, unknown>,
   ): void {
-    this.#evtSvc.notify({
+    notifyUserEventListeners(this.#listeners, {
       eventName,
       eventProperties,
       context: this.#context?.resolve(),

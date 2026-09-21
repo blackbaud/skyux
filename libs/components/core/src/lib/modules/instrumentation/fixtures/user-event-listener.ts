@@ -4,7 +4,7 @@ import { SkyInstrumentationUserEventListener } from '../user-event-listener';
 import { TestAnalyticsService } from './analytics-service';
 
 @Injectable()
-export class MyUserEventListener extends SkyInstrumentationUserEventListener {
+export class MyUserEventListener implements SkyInstrumentationUserEventListener {
   readonly #analytics = inject(TestAnalyticsService);
 
   public onUserEvent(evt: SkyInstrumentationUserEvent): void {
