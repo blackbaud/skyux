@@ -59,13 +59,9 @@ describe('Migrations > Add compat stylesheets', () => {
     existingWorkspaceStylesheets: string[] | undefined,
     expectedContents: string[] = [
       'COMPONENT: BUTTON',
-      // A literal value, so `:root` is correct here.
       `:root {
   --sky-compat-btn-disabled-pointer-events: none;
 }`,
-      // The rest read `--sky-comp-*` tokens, which are only declared on the
-      // element carrying `.sky-theme-modern`. Asserting the whole block keeps
-      // these sensitive to the scope, not just the property name.
       'COMPONENT: TOOLBAR',
       `.sky-theme-modern {
   --sky-compat-toolbar-container-padding: var(--sky-comp-toolbar-space-inset-top)`,
