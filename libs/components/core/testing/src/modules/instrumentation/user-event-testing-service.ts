@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { SkyInstrumentationUserEvent } from '@skyux/core';
+import {
+  SkyInstrumentationUserEvent,
+  SkyInstrumentationUserEventListener,
+} from '@skyux/core';
 
 @Injectable()
-export class SkyInstrumentationUserEventTestingService {
+export class SkyInstrumentationUserEventTestingService implements SkyInstrumentationUserEventListener {
   readonly #notifications: string[] = [];
 
-  public notify(evt: SkyInstrumentationUserEvent): void {
+  public onUserEvent(evt: SkyInstrumentationUserEvent): void {
     this.#notifications.push(this.#serialize(evt));
   }
 

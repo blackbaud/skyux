@@ -1,67 +1,16 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  Injectable,
-} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { SkyInstrumentationContext } from './instrumentation-context';
-import { SkyInstrumentationUserEvent } from './user-event';
-import { createSkyInstrumentationUserEventEmitter } from './user-event-emitter';
-import {
-  provideSkyInstrumentationUserEventListener,
-  SkyInstrumentationUserEventListener,
-} from './user-event-listener';
+import { provideSkyInstrumentationUserEventListener } from './user-event-listener';
 
-@Injectable()
-class MyUserEventListener extends SkyInstrumentationUserEventListener {
-  readonly #analytics = inject(TestAnalyticsService);
+import { TestAnalyticsService } from './fixtures/analytics-service';
+import { TestModalLauncherHost } from './fixtures/modal-test.fixture';
+import { MyUserEventListener } from './fixtures/user-event-listener';
+import { TestButtonHost } from './fixtures/user-event-test.fixture';
 
-  public onUserEvent(evt: SkyInstrumentationUserEvent): void {
-    this.#analytics.logClickEvent(evt);
-  }
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-class TestAnalyticsService {
-  public logClickEvent(data: unknown): void {
-    /* */
-  }
-}
-
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  // imports: [SkyInstrumentationContext],
-  // providers: [provideSkyInstrumentationContext({ productId: 'foo123' })],
-  selector: 'test-button',
-  template: ` <button type="button" (click)="doSomething()">Click me</button> `,
-})
-class TestButton {
-  readonly #userEvt = createSkyInstrumentationUserEventEmitter();
-
-  protected doSomething(): void {
-    this.#userEvt.emit('foo.bar');
-  }
-}
-
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyInstrumentationContext, TestButton],
-  template: `
-    <div [skyInstrumentationContext]="{ productId: 'foo123' }">
-      <test-button />
-    </div>
-  `,
-})
-class TestButtonHost {}
-
-fdescribe('instrumentation', () => {
+describe('instrumentation-context', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TestButtonHost],
+      imports: [TestButtonHost, TestModalLauncherHost],
       providers: [
         provideSkyInstrumentationUserEventListener(MyUserEventListener),
       ],
@@ -84,6 +33,34 @@ fdescribe('instrumentation', () => {
     expect(spy).toHaveBeenCalledWith({
       eventName: 'foo.bar',
       eventProperties: undefined,
+      context: { productId: 'foo123' },
+    });
+  });
+
+  it('should', () => {
+    const fixture = TestBed.createComponent(TestModalLauncherHost);
+    const svc = TestBed.inject(TestAnalyticsService);
+
+    const spy = spyOn(svc, 'logClickEvent');
+
+    fixture.detectChanges();
+
+    const btn = fixture.nativeElement.querySelector('button');
+    btn.click();
+
+    fixture.detectChanges();
+
+    const modalEl = document.querySelector('[data-sky-id="test-modal"]');
+    const saveBtn = modalEl?.querySelector<HTMLButtonElement>(
+      'button.sky-btn-primary',
+    );
+
+    saveBtn?.click();
+    fixture.detectChanges();
+
+    expect(spy).toHaveBeenCalledWith({
+      eventName: 'modal.saved',
+      eventProperties: { user: 'foo' },
       context: { productId: 'foo123' },
     });
   });

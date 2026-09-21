@@ -1,4 +1,10 @@
-import { Directive, inject, input } from '@angular/core';
+import {
+  Directive,
+  inject,
+  Injector,
+  input,
+  StaticProvider,
+} from '@angular/core';
 import { SkyInstrumentationContextType } from './instrumentation-context-type';
 
 @Directive({
@@ -26,6 +32,20 @@ export class SkyInstrumentationContext {
 
     return this.skyInstrumentationContext();
   }
+}
+
+/**
+ * Forwards the nearest instrumentation context to a component created outside of
+ * the current view, such as a modal or flyout, whose injector cannot reach it.
+ */
+export function provideSkyInstrumentationContextFrom(
+  injector: Injector,
+): StaticProvider[] {
+  const context = injector.get(SkyInstrumentationContext, null);
+
+  return context
+    ? [{ provide: SkyInstrumentationContext, useValue: context }]
+    : [];
 }
 
 // export const SKY_INSTRUMENTATION_CONTEXT =

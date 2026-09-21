@@ -15,12 +15,13 @@ export const SKY_USER_EVENT_LISTENERS = new InjectionToken<
 >('SKY_USER_EVENT_LISTENERS');
 
 export function provideSkyInstrumentationUserEventListener(
-  svc: Type<SkyInstrumentationUserEventListener>,
+  listener: Type<SkyInstrumentationUserEventListener>,
 ): EnvironmentProviders {
   return makeEnvironmentProviders([
+    listener,
     {
       provide: SKY_USER_EVENT_LISTENERS,
-      useClass: svc,
+      useExisting: listener,
       multi: true,
     },
   ]);
