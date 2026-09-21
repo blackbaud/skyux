@@ -10,7 +10,7 @@ export { provideSkyFileReaderTesting } from './modules/file-reader/provide-file-
 export { SkyHelpTestingController } from './modules/help/help-testing-controller';
 export { SkyHelpTestingModule } from './modules/help/help-testing.module';
 export { provideSkyInstrumentationUserEventTesting } from './modules/instrumentation/provide-user-event-testing';
-export { SkyInstrumentationUserEventTestController } from './modules/instrumentation/user-event-controller';
+export { SkyInstrumentationUserEventTestingController } from './modules/instrumentation/user-event-controller';
 export { SkyMediaQueryTestingController } from './modules/media-query/media-query-testing-controller';
 export { provideSkyMediaQueryTesting } from './modules/media-query/provide-media-query-testing';
 export { SkyOverlayHarness } from './modules/overlay/overlay-harness';

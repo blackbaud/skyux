@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { SkyInstrumentationUserEvent } from '../user-event';
 import { SkyInstrumentationUserEventListener } from '../user-event-listener';
-import { TestAnalyticsService } from './analytics-service';
+import { TestAnalyticsService } from './analytics-service.fixture';
 
 @Injectable()
 export class MyUserEventListener implements SkyInstrumentationUserEventListener {

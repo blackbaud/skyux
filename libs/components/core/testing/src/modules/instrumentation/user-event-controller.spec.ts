@@ -6,7 +6,7 @@ import {
   SkyInstrumentationUserEvent,
 } from '@skyux/core';
 import { provideSkyInstrumentationUserEventTesting } from './provide-user-event-testing';
-import { SkyInstrumentationUserEventTestController } from './user-event-controller';
+import { SkyInstrumentationUserEventTestingController } from './user-event-controller';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,14 +35,13 @@ class TestButtonHost {}
 describe('instrumentation controller', () => {
   const expectedEvt: SkyInstrumentationUserEvent = {
     eventName: 'foo.bar',
-    eventProperties: undefined,
     context: { productId: 'foo123' },
   };
 
-  function clickButton(): SkyInstrumentationUserEventTestController {
+  function clickButton(): SkyInstrumentationUserEventTestingController {
     const fixture = TestBed.createComponent(TestButtonHost);
     const controller = TestBed.inject(
-      SkyInstrumentationUserEventTestController,
+      SkyInstrumentationUserEventTestingController,
     );
 
     fixture.detectChanges();
@@ -69,6 +68,15 @@ describe('instrumentation controller', () => {
     controller.expectUserEventCount(expectedEvt, 1);
   });
 
+  it('should ignore the order of the expected properties', () => {
+    const controller = clickButton();
+
+    controller.expectUserEvent({
+      context: { productId: 'foo123' },
+      eventName: 'foo.bar',
+    });
+  });
+
   it('should fail when a user event was not logged', () => {
     const controller = clickButton();
 
@@ -83,7 +91,7 @@ describe('instrumentation controller', () => {
     const controller = clickButton();
 
     expect(() => controller.expectUserEventCount(expectedEvt, 2)).toThrowError(
-      `Expected a user event ${JSON.stringify(expectedEvt)} to be logged 2 time(s), but it was logged 1 time(s).`,
+      'Expected a user event {"context":{"productId":"foo123"},"eventName":"foo.bar"} to be logged 2 time(s), but it was logged 1 time(s).',
     );
   });
 });

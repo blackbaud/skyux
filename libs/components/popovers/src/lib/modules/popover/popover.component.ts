@@ -3,6 +3,7 @@ import {
   ElementRef,
   EnvironmentInjector,
   EventEmitter,
+  Injector,
   Input,
   OnDestroy,
   Output,
@@ -16,6 +17,7 @@ import {
   SkyIdService,
   SkyOverlayInstance,
   SkyOverlayService,
+  provideSkyInstrumentationContextFrom,
 } from '@skyux/core';
 
 import { Observable, Subject } from 'rxjs';
@@ -131,6 +133,7 @@ export class SkyPopoverComponent implements OnDestroy {
   #_popoverType: SkyPopoverType = 'info';
 
   readonly #environmentInjector = inject(EnvironmentInjector);
+  readonly #injector = inject(Injector);
 
   readonly #overlayService = inject(SkyOverlayService);
 
@@ -254,6 +257,7 @@ export class SkyPopoverComponent implements OnDestroy {
             contentTemplateRef: this.templateRef,
           }),
         },
+        ...provideSkyInstrumentationContextFrom(this.#injector),
       ]);
 
       contentRef.opened.pipe(takeUntil(this.#ngUnsubscribe)).subscribe(() => {

@@ -7,7 +7,7 @@ import { createSkyInstrumentationUserEventEmitter } from '../user-event-emitter'
   selector: 'test-button',
   template: ` <button type="button" (click)="doSomething()">Click me</button> `,
 })
-class TestButton {
+export class TestButton {
   readonly #userEvt = createSkyInstrumentationUserEventEmitter();
 
   protected doSomething(): void {
@@ -19,9 +19,11 @@ class TestButton {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyInstrumentationContext, TestButton],
   template: `
-    <div [skyInstrumentationContext]="{ productId: 'foo123' }">
+    <div [skyInstrumentationContext]="context">
       <test-button />
     </div>
   `,
 })
-export class TestButtonHost {}
+export class TestButtonHost {
+  public readonly context = { productId: 'foo123' };
+}

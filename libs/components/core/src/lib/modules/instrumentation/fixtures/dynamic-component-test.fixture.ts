@@ -5,6 +5,7 @@ import {
   DestroyRef,
   inject,
   Injector,
+  input,
 } from '@angular/core';
 import { SkyDynamicComponentService } from '../../dynamic-component/dynamic-component.service';
 import {
@@ -42,6 +43,8 @@ class TestDynamicLauncher {
 
   #formRef: ComponentRef<TestDynamicForm> | undefined;
 
+  public readonly forwardContext = input(true);
+
   constructor() {
     this.#destroyRef.onDestroy(() => {
       if (this.#formRef) {
@@ -53,7 +56,9 @@ class TestDynamicLauncher {
 
   protected launchForm(): void {
     this.#formRef = this.#dynamicComponentSvc.createComponent(TestDynamicForm, {
-      providers: provideSkyInstrumentationContextFrom(this.#injector),
+      providers: this.forwardContext()
+        ? provideSkyInstrumentationContextFrom(this.#injector)
+        : [],
     });
   }
 }
@@ -64,8 +69,10 @@ class TestDynamicLauncher {
   selector: 'test-dynamic-launcher-host',
   template: `
     <div [skyInstrumentationContext]="{ productId: 'foo123' }">
-      <test-dynamic-launcher />
+      <test-dynamic-launcher [forwardContext]="forwardContext()" />
     </div>
   `,
 })
-export class TestDynamicLauncherHost {}
+export class TestDynamicLauncherHost {
+  public readonly forwardContext = input(true);
+}

@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Provider } from '@angular/core';
+import { EnvironmentProviders, Provider } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -14,6 +14,10 @@ import {
   SkyHelpService,
   SkyIdService,
 } from '@skyux/core';
+import {
+  SkyInstrumentationUserEventTestingController,
+  provideSkyInstrumentationUserEventTesting,
+} from '@skyux/core/testing';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
 import {
   SkyTheme,
@@ -117,8 +121,9 @@ describe('Help inline component', () => {
         ?.get as unknown as jasmine.Spy
     ).and.returnValue(readyStateChange);
 
-    const providers: Provider[] = [
+    const providers: (Provider | EnvironmentProviders)[] = [
       { provide: SkyThemeService, useValue: mockThemeSvc },
+      provideSkyInstrumentationUserEventTesting(),
     ];
 
     if (provideHelpSvc) {
@@ -156,6 +161,19 @@ describe('Help inline component', () => {
       fixture.detectChanges();
 
       expect(component.showHelpText).toBe(true);
+    });
+
+    it('should emit a user event on button click', () => {
+      getHelpButton(fixture).click();
+
+      fixture.detectChanges();
+
+      TestBed.inject(
+        SkyInstrumentationUserEventTestingController,
+      ).expectUserEventCount(
+        { eventName: 'sky.help-inline.help-requested' },
+        1,
+      );
     });
 
     it('should pass accessibility with default inputs', async () => {
@@ -414,6 +432,22 @@ describe('Help inline component', () => {
 
       expect(mockHelpSvc.openHelp).toHaveBeenCalledWith({
         helpKey: 'test.html',
+      });
+    });
+
+    it('should include the help key with the user event', () => {
+      setupTest(true);
+
+      component.helpKey = 'test.html';
+      fixture.detectChanges();
+
+      getHelpButton(fixture).click();
+
+      TestBed.inject(
+        SkyInstrumentationUserEventTestingController,
+      ).expectUserEvent({
+        eventName: 'sky.help-inline.help-requested',
+        eventProperties: { helpKey: 'test.html' },
       });
     });
 

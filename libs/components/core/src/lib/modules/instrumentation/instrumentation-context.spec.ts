@@ -4,22 +4,16 @@ import { TestBed } from '@angular/core/testing';
 import { provideSkyInstrumentationContextFrom } from './instrumentation-context';
 import { provideSkyInstrumentationUserEventListener } from './user-event-listener';
 
-import { TestAnalyticsService } from './fixtures/analytics-service';
+import { TestAnalyticsService } from './fixtures/analytics-service.fixture';
 import { TestDynamicLauncherHost } from './fixtures/dynamic-component-test.fixture';
 import { NestedContextTest } from './fixtures/nested-context.fixture';
-import { SameTemplateTest } from './fixtures/same-template.fixture';
-import { MyUserEventListener } from './fixtures/user-event-listener';
+import { MyUserEventListener } from './fixtures/user-event-listener.fixture';
 import { TestButtonHost } from './fixtures/user-event-test.fixture';
 
 describe('instrumentation-context', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NestedContextTest,
-        SameTemplateTest,
-        TestButtonHost,
-        TestDynamicLauncherHost,
-      ],
+      imports: [NestedContextTest, TestButtonHost, TestDynamicLauncherHost],
       providers: [
         provideSkyInstrumentationUserEventListener(MyUserEventListener),
       ],
@@ -44,6 +38,22 @@ describe('instrumentation-context', () => {
         context: { productId: 'foo123' },
       },
     ]);
+  });
+
+  it('should copy the context rather than share the bound object', () => {
+    const fixture = TestBed.createComponent(TestButtonHost);
+    const svc = TestBed.inject(TestAnalyticsService);
+
+    fixture.detectChanges();
+
+    const btn = fixture.nativeElement.querySelector('button');
+    btn.click();
+
+    fixture.detectChanges();
+
+    expect(svc.clickEvents[0].context).not.toBe(
+      fixture.componentInstance.context,
+    );
   });
 
   it('should forward the context to a dynamically created component', () => {
@@ -72,10 +82,11 @@ describe('instrumentation-context', () => {
     ]);
   });
 
-  it('should emit a user event from the template that declares the context', () => {
-    const fixture = TestBed.createComponent(SameTemplateTest);
+  it('should emit a user event from a dynamically created component that was not given the context', () => {
+    const fixture = TestBed.createComponent(TestDynamicLauncherHost);
     const svc = TestBed.inject(TestAnalyticsService);
 
+    fixture.componentRef.setInput('forwardContext', false);
     fixture.detectChanges();
 
     const btn = fixture.nativeElement.querySelector('button');
@@ -83,11 +94,17 @@ describe('instrumentation-context', () => {
 
     fixture.detectChanges();
 
+    const formEl = document.querySelector('[data-sky-id="test-dynamic-form"]');
+    const saveBtn = formEl?.querySelector<HTMLButtonElement>('button');
+
+    saveBtn?.click();
+    fixture.detectChanges();
+
     expect(svc.clickEvents).toEqual([
       {
-        eventName: 'foo.bar',
+        eventName: 'form.saved',
         eventProperties: { user: 'foo' },
-        context: { productId: 'foo123' },
+        context: undefined,
       },
     ]);
   });
@@ -121,11 +138,11 @@ describe('instrumentation-context', () => {
 
 describe('instrumentation-context without a listener', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [SameTemplateTest] });
+    TestBed.configureTestingModule({ imports: [TestButtonHost] });
   });
 
   it('should emit a user event without error', () => {
-    const fixture = TestBed.createComponent(SameTemplateTest);
+    const fixture = TestBed.createComponent(TestButtonHost);
 
     fixture.detectChanges();
 

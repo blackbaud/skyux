@@ -135,10 +135,11 @@ export class SkyHelpInlineComponent {
   );
 
   protected onClick(): void {
-    this.actionClick.emit();
+    this.#userEvent.emit(
+      'sky.help-inline.help-requested',
+      this.helpKey ? { helpKey: this.helpKey } : undefined,
+    );
 
-    this.#userEvent.emit('sky-help-inline.buttonClick', {
-      helpKey: this.helpKey,
-    });
+    this.actionClick.emit();
   }
 }

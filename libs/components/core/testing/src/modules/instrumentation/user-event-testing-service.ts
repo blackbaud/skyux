@@ -37,6 +37,12 @@ export class SkyInstrumentationUserEventTestingService implements SkyInstrumenta
   }
 
   #serialize(evt: SkyInstrumentationUserEvent): string {
-    return JSON.stringify(evt);
+    return JSON.stringify(evt, (_key, value: unknown) =>
+      value && typeof value === 'object' && !Array.isArray(value)
+        ? Object.fromEntries(
+            Object.entries(value).sort(([a], [b]) => (a < b ? -1 : 1)),
+          )
+        : value,
+    );
   }
 }

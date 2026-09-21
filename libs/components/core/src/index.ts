@@ -67,8 +67,8 @@ export {
   type SkyInstrumentationUserEventEmitter,
 } from './lib/modules/instrumentation/user-event-emitter';
 export {
-  SkyInstrumentationUserEventListener,
   provideSkyInstrumentationUserEventListener,
+  type SkyInstrumentationUserEventListener,
 } from './lib/modules/instrumentation/user-event-listener';
 
 export { SkyLayoutHostForChildArgs } from './lib/modules/layout-host/layout-host-for-child-args';
