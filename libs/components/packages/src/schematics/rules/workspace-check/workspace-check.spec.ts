@@ -32,6 +32,46 @@ describe('Workspace check', () => {
     );
   });
 
+  it('should warn when SSR is enabled for an esbuild builder', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'test-project',
+    });
+
+    const workspace: any = tree.readJson('angular.json');
+    const build = workspace.projects['test-project'].architect.build;
+    build.builder = '@angular-devkit/build-angular:browser-esbuild';
+    build.options.ssr = true;
+    tree.overwrite('angular.json', JSON.stringify(workspace, null, 2));
+
+    const context: Pick<SchematicContext, 'logger'> = {
+      logger: new logging.NullLogger(),
+    };
+    const warn = jest.spyOn(context.logger, 'warn');
+    await workspaceCheck()(tree, context as SchematicContext);
+    expect(warn).toHaveBeenCalledWith(
+      'Project test-project is using server-side rendering (SSR), which is not fully supported by the current version of SKY UX.',
+    );
+  });
+
+  it('should not warn when the build builder is unsupported', async () => {
+    const tree = await createTestApp(runner, {
+      projectName: 'test-project',
+    });
+
+    const workspace: any = tree.readJson('angular.json');
+    const build = workspace.projects['test-project'].architect.build;
+    build.builder = '@custom/builders:build';
+    build.options.ssr = true;
+    tree.overwrite('angular.json', JSON.stringify(workspace, null, 2));
+
+    const context: Pick<SchematicContext, 'logger'> = {
+      logger: new logging.NullLogger(),
+    };
+    const warn = jest.spyOn(context.logger, 'warn');
+    await workspaceCheck()(tree, context as SchematicContext);
+    expect(warn).not.toHaveBeenCalled();
+  });
+
   it('should not warn when SSR is not enabled', async () => {
     const tree = await createTestApp(runner, {
       projectName: 'test-project',

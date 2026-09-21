@@ -98,4 +98,40 @@ describe(SCHEMATIC_NAME, () => {
       '@skyux/theme/css/themes/modern/styles.css',
     ]);
   });
+  it.each([
+    '@angular-devkit/build-angular:browser-esbuild',
+    '@blackbaud-internal/skyux-build:application',
+  ])('should support the %s build builder', async (builder) => {
+    const { runSchematic, tree } = await setup({ projectType: 'application' });
+
+    const angularJson = new JsonFile(tree, '/angular.json');
+    const buildPath = ['projects', 'my-project', 'architect', 'build'];
+
+    angularJson.modify([...buildPath, 'builder'], builder);
+
+    const updatedTree = await runSchematic({ project: 'my-project' });
+    const updatedAngularJson = new JsonFile(updatedTree, '/angular.json');
+
+    expect(
+      updatedAngularJson.get([
+        ...buildPath,
+        'options',
+        'allowedCommonJsDependencies',
+      ]),
+    ).toEqual([
+      '@skyux/icons',
+      'autonumeric',
+      'fontfaceobserver',
+      'intl-tel-input',
+      'moment',
+    ]);
+
+    expect(updatedAngularJson.get([...buildPath, 'options', 'styles'])).toEqual(
+      [
+        'src/styles.scss',
+        '@skyux/theme/css/sky.css',
+        '@skyux/theme/css/themes/modern/styles.css',
+      ],
+    );
+  });
 });
