@@ -3,7 +3,12 @@
   "groups": {
     "button": {
       "development": {
-        "docsIds": ["SkyButton", "SkyButtonStyle", "SkyButtonType"],
+        "docsIds": [
+          "SkyButton",
+          "SkyButtonPermalink",
+          "SkyButtonStyle",
+          "SkyButtonType"
+        ],
         "primaryDocsId": "SkyButton"
       },
       "testing": {

@@ -154,7 +154,7 @@ export class SkyButtonHarness extends SkyComponentHarness {
    * Gets the resolved URL for the current permalink, or undefined if no permalink
    * is specified.
    */
-  public async getUrl(): Promise<string | undefined> {
+  public async getLink(): Promise<string | undefined> {
     const anchor = await this.#getAnchor();
 
     return (await anchor?.getAttribute('href')) ?? undefined;
