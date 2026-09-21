@@ -460,39 +460,27 @@ describe('Dropdown component', () => {
     });
 
     describe('message stream interactions', () => {
-      it('should support changing message stream after initialization', fakeAsync(() => {
+      it('should create a new message stream if an undefined value is specified', fakeAsync(() => {
+        fixture.componentInstance.useUndefinedMessageStream = true;
         fixture.componentInstance.trigger = 'click';
         detectChangesFakeAsync();
 
-        fixture.componentInstance.messageStream.next({
-          type: SkyDropdownMessageType.Open,
-        });
+        expect(
+          fixture.componentInstance.dropdownRef?.messageStream,
+        ).toBeTruthy();
+      }));
+
+      it('should throw an error when changing message stream after initialization', fakeAsync(() => {
+        fixture.componentInstance.trigger = 'click';
         detectChangesFakeAsync();
 
-        let dropdownMenu = getMenuElement();
-        expect(isElementVisible(dropdownMenu)).toEqual(true);
-
-        const originalMessageStream =
-          fixture.componentInstance.dropdownRef?.messageStream;
-
-        fixture.componentInstance.messageStream =
-          new Subject<SkyDropdownMessage>();
-        detectChangesFakeAsync();
-
-        // Validate that the message stream did change on the underlying dropdown component.
-        expect(originalMessageStream).toBeTruthy();
-        expect(fixture.componentInstance.dropdownRef?.messageStream).not.toBe(
-          originalMessageStream,
+        expect(() => {
+          fixture.componentInstance.messageStream =
+            new Subject<SkyDropdownMessage>();
+          detectChangesFakeAsync();
+        }).toThrowError(
+          'Message stream cannot be modified after initialization.',
         );
-
-        fixture.componentInstance.messageStream?.next({
-          type: SkyDropdownMessageType.Close,
-        });
-        detectChangesFakeAsync();
-
-        dropdownMenu = getMenuElement();
-
-        expect(dropdownMenu).toBeNull();
       }));
     });
 

@@ -146,6 +146,15 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set messageStream(value: Subject<SkyDropdownMessage> | undefined) {
+    if (this.#initialized) {
+      // Dropdown menu listens for messages on this message stream after its content is initialized.
+      // Prevent the consumer from resetting the message stream from being reset after the menu has
+      // subscribed.
+      throw new Error(
+        'Message stream cannot be modified after initialization.',
+      );
+    }
+
     this.#_messageStream?.unsubscribe();
 
     this.#_messageStream = value ?? new Subject<SkyDropdownMessage>();
@@ -270,6 +279,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #triggerUnsubscribe = new Subject<void>();
   #overlay: SkyOverlayInstance | undefined;
   #positionTimeout: number | undefined;
+  #initialized = false;
 
   #_buttonStyle = DEFAULT_BUTTON_STYLE;
   #_buttonType = DEFAULT_BUTTON_TYPE;
@@ -296,6 +306,8 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.#changeDetector.markForCheck();
       });
+
+    this.#initialized = true;
   }
 
   public ngOnDestroy(): void {
