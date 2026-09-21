@@ -57,6 +57,19 @@ export { SKY_ICON_SVG_URL } from './lib/modules/icons/icon-svg-url';
 export { SkyIdModule } from './lib/modules/id/id.module';
 export { SkyIdService } from './lib/modules/id/id.service';
 
+export { SkyInstrumentationContext } from './lib/modules/instrumentation/instrumentation-context';
+export type { SkyInstrumentationContextType } from './lib/modules/instrumentation/instrumentation-context-type';
+export type { SkyInstrumentationUserEvent } from './lib/modules/instrumentation/user-event';
+export {
+  SkyInstrumentationUserEventEmitter,
+  createSkyInstrumentationUserEventEmitter,
+} from './lib/modules/instrumentation/user-event-emitter';
+export {
+  SkyInstrumentationUserEventListener,
+  provideSkyInstrumentationUserEventListener,
+} from './lib/modules/instrumentation/user-event-listener';
+export { _SkyInstrumentationUserEventService } from './lib/modules/instrumentation/user-event-service';
+
 export { SkyLayoutHostForChildArgs } from './lib/modules/layout-host/layout-host-for-child-args';
 export { SkyLayoutHostDirective } from './lib/modules/layout-host/layout-host.directive';
 export { SkyLayoutHostService } from './lib/modules/layout-host/layout-host.service';
