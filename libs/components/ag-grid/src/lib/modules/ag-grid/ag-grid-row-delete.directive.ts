@@ -2,7 +2,6 @@ import {
   Directive,
   ElementRef,
   EnvironmentInjector,
-  Injector,
   OnDestroy,
   afterNextRender,
   contentChild,
@@ -22,7 +21,6 @@ import {
   SkyOverlayInstance,
   SkyOverlayService,
   SkyScrollableHostService,
-  provideSkyInstrumentationContextFrom,
 } from '@skyux/core';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -91,7 +89,6 @@ export class SkyAgGridRowDeleteDirective implements OnDestroy {
   readonly #zIndex = new BehaviorSubject(998);
   readonly #elementRef = inject(ElementRef<HTMLElement>);
   readonly #environmentInjector = inject(EnvironmentInjector);
-  readonly #injector = inject(Injector);
   readonly #overlayService = inject(SkyOverlayService);
   #overlay: SkyOverlayInstance | undefined;
   readonly #rowDeleteSvc: SkyAgGridRowDeleteContext;
@@ -181,7 +178,6 @@ export class SkyAgGridRowDeleteDirective implements OnDestroy {
           provide: SKY_AG_GRID_ROW_DELETE_CONTEXT,
           useValue: this.#rowDeleteSvc,
         },
-        ...provideSkyInstrumentationContextFrom(this.#injector),
       ]);
       this.#zIndex
         .pipe(

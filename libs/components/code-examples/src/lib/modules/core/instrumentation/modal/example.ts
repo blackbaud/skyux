@@ -10,11 +10,9 @@ import { CoreInstrumentationModalLaunchButton } from './launch-button';
   imports: [CoreInstrumentationModalLaunchButton, SkyInstrumentationContext],
   selector: 'app-core-instrumentation-modal-example',
   template: `
-    <div [skyInstrumentationContext]="recordContext">
+    <div [skyInstrumentationContext]="{ recordId: '280-c-r-w' }">
       <app-core-instrumentation-modal-launch-button />
     </div>
   `,
 })
-export class CoreInstrumentationModalExample {
-  protected readonly recordContext = { recordId: '280-c-r-w' };
-}
+export class CoreInstrumentationModalExample {}

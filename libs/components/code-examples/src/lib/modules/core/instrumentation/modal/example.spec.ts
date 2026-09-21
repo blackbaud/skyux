@@ -48,9 +48,7 @@ describe('Instrumentation context forwarded to a modal', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const helpInline = await rootLoader.getHarness(
-      SkyHelpInlineHarness.with({ dataSkyId: 'modal-help' }),
-    );
+    const helpInline = await rootLoader.getHarness(SkyHelpInlineHarness);
 
     await helpInline.click();
 

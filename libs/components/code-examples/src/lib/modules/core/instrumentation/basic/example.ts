@@ -10,7 +10,4 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
   selector: 'app-core-instrumentation-basic-example',
   templateUrl: './example.html',
 })
-export class CoreInstrumentationBasicExample {
-  protected readonly pageContext = { pageId: 'constituent-summary' };
-  protected readonly sectionContext = { sectionId: 'giving-history' };
-}
+export class CoreInstrumentationBasicExample {}
