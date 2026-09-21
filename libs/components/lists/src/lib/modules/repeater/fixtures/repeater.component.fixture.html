@@ -25,7 +25,9 @@
           </sky-dropdown>
         </sky-repeater-item-context-menu>
       }
-      <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+      @if (!hideFirstItemTitle()) {
+        <sky-repeater-item-title>Title 1</sky-repeater-item-title>
+      }
       <sky-repeater-item-content>
         <a href="/"> link 1 </a>
         Content 1

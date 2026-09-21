@@ -1,6 +1,35 @@
 # Changelog
 
 
+## [14.21.0](https://github.com/blackbaud/skyux/compare/14.20.1...14.21.0) (2026-09-17)
+
+
+### Features
+
+* **components/icon:** resolve dark mode icon variants ([#4791](https://github.com/blackbaud/skyux/issues/4791)) ([5ca104d](https://github.com/blackbaud/skyux/commit/5ca104dd57786af8449d26369a47afb7c91540e5))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** reset an originally-empty field to empty and pristine ([#4794](https://github.com/blackbaud/skyux/issues/4794)) ([906ca8e](https://github.com/blackbaud/skyux/commit/906ca8e7f4b4c0368f29c1c721e4d6cb9be6c330)), closes [AB#4109461](https://dev.azure.com/blackbaud/Products/_workitems/edit/4109461)
+* **components/toast:** links don't change color on hover ([#4787](https://github.com/blackbaud/skyux/issues/4787)) ([3a4cdaa](https://github.com/blackbaud/skyux/commit/3a4cdaa2a04f87909006ac1049fc3c32d7f67848))
+* input components native controls match color scheme ([#4769](https://github.com/blackbaud/skyux/issues/4769)) ([4593389](https://github.com/blackbaud/skyux/commit/4593389c831da5252f321364d1cedd82293b5cb2))
+* update design tokens for color fixes ([#4800](https://github.com/blackbaud/skyux/issues/4800)) ([57a82c8](https://github.com/blackbaud/skyux/commit/57a82c82fb19a130b9f6797f56886e858bf33fda))
+
+## [15.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.14...15.0.0-alpha.15) (2026-09-17)
+
+
+### Features
+
+* **sdk/stylelint-config-skyux:** include `skyux-stylelint/no-sky-theme-imports` in recommended configuration ([#4795](https://github.com/blackbaud/skyux/issues/4795)) ([2233d71](https://github.com/blackbaud/skyux/commit/2233d71e685afca1185b8a66b8bfc8510a8dc774)), closes [AB#4125223](https://dev.azure.com/blackbaud/Products/_workitems/edit/4125223)
+
+
+### Bug Fixes
+
+* **components/colorpicker:** reset an originally-empty field to empty and pristine ([#4794](https://github.com/blackbaud/skyux/issues/4794)) ([#4797](https://github.com/blackbaud/skyux/issues/4797)) ([f3ca15a](https://github.com/blackbaud/skyux/commit/f3ca15a0a73064fb8b3e427c7bd18bac010af8a9)), closes [AB#4109461](https://dev.azure.com/blackbaud/Products/_workitems/edit/4109461)
+* **components/lists:** remove repeater item extra vertical space ([#4702](https://github.com/blackbaud/skyux/issues/4702)) ([b10c528](https://github.com/blackbaud/skyux/commit/b10c528cac55a575eddddafe6ad1a89a44ed672b)), closes [AB#3648129](https://dev.azure.com/blackbaud/Products/_workitems/edit/3648129)
+* **components/packages:** only add stylesheets to targets whose builder supports them ([#4792](https://github.com/blackbaud/skyux/issues/4792)) ([ba717af](https://github.com/blackbaud/skyux/commit/ba717aff01c7743abba3ae0e81d4b5da8cda6a29))
+
 ## [15.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.13...15.0.0-alpha.14) (2026-09-14)
 
 
