@@ -43,3 +43,6 @@ export { SkySelectionBoxHarnessFilters } from './modules/selection-box/selection
 
 export { SkyToggleSwitchHarness } from './modules/toggle-switch/toggle-switch-harness';
 export { SkyToggleSwitchHarnessFilters } from './modules/toggle-switch/toggle-switch-harness-filters';
+
+export { SkyButtonHarness } from './modules/button/button-harness';
+export { SkyButtonHarnessFilters } from './modules/button/button-harness-filters';
