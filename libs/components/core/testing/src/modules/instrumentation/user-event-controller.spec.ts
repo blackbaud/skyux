@@ -33,14 +33,13 @@ class TestButton {
 class TestButtonHost {}
 
 describe('instrumentation controller', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [TestButtonHost],
-      providers: [provideSkyInstrumentationUserEventTesting()],
-    });
-  });
+  const expectedEvt: SkyInstrumentationUserEvent = {
+    eventName: 'foo.bar',
+    eventProperties: undefined,
+    context: { productId: 'foo123' },
+  };
 
-  it('should', () => {
+  function clickButton(): SkyInstrumentationUserEventTestController {
     const fixture = TestBed.createComponent(TestButtonHost);
     const controller = TestBed.inject(
       SkyInstrumentationUserEventTestController,
@@ -53,13 +52,38 @@ describe('instrumentation controller', () => {
 
     fixture.detectChanges();
 
-    const expectedEvt: SkyInstrumentationUserEvent = {
-      eventName: 'foo.bar',
-      eventProperties: undefined,
-      context: { productId: 'foo123' },
-    };
+    return controller;
+  }
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TestButtonHost],
+      providers: [provideSkyInstrumentationUserEventTesting()],
+    });
+  });
+
+  it('should verify a user event and its count', () => {
+    const controller = clickButton();
 
     controller.expectUserEvent(expectedEvt);
     controller.expectUserEventCount(expectedEvt, 1);
+  });
+
+  it('should fail when a user event was not logged', () => {
+    const controller = clickButton();
+
+    expect(() =>
+      controller.expectUserEvent({ eventName: 'other.event' }),
+    ).toThrowError(
+      'Expected a user event to be logged with {"eventName":"other.event"}.',
+    );
+  });
+
+  it('should fail when a user event was logged a different number of times', () => {
+    const controller = clickButton();
+
+    expect(() => controller.expectUserEventCount(expectedEvt, 2)).toThrowError(
+      `Expected a user event ${JSON.stringify(expectedEvt)} to be logged 2 time(s), but it was logged 1 time(s).`,
+    );
   });
 });

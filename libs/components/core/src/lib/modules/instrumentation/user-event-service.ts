@@ -8,7 +8,7 @@ import { SKY_USER_EVENT_LISTENERS } from './user-event-listener';
 @Injectable({
   providedIn: 'root',
 })
-export class _SkyInstrumentationUserEventService {
+export class SkyInstrumentationUserEventService {
   readonly #listeners = inject(SKY_USER_EVENT_LISTENERS, { optional: true });
 
   public notify(evt: SkyInstrumentationUserEvent): void {

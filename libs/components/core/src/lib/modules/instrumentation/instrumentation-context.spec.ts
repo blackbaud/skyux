@@ -1,16 +1,25 @@
+import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
+import { provideSkyInstrumentationContextFrom } from './instrumentation-context';
 import { provideSkyInstrumentationUserEventListener } from './user-event-listener';
 
 import { TestAnalyticsService } from './fixtures/analytics-service';
 import { TestDynamicLauncherHost } from './fixtures/dynamic-component-test.fixture';
+import { NestedContextTest } from './fixtures/nested-context.fixture';
+import { SameTemplateTest } from './fixtures/same-template.fixture';
 import { MyUserEventListener } from './fixtures/user-event-listener';
 import { TestButtonHost } from './fixtures/user-event-test.fixture';
 
 describe('instrumentation-context', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TestButtonHost, TestDynamicLauncherHost],
+      imports: [
+        NestedContextTest,
+        SameTemplateTest,
+        TestButtonHost,
+        TestDynamicLauncherHost,
+      ],
       providers: [
         provideSkyInstrumentationUserEventListener(MyUserEventListener),
       ],
@@ -21,8 +30,6 @@ describe('instrumentation-context', () => {
     const fixture = TestBed.createComponent(TestButtonHost);
     const svc = TestBed.inject(TestAnalyticsService);
 
-    const spy = spyOn(svc, 'logClickEvent');
-
     fixture.detectChanges();
 
     const btn = fixture.nativeElement.querySelector('button');
@@ -30,18 +37,18 @@ describe('instrumentation-context', () => {
 
     fixture.detectChanges();
 
-    expect(spy).toHaveBeenCalledWith({
-      eventName: 'foo.bar',
-      eventProperties: undefined,
-      context: { productId: 'foo123' },
-    });
+    expect(svc.clickEvents).toEqual([
+      {
+        eventName: 'foo.bar',
+        eventProperties: undefined,
+        context: { productId: 'foo123' },
+      },
+    ]);
   });
 
   it('should forward the context to a dynamically created component', () => {
     const fixture = TestBed.createComponent(TestDynamicLauncherHost);
     const svc = TestBed.inject(TestAnalyticsService);
-
-    const spy = spyOn(svc, 'logClickEvent');
 
     fixture.detectChanges();
 
@@ -56,10 +63,74 @@ describe('instrumentation-context', () => {
     saveBtn?.click();
     fixture.detectChanges();
 
-    expect(spy).toHaveBeenCalledWith({
-      eventName: 'form.saved',
-      eventProperties: { user: 'foo' },
-      context: { productId: 'foo123' },
-    });
+    expect(svc.clickEvents).toEqual([
+      {
+        eventName: 'form.saved',
+        eventProperties: { user: 'foo' },
+        context: { productId: 'foo123' },
+      },
+    ]);
+  });
+
+  it('should emit a user event from the template that declares the context', () => {
+    const fixture = TestBed.createComponent(SameTemplateTest);
+    const svc = TestBed.inject(TestAnalyticsService);
+
+    fixture.detectChanges();
+
+    const btn = fixture.nativeElement.querySelector('button');
+    btn.click();
+
+    fixture.detectChanges();
+
+    expect(svc.clickEvents).toEqual([
+      {
+        eventName: 'foo.bar',
+        eventProperties: { user: 'foo' },
+        context: { productId: 'foo123' },
+      },
+    ]);
+  });
+
+  it('should merge a nested context with its parent', () => {
+    const fixture = TestBed.createComponent(NestedContextTest);
+    const svc = TestBed.inject(TestAnalyticsService);
+
+    fixture.detectChanges();
+
+    const btn = fixture.nativeElement.querySelector('button');
+    btn.click();
+
+    fixture.detectChanges();
+
+    expect(svc.clickEvents).toEqual([
+      {
+        eventName: 'foo.bar',
+        eventProperties: undefined,
+        context: { productId: 'foo123', recordId: 'bar456' },
+      },
+    ]);
+  });
+
+  it('should provide nothing when an injector has no context', () => {
+    expect(
+      provideSkyInstrumentationContextFrom(TestBed.inject(Injector)),
+    ).toEqual([]);
+  });
+});
+
+describe('instrumentation-context without a listener', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({ imports: [SameTemplateTest] });
+  });
+
+  it('should emit a user event without error', () => {
+    const fixture = TestBed.createComponent(SameTemplateTest);
+
+    fixture.detectChanges();
+
+    const btn = fixture.nativeElement.querySelector('button');
+
+    expect(() => btn.click()).not.toThrow();
   });
 });

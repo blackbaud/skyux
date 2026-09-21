@@ -6,11 +6,10 @@ import {
   StaticProvider,
 } from '@angular/core';
 import { SkyInstrumentationContextType } from './instrumentation-context-type';
+import { SkyInstrumentationUserEventService } from './user-event-service';
 
 @Directive({
-  host: {
-    '[attr.data-sky-instrumentation-context]': 'skyInstrumentationContext()',
-  },
+  exportAs: 'skyInstrumentationContext',
   selector: '[skyInstrumentationContext]',
 })
 export class SkyInstrumentationContext {
@@ -19,8 +18,21 @@ export class SkyInstrumentationContext {
     skipSelf: true,
   });
 
+  readonly #userEventSvc = inject(SkyInstrumentationUserEventService);
+
   public readonly skyInstrumentationContext =
     input.required<SkyInstrumentationContextType>();
+
+  public emitUserEvent(
+    eventName: string,
+    eventProperties?: Record<string, unknown>,
+  ): void {
+    this.#userEventSvc.notify({
+      eventName,
+      eventProperties,
+      context: this.resolve(),
+    });
+  }
 
   public resolve(): SkyInstrumentationContextType {
     if (this.#parentContext?.skyInstrumentationContext()) {
