@@ -138,7 +138,7 @@ describe('Button harness', () => {
     });
 
     it('should return an undefined URL', async () => {
-      await expectAsync(buttonHarness.getUrl()).toBeResolvedTo(undefined);
+      await expectAsync(buttonHarness.getLink()).toBeResolvedTo(undefined);
     });
 
     it('should click the button', async () => {
@@ -166,7 +166,7 @@ describe('Button harness', () => {
     runCommonTests();
 
     it('should return the URL when using a permalink URL', async () => {
-      await expectAsync(buttonHarness.getUrl()).toBeResolvedTo(
+      await expectAsync(buttonHarness.getLink()).toBeResolvedTo(
         'https://example.com/',
       );
     });
@@ -178,7 +178,7 @@ describe('Button harness', () => {
         },
       });
 
-      await expectAsync(buttonHarness.getUrl()).toBeResolvedTo('/foo/bar');
+      await expectAsync(buttonHarness.getLink()).toBeResolvedTo('/foo/bar');
     });
 
     it('should click the button', async () => {
