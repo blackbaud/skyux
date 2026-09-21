@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 import { firstValueFrom } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 export async function getResourceString(
   resourceKey: string,
@@ -8,8 +9,11 @@ export async function getResourceString(
 ): Promise<string> {
   const resourcesSvc = TestBed.inject(SkyAppResourcesService);
 
+  // The observable can emit an intermediate value before the locale and
+  // resource name providers settle; debounce so the matcher compares against
+  // the settled string rather than whichever value happens to be emitted first.
   return await firstValueFrom(
-    resourcesSvc.getString(resourceKey, ...resourceArgs),
+    resourcesSvc.getString(resourceKey, ...resourceArgs).pipe(debounceTime(0)),
   );
 }
 
@@ -19,8 +23,11 @@ export async function getLibResourceString(
 ): Promise<string> {
   const resourcesSvc = TestBed.inject(SkyLibResourcesService);
 
+  // The observable can emit an intermediate value before the locale and
+  // resource name providers settle; debounce so the matcher compares against
+  // the settled string rather than whichever value happens to be emitted first.
   return await firstValueFrom(
-    resourcesSvc.getString(resourceKey, ...resourceArgs),
+    resourcesSvc.getString(resourceKey, ...resourceArgs).pipe(debounceTime(0)),
   );
 }
 
