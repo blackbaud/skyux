@@ -7,8 +7,8 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   createSkyUserEventEmitter,
+  provideSkyInstrumentationContext,
   provideSkyUserEventListener,
-  SkyInstrumentationContext,
   SkyUserEvent,
   SkyUserEventListener,
 } from './instrumentation';
@@ -33,16 +33,9 @@ class TestAnalyticsService {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyInstrumentationContext],
-  template: `
-    <button
-      type="button"
-      [skyInstrumentationContext]="{ productId: 'foo123' }"
-      (click)="doSomething()"
-    >
-      Click me
-    </button>
-  `,
+  // imports: [SkyInstrumentationContext],
+  providers: [provideSkyInstrumentationContext({ productId: 'foo123' })],
+  template: ` <button type="button" (click)="doSomething()">Click me</button> `,
 })
 class TestButton {
   readonly #emitter = createSkyUserEventEmitter();

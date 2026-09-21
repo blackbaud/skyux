@@ -6,6 +6,7 @@ import {
   InjectionToken,
   input,
   makeEnvironmentProviders,
+  Provider,
   Type,
 } from '@angular/core';
 
@@ -26,10 +27,10 @@ export class SkyInstrumentationContext {
   public readonly skyInstrumentationContext =
     input.required<SkyInstrumentationContextType>();
 
-  public resolveContext(): SkyInstrumentationContextType {
+  public resolve(): SkyInstrumentationContextType {
     if (this.#parentContext?.skyInstrumentationContext()) {
       return {
-        ...this.#parentContext?.skyInstrumentationContext(),
+        ...this.#parentContext?.resolve(),
         ...this.skyInstrumentationContext(),
       };
     }
@@ -43,12 +44,12 @@ export interface SkyUserEventEmitter {
 }
 
 export function createSkyUserEventEmitter(): SkyUserEventEmitter {
-  const context = inject(SkyInstrumentationContext, { optional: true });
+  const context = inject(SKY_INSTRUMENTATION_CONTEXT, { optional: true });
   const svc = inject(SkyUserEventService, { optional: true });
 
   return {
     emit: (eventName: string): void => {
-      svc?.broadcast(eventName, context?.resolveContext());
+      svc?.broadcast(eventName, context ?? undefined);
     },
   } satisfies SkyUserEventEmitter;
 }
@@ -89,10 +90,30 @@ export class SkyUserEventService {
 
   public broadcast(
     eventName: string,
-    context: SkyInstrumentationContextType | undefined,
+    context?: SkyInstrumentationContextType,
   ): void {
     for (const listener of this.#listeners ?? []) {
       listener.onUserEvent({ eventName, context });
     }
   }
+}
+
+export const SKY_INSTRUMENTATION_CONTEXT =
+  new InjectionToken<SkyInstrumentationContextType>(
+    'SKY_INSTRUMENTATION_CONTEXT',
+  );
+
+export function provideSkyInstrumentationContext(
+  context: SkyInstrumentationContextType,
+): Provider {
+  return {
+    provide: SKY_INSTRUMENTATION_CONTEXT,
+    useFactory: () => ({
+      ...inject(SKY_INSTRUMENTATION_CONTEXT, {
+        optional: true,
+        skipSelf: true,
+      }),
+      ...context,
+    }),
+  };
 }
