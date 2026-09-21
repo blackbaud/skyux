@@ -1,6 +1,54 @@
 # Changelog
 
 
+## [14.21.0](https://github.com/blackbaud/skyux/compare/14.20.1...14.21.0) (2026-09-17)
+
+
+### Features
+
+* **components/icon:** resolve dark mode icon variants ([#4791](https://github.com/blackbaud/skyux/issues/4791)) ([5ca104d](https://github.com/blackbaud/skyux/commit/5ca104dd57786af8449d26369a47afb7c91540e5))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** reset an originally-empty field to empty and pristine ([#4794](https://github.com/blackbaud/skyux/issues/4794)) ([906ca8e](https://github.com/blackbaud/skyux/commit/906ca8e7f4b4c0368f29c1c721e4d6cb9be6c330)), closes [AB#4109461](https://dev.azure.com/blackbaud/Products/_workitems/edit/4109461)
+* **components/toast:** links don't change color on hover ([#4787](https://github.com/blackbaud/skyux/issues/4787)) ([3a4cdaa](https://github.com/blackbaud/skyux/commit/3a4cdaa2a04f87909006ac1049fc3c32d7f67848))
+* input components native controls match color scheme ([#4769](https://github.com/blackbaud/skyux/issues/4769)) ([4593389](https://github.com/blackbaud/skyux/commit/4593389c831da5252f321364d1cedd82293b5cb2))
+* update design tokens for color fixes ([#4800](https://github.com/blackbaud/skyux/issues/4800)) ([57a82c8](https://github.com/blackbaud/skyux/commit/57a82c82fb19a130b9f6797f56886e858bf33fda))
+
+## [15.0.0-alpha.15](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.14...15.0.0-alpha.15) (2026-09-17)
+
+
+### Features
+
+* **sdk/stylelint-config-skyux:** include `skyux-stylelint/no-sky-theme-imports` in recommended configuration ([#4795](https://github.com/blackbaud/skyux/issues/4795)) ([2233d71](https://github.com/blackbaud/skyux/commit/2233d71e685afca1185b8a66b8bfc8510a8dc774)), closes [AB#4125223](https://dev.azure.com/blackbaud/Products/_workitems/edit/4125223)
+
+
+### Bug Fixes
+
+* **components/colorpicker:** reset an originally-empty field to empty and pristine ([#4794](https://github.com/blackbaud/skyux/issues/4794)) ([#4797](https://github.com/blackbaud/skyux/issues/4797)) ([f3ca15a](https://github.com/blackbaud/skyux/commit/f3ca15a0a73064fb8b3e427c7bd18bac010af8a9)), closes [AB#4109461](https://dev.azure.com/blackbaud/Products/_workitems/edit/4109461)
+* **components/lists:** remove repeater item extra vertical space ([#4702](https://github.com/blackbaud/skyux/issues/4702)) ([b10c528](https://github.com/blackbaud/skyux/commit/b10c528cac55a575eddddafe6ad1a89a44ed672b)), closes [AB#3648129](https://dev.azure.com/blackbaud/Products/_workitems/edit/3648129)
+* **components/packages:** only add stylesheets to targets whose builder supports them ([#4792](https://github.com/blackbaud/skyux/issues/4792)) ([ba717af](https://github.com/blackbaud/skyux/commit/ba717aff01c7743abba3ae0e81d4b5da8cda6a29))
+
+## [15.0.0-alpha.14](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.13...15.0.0-alpha.14) (2026-09-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* toolbar, filter bar, and list summary inherit container padding (#4707)
+
+### Features
+
+* **components/packages:** remove unused references to SkySelectFieldModule during migration ([#4785](https://github.com/blackbaud/skyux/issues/4785)) ([238b8b3](https://github.com/blackbaud/skyux/commit/238b8b3d1c7fe6c1c79c5fa8a1c64044aef4852f)), closes [AB#4121843](https://dev.azure.com/blackbaud/Products/_workitems/edit/4121843)
+* **sdk/testing:** deprecate `expect` and `expectAsync` matchers ([#4731](https://github.com/blackbaud/skyux/issues/4731)) ([be52060](https://github.com/blackbaud/skyux/commit/be5206028c1ec899257b7821ca7331779d447576)), closes [AB#4087927](https://dev.azure.com/blackbaud/Products/_workitems/edit/4087927)
+
+
+### Bug Fixes
+
+* **components/data-grid:** avoid NG0950 when columns are created in a loop ([#4753](https://github.com/blackbaud/skyux/issues/4753)) ([#4776](https://github.com/blackbaud/skyux/issues/4776)) ([f519f01](https://github.com/blackbaud/skyux/commit/f519f01cca675664ab6cf91a84b0d1025c6807e1))
+* input components native controls match color scheme ([#4769](https://github.com/blackbaud/skyux/issues/4769)) ([#4783](https://github.com/blackbaud/skyux/issues/4783)) ([e4ada85](https://github.com/blackbaud/skyux/commit/e4ada85faf72db0dbdda0538a6eaaddd48c8f35f))
+* toolbar, filter bar, and list summary inherit container padding ([#4707](https://github.com/blackbaud/skyux/issues/4707)) ([054b5ad](https://github.com/blackbaud/skyux/commit/054b5ad26a7cb7c5723fe5c715bb94f71c74c733))
+
 ## [14.20.1](https://github.com/blackbaud/skyux/compare/14.20.0...14.20.1) (2026-09-09)
 
 

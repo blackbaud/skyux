@@ -1,13 +1,9 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
-const SUPPORTED_BUILD_BUILDERS = [
-  '@angular/build:application',
-  '@angular-devkit/build-angular:application',
-  '@angular-devkit/build-angular:browser',
-  '@blackbaud-internal/skyux-angular-builders:browser',
-  '@blackbaud-internal/skyux-build:application',
-];
+import { ESBUILD_BUILDERS, WEBPACK_BUILDERS } from '../../utility/builders';
+
+const SUPPORTED_BUILD_BUILDERS = WEBPACK_BUILDERS.concat(ESBUILD_BUILDERS);
 
 export function workspaceCheck(): Rule {
   return async (tree: Tree, context: SchematicContext): Promise<void> => {
