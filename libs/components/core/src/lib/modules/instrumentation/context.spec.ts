@@ -1,4 +1,4 @@
-import { Injector } from '@angular/core';
+import { ErrorHandler, Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
 import { provideSkyInstrumentationContextFrom } from './context-provider';
@@ -6,7 +6,10 @@ import { provideSkyInstrumentationListener } from './event-listener';
 
 import { NestedContextHost, TestButtonHost } from './fixtures/context.fixture';
 import { TestDynamicLauncherHost } from './fixtures/dynamic-component.fixture';
-import { TestEventListener } from './fixtures/event-listener.fixture';
+import {
+  TestEventListener,
+  ThrowingEventListener,
+} from './fixtures/event-listener.fixture';
 
 describe('instrumentation-context', () => {
   beforeEach(() => {
@@ -163,5 +166,30 @@ describe('instrumentation-context without a listener', () => {
     const btn = fixture.nativeElement.querySelector('button');
 
     expect(() => btn.click()).not.toThrow();
+  });
+});
+
+describe('instrumentation-context with a listener that throws', () => {
+  it('should report the failure and notify the remaining listeners', () => {
+    TestBed.configureTestingModule({
+      imports: [TestButtonHost],
+      providers: [
+        provideSkyInstrumentationListener(ThrowingEventListener),
+        provideSkyInstrumentationListener(TestEventListener),
+      ],
+    });
+
+    const handleError = spyOn(TestBed.inject(ErrorHandler), 'handleError');
+    const fixture = TestBed.createComponent(TestButtonHost);
+    const listener = TestBed.inject(TestEventListener);
+
+    fixture.detectChanges();
+
+    const btn = fixture.nativeElement.querySelector('button');
+
+    expect(() => btn.click()).not.toThrow();
+
+    expect(handleError).toHaveBeenCalledWith(new Error('Listener failed.'));
+    expect(listener.events.length).toEqual(1);
   });
 });

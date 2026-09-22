@@ -30,7 +30,7 @@ Do NOT instrument:
 Consumers switch on these strings, so a released name is locked for the major
 version — a rename is a breaking change. Get it right before merging.
 
-```
+```text
 sky.<component>.<past-tense-verb-phrase>
 ```
 

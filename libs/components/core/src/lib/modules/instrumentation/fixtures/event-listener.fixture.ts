@@ -11,3 +11,10 @@ export class TestEventListener implements SkyInstrumentationListener {
     this.events.push(evt);
   }
 }
+
+@Injectable()
+export class ThrowingEventListener implements SkyInstrumentationListener {
+  public handleEvent(): void {
+    throw new Error('Listener failed.');
+  }
+}
