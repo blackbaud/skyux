@@ -143,6 +143,11 @@
   &:hover {
     color: color.adjust(vars.$sky-text-color-deemphasized, $lightness: -20%);
     transition: color var(--sky-global-duration-short);
+
+    &[disabled],
+    &.sky-btn-disabled {
+      color: vars.$sky-text-color-deemphasized;
+    }
   }
 }
 
