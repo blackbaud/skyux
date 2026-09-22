@@ -39,7 +39,7 @@ describe('Basic instrumentation context example', () => {
       SkyHelpInlineHarness.with({ dataSkyId }),
     );
 
-    return await harness.click();
+    await harness.click();
   }
 
   it('should attach the page context to a help inline event', async () => {
