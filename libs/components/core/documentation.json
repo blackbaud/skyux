@@ -17,10 +17,9 @@
       "development": {
         "docsIds": [
           "SkyInstrumentationContext",
+          "SkyInstrumentationContextValue",
           "SkyInstrumentationEvent",
-          "SkyInstrumentationEmitter",
           "SkyInstrumentationListener",
-          "injectSkyInstrumentationEmitter",
           "provideSkyInstrumentationContextFrom",
           "provideSkyInstrumentationListener"
         ],

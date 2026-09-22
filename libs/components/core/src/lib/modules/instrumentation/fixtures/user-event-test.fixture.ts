@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyInstrumentationContext } from '../context';
-import { injectSkyInstrumentationEmitter } from '../event-emitter';
+import { _injectSkyInstrumentationEmitter } from '../event-emitter';
 import { SkyInstrumentationContextValue } from '../event-types';
 
 @Component({
@@ -9,7 +9,7 @@ import { SkyInstrumentationContextValue } from '../event-types';
   template: ` <button type="button" (click)="doSomething()">Click me</button> `,
 })
 export class TestButton {
-  readonly #instr = injectSkyInstrumentationEmitter();
+  readonly #instr = _injectSkyInstrumentationEmitter();
 
   protected doSomething(): void {
     this.#instr.emit('foo.bar');

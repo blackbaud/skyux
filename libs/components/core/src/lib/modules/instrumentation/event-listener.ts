@@ -10,6 +10,9 @@ export interface SkyInstrumentationListener {
   onEvent(evt: SkyInstrumentationEvent): void;
 }
 
+/**
+ * @internal
+ */
 export const SKY_INSTRUMENTATION_LISTENERS = new InjectionToken<
   SkyInstrumentationListener[]
 >('SKY_INSTRUMENTATION_LISTENERS');

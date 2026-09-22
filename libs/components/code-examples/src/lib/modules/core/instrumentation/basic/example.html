@@ -14,15 +14,13 @@
   </h2>
 
   <div [skyInstrumentationContext]="{ name: 'giving-history' }">
-    <button
-      class="sky-btn sky-btn-default"
-      data-sky-id="export-gifts"
-      type="button"
-      skyInstrumentationTrackClick
-      skyInstrumentationEventName="constituents.gifts-exported"
-      [skyInstrumentationEventDetail]="{ format: 'csv' }"
-    >
-      Export gifts
-    </button>
+    <h3>
+      Giving history
+      <sky-help-inline
+        data-sky-id="section-help"
+        helpKey="giving-history.html"
+        labelText="Giving history"
+      />
+    </h3>
   </div>
 </div>

@@ -60,8 +60,8 @@ export { SkyIdService } from './lib/modules/id/id.service';
 export { SkyInstrumentationContext } from './lib/modules/instrumentation/context';
 export { provideSkyInstrumentationContextFrom } from './lib/modules/instrumentation/context-provider';
 export {
-  injectSkyInstrumentationEmitter,
-  type SkyInstrumentationEmitter,
+  _injectSkyInstrumentationEmitter,
+  type _SkyInstrumentationEmitter,
 } from './lib/modules/instrumentation/event-emitter';
 export {
   provideSkyInstrumentationListener,
@@ -71,7 +71,6 @@ export type {
   SkyInstrumentationContextValue,
   SkyInstrumentationEvent,
 } from './lib/modules/instrumentation/event-types';
-export { SkyInstrumentationTrackClick } from './lib/modules/instrumentation/track-click';
 
 export { SkyLayoutHostForChildArgs } from './lib/modules/layout-host/layout-host-for-child-args';
 export { SkyLayoutHostDirective } from './lib/modules/layout-host/layout-host.directive';

@@ -4,11 +4,17 @@ import { SKY_INSTRUMENTATION_CONTEXT } from './context-resolver';
 import { SKY_INSTRUMENTATION_LISTENERS } from './event-listener';
 import type { SkyInstrumentationEvent } from './event-types';
 
-export interface SkyInstrumentationEmitter {
+/**
+ * @internal
+ */
+export interface _SkyInstrumentationEmitter {
   emit(eventName: string, eventDetail?: Record<string, unknown>): void;
 }
 
-export function injectSkyInstrumentationEmitter(): SkyInstrumentationEmitter {
+/**
+ * @internal
+ */
+export function _injectSkyInstrumentationEmitter(): _SkyInstrumentationEmitter {
   const context = inject(SKY_INSTRUMENTATION_CONTEXT, { optional: true });
   const listeners = inject(SKY_INSTRUMENTATION_LISTENERS, {
     optional: true,
