@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { SkyInstrumentationUserEvent } from '../event-types';
+import { SkyInstrumentationEvent } from '../event-types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TestAnalyticsService {
-  public readonly clickEvents: SkyInstrumentationUserEvent[] = [];
+  public readonly clickEvents: SkyInstrumentationEvent[] = [];
 
-  public logClickEvent(evt: SkyInstrumentationUserEvent): void {
+  public logClickEvent(evt: SkyInstrumentationEvent): void {
     this.clickEvents.push(evt);
   }
 }

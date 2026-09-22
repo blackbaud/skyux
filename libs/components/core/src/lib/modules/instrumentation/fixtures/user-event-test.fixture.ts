@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyInstrumentationContext } from '../context';
 import { injectSkyInstrumentationEmitter } from '../event-emitter';
+import { SkyInstrumentationContextValue } from '../event-types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,7 +12,7 @@ export class TestButton {
   readonly #instr = injectSkyInstrumentationEmitter();
 
   protected doSomething(): void {
-    this.#instr.emitUserEvent('foo.bar');
+    this.#instr.emit('foo.bar');
   }
 }
 
@@ -25,5 +26,8 @@ export class TestButton {
   `,
 })
 export class TestButtonHost {
-  public readonly context = { productId: 'foo123' };
+  public context: SkyInstrumentationContextValue = {
+    name: 'products',
+    detail: { productId: 'foo123' },
+  };
 }

@@ -1,6 +1,6 @@
 ---
 name: add-instrumentation-user-event
-description: 'Workflow for making a @skyux/* component report a user interaction through the instrumentation system in this Nx monorepo. Use when asked to "add an instrumentation event", "add a user event", "instrument this component", "emit an analytics event", or to define a new instrumentation event name/key for a component. Covers the event-name grammar, the emitter, event properties, the required spec using SkyInstrumentationUserEventTestingController, the overlay/context caveat, and the test/lint/format gate. For the instrumentation API itself (the context directive, listeners, testing controller), see libs/components/core/src/lib/modules/instrumentation/.'
+description: 'Workflow for making a @skyux/* component report a user interaction through the instrumentation system in this Nx monorepo. Use when asked to "add an instrumentation event", "add a user event", "instrument this component", "emit an analytics event", or to define a new instrumentation event name/key for a component. Covers the event-name grammar, the emitter, event properties, the required spec using SkyInstrumentationTestingController, the overlay/context caveat, and the test/lint/format gate. For the instrumentation API itself (the context directive, listeners, testing controller), see libs/components/core/src/lib/modules/instrumentation/.'
 argument-hint: '<library> <Component> <interaction> (e.g. help-inline HelpInline help-requested)'
 ---
 
@@ -110,21 +110,22 @@ Add a row when you add an event.
 
    ```ts
    TestBed.configureTestingModule({
-     providers: [provideSkyInstrumentationUserEventTesting()],
+     providers: [provideSkyInstrumentationTesting()],
    });
 
    // ...perform the interaction, then:
-   TestBed.inject(
-     SkyInstrumentationUserEventTestingController,
-   ).expectUserEventCount({ eventName: 'sky.help-inline.help-requested' }, 1);
+   TestBed.inject(SkyInstrumentationTestingController).expectEventCount(
+     { eventName: 'sky.help-inline.help-requested' },
+     1,
+   );
    ```
 
-   Prefer `expectUserEventCount` over `expectUserEvent` for the primary
+   Prefer `expectEventCount` over `expectEvent` for the primary
    assertion — it also catches a double-emit when a component routes several
    template branches through one handler. Add a second test for the
    properties when the event has any.
 
-   `provideSkyInstrumentationUserEventTesting()` returns `EnvironmentProviders`,
+   `provideSkyInstrumentationTesting()` returns `EnvironmentProviders`,
    so a spec that types its provider array as `Provider[]` must widen it to
    `(Provider | EnvironmentProviders)[]`.
 

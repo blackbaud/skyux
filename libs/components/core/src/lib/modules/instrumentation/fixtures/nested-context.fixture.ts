@@ -6,8 +6,18 @@ import { TestButton } from './user-event-test.fixture';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyInstrumentationContext, TestButton],
   template: `
-    <div [skyInstrumentationContext]="{ productId: 'foo123' }">
-      <div [skyInstrumentationContext]="{ recordId: 'bar456' }">
+    <div
+      [skyInstrumentationContext]="{
+        name: 'products',
+        detail: { productId: 'foo123' },
+      }"
+    >
+      <div
+        [skyInstrumentationContext]="{
+          name: 'product-details',
+          detail: { recordId: 'bar456' },
+        }"
+      >
         <test-button />
       </div>
     </div>

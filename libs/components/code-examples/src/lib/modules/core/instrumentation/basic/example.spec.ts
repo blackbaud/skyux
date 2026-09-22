@@ -3,8 +3,8 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyHelpTestingModule,
-  SkyInstrumentationUserEventTestingController,
-  provideSkyInstrumentationUserEventTesting,
+  SkyInstrumentationTestingController,
+  provideSkyInstrumentationTesting,
 } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
@@ -12,13 +12,13 @@ import { CoreInstrumentationBasicExample } from './example';
 
 describe('Basic instrumentation context example', () => {
   function setupTest(): {
-    controller: SkyInstrumentationUserEventTestingController;
+    controller: SkyInstrumentationTestingController;
     fixture: ComponentFixture<CoreInstrumentationBasicExample>;
     loader: HarnessLoader;
   } {
     TestBed.configureTestingModule({
       imports: [CoreInstrumentationBasicExample, SkyHelpTestingModule],
-      providers: [provideSkyInstrumentationUserEventTesting()],
+      providers: [provideSkyInstrumentationTesting()],
     });
 
     const fixture = TestBed.createComponent(CoreInstrumentationBasicExample);
@@ -27,7 +27,7 @@ describe('Basic instrumentation context example', () => {
     fixture.detectChanges();
 
     return {
-      controller: TestBed.inject(SkyInstrumentationUserEventTestingController),
+      controller: TestBed.inject(SkyInstrumentationTestingController),
       fixture,
       loader,
     };
@@ -52,10 +52,13 @@ describe('Basic instrumentation context example', () => {
 
     await helpInline.click();
 
-    controller.expectUserEvent({
+    controller.expectEvent({
       eventName: 'sky.help-inline.help-requested',
       eventDetail: { helpKey: 'constituent-summary.html' },
-      context: { pageId: 'constituent-summary' },
+      context: {
+        name: 'constituent-summary',
+        detail: { recordId: '280-c-r-w' },
+      },
     });
   });
 
@@ -64,12 +67,12 @@ describe('Basic instrumentation context example', () => {
 
     clickTrackedButton(fixture);
 
-    controller.expectUserEvent({
+    controller.expectEvent({
       eventName: 'constituents.gifts-exported',
       eventDetail: { format: 'csv' },
       context: {
-        pageId: 'constituent-summary',
-        sectionId: 'giving-history',
+        name: 'giving-history',
+        detail: { recordId: '280-c-r-w' },
       },
     });
   });
@@ -80,13 +83,13 @@ describe('Basic instrumentation context example', () => {
     clickTrackedButton(fixture);
     clickTrackedButton(fixture);
 
-    controller.expectUserEventCount(
+    controller.expectEventCount(
       {
         eventName: 'constituents.gifts-exported',
         eventDetail: { format: 'csv' },
         context: {
-          pageId: 'constituent-summary',
-          sectionId: 'giving-history',
+          name: 'giving-history',
+          detail: { recordId: '280-c-r-w' },
         },
       },
       2,

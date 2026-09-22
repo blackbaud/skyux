@@ -4,8 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyHelpTestingModule,
-  SkyInstrumentationUserEventTestingController,
-  provideSkyInstrumentationUserEventTesting,
+  SkyInstrumentationTestingController,
+  provideSkyInstrumentationTesting,
 } from '@skyux/core/testing';
 import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 
@@ -13,7 +13,7 @@ import { CoreInstrumentationModalExample } from './example';
 
 describe('Instrumentation context forwarded to a modal', () => {
   function setupTest(): {
-    controller: SkyInstrumentationUserEventTestingController;
+    controller: SkyInstrumentationTestingController;
     fixture: ComponentFixture<CoreInstrumentationModalExample>;
     rootLoader: HarnessLoader;
   } {
@@ -21,7 +21,7 @@ describe('Instrumentation context forwarded to a modal', () => {
       imports: [CoreInstrumentationModalExample, SkyHelpTestingModule],
       providers: [
         provideNoopSkyAnimations(),
-        provideSkyInstrumentationUserEventTesting(),
+        provideSkyInstrumentationTesting(),
       ],
     });
 
@@ -30,7 +30,7 @@ describe('Instrumentation context forwarded to a modal', () => {
     fixture.detectChanges();
 
     return {
-      controller: TestBed.inject(SkyInstrumentationUserEventTestingController),
+      controller: TestBed.inject(SkyInstrumentationTestingController),
       fixture,
       rootLoader: TestbedHarnessEnvironment.documentRootLoader(fixture),
     };
@@ -52,10 +52,10 @@ describe('Instrumentation context forwarded to a modal', () => {
 
     await helpInline.click();
 
-    controller.expectUserEvent({
+    controller.expectEvent({
       eventName: 'sky.help-inline.help-requested',
       eventDetail: { helpKey: 'edit-gift.html' },
-      context: { recordId: '280-c-r-w' },
+      context: { name: 'edit-gift', detail: { recordId: '280-c-r-w' } },
     });
   });
 });

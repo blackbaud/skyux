@@ -3,6 +3,7 @@ import {
   SKY_INSTRUMENTATION_CONTEXT,
   SkyUserEventContextResolver,
 } from './context-resolver';
+import { SkyInstrumentationContextValue } from './event-types';
 
 @Directive({
   selector: '[skyInstrumentationContext]',
@@ -18,10 +19,16 @@ import {
         const self = inject(SkyInstrumentationContext);
 
         return {
-          resolve: () => ({
-            ...parent?.resolve(),
-            ...self.skyInstrumentationContext(),
-          }),
+          resolve: (): SkyInstrumentationContextValue => {
+            const parentDetail = parent?.resolve().detail;
+            const { name, detail } = self.skyInstrumentationContext();
+
+            if (!parentDetail && !detail) {
+              return { name };
+            }
+
+            return { name, detail: { ...parentDetail, ...detail } };
+          },
         };
       },
     },
@@ -29,5 +36,5 @@ import {
 })
 export class SkyInstrumentationContext {
   public readonly skyInstrumentationContext =
-    input.required<Record<string, unknown>>();
+    input.required<SkyInstrumentationContextValue>();
 }

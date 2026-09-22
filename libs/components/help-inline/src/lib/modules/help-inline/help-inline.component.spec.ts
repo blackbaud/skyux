@@ -15,8 +15,8 @@ import {
   SkyIdService,
 } from '@skyux/core';
 import {
-  SkyInstrumentationUserEventTestingController,
-  provideSkyInstrumentationUserEventTesting,
+  SkyInstrumentationTestingController,
+  provideSkyInstrumentationTesting,
 } from '@skyux/core/testing';
 import { SkyPopoverHarness } from '@skyux/popovers/testing';
 import {
@@ -123,7 +123,7 @@ describe('Help inline component', () => {
 
     const providers: (Provider | EnvironmentProviders)[] = [
       { provide: SkyThemeService, useValue: mockThemeSvc },
-      provideSkyInstrumentationUserEventTesting(),
+      provideSkyInstrumentationTesting(),
     ];
 
     if (provideHelpSvc) {
@@ -168,9 +168,7 @@ describe('Help inline component', () => {
 
       fixture.detectChanges();
 
-      TestBed.inject(
-        SkyInstrumentationUserEventTestingController,
-      ).expectUserEventCount(
+      TestBed.inject(SkyInstrumentationTestingController).expectEventCount(
         { eventName: 'sky.help-inline.help-requested' },
         1,
       );
@@ -443,9 +441,7 @@ describe('Help inline component', () => {
 
       getHelpButton(fixture).click();
 
-      TestBed.inject(
-        SkyInstrumentationUserEventTestingController,
-      ).expectUserEvent({
+      TestBed.inject(SkyInstrumentationTestingController).expectEvent({
         eventName: 'sky.help-inline.help-requested',
         eventDetail: { helpKey: 'test.html' },
       });

@@ -1,4 +1,9 @@
-<div [skyInstrumentationContext]="{ pageId: 'constituent-summary' }">
+<div
+  [skyInstrumentationContext]="{
+    name: 'constituent-summary',
+    detail: { recordId: '280-c-r-w' }
+  }"
+>
   <h2>
     Constituent summary
     <sky-help-inline
@@ -8,7 +13,7 @@
     />
   </h2>
 
-  <div [skyInstrumentationContext]="{ sectionId: 'giving-history' }">
+  <div [skyInstrumentationContext]="{ name: 'giving-history' }">
     <button
       class="sky-btn sky-btn-default"
       data-sky-id="export-gifts"

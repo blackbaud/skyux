@@ -25,7 +25,7 @@ class TestDynamicForm {
   readonly #instr = injectSkyInstrumentationEmitter();
 
   protected save(): void {
-    this.#instr.emitUserEvent('form.saved', { user: 'foo' });
+    this.#instr.emit('form.saved', { user: 'foo' });
   }
 }
 
@@ -66,7 +66,12 @@ class TestDynamicLauncher {
   imports: [SkyInstrumentationContext, TestDynamicLauncher],
   selector: 'test-dynamic-launcher-host',
   template: `
-    <div [skyInstrumentationContext]="{ productId: 'foo123' }">
+    <div
+      [skyInstrumentationContext]="{
+        name: 'products',
+        detail: { productId: 'foo123' },
+      }"
+    >
       <test-dynamic-launcher [forwardContext]="forwardContext()" />
     </div>
   `,

@@ -68,8 +68,8 @@ export {
   type SkyInstrumentationListener,
 } from './lib/modules/instrumentation/event-listener';
 export type {
+  SkyInstrumentationContextValue,
   SkyInstrumentationEvent,
-  SkyInstrumentationUserEvent,
 } from './lib/modules/instrumentation/event-types';
 export { SkyInstrumentationTrackClick } from './lib/modules/instrumentation/track-click';
 

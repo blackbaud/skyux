@@ -26,7 +26,7 @@ import { PlaygroundHelpService } from './app/shared/help-service';
 
 const CODE_EXAMPLES = codeExampleExports as SkyDocsCodeExampleComponentTypes;
 
-class CodeExamplesUserEventListener implements SkyInstrumentationListener {
+class CodeExamplesInstrListener implements SkyInstrumentationListener {
   public onEvent(evt: SkyInstrumentationEvent): void {
     console.log('Instrumentation event:', evt);
   }
@@ -50,7 +50,7 @@ bootstrapApplication(AppComponent, {
       provide: SKY_DOCS_CODE_EXAMPLE_ROUTE,
       useValue: 'examples',
     },
-    provideSkyInstrumentationListener(CodeExamplesUserEventListener),
+    provideSkyInstrumentationListener(CodeExamplesInstrListener),
     { provide: SkyHelpService, useClass: PlaygroundHelpService },
   ],
 }).catch((err) => {

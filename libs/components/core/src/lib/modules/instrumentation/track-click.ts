@@ -24,7 +24,6 @@ export class SkyInstrumentationTrackClick {
         context: this.#context?.resolve(),
         eventName: this.skyInstrumentationEventName(),
         eventDetail: this.skyInstrumentationEventDetail(),
-        eventType: 'user',
       });
     }
   }

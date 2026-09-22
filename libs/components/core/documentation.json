@@ -17,7 +17,7 @@
       "development": {
         "docsIds": [
           "SkyInstrumentationContext",
-          "SkyInstrumentationUserEvent",
+          "SkyInstrumentationEvent",
           "SkyInstrumentationEmitter",
           "SkyInstrumentationListener",
           "injectSkyInstrumentationEmitter",
@@ -28,8 +28,8 @@
       },
       "testing": {
         "docsIds": [
-          "provideSkyInstrumentationUserEventTesting",
-          "SkyInstrumentationUserEventTestingController"
+          "provideSkyInstrumentationTesting",
+          "SkyInstrumentationTestingController"
         ]
       },
       "codeExamples": {

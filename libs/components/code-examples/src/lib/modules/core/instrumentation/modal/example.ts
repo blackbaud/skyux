@@ -10,7 +10,12 @@ import { CoreInstrumentationModalLaunchButton } from './launch-button';
   imports: [CoreInstrumentationModalLaunchButton, SkyInstrumentationContext],
   selector: 'app-core-instrumentation-modal-example',
   template: `
-    <div [skyInstrumentationContext]="{ recordId: '280-c-r-w' }">
+    <div
+      [skyInstrumentationContext]="{
+        name: 'edit-gift',
+        detail: { recordId: '280-c-r-w' },
+      }"
+    >
       <app-core-instrumentation-modal-launch-button />
     </div>
   `,

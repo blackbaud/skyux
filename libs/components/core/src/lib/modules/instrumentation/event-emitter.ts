@@ -2,10 +2,10 @@ import { inject } from '@angular/core';
 
 import { SKY_INSTRUMENTATION_CONTEXT } from './context-resolver';
 import { SKY_INSTRUMENTATION_LISTENERS } from './event-listener';
-import type { SkyInstrumentationUserEvent } from './event-types';
+import type { SkyInstrumentationEvent } from './event-types';
 
 export interface SkyInstrumentationEmitter {
-  emitUserEvent(eventName: string, eventDetail?: Record<string, unknown>): void;
+  emit(eventName: string, eventDetail?: Record<string, unknown>): void;
 }
 
 export function injectSkyInstrumentationEmitter(): SkyInstrumentationEmitter {
@@ -15,17 +15,13 @@ export function injectSkyInstrumentationEmitter(): SkyInstrumentationEmitter {
   });
 
   return {
-    emitUserEvent(
-      eventName: string,
-      eventDetail?: Record<string, unknown>,
-    ): void {
+    emit(eventName: string, eventDetail?: Record<string, unknown>): void {
       for (const listener of listeners ?? []) {
         listener.onEvent({
           context: context?.resolve(),
           eventName,
           eventDetail,
-          eventType: 'user',
-        } satisfies SkyInstrumentationUserEvent);
+        } satisfies SkyInstrumentationEvent);
       }
     },
   };

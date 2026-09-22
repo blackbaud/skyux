@@ -3,10 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import {
   injectSkyInstrumentationEmitter,
   SkyInstrumentationContext,
-  SkyInstrumentationUserEvent,
+  SkyInstrumentationEvent,
 } from '@skyux/core';
-import { provideSkyInstrumentationUserEventTesting } from './provide-user-event-testing';
-import { SkyInstrumentationUserEventTestingController } from './user-event-controller';
+import { provideSkyInstrumentationTesting } from './provide-testing';
+import { SkyInstrumentationTestingController } from './testing-controller';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,7 +17,7 @@ class TestButton {
   readonly #instr = injectSkyInstrumentationEmitter();
 
   protected doSomething(): void {
-    this.#instr.emitUserEvent('foo.bar');
+    this.#instr.emit('foo.bar');
   }
 }
 
@@ -25,7 +25,12 @@ class TestButton {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyInstrumentationContext, TestButton],
   template: `
-    <div [skyInstrumentationContext]="{ productId: 'foo123' }">
+    <div
+      [skyInstrumentationContext]="{
+        name: 'products',
+        detail: { productId: 'foo123' },
+      }"
+    >
       <test-button />
     </div>
   `,
@@ -33,17 +38,14 @@ class TestButton {
 class TestButtonHost {}
 
 describe('instrumentation controller', () => {
-  const expectedEvt: SkyInstrumentationUserEvent = {
-    context: { productId: 'foo123' },
+  const expectedEvt: SkyInstrumentationEvent = {
+    context: { name: 'products', detail: { productId: 'foo123' } },
     eventName: 'foo.bar',
-    eventType: 'user',
   };
 
-  function clickButton(): SkyInstrumentationUserEventTestingController {
+  function clickButton(): SkyInstrumentationTestingController {
     const fixture = TestBed.createComponent(TestButtonHost);
-    const controller = TestBed.inject(
-      SkyInstrumentationUserEventTestingController,
-    );
+    const controller = TestBed.inject(SkyInstrumentationTestingController);
 
     fixture.detectChanges();
 
@@ -58,22 +60,22 @@ describe('instrumentation controller', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [TestButtonHost],
-      providers: [provideSkyInstrumentationUserEventTesting()],
+      providers: [provideSkyInstrumentationTesting()],
     });
   });
 
   it('should verify a user event and its count', () => {
     const controller = clickButton();
 
-    controller.expectUserEvent(expectedEvt);
-    controller.expectUserEventCount(expectedEvt, 1);
+    controller.expectEvent(expectedEvt);
+    controller.expectEventCount(expectedEvt, 1);
   });
 
   it('should ignore the order of the expected properties', () => {
     const controller = clickButton();
 
-    controller.expectUserEvent({
-      context: { productId: 'foo123' },
+    controller.expectEvent({
+      context: { name: 'products', detail: { productId: 'foo123' } },
       eventName: 'foo.bar',
     });
   });
@@ -82,17 +84,17 @@ describe('instrumentation controller', () => {
     const controller = clickButton();
 
     expect(() =>
-      controller.expectUserEvent({ eventName: 'other.event' }),
+      controller.expectEvent({ eventName: 'other.event' }),
     ).toThrowError(
-      'Expected a user event to be logged with {"eventName":"other.event"}.',
+      'Expected an event to be logged with {"eventName":"other.event"}.',
     );
   });
 
   it('should fail when a user event was logged a different number of times', () => {
     const controller = clickButton();
 
-    expect(() => controller.expectUserEventCount(expectedEvt, 2)).toThrowError(
-      'Expected a user event {"context":{"productId":"foo123"},"eventName":"foo.bar"} to be logged 2 time(s), but it was logged 1 time(s).',
+    expect(() => controller.expectEventCount(expectedEvt, 2)).toThrowError(
+      'Expected an event {"context":{"detail":{"productId":"foo123"},"name":"products"},"eventName":"foo.bar"} to be logged 2 time(s), but it was logged 1 time(s).',
     );
   });
 });

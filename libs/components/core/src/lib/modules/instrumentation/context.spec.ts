@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { provideSkyInstrumentationContextFrom } from './context';
+import { provideSkyInstrumentationContextFrom } from './context-provider';
 import { provideSkyInstrumentationListener } from './event-listener';
 
 import { TestAnalyticsService } from './fixtures/analytics-service.fixture';
@@ -33,9 +33,24 @@ describe('instrumentation-context', () => {
       {
         eventName: 'foo.bar',
         eventDetail: undefined,
-        context: { productId: 'foo123' },
+        context: { name: 'products', detail: { productId: 'foo123' } },
       },
     ]);
+  });
+
+  it('should omit detail when no context in the chain provides it', () => {
+    const fixture = TestBed.createComponent(TestButtonHost);
+    const svc = TestBed.inject(TestAnalyticsService);
+
+    fixture.componentInstance.context = { name: 'products' };
+    fixture.detectChanges();
+
+    const btn = fixture.nativeElement.querySelector('button');
+    btn.click();
+
+    fixture.detectChanges();
+
+    expect(svc.clickEvents[0].context).toEqual({ name: 'products' });
   });
 
   it('should copy the context rather than share the bound object', () => {
@@ -75,7 +90,7 @@ describe('instrumentation-context', () => {
       {
         eventName: 'form.saved',
         eventDetail: { user: 'foo' },
-        context: { productId: 'foo123' },
+        context: { name: 'products', detail: { productId: 'foo123' } },
       },
     ]);
   });
@@ -107,7 +122,7 @@ describe('instrumentation-context', () => {
     ]);
   });
 
-  it('should merge a nested context with its parent', () => {
+  it('should use the nearest context name and merge detail from its ancestors', () => {
     const fixture = TestBed.createComponent(NestedContextTest);
     const svc = TestBed.inject(TestAnalyticsService);
 
@@ -122,7 +137,10 @@ describe('instrumentation-context', () => {
       {
         eventName: 'foo.bar',
         eventDetail: undefined,
-        context: { productId: 'foo123', recordId: 'bar456' },
+        context: {
+          name: 'product-details',
+          detail: { productId: 'foo123', recordId: 'bar456' },
+        },
       },
     ]);
   });
