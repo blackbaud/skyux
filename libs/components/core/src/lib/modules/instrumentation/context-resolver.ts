@@ -1,11 +1,11 @@
 import { InjectionToken } from '@angular/core';
 import { SkyInstrumentationContextValue } from './event-types';
 
-export interface SkyUserEventContextResolver {
+export interface SkyInstrumentationContextResolver {
   resolve(): SkyInstrumentationContextValue;
 }
 
 export const SKY_INSTRUMENTATION_CONTEXT =
-  new InjectionToken<SkyUserEventContextResolver>(
+  new InjectionToken<SkyInstrumentationContextResolver>(
     'SKY_INSTRUMENTATION_CONTEXT',
   );

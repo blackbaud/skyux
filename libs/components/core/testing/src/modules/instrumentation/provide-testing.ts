@@ -4,8 +4,8 @@ import { SkyInstrumentationTestingController } from './testing-controller';
 import { SkyInstrumentationTestingService } from './testing-service';
 
 /**
- * Registers a listener that records the user events emitted during a unit test.
- * Inject `SkyInstrumentationTestingController` to validate them.
+ * Registers a listener that records the instrumentation events emitted during a
+ * unit test. Inject `SkyInstrumentationTestingController` to validate them.
  */
 export function provideSkyInstrumentationTesting(): EnvironmentProviders {
   return makeEnvironmentProviders([

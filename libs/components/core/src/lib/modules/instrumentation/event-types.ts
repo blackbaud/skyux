@@ -1,6 +1,5 @@
 /**
- * Application-specific information attached to the instrumentation events
- * emitted within a `skyInstrumentationContext` element.
+ * Describes the region of the page that an instrumentation event came from.
  */
 export interface SkyInstrumentationContextValue {
   /**
@@ -9,7 +8,8 @@ export interface SkyInstrumentationContextValue {
   name: string;
   /**
    * Values describing the context, such as record identifiers. Merges with the
-   * detail of any ancestor contexts.
+   * detail of ancestor contexts, and the nearest context wins when keys
+   * conflict.
    */
   detail?: Record<string, unknown>;
 }
@@ -21,7 +21,7 @@ export interface SkyInstrumentationContextValue {
 export interface SkyInstrumentationEvent {
   /**
    * The context resolved from the nearest `skyInstrumentationContext`, or
-   * `undefined` when no context applies to the emitting component.
+   * `undefined` when the component is not within one.
    */
   context?: SkyInstrumentationContextValue;
   /**
@@ -29,8 +29,7 @@ export interface SkyInstrumentationEvent {
    */
   eventName: string;
   /**
-   * Values describing the interaction, provided by the component that emitted
-   * the event.
+   * Values describing the interaction, such as the help key that was requested.
    */
   eventDetail?: Record<string, unknown>;
 }
