@@ -8,11 +8,9 @@ import {
   input,
 } from '@angular/core';
 import { SkyDynamicComponentService } from '../../dynamic-component/dynamic-component.service';
-import {
-  provideSkyInstrumentationContextFrom,
-  SkyInstrumentationContext,
-} from '../instrumentation-context';
-import { createSkyInstrumentationUserEventEmitter } from '../user-event-emitter';
+import { SkyInstrumentationContext } from '../context';
+import { provideSkyInstrumentationContextFrom } from '../context-provider';
+import { injectSkyInstrumentationEventEmitter } from '../event-emitter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,10 +22,10 @@ import { createSkyInstrumentationUserEventEmitter } from '../user-event-emitter'
   `,
 })
 class TestDynamicForm {
-  readonly #userEvt = createSkyInstrumentationUserEventEmitter();
+  readonly #instr = injectSkyInstrumentationEventEmitter();
 
   protected save(): void {
-    this.#userEvt.emit('form.saved', { user: 'foo' });
+    this.#instr.emitUserEvent('form.saved', { user: 'foo' });
   }
 }
 

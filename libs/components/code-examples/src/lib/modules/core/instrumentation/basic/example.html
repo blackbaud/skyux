@@ -9,13 +9,14 @@
   </h2>
 
   <div [skyInstrumentationContext]="{ sectionId: 'giving-history' }">
-    <h3>
-      Giving history
-      <sky-help-inline
-        data-sky-id="section-help"
-        helpKey="giving-history.html"
-        labelText="Giving history"
-      />
-    </h3>
+    <button
+      data-sky-id="my-tracked-button"
+      type="button"
+      skyInstrumentationTrackClick
+      skyInstrumentationEventName="foo.bar"
+      [skyInstrumentationEventDetail]="{ some: 'foo' }"
+    >
+      Click me
+    </button>
   </div>
 </div>

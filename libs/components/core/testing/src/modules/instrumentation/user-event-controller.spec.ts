@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  createSkyInstrumentationUserEventEmitter,
+  injectSkyInstrumentationEventEmitter,
   SkyInstrumentationContext,
   SkyInstrumentationUserEvent,
 } from '@skyux/core';
@@ -14,10 +14,10 @@ import { SkyInstrumentationUserEventTestingController } from './user-event-contr
   template: ` <button type="button" (click)="doSomething()">Click me</button> `,
 })
 class TestButton {
-  readonly #userEvt = createSkyInstrumentationUserEventEmitter();
+  readonly #instr = injectSkyInstrumentationEventEmitter();
 
   protected doSomething(): void {
-    this.#userEvt.emit('foo.bar');
+    this.#instr.emitUserEvent('foo.bar');
   }
 }
 
@@ -34,8 +34,9 @@ class TestButtonHost {}
 
 describe('instrumentation controller', () => {
   const expectedEvt: SkyInstrumentationUserEvent = {
-    eventName: 'foo.bar',
     context: { productId: 'foo123' },
+    eventName: 'foo.bar',
+    eventType: 'user',
   };
 
   function clickButton(): SkyInstrumentationUserEventTestingController {

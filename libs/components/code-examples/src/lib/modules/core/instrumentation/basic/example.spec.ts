@@ -1,6 +1,6 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   SkyHelpTestingModule,
   SkyInstrumentationUserEventTestingController,
@@ -13,6 +13,7 @@ import { CoreInstrumentationBasicExample } from './example';
 describe('Basic instrumentation context example', () => {
   function setupTest(): {
     controller: SkyInstrumentationUserEventTestingController;
+    fixture: ComponentFixture<CoreInstrumentationBasicExample>;
     loader: HarnessLoader;
   } {
     TestBed.configureTestingModule({
@@ -27,8 +28,19 @@ describe('Basic instrumentation context example', () => {
 
     return {
       controller: TestBed.inject(SkyInstrumentationUserEventTestingController),
+      fixture,
       loader,
     };
+  }
+
+  function clickTrackedButton(
+    fixture: ComponentFixture<CoreInstrumentationBasicExample>,
+  ): void {
+    (fixture.nativeElement as HTMLElement)
+      .querySelector<HTMLButtonElement>('[data-sky-id="my-tracked-button"]')
+      ?.click();
+
+    fixture.detectChanges();
   }
 
   it('should attach the page context to a help inline user event', async () => {
@@ -42,23 +54,19 @@ describe('Basic instrumentation context example', () => {
 
     controller.expectUserEvent({
       eventName: 'sky.help-inline.help-requested',
-      eventProperties: { helpKey: 'constituent-summary.html' },
+      eventDetail: { helpKey: 'constituent-summary.html' },
       context: { pageId: 'constituent-summary' },
     });
   });
 
-  it('should merge a nested context with the context above it', async () => {
-    const { controller, loader } = setupTest();
+  it('should merge a nested context with the context above it', () => {
+    const { controller, fixture } = setupTest();
 
-    const helpInline = await loader.getHarness(
-      SkyHelpInlineHarness.with({ dataSkyId: 'section-help' }),
-    );
-
-    await helpInline.click();
+    clickTrackedButton(fixture);
 
     controller.expectUserEvent({
-      eventName: 'sky.help-inline.help-requested',
-      eventProperties: { helpKey: 'giving-history.html' },
+      eventName: 'foo.bar',
+      eventDetail: { some: 'foo' },
       context: {
         pageId: 'constituent-summary',
         sectionId: 'giving-history',
@@ -66,20 +74,16 @@ describe('Basic instrumentation context example', () => {
     });
   });
 
-  it('should emit one user event per help inline click', async () => {
-    const { controller, loader } = setupTest();
+  it('should emit one user event per tracked click', () => {
+    const { controller, fixture } = setupTest();
 
-    const helpInline = await loader.getHarness(
-      SkyHelpInlineHarness.with({ dataSkyId: 'section-help' }),
-    );
-
-    await helpInline.click();
-    await helpInline.click();
+    clickTrackedButton(fixture);
+    clickTrackedButton(fixture);
 
     controller.expectUserEventCount(
       {
-        eventName: 'sky.help-inline.help-requested',
-        eventProperties: { helpKey: 'giving-history.html' },
+        eventName: 'foo.bar',
+        eventDetail: { some: 'foo' },
         context: {
           pageId: 'constituent-summary',
           sectionId: 'giving-history',

@@ -1,8 +1,8 @@
 import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
-import { provideSkyInstrumentationContextFrom } from './instrumentation-context';
-import { provideSkyInstrumentationUserEventListener } from './user-event-listener';
+import { provideSkyInstrumentationContextFrom } from './context';
+import { provideSkyInstrumentationListener } from './event-listener';
 
 import { TestAnalyticsService } from './fixtures/analytics-service.fixture';
 import { TestDynamicLauncherHost } from './fixtures/dynamic-component-test.fixture';
@@ -14,9 +14,7 @@ describe('instrumentation-context', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NestedContextTest, TestButtonHost, TestDynamicLauncherHost],
-      providers: [
-        provideSkyInstrumentationUserEventListener(MyUserEventListener),
-      ],
+      providers: [provideSkyInstrumentationListener(MyUserEventListener)],
     });
   });
 
@@ -34,7 +32,7 @@ describe('instrumentation-context', () => {
     expect(svc.clickEvents).toEqual([
       {
         eventName: 'foo.bar',
-        eventProperties: undefined,
+        eventDetail: undefined,
         context: { productId: 'foo123' },
       },
     ]);
@@ -76,7 +74,7 @@ describe('instrumentation-context', () => {
     expect(svc.clickEvents).toEqual([
       {
         eventName: 'form.saved',
-        eventProperties: { user: 'foo' },
+        eventDetail: { user: 'foo' },
         context: { productId: 'foo123' },
       },
     ]);
@@ -103,7 +101,7 @@ describe('instrumentation-context', () => {
     expect(svc.clickEvents).toEqual([
       {
         eventName: 'form.saved',
-        eventProperties: { user: 'foo' },
+        eventDetail: { user: 'foo' },
         context: undefined,
       },
     ]);
@@ -123,7 +121,7 @@ describe('instrumentation-context', () => {
     expect(svc.clickEvents).toEqual([
       {
         eventName: 'foo.bar',
-        eventProperties: undefined,
+        eventDetail: undefined,
         context: { productId: 'foo123', recordId: 'bar456' },
       },
     ]);

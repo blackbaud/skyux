@@ -1,13 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-import { SkyInstrumentationUserEvent } from '../user-event';
-import { SkyInstrumentationUserEventListener } from '../user-event-listener';
+import { SkyInstrumentationListener } from '../event-listener';
+import { SkyInstrumentationEvent } from '../event-types';
 import { TestAnalyticsService } from './analytics-service.fixture';
 
 @Injectable()
-export class MyUserEventListener implements SkyInstrumentationUserEventListener {
+export class MyUserEventListener implements SkyInstrumentationListener {
   readonly #analytics = inject(TestAnalyticsService);
 
-  public onUserEvent(evt: SkyInstrumentationUserEvent): void {
+  public onEvent(evt: SkyInstrumentationEvent): void {
     this.#analytics.logClickEvent(evt);
   }
 }

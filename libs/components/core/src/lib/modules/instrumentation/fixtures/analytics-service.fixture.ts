@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SkyInstrumentationUserEvent } from '../user-event';
+import { SkyInstrumentationUserEvent } from '../event-types';
 
 @Injectable({
   providedIn: 'root',

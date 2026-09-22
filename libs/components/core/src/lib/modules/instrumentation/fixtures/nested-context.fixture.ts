@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyInstrumentationContext } from '../instrumentation-context';
+import { SkyInstrumentationContext } from '../context';
 import { TestButton } from './user-event-test.fixture';
 
 @Component({

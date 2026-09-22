@@ -54,7 +54,7 @@ describe('Instrumentation context forwarded to a modal', () => {
 
     controller.expectUserEvent({
       eventName: 'sky.help-inline.help-requested',
-      eventProperties: { helpKey: 'edit-gift.html' },
+      eventDetail: { helpKey: 'edit-gift.html' },
       context: { recordId: '280-c-r-w' },
     });
   });

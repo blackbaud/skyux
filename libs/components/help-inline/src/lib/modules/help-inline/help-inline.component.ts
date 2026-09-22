@@ -9,10 +9,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import {
-  createSkyInstrumentationUserEventEmitter,
-  SkyIdModule,
-} from '@skyux/core';
+import { injectSkyInstrumentationEventEmitter, SkyIdModule } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
@@ -49,7 +46,7 @@ import { SkyHelpInlinePopoverButtonComponent } from './button-popover.component'
 export class SkyHelpInlineComponent {
   readonly #labelText = signal<string | undefined>(undefined);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
-  readonly #userEvent = createSkyInstrumentationUserEventEmitter();
+  readonly #userEvent = injectSkyInstrumentationEventEmitter();
 
   /**
    * The ID of the element that the help inline button controls.
@@ -135,7 +132,7 @@ export class SkyHelpInlineComponent {
   );
 
   protected onClick(): void {
-    this.#userEvent.emit(
+    this.#userEvent.emitUserEvent(
       'sky.help-inline.help-requested',
       this.helpKey ? { helpKey: this.helpKey } : undefined,
     );

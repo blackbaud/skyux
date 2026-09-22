@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyInstrumentationContext } from '../instrumentation-context';
-import { createSkyInstrumentationUserEventEmitter } from '../user-event-emitter';
+import { SkyInstrumentationContext } from '../context';
+import { injectSkyInstrumentationEventEmitter } from '../event-emitter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -8,10 +8,10 @@ import { createSkyInstrumentationUserEventEmitter } from '../user-event-emitter'
   template: ` <button type="button" (click)="doSomething()">Click me</button> `,
 })
 export class TestButton {
-  readonly #userEvt = createSkyInstrumentationUserEventEmitter();
+  readonly #instr = injectSkyInstrumentationEventEmitter();
 
   protected doSomething(): void {
-    this.#userEvt.emit('foo.bar');
+    this.#instr.emitUserEvent('foo.bar');
   }
 }
 

@@ -1,5 +1,5 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
-import { provideSkyInstrumentationUserEventListener } from '@skyux/core';
+import { provideSkyInstrumentationListener } from '@skyux/core';
 import { SkyInstrumentationUserEventTestingController } from './user-event-controller';
 import { SkyInstrumentationUserEventTestingService } from './user-event-testing-service';
 
@@ -9,7 +9,7 @@ import { SkyInstrumentationUserEventTestingService } from './user-event-testing-
  */
 export function provideSkyInstrumentationUserEventTesting(): EnvironmentProviders {
   return makeEnvironmentProviders([
-    provideSkyInstrumentationUserEventListener(
+    provideSkyInstrumentationListener(
       SkyInstrumentationUserEventTestingService,
     ),
     {

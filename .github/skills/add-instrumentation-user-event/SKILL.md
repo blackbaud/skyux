@@ -72,7 +72,7 @@ Add a row when you add an event.
    in an injection context:
 
    ```ts
-   readonly #userEvent = createSkyInstrumentationUserEventEmitter();
+   readonly #userEvent = injectSkyInstrumentationEventEmitter();
    ```
 
 2. **Emit before notifying the consumer.** If the component also raises an
@@ -166,7 +166,7 @@ Add a row when you add an event.
 
 ## Definition of Done
 
-- The component emits via `createSkyInstrumentationUserEventEmitter()`, before
+- The component emits via `injectSkyInstrumentationEventEmitter()`, before
   any corresponding `@Output()`.
 - The event name follows the grammar, and the table in this file lists it.
 - A spec asserts the event name and properties, and that assertion has been

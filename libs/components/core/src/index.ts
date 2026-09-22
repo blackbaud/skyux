@@ -57,19 +57,21 @@ export { SKY_ICON_SVG_URL } from './lib/modules/icons/icon-svg-url';
 export { SkyIdModule } from './lib/modules/id/id.module';
 export { SkyIdService } from './lib/modules/id/id.service';
 
+export { SkyInstrumentationContext } from './lib/modules/instrumentation/context';
+export { provideSkyInstrumentationContextFrom } from './lib/modules/instrumentation/context-provider';
 export {
-  SkyInstrumentationContext,
-  provideSkyInstrumentationContextFrom,
-} from './lib/modules/instrumentation/instrumentation-context';
-export type { SkyInstrumentationUserEvent } from './lib/modules/instrumentation/user-event';
+  injectSkyInstrumentationEventEmitter,
+  type SkyInstrumentationEventEmitter,
+} from './lib/modules/instrumentation/event-emitter';
 export {
-  createSkyInstrumentationUserEventEmitter,
-  type SkyInstrumentationUserEventEmitter,
-} from './lib/modules/instrumentation/user-event-emitter';
-export {
-  provideSkyInstrumentationUserEventListener,
-  type SkyInstrumentationUserEventListener,
-} from './lib/modules/instrumentation/user-event-listener';
+  provideSkyInstrumentationListener,
+  type SkyInstrumentationListener,
+} from './lib/modules/instrumentation/event-listener';
+export type {
+  SkyInstrumentationEvent,
+  SkyInstrumentationUserEvent,
+} from './lib/modules/instrumentation/event-types';
+export { SkyInstrumentationTrackClick } from './lib/modules/instrumentation/track-click';
 
 export { SkyLayoutHostForChildArgs } from './lib/modules/layout-host/layout-host-for-child-args';
 export { SkyLayoutHostDirective } from './lib/modules/layout-host/layout-host.directive';

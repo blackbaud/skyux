@@ -18,11 +18,11 @@
         "docsIds": [
           "SkyInstrumentationContext",
           "SkyInstrumentationUserEvent",
-          "SkyInstrumentationUserEventEmitter",
-          "SkyInstrumentationUserEventListener",
-          "createSkyInstrumentationUserEventEmitter",
+          "SkyInstrumentationEventEmitter",
+          "SkyInstrumentationListener",
+          "injectSkyInstrumentationEventEmitter",
           "provideSkyInstrumentationContextFrom",
-          "provideSkyInstrumentationUserEventListener"
+          "provideSkyInstrumentationListener"
         ],
         "primaryDocsId": "SkyInstrumentationContext"
       },

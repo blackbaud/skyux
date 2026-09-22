@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
 import {
+  SkyInstrumentationEvent,
+  SkyInstrumentationListener,
   SkyInstrumentationUserEvent,
-  SkyInstrumentationUserEventListener,
 } from '@skyux/core';
 
+type ExpectedUserEvent = Omit<SkyInstrumentationUserEvent, 'eventType'>;
+
 @Injectable()
-export class SkyInstrumentationUserEventTestingService implements SkyInstrumentationUserEventListener {
+export class SkyInstrumentationUserEventTestingService implements SkyInstrumentationListener {
   readonly #notifications: string[] = [];
 
-  public onUserEvent(evt: SkyInstrumentationUserEvent): void {
-    this.#notifications.push(this.#serialize(evt));
+  public onEvent(evt: SkyInstrumentationEvent): void {
+    if (evt.eventType === 'user') {
+      this.#notifications.push(this.#serialize(evt));
+    }
   }
 
-  public expectUserEvent(evt: SkyInstrumentationUserEvent): void {
+  public expectUserEvent(evt: ExpectedUserEvent): void {
     const serialized = this.#serialize(evt);
 
     if (!this.#notifications.includes(serialized)) {
@@ -21,7 +26,7 @@ export class SkyInstrumentationUserEventTestingService implements SkyInstrumenta
   }
 
   public expectUserEventCount(
-    evt: SkyInstrumentationUserEvent,
+    evt: ExpectedUserEvent,
     expectedCount: number,
   ): void {
     const serialized = this.#serialize(evt);
@@ -36,13 +41,15 @@ export class SkyInstrumentationUserEventTestingService implements SkyInstrumenta
     }
   }
 
-  #serialize(evt: SkyInstrumentationUserEvent): string {
-    return JSON.stringify(evt, (_key, value: unknown) =>
-      value && typeof value === 'object' && !Array.isArray(value)
-        ? Object.fromEntries(
-            Object.entries(value).sort(([a], [b]) => (a < b ? -1 : 1)),
-          )
-        : value,
+  #serialize(evt: ExpectedUserEvent): string {
+    return JSON.stringify(
+      { ...evt, eventType: 'user' },
+      (_key, value: unknown) =>
+        value && typeof value === 'object' && !Array.isArray(value)
+          ? Object.fromEntries(
+              Object.entries(value).sort(([a], [b]) => (a < b ? -1 : 1)),
+            )
+          : value,
     );
   }
 }

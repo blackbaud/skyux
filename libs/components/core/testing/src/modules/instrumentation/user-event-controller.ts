@@ -8,7 +8,10 @@ export abstract class SkyInstrumentationUserEventTestingController {
    * Throws an error if the expected user event was not emitted.
    * @param evt The expected event. All properties must match an emitted event.
    */
-  public abstract expectUserEvent(evt: SkyInstrumentationUserEvent): void;
+  public abstract expectUserEvent(
+    evt: Omit<SkyInstrumentationUserEvent, 'eventType'>,
+  ): void;
+
   /**
    * Throws an error if the expected user event was not emitted a specific
    * number of times.
@@ -16,7 +19,7 @@ export abstract class SkyInstrumentationUserEventTestingController {
    * @param count The expected number of times the event was emitted.
    */
   public abstract expectUserEventCount(
-    evt: SkyInstrumentationUserEvent,
+    evt: Omit<SkyInstrumentationUserEvent, 'eventType'>,
     count: number,
   ): void;
 }

@@ -447,7 +447,7 @@ describe('Help inline component', () => {
         SkyInstrumentationUserEventTestingController,
       ).expectUserEvent({
         eventName: 'sky.help-inline.help-requested',
-        eventProperties: { helpKey: 'test.html' },
+        eventDetail: { helpKey: 'test.html' },
       });
     });
 
