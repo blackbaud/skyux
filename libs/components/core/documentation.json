@@ -18,10 +18,10 @@
         "docsIds": [
           "SkyInstrumentationContext",
           "SkyInstrumentationContextValue",
-          "SkyInstrumentationEvent",
+          "provideSkyInstrumentationListener",
           "SkyInstrumentationListener",
-          "provideSkyInstrumentationContextFrom",
-          "provideSkyInstrumentationListener"
+          "SkyInstrumentationEvent",
+          "provideSkyInstrumentationContextFrom"
         ],
         "primaryDocsId": "SkyInstrumentationContext"
       },

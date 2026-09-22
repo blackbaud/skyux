@@ -44,9 +44,9 @@ import { SkyHelpInlinePopoverButtonComponent } from './button-popover.component'
   ],
 })
 export class SkyHelpInlineComponent {
+  readonly #instr = _injectSkyInstrumentationEmitter();
   readonly #labelText = signal<string | undefined>(undefined);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
-  readonly #instr = _injectSkyInstrumentationEmitter();
 
   /**
    * The ID of the element that the help inline button controls.

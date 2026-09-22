@@ -2,7 +2,6 @@ import { inject } from '@angular/core';
 
 import { SKY_INSTRUMENTATION_CONTEXT } from './context-resolver';
 import { SKY_INSTRUMENTATION_LISTENERS } from './event-listener';
-import type { SkyInstrumentationEvent } from './event-types';
 
 /**
  * @internal
@@ -27,7 +26,7 @@ export function _injectSkyInstrumentationEmitter(): _SkyInstrumentationEmitter {
           context: context?.resolve(),
           eventName,
           eventDetail,
-        } satisfies SkyInstrumentationEvent);
+        });
       }
     },
   };

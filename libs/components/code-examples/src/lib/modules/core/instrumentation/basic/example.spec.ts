@@ -31,13 +31,15 @@ describe('Basic instrumentation context example', () => {
     };
   }
 
-  function clickHelpInline(
+  async function clickHelpInline(
     loader: HarnessLoader,
     dataSkyId: string,
   ): Promise<void> {
-    return loader
-      .getHarness(SkyHelpInlineHarness.with({ dataSkyId }))
-      .then((harness) => harness.click());
+    const harness = await loader.getHarness(
+      SkyHelpInlineHarness.with({ dataSkyId }),
+    );
+
+    return await harness.click();
   }
 
   it('should attach the page context to a help inline event', async () => {

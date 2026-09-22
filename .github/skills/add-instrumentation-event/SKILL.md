@@ -1,5 +1,5 @@
 ---
-name: add-instrumentation-user-event
+name: add-instrumentation-event
 description: 'Workflow for making a @skyux/* component report a user interaction through the instrumentation system in this Nx monorepo. Use when asked to "add an instrumentation event", "add a user event", "instrument this component", "emit an analytics event", or to define a new instrumentation event name/key for a component. Covers the event-name grammar, the emitter, event detail, the required spec using SkyInstrumentationTestingController, the overlay/context caveat, and the test/lint/format gate. For the instrumentation API itself (the context directive, listeners, testing controller), see libs/components/core/src/lib/modules/instrumentation/.'
 argument-hint: '<library> <Component> <interaction> (e.g. help-inline HelpInline help-requested)'
 ---
