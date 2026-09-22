@@ -48,6 +48,30 @@ ruleTester.run(RULE_NAME, rule, {
       data: { selector: 'sky-button', alternativeOutput: 'buttonClick' },
     }),
     convertAnnotatedSourceToFailureCase({
+      description:
+        "sky-button - should fail and autofix when '$event' only appears in a string literal",
+      annotatedSource: `
+      <sky-button (click)="log('$event fired')">Save</sky-button>
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+      <sky-button (buttonClick)="log('$event fired')">Save</sky-button>
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      messageId,
+      data: { selector: 'sky-button', alternativeOutput: 'buttonClick' },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description:
+        'sky-button - should fail without autofix when the alternative output is already bound',
+      annotatedSource: `
+      <sky-button (click)="save()" (buttonClick)="onButtonClick()">Save</sky-button>
+                  ~~~~~~~~~~~~~~~~
+      `,
+      messageId,
+      data: { selector: 'sky-button', alternativeOutput: 'buttonClick' },
+    }),
+    convertAnnotatedSourceToFailureCase({
       description: 'sky-action-button - should fail and autofix',
       annotatedSource: `
       <sky-action-button (click)="onAction()"></sky-action-button>

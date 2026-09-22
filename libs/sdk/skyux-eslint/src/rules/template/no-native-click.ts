@@ -1,6 +1,8 @@
-import type {
-  TmplAstBoundEvent,
-  TmplAstElement,
+import {
+  RecursiveAstVisitor,
+  type PropertyRead,
+  type TmplAstBoundEvent,
+  type TmplAstElement,
 } from '@angular-eslint/bundled-angular-compiler';
 import {
   ensureTemplateParser,
@@ -51,15 +53,32 @@ const SELECTORS_WITH_NATIVE_CLICK = COMPONENTS_WITH_NATIVE_CLICK.map(
   (c) => c.selector,
 ).join('|');
 
+class EventArgumentVisitor extends RecursiveAstVisitor {
+  public usesEventArgument = false;
+
+  public override visitPropertyRead(
+    ast: PropertyRead,
+    context: unknown,
+  ): unknown {
+    if (ast.name === '$event') {
+      this.usesEventArgument = true;
+    }
+
+    return super.visitPropertyRead(ast, context);
+  }
+}
+
 /**
  * A handler referencing `$event` may depend on the native click's event
  * shape, which the alternative output does not always match, so it's not
  * safe to rename automatically.
  */
 function handlerUsesEventArgument(clickOutput: TmplAstBoundEvent): boolean {
-  const { start, end } = clickOutput.handlerSpan;
+  const visitor = new EventArgumentVisitor();
 
-  return /\$event\b/.test(start.file.content.slice(start.offset, end.offset));
+  clickOutput.handler.visit(visitor, null);
+
+  return visitor.usesEventArgument;
 }
 
 export const rule = createESLintTemplateRule({
@@ -87,6 +106,11 @@ export const rule = createESLintTemplateRule({
         );
 
         if (clickOutput) {
+          const hasExistingAlternativeOutput = el.outputs.some(
+            (output) =>
+              !output.target && output.name === componentInfo.alternativeOutput,
+          );
+
           context.report({
             loc: parserServices.convertNodeSourceSpanToLoc(
               clickOutput.sourceSpan,
@@ -96,15 +120,17 @@ export const rule = createESLintTemplateRule({
               selector: el.name,
               alternativeOutput: componentInfo.alternativeOutput,
             },
-            fix: handlerUsesEventArgument(clickOutput)
-              ? undefined
-              : (): RuleFix => ({
-                  range: [
-                    clickOutput.keySpan.start.offset,
-                    clickOutput.keySpan.end.offset,
-                  ],
-                  text: componentInfo.alternativeOutput,
-                }),
+            fix:
+              handlerUsesEventArgument(clickOutput) ||
+              hasExistingAlternativeOutput
+                ? undefined
+                : (): RuleFix => ({
+                    range: [
+                      clickOutput.keySpan.start.offset,
+                      clickOutput.keySpan.end.offset,
+                    ],
+                    text: componentInfo.alternativeOutput,
+                  }),
           });
         }
       },
