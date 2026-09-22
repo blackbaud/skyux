@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.22.0](https://github.com/blackbaud/skyux/compare/14.21.0...14.22.0) (2026-09-22)
+
+
+### Features
+
+* **components/popovers:** document dropdown `messageStream` input ([#4802](https://github.com/blackbaud/skyux/issues/4802)) ([18ea346](https://github.com/blackbaud/skyux/commit/18ea3465975571592b67725b7d9826042f8c79fc))
+
 ## [14.21.0](https://github.com/blackbaud/skyux/compare/14.20.1...14.21.0) (2026-09-17)
 
 
