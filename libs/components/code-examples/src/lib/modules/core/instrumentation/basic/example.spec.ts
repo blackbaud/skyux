@@ -37,7 +37,7 @@ describe('Basic instrumentation context example', () => {
     fixture: ComponentFixture<CoreInstrumentationBasicExample>,
   ): void {
     (fixture.nativeElement as HTMLElement)
-      .querySelector<HTMLButtonElement>('[data-sky-id="my-tracked-button"]')
+      .querySelector<HTMLButtonElement>('[data-sky-id="export-gifts"]')
       ?.click();
 
     fixture.detectChanges();
@@ -65,8 +65,8 @@ describe('Basic instrumentation context example', () => {
     clickTrackedButton(fixture);
 
     controller.expectUserEvent({
-      eventName: 'foo.bar',
-      eventDetail: { some: 'foo' },
+      eventName: 'constituents.gifts-exported',
+      eventDetail: { format: 'csv' },
       context: {
         pageId: 'constituent-summary',
         sectionId: 'giving-history',
@@ -82,8 +82,8 @@ describe('Basic instrumentation context example', () => {
 
     controller.expectUserEventCount(
       {
-        eventName: 'foo.bar',
-        eventDetail: { some: 'foo' },
+        eventName: 'constituents.gifts-exported',
+        eventDetail: { format: 'csv' },
         context: {
           pageId: 'constituent-summary',
           sectionId: 'giving-history',

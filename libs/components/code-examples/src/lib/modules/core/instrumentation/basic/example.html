@@ -10,13 +10,14 @@
 
   <div [skyInstrumentationContext]="{ sectionId: 'giving-history' }">
     <button
-      data-sky-id="my-tracked-button"
+      class="sky-btn sky-btn-default"
+      data-sky-id="export-gifts"
       type="button"
       skyInstrumentationTrackClick
-      skyInstrumentationEventName="foo.bar"
-      [skyInstrumentationEventDetail]="{ some: 'foo' }"
+      skyInstrumentationEventName="constituents.gifts-exported"
+      [skyInstrumentationEventDetail]="{ format: 'csv' }"
     >
-      Click me
+      Export gifts
     </button>
   </div>
 </div>

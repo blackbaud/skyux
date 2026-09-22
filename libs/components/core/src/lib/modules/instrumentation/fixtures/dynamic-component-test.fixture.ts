@@ -10,7 +10,7 @@ import {
 import { SkyDynamicComponentService } from '../../dynamic-component/dynamic-component.service';
 import { SkyInstrumentationContext } from '../context';
 import { provideSkyInstrumentationContextFrom } from '../context-provider';
-import { injectSkyInstrumentationEventEmitter } from '../event-emitter';
+import { injectSkyInstrumentationEmitter } from '../event-emitter';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,7 +22,7 @@ import { injectSkyInstrumentationEventEmitter } from '../event-emitter';
   `,
 })
 class TestDynamicForm {
-  readonly #instr = injectSkyInstrumentationEventEmitter();
+  readonly #instr = injectSkyInstrumentationEmitter();
 
   protected save(): void {
     this.#instr.emitUserEvent('form.saved', { user: 'foo' });

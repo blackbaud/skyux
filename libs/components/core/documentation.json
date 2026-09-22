@@ -18,9 +18,9 @@
         "docsIds": [
           "SkyInstrumentationContext",
           "SkyInstrumentationUserEvent",
-          "SkyInstrumentationEventEmitter",
+          "SkyInstrumentationEmitter",
           "SkyInstrumentationListener",
-          "injectSkyInstrumentationEventEmitter",
+          "injectSkyInstrumentationEmitter",
           "provideSkyInstrumentationContextFrom",
           "provideSkyInstrumentationListener"
         ],

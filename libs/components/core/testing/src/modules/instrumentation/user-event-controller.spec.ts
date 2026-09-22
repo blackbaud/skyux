@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  injectSkyInstrumentationEventEmitter,
+  injectSkyInstrumentationEmitter,
   SkyInstrumentationContext,
   SkyInstrumentationUserEvent,
 } from '@skyux/core';
@@ -14,7 +14,7 @@ import { SkyInstrumentationUserEventTestingController } from './user-event-contr
   template: ` <button type="button" (click)="doSomething()">Click me</button> `,
 })
 class TestButton {
-  readonly #instr = injectSkyInstrumentationEventEmitter();
+  readonly #instr = injectSkyInstrumentationEmitter();
 
   protected doSomething(): void {
     this.#instr.emitUserEvent('foo.bar');

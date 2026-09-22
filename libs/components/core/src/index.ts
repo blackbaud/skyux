@@ -60,8 +60,8 @@ export { SkyIdService } from './lib/modules/id/id.service';
 export { SkyInstrumentationContext } from './lib/modules/instrumentation/context';
 export { provideSkyInstrumentationContextFrom } from './lib/modules/instrumentation/context-provider';
 export {
-  injectSkyInstrumentationEventEmitter,
-  type SkyInstrumentationEventEmitter,
+  injectSkyInstrumentationEmitter,
+  type SkyInstrumentationEmitter,
 } from './lib/modules/instrumentation/event-emitter';
 export {
   provideSkyInstrumentationListener,
