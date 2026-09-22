@@ -7,7 +7,7 @@ import { SkyInstrumentationEvent } from '../event-types';
 export class TestEventListener implements SkyInstrumentationListener {
   public readonly events: SkyInstrumentationEvent[] = [];
 
-  public onEvent(evt: SkyInstrumentationEvent): void {
+  public handleEvent(evt: SkyInstrumentationEvent): void {
     this.events.push(evt);
   }
 }

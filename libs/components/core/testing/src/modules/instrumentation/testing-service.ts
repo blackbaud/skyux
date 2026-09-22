@@ -8,7 +8,7 @@ import {
 export class SkyInstrumentationTestingService implements SkyInstrumentationListener {
   readonly #notifications: string[] = [];
 
-  public onEvent(evt: SkyInstrumentationEvent): void {
+  public handleEvent(evt: SkyInstrumentationEvent): void {
     this.#notifications.push(this.#serialize(evt));
   }
 

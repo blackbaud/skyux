@@ -27,7 +27,7 @@ import { PlaygroundHelpService } from './app/shared/help-service';
 const CODE_EXAMPLES = codeExampleExports as SkyDocsCodeExampleComponentTypes;
 
 class CodeExamplesInstrListener implements SkyInstrumentationListener {
-  public onEvent(evt: SkyInstrumentationEvent): void {
+  public handleEvent(evt: SkyInstrumentationEvent): void {
     console.log('Instrumentation event:', evt);
   }
 }

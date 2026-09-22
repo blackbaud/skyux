@@ -13,7 +13,7 @@ export interface SkyInstrumentationListener {
   /**
    * Called once for each event, in the order the events are emitted.
    */
-  onEvent(evt: SkyInstrumentationEvent): void;
+  handleEvent(evt: SkyInstrumentationEvent): void;
 }
 
 /**

@@ -22,7 +22,7 @@ export function _injectSkyInstrumentationEmitter(): _SkyInstrumentationEmitter {
   return {
     emit(eventName: string, eventDetail?: Record<string, unknown>): void {
       for (const listener of listeners ?? []) {
-        listener.onEvent({
+        listener.handleEvent({
           context: context?.resolve(),
           eventName,
           eventDetail,
