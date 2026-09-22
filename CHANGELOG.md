@@ -4,9 +4,14 @@
 ## [15.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.15...15.0.0-alpha.16) (2026-09-22)
 
 
+### ⚠ BREAKING CHANGES
+
+* **sdk/skyux-eslint:** add `no-native-click` ESLint rule to recommended ruleset (#4807)
+
 ### Features
 
 * **components/forms:** add `sky-button` component ([#4779](https://github.com/blackbaud/skyux/issues/4779)) ([a0b007f](https://github.com/blackbaud/skyux/commit/a0b007f46c560c17fdf23cd792fd589ec5d4a889))
+* **sdk/skyux-eslint:** add `no-native-click` ESLint rule to recommended ruleset ([#4807](https://github.com/blackbaud/skyux/issues/4807)) ([e6441a1](https://github.com/blackbaud/skyux/commit/e6441a12f52f756af068d06dd6da178fba646d70))
 
 
 ### Bug Fixes
