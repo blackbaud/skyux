@@ -4,23 +4,21 @@ import { TestBed } from '@angular/core/testing';
 import { provideSkyInstrumentationContextFrom } from './context-provider';
 import { provideSkyInstrumentationListener } from './event-listener';
 
-import { TestAnalyticsService } from './fixtures/analytics-service.fixture';
-import { TestDynamicLauncherHost } from './fixtures/dynamic-component-test.fixture';
-import { NestedContextTest } from './fixtures/nested-context.fixture';
-import { MyUserEventListener } from './fixtures/user-event-listener.fixture';
-import { TestButtonHost } from './fixtures/user-event-test.fixture';
+import { NestedContextHost, TestButtonHost } from './fixtures/context.fixture';
+import { TestDynamicLauncherHost } from './fixtures/dynamic-component.fixture';
+import { TestEventListener } from './fixtures/event-listener.fixture';
 
 describe('instrumentation-context', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NestedContextTest, TestButtonHost, TestDynamicLauncherHost],
-      providers: [provideSkyInstrumentationListener(MyUserEventListener)],
+      imports: [NestedContextHost, TestButtonHost, TestDynamicLauncherHost],
+      providers: [provideSkyInstrumentationListener(TestEventListener)],
     });
   });
 
   it('should include the nearest context with a user event', () => {
     const fixture = TestBed.createComponent(TestButtonHost);
-    const svc = TestBed.inject(TestAnalyticsService);
+    const listener = TestBed.inject(TestEventListener);
 
     fixture.detectChanges();
 
@@ -29,7 +27,7 @@ describe('instrumentation-context', () => {
 
     fixture.detectChanges();
 
-    expect(svc.clickEvents).toEqual([
+    expect(listener.events).toEqual([
       {
         eventName: 'foo.bar',
         eventDetail: undefined,
@@ -40,7 +38,7 @@ describe('instrumentation-context', () => {
 
   it('should omit detail when no context in the chain provides it', () => {
     const fixture = TestBed.createComponent(TestButtonHost);
-    const svc = TestBed.inject(TestAnalyticsService);
+    const listener = TestBed.inject(TestEventListener);
 
     fixture.componentInstance.context = { name: 'products' };
     fixture.detectChanges();
@@ -50,12 +48,12 @@ describe('instrumentation-context', () => {
 
     fixture.detectChanges();
 
-    expect(svc.clickEvents[0].context).toEqual({ name: 'products' });
+    expect(listener.events[0].context).toEqual({ name: 'products' });
   });
 
   it('should copy the context rather than share the bound object', () => {
     const fixture = TestBed.createComponent(TestButtonHost);
-    const svc = TestBed.inject(TestAnalyticsService);
+    const listener = TestBed.inject(TestEventListener);
 
     fixture.detectChanges();
 
@@ -64,14 +62,14 @@ describe('instrumentation-context', () => {
 
     fixture.detectChanges();
 
-    expect(svc.clickEvents[0].context).not.toBe(
+    expect(listener.events[0].context).not.toBe(
       fixture.componentInstance.context,
     );
   });
 
   it('should forward the context to a dynamically created component', () => {
     const fixture = TestBed.createComponent(TestDynamicLauncherHost);
-    const svc = TestBed.inject(TestAnalyticsService);
+    const listener = TestBed.inject(TestEventListener);
 
     fixture.detectChanges();
 
@@ -86,7 +84,7 @@ describe('instrumentation-context', () => {
     saveBtn?.click();
     fixture.detectChanges();
 
-    expect(svc.clickEvents).toEqual([
+    expect(listener.events).toEqual([
       {
         eventName: 'form.saved',
         eventDetail: { user: 'foo' },
@@ -97,7 +95,7 @@ describe('instrumentation-context', () => {
 
   it('should emit a user event from a dynamically created component that was not given the context', () => {
     const fixture = TestBed.createComponent(TestDynamicLauncherHost);
-    const svc = TestBed.inject(TestAnalyticsService);
+    const listener = TestBed.inject(TestEventListener);
 
     fixture.componentRef.setInput('forwardContext', false);
     fixture.detectChanges();
@@ -113,7 +111,7 @@ describe('instrumentation-context', () => {
     saveBtn?.click();
     fixture.detectChanges();
 
-    expect(svc.clickEvents).toEqual([
+    expect(listener.events).toEqual([
       {
         eventName: 'form.saved',
         eventDetail: { user: 'foo' },
@@ -123,8 +121,8 @@ describe('instrumentation-context', () => {
   });
 
   it('should use the nearest context name and merge detail from its ancestors', () => {
-    const fixture = TestBed.createComponent(NestedContextTest);
-    const svc = TestBed.inject(TestAnalyticsService);
+    const fixture = TestBed.createComponent(NestedContextHost);
+    const listener = TestBed.inject(TestEventListener);
 
     fixture.detectChanges();
 
@@ -133,7 +131,7 @@ describe('instrumentation-context', () => {
 
     fixture.detectChanges();
 
-    expect(svc.clickEvents).toEqual([
+    expect(listener.events).toEqual([
       {
         eventName: 'foo.bar',
         eventDetail: undefined,

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { SkyInstrumentationContext } from '../context';
 import { _injectSkyInstrumentationEmitter } from '../event-emitter';
 import { SkyInstrumentationContextValue } from '../event-types';
@@ -8,7 +9,7 @@ import { SkyInstrumentationContextValue } from '../event-types';
   selector: 'test-button',
   template: ` <button type="button" (click)="doSomething()">Click me</button> `,
 })
-export class TestButton {
+class TestButton {
   readonly #instr = _injectSkyInstrumentationEmitter();
 
   protected doSomething(): void {
@@ -31,3 +32,26 @@ export class TestButtonHost {
     detail: { productId: 'foo123' },
   };
 }
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyInstrumentationContext, TestButton],
+  template: `
+    <div
+      [skyInstrumentationContext]="{
+        name: 'products',
+        detail: { productId: 'foo123' },
+      }"
+    >
+      <div
+        [skyInstrumentationContext]="{
+          name: 'product-details',
+          detail: { recordId: 'bar456' },
+        }"
+      >
+        <test-button />
+      </div>
+    </div>
+  `,
+})
+export class NestedContextHost {}

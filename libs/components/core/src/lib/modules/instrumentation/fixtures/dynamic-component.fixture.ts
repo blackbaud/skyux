@@ -47,7 +47,6 @@ class TestDynamicLauncher {
     this.#destroyRef.onDestroy(() => {
       if (this.#formRef) {
         this.#dynamicComponentSvc.removeComponent(this.#formRef);
-        this.#formRef = undefined;
       }
     });
   }
