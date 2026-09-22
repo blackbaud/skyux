@@ -41,6 +41,8 @@ export class DropdownFixtureComponent {
 
   public messageStream = new Subject<SkyDropdownMessage>();
 
+  public undefinedMessageStream: undefined;
+
   public menuAriaLabelledBy = input<string | undefined>(undefined);
 
   public menuAriaRole = input<string | undefined>(undefined);
@@ -52,6 +54,8 @@ export class DropdownFixtureComponent {
   public useNativeFocus: boolean | undefined;
 
   public useCustomTrigger = false;
+
+  public useUndefinedMessageStream = false;
 
   //#endregion directive properties
 
@@ -68,7 +72,7 @@ export class DropdownFixtureComponent {
   @ViewChildren(SkyDropdownItemComponent)
   public dropdownItemRefs: QueryList<SkyDropdownItemComponent> | undefined;
 
-  public items: any[] = [
+  public items: { name: string; disabled: boolean }[] = [
     { name: 'Option 1', disabled: false },
     { name: 'Option 2', disabled: true },
     { name: 'Option 3', disabled: false },
@@ -79,17 +83,21 @@ export class DropdownFixtureComponent {
 
   readonly #changeDetector = inject(ChangeDetectorRef);
 
-  public onMenuChanges(): void {}
+  public onMenuChanges(): void {
+    //
+  }
 
-  public onItemClick(): void {}
+  public onItemClick(): void {
+    //
+  }
 
-  public changeItems() {
+  public changeItems(): void {
     this.items.pop();
     this.#changeDetector.detectChanges();
   }
 
   public setManyItems(): void {
-    const items: any[] = [];
+    const items: { name: string; disabled: boolean }[] = [];
 
     for (let i = 0; i < 50; i++) {
       items.push({
@@ -102,7 +110,7 @@ export class DropdownFixtureComponent {
     this.#changeDetector.markForCheck();
   }
 
-  public sendMessage(type: SkyDropdownMessageType) {
+  public sendMessage(type: SkyDropdownMessageType): void {
     this.messageStream.next({ type });
   }
 
