@@ -7,9 +7,5 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
   templateUrl: './modal.html',
 })
 export class CoreInstrumentationModalContent {
-  readonly #instance = inject(SkyModalInstance);
-
-  protected closeModal(): void {
-    this.#instance.close();
-  }
+  protected readonly modal = inject(SkyModalInstance);
 }

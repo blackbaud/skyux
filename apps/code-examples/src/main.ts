@@ -16,11 +16,13 @@ import { provideInitialTheme } from '@skyux/theme';
 
 import {
   provideSkyInstrumentationListener,
+  SkyHelpService,
   SkyInstrumentationEvent,
   SkyInstrumentationListener,
 } from '@skyux/core';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
+import { PlaygroundHelpService } from './app/shared/help-service';
 
 const CODE_EXAMPLES = codeExampleExports as SkyDocsCodeExampleComponentTypes;
 
@@ -49,6 +51,7 @@ bootstrapApplication(AppComponent, {
       useValue: 'examples',
     },
     provideSkyInstrumentationListener(CodeExamplesUserEventListener),
+    { provide: SkyHelpService, useClass: PlaygroundHelpService },
   ],
 }).catch((err) => {
   console.error(err);
