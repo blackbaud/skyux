@@ -1,13 +1,16 @@
 import { Rule, Tree, UpdateRecorder } from '@angular-devkit/schematics';
 import { findNodes, insertImport } from '@schematics/angular/utility/ast-utils';
-import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
+import {
+  applyToUpdateRecorder,
+  NoopChange,
+} from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import ts from 'typescript';
 
 import {
-  isImportedFromPackage,
+  getLocalImportName,
   parseSourceFile,
 } from '../../../utility/typescript/ng-ast';
 import { swapImportedClass } from '../../../utility/typescript/swap-imported-class';
@@ -36,29 +39,95 @@ function isStaticAddResourcesReference(node: ts.Identifier): boolean {
 }
 
 /**
- * Whether the reference is the `provide:` token of a provider object literal
- * inside an array, e.g. `{ provide: SkyAppResourcesService, ... }` in a
- * `providers: [...]` list. These are duplicated rather than renamed -- see
- * `duplicateProviderTokens` -- since test doubles registered under the
- * original token would otherwise stop matching the pipe and matchers that
- * still inject it.
+ * The provider object literal in which `node` is the value of `propertyName`,
+ * e.g. `{ provide: SkyAppResourcesService, ... }` for `provide`, or
+ * `undefined` when `node` sits anywhere else.
  */
-function isProviderToken(node: ts.Identifier): boolean {
+function getProviderObjectLiteral(
+  node: ts.Identifier,
+  propertyName: string,
+): ts.ObjectLiteralExpression | undefined {
   const propertyAssignment = node.parent;
 
   if (
     !ts.isPropertyAssignment(propertyAssignment) ||
     propertyAssignment.initializer !== node ||
-    propertyAssignment.name.getText() !== 'provide'
+    propertyAssignment.name.getText() !== propertyName
   ) {
-    return false;
+    return undefined;
   }
 
-  const objectLiteral = propertyAssignment.parent;
+  return propertyAssignment.parent;
+}
+
+/**
+ * The array elements through which `objectLiteral` reaches a
+ * `providers: [...]` list -- the object literal itself when it's written
+ * inline, or every reference to the variable it was assigned to, e.g.
+ * `const resourcesProvider = { provide: SkyAppResourcesService, ... };` used
+ * as `providers: [resourcesProvider]`. Empty when the object never reaches an
+ * array.
+ */
+function getProviderArrayElements(
+  objectLiteral: ts.ObjectLiteralExpression,
+  sourceFile: ts.SourceFile,
+): ts.Node[] {
+  if (ts.isArrayLiteralExpression(objectLiteral.parent)) {
+    return [objectLiteral];
+  }
+
+  const variable = objectLiteral.parent;
+
+  if (!ts.isVariableDeclaration(variable) || !ts.isIdentifier(variable.name)) {
+    return [];
+  }
+
+  const variableName = variable.name.text;
+
+  return findNodes(sourceFile, ts.SyntaxKind.Identifier).filter(
+    (reference): reference is ts.Identifier =>
+      ts.isIdentifier(reference) &&
+      reference.text === variableName &&
+      reference !== variable.name &&
+      ts.isArrayLiteralExpression(reference.parent),
+  );
+}
+
+/**
+ * The array elements after which `token`'s legacy twin provider belongs, or
+ * an empty array when `token` isn't the `provide:` token of a provider that
+ * reaches a `providers: [...]` list.
+ */
+function getTwinInsertionPoints(
+  token: ts.Identifier,
+  sourceFile: ts.SourceFile,
+): ts.Node[] {
+  const objectLiteral = getProviderObjectLiteral(token, 'provide');
+
+  return objectLiteral
+    ? getProviderArrayElements(objectLiteral, sourceFile)
+    : [];
+}
+
+/**
+ * Whether the reference is the `provide:` or `useExisting:` token of a
+ * provider registered in a `providers: [...]` list. The `provide:` token is
+ * duplicated rather than renamed -- see `duplicateProviderTokens` -- since
+ * test doubles registered under the original token would otherwise stop
+ * matching the pipe and matchers that still inject it, and the `useExisting:`
+ * token of the twin that duplication inserts has to keep pointing at it.
+ */
+function isProviderToken(
+  node: ts.Identifier,
+  sourceFile: ts.SourceFile,
+): boolean {
+  const objectLiteral =
+    getProviderObjectLiteral(node, 'provide') ??
+    getProviderObjectLiteral(node, 'useExisting');
 
   return (
-    ts.isObjectLiteralExpression(objectLiteral) &&
-    ts.isArrayLiteralExpression(objectLiteral.parent)
+    !!objectLiteral &&
+    getProviderArrayElements(objectLiteral, sourceFile).length > 0
   );
 }
 
@@ -105,12 +174,14 @@ function arrayHasLegacyProvider(
 
 /**
  * For every `provide:` token referencing a renamed class, inserts a twin
- * provider for the legacy class right after it, e.g.
+ * provider aliasing the legacy class to it, e.g.
  * `{ provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService }`
  * gets a
- * `{ provide: SkyAppResourcesLegacyService, useClass: SkyAppResourcesTestService }`
- * sibling. Returns the legacy class names that received a twin, so the
- * caller can ensure each one is imported.
+ * `{ provide: SkyAppResourcesLegacyService, useExisting: SkyAppResourcesService }`
+ * sibling. `useExisting` rather than a copy of the original provider's
+ * configuration: both tokens must resolve to the same instance, which copying
+ * a `useClass` or `useFactory` provider would not do. Returns the legacy class
+ * names that received a twin, so the caller can ensure each one is imported.
  */
 function duplicateProviderTokens(
   recorder: UpdateRecorder,
@@ -120,32 +191,36 @@ function duplicateProviderTokens(
   const twinnedClassNames = new Set<string>();
 
   Object.entries(CLASS_NAMES).forEach(([oldClassName, legacyClassName]) => {
+    // A same-named class imported from another module is a different token
+    // and must not gain a legacy twin.
+    if (
+      getLocalImportName(sourceFile, oldClassName, MODULE_NAME) !== oldClassName
+    ) {
+      return;
+    }
+
     const tokens = findNodes(sourceFile, ts.SyntaxKind.Identifier).filter(
       (node): node is ts.Identifier =>
-        ts.isIdentifier(node) &&
-        node.text === oldClassName &&
-        isProviderToken(node),
+        ts.isIdentifier(node) && node.text === oldClassName,
     );
 
     tokens.forEach((token) => {
-      const objectLiteral = token.parent.parent as ts.ObjectLiteralExpression;
-      const array = objectLiteral.parent as ts.ArrayLiteralExpression;
+      getTwinInsertionPoints(token, sourceFile).forEach((element) => {
+        const array = element.parent as ts.ArrayLiteralExpression;
 
-      if (arrayHasLegacyProvider(array, legacyClassName)) {
-        return;
-      }
+        if (arrayHasLegacyProvider(array, legacyClassName)) {
+          return;
+        }
 
-      const originalText = objectLiteral.getText();
-      const offset = token.getStart() - objectLiteral.getStart();
-      const twinText =
-        originalText.slice(0, offset) +
-        legacyClassName +
-        originalText.slice(offset + token.getWidth());
-      const indent = getLineIndent(objectLiteral, sourceFile);
-      const separator = indent === undefined ? ' ' : `${eol}${indent}`;
+        const indent = getLineIndent(element, sourceFile);
+        const separator = indent === undefined ? ' ' : `${eol}${indent}`;
 
-      recorder.insertRight(objectLiteral.getEnd(), `,${separator}${twinText}`);
-      twinnedClassNames.add(legacyClassName);
+        recorder.insertRight(
+          element.getEnd(),
+          `,${separator}{ provide: ${legacyClassName}, useExisting: ${oldClassName} }`,
+        );
+        twinnedClassNames.add(legacyClassName);
+      });
     });
   });
 
@@ -153,10 +228,95 @@ function duplicateProviderTokens(
 }
 
 /**
- * Imports `legacyClassName` if it isn't already. `swapImportedClass` adds the
+ * The named import of `legacyClassName` from `MODULE_NAME`, if the file has
+ * one. The specifier may be type-only or bound under an alias, neither of
+ * which satisfies the inserted provider -- see `ensureLegacyImport`.
+ */
+function findLegacyImportSpecifier(
+  sourceFile: ts.SourceFile,
+  legacyClassName: string,
+): ts.ImportSpecifier | undefined {
+  for (const node of findNodes(sourceFile, ts.SyntaxKind.ImportDeclaration)) {
+    if (
+      !ts.isImportDeclaration(node) ||
+      !ts.isStringLiteral(node.moduleSpecifier) ||
+      node.moduleSpecifier.text !== MODULE_NAME
+    ) {
+      continue;
+    }
+
+    const namedBindings = node.importClause?.namedBindings;
+
+    if (!namedBindings || !ts.isNamedImports(namedBindings)) {
+      continue;
+    }
+
+    const specifier = namedBindings.elements.find(
+      (element) =>
+        (element.propertyName ?? element.name).text === legacyClassName,
+    );
+
+    if (specifier) {
+      return specifier;
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Whether `specifier` only brings in a type, either through
+ * `import type { X }` or `import { type X }`.
+ */
+function isTypeOnlyImport(specifier: ts.ImportSpecifier): boolean {
+  return specifier.isTypeOnly || specifier.parent.parent.isTypeOnly;
+}
+
+/**
+ * Turns a type-only import of `specifier` into a value import by dropping its
+ * `type` keyword. Adding a second declaration for a name the file already
+ * binds would be a duplicate identifier.
+ */
+function removeTypeKeyword(
+  recorder: UpdateRecorder,
+  specifier: ts.ImportSpecifier,
+): void {
+  const [typeKeywordStart, bindingStart] = specifier.isTypeOnly
+    ? [
+        specifier.getStart(),
+        (specifier.propertyName ?? specifier.name).getStart(),
+      ]
+    : [specifier.parent.parent.getStart(), specifier.parent.getStart()];
+
+  recorder.remove(typeKeywordStart, bindingStart - typeKeywordStart);
+}
+
+/**
+ * Adds an import declaration of its own after the file's last import, for the
+ * cases `insertImport` can't merge into an existing one.
+ */
+function insertImportDeclaration(
+  recorder: UpdateRecorder,
+  sourceFile: ts.SourceFile,
+  legacyClassName: string,
+): void {
+  const endOfImports = findNodes(
+    sourceFile,
+    ts.SyntaxKind.ImportDeclaration,
+  ).reduce((max, node) => Math.max(max, node.getEnd()), 0);
+
+  recorder.insertRight(
+    endOfImports,
+    `${getEOL(sourceFile.text)}import { ${legacyClassName} } from '${MODULE_NAME}';`,
+  );
+}
+
+/**
+ * Binds `legacyClassName` as a value from `MODULE_NAME` so the twin providers
+ * `duplicateProviderTokens` inserted resolve. `swapImportedClass` adds the
  * legacy import itself whenever it renames a non-provider reference, so this
- * only has work to do when `duplicateProviderTokens` inserted a twin but
- * every other reference to the class was a provider token.
+ * only has work to do when every other reference to the class was a provider
+ * token, or when the file's existing import can't be used as a value.
  */
 function ensureLegacyImport(
   tree: Tree,
@@ -164,19 +324,32 @@ function ensureLegacyImport(
   legacyClassName: string,
 ): void {
   const sourceFile = parseSourceFile(tree, filePath);
+  const specifier = findLegacyImportSpecifier(sourceFile, legacyClassName);
+  const isBoundToLegacyName = specifier?.name.text === legacyClassName;
 
-  if (isImportedFromPackage(sourceFile, legacyClassName, MODULE_NAME)) {
+  if (specifier && isBoundToLegacyName && !isTypeOnlyImport(specifier)) {
     return;
   }
 
-  const change = insertImport(
-    sourceFile,
-    filePath,
-    legacyClassName,
-    MODULE_NAME,
-  );
   const recorder = tree.beginUpdate(filePath);
-  applyToUpdateRecorder(recorder, [change]);
+
+  if (specifier && isBoundToLegacyName) {
+    removeTypeKeyword(recorder, specifier);
+  } else {
+    // An alias binds the class under another name, so `insertImport` has
+    // nothing to merge into -- and it no-ops outright when the file has a
+    // namespace import of the module.
+    const change = specifier
+      ? undefined
+      : insertImport(sourceFile, filePath, legacyClassName, MODULE_NAME);
+
+    if (change && !(change instanceof NoopChange)) {
+      applyToUpdateRecorder(recorder, [change]);
+    } else {
+      insertImportDeclaration(recorder, sourceFile, legacyClassName);
+    }
+  }
+
   tree.commitUpdate(recorder);
 }
 
@@ -203,7 +376,8 @@ async function updateSourceFiles(tree: Tree): Promise<void> {
           classNames: CLASS_NAMES,
           moduleName: MODULE_NAME,
           filter: (node): boolean =>
-            !isStaticAddResourcesReference(node) && !isProviderToken(node),
+            !isStaticAddResourcesReference(node) &&
+            !isProviderToken(node, sourceFile),
         },
       ]);
 
@@ -229,10 +403,11 @@ async function updateSourceFiles(tree: Tree): Promise<void> {
  *
  * A `provide:` token inside a `providers: [...]` array (e.g. a test's
  * `TestBed.configureTestingModule`) is duplicated instead of renamed: the
- * original provider stays, and a legacy twin is added right after it. The
- * `skyAppResources` pipe and the `toHaveResourceText`/`toEqualResourceText`
- * matchers still inject the original service, so renaming the provider
- * outright would leave them resolving against the real, un-mocked service.
+ * original provider stays, and a `useExisting` twin for the legacy token is
+ * added right after it. The `skyAppResources` pipe and the
+ * `toHaveResourceText`/`toEqualResourceText` matchers still inject the
+ * original service, so renaming the provider outright would leave them
+ * resolving against the real, un-mocked service.
  */
 export default function (): Rule {
   return async (tree: Tree): Promise<void> => {
