@@ -57,7 +57,7 @@ describe('Basic instrumentation context example', () => {
     });
   });
 
-  it('should use the nested context name and inherit the detail above it', async () => {
+  it('should attach the nested context and its parent to a help inline event', async () => {
     const { controller, loader } = setupTest();
 
     await clickHelpInline(loader, 'section-help');
@@ -67,7 +67,10 @@ describe('Basic instrumentation context example', () => {
       eventDetail: { helpKey: 'giving-history.html' },
       context: {
         name: 'giving-history',
-        detail: { recordId: '280-c-r-w' },
+        parent: {
+          name: 'constituent-summary',
+          detail: { recordId: '280-c-r-w' },
+        },
       },
     });
   });
@@ -84,7 +87,10 @@ describe('Basic instrumentation context example', () => {
         eventDetail: { helpKey: 'giving-history.html' },
         context: {
           name: 'giving-history',
-          detail: { recordId: '280-c-r-w' },
+          parent: {
+            name: 'constituent-summary',
+            detail: { recordId: '280-c-r-w' },
+          },
         },
       },
       2,

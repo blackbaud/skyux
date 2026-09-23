@@ -7,11 +7,14 @@ export interface SkyInstrumentationContextValue {
    */
   name: string;
   /**
-   * Values describing the context, such as record identifiers. Merges with the
-   * detail of ancestor contexts, and the nearest context wins when keys
-   * conflict.
+   * Values describing the context, such as record identifiers.
    */
   detail?: Record<string, unknown>;
+  /**
+   * The context that encloses this one, when contexts are nested. Walk this
+   * chain to read the name and detail of each enclosing context.
+   */
+  parent?: SkyInstrumentationContextValue;
 }
 
 /**

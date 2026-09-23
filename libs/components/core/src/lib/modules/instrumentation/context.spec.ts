@@ -123,7 +123,7 @@ describe('instrumentation-context', () => {
     ]);
   });
 
-  it('should use the nearest context name and merge detail from its ancestors', () => {
+  it('should reference each enclosing context as the parent of the one below it', () => {
     const fixture = TestBed.createComponent(NestedContextHost);
     const listener = TestBed.inject(TestEventListener);
 
@@ -139,8 +139,12 @@ describe('instrumentation-context', () => {
         eventName: 'foo.bar',
         eventDetail: undefined,
         context: {
-          name: 'product-details',
-          detail: { productId: 'foo123', recordId: 'bar456' },
+          name: 'notes',
+          parent: {
+            name: 'product-details',
+            detail: { recordId: 'bar456' },
+            parent: { name: 'products', detail: { productId: 'foo123' } },
+          },
         },
       },
     ]);

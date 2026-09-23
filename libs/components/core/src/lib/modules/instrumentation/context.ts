@@ -25,14 +25,20 @@ import { SkyInstrumentationContextValue } from './event-types';
 
         return {
           resolve: (): SkyInstrumentationContextValue => {
-            const parentDetail = parent?.resolve().detail;
             const { name, detail } = self.skyInstrumentationContext();
+            const value: SkyInstrumentationContextValue = { name };
 
-            if (!parentDetail && !detail) {
-              return { name };
+            if (detail) {
+              value.detail = detail;
             }
 
-            return { name, detail: { ...parentDetail, ...detail } };
+            const parentValue = parent?.resolve();
+
+            if (parentValue) {
+              value.parent = parentValue;
+            }
+
+            return value;
           },
         };
       },

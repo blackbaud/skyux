@@ -49,7 +49,9 @@ export class TestButtonHost {
           detail: { recordId: 'bar456' },
         }"
       >
-        <test-button />
+        <div [skyInstrumentationContext]="{ name: 'notes' }">
+          <test-button />
+        </div>
       </div>
     </div>
   `,
