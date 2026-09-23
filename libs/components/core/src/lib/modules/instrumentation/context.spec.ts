@@ -65,9 +65,10 @@ describe('instrumentation-context', () => {
 
     fixture.detectChanges();
 
-    expect(listener.events[0].context).not.toBe(
-      fixture.componentInstance.context,
-    );
+    const { context } = fixture.componentInstance;
+
+    expect(listener.events[0].context).not.toBe(context);
+    expect(listener.events[0].context?.detail).not.toBe(context.detail);
   });
 
   it('should forward the context to a dynamically created component', () => {

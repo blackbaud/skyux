@@ -29,7 +29,7 @@ import { SkyInstrumentationContextValue } from './event-types';
             const value: SkyInstrumentationContextValue = { name };
 
             if (detail) {
-              value.detail = detail;
+              value.detail = { ...detail };
             }
 
             const parentValue = parent?.resolve();
