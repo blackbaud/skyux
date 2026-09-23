@@ -8,7 +8,7 @@
       [horizontalAlignment]="horizontalAlignment"
       [label]="label()"
       [messageStream]="
-        useUndefinedMessageStream ? undefinedMessageStream : messageStream
+        useUndefinedMessageStream() ? undefined : messageStream()
       "
       [title]="title()"
       [trigger]="trigger"
@@ -46,7 +46,7 @@
       [horizontalAlignment]="horizontalAlignment"
       [label]="label()"
       [messageStream]="
-        useUndefinedMessageStream ? undefinedMessageStream : messageStream
+        useUndefinedMessageStream() ? undefined : messageStream()
       "
       [title]="title()"
       [trigger]="trigger"

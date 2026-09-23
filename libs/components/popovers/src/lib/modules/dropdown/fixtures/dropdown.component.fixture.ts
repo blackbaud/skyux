@@ -39,9 +39,7 @@ export class DropdownFixtureComponent {
 
   public label = input<string | undefined>(undefined);
 
-  public messageStream = new Subject<SkyDropdownMessage>();
-
-  public undefinedMessageStream: undefined;
+  public messageStream = input(new Subject<SkyDropdownMessage>());
 
   public menuAriaLabelledBy = input<string | undefined>(undefined);
 
@@ -55,7 +53,7 @@ export class DropdownFixtureComponent {
 
   public useCustomTrigger = false;
 
-  public useUndefinedMessageStream = false;
+  public useUndefinedMessageStream = input(false);
 
   //#endregion directive properties
 
@@ -111,7 +109,7 @@ export class DropdownFixtureComponent {
   }
 
   public sendMessage(type: SkyDropdownMessageType): void {
-    this.messageStream.next({ type });
+    this.messageStream().next({ type });
   }
 
   public setItems(items: any[]): void {

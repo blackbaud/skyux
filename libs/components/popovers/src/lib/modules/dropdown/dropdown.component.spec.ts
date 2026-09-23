@@ -241,7 +241,7 @@ describe('Dropdown component', () => {
       expect(fixture.componentInstance.dropdownItemRefs?.length).toEqual(4);
 
       const spy = spyOn(
-        fixture.componentInstance.messageStream,
+        fixture.componentInstance.messageStream(),
         'next',
       ).and.callThrough();
       fixture.componentInstance.changeItems();
@@ -445,7 +445,7 @@ describe('Dropdown component', () => {
       it('should focus on first menu item when clicked', fakeAsync(() => {
         detectChangesFakeAsync();
         const spy = spyOn(
-          fixture.componentInstance.messageStream,
+          fixture.componentInstance.messageStream(),
           'next',
         ).and.callThrough();
         const button = getButtonElement();
@@ -461,7 +461,7 @@ describe('Dropdown component', () => {
 
     describe('message stream interactions', () => {
       it('should create a new message stream if an undefined value is specified', fakeAsync(() => {
-        fixture.componentInstance.useUndefinedMessageStream = true;
+        fixture.componentRef.setInput('useUndefinedMessageStream', true);
         fixture.componentInstance.trigger = 'click';
         detectChangesFakeAsync();
 
@@ -475,8 +475,10 @@ describe('Dropdown component', () => {
         detectChangesFakeAsync();
 
         expect(() => {
-          fixture.componentInstance.messageStream =
-            new Subject<SkyDropdownMessage>();
+          fixture.componentRef.setInput(
+            'messageStream',
+            new Subject<SkyDropdownMessage>(),
+          );
           detectChangesFakeAsync();
         }).toThrowError(
           'Message stream cannot be modified after initialization.',
