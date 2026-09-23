@@ -110,20 +110,45 @@ function getTwinInsertionPoints(
 }
 
 /**
- * Whether the reference is the `provide:` or `useExisting:` token of a
- * provider registered in a `providers: [...]` list. The `provide:` token is
- * duplicated rather than renamed -- see `duplicateProviderTokens` -- since
- * test doubles registered under the original token would otherwise stop
- * matching the pipe and matchers that still inject it, and the `useExisting:`
- * token of the twin that duplication inserts has to keep pointing at it.
+ * Whether `objectLiteral` is a provider whose `provide` token is
+ * `legacyClassName`, i.e. the twin `duplicateProviderTokens` inserts.
+ */
+function isLegacyProvider(
+  objectLiteral: ts.ObjectLiteralExpression,
+  legacyClassName: string,
+): boolean {
+  return objectLiteral.properties.some(
+    (property) =>
+      ts.isPropertyAssignment(property) &&
+      property.name.getText() === 'provide' &&
+      ts.isIdentifier(property.initializer) &&
+      property.initializer.text === legacyClassName,
+  );
+}
+
+/**
+ * Whether the reference is a provider token that must not be renamed: either
+ * the `provide:` token of a provider registered in a `providers: [...]` list,
+ * or the `useExisting:` token of the legacy twin that duplication inserts.
+ * The `provide:` token is duplicated rather than renamed -- see
+ * `duplicateProviderTokens` -- since test doubles registered under the
+ * original token would otherwise stop matching the pipe and matchers that
+ * still inject it, and the twin's `useExisting:` token has to keep pointing at
+ * it. Any other `useExisting:` token is a consumer's own alias, and its
+ * injectors expect the legacy behavior, so it is renamed like a normal
+ * reference.
  */
 function isProviderToken(
   node: ts.Identifier,
   sourceFile: ts.SourceFile,
 ): boolean {
+  const useExistingLiteral = getProviderObjectLiteral(node, 'useExisting');
   const objectLiteral =
     getProviderObjectLiteral(node, 'provide') ??
-    getProviderObjectLiteral(node, 'useExisting');
+    (useExistingLiteral &&
+    isLegacyProvider(useExistingLiteral, CLASS_NAMES[node.text])
+      ? useExistingLiteral
+      : undefined);
 
   return (
     !!objectLiteral &&
@@ -162,13 +187,7 @@ function arrayHasLegacyProvider(
   return array.elements.some(
     (element) =>
       ts.isObjectLiteralExpression(element) &&
-      element.properties.some(
-        (property) =>
-          ts.isPropertyAssignment(property) &&
-          property.name.getText() === 'provide' &&
-          ts.isIdentifier(property.initializer) &&
-          property.initializer.text === legacyClassName,
-      ),
+      isLegacyProvider(element, legacyClassName),
   );
 }
 

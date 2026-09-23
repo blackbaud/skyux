@@ -453,6 +453,37 @@ const provider = { provide: SkyAppResourcesService, useClass: SkyAppResourcesTes
 const provider = { provide: SkyAppResourcesLegacyService, useClass: SkyAppResourcesTestService };`);
   });
 
+  it('should rename a consumer alias that points at the service', async () => {
+    const tree = setupTree({
+      '/src/app/test-alias.ts': `import { NgModule } from '@angular/core';
+import { SkyAppResourcesService } from '@skyux/i18n';
+
+import { MY_RESOURCES } from './my-resources';
+
+@NgModule({
+  providers: [
+    { provide: MY_RESOURCES, useExisting: SkyAppResourcesService },
+  ],
+})
+export class TestModule {}`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test-alias.ts'))
+      .toBe(`import { NgModule } from '@angular/core';
+import { SkyAppResourcesLegacyService } from '@skyux/i18n';
+
+import { MY_RESOURCES } from './my-resources';
+
+@NgModule({
+  providers: [
+    { provide: MY_RESOURCES, useExisting: SkyAppResourcesLegacyService },
+  ],
+})
+export class TestModule {}`);
+  });
+
   it('should duplicate a provider token referenced through a variable', async () => {
     const tree = setupTree({
       '/src/app/test-variable.spec.ts': `import { TestBed } from '@angular/core/testing';
