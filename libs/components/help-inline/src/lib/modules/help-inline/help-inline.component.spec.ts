@@ -329,6 +329,11 @@ describe('Help inline component', () => {
       expect(
         await (await popoverHarness.getPopoverContent()).getBodyText(),
       ).toBe('content');
+
+      TestBed.inject(SkyInstrumentationTestingController).expectEventCount(
+        { eventName: 'sky.help-inline.help-requested' },
+        1,
+      );
     });
 
     it('should render help popover title', async () => {
