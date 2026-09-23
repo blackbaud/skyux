@@ -11,6 +11,7 @@
 ### Features
 
 * **components/forms:** add `sky-button` component ([#4779](https://github.com/blackbaud/skyux/issues/4779)) ([a0b007f](https://github.com/blackbaud/skyux/commit/a0b007f46c560c17fdf23cd792fd589ec5d4a889))
+* **components/popovers:** document dropdown `messageStream` input ([#4802](https://github.com/blackbaud/skyux/issues/4802)) ([#4814](https://github.com/blackbaud/skyux/issues/4814)) ([bf279c0](https://github.com/blackbaud/skyux/commit/bf279c0dacd6252403fbd67d38471a3ea528d1d0))
 * **sdk/skyux-eslint:** add `no-native-click` ESLint rule to recommended ruleset ([#4807](https://github.com/blackbaud/skyux/issues/4807)) ([e6441a1](https://github.com/blackbaud/skyux/commit/e6441a12f52f756af068d06dd6da178fba646d70))
 
 
