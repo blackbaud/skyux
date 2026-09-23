@@ -6,7 +6,7 @@ import {
   SkyInstrumentationTestingController,
   provideSkyInstrumentationTesting,
 } from '@skyux/core/testing';
-import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyCheckboxHarness, SkyInputBoxHarness } from '@skyux/forms/testing';
 
 import { CoreInstrumentationBasicExample } from './example';
 
@@ -31,64 +31,65 @@ describe('Basic instrumentation context example', () => {
     };
   }
 
-  async function clickHelpInline(
-    loader: HarnessLoader,
-    dataSkyId: string,
-  ): Promise<void> {
+  async function clickCheckboxHelpInline(loader: HarnessLoader): Promise<void> {
     const harness = await loader.getHarness(
-      SkyHelpInlineHarness.with({ dataSkyId }),
+      SkyCheckboxHarness.with({ dataSkyId: 'repeat-monthly' }),
     );
 
-    await harness.click();
+    await harness.clickHelpInline();
   }
 
-  it('should attach the page context to a help inline event', async () => {
+  it('should track when a user requests help for the gift amount', async () => {
     const { controller, loader } = setupTest();
 
-    await clickHelpInline(loader, 'page-help');
+    const inputBox = await loader.getHarness(
+      SkyInputBoxHarness.with({ dataSkyId: 'gift-amount' }),
+    );
+
+    await inputBox.clickHelpInline();
 
     controller.expectEvent({
       eventName: 'sky.help-inline.help-requested',
-      eventDetail: { helpKey: 'constituent-summary.html' },
+      eventDetail: { helpKey: 'gift-amount.html' },
       context: {
-        name: 'constituent-summary',
+        name: 'gift-details',
         detail: { recordId: '280-c-r-w' },
       },
     });
   });
 
-  it('should attach the nested context and its parent to a help inline event', async () => {
+  it('should track when a user requests help from the recurring gift section', async () => {
     const { controller, loader } = setupTest();
 
-    await clickHelpInline(loader, 'section-help');
+    await clickCheckboxHelpInline(loader);
 
     controller.expectEvent({
       eventName: 'sky.help-inline.help-requested',
-      eventDetail: { helpKey: 'giving-history.html' },
+      eventDetail: { helpKey: 'repeat-monthly.html' },
       context: {
-        name: 'giving-history',
+        name: 'recurring-gift',
         parent: {
-          name: 'constituent-summary',
+          name: 'gift-details',
           detail: { recordId: '280-c-r-w' },
         },
       },
     });
   });
 
-  it('should emit one event per help inline click', async () => {
+  it('should track each time a user requests help', async () => {
     const { controller, loader } = setupTest();
 
-    await clickHelpInline(loader, 'section-help');
-    await clickHelpInline(loader, 'section-help');
+    await clickCheckboxHelpInline(loader);
+    await clickCheckboxHelpInline(loader);
 
     controller.expectEventCount(
       {
         eventName: 'sky.help-inline.help-requested',
-        eventDetail: { helpKey: 'giving-history.html' },
+        eventDetail: { helpKey: 'repeat-monthly.html' },
         context: {
-          name: 'giving-history',
+          name: 'recurring-gift',
           parent: {
-            name: 'constituent-summary',
+            name: 'gift-details',
             detail: { recordId: '280-c-r-w' },
           },
         },

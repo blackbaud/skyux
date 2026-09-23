@@ -1,5 +1,5 @@
-import { ErrorHandler, Injector } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { ErrorHandler, Injector, Type } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideSkyInstrumentationContextFrom } from './context-provider';
 import { provideSkyInstrumentationListener } from './event-listener';
@@ -11,6 +11,38 @@ import {
   ThrowingEventListener,
 } from './fixtures/event-listener.fixture';
 
+function setupTest<T>(component: Type<T>): {
+  fixture: ComponentFixture<T>;
+  listener: TestEventListener;
+} {
+  return {
+    fixture: TestBed.createComponent(component),
+    listener: TestBed.inject(TestEventListener),
+  };
+}
+
+function clickButton(fixture: ComponentFixture<unknown>): void {
+  fixture.detectChanges();
+
+  (fixture.nativeElement as HTMLElement)
+    .querySelector<HTMLButtonElement>('button')
+    ?.click();
+
+  fixture.detectChanges();
+}
+
+function saveDynamicForm(
+  fixture: ComponentFixture<TestDynamicLauncherHost>,
+): void {
+  clickButton(fixture);
+
+  const formEl = document.querySelector('[data-sky-id="test-dynamic-form"]');
+
+  formEl?.querySelector<HTMLButtonElement>('button')?.click();
+
+  fixture.detectChanges();
+}
+
 describe('instrumentation-context', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,15 +52,9 @@ describe('instrumentation-context', () => {
   });
 
   it('should include the nearest context with a user event', () => {
-    const fixture = TestBed.createComponent(TestButtonHost);
-    const listener = TestBed.inject(TestEventListener);
+    const { fixture, listener } = setupTest(TestButtonHost);
 
-    fixture.detectChanges();
-
-    const btn = fixture.nativeElement.querySelector('button');
-    btn.click();
-
-    fixture.detectChanges();
+    clickButton(fixture);
 
     expect(listener.events).toEqual([
       {
@@ -40,30 +66,19 @@ describe('instrumentation-context', () => {
   });
 
   it('should omit detail when no context in the chain provides it', () => {
-    const fixture = TestBed.createComponent(TestButtonHost);
-    const listener = TestBed.inject(TestEventListener);
+    const { fixture, listener } = setupTest(TestButtonHost);
 
     fixture.componentInstance.context = { name: 'products' };
-    fixture.detectChanges();
 
-    const btn = fixture.nativeElement.querySelector('button');
-    btn.click();
-
-    fixture.detectChanges();
+    clickButton(fixture);
 
     expect(listener.events[0].context).toEqual({ name: 'products' });
   });
 
   it('should copy the context rather than share the bound object', () => {
-    const fixture = TestBed.createComponent(TestButtonHost);
-    const listener = TestBed.inject(TestEventListener);
+    const { fixture, listener } = setupTest(TestButtonHost);
 
-    fixture.detectChanges();
-
-    const btn = fixture.nativeElement.querySelector('button');
-    btn.click();
-
-    fixture.detectChanges();
+    clickButton(fixture);
 
     const { context } = fixture.componentInstance;
 
@@ -72,21 +87,9 @@ describe('instrumentation-context', () => {
   });
 
   it('should forward the context to a dynamically created component', () => {
-    const fixture = TestBed.createComponent(TestDynamicLauncherHost);
-    const listener = TestBed.inject(TestEventListener);
+    const { fixture, listener } = setupTest(TestDynamicLauncherHost);
 
-    fixture.detectChanges();
-
-    const btn = fixture.nativeElement.querySelector('button');
-    btn.click();
-
-    fixture.detectChanges();
-
-    const formEl = document.querySelector('[data-sky-id="test-dynamic-form"]');
-    const saveBtn = formEl?.querySelector<HTMLButtonElement>('button');
-
-    saveBtn?.click();
-    fixture.detectChanges();
+    saveDynamicForm(fixture);
 
     expect(listener.events).toEqual([
       {
@@ -98,22 +101,11 @@ describe('instrumentation-context', () => {
   });
 
   it('should emit a user event from a dynamically created component that was not given the context', () => {
-    const fixture = TestBed.createComponent(TestDynamicLauncherHost);
-    const listener = TestBed.inject(TestEventListener);
+    const { fixture, listener } = setupTest(TestDynamicLauncherHost);
 
     fixture.componentRef.setInput('forwardContext', false);
-    fixture.detectChanges();
 
-    const btn = fixture.nativeElement.querySelector('button');
-    btn.click();
-
-    fixture.detectChanges();
-
-    const formEl = document.querySelector('[data-sky-id="test-dynamic-form"]');
-    const saveBtn = formEl?.querySelector<HTMLButtonElement>('button');
-
-    saveBtn?.click();
-    fixture.detectChanges();
+    saveDynamicForm(fixture);
 
     expect(listener.events).toEqual([
       {
@@ -125,15 +117,9 @@ describe('instrumentation-context', () => {
   });
 
   it('should reference each enclosing context as the parent of the one below it', () => {
-    const fixture = TestBed.createComponent(NestedContextHost);
-    const listener = TestBed.inject(TestEventListener);
+    const { fixture, listener } = setupTest(NestedContextHost);
 
-    fixture.detectChanges();
-
-    const btn = fixture.nativeElement.querySelector('button');
-    btn.click();
-
-    fixture.detectChanges();
+    clickButton(fixture);
 
     expect(listener.events).toEqual([
       {
@@ -166,11 +152,7 @@ describe('instrumentation-context without a listener', () => {
   it('should emit a user event without error', () => {
     const fixture = TestBed.createComponent(TestButtonHost);
 
-    fixture.detectChanges();
-
-    const btn = fixture.nativeElement.querySelector('button');
-
-    expect(() => btn.click()).not.toThrow();
+    expect(() => clickButton(fixture)).not.toThrow();
   });
 });
 
@@ -185,14 +167,9 @@ describe('instrumentation-context with a listener that throws', () => {
     });
 
     const handleError = spyOn(TestBed.inject(ErrorHandler), 'handleError');
-    const fixture = TestBed.createComponent(TestButtonHost);
-    const listener = TestBed.inject(TestEventListener);
+    const { fixture, listener } = setupTest(TestButtonHost);
 
-    fixture.detectChanges();
-
-    const btn = fixture.nativeElement.querySelector('button');
-
-    expect(() => btn.click()).not.toThrow();
+    expect(() => clickButton(fixture)).not.toThrow();
 
     expect(handleError).toHaveBeenCalledWith(new Error('Listener failed.'));
     expect(listener.events.length).toEqual(1);

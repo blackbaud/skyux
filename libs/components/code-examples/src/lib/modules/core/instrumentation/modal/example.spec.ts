@@ -7,7 +7,7 @@ import {
   SkyInstrumentationTestingController,
   provideSkyInstrumentationTesting,
 } from '@skyux/core/testing';
-import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
+import { SkyModalHarness } from '@skyux/modals/testing';
 
 import { CoreInstrumentationModalExample } from './example';
 
@@ -36,7 +36,7 @@ describe('Instrumentation context forwarded to a modal', () => {
     };
   }
 
-  it('should attach the context of the opening component to a user event raised in the modal', async () => {
+  it('should track when a user requests help from the edit gift modal', async () => {
     const { controller, fixture, rootLoader } = setupTest();
 
     const launchButton = (fixture.nativeElement as HTMLElement).querySelector(
@@ -48,9 +48,9 @@ describe('Instrumentation context forwarded to a modal', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    const helpInline = await rootLoader.getHarness(SkyHelpInlineHarness);
+    const modal = await rootLoader.getHarness(SkyModalHarness);
 
-    await helpInline.click();
+    await modal.clickHelpInline();
 
     controller.expectEvent({
       eventName: 'sky.help-inline.help-requested',
