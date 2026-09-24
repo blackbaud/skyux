@@ -142,13 +142,33 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * The observable that sends commands to the dropdown. The commands should respect
-   * the [[SkyDropdownMessage]] type.
-   * @internal
+   * The RxJS `Subject` to send commands to the dropdown that respect the `SkyDropdownMessage` type.
    */
   @Input()
-  public messageStream: Subject<SkyDropdownMessage> | undefined =
-    new Subject<SkyDropdownMessage>();
+  public set messageStream(value: Subject<SkyDropdownMessage> | undefined) {
+    if (this.#initialized) {
+      // Dropdown menu listens for messages on this message stream after its content is initialized.
+      // Prevent the consumer from resetting the message stream from being reset after the menu has
+      // subscribed.
+      throw new Error(
+        'Message stream cannot be modified after initialization.',
+      );
+    }
+
+    this.#_messageStream?.unsubscribe();
+
+    this.#_messageStream = value ?? new Subject<SkyDropdownMessage>();
+
+    this.#_messageStream
+      ?.pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((message: SkyDropdownMessage) => {
+        this.#handleIncomingMessages(message);
+      });
+  }
+
+  public get messageStream(): Subject<SkyDropdownMessage> | undefined {
+    return this.#_messageStream;
+  }
 
   /**
    * The title to display in a tooltip when users hover the mouse over the dropdown button.
@@ -259,6 +279,7 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #triggerUnsubscribe = new Subject<void>();
   #overlay: SkyOverlayInstance | undefined;
   #positionTimeout: number | undefined;
+  #initialized = false;
 
   #_buttonStyle = DEFAULT_BUTTON_STYLE;
   #_buttonType = DEFAULT_BUTTON_TYPE;
@@ -269,23 +290,24 @@ export class SkyDropdownComponent implements OnInit, OnDestroy {
   #_label: string | undefined;
   #_menuAriaRole: string | undefined;
   #_menuId: string | undefined;
+  #_messageStream: Subject<SkyDropdownMessage> | undefined;
   #_title: string | undefined;
   #_trigger = DEFAULT_TRIGGER_TYPE;
   #_triggerButton: SkyDropdownTriggerDirective | undefined;
 
-  public ngOnInit(): void {
-    this.messageStream
-      ?.pipe(takeUntil(this.#ngUnsubscribe))
-      .subscribe((message: SkyDropdownMessage) => {
-        this.#handleIncomingMessages(message);
-      });
+  constructor() {
+    this.messageStream = new Subject<SkyDropdownMessage>();
+  }
 
+  public ngOnInit(): void {
     // Load proper icons on theme change.
     this.#themeSvc?.settingsChange
       .pipe(takeUntil(this.#ngUnsubscribe))
       .subscribe(() => {
         this.#changeDetector.markForCheck();
       });
+
+    this.#initialized = true;
   }
 
   public ngOnDestroy(): void {
