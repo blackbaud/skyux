@@ -59,8 +59,8 @@ function projectUsesSelectField(tree: Tree, sourceRoot: string): boolean {
 
 /**
  * Removes `SkySelectFieldModule` from every decorator `imports` and
- * `exports` array (and the now-unused import statement) throughout the
- * project.
+ * `exports` array and every `TestBed.configureTestingModule` `imports`
+ * array (and the now-unused import statement) throughout the project.
  */
 function removeModuleReferences(
   tree: Tree,
@@ -102,7 +102,7 @@ function removeModuleReferences(
       logOnce(
         context,
         'warn',
-        `The "${CLASS_NAME}" import in "${filePath}" was kept because it is referenced outside a decorator "imports" or "exports" array (for example in a TestBed configuration). Remove the import manually if it is no longer needed.`,
+        `The "${CLASS_NAME}" import in "${filePath}" was kept because it is referenced outside a decorator "imports"/"exports" array or a "TestBed.configureTestingModule" "imports" array. Remove the import manually if it is no longer needed.`,
       );
     }
   });
