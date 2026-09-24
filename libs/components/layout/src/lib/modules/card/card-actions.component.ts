@@ -3,7 +3,6 @@ import { SkyThemeComponentClassDirective } from '@skyux/theme';
 
 /**
  * Specifies an action that users can perform on the card.
- * @deprecated
  */
 @Component({
   selector: 'sky-card-actions',

@@ -27,8 +27,8 @@ The rule does not have any configuration options.
 ### ❌ Invalid Code
 
 ```html
-<sky-card></sky-card>
-~~~~~~~~~~~~~~~~~~~~~
+<sky-page-summary></sky-page-summary>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
 ```html
