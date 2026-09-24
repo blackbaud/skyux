@@ -1,0 +1,21 @@
+<button
+  class="sky-btn sky-btn-default sky-theme-margin-bottom-s"
+  type="button"
+  [disabled]="sales.isLoading()"
+  (click)="sales.reload()"
+>
+  Reload data
+</button>
+<sky-chart
+  data-sky-id="sales-by-region"
+  headingText="Sales by region"
+  [loading]="sales.isLoading()"
+>
+  @if (sales.value(); as data) {
+    <sky-chart-pie categoryLabelText="Region" valueLabelText="Sales">
+      @for (slice of data.slices; track slice.label) {
+        <sky-chart-pie-slice [labelText]="slice.label" [value]="slice.value" />
+      }
+    </sky-chart-pie>
+  }
+</sky-chart>
