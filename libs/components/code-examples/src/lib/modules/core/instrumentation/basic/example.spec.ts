@@ -1,6 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 import {
   SkyHelpTestingModule,
   SkyInstrumentationTestingController,
@@ -17,7 +18,10 @@ describe('Basic instrumentation context example', () => {
   } {
     TestBed.configureTestingModule({
       imports: [CoreInstrumentationBasicExample, SkyHelpTestingModule],
-      providers: [provideSkyInstrumentationTesting()],
+      providers: [
+        provideNoopSkyAnimations(),
+        provideSkyInstrumentationTesting(),
+      ],
     });
 
     const fixture = TestBed.createComponent(CoreInstrumentationBasicExample);

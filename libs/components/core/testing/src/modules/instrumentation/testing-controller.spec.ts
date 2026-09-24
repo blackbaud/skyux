@@ -75,8 +75,8 @@ describe('instrumentation controller', () => {
     const controller = clickButton();
 
     controller.expectEvent({
-      context: { name: 'products', detail: { productId: 'foo123' } },
       eventName: 'foo.bar',
+      context: { detail: { productId: 'foo123' }, name: 'products' },
     });
   });
 

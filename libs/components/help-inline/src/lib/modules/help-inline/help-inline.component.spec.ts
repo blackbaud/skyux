@@ -444,7 +444,7 @@ describe('Help inline component', () => {
     it('should include the help key with the user event', () => {
       setupTest(true);
 
-      component.helpKey = 'test.html';
+      fixture.componentRef.setInput('helpKey', 'test.html');
       fixture.detectChanges();
 
       getHelpButton(fixture).click();
