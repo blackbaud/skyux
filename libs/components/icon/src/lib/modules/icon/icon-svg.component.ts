@@ -6,11 +6,12 @@ import {
   input,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { SkyThemeComponentClassDirective } from '@skyux/theme';
+import { SkyThemeComponentClassDirective, SkyThemeService } from '@skyux/theme';
 
-import { catchError, of, switchMap } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
 
 import { SkyIconSvgResolverService } from './icon-svg-resolver.service';
+import { SkyIconColorModeType } from './types/icon-color-mode-type';
 import { SkyIconSize } from './types/icon-size';
 import { SkyIconVariantType } from './types/icon-variant-type';
 
@@ -48,6 +49,18 @@ function defaultSize(value: SkyIconSize | undefined): SkyIconSize {
 export class SkyIconSvgComponent {
   readonly #resolverSvc = inject(SkyIconSvgResolverService);
 
+  // Some icons have a dark mode version. Tracking the mode here keeps the
+  // resolved href in sync when the theme changes without a reload. Without a
+  // theme service there is no dark mode to track.
+  readonly #colorMode = toSignal(
+    inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
+      map((change): SkyIconColorModeType =>
+        change.currentSettings.mode.name === 'dark' ? 'dark' : 'light',
+      ),
+    ) ?? of<SkyIconColorModeType>('light'),
+    { initialValue: 'light' as SkyIconColorModeType },
+  );
+
   public readonly iconName = input.required<string>();
   public readonly iconSize = input<SkyIconSize, SkyIconSize | undefined>('m', {
     transform: defaultSize,
@@ -59,6 +72,7 @@ export class SkyIconSvgComponent {
       src: this.iconName(),
       iconSize: this.iconSize(),
       variant: this.iconVariant(),
+      colorMode: this.#colorMode(),
     };
   });
 
@@ -69,6 +83,7 @@ export class SkyIconSvgComponent {
           info.src,
           FIXED_SIZES.get(info.iconSize),
           info.variant,
+          info.colorMode,
         ),
       ),
       catchError(() => of('')),
