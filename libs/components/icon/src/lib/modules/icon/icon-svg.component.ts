@@ -54,9 +54,8 @@ export class SkyIconSvgComponent {
   // theme service there is no dark mode to track.
   readonly #colorMode = toSignal(
     inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
-      map(
-        (change): SkyIconColorModeType =>
-          change.currentSettings.mode.name === 'dark' ? 'dark' : 'light',
+      map((change): SkyIconColorModeType =>
+        change.currentSettings.mode.name === 'dark' ? 'dark' : 'light',
       ),
     ) ?? of<SkyIconColorModeType>('light'),
     { initialValue: 'light' as SkyIconColorModeType },
