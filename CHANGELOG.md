@@ -7,6 +7,7 @@
 ### Features
 
 * **components/core:** add instrumentation to capture user events ([#4811](https://github.com/blackbaud/skyux/issues/4811)) ([#4818](https://github.com/blackbaud/skyux/issues/4818)) ([58c5072](https://github.com/blackbaud/skyux/commit/58c5072fa59adc126d23e83679d7f2f89f571adb))
+* **components/icon:** resolve dark mode icon variants ([#4791](https://github.com/blackbaud/skyux/issues/4791)) ([#4799](https://github.com/blackbaud/skyux/issues/4799)) ([4a75601](https://github.com/blackbaud/skyux/commit/4a756019f8919ec7b321ded2f7a32602e38f0621))
 
 
 ### Bug Fixes
