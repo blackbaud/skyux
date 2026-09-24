@@ -68,9 +68,9 @@ corresponding file below, stop and read it first.
   visual-test stories for Percy snapshots.
 
 Multi-step workflows (adding a component, a library, a harness, a code example,
-unit tests, or visual tests) are documented as skills in
-[.github/skills/](.github/skills/), surfaced to Claude Code via `.claude/skills/`.
-Prefer an existing skill over improvising the steps.
+an instrumentation event, unit tests, or visual tests) are documented as
+skills in [.github/skills/](.github/skills/), surfaced to Claude Code via
+`.claude/skills/`. Prefer an existing skill over improvising the steps.
 
 ## Persona
 
