@@ -63,7 +63,6 @@ export { FlyoutBasicExampleComponent } from './lib/modules/flyout/flyout/basic/e
 export { FlyoutCustomHeadersExampleComponent } from './lib/modules/flyout/flyout/custom-headers/example.component';
 export { FormsButtonExampleComponent } from './lib/modules/forms/button/basic/example.component';
 export { FormsButtonToolbarExampleComponent } from './lib/modules/forms/button/toolbar/example.component';
-export { FormsCharacterCountExampleComponent } from './lib/modules/forms/character-count/example.component';
 export { FormsCheckboxBasicExampleComponent } from './lib/modules/forms/checkbox/basic/example.component';
 export { FormsCheckboxHelpKeyExampleComponent } from './lib/modules/forms/checkbox/help-key/example.component';
 export { FormsCheckboxIconGroupExampleComponent } from './lib/modules/forms/checkbox/icon-group/example.component';
@@ -110,7 +109,6 @@ export { LayoutBackToTopRepeaterExampleComponent } from './lib/modules/layout/ba
 export { LayoutBoxBasicExampleComponent } from './lib/modules/layout/box/basic/example.component';
 export { LayoutBoxHelpKeyExampleComponent } from './lib/modules/layout/box/help-key/example.component';
 export { LayoutCardBasicExampleComponent } from './lib/modules/layout/card/basic/example.component';
-export { LayoutDefinitionListBasicExampleComponent } from './lib/modules/layout/definition-list/basic/example.component';
 export { LayoutDescriptionListHelpKeyExampleComponent } from './lib/modules/layout/description-list/help-key/example.component';
 export { LayoutDescriptionListHorizontalExampleComponent } from './lib/modules/layout/description-list/horizontal/example.component';
 export { LayoutDescriptionListInlineHelpExampleComponent } from './lib/modules/layout/description-list/inline-help/example.component';
@@ -121,7 +119,6 @@ export { LayoutFluidGridInsetExampleComponent } from './lib/modules/layout/fluid
 export { LayoutFormatExampleComponent } from './lib/modules/layout/format/example.component';
 export { LayoutInlineDeleteCustomExampleComponent } from './lib/modules/layout/inline-delete/custom/example.component';
 export { LayoutInlineDeleteRepeaterExampleComponent } from './lib/modules/layout/inline-delete/repeater/example.component';
-export { LayoutPageSummaryBasicExampleComponent } from './lib/modules/layout/page-summary/basic/example.component';
 export { LayoutTextExpandRepeaterExampleComponent } from './lib/modules/layout/text-expand-repeater/example.component';
 export { LayoutTextExpandInlineExampleComponent } from './lib/modules/layout/text-expand/inline/example.component';
 export { LayoutTextExpandModalExampleComponent } from './lib/modules/layout/text-expand/modal/example.component';
@@ -173,7 +170,6 @@ export { PopoversPopoverBasicExampleComponent } from './lib/modules/popovers/pop
 export { PopoversPopoverProgrammaticExampleComponent } from './lib/modules/popovers/popover/programmatic/example.component';
 export { ProgressIndicatorPassiveIndicatorBasicExampleComponent } from './lib/modules/progress-indicator/passive-indicator/basic/example.component';
 export { ProgressIndicatorWaterfallIndicatorBasicExampleComponent } from './lib/modules/progress-indicator/waterfall-indicator/basic/example.component';
-export { ProgressIndicatorWizardBasicExampleComponent } from './lib/modules/progress-indicator/wizard/basic/example.component';
 export { RouterHrefBasicExampleComponent } from './lib/modules/router/href/basic/example.component';
 export { SplitViewBasicExampleComponent } from './lib/modules/split-view/split-view/basic/example.component';
 export { SplitViewPageBoundExampleComponent } from './lib/modules/split-view/split-view/page-bound/example.component';

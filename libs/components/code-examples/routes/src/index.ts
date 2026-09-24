@@ -464,13 +464,6 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'FormsCharacterCountExampleComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ FormsCharacterCountExampleComponent: c }) => c,
-      ),
-  },
-  {
     path: 'FormsCheckboxBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
@@ -793,13 +786,6 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'LayoutDefinitionListBasicExampleComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ LayoutDefinitionListBasicExampleComponent: c }) => c,
-      ),
-  },
-  {
     path: 'LayoutDescriptionListHelpKeyExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
@@ -867,13 +853,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ LayoutInlineDeleteRepeaterExampleComponent: c }) => c,
-      ),
-  },
-  {
-    path: 'LayoutPageSummaryBasicExampleComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ LayoutPageSummaryBasicExampleComponent: c }) => c,
       ),
   },
   {
@@ -1229,13 +1208,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ ProgressIndicatorWaterfallIndicatorBasicExampleComponent: c }) => c,
-      ),
-  },
-  {
-    path: 'ProgressIndicatorWizardBasicExampleComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ ProgressIndicatorWizardBasicExampleComponent: c }) => c,
       ),
   },
   {
