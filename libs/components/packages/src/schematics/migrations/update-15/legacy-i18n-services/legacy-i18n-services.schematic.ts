@@ -563,6 +563,14 @@ async function updateSourceFiles(tree: Tree): Promise<void> {
         {
           classNames: CLASS_NAMES,
           moduleName: MODULE_NAME,
+          localNames: Object.fromEntries(
+            Object.entries(CLASS_NAMES).map(
+              ([oldClassName, legacyClassName]) => [
+                legacyClassName,
+                legacyLocalNames[oldClassName],
+              ],
+            ),
+          ),
           filter: (node): boolean =>
             !isStaticAddResourcesReference(node) &&
             !isProviderToken(node, sourceFile, legacyLocalNames),

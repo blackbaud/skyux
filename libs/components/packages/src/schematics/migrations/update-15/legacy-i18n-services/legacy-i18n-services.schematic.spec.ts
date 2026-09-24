@@ -839,6 +839,75 @@ TestBed.configureTestingModule({
 });`);
   });
 
+  it('should alias the legacy service in references outside the provider list', async () => {
+    const tree = setupTree({
+      '/src/app/test-name-taken-reference.ts': `import { inject } from '@angular/core';
+import { SkyAppResourcesService } from '@skyux/i18n';
+
+import { SkyAppResourcesLegacyService } from './legacy';
+
+export class Thing {
+  readonly #resourcesSvc = inject(SkyAppResourcesService);
+  readonly #other = new SkyAppResourcesLegacyService();
+}`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test-name-taken-reference.ts'))
+      .toBe(`import { inject } from '@angular/core';
+import { SkyAppResourcesLegacyService as SkyAppResourcesLegacyService_1 } from '@skyux/i18n';
+
+import { SkyAppResourcesLegacyService } from './legacy';
+
+export class Thing {
+  readonly #resourcesSvc = inject(SkyAppResourcesLegacyService_1);
+  readonly #other = new SkyAppResourcesLegacyService();
+}`);
+  });
+
+  it('should alias the legacy service in both a provider twin and a reference', async () => {
+    const tree = setupTree({
+      '/src/app/test-name-taken-both.spec.ts': `import { inject } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesService } from '@skyux/i18n';
+
+import { SkyAppResourcesLegacyService } from './legacy';
+
+TestBed.configureTestingModule({
+  providers: [
+    { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService },
+  ],
+});
+
+export class Thing {
+  readonly #resourcesSvc = inject(SkyAppResourcesService);
+  readonly #other = new SkyAppResourcesLegacyService();
+}`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test-name-taken-both.spec.ts'))
+      .toBe(`import { inject } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesService, SkyAppResourcesLegacyService as SkyAppResourcesLegacyService_1 } from '@skyux/i18n';
+
+import { SkyAppResourcesLegacyService } from './legacy';
+
+TestBed.configureTestingModule({
+  providers: [
+    { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService },
+    { provide: SkyAppResourcesLegacyService_1, useExisting: SkyAppResourcesService },
+  ],
+});
+
+export class Thing {
+  readonly #resourcesSvc = inject(SkyAppResourcesLegacyService_1);
+  readonly #other = new SkyAppResourcesLegacyService();
+}`);
+  });
+
   it('should alias the legacy service in its own import when the module import is aliased', async () => {
     const tree = setupTree({
       '/src/app/test-name-taken-aliased.spec.ts': `import { TestBed } from '@angular/core/testing';

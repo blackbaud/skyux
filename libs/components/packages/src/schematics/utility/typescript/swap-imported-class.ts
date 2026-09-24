@@ -11,6 +11,13 @@ export interface SwapImportedClassOptions {
   classNames: Record<string, string | string[]>;
   moduleName: string | { old: string; new: string };
   filter?: (node: ts.Identifier) => boolean;
+  /**
+   * The name to reference a new class by in this file, keyed by its exported
+   * name, for files that already bind that exported name to something else.
+   * The inserted import keeps the exported name and aliases it to the local
+   * name, e.g. `import { SkyThing as SkyThing_1 }`.
+   */
+  localNames?: Record<string, string>;
 }
 
 function findReferences(
@@ -136,9 +143,13 @@ export function swapImportedClass(
   // separate import statement for every class name.
   const addImports: Record<string, string[]> = {};
   const removeImports: Record<string, string[]> = {};
-  applicableOptions.forEach(({ classNames, moduleName, filter }) => {
+  applicableOptions.forEach((option) => {
+    const { classNames, moduleName, filter, localNames } = option;
     const oldModuleName = getModuleName(moduleName, 'old');
     const newModuleName = getModuleName(moduleName, 'new');
+    const toLocalName = (name: string): string => localNames?.[name] ?? name;
+    const toImportBinding = (name: string): string =>
+      toLocalName(name) === name ? name : `${name} as ${toLocalName(name)}`;
     Object.entries(classNames).forEach(([oldClassName, newClassName]) => {
       const referencesInCode = findReferences(sourceFile, oldClassName).filter(
         (reference) => reference.getStart() > endOfImports,
@@ -152,9 +163,11 @@ export function swapImportedClass(
           (filter ?? ((): boolean => true))(reference) &&
           !isNamespaceQualifiedReference(reference, namespaceImportNames),
       );
-      const newClassNameString = Array.isArray(newClassName)
-        ? newClassName.join(', ')
-        : newClassName;
+      const newClassNameString = (
+        Array.isArray(newClassName) ? newClassName : [newClassName]
+      )
+        .map(toLocalName)
+        .join(', ');
       referencesFiltered.forEach((reference) => {
         swapReference(recorder, reference, newClassNameString);
       });
@@ -169,6 +182,7 @@ export function swapImportedClass(
         const missingClassNames = newClassNameArray.filter(
           (name) => !isImportedFromPackage(sourceFile, name, newModuleName),
         );
+        const missingImportBindings = missingClassNames.map(toImportBinding);
 
         // Staying within the same module is a rename, so the existing import
         // specifier is edited in place rather than added and removed.
@@ -190,14 +204,14 @@ export function swapImportedClass(
           swapReference(
             recorder,
             referencesInImport[0],
-            missingClassNames.join(', '),
+            missingImportBindings.join(', '),
           );
         } else {
-          if (missingClassNames.length > 0) {
+          if (missingImportBindings.length > 0) {
             addImports[newModuleName] ??= [];
             addImports[newModuleName].push(
-              ...missingClassNames.filter(
-                (name) => !addImports[newModuleName].includes(name),
+              ...missingImportBindings.filter(
+                (binding) => !addImports[newModuleName].includes(binding),
               ),
             );
           }
