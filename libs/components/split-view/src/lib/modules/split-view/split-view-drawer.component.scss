@@ -19,6 +19,9 @@
   overflow: auto;
   height: 100%;
   width: 100%;
+
+  // Reset to use the repeater's default first-item spacing.
+  --sky-comp-override-repeater-first-item-space-inset-top: initial;
 }
 
 @include mixins.sky-host-responsive-container-xs-min() {

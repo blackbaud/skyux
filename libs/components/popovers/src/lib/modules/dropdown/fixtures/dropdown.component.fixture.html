@@ -7,7 +7,9 @@
       [disabled]="disabled"
       [horizontalAlignment]="horizontalAlignment"
       [label]="label()"
-      [messageStream]="messageStream"
+      [messageStream]="
+        useUndefinedMessageStream() ? undefined : messageStream()
+      "
       [title]="title()"
       [trigger]="trigger"
     >
@@ -43,7 +45,9 @@
       [disabled]="disabled"
       [horizontalAlignment]="horizontalAlignment"
       [label]="label()"
-      [messageStream]="messageStream"
+      [messageStream]="
+        useUndefinedMessageStream() ? undefined : messageStream()
+      "
       [title]="title()"
       [trigger]="trigger"
     >

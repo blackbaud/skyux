@@ -26,6 +26,10 @@ import {
   RULE_NAME as noLegacyIconsRuleName,
 } from '../rules/template/no-legacy-icons';
 import {
+  rule as noNativeClick,
+  RULE_NAME as noNativeClickRuleName,
+} from '../rules/template/no-native-click';
+import {
   rule as noRadioGroupWithNestedList,
   RULE_NAME as noRadioGroupWithNestedListRuleName,
 } from '../rules/template/no-radio-group-with-nested-list';
@@ -66,6 +70,7 @@ export default {
     [noInvalidInputBoxChildrenRuleName]: noInvalidInputBoxChildren,
     [noInvalidInputTypesRuleName]: noInvalidInputTypes,
     [noLegacyIconsRuleName]: noLegacyIcons,
+    [noNativeClickRuleName]: noNativeClick,
     [noRadioGroupWithNestedListRuleName]: noRadioGroupWithNestedList,
     [noUnboundIdRuleName]: noUnboundId,
     [preferDisabledAttrRuleName]: preferDisabledAttr,

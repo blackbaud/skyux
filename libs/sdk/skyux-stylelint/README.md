@@ -16,6 +16,7 @@ export default {
     'skyux-stylelint/no-invalid-sky-custom-properties': true,
     'skyux-stylelint/no-ng-deep': true,
     'skyux-stylelint/no-sky-selectors': true,
+    'skyux-stylelint/no-sky-theme-imports': true,
     'skyux-stylelint/no-static-color-values': true,
   },
 };
