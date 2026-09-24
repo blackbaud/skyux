@@ -202,4 +202,98 @@ describe('swap-imported-class', () => {
 
     A(C) && C;`);
   });
+
+  it('should import the requested local name when the replacement already has another binding', () => {
+    const path = 'file.ts';
+    const content = stripIndents`
+    import { B, D as Existing } from 'module';
+
+    A(B) && Existing;`;
+    tree.create(path, content);
+    const sourceFile = ts.createSourceFile(
+      path,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    const recorder = tree.beginUpdate(path);
+
+    swapImportedClass(recorder, path, sourceFile, [
+      {
+        classNames: { B: 'D' },
+        moduleName: 'module',
+        localNames: { D: 'Replacement' },
+      },
+    ]);
+    tree.commitUpdate(recorder);
+
+    expect(tree.readText(path)).toBe(stripIndents`
+    import { D as Replacement, D as Existing } from 'module';
+
+    A(Replacement) && Existing;`);
+  });
+
+  it('should reuse the requested binding even when another alias is imported first', () => {
+    const path = 'file.ts';
+    const content = stripIndents`
+    import { B, D as Existing, D as Replacement } from 'module';
+
+    A(B) && Existing;`;
+    tree.create(path, content);
+    const sourceFile = ts.createSourceFile(
+      path,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    const recorder = tree.beginUpdate(path);
+
+    swapImportedClass(recorder, path, sourceFile, [
+      {
+        classNames: { B: 'D' },
+        moduleName: 'module',
+        localNames: { D: 'Replacement' },
+      },
+    ]);
+    tree.commitUpdate(recorder);
+
+    expect(tree.readText(path)).toBe(stripIndents`
+    import { D as Existing, D as Replacement } from 'module';
+
+    A(Replacement) && Existing;`);
+  });
+
+  it('should add a requested binding when import insertion cannot merge an existing alias', () => {
+    const path = 'file.ts';
+    const content = stripIndents`
+    import { B, D as Existing } from 'module';
+
+    A(B);
+    keep(B);`;
+    tree.create(path, content);
+    const sourceFile = ts.createSourceFile(
+      path,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    const recorder = tree.beginUpdate(path);
+
+    swapImportedClass(recorder, path, sourceFile, [
+      {
+        classNames: { B: 'D' },
+        moduleName: 'module',
+        localNames: { D: 'D' },
+        filter: (node) => node.parent.getText() === 'A(B)',
+      },
+    ]);
+    tree.commitUpdate(recorder);
+
+    expect(tree.readText(path)).toBe(stripIndents`
+    import { B, D as Existing } from 'module';
+    import { D } from 'module';
+
+    A(D);
+    keep(B);`);
+  });
 });
