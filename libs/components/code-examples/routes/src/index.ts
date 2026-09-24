@@ -289,6 +289,20 @@ export const routes: Routes = [
       import('@skyux/code-examples').then(({ CoreIdExampleComponent: c }) => c),
   },
   {
+    path: 'CoreInstrumentationBasicExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ CoreInstrumentationBasicExample: c }) => c,
+      ),
+  },
+  {
+    path: 'CoreInstrumentationModalExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ CoreInstrumentationModalExample: c }) => c,
+      ),
+  },
+  {
     path: 'CoreMediaQueryBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(

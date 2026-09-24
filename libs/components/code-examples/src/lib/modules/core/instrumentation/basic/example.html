@@ -1,0 +1,29 @@
+<form
+  [formGroup]="formGroup"
+  [skyInstrumentationContext]="{
+    name: 'gift-details',
+    detail: { recordId: '280-c-r-w' }
+  }"
+>
+  <h2>Gift details</h2>
+
+  <sky-input-box
+    data-sky-id="gift-amount"
+    helpKey="gift-amount.html"
+    labelText="Gift amount"
+    stacked="true"
+  >
+    <input formControlName="amount" type="text" />
+  </sky-input-box>
+
+  <div [skyInstrumentationContext]="{ name: 'recurring-gift' }">
+    <h3>Recurring gift</h3>
+
+    <sky-checkbox
+      data-sky-id="repeat-monthly"
+      formControlName="repeatMonthly"
+      helpKey="repeat-monthly.html"
+      labelText="Repeat this gift monthly"
+    />
+  </div>
+</form>
