@@ -13934,6 +13934,23 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             },
             "name": "no-legacy-icons",
           },
+          "no-native-click": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Disallow binding a component's native click event; use its dedicated output instead.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-native-click.md",
+              },
+              "fixable": "code",
+              "messages": Object {
+                "noNativeClick": "Do not bind (click) on <{{selector}}>. It relies on an internal element's native click bubbling, which is unreliable for assistive technology. Use ({{alternativeOutput}}) instead.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "no-native-click",
+          },
           "no-radio-group-with-nested-list": Object {
             "create": [Function],
             "defaultOptions": Array [],
@@ -14075,6 +14092,7 @@ For example, when set to \`true\` the following code will not fail for the \`alt
       "skyux-eslint-template/no-invalid-input-types": "error",
       "skyux-eslint-template/no-invalid-sky-classnames": "error",
       "skyux-eslint-template/no-legacy-icons": "error",
+      "skyux-eslint-template/no-native-click": "error",
       "skyux-eslint-template/no-radio-group-with-nested-list": "error",
       "skyux-eslint-template/no-unbound-id": "error",
       "skyux-eslint-template/prefer-disabled-attr": "error",

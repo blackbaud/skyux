@@ -7,16 +7,18 @@ import { removeImport } from './remove-import';
 /**
  * True if `array` is the value of a property (named in `metadataFields`,
  * e.g. `imports: [...]`) on an object literal passed directly to a
- * decorator (e.g. `@Component({ imports: [...] })`). A `PropertyAssignment`'s
- * parent is always an `ObjectLiteralExpression` by grammar, so that link
- * doesn't need its own check.
+ * decorator (e.g. `@Component({ imports: [...] })`) or as the first argument
+ * to `TestBed.configureTestingModule({ imports: [...] })`. A
+ * `PropertyAssignment`'s parent is always an `ObjectLiteralExpression` by
+ * grammar, so that link doesn't need its own check.
  *
  * `exports` only exists on Angular's `@NgModule` metadata (`@Component`,
- * `@Directive`, etc. have no such field), so an `exports` array is only
- * treated as decorator metadata when the decorator is `@NgModule`. This
- * keeps `imports` processing available for any decorator (e.g. standalone
- * `@Component` metadata) while preventing an unrelated custom decorator's
- * `exports` array from being mistaken for module metadata.
+ * `@Directive`, `TestBed.configureTestingModule`, etc. have no such field),
+ * so an `exports` array is only treated as module metadata when the call is
+ * `@NgModule`. This keeps `imports` processing available for any decorator
+ * (e.g. standalone `@Component` metadata) or `TestBed.configureTestingModule`
+ * call while preventing an unrelated custom decorator's `exports` array from
+ * being mistaken for module metadata.
  */
 function isDecoratorMetadataArray(
   array: ts.ArrayLiteralExpression,
@@ -29,8 +31,17 @@ function isDecoratorMetadataArray(
   ) {
     return false;
   }
-  const call = property.parent.parent;
-  if (!ts.isCallExpression(call) || !ts.isDecorator(call.parent)) {
+  const objectLiteral = property.parent;
+  const call = objectLiteral.parent;
+  if (!ts.isCallExpression(call)) {
+    return false;
+  }
+
+  const isDecoratorCall = ts.isDecorator(call.parent);
+  const isTestingModuleCall =
+    call.arguments[0] === objectLiteral &&
+    call.expression.getText().trim() === 'TestBed.configureTestingModule';
+  if (!isDecoratorCall && !isTestingModuleCall) {
     return false;
   }
   if (
@@ -44,13 +55,13 @@ function isDecoratorMetadataArray(
 
 /**
  * Removes every reference to `className` from the given `metadataFields`
- * arrays (default `['imports']`) of an Angular decorator, consuming the
- * adjacent comma so the remaining entries stay well-formed, then removes
- * the import of `className` from `moduleName` - but only if nothing else in
- * the file still references it. References outside those decorator arrays
- * (unrelated arrays, a parameter that shadows the import, direct
- * assignments, etc.) are left untouched, and the import is kept if any of
- * those remain.
+ * arrays (default `['imports']`) of an Angular decorator or a
+ * `TestBed.configureTestingModule({ ... })` call, consuming the adjacent
+ * comma so the remaining entries stay well-formed, then removes the import
+ * of `className` from `moduleName` - but only if nothing else in the file
+ * still references it. References outside those arrays (unrelated arrays, a
+ * parameter that shadows the import, direct assignments, etc.) are left
+ * untouched, and the import is kept if any of those remain.
  *
  * Returns `true` when the import statement was removed, `false` when
  * unhandled references kept it in place.

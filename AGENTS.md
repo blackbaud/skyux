@@ -190,7 +190,12 @@ what you find **before** handing it over:
     `SkyThingResult`) for functions, classes, types, and interfaces exported
     from those barrel files. This matches the existing convention across all
     `@skyux/*` and `@skyux-sdk/*` packages. Flag any new barrel export missing
-    the prefix; do not apply this rule to internal exports.
+    the prefix; do not apply this rule to internal exports, nor to
+    `libs/components/code-examples`, whose barrel exports are demo components
+    addressed by `docsId` rather than an API consumers program against. Those
+    are named `<Library><Component><ExampleName>Example` per
+    [component-code-examples.instructions.md](.github/instructions/component-code-examples.instructions.md);
+    a `Sky` prefix there is wrong.
 
 ## Dependency Discipline (blocking)
 

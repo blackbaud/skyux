@@ -930,7 +930,64 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/index.ts')}`).toBe(input);
   });
 
-  it('should keep a redundant SkyGridModule import referenced in a TestBed configuration and warn', async () => {
+  it('should remove a redundant SkyGridModule import referenced in a TestBed configuration', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const backtick = '`';
+    tree.create(
+      'src/app/foo.component.ts',
+      stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        @Component({
+          selector: 'app-foo',
+          template: ${backtick}
+            <sky-list-view-grid>
+              <sky-grid-column field="name" heading="Name"></sky-grid-column>
+            </sky-list-view-grid>
+          ${backtick},
+          imports: [SkyListViewGridModule],
+        })
+        export class FooComponent {}
+      `,
+    );
+    tree.create(
+      'src/app/foo.component.spec.ts',
+      stripIndents`
+        import { TestBed } from '@angular/core/testing';
+        import { SkyGridModule } from '@skyux/grids';
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        import { FooComponent } from './foo.component';
+
+        describe('FooComponent', () => {
+          beforeEach(() => {
+            TestBed.configureTestingModule({
+              imports: [SkyGridModule, SkyListViewGridModule, FooComponent],
+            });
+          });
+        });
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/foo.component.spec.ts')}`)
+      .toBe(stripIndents`
+      import { TestBed } from '@angular/core/testing';
+      import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+      import { FooComponent } from './foo.component';
+
+      describe('FooComponent', () => {
+        beforeEach(() => {
+          TestBed.configureTestingModule({
+            imports: [SkyListViewGridModule, FooComponent],
+          });
+        });
+      });
+    `);
+  });
+
+  it('should keep the import and warn when SkyGridModule is also referenced outside a decorator/TestBed imports array', async () => {
     const tree = await createTestApp(runner, { projectName: 'test-app' });
     const backtick = '`';
     tree.create(
@@ -958,6 +1015,8 @@ describe('Convert Grid to Data Grid', () => {
 
       import { FooComponent } from './foo.component';
 
+      const otherModules = [SkyGridModule];
+
       describe('FooComponent', () => {
         beforeEach(() => {
           TestBed.configureTestingModule({
@@ -968,9 +1027,24 @@ describe('Convert Grid to Data Grid', () => {
     `;
     tree.create('src/app/foo.component.spec.ts', specInput);
     const result = await convert(tree);
-    expect(
-      stripIndents`${result.readText('src/app/foo.component.spec.ts')}`,
-    ).toBe(specInput);
+    expect(stripIndents`${result.readText('src/app/foo.component.spec.ts')}`)
+      .toBe(stripIndents`
+      import { TestBed } from '@angular/core/testing';
+      import { SkyGridModule } from '@skyux/grids';
+      import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+      import { FooComponent } from './foo.component';
+
+      const otherModules = [SkyGridModule];
+
+      describe('FooComponent', () => {
+        beforeEach(() => {
+          TestBed.configureTestingModule({
+            imports: [SkyListViewGridModule, FooComponent],
+          });
+        });
+      });
+    `);
     expect(hasLog('remove the import manually if nothing else needs it')).toBe(
       true,
     );
