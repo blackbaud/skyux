@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 * **components/packages:** duplicate provider tokens in legacy-i18n-services migration ([#4816](https://github.com/blackbaud/skyux/issues/4816)) ([88c42f5](https://github.com/blackbaud/skyux/commit/88c42f5c243ffe70365fc66c9e20819091a25388)), closes [AB#4128249](https://dev.azure.com/blackbaud/Products/_workitems/edit/4128249)
+* **components/toast:** links don't change color on hover ([#4787](https://github.com/blackbaud/skyux/issues/4787)) ([#4789](https://github.com/blackbaud/skyux/issues/4789)) ([970fb2d](https://github.com/blackbaud/skyux/commit/970fb2d634d2c0a54f0b2a2bfae92433c87abafd))
 
 ## [15.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.15...15.0.0-alpha.16) (2026-09-24)
 
