@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.22.0](https://github.com/blackbaud/skyux/compare/14.21.0...14.22.0) (2026-09-24)
+
+
+### Features
+
+* **components/core:** add instrumentation to capture user events ([#4811](https://github.com/blackbaud/skyux/issues/4811)) ([cf4807b](https://github.com/blackbaud/skyux/commit/cf4807bf0bd3e8c3d86cde4e15210e79b1bd1fd5))
+* **components/popovers:** document dropdown `messageStream` input ([#4802](https://github.com/blackbaud/skyux/issues/4802)) ([18ea346](https://github.com/blackbaud/skyux/commit/18ea3465975571592b67725b7d9826042f8c79fc))
 ## [15.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.15...15.0.0-alpha.16) (2026-09-24)
 
 
