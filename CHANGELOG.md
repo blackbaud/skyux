@@ -17,6 +17,7 @@
 
 ### Bug Fixes
 
+* **components/packages:** remove class references from TestBed.configureTestingModule imports ([#4817](https://github.com/blackbaud/skyux/issues/4817)) ([641f822](https://github.com/blackbaud/skyux/commit/641f822bd977fa71782f02373d677851c843671a)), closes [AB#4133059](https://dev.azure.com/blackbaud/Products/_workitems/edit/4133059)
 * **components/theme:** default theme disabled buttons do not have interactive styles ([#4790](https://github.com/blackbaud/skyux/issues/4790)) ([85ebed6](https://github.com/blackbaud/skyux/commit/85ebed659a74c24758d8c77b7d313e56e8ffd15a))
 
 ## [14.21.0](https://github.com/blackbaud/skyux/compare/14.20.1...14.21.0) (2026-09-17)
