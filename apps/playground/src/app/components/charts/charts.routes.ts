@@ -19,6 +19,15 @@ const routes: Routes = [
       library: 'charts',
     },
   },
+  {
+    path: 'chart-line',
+    loadComponent: () => import('./chart-line/chart-line-playground'),
+    data: {
+      name: 'Charts: Line Chart',
+      icon: 'data-line',
+      library: 'charts',
+    },
+  },
 ];
 
 export default routes;

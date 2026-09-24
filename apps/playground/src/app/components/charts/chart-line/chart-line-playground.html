@@ -1,0 +1,55 @@
+<sky-page layout="blocks">
+  <sky-page-content>
+    <sky-fluid-grid gutterSize="medium" [disableMargin]="true">
+      <sky-row>
+        <sky-column [screenSmall]="4">
+          <sky-box class="sky-margin-stacked-xl" headingText="Basic">
+            <sky-box-content>
+              <app-chart-line-basic />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box class="sky-margin-stacked-xl" headingText="Multiple series">
+            <sky-box-content>
+              <app-chart-line-multiple-series />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box
+            class="sky-margin-stacked-xl"
+            headingText="Gaps (null values)"
+          >
+            <sky-box-content>
+              <app-chart-line-gaps />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+      <sky-row>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Value formats">
+            <sky-box-content>
+              <app-chart-line-value-format />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Logarithmic scale">
+            <sky-box-content>
+              <app-chart-line-logarithmic />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+        <sky-column [screenSmall]="4">
+          <sky-box headingText="Async data">
+            <sky-box-content>
+              <app-chart-line-async />
+            </sky-box-content>
+          </sky-box>
+        </sky-column>
+      </sky-row>
+    </sky-fluid-grid>
+  </sky-page-content>
+</sky-page>
