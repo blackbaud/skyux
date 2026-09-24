@@ -21,26 +21,6 @@
         ]
       }
     },
-    "character-count": {
-      "development": {
-        "docsIds": [
-          "SkyCharacterCounterModule",
-          "SkyCharacterCounterIndicatorComponent",
-          "SkyCharacterCounterInputDirective",
-          "SkyCharacterCounterScreenReaderPipe"
-        ],
-        "primaryDocsId": "SkyCharacterCounterModule"
-      },
-      "testing": {
-        "docsIds": [
-          "SkyCharacterCounterIndicatorHarness",
-          "SkyCharacterCounterIndicatorHarnessFilters"
-        ]
-      },
-      "codeExamples": {
-        "docsIds": ["FormsCharacterCountExampleComponent"]
-      }
-    },
     "checkbox": {
       "development": {
         "docsIds": [
