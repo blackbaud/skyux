@@ -1,20 +1,13 @@
 # Changelog
 
 
-## [15.0.0-beta.0](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.16...15.0.0-beta.0) (2026-09-24)
+## [14.22.0](https://github.com/blackbaud/skyux/compare/14.21.0...14.22.0) (2026-09-24)
 
 
 ### Features
 
-* **components/core:** add instrumentation to capture user events ([#4811](https://github.com/blackbaud/skyux/issues/4811)) ([#4818](https://github.com/blackbaud/skyux/issues/4818)) ([58c5072](https://github.com/blackbaud/skyux/commit/58c5072fa59adc126d23e83679d7f2f89f571adb))
-* **components/icon:** resolve dark mode icon variants ([#4791](https://github.com/blackbaud/skyux/issues/4791)) ([#4799](https://github.com/blackbaud/skyux/issues/4799)) ([4a75601](https://github.com/blackbaud/skyux/commit/4a756019f8919ec7b321ded2f7a32602e38f0621))
-
-
-### Bug Fixes
-
-* **components/packages:** duplicate provider tokens in legacy-i18n-services migration ([#4816](https://github.com/blackbaud/skyux/issues/4816)) ([88c42f5](https://github.com/blackbaud/skyux/commit/88c42f5c243ffe70365fc66c9e20819091a25388)), closes [AB#4128249](https://dev.azure.com/blackbaud/Products/_workitems/edit/4128249)
-* **components/toast:** links don't change color on hover ([#4787](https://github.com/blackbaud/skyux/issues/4787)) ([#4789](https://github.com/blackbaud/skyux/issues/4789)) ([970fb2d](https://github.com/blackbaud/skyux/commit/970fb2d634d2c0a54f0b2a2bfae92433c87abafd))
-
+* **components/core:** add instrumentation to capture user events ([#4811](https://github.com/blackbaud/skyux/issues/4811)) ([cf4807b](https://github.com/blackbaud/skyux/commit/cf4807bf0bd3e8c3d86cde4e15210e79b1bd1fd5))
+* **components/popovers:** document dropdown `messageStream` input ([#4802](https://github.com/blackbaud/skyux/issues/4802)) ([18ea346](https://github.com/blackbaud/skyux/commit/18ea3465975571592b67725b7d9826042f8c79fc))
 ## [15.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.15...15.0.0-alpha.16) (2026-09-24)
 
 
