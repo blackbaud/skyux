@@ -761,12 +761,13 @@ function updateTypescriptImports(
       );
       tree.commitUpdate(recorder);
       if (!removed) {
-        // removeClassReference only edits decorator `imports` arrays; a
-        // reference elsewhere (e.g. a TestBed configuration) keeps the import.
+        // removeClassReference edits decorator `imports` arrays and
+        // TestBed.configureTestingModule `imports` arrays; a reference
+        // elsewhere keeps the import.
         logOnce(
           context,
           'warn',
-          'The redundant "SkyGridModule" import was kept because it is referenced outside a decorator "imports" array (for example in a TestBed configuration). "SkyListViewGridModule" re-exports "SkyGridModule", so remove the import manually if nothing else needs it.',
+          'The redundant "SkyGridModule" import was kept because it is referenced outside a decorator "imports" array or a "TestBed.configureTestingModule" "imports" array. "SkyListViewGridModule" re-exports "SkyGridModule", so remove the import manually if nothing else needs it.',
         );
       }
     } else {

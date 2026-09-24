@@ -79,6 +79,18 @@ describe('remove-class-reference', () => {
     );
   });
 
+  it('should remove the entry and import from a TestBed.configureTestingModule imports array', () => {
+    const content = `import { SkyGridModule } from 'module';\n\nTestBed.configureTestingModule({\n  imports: [SkyGridModule],\n});`;
+    expect(run(content)).toBe(
+      `\nTestBed.configureTestingModule({\n  imports: [],\n});`,
+    );
+  });
+
+  it('should not modify an imports array passed to the second argument of TestBed.configureTestingModule', () => {
+    const content = `import { SkyGridModule } from 'module';\n\nTestBed.configureTestingModule(otherConfig, {\n  imports: [SkyGridModule],\n});`;
+    expect(run(content)).toBe(content);
+  });
+
   it('should return whether the import was removed', () => {
     function runReturning(path: string, content: string): boolean {
       tree.create(path, content);
