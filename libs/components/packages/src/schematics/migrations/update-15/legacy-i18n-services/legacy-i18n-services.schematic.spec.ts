@@ -964,4 +964,234 @@ TestBed.configureTestingModule({
       firstRunResult,
     );
   });
+
+  it.each([
+    'function configure(SkyAppResourcesLegacyService: unknown)',
+    'function configure({ SkyAppResourcesLegacyService }: { SkyAppResourcesLegacyService: unknown })',
+    'function configure([SkyAppResourcesLegacyService]: unknown[])',
+  ])('should avoid shadowing by a parameter in %s', async (declaration) => {
+    const tree = setupTree({
+      '/src/app/test.ts': `import { SkyAppResourcesService } from '@skyux/i18n';
+
+${declaration} {
+  return [{ provide: SkyAppResourcesService, useValue: {} }];
+}`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.ts'))
+      .toBe(`import { SkyAppResourcesService, SkyAppResourcesLegacyService as SkyAppResourcesLegacyService_1 } from '@skyux/i18n';
+
+${declaration} {
+  return [{ provide: SkyAppResourcesService, useValue: {} }, { provide: SkyAppResourcesLegacyService_1, useExisting: SkyAppResourcesService }];
+}`);
+  });
+
+  it('should import an unshadowed name when a legacy alias already exists without providers', async () => {
+    const tree = setupTree({
+      '/src/app/test.ts': `import { SkyAppResourcesService, SkyAppResourcesLegacyService as Legacy } from '@skyux/i18n';
+
+const SkyAppResourcesLegacyService = {};
+export const service = SkyAppResourcesService;
+export const existing = Legacy;`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.ts'))
+      .toBe(`import { SkyAppResourcesLegacyService as SkyAppResourcesLegacyService_1, SkyAppResourcesLegacyService as Legacy } from '@skyux/i18n';
+
+const SkyAppResourcesLegacyService = {};
+export const service = SkyAppResourcesLegacyService_1;
+export const existing = Legacy;`);
+  });
+
+  it('should not add a twin after an unrelated variable with the same name', async () => {
+    const tree = setupTree({
+      '/src/app/test.ts': `import { SkyAppResourcesService } from '@skyux/i18n';
+
+const resourcesProvider = { provide: SkyAppResourcesService, useValue: {} };
+export const providers = [resourcesProvider];
+export function configure(resourcesProvider: unknown) {
+  return [resourcesProvider];
+}`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.ts'))
+      .toBe(`import { SkyAppResourcesService, SkyAppResourcesLegacyService } from '@skyux/i18n';
+
+const resourcesProvider = { provide: SkyAppResourcesService, useValue: {} };
+export const providers = [resourcesProvider, { provide: SkyAppResourcesLegacyService, useExisting: SkyAppResourcesService }];
+export function configure(resourcesProvider: unknown) {
+  return [resourcesProvider];
+}`);
+  });
+
+  it('should not mistake a shadowed variable for an existing legacy provider', async () => {
+    const tree = setupTree({
+      '/src/app/test.ts': `import { SkyAppResourcesService, SkyAppResourcesLegacyService } from '@skyux/i18n';
+
+const legacyProvider = { provide: SkyAppResourcesLegacyService, useValue: {} };
+export function configure(legacyProvider: unknown) {
+  return [legacyProvider, { provide: SkyAppResourcesService, useValue: {} }];
+}`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.ts'))
+      .toBe(`import { SkyAppResourcesService, SkyAppResourcesLegacyService } from '@skyux/i18n';
+
+const legacyProvider = { provide: SkyAppResourcesLegacyService, useValue: {} };
+export function configure(legacyProvider: unknown) {
+  return [legacyProvider, { provide: SkyAppResourcesService, useValue: {} }, { provide: SkyAppResourcesLegacyService, useExisting: SkyAppResourcesService }];
+}`);
+  });
+
+  it.each([
+    '{ provide: Legacy, useValue: legacy }, { provide: SkyAppResourcesService, useValue: original }',
+    '{ provide: (Legacy), useValue: legacy }, { provide: SkyAppResourcesService, useValue: original }',
+    '{ provide: SkyAppResourcesService, useValue: original }, { provide: Legacy, useValue: legacy }',
+    '{ provide: Legacy, useExisting: SkyAppResourcesService }, { provide: SkyAppResourcesService, useValue: original }',
+  ])(
+    'should preserve existing aliased legacy providers in [%s]',
+    async (providers) => {
+      const content = `import { SkyAppResourcesService, SkyAppResourcesLegacyService as Legacy } from '@skyux/i18n';
+
+const original = {};
+const legacy = {};
+export const providers = [${providers}];`;
+      const tree = setupTree({ '/src/app/test.ts': content });
+
+      await runSchematic(tree);
+
+      expect(tree.readText('/src/app/test.ts')).toBe(content);
+    },
+  );
+
+  it('should not duplicate or rename a locally shadowed service token', async () => {
+    const content = `import { SkyAppResourcesService } from '@skyux/i18n';
+
+export function configure(SkyAppResourcesService: unknown) {
+  return [{ provide: SkyAppResourcesService, useValue: {} }];
+}`;
+    const tree = setupTree({ '/src/app/test.ts': content });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.ts')).toBe(content);
+  });
+
+  it('should continue migrating shorthand properties and local re-exports', async () => {
+    const tree = setupTree({
+      '/src/app/test.ts': `import { SkyAppResourcesService } from '@skyux/i18n';
+
+const tokens = { SkyAppResourcesService };
+export { SkyAppResourcesService };`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.ts'))
+      .toBe(`import { SkyAppResourcesLegacyService } from '@skyux/i18n';
+
+const tokens = { SkyAppResourcesLegacyService };
+export { SkyAppResourcesLegacyService };`);
+  });
+
+  it('should not reuse an import alias for a different legacy service', async () => {
+    const tree = setupTree({
+      '/src/app/test.ts': `import { SkyAppResourcesService, SkyLibResourcesLegacyService as SkyAppResourcesLegacyService_1 } from '@skyux/i18n';
+
+const SkyAppResourcesLegacyService = {};
+export const providers = [{ provide: SkyAppResourcesService, useValue: {} }];`,
+    });
+
+    await runSchematic(tree);
+
+    const result = tree.readText('/src/app/test.ts');
+    expect(result)
+      .toBe(`import { SkyAppResourcesService, SkyLibResourcesLegacyService as SkyAppResourcesLegacyService_1, SkyAppResourcesLegacyService as SkyAppResourcesLegacyService_2 } from '@skyux/i18n';
+
+const SkyAppResourcesLegacyService = {};
+export const providers = [{ provide: SkyAppResourcesService, useValue: {} }, { provide: SkyAppResourcesLegacyService_2, useExisting: SkyAppResourcesService }];`);
+
+    await runSchematic(tree);
+    expect(tree.readText('/src/app/test.ts')).toBe(result);
+  });
+
+  it.each([
+    '({ provide: SkyAppResourcesService, useValue: {} })',
+    '{ provide: SkyAppResourcesService, useValue: {} } as Provider',
+    '{ provide: SkyAppResourcesService, useValue: {} } satisfies Provider',
+    '<Provider>{ provide: SkyAppResourcesService, useValue: {} }',
+    '({ provide: SkyAppResourcesService, useValue: {} } as Provider)!',
+  ])('should duplicate a wrapped provider: %s', async (provider) => {
+    const tree = setupTree({
+      '/src/app/test.ts': `import { SkyAppResourcesService } from '@skyux/i18n';
+
+export const providers = [${provider}];`,
+    });
+
+    await runSchematic(tree);
+
+    const result = tree.readText('/src/app/test.ts');
+    expect(result)
+      .toBe(`import { SkyAppResourcesService, SkyAppResourcesLegacyService } from '@skyux/i18n';
+
+export const providers = [${provider}, { provide: SkyAppResourcesLegacyService, useExisting: SkyAppResourcesService }];`);
+
+    await runSchematic(tree);
+    expect(tree.readText('/src/app/test.ts')).toBe(result);
+  });
+
+  it('should resolve wrapped provider variables and preserve an explicit wrapped legacy provider', async () => {
+    const tree = setupTree({
+      '/src/app/test.ts': `import { SkyAppResourcesService, SkyAppResourcesLegacyService } from '@skyux/i18n';
+
+const resourcesProvider = ({ provide: (SkyAppResourcesService), useValue: {} } satisfies Provider);
+const legacyProvider = ({ provide: SkyAppResourcesLegacyService, useValue: {} } as Provider);
+export const originalProviders = [resourcesProvider];
+export const explicitProviders = [(legacyProvider), resourcesProvider];`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.ts'))
+      .toBe(`import { SkyAppResourcesService, SkyAppResourcesLegacyService } from '@skyux/i18n';
+
+const resourcesProvider = ({ provide: (SkyAppResourcesService), useValue: {} } satisfies Provider);
+const legacyProvider = ({ provide: SkyAppResourcesLegacyService, useValue: {} } as Provider);
+export const originalProviders = [resourcesProvider, { provide: SkyAppResourcesLegacyService, useExisting: SkyAppResourcesService }];
+export const explicitProviders = [(legacyProvider), resourcesProvider];`);
+  });
+
+  it('should keep the original token accessible when a provider variable is used in a shadowing scope', async () => {
+    const tree = setupTree({
+      '/src/app/test.ts': `import { SkyAppResourcesService } from '@skyux/i18n';
+
+const resourcesProvider = { provide: SkyAppResourcesService, useValue: {} };
+export function configure(SkyAppResourcesService: unknown) {
+  return [resourcesProvider];
+}`,
+    });
+
+    await runSchematic(tree);
+
+    const result = tree.readText('/src/app/test.ts');
+    expect(result)
+      .toBe(`import { SkyAppResourcesService, SkyAppResourcesLegacyService } from '@skyux/i18n';
+import { SkyAppResourcesService as SkyAppResourcesService_1 } from '@skyux/i18n';
+
+const resourcesProvider = { provide: SkyAppResourcesService, useValue: {} };
+export function configure(SkyAppResourcesService: unknown) {
+  return [resourcesProvider, { provide: SkyAppResourcesLegacyService, useExisting: SkyAppResourcesService_1 }];
+}`);
+
+    await runSchematic(tree);
+    expect(tree.readText('/src/app/test.ts')).toBe(result);
+  });
 });

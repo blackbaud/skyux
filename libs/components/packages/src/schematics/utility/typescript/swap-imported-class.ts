@@ -179,8 +179,20 @@ export function swapImportedClass(
           ? newClassName
           : [newClassName];
 
-        const missingClassNames = newClassNameArray.filter(
-          (name) => !isImportedFromPackage(sourceFile, name, newModuleName),
+        const missingClassNames = newClassNameArray.filter((name) =>
+          localNames?.[name]
+            ? !findNodes(sourceFile, ts.SyntaxKind.ImportSpecifier).some(
+                (node) =>
+                  ts.isImportSpecifier(node) &&
+                  (node.propertyName ?? node.name).text === name &&
+                  node.name.text === toLocalName(name) &&
+                  ts.isStringLiteral(
+                    node.parent.parent.parent.moduleSpecifier,
+                  ) &&
+                  node.parent.parent.parent.moduleSpecifier.text ===
+                    newModuleName,
+              )
+            : !isImportedFromPackage(sourceFile, name, newModuleName),
         );
         const missingImportBindings = missingClassNames.map(toImportBinding);
 
@@ -231,7 +243,14 @@ export function swapImportedClass(
       filePath,
       classNames.join(', '),
       moduleName,
-    ) as InsertChange;
+    );
+    if (!(change instanceof InsertChange)) {
+      recorder.insertRight(
+        endOfImports,
+        `${eol}import { ${classNames.join(', ')} } from '${moduleName}';`,
+      );
+      return;
+    }
     shiftLineBreakForInsertedImport(change, eol);
 
     // `insertRight` rather than `applyToUpdateRecorder`'s `insertLeft`: the

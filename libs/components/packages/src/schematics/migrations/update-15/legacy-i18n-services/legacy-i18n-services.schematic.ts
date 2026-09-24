@@ -9,10 +9,7 @@ import { getWorkspace } from '@schematics/angular/utility/workspace';
 
 import ts from 'typescript';
 
-import {
-  getLocalImportName,
-  parseSourceFile,
-} from '../../../utility/typescript/ng-ast';
+import { parseSourceFile } from '../../../utility/typescript/ng-ast';
 import { swapImportedClass } from '../../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../../utility/visit-project-files';
 
@@ -24,18 +21,25 @@ const CLASS_NAMES: Record<string, string> = {
 };
 
 /**
- * The declarations that can shadow a legacy class name in a file, and so rule
+ * The declarations that can shadow a service class name in a file, and so rule
  * that name out for an inserted provider.
  */
 const DECLARATION_KINDS = new Set<ts.SyntaxKind>([
   ts.SyntaxKind.ImportClause,
   ts.SyntaxKind.NamespaceImport,
+  ts.SyntaxKind.ImportEqualsDeclaration,
   ts.SyntaxKind.ClassDeclaration,
+  ts.SyntaxKind.ClassExpression,
   ts.SyntaxKind.InterfaceDeclaration,
   ts.SyntaxKind.TypeAliasDeclaration,
+  ts.SyntaxKind.TypeParameter,
   ts.SyntaxKind.EnumDeclaration,
+  ts.SyntaxKind.ModuleDeclaration,
   ts.SyntaxKind.FunctionDeclaration,
+  ts.SyntaxKind.FunctionExpression,
   ts.SyntaxKind.VariableDeclaration,
+  ts.SyntaxKind.Parameter,
+  ts.SyntaxKind.BindingElement,
 ]);
 
 /**
@@ -53,6 +57,28 @@ function isStaticAddResourcesReference(node: ts.Identifier): boolean {
   );
 }
 
+function isWrappedExpression(
+  node: ts.Node,
+): node is
+  | ts.ParenthesizedExpression
+  | ts.AssertionExpression
+  | ts.SatisfiesExpression
+  | ts.NonNullExpression {
+  return (
+    ts.isParenthesizedExpression(node) ||
+    ts.isAssertionExpression(node) ||
+    ts.isSatisfiesExpression(node) ||
+    ts.isNonNullExpression(node)
+  );
+}
+
+function getOuterExpression(node: ts.Node): ts.Node {
+  while (isWrappedExpression(node.parent)) {
+    node = node.parent;
+  }
+  return node;
+}
+
 /**
  * The provider object literal in which `node` is the value of `propertyName`,
  * e.g. `{ provide: SkyAppResourcesService, ... }` for `provide`, or
@@ -62,11 +88,12 @@ function getProviderObjectLiteral(
   node: ts.Identifier,
   propertyName: string,
 ): ts.ObjectLiteralExpression | undefined {
-  const propertyAssignment = node.parent;
+  const expression = getOuterExpression(node);
+  const propertyAssignment = expression.parent;
 
   if (
     !ts.isPropertyAssignment(propertyAssignment) ||
-    propertyAssignment.initializer !== node ||
+    propertyAssignment.initializer !== expression ||
     propertyAssignment.name.getText() !== propertyName
   ) {
     return undefined;
@@ -86,12 +113,15 @@ function getProviderObjectLiteral(
 function getProviderArrayElements(
   objectLiteral: ts.ObjectLiteralExpression,
   sourceFile: ts.SourceFile,
+  checker: ts.TypeChecker,
 ): ts.Node[] {
-  if (ts.isArrayLiteralExpression(objectLiteral.parent)) {
-    return [objectLiteral];
+  const expression = getOuterExpression(objectLiteral);
+
+  if (ts.isArrayLiteralExpression(expression.parent)) {
+    return [expression];
   }
 
-  const variable = objectLiteral.parent;
+  const variable = expression.parent;
 
   if (!ts.isVariableDeclaration(variable) || !ts.isIdentifier(variable.name)) {
     return [];
@@ -99,13 +129,17 @@ function getProviderArrayElements(
 
   const variableName = variable.name.text;
 
-  return findNodes(sourceFile, ts.SyntaxKind.Identifier).filter(
-    (reference): reference is ts.Identifier =>
-      ts.isIdentifier(reference) &&
-      reference.text === variableName &&
-      reference !== variable.name &&
-      ts.isArrayLiteralExpression(reference.parent),
-  );
+  return findNodes(sourceFile, ts.SyntaxKind.Identifier)
+    .filter(
+      (reference): reference is ts.Identifier =>
+        ts.isIdentifier(reference) &&
+        reference.text === variableName &&
+        reference !== variable.name &&
+        checker.getSymbolAtLocation(reference) ===
+          checker.getSymbolAtLocation(variable.name),
+    )
+    .map(getOuterExpression)
+    .filter((element) => ts.isArrayLiteralExpression(element.parent));
 }
 
 /**
@@ -116,59 +150,96 @@ function getProviderArrayElements(
 function getTwinInsertionPoints(
   token: ts.Identifier,
   sourceFile: ts.SourceFile,
+  checker: ts.TypeChecker,
 ): ts.Node[] {
   const objectLiteral = getProviderObjectLiteral(token, 'provide');
 
   return objectLiteral
-    ? getProviderArrayElements(objectLiteral, sourceFile)
+    ? getProviderArrayElements(objectLiteral, sourceFile, checker)
     : [];
+}
+
+function isImportedService(
+  node: ts.Identifier,
+  className: string,
+  checker: ts.TypeChecker,
+): boolean {
+  const symbol = ts.isShorthandPropertyAssignment(node.parent)
+    ? checker.getShorthandAssignmentValueSymbol(node.parent)
+    : ts.isExportSpecifier(node.parent)
+      ? checker.getExportSpecifierLocalTargetSymbol(node.parent)
+      : checker.getSymbolAtLocation(node);
+
+  return (
+    symbol?.declarations?.some(
+      (declaration) =>
+        ts.isImportSpecifier(declaration) &&
+        (declaration.propertyName ?? declaration.name).text === className &&
+        ts.isStringLiteral(declaration.parent.parent.parent.moduleSpecifier) &&
+        declaration.parent.parent.parent.moduleSpecifier.text === MODULE_NAME,
+    ) ?? false
+  );
 }
 
 /**
  * Whether `objectLiteral` is a provider whose `provide` token is
- * `legacyLocalName`, i.e. the twin `duplicateProviderTokens` inserts.
+ * the imported legacy service, including an existing aliased import.
  */
 function isLegacyProvider(
   objectLiteral: ts.ObjectLiteralExpression,
-  legacyLocalName: string,
+  legacyClassName: string,
+  checker: ts.TypeChecker,
 ): boolean {
-  return objectLiteral.properties.some(
-    (property) =>
-      ts.isPropertyAssignment(property) &&
-      property.name.getText() === 'provide' &&
-      ts.isIdentifier(property.initializer) &&
-      property.initializer.text === legacyLocalName,
-  );
+  return objectLiteral.properties.some((property) => {
+    if (
+      !ts.isPropertyAssignment(property) ||
+      property.name.getText() !== 'provide'
+    ) {
+      return false;
+    }
+
+    let token = property.initializer;
+    while (isWrappedExpression(token)) {
+      token = token.expression;
+    }
+
+    return (
+      ts.isIdentifier(token) &&
+      isImportedService(token, legacyClassName, checker)
+    );
+  });
 }
 
 /**
  * Whether the reference is a provider token that must not be renamed: either
  * the `provide:` token of a provider registered in a `providers: [...]` list,
- * or the `useExisting:` token of the legacy twin that duplication inserts.
+ * or the `useExisting:` token of a legacy provider alias.
  * The `provide:` token is duplicated rather than renamed -- see
  * `duplicateProviderTokens` -- since test doubles registered under the
  * original token would otherwise stop matching the pipe and matchers that
  * still inject it, and the twin's `useExisting:` token has to keep pointing at
- * it. Any other `useExisting:` token is a consumer's own alias, and its
- * injectors expect the legacy behavior, so it is renamed like a normal
+ * it. An existing legacy provider alias must likewise keep that target to
+ * avoid aliasing the legacy service to itself. Any other `useExisting:` token
+ * is a consumer's own alias, and its injectors expect the legacy behavior,
+ * so it is renamed like a normal
  * reference.
  */
 function isProviderToken(
   node: ts.Identifier,
   sourceFile: ts.SourceFile,
-  legacyLocalNames: Record<string, string>,
+  checker: ts.TypeChecker,
 ): boolean {
   const useExistingLiteral = getProviderObjectLiteral(node, 'useExisting');
   const objectLiteral =
     getProviderObjectLiteral(node, 'provide') ??
     (useExistingLiteral &&
-    isLegacyProvider(useExistingLiteral, legacyLocalNames[node.text])
+    isLegacyProvider(useExistingLiteral, CLASS_NAMES[node.text], checker)
       ? useExistingLiteral
       : undefined);
 
   return (
     !!objectLiteral &&
-    getProviderArrayElements(objectLiteral, sourceFile).length > 0
+    getProviderArrayElements(objectLiteral, sourceFile, checker).length > 0
   );
 }
 
@@ -198,8 +269,12 @@ function getLineIndent(
  */
 function getProviderFromArrayElement(
   element: ts.Expression,
-  sourceFile: ts.SourceFile,
+  checker: ts.TypeChecker,
 ): ts.ObjectLiteralExpression | undefined {
+  while (isWrappedExpression(element)) {
+    element = element.expression;
+  }
+
   if (ts.isObjectLiteralExpression(element)) {
     return element;
   }
@@ -208,24 +283,24 @@ function getProviderFromArrayElement(
     return undefined;
   }
 
-  const declaration = findNodes(
-    sourceFile,
-    ts.SyntaxKind.VariableDeclaration,
-  ).find(
-    (node): node is ts.VariableDeclaration =>
-      ts.isVariableDeclaration(node) &&
-      ts.isIdentifier(node.name) &&
-      node.name.text === element.text &&
-      !!node.initializer &&
-      ts.isObjectLiteralExpression(node.initializer),
-  );
+  const declaration = checker.getSymbolAtLocation(element)?.valueDeclaration;
+  let initializer =
+    declaration && ts.isVariableDeclaration(declaration)
+      ? declaration.initializer
+      : undefined;
 
-  return declaration?.initializer as ts.ObjectLiteralExpression | undefined;
+  while (initializer && isWrappedExpression(initializer)) {
+    initializer = initializer.expression;
+  }
+
+  return initializer && ts.isObjectLiteralExpression(initializer)
+    ? initializer
+    : undefined;
 }
 
 /**
  * Whether `array` already lists a provider whose `provide` token is
- * `legacyLocalName`, either inline or through a variable. Keeps the migration
+ * the legacy service, either inline or through a variable. Keeps the migration
  * idempotent: re-running it, or running it against a file someone already
  * hand-fixed, doesn't add a second twin. It also keeps an explicit legacy
  * provider's precedence -- the last provider for a token wins, so a twin
@@ -233,36 +308,36 @@ function getProviderFromArrayElement(
  */
 function arrayHasLegacyProvider(
   array: ts.ArrayLiteralExpression,
-  legacyLocalName: string,
-  sourceFile: ts.SourceFile,
+  legacyClassName: string,
+  checker: ts.TypeChecker,
 ): boolean {
   return array.elements.some((element) => {
-    const provider = getProviderFromArrayElement(element, sourceFile);
+    const provider = getProviderFromArrayElement(element, checker);
 
-    return !!provider && isLegacyProvider(provider, legacyLocalName);
+    return !!provider && isLegacyProvider(provider, legacyClassName, checker);
   });
 }
 
 /**
- * Whether `specifier` imports one of the legacy classes from `MODULE_NAME`.
- * Those bindings are the migration's own, so they don't stand in the way of
- * the name an inserted provider needs.
+ * Whether `specifier` imports `className` from `MODULE_NAME`.
+ * Such a binding can be reused; an import of a different service cannot.
  */
-function isLegacyImportSpecifier(specifier: ts.ImportSpecifier): boolean {
+function isServiceImportSpecifier(
+  specifier: ts.ImportSpecifier,
+  className: string,
+): boolean {
   const moduleSpecifier = specifier.parent.parent.parent.moduleSpecifier;
 
   return (
     ts.isStringLiteral(moduleSpecifier) &&
     moduleSpecifier.text === MODULE_NAME &&
-    Object.values(CLASS_NAMES).includes(
-      (specifier.propertyName ?? specifier.name).text,
-    )
+    (specifier.propertyName ?? specifier.name).text === className
   );
 }
 
 /**
  * The name `node` binds, when it's a declaration that binds one. Covers the
- * declarations that could shadow a legacy class name; import specifiers are
+ * declarations that could shadow a service class name; import specifiers are
  * handled separately, since the migration's own are exempt.
  */
 function getDeclaredName(node: ts.Node): string | undefined {
@@ -279,16 +354,19 @@ function getDeclaredName(node: ts.Node): string | undefined {
 }
 
 /**
- * Every name `sourceFile` binds, apart from the legacy classes it imports
- * from `MODULE_NAME`. An inserted provider can't reference a legacy class
+ * Every name `sourceFile` binds, apart from `className` imports
+ * from `MODULE_NAME`. An inserted provider can't reference a service class
  * under a name in this set -- the file already means something else by it.
  */
-function getBoundNames(sourceFile: ts.SourceFile): Set<string> {
+function getBoundNames(
+  sourceFile: ts.SourceFile,
+  className: string,
+): Set<string> {
   const names = new Set<string>();
 
   const visit = (node: ts.Node): void => {
     if (ts.isImportSpecifier(node)) {
-      if (!isLegacyImportSpecifier(node)) {
+      if (!isServiceImportSpecifier(node, className)) {
         names.add(node.name.text);
       }
 
@@ -310,29 +388,30 @@ function getBoundNames(sourceFile: ts.SourceFile): Set<string> {
 }
 
 /**
- * The name to reference each legacy class by in `sourceFile`, keyed by the
- * class it replaces. Normally the legacy class name itself, but a suffixed
+ * The name to reference each service class by in `sourceFile`, keyed by its
+ * exported name. Normally the class name itself, but a suffixed
  * alias when the file already binds that name to something of its own -- the
  * inserted provider and its import would otherwise redeclare it.
  */
-function getLegacyLocalNames(
+function getServiceLocalNames(
   sourceFile: ts.SourceFile,
 ): Record<string, string> {
-  const boundNames = getBoundNames(sourceFile);
   const localNames: Record<string, string> = {};
 
-  Object.entries(CLASS_NAMES).forEach(([oldClassName, legacyClassName]) => {
-    let localName = legacyClassName;
-    let suffix = 0;
+  Object.entries(CLASS_NAMES)
+    .flat()
+    .forEach((className) => {
+      const boundNames = getBoundNames(sourceFile, className);
+      let localName = className;
+      let suffix = 0;
 
-    while (boundNames.has(localName)) {
-      suffix += 1;
-      localName = `${legacyClassName}_${suffix}`;
-    }
+      while (boundNames.has(localName)) {
+        suffix += 1;
+        localName = `${className}_${suffix}`;
+      }
 
-    boundNames.add(localName);
-    localNames[oldClassName] = localName;
-  });
+      localNames[className] = localName;
+    });
 
   return localNames;
 }
@@ -345,39 +424,35 @@ function getLegacyLocalNames(
  * `{ provide: SkyAppResourcesLegacyService, useExisting: SkyAppResourcesService }`
  * sibling. `useExisting` rather than a copy of the original provider's
  * configuration: both tokens must resolve to the same instance, which copying
- * a `useClass` or `useFactory` provider would not do. Returns the local name
- * of every legacy class that received a twin, keyed by the exported name, so
- * the caller can ensure each one is imported under that name.
+ * a `useClass` or `useFactory` provider would not do. Returns the imports the
+ * twins require, including an alias for an original token when its name is
+ * shadowed at a provider variable's use site.
  */
 function duplicateProviderTokens(
   recorder: UpdateRecorder,
   sourceFile: ts.SourceFile,
   eol: string,
-  legacyLocalNames: Record<string, string>,
+  localNames: Record<string, string>,
+  checker: ts.TypeChecker,
 ): Map<string, string> {
-  const twinnedClassNames = new Map<string, string>();
+  const requiredImports = new Map<string, string>();
 
   Object.entries(CLASS_NAMES).forEach(([oldClassName, legacyClassName]) => {
-    // A same-named class imported from another module is a different token
-    // and must not gain a legacy twin.
-    if (
-      getLocalImportName(sourceFile, oldClassName, MODULE_NAME) !== oldClassName
-    ) {
-      return;
-    }
-
-    const legacyLocalName = legacyLocalNames[oldClassName];
+    const legacyLocalName = localNames[legacyClassName];
+    const originalLocalName = localNames[oldClassName];
 
     const tokens = findNodes(sourceFile, ts.SyntaxKind.Identifier).filter(
       (node): node is ts.Identifier =>
-        ts.isIdentifier(node) && node.text === oldClassName,
+        ts.isIdentifier(node) &&
+        node.text === oldClassName &&
+        isImportedService(node, oldClassName, checker),
     );
 
     tokens.forEach((token) => {
-      getTwinInsertionPoints(token, sourceFile).forEach((element) => {
+      getTwinInsertionPoints(token, sourceFile, checker).forEach((element) => {
         const array = element.parent as ts.ArrayLiteralExpression;
 
-        if (arrayHasLegacyProvider(array, legacyLocalName, sourceFile)) {
+        if (arrayHasLegacyProvider(array, legacyClassName, checker)) {
           return;
         }
 
@@ -386,24 +461,27 @@ function duplicateProviderTokens(
 
         recorder.insertRight(
           element.getEnd(),
-          `,${separator}{ provide: ${legacyLocalName}, useExisting: ${oldClassName} }`,
+          `,${separator}{ provide: ${legacyLocalName}, useExisting: ${originalLocalName} }`,
         );
-        twinnedClassNames.set(legacyClassName, legacyLocalName);
+        requiredImports.set(legacyClassName, legacyLocalName);
+        if (originalLocalName !== oldClassName) {
+          requiredImports.set(oldClassName, originalLocalName);
+        }
       });
     });
   });
 
-  return twinnedClassNames;
+  return requiredImports;
 }
 
 /**
- * The named import binding `legacyClassName` from `MODULE_NAME` as
+ * The named import binding `className` from `MODULE_NAME` as
  * `localName`, if the file has one. The specifier may be type-only, which
- * doesn't satisfy the inserted provider -- see `ensureLegacyImport`.
+ * doesn't satisfy the inserted provider -- see `ensureServiceImport`.
  */
-function findLegacyImportSpecifier(
+function findServiceImportSpecifier(
   sourceFile: ts.SourceFile,
-  legacyClassName: string,
+  className: string,
   localName: string,
 ): ts.ImportSpecifier | undefined {
   for (const node of findNodes(sourceFile, ts.SyntaxKind.ImportDeclaration)) {
@@ -423,7 +501,7 @@ function findLegacyImportSpecifier(
 
     const specifier = namedBindings.elements.find(
       (element) =>
-        (element.propertyName ?? element.name).text === legacyClassName &&
+        (element.propertyName ?? element.name).text === className &&
         element.name.text === localName,
     );
 
@@ -469,7 +547,7 @@ function removeTypeKeyword(
 function insertImportDeclaration(
   recorder: UpdateRecorder,
   sourceFile: ts.SourceFile,
-  legacyClassName: string,
+  className: string,
   localName: string,
 ): void {
   const endOfImports = findNodes(
@@ -478,9 +556,7 @@ function insertImportDeclaration(
   ).reduce((max, node) => Math.max(max, node.getEnd()), 0);
 
   const binding =
-    localName === legacyClassName
-      ? legacyClassName
-      : `${legacyClassName} as ${localName}`;
+    localName === className ? className : `${className} as ${localName}`;
 
   recorder.insertRight(
     endOfImports,
@@ -489,23 +565,22 @@ function insertImportDeclaration(
 }
 
 /**
- * Binds `legacyClassName` as a value from `MODULE_NAME` under `localName` so
+ * Binds `className` as a value from `MODULE_NAME` under `localName` so
  * the twin providers `duplicateProviderTokens` inserted resolve.
  * `swapImportedClass` adds the legacy import itself whenever it renames a
- * non-provider reference, so this only has work to do when every other
- * reference to the class was a provider token, or when the file's existing
- * import can't be used as a value.
+ * non-provider reference. Original tokens can also need an unshadowed alias,
+ * and an existing type-only import must become a value import.
  */
-function ensureLegacyImport(
+function ensureServiceImport(
   tree: Tree,
   filePath: string,
-  legacyClassName: string,
+  className: string,
   localName: string,
 ): void {
   const sourceFile = parseSourceFile(tree, filePath);
-  const specifier = findLegacyImportSpecifier(
+  const specifier = findServiceImportSpecifier(
     sourceFile,
-    legacyClassName,
+    className,
     localName,
   );
 
@@ -524,14 +599,14 @@ function ensureLegacyImport(
     const change = insertImport(
       sourceFile,
       filePath,
-      legacyClassName,
+      className,
       MODULE_NAME,
       false,
-      localName === legacyClassName ? undefined : localName,
+      localName === className ? undefined : localName,
     );
 
     if (change instanceof NoopChange) {
-      insertImportDeclaration(recorder, sourceFile, legacyClassName, localName);
+      insertImportDeclaration(recorder, sourceFile, className, localName);
     } else {
       applyToUpdateRecorder(recorder, [change]);
     }
@@ -556,38 +631,45 @@ async function updateSourceFiles(tree: Tree): Promise<void> {
       }
 
       const sourceFile = parseSourceFile(tree, filePath);
-      const legacyLocalNames = getLegacyLocalNames(sourceFile);
+      // Only local bindings are needed; do not load dependencies or lib files.
+      const options: ts.CompilerOptions = {
+        noLib: true,
+        noResolve: true,
+        types: [],
+      };
+      const checker = ts
+        .createProgram([sourceFile.fileName], options, {
+          ...ts.createCompilerHost(options),
+          getSourceFile: () => sourceFile,
+        })
+        .getTypeChecker();
+      const localNames = getServiceLocalNames(sourceFile);
       const recorder = tree.beginUpdate(filePath);
 
       swapImportedClass(recorder, filePath, sourceFile, [
         {
           classNames: CLASS_NAMES,
           moduleName: MODULE_NAME,
-          localNames: Object.fromEntries(
-            Object.entries(CLASS_NAMES).map(
-              ([oldClassName, legacyClassName]) => [
-                legacyClassName,
-                legacyLocalNames[oldClassName],
-              ],
-            ),
-          ),
+          localNames,
           filter: (node): boolean =>
+            isImportedService(node, node.text, checker) &&
             !isStaticAddResourcesReference(node) &&
-            !isProviderToken(node, sourceFile, legacyLocalNames),
+            !isProviderToken(node, sourceFile, checker),
         },
       ]);
 
-      const twinnedClassNames = duplicateProviderTokens(
+      const requiredImports = duplicateProviderTokens(
         recorder,
         sourceFile,
         getEOL(sourceFile.text),
-        legacyLocalNames,
+        localNames,
+        checker,
       );
 
       tree.commitUpdate(recorder);
 
-      twinnedClassNames.forEach((localName, legacyClassName) => {
-        ensureLegacyImport(tree, filePath, legacyClassName, localName);
+      requiredImports.forEach((localName, className) => {
+        ensureServiceImport(tree, filePath, className, localName);
       });
     });
   });
@@ -601,8 +683,11 @@ async function updateSourceFiles(tree: Tree): Promise<void> {
  * A `provide:` token inside a `providers: [...]` array (e.g. a test's
  * `TestBed.configureTestingModule`) is duplicated instead of renamed: the
  * original provider stays, and a `useExisting` twin for the legacy token is
- * added right after it. The `skyAppResources` pipe and the
- * `toHaveResourceText`/`toEqualResourceText` matchers still inject the
+ * added right after it unless that array already provides the legacy service.
+ * Provider variables are resolved within their lexical scope, including
+ * parenthesized expressions, type assertions, and `satisfies` expressions.
+ * The `skyAppResources` pipe and the `toHaveResourceText`/`toEqualResourceText`
+ * matchers still inject the
  * original service, so renaming the provider outright would leave them
  * resolving against the real, un-mocked service.
  */
