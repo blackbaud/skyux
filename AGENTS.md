@@ -192,9 +192,11 @@ what you find **before** handing it over:
     (`provideSkyThing`, `injectSkyThing`). This matches the existing convention
     across all `@skyux/*` and `@skyux-sdk/*` packages. Flag any new barrel
     export whose name omits `sky` entirely; do not apply this rule to internal
-    exports, nor to `libs/components/code-examples`, whose barrel exports are
-    demo components addressed by `docsId` rather than an API consumers program
-    against. Those are named `<Library><Component><ExampleName>Example` per
+    exports, nor to `libs/components/code-examples/src/index.ts`, whose exports
+    are demo components addressed by `docsId` rather than an API consumers
+    program against. The exemption covers that root barrel only, not the
+    library's secondary entry points (e.g. `code-examples/routes`). Those demo
+    components are named `<Library><Component><ExampleName>Example` per
     [component-code-examples.instructions.md](.github/instructions/component-code-examples.instructions.md);
     a `Sky` prefix there is wrong.
 
