@@ -726,4 +726,173 @@ TestBed.configureTestingModule({
   providers: [{ provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService }, { provide: SkyAppResourcesLegacyService, useExisting: SkyAppResourcesService }],
 });`);
   });
+
+  it('should duplicate a provider token in an array that spreads other providers', async () => {
+    const tree = setupTree({
+      '/src/app/test-spread.spec.ts': `import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesService } from '@skyux/i18n';
+
+import { commonProviders } from './common-providers';
+
+TestBed.configureTestingModule({
+  providers: [
+    ...commonProviders,
+    { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService },
+  ],
+});`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test-spread.spec.ts'))
+      .toBe(`import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesService, SkyAppResourcesLegacyService } from '@skyux/i18n';
+
+import { commonProviders } from './common-providers';
+
+TestBed.configureTestingModule({
+  providers: [
+    ...commonProviders,
+    { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService },
+    { provide: SkyAppResourcesLegacyService, useExisting: SkyAppResourcesService },
+  ],
+});`);
+  });
+
+  it('should not duplicate a provider token when a legacy provider variable follows it', async () => {
+    const content = `import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesLegacyService, SkyAppResourcesService } from '@skyux/i18n';
+
+const legacyProvider = { provide: SkyAppResourcesLegacyService, useClass: SkyAppResourcesTestService };
+
+TestBed.configureTestingModule({
+  providers: [
+    { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService },
+    legacyProvider,
+  ],
+});`;
+
+    const tree = setupTree({
+      '/src/app/test-legacy-variable-after.spec.ts': content,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test-legacy-variable-after.spec.ts')).toBe(
+      content,
+    );
+  });
+
+  it('should not duplicate a provider token when a legacy provider variable precedes it', async () => {
+    const content = `import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesLegacyService, SkyAppResourcesService } from '@skyux/i18n';
+
+const legacyProvider = { provide: SkyAppResourcesLegacyService, useClass: SkyAppResourcesTestService };
+
+TestBed.configureTestingModule({
+  providers: [
+    legacyProvider,
+    { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService },
+  ],
+});`;
+
+    const tree = setupTree({
+      '/src/app/test-legacy-variable-before.spec.ts': content,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test-legacy-variable-before.spec.ts')).toBe(
+      content,
+    );
+  });
+
+  it('should alias the legacy service when the file binds its name to something else', async () => {
+    const tree = setupTree({
+      '/src/app/test-name-taken.spec.ts': `import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesService } from '@skyux/i18n';
+
+import { SkyAppResourcesLegacyService } from './legacy';
+
+TestBed.configureTestingModule({
+  providers: [
+    { provide: SkyAppResourcesLegacyService, useClass: SkyAppResourcesTestService },
+    { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService },
+  ],
+});`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test-name-taken.spec.ts'))
+      .toBe(`import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesService, SkyAppResourcesLegacyService as SkyAppResourcesLegacyService_1 } from '@skyux/i18n';
+
+import { SkyAppResourcesLegacyService } from './legacy';
+
+TestBed.configureTestingModule({
+  providers: [
+    { provide: SkyAppResourcesLegacyService, useClass: SkyAppResourcesTestService },
+    { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService },
+    { provide: SkyAppResourcesLegacyService_1, useExisting: SkyAppResourcesService },
+  ],
+});`);
+  });
+
+  it('should alias the legacy service in its own import when the module import is aliased', async () => {
+    const tree = setupTree({
+      '/src/app/test-name-taken-aliased.spec.ts': `import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesLegacyService as Legacy, SkyAppResourcesService } from '@skyux/i18n';
+
+import { SkyAppResourcesLegacyService } from './legacy';
+
+TestBed.configureTestingModule({
+  providers: [
+    { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService },
+  ],
+});`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test-name-taken-aliased.spec.ts'))
+      .toBe(`import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesLegacyService as Legacy, SkyAppResourcesService } from '@skyux/i18n';
+
+import { SkyAppResourcesLegacyService } from './legacy';
+import { SkyAppResourcesLegacyService as SkyAppResourcesLegacyService_1 } from '@skyux/i18n';
+
+TestBed.configureTestingModule({
+  providers: [
+    { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService },
+    { provide: SkyAppResourcesLegacyService_1, useExisting: SkyAppResourcesService },
+  ],
+});`);
+  });
+
+  it('should be idempotent when the legacy service is aliased', async () => {
+    const tree = setupTree({
+      '/src/app/test-name-taken-idempotent.spec.ts': `import { TestBed } from '@angular/core/testing';
+import { SkyAppResourcesService } from '@skyux/i18n';
+
+import { SkyAppResourcesLegacyService } from './legacy';
+
+TestBed.configureTestingModule({
+  providers: [
+    { provide: SkyAppResourcesService, useClass: SkyAppResourcesTestService },
+  ],
+});`,
+    });
+
+    await runSchematic(tree);
+    const firstRunResult = tree.readText(
+      '/src/app/test-name-taken-idempotent.spec.ts',
+    );
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test-name-taken-idempotent.spec.ts')).toBe(
+      firstRunResult,
+    );
+  });
 });
