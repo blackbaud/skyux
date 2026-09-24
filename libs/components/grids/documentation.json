@@ -1,27 +1,4 @@
 {
   "$schema": "../manifest-generator/documentation-schema.json",
-  "groups": {
-    "grid": {
-      "development": {
-        "docsIds": [
-          "SkyGridModule",
-          "SkyGridComponent",
-          "SkyGridColumnComponent",
-          "SkyGridColumnAlignment",
-          "SkyGridColumnWidthModelChange",
-          "SkyGridColumnModel",
-          "SkyGridSelectedRowsModelChange",
-          "SkyGridMessage",
-          "SkyGridMessageType"
-        ],
-        "primaryDocsId": "SkyGridModule"
-      },
-      "testing": {
-        "docsIds": []
-      },
-      "codeExamples": {
-        "docsIds": []
-      }
-    }
-  }
+  "groups": {}
 }

@@ -8,6 +8,26 @@
 
 * **components/core:** add instrumentation to capture user events ([#4811](https://github.com/blackbaud/skyux/issues/4811)) ([cf4807b](https://github.com/blackbaud/skyux/commit/cf4807bf0bd3e8c3d86cde4e15210e79b1bd1fd5))
 * **components/popovers:** document dropdown `messageStream` input ([#4802](https://github.com/blackbaud/skyux/issues/4802)) ([18ea346](https://github.com/blackbaud/skyux/commit/18ea3465975571592b67725b7d9826042f8c79fc))
+## [15.0.0-alpha.16](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.15...15.0.0-alpha.16) (2026-09-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sdk/skyux-eslint:** add `no-native-click` ESLint rule to recommended ruleset (#4807)
+
+### Features
+
+* **components/forms:** add `sky-button` component ([#4779](https://github.com/blackbaud/skyux/issues/4779)) ([a0b007f](https://github.com/blackbaud/skyux/commit/a0b007f46c560c17fdf23cd792fd589ec5d4a889))
+* **components/layout:** undeprecate card component ([#4821](https://github.com/blackbaud/skyux/issues/4821)) ([51c8bde](https://github.com/blackbaud/skyux/commit/51c8bdee3731e7fc09300b07e6f7deea4958bf1b))
+* **components/popovers:** document dropdown `messageStream` input ([#4802](https://github.com/blackbaud/skyux/issues/4802)) ([#4814](https://github.com/blackbaud/skyux/issues/4814)) ([bf279c0](https://github.com/blackbaud/skyux/commit/bf279c0dacd6252403fbd67d38471a3ea528d1d0))
+* **sdk/skyux-eslint:** add `no-native-click` ESLint rule to recommended ruleset ([#4807](https://github.com/blackbaud/skyux/issues/4807)) ([e6441a1](https://github.com/blackbaud/skyux/commit/e6441a12f52f756af068d06dd6da178fba646d70))
+
+
+### Bug Fixes
+
+* **components/packages:** remove class references from TestBed.configureTestingModule imports ([#4817](https://github.com/blackbaud/skyux/issues/4817)) ([641f822](https://github.com/blackbaud/skyux/commit/641f822bd977fa71782f02373d677851c843671a)), closes [AB#4133059](https://dev.azure.com/blackbaud/Products/_workitems/edit/4133059)
+* **components/theme:** default theme disabled buttons do not have interactive styles ([#4790](https://github.com/blackbaud/skyux/issues/4790)) ([85ebed6](https://github.com/blackbaud/skyux/commit/85ebed659a74c24758d8c77b7d313e56e8ffd15a))
+* update design tokens for color fixes ([#4800](https://github.com/blackbaud/skyux/issues/4800)) ([#4803](https://github.com/blackbaud/skyux/issues/4803)) ([540c5eb](https://github.com/blackbaud/skyux/commit/540c5eb14deac37bf7bb3c412b9c3dd12e40b97c))
 
 ## [14.21.0](https://github.com/blackbaud/skyux/compare/14.20.1...14.21.0) (2026-09-17)
 
