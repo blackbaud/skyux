@@ -13,7 +13,7 @@
     [ariaLabel]="ariaLabelResolved"
     [ariaLabelledby]="ariaLabelledbyResolved"
     [helpKey]="helpKey"
-    (actionClick)="actionClick.emit()"
+    (actionClick)="onClick()"
   >
     <ng-container [ngTemplateOutlet]="icon" />
   </sky-help-inline-help-key-button>
@@ -23,7 +23,7 @@
     [ariaLabelledby]="ariaLabelledbyResolved"
     [popoverContent]="popoverContent"
     [popoverTitle]="popoverTitle"
-    (actionClick)="actionClick.emit()"
+    (actionClick)="onClick()"
   >
     <ng-container [ngTemplateOutlet]="icon" />
   </sky-help-inline-popover-button>
