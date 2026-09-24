@@ -91,25 +91,6 @@
         "docsIds": ["LayoutCardBasicExampleComponent"]
       }
     },
-    "definition-list": {
-      "development": {
-        "docsIds": [
-          "SkyDefinitionListModule",
-          "SkyDefinitionListComponent",
-          "SkyDefinitionListHeadingComponent",
-          "SkyDefinitionListContentComponent",
-          "SkyDefinitionListLabelComponent",
-          "SkyDefinitionListValueComponent"
-        ],
-        "primaryDocsId": "SkyDefinitionListModule"
-      },
-      "testing": {
-        "docsIds": []
-      },
-      "codeExamples": {
-        "docsIds": []
-      }
-    },
     "description-list": {
       "development": {
         "docsIds": [
@@ -192,28 +173,6 @@
           "LayoutInlineDeleteRepeaterExampleComponent",
           "LayoutInlineDeleteCustomExampleComponent"
         ]
-      }
-    },
-    "page-summary": {
-      "development": {
-        "docsIds": [
-          "SkyPageSummaryModule",
-          "SkyPageSummaryComponent",
-          "SkyPageSummaryTitleComponent",
-          "SkyPageSummarySubtitleComponent",
-          "SkyPageSummaryAlertComponent",
-          "SkyPageSummaryContentComponent",
-          "SkyPageSummaryImageComponent",
-          "SkyPageSummaryKeyInfoComponent",
-          "SkyPageSummaryStatusComponent"
-        ],
-        "primaryDocsId": "SkyPageSummaryModule"
-      },
-      "testing": {
-        "docsIds": []
-      },
-      "codeExamples": {
-        "docsIds": []
       }
     },
     "text-expand-repeater": {
