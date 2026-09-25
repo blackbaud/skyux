@@ -184,6 +184,7 @@ export { TabsStaticAddCloseExampleComponent } from './lib/modules/tabs/tabs/stat
 export { TabsStaticExampleComponent } from './lib/modules/tabs/tabs/static/example.component';
 export { TabsVerticalTabsBasicExampleComponent } from './lib/modules/tabs/vertical-tabs/basic/example.component';
 export { TabsVerticalTabsGroupedExampleComponent } from './lib/modules/tabs/vertical-tabs/grouped/example.component';
+export { TabsVerticalTabsLayoutExample } from './lib/modules/tabs/vertical-tabs/layout/example';
 export { TabsVerticalTabsMixedExampleComponent } from './lib/modules/tabs/vertical-tabs/mixed/example.component';
 export { TabsWizardBasicExampleComponent } from './lib/modules/tabs/wizard/basic/example.component';
 export { TextEditorHelpKeyExampleComponent } from './lib/modules/text-editor/help-key/example.component';
