@@ -3,7 +3,12 @@ import { Route } from '@angular/router';
 export const routes: Route[] = [
   {
     path: 'fit-layout',
-    loadComponent: () => import('./fit-layout/fit-layout.component'),
+    loadComponent: () => import('./tabs-fit-layout/tabs-fit-layout.component'),
+  },
+  {
+    path: 'vertical-fit-layout',
+    loadComponent: () =>
+      import('./vertical-tabs-fit-layout/vertical-tabs-fit-layout.component'),
   },
   {
     path: 'wizard',
