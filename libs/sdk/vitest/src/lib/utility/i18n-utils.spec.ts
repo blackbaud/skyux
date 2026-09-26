@@ -3,7 +3,7 @@ import 'zone.js/testing';
 
 import { getTestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
-import { Observable, of } from 'rxjs';
+import { NEVER, Observable, concat, of } from 'rxjs';
 
 import {
   getLibResourceString,
@@ -64,6 +64,42 @@ describe('i18n-utils', () => {
 
       expect(getStringSpy).toHaveBeenCalledWith('greeting');
     });
+
+    it('should resolve the settled value when the observable emits more than once', async () => {
+      getTestBed().configureTestingModule({
+        providers: [
+          {
+            provide: SkyAppResourcesService,
+            useValue: {
+              getString: (): Observable<string> =>
+                concat(of('greeting'), of('Hello World')),
+            },
+          },
+        ],
+      });
+
+      const result = await getResourceString('greeting');
+
+      expect(result).toBe('Hello World');
+    });
+
+    it('should resolve when the observable never completes', async () => {
+      getTestBed().configureTestingModule({
+        providers: [
+          {
+            provide: SkyAppResourcesService,
+            useValue: {
+              getString: (): Observable<string> =>
+                concat(of('Hello World'), NEVER),
+            },
+          },
+        ],
+      });
+
+      const result = await getResourceString('greeting');
+
+      expect(result).toBe('Hello World');
+    });
   });
 
   describe('getLibResourceString', () => {
@@ -115,6 +151,42 @@ describe('i18n-utils', () => {
       await getLibResourceString('lib_greeting');
 
       expect(getStringSpy).toHaveBeenCalledWith('lib_greeting');
+    });
+
+    it('should resolve the settled value when the observable emits more than once', async () => {
+      getTestBed().configureTestingModule({
+        providers: [
+          {
+            provide: SkyLibResourcesService,
+            useValue: {
+              getString: (): Observable<string> =>
+                concat(of('lib_greeting'), of('Lib Hello World')),
+            },
+          },
+        ],
+      });
+
+      const result = await getLibResourceString('lib_greeting');
+
+      expect(result).toBe('Lib Hello World');
+    });
+
+    it('should resolve when the observable never completes', async () => {
+      getTestBed().configureTestingModule({
+        providers: [
+          {
+            provide: SkyLibResourcesService,
+            useValue: {
+              getString: (): Observable<string> =>
+                concat(of('Lib Hello World'), NEVER),
+            },
+          },
+        ],
+      });
+
+      const result = await getLibResourceString('lib_greeting');
+
+      expect(result).toBe('Lib Hello World');
     });
   });
 
