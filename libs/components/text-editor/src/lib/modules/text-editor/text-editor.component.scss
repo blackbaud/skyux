@@ -108,7 +108,7 @@ sky-text-editor.sky-form-field-stacked {
   .sky-text-editor-wrapper {
     display: flex;
     flex-wrap: wrap;
-    background-color: var(--sky-override-text-editor-background-color);
+    background-color: var(--sky-override-text-editor-background-color, #fcfdfd);
     width: 100%;
     height: 300px;
     padding: var(
@@ -141,7 +141,7 @@ sky-text-editor.sky-form-field-stacked {
     &.sky-text-editor-wrapper-disabled {
       background-color: var(
         --sky-override-text-editor-wrapper-background-color-disabled,
-        var(--sky-color-background-input-disabled)
+        #eeeeef
       );
       box-shadow: var(
         --sky-override-text-editor-box-shadow,

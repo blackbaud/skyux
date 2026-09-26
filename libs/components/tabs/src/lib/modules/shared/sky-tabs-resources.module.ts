@@ -30,6 +30,22 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Step {0} of {1}, unavailable: {2}',
     },
   },
+  ES: {
+    skyux_tab_add: { message: 'Agregar pestaña' },
+    skyux_tab_close: { message: 'Cerrar pestaña {0}' },
+    skyux_tabs_navigator_finish: { message: 'Finalizar' },
+    skyux_tabs_navigator_next: { message: 'Siguiente' },
+    skyux_tabs_navigator_previous: { message: 'Anterior' },
+    skyux_tab_open: { message: 'Abrir pestaña' },
+    skyux_vertical_tabs_show_tabs_text: { message: 'Lista de pestañas' },
+    skyux_wizard_sr_step_current: { message: 'Paso {0} de {1}, actual: {2}' },
+    skyux_wizard_sr_step_completed: {
+      message: 'Paso {0} de {1}, completado: {2}',
+    },
+    skyux_wizard_sr_step_unavailable: {
+      message: 'Paso {0} de {1}, no disponible: {2}',
+    },
+  },
   'FR-CA': {
     skyux_tab_add: { message: 'Ajouter un onglet' },
     skyux_tab_close: { message: 'Fermer l’onglet {0}' },

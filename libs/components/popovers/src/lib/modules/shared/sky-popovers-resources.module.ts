@@ -23,6 +23,15 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Context menu for ',
     },
   },
+  ES: {
+    skyux_dropdown_context_menu_default_label: { message: 'Menú contextual' },
+    skyux_dropdown_context_menu_with_content_descriptor_default_label: {
+      message: 'Menú contextual de {0}',
+    },
+    skyux_dropdown_context_menu_with_content_descriptor_el_default_label: {
+      message: 'Menú contextual de ',
+    },
+  },
   'FR-CA': {
     skyux_dropdown_context_menu_default_label: { message: 'Menu du contexte' },
     skyux_dropdown_context_menu_with_content_descriptor_default_label: {

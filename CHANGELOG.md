@@ -1,6 +1,67 @@
 # Changelog
 
 
+## [14.22.0](https://github.com/blackbaud/skyux/compare/14.21.0...14.22.0) (2026-09-24)
+
+
+### Features
+
+* **components/core:** add instrumentation to capture user events ([#4811](https://github.com/blackbaud/skyux/issues/4811)) ([cf4807b](https://github.com/blackbaud/skyux/commit/cf4807bf0bd3e8c3d86cde4e15210e79b1bd1fd5))
+* **components/popovers:** document dropdown `messageStream` input ([#4802](https://github.com/blackbaud/skyux/issues/4802)) ([18ea346](https://github.com/blackbaud/skyux/commit/18ea3465975571592b67725b7d9826042f8c79fc))
+
+## [14.21.0](https://github.com/blackbaud/skyux/compare/14.20.1...14.21.0) (2026-09-17)
+
+
+### Features
+
+* **components/icon:** resolve dark mode icon variants ([#4791](https://github.com/blackbaud/skyux/issues/4791)) ([5ca104d](https://github.com/blackbaud/skyux/commit/5ca104dd57786af8449d26369a47afb7c91540e5))
+
+
+### Bug Fixes
+
+* **components/colorpicker:** reset an originally-empty field to empty and pristine ([#4794](https://github.com/blackbaud/skyux/issues/4794)) ([906ca8e](https://github.com/blackbaud/skyux/commit/906ca8e7f4b4c0368f29c1c721e4d6cb9be6c330)), closes [AB#4109461](https://dev.azure.com/blackbaud/Products/_workitems/edit/4109461)
+* **components/toast:** links don't change color on hover ([#4787](https://github.com/blackbaud/skyux/issues/4787)) ([3a4cdaa](https://github.com/blackbaud/skyux/commit/3a4cdaa2a04f87909006ac1049fc3c32d7f67848))
+* input components native controls match color scheme ([#4769](https://github.com/blackbaud/skyux/issues/4769)) ([4593389](https://github.com/blackbaud/skyux/commit/4593389c831da5252f321364d1cedd82293b5cb2))
+* update design tokens for color fixes ([#4800](https://github.com/blackbaud/skyux/issues/4800)) ([57a82c8](https://github.com/blackbaud/skyux/commit/57a82c82fb19a130b9f6797f56886e858bf33fda))
+
+## [14.20.1](https://github.com/blackbaud/skyux/compare/14.20.0...14.20.1) (2026-09-09)
+
+
+### Bug Fixes
+
+* **components/data-grid:** avoid NG0950 when columns are created in a loop ([#4753](https://github.com/blackbaud/skyux/issues/4753)) ([f679c72](https://github.com/blackbaud/skyux/commit/f679c72ea11a437f86b695e5da5cbed3f345fdc8)), closes [AB#4109298](https://dev.azure.com/blackbaud/Products/_workitems/edit/4109298) [angular/angular#59067](https://github.com/angular/angular/issues/59067)
+* **components/data-grid:** include LocaleModule ([#4772](https://github.com/blackbaud/skyux/issues/4772)) ([a51d3fb](https://github.com/blackbaud/skyux/commit/a51d3fb22efad5f17d78a7d9fb8a03bc5909592a))
+* **components/forms:** recalculate selection box heights when the grid becomes visible ([#4770](https://github.com/blackbaud/skyux/issues/4770)) ([92d80a2](https://github.com/blackbaud/skyux/commit/92d80a2091a95dd567a321d8ca802790d04d313e))
+
+## [14.20.0](https://github.com/blackbaud/skyux/compare/14.19.1...14.20.0) (2026-09-08)
+
+
+### Features
+
+* **components/docs-tools:** add dark mode theme for code snippet ([#4765](https://github.com/blackbaud/skyux/issues/4765)) ([f228dc3](https://github.com/blackbaud/skyux/commit/f228dc391314577ff667f6b7f5f911ff33cf94d7))
+
+## [14.19.1](https://github.com/blackbaud/skyux/compare/14.19.0...14.19.1) (2026-09-08)
+
+
+### Bug Fixes
+
+* **components/ag-grid:** apply data manager sort options to the grid ([#4745](https://github.com/blackbaud/skyux/issues/4745)) ([e136be1](https://github.com/blackbaud/skyux/commit/e136be1aae3a15c3ac50e659a4f4fd0ae3780f74)), closes [AB#4104863](https://dev.azure.com/blackbaud/Products/_workitems/edit/4104863)
+* **components/text-editor:** ensure editor area is always white ([#4756](https://github.com/blackbaud/skyux/issues/4756)) ([36d2b29](https://github.com/blackbaud/skyux/commit/36d2b29406b3d8dfcba79d4f10b9fbafb99f3e97))
+
+## [14.19.0](https://github.com/blackbaud/skyux/compare/14.18.0...14.19.0) (2026-09-02)
+
+
+### Features
+
+* **components/indicators:** use status color tokens for status text, links, icons ([#4736](https://github.com/blackbaud/skyux/issues/4736)) ([932012d](https://github.com/blackbaud/skyux/commit/932012d3bbd9b20ce77e2548fd23104f798d94f3))
+* **components/theme:** darken action links on hover/active in modern theme ([#4738](https://github.com/blackbaud/skyux/issues/4738)) ([8e3a2f6](https://github.com/blackbaud/skyux/commit/8e3a2f646c46096a0191f16d1d8df6d63e7a56aa))
+
+
+### Bug Fixes
+
+* **components/avatar:** use correct background colors ([#4727](https://github.com/blackbaud/skyux/issues/4727)) ([30634c1](https://github.com/blackbaud/skyux/commit/30634c19f65c8b56e23f780b6a5fc837886baa71))
+* **components/layout:** inline delete cancel button is not transparent in dark modet in dark mode ([#4744](https://github.com/blackbaud/skyux/issues/4744)) ([0241607](https://github.com/blackbaud/skyux/commit/024160753d013e861b255a7c2b09ed9feda9f1dc))
+
 ## [14.18.0](https://github.com/blackbaud/skyux/compare/14.17.0...14.18.0) (2026-09-01)
 
 

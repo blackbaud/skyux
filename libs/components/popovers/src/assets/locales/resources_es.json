@@ -1,0 +1,14 @@
+{
+  "skyux_dropdown_context_menu_default_label": {
+    "_description": "Etiqueta del botón del menú contextual utilizada para lectores de pantalla cuando el usuario no ha especificado una etiqueta",
+    "message": "Menú contextual"
+  },
+  "skyux_dropdown_context_menu_with_content_descriptor_default_label": {
+    "_description": "Etiqueta del botón del menú contextual utilizada para lectores de pantalla cuando el usuario no ha especificado una etiqueta y el componente incluye un texto descriptivo del contenido",
+    "message": "Menú contextual de {0}"
+  },
+  "skyux_dropdown_context_menu_with_content_descriptor_el_default_label": {
+    "_description": "Etiqueta del botón del menú contextual utilizada para lectores de pantalla cuando el usuario no ha especificado una etiqueta y el componente incluye el ID de un elemento descriptor del contenido",
+    "message": "Menú contextual de "
+  }
+}

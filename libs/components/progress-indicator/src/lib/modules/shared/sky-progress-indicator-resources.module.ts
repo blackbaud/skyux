@@ -20,6 +20,12 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_progress_indicator_navigator_previous: { message: 'Previous' },
     skyux_progress_indicator_navigator_reset: { message: 'Reset' },
   },
+  ES: {
+    skyux_progress_indicator_navigator_finish: { message: 'Finalizar' },
+    skyux_progress_indicator_navigator_next: { message: 'Siguiente' },
+    skyux_progress_indicator_navigator_previous: { message: 'Anterior' },
+    skyux_progress_indicator_navigator_reset: { message: 'Restablecer' },
+  },
   'FR-CA': {
     skyux_progress_indicator_navigator_finish: { message: 'Terminer' },
     skyux_progress_indicator_navigator_next: { message: 'Suivant' },

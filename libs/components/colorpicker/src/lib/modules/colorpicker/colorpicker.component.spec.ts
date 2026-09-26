@@ -6,6 +6,7 @@ import {
   flush,
   tick,
 } from '@angular/core/testing';
+import { NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyAffixer, SkyIdService, SkyOverlayService } from '@skyux/core';
@@ -1209,6 +1210,87 @@ describe('Colorpicker Component', () => {
       );
     }));
 
+    it('should reset an originally-empty colorpicker to empty and pristine', fakeAsync(() => {
+      component.selectedColor = undefined;
+      fixture.detectChanges();
+      tick();
+
+      expect(colorpickerComponent.initialColor).toBeUndefined();
+
+      const ngModel = debugElement
+        .query(By.directive(NgModel))
+        .injector.get(NgModel);
+
+      const selectedColorChangedSpy = spyOn(
+        colorpickerComponent.selectedColorChanged,
+        'emit',
+      ).and.callThrough();
+      const selectedColorAppliedSpy = spyOn(
+        colorpickerComponent.selectedColorApplied,
+        'emit',
+      ).and.callThrough();
+
+      openColorpicker(nativeElement);
+      setPresetColor(nativeElement, fixture, 4);
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorModel).toBeTruthy();
+
+      // Simulate the control having been marked dirty by user interaction,
+      // since applying a preset color does not do so on its own.
+      ngModel.control.markAsDirty();
+
+      selectedColorChangedSpy.calls.reset();
+      selectedColorAppliedSpy.calls.reset();
+
+      openColorpicker(nativeElement);
+      const buttonElem = getResetButton();
+      buttonElem?.click();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorModel).toBeFalsy();
+      expect(ngModel.control.pristine).toBeTrue();
+      expect(selectedColorChangedSpy).not.toHaveBeenCalled();
+      expect(selectedColorAppliedSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should still show the required error after resetting an originally-empty, required colorpicker', fakeAsync(() => {
+      component.labelText = 'Label text';
+      component.required = true;
+      component.selectedColor = undefined;
+      fixture.detectChanges();
+      tick();
+
+      const ngModel = debugElement
+        .query(By.directive(NgModel))
+        .injector.get(NgModel);
+
+      openColorpicker(nativeElement);
+      setPresetColor(nativeElement, fixture, 4);
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorModel).toBeTruthy();
+
+      openColorpicker(nativeElement);
+      const buttonElem = getResetButton();
+      buttonElem?.click();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorModel).toBeFalsy();
+      expect(ngModel.control.pristine).toBeTrue();
+      expect(ngModel.control.touched).toBeTrue();
+
+      const formError = fixture.nativeElement.querySelector('sky-form-error');
+      expect(formError).toBeVisible();
+      expect(formError.textContent).toContain('Label text is required.');
+    }));
+
     it('should accept open colorpicker via messageStream.', fakeAsync(() => {
       fixture.detectChanges();
       tick();
@@ -1477,6 +1559,105 @@ describe('Colorpicker Component', () => {
         'rgba(40,137,229,1)',
         '40, 137, 229',
       );
+    }));
+
+    it('should reset an originally-empty colorpicker to empty and pristine', fakeAsync(() => {
+      component.initialColor = undefined;
+      component.colorControl.setValue(undefined);
+      fixture.detectChanges();
+      tick();
+
+      expect(colorpickerComponent.initialColor).toBeUndefined();
+
+      const selectedColorChangedSpy = spyOn(
+        colorpickerComponent.selectedColorChanged,
+        'emit',
+      ).and.callThrough();
+      const selectedColorAppliedSpy = spyOn(
+        colorpickerComponent.selectedColorApplied,
+        'emit',
+      ).and.callThrough();
+
+      openColorpicker(nativeElement);
+      setPresetColor(nativeElement, fixture, 4);
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorControl.value).toBeTruthy();
+
+      // Simulate the control having been marked dirty by user interaction,
+      // since applying a preset color does not do so on its own.
+      component.colorControl.markAsDirty();
+
+      selectedColorChangedSpy.calls.reset();
+      selectedColorAppliedSpy.calls.reset();
+
+      openColorpicker(nativeElement);
+      const buttonElem = getResetButton();
+      buttonElem?.click();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorControl.value).toBeFalsy();
+      expect(component.colorControl.pristine).toBeTrue();
+      expect(selectedColorChangedSpy).not.toHaveBeenCalled();
+      expect(selectedColorAppliedSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should still show the required error after resetting an originally-empty, required colorpicker', fakeAsync(() => {
+      component.labelText = 'Label text';
+      component.required = true;
+      component.initialColor = undefined;
+      component.colorControl.setValue(undefined);
+      fixture.detectChanges();
+      tick();
+
+      openColorpicker(nativeElement);
+      setPresetColor(nativeElement, fixture, 4);
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorControl.value).toBeTruthy();
+
+      openColorpicker(nativeElement);
+      const buttonElem = getResetButton();
+      buttonElem?.click();
+      tick();
+      fixture.detectChanges();
+      tick();
+
+      expect(component.colorControl.value).toBeFalsy();
+      expect(component.colorControl.pristine).toBeTrue();
+      expect(component.colorControl.touched).toBeTrue();
+
+      const formError = fixture.nativeElement.querySelector('sky-form-error');
+      expect(formError).toBeVisible();
+      expect(formError.textContent).toContain('Label text is required.');
+    }));
+
+    it('should clear the input and the picker when the form control value is cleared', fakeAsync(async () => {
+      component.initialColor = undefined;
+      fixture.detectChanges();
+      tick();
+
+      await verifyColorpicker(nativeElement, 'rgba(0,0,255,1)', '0, 0, 255');
+
+      component.colorControl.setValue(undefined);
+      fixture.detectChanges();
+      tick();
+
+      const inputElement = getInputElement(nativeElement);
+
+      expect(inputElement?.value).toBe('');
+      expect(inputElement?.style.backgroundColor).toBe('');
+      expect(colorpickerComponent.lastAppliedColor).toBeUndefined();
+
+      openColorpicker(nativeElement);
+
+      expect(getInputElements().hex.value).toBe('#fff');
+
+      flush();
     }));
 
     it('should accept open colorpicker via messageStream.', fakeAsync(() => {

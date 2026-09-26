@@ -1,0 +1,62 @@
+{
+  "skyux_data_manager_column_picker_title": {
+    "_description": "Texto del título del selector de columnas del administrador de datos",
+    "message": "Elegir columnas para mostrar en la lista"
+  },
+  "skyux_data_manager_apply_changes_button_title": {
+    "_description": "Texto del botón Aplicar cambios del selector de columnas del administrador de datos",
+    "message": "Aplicar cambios"
+  },
+  "skyux_data_manager_cancel_button_title": {
+    "_description": "Texto del botón Borrar del selector de columnas del administrador de datos",
+    "message": "Cancelar"
+  },
+  "skyux_data_manager_select_all_button_aria_label": {
+    "_description": "Texto de la etiqueta ARIA del botón Seleccionar todo de la barra de herramientas de selección múltiple del administrador de datos",
+    "message": "Seleccionar todos los {0}"
+  },
+  "skyux_data_manager_select_all_button_title": {
+    "_description": "Texto del botón Seleccionar todo de la barra de herramientas de selección múltiple del administrador de datos",
+    "message": "Seleccionar todo"
+  },
+  "skyux_data_manager_clear_all_button_aria_label": {
+    "_description": "Texto de la etiqueta ARIA del botón Borrar todo de la barra de herramientas de selección múltiple del administrador de datos",
+    "message": "Borrar todos los {0} seleccionados"
+  },
+  "skyux_data_manager_clear_all_button_title": {
+    "_description": "Texto del botón Borrar todo de la barra de herramientas de selección múltiple del administrador de datos",
+    "message": "Borrar todo"
+  },
+  "skyux_data_manager_show_selected_option_aria_label": {
+    "_description": "Texto de la etiqueta ARIA de la casilla Mostrar seleccionados de la barra de herramientas de selección múltiple del administrador de datos",
+    "message": "Mostrar solo los {0} seleccionados"
+  },
+  "skyux_data_manager_show_selected_option_title": {
+    "_description": "Texto de la casilla Mostrar seleccionados de la barra de herramientas de selección múltiple del administrador de datos",
+    "message": "Mostrar solo los elementos seleccionados"
+  },
+  "skyux_data_manager_columns_button_aria_label": {
+    "_description": "Texto de la etiqueta ARIA del botón del selector de columnas de la barra de herramientas del administrador de datos",
+    "message": "Elegir columnas para {0}"
+  },
+  "skyux_data_manager_columns_button_title": {
+    "_description": "Texto del botón del selector de columnas de la barra de herramientas del administrador de datos",
+    "message": "Columnas"
+  },
+  "skyux_data_manager_select_column_status_indicator_title": {
+    "_description": "Texto del indicador de estado del selector de columnas del administrador de datos",
+    "message": "Seleccione al menos una columna."
+  },
+  "skyux_data_manager_status_update_with_selections": {
+    "_description": "Texto de la actualización de estado sobre los elementos mostrados cuando se muestran todos los elementos",
+    "message": "{0} de {1} elementos cumplen los criterios y {2} están seleccionados."
+  },
+  "skyux_data_manager_status_update_without_selections": {
+    "_description": "Texto de la actualización de estado sobre los elementos mostrados cuando se muestran todos los elementos",
+    "message": "{0} de {1} elementos cumplen los criterios."
+  },
+  "skyux_data_manager_status_update_only_selected": {
+    "_description": "Texto de la actualización de estado sobre los elementos mostrados cuando solo se muestran los elementos seleccionados",
+    "message": "{0} de {1} elementos cumplen los criterios y {2} están seleccionados. Solo se muestran los elementos seleccionados."
+  }
+}

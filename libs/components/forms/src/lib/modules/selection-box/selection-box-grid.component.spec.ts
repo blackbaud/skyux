@@ -1,7 +1,11 @@
 import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyAppTestUtility, expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyCoreAdapterService, SkyMediaBreakpoints } from '@skyux/core';
+import { expect, expectAsync } from '@skyux-sdk/testing';
+import {
+  SkyCoreAdapterService,
+  SkyMediaBreakpoints,
+  SkyResizeObserverService,
+} from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -10,7 +14,7 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { SkySelectionBoxFixturesModule } from './fixtures/selection-box-fixtures.module';
 import { SelectionBoxGridTestComponent } from './fixtures/selection-box-grid.component.fixture';
@@ -42,9 +46,11 @@ describe('Selection box grid component', () => {
   let mockThemeSvc: {
     settingsChange: BehaviorSubject<SkyThemeSettingsChange>;
   };
+  let mockResize: Subject<void>;
   let setResponsiveClassSpy: jasmine.Spy;
 
   beforeEach(() => {
+    mockResize = new Subject<void>();
     mockThemeSvc = {
       settingsChange: new BehaviorSubject<SkyThemeSettingsChange>({
         currentSettings: new SkyThemeSettings(
@@ -66,6 +72,12 @@ describe('Selection box grid component', () => {
         {
           provide: SkyThemeService,
           useValue: mockThemeSvc,
+        },
+        {
+          provide: SkyResizeObserverService,
+          useValue: {
+            observe: (): Subject<void> => mockResize,
+          },
         },
       ],
     }).createComponent(SelectionBoxGridTestComponent);
@@ -117,20 +129,6 @@ describe('Selection box grid component', () => {
     for (const selectionBox of Array.from(selectionBoxes)) {
       expect(selectionBox.getBoundingClientRect().height).toEqual(newHeight);
     }
-  });
-
-  it(`should update CSS responsive classes on window resize`, () => {
-    spyOn(
-      SkySelectionBoxAdapterService.prototype,
-      'getParentWidth',
-    ).and.returnValue(300);
-    setResponsiveClassSpy.calls.reset();
-    expect(setResponsiveClassSpy).not.toHaveBeenCalled();
-
-    SkyAppTestUtility.fireDomEvent(window, 'resize');
-    fixture.detectChanges();
-
-    expect(setResponsiveClassSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should set responsive CSS class to large', () => {
@@ -191,6 +189,24 @@ describe('Selection box grid component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     await waitForMutationObserver();
+    expect(resetHeightSpy).toHaveBeenCalledTimes(1);
+    expect(syncMaxHeightSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should recalculate heights when the grid is resized', () => {
+    const resetHeightSpy = spyOn(
+      SkyCoreAdapterService.prototype,
+      'resetHeight',
+    );
+    const syncMaxHeightSpy = spyOn(
+      SkyCoreAdapterService.prototype,
+      'syncMaxHeight',
+    );
+
+    // A grid hidden from the layout (e.g. on an inactive tab) has no measurable
+    // height until it is displayed, which surfaces as a resize.
+    mockResize.next();
+
     expect(resetHeightSpy).toHaveBeenCalledTimes(1);
     expect(syncMaxHeightSpy).toHaveBeenCalledTimes(1);
   });

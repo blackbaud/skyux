@@ -8,16 +8,29 @@ import {
 } from '@angular/router';
 import * as codeExampleExports from '@skyux/code-examples';
 import {
+  provideSkyDocsCodeExampleTypes,
   SKY_DOCS_CODE_EXAMPLE_ROUTE,
   SkyDocsCodeExampleComponentTypes,
-  provideSkyDocsCodeExampleTypes,
 } from '@skyux/docs-tools';
 import { provideInitialTheme } from '@skyux/theme';
 
+import {
+  provideSkyInstrumentationListener,
+  SkyHelpService,
+  SkyInstrumentationEvent,
+  SkyInstrumentationListener,
+} from '@skyux/core';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
+import { PlaygroundHelpService } from './app/shared/help-service';
 
 const CODE_EXAMPLES = codeExampleExports as SkyDocsCodeExampleComponentTypes;
+
+class CodeExamplesInstrListener implements SkyInstrumentationListener {
+  public handleEvent(evt: SkyInstrumentationEvent): void {
+    console.log('Instrumentation event:', evt);
+  }
+}
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -37,6 +50,8 @@ bootstrapApplication(AppComponent, {
       provide: SKY_DOCS_CODE_EXAMPLE_ROUTE,
       useValue: 'examples',
     },
+    provideSkyInstrumentationListener(CodeExamplesInstrListener),
+    { provide: SkyHelpService, useClass: PlaygroundHelpService },
   ],
 }).catch((err) => {
   console.error(err);

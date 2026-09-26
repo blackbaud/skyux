@@ -1,0 +1,18 @@
+{
+  "skyux_progress_indicator_navigator_finish": {
+    "_description": "Texto que se muestra en el botón Finalizar de un asistente.",
+    "message": "Finalizar"
+  },
+  "skyux_progress_indicator_navigator_next": {
+    "_description": "Texto que se muestra en el botón Siguiente de un asistente.",
+    "message": "Siguiente"
+  },
+  "skyux_progress_indicator_navigator_previous": {
+    "_description": "Texto que se muestra en el botón Anterior de un asistente.",
+    "message": "Anterior"
+  },
+  "skyux_progress_indicator_navigator_reset": {
+    "_description": "Texto que se muestra en el botón Restablecer de un asistente.",
+    "message": "Restablecer"
+  }
+}

@@ -57,8 +57,7 @@ jobs:
                 run_id: run.id,
                 per_page: 100,
                 filter: 'latest'
-              },
-              (response) => response.data.jobs
+              }
             );
             const e2eReviewJob = jobs.find(job => job.name === 'E2E Visual Review');
 

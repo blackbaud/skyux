@@ -62,6 +62,27 @@ describe('extendBaseChartJsConfig', () => {
     );
   });
 
+  it('should animate for the theme motion duration', () => {
+    const config = extend();
+
+    expect(config.options.animation).toEqual(
+      jasmine.objectContaining({ duration: 150, easing: 'easeInOutQuart' }),
+    );
+  });
+
+  it('should not animate when the theme suppresses motion', () => {
+    const config = extendBaseChartJsConfig<'bar'>(
+      createThemeStylesFixture({ motion: { duration: 0 } }),
+      {
+        type: 'bar',
+        data: { labels: ['a'], datasets: [{ data: [1] }] },
+        options: {},
+      },
+    );
+
+    expect(config.options.animation).toBe(false);
+  });
+
   it('should merge the base tooltip styling with the chart-specific callbacks', () => {
     const tooltip = getTooltip(extend());
 

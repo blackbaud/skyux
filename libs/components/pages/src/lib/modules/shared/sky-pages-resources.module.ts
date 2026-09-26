@@ -23,6 +23,15 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'No issues currently need attention',
     },
   },
+  ES: {
+    sky_action_hub_related_links: { message: 'Vínculos relacionados' },
+    sky_action_hub_recent_links: { message: 'Accedidos recientemente' },
+    sky_action_hub_settings_links: { message: 'Configuraciones' },
+    sky_action_hub_needs_attention: { message: 'Requiere atención' },
+    sky_action_hub_needs_attention_empty: {
+      message: 'Actualmente no hay problemas que requieran atención',
+    },
+  },
   'FR-CA': {
     sky_action_hub_related_links: { message: 'Liens connexes' },
     sky_action_hub_recent_links: { message: 'Accédés récemment' },

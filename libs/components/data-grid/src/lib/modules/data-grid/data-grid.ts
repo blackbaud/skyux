@@ -45,6 +45,7 @@ import {
   GridOptions,
   GridStateModule,
   IRowNode,
+  LocaleModule,
   ModuleRegistry,
   PaginationModule,
   RenderApiModule,
@@ -86,6 +87,7 @@ ModuleRegistry.registerModules([
   ColumnAutoSizeModule,
   EventApiModule,
   GridStateModule,
+  LocaleModule,
   PaginationModule,
   RenderApiModule,
   RowApiModule,
@@ -100,6 +102,15 @@ function arraySorted(arr: string[]): string[] {
 }
 
 const DEFAULT_DOCK_TYPE: SkyDataGridDockType = 'none';
+
+/**
+ * Members of `SkyDataGridColumn` that are `protected` because they are for
+ * this grid's use only, not part of the column's public API.
+ */
+interface SkyDataGridColumnInternal {
+  initialized: Signal<boolean>;
+  cellTemplate: Signal<TemplateRef<unknown> | undefined>;
+}
 
 /**
  * Displays tabular data in a grid using a declarative set of columns and inputs.
@@ -404,7 +415,11 @@ export class SkyDataGrid {
 
   readonly #columnDefs = computed<ColDef<SkyDataGridRowData>[]>(() => {
     const columns = this.columns();
-    return columns.map((col) => this.#createColDef(col));
+    return columns
+      .filter((col) =>
+        (col as unknown as SkyDataGridColumnInternal).initialized(),
+      )
+      .map((col) => this.#createColDef(col));
   });
   readonly #hasColumnDefs = computed(() => this.#columnDefs().length > 0);
 
@@ -769,12 +784,10 @@ export class SkyDataGrid {
       (colDef.type as string[]).push(SkyCellType.Text);
       colDef.cellDataType = 'text';
     }
-    const colWithTemplate = col as unknown as {
-      cellTemplate: Signal<TemplateRef<unknown> | undefined>;
-    };
-    if (colWithTemplate.cellTemplate()) {
+    const colInternal = col as unknown as SkyDataGridColumnInternal;
+    if (colInternal.cellTemplate()) {
       (colDef.type as string[]).push(SkyCellType.Template);
-      colDef.cellRendererParams = { template: colWithTemplate.cellTemplate };
+      colDef.cellRendererParams = { template: colInternal.cellTemplate };
     }
     if (!this.autoSort()) {
       colDef.comparator = (): number => 0;

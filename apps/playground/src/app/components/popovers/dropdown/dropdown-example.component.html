@@ -50,6 +50,7 @@
     }
   </sky-dropdown-menu>
 </sky-dropdown>
+<br />
 
 <sky-dropdown>
   <button
@@ -74,6 +75,24 @@
           {{ item.name }}
         </button>
       </sky-dropdown-item>
+    }
+  </sky-dropdown-menu>
+</sky-dropdown>
+<br />
+
+<sky-dropdown [messageStream]="lazyLoadedMessageStream">
+  <sky-dropdown-button>Lazy-loaded items</sky-dropdown-button>
+  <sky-dropdown-menu>
+    @if (lazyLoadedItems.isLoading()) {
+      <sky-wait class="menu-wait" [isWaiting]="true" />
+    } @else {
+      @let items = lazyLoadedItems.value();
+
+      @for (item of items; track item) {
+        <sky-dropdown-item>
+          <button type="button">{{ item }}</button>
+        </sky-dropdown-item>
+      }
     }
   </sky-dropdown-menu>
 </sky-dropdown>

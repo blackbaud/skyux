@@ -33,6 +33,30 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: 'Add profile photo of {0}. Drag a file here or click to browse.',
     },
   },
+  ES: {
+    skyux_avatar_error_not_image_description: {
+      message: 'Elija un archivo que sea una imagen válida.',
+    },
+    skyux_avatar_error_not_image_title: {
+      message: 'El archivo no es una imagen.',
+    },
+    skyux_avatar_error_too_large_description: {
+      message: 'Elija una imagen que sea inferior a {0}.',
+    },
+    skyux_avatar_error_too_large_title: {
+      message: 'El archivo es demasiado grande.',
+    },
+    skyux_avatar_errormodal_ok: { message: 'Aceptar' },
+    skyux_avatar_inner_description: { message: 'Foto de perfil de {0}.' },
+    skyux_avatar_upload_change_aria_label: {
+      message:
+        'Cambiar la foto de perfil de {0}. Arrastre un archivo aquí o haga clic para buscarlo.',
+    },
+    skyux_avatar_upload_new_aria_label: {
+      message:
+        'Agregar una foto de perfil de {0}. Arrastre un archivo aquí o haga clic para buscarlo.',
+    },
+  },
   'FR-CA': {
     skyux_avatar_error_not_image_description: {
       message: 'Veuillez choisir un fichier qui soit une image valide.',

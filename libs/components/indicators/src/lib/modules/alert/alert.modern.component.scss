@@ -6,26 +6,95 @@
 }
 
 @include mixins.sky-component('modern', '.sky-alert') {
+  --sky-icon-svg-path-2-color-input: var(--sky-color-icon-on_status);
+
   padding: var(--sky-comp-alert-space-inset-top)
     var(--sky-comp-alert-space-inset-right)
     var(--sky-comp-alert-space-inset-bottom)
     var(--sky-comp-alert-space-inset-left);
   border-left: solid var(--sky-border-width-accent);
-  color: var(--sky-color-text-default);
+  color: var(--sky-color-text-on_status);
   display: flex;
   flex-direction: row;
   align-items: center;
 
   .sky-alert-content {
+    --sky-comp-override-link-text-decoration-line: var(
+      --sky-font-text_decoration-action-tertiary-on_status-base
+    );
+    --sky-comp-override-link-text-decoration-line-hover: var(
+      --sky-font-text_decoration-action-tertiary-on_status-hover
+    );
+    --sky-comp-override-link-text-decoration-line-active: var(
+      --sky-font-text_decoration-action-tertiary-on_status-active
+    );
+    --sky-comp-override-link-text-decoration-line-focus: var(
+      --sky-font-text_decoration-action-tertiary-on_status-focus
+    );
+    --sky-comp-override-link-text-decoration-line-disabled: var(
+      --sky-font-text_decoration-action-tertiary-on_status-disabled
+    );
+    --sky-comp-override-inline-link-text-decoration-line: var(
+      --sky-font-text_decoration-action-tertiary-on_status-base
+    );
+    --sky-comp-override-inline-link-text-decoration-line-hover: var(
+      --sky-font-text_decoration-action-tertiary-on_status-hover
+    );
+    --sky-comp-override-inline-link-text-decoration-line-active: var(
+      --sky-font-text_decoration-action-tertiary-on_status-active
+    );
+    --sky-comp-override-inline-link-text-decoration-line-focus: var(
+      --sky-font-text_decoration-action-tertiary-on_status-focus
+    );
+    --sky-comp-override-inline-link-text-decoration-line-disabled: var(
+      --sky-font-text_decoration-action-tertiary-on_status-disabled
+    );
+
     padding: 0 var(--sky-space-gap-text_action-m) 0 var(--sky-space-gap-icon-l);
     width: 100%;
 
-    ::ng-deep a {
-      color: var(--sky-color-text-action_contrast);
-      text-decoration: var(--sky-font-text_decoration-visible_link);
+    ::ng-deep {
+      a,
+      .sky-btn-link,
+      .sky-btn-link-inline {
+        color: var(--sky-color-text-action_on_status);
 
-      &:hover {
-        color: var(--sky-color-text-action_contrast);
+        &:hover,
+        &:active {
+          color: var(--sky-color-text-action_on_status);
+        }
+      }
+
+      a,
+      .sky-btn-link-inline {
+        &:focus-visible:not(:active) {
+          box-shadow: 0 0 0 var(--sky-border-width-action-focus)
+            var(--sky-color-border-action-on_status-focus);
+        }
+      }
+
+      .sky-btn-link {
+        &:hover {
+          box-shadow:
+            inset 0 0 0 var(--sky-border-width-action-hover)
+              var(--sky-color-border-action-on_status-hover),
+            var(--sky-elevation-action-tertiary-hover);
+        }
+
+        &:active,
+        &.sky-btn-active {
+          box-shadow:
+            inset 0 0 0 var(--sky-border-width-action-active)
+              var(--sky-color-border-action-on_status-active),
+            var(--sky-elevation-action-tertiary-active);
+        }
+
+        &:focus-visible:not(:active) {
+          box-shadow:
+            inset 0 0 0 var(--sky-border-width-action-focus)
+              var(--sky-color-border-action-on_status-focus),
+            var(--sky-elevation-action-tertiary-focus);
+        }
       }
     }
   }
@@ -37,19 +106,16 @@
   &.sky-alert-info {
     background-color: var(--sky-color-background-container-info);
     border-color: var(--sky-color-border-info);
-    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-inverse);
   }
 
   &.sky-alert-success {
     background-color: var(--sky-color-background-container-success);
     border-color: var(--sky-color-border-success);
-    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-inverse);
   }
 
   &.sky-alert-warning {
     background-color: var(--sky-color-background-container-warning);
     border-color: var(--sky-color-border-warning);
-    --sky-icon-svg-path-2-color-input: var(--sky-color-icon-default);
   }
 
   &.sky-alert-danger {
@@ -64,9 +130,9 @@
       var(--sky-comp-button-borderless-space-inset-right)
       var(--sky-comp-button-borderless-space-inset-bottom)
       var(--sky-comp-button-borderless-space-inset-left);
-    color: var(--sky-color-icon-default);
+    color: var(--sky-color-text-on_status);
     border-style: solid;
-    border-color: var(--sky-color-border-action-tertiary-base);
+    border-color: var(--sky-color-border-action-on_status-base);
     border-radius: var(--sky-border-radius-s);
     border-width: var(--sky-border-width-action-base);
     background-color: var(--sky-color-background-action-tertiary-base);
@@ -75,19 +141,19 @@
 
     &:hover {
       opacity: 1;
-      border-color: var(--sky-color-border-action-tertiary-hover);
+      border-color: var(--sky-color-border-action-on_status-hover);
       border-width: var(--sky-border-width-action-hover);
     }
 
     &:focus-visible {
       outline: none;
-      border-color: var(--sky-color-border-action-tertiary-focus);
+      border-color: var(--sky-color-border-action-on_status-focus);
       border-width: var(--sky-border-width-action-focus);
     }
 
     &:active {
-      border-color: var(--sky-color-border-action-tertiary-focus);
-      border-width: var(--sky-border-width-action-focus);
+      border-color: var(--sky-color-border-action-on_status-active);
+      border-width: var(--sky-border-width-action-active);
     }
 
     &:focus-visible:not(:active) {

@@ -21,6 +21,13 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     skyux_split_view_back_to_list: { message: 'Back to list' },
   },
+  ES: {
+    skyux_split_view_resize_handle: {
+      message:
+        'Cambiar el tamaño del panel lateral. Utilice la tecla de flecha derecha para ampliarlo y la tecla de flecha izquierda para reducirlo.',
+    },
+    skyux_split_view_back_to_list: { message: 'Volver a la lista' },
+  },
   'FR-CA': {
     skyux_split_view_resize_handle: {
       message:

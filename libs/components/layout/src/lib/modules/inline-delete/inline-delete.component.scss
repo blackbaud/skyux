@@ -5,6 +5,9 @@
   --sky-override-inline-delete-background-color: rgba(0, 0, 0, 0.5);
   --sky-override-inline-delete-border: 2px solid #{$sky-highlight-color-danger};
   --sky-override-inline-delete-button-margin-right: #{$sky-margin};
+  --sky-override-inline-delete-cancel-button-background-color-active-hover: #{$sky-background-color-neutral-light};
+  --sky-override-inline-delete-cancel-button-background-color-base-disabled-focus: #{$sky-color-white};
+  --sky-override-inline-delete-cancel-button-opacity-disabled: 0.65;
   --sky-override-inline-delete-content-left: #{$sky-padding-double};
   --sky-override-inline-delete-content-padding: 0;
 }
@@ -33,6 +36,54 @@
     --sky-override-inline-delete-button-margin-right,
     var(--sky-space-gap-action_group-m)
   );
+}
+
+.sky-inline-delete-cancel-button {
+  background-color: var(
+    --sky-override-inline-delete-cancel-button-background-color-base-disabled-focus,
+    var(--sky-color-background-action-secondary-on_scrim-base)
+  );
+
+  &:active {
+    background-color: var(
+      --sky-override-inline-delete-cancel-button-background-color-active-hover,
+      var(--sky-color-background-action-secondary-on_scrim-active)
+    );
+  }
+
+  &:hover {
+    background-color: var(
+      --sky-override-inline-delete-cancel-button-background-color-active-hover,
+      var(--sky-color-background-action-secondary-on_scrim-hover)
+    );
+  }
+
+  &:focus-visible {
+    background-color: var(
+      --sky-override-inline-delete-cancel-button-background-color-base-disabled-focus,
+      var(--sky-color-background-action-secondary-on_scrim-focus)
+    );
+  }
+
+  &.sky-btn-disabled,
+  &[disabled] {
+    &,
+    &:hover,
+    &:focus-visible,
+    &.sky-btn-focus,
+    &:active,
+    &.sky-btn-active {
+      background-color: var(
+        --sky-override-inline-delete-cancel-button-background-color-base-disabled-focus,
+        var(--sky-color-background-action-secondary-on_scrim-disabled)
+      );
+      // Remove when default theme support is removed
+      opacity: var(
+        --sky-override-inline-delete-cancel-button-opacity-disabled,
+        1
+      );
+    }
+  }
 }
 
 // NOTE: Not tokenized - should be done with card if we tokenize the deprecated components

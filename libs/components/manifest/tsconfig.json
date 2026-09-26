@@ -1,6 +1,9 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
+    // Inline TypeScript's helpers; a `require("tslib")` in this CommonJS output
+    // breaks browser builds that consume the package through a tsconfig path.
+    "importHelpers": false,
     "isolatedModules": true,
     "module": "CommonJS",
     "moduleResolution": "node",

@@ -1,0 +1,154 @@
+{
+  "skyux_alert_close": {
+    "_description": "Texto del lector de pantalla para el botón Cerrar de las alertas",
+    "message": "Cerrar la alerta"
+  },
+  "skyux_alert_sr_attention": {
+    "_description": "Texto del lector de pantalla cuando la alerta contiene información que requiere atención",
+    "message": "Atención:"
+  },
+  "skyux_alert_sr_caution": {
+    "_description": "Texto del lector de pantalla cuando la alerta contiene información que requiere precaución",
+    "message": "Precaución:"
+  },
+  "skyux_alert_sr_completed": {
+    "_description": "Texto del lector de pantalla cuando la alerta indica un estado completado",
+    "message": "Completado:"
+  },
+  "skyux_alert_sr_danger": {
+    "_description": "Texto del lector de pantalla cuando la alerta contiene información con un estado de peligro",
+    "message": "Peligro:"
+  },
+  "skyux_alert_sr_error": {
+    "_description": "Texto del lector de pantalla cuando la alerta contiene un error",
+    "message": "Error:"
+  },
+  "skyux_alert_sr_important_info": {
+    "_description": "Texto del lector de pantalla cuando la alerta contiene información importante",
+    "message": "Información importante:"
+  },
+  "skyux_alert_sr_important_warning": {
+    "_description": "Texto del lector de pantalla cuando la alerta contiene una advertencia importante",
+    "message": "Advertencia importante:"
+  },
+  "skyux_alert_sr_success": {
+    "_description": "Texto del lector de pantalla cuando la alerta indica un estado exitoso",
+    "message": "Éxito:"
+  },
+  "skyux_alert_sr_warning": {
+    "_description": "Texto del lector de pantalla cuando la alerta contiene una advertencia",
+    "message": "Advertencia:"
+  },
+  "skyux_help_inline_button_title": {
+    "_description": "Título del botón de ayuda.",
+    "message": "Mostrar contenido de ayuda"
+  },
+  "skyux_label_sr_attention": {
+    "_description": "Texto del lector de pantalla cuando la etiqueta contiene información que requiere atención",
+    "message": "Atención:"
+  },
+  "skyux_label_sr_caution": {
+    "_description": "Texto del lector de pantalla cuando la etiqueta contiene información que requiere precaución",
+    "message": "Precaución:"
+  },
+  "skyux_label_sr_completed": {
+    "_description": "Texto del lector de pantalla cuando la etiqueta indica un estado completado",
+    "message": "Completado:"
+  },
+  "skyux_label_sr_danger": {
+    "_description": "Texto del lector de pantalla cuando la etiqueta contiene información con un estado de peligro",
+    "message": "Peligro:"
+  },
+  "skyux_label_sr_error": {
+    "_description": "Texto del lector de pantalla cuando la etiqueta contiene un error",
+    "message": "Error:"
+  },
+  "skyux_label_sr_important_info": {
+    "_description": "Texto del lector de pantalla cuando la etiqueta contiene información importante",
+    "message": "Información importante:"
+  },
+  "skyux_label_sr_important_warning": {
+    "_description": "Texto del lector de pantalla cuando la etiqueta contiene una advertencia importante",
+    "message": "Advertencia importante:"
+  },
+  "skyux_label_sr_success": {
+    "_description": "Texto del lector de pantalla cuando la etiqueta indica un estado exitoso",
+    "message": "Éxito:"
+  },
+  "skyux_label_sr_warning": {
+    "_description": "Texto del lector de pantalla cuando la etiqueta contiene una advertencia",
+    "message": "Advertencia:"
+  },
+  "skyux_status_indicator_sr_attention": {
+    "_description": "Texto del lector de pantalla cuando el indicador de estado contiene información que requiere atención",
+    "message": "Atención:"
+  },
+  "skyux_status_indicator_sr_caution": {
+    "_description": "Texto del lector de pantalla cuando el indicador de estado contiene información que requiere precaución",
+    "message": "Precaución:"
+  },
+  "skyux_status_indicator_sr_completed": {
+    "_description": "Texto del lector de pantalla cuando el indicador de estado informa un estado completado",
+    "message": "Completado:"
+  },
+  "skyux_status_indicator_sr_danger": {
+    "_description": "Texto del lector de pantalla cuando el indicador de estado indica peligro",
+    "message": "Peligro:"
+  },
+  "skyux_status_indicator_sr_error": {
+    "_description": "Texto del lector de pantalla cuando el indicador de estado indica un error",
+    "message": "Error:"
+  },
+  "skyux_status_indicator_sr_important_info": {
+    "_description": "Texto del lector de pantalla cuando el indicador de estado contiene información importante",
+    "message": "Información importante:"
+  },
+  "skyux_status_indicator_sr_important_warning": {
+    "_description": "Texto del lector de pantalla cuando el indicador de estado contiene una advertencia importante",
+    "message": "Advertencia importante:"
+  },
+  "skyux_status_indicator_sr_success": {
+    "_description": "Texto del lector de pantalla cuando el indicador de estado indica un estado exitoso",
+    "message": "Éxito:"
+  },
+  "skyux_status_indicator_sr_warning": {
+    "_description": "Texto del lector de pantalla cuando el indicador de estado indica una advertencia",
+    "message": "Advertencia:"
+  },
+  "skyux_tokens_dismiss_button_default_label": {
+    "_description": "Texto predeterminado del lector de pantalla para el título del botón para descartar un token.",
+    "message": "Eliminar "
+  },
+  "skyux_tokens_dismiss_button_title": {
+    "_description": "Texto alternativo predeterminado para el título del botón para descartar un token.",
+    "message": "Eliminar elemento"
+  },
+  "skyux_tokens_token_dismissed": {
+    "_description": "Texto del lector de pantalla cuando se descarta un token.",
+    "message": "Se eliminó {0}"
+  },
+  "skyux_wait_aria_alt_text": {
+    "_description": "Texto alternativo predeterminado para un componente de espera de sección no bloqueante.",
+    "message": "Cargando."
+  },
+  "skyux_wait_blocking_aria_alt_text": {
+    "_description": "Texto alternativo predeterminado para un componente de espera de sección bloqueante.",
+    "message": "Cargando. Por favor espere."
+  },
+  "skyux_wait_page_aria_alt_text": {
+    "_description": "Texto alternativo predeterminado para un componente de espera de página no bloqueante.",
+    "message": "Cargando página."
+  },
+  "skyux_wait_page_blocking_aria_alt_text": {
+    "_description": "Texto alternativo predeterminado para un componente de espera de página bloqueante.",
+    "message": "Cargando página. Por favor espere."
+  },
+  "skyux_wait_screen_reader_completed_text": {
+    "_description": "Texto predeterminado del lector de pantalla cuando termina la espera de un componente de espera.",
+    "message": "Carga completada."
+  },
+  "skyux_wait_page_screen_reader_completed_text": {
+    "_description": "Texto predeterminado del lector de pantalla cuando termina la espera de un componente de espera de página.",
+    "message": "Carga de la página completada."
+  }
+}

@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 
 /**
  * @internal
@@ -13,9 +13,16 @@ export class SkyColorpickerInputService implements OnDestroy {
     1,
   );
 
+  /**
+   * Notifies the input directive that the colorpicker was reset to an
+   * originally-empty value and its bound value should be cleared.
+   */
+  public clearValue = new Subject<void>();
+
   public ngOnDestroy(): void {
     this.inputId.complete();
     this.labelText.complete();
     this.ariaError.complete();
+    this.clearValue.complete();
   }
 }

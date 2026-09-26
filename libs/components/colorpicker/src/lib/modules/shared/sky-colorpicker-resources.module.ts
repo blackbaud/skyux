@@ -35,6 +35,31 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_colorpicker_red: { message: 'R:' },
     skyux_colorpicker_reset: { message: 'Reset color value to white' },
   },
+  ES: {
+    skyux_colorpicker_alpha: { message: 'A:' },
+    skyux_colorpicker_apply: { message: 'Aplicar' },
+    skyux_colorpicker_aria_alpha: {
+      message: 'Valor del canal alfa entre 0 y 1',
+    },
+    skyux_colorpicker_aria_blue: { message: 'Valor de azul entre 0 y 255' },
+    skyux_colorpicker_aria_green: { message: 'Valor de verde entre 0 y 255' },
+    skyux_colorpicker_aria_hex: { message: 'Código de color hexadecimal' },
+    skyux_colorpicker_aria_red: { message: 'Valor de rojo entre 0 y 255' },
+    skyux_colorpicker_aria_rgba: { message: 'Valores RGBA' },
+    skyux_colorpicker_blue: { message: 'B:' },
+    skyux_colorpicker_close: { message: 'Cancelar' },
+    skyux_colorpicker_dropdown_button: {
+      message: 'Seleccionar valor de color',
+    },
+    skyux_colorpicker_green: { message: 'G:' },
+    skyux_colorpicker_hex: { message: 'Hex:' },
+    skyux_colorpicker_input_default_label: { message: 'Valor de color' },
+    skyux_colorpicker_preset_color: { message: 'Color preestablecido:' },
+    skyux_colorpicker_red: { message: 'R:' },
+    skyux_colorpicker_reset: {
+      message: 'Restablecer el valor de color a blanco',
+    },
+  },
   'FR-CA': {
     skyux_colorpicker_alpha: { message: 'A :' },
     skyux_colorpicker_apply: { message: 'Appliquer' },

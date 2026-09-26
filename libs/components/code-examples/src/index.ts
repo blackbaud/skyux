@@ -38,6 +38,8 @@ export { ColorpickerBasicExampleComponent } from './lib/modules/colorpicker/colo
 export { ColorpickerHelpKeyExampleComponent } from './lib/modules/colorpicker/colorpicker/help-key/example.component';
 export { ColorpickerProgrammaticExampleComponent } from './lib/modules/colorpicker/colorpicker/programmatic/example.component';
 export { CoreIdExampleComponent } from './lib/modules/core/id/example.component';
+export { CoreInstrumentationBasicExample } from './lib/modules/core/instrumentation/basic/example';
+export { CoreInstrumentationModalExample } from './lib/modules/core/instrumentation/modal/example';
 export { CoreMediaQueryBasicExampleComponent } from './lib/modules/core/media-query/basic/example.component';
 export { CoreMediaQueryResponsiveHostExampleComponent } from './lib/modules/core/media-query/responsive-host/example.component';
 export { CoreNumericBasicExampleComponent } from './lib/modules/core/numeric/basic/example.component';

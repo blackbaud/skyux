@@ -25,6 +25,17 @@ const RESOURCES: Record<string, SkyLibResources> = {
         'Resize the flyout window. Press the enter or space key to activate, then use left arrow key to expand the flyout window and right arrow key to shrink the flyout window. Press the enter, space, or tab key to deactivate.',
     },
   },
+  ES: {
+    skyux_flyout_close: { message: 'Cerrar panel flotante' },
+    skyux_flyout_iterator_previous_button: { message: 'Anterior' },
+    skyux_flyout_iterator_next_button: { message: 'Siguiente' },
+    skyux_flyout_permalink_button: { message: 'Ver registro' },
+    skyux_flyout_primary_action_button: { message: 'Crear lista' },
+    skyux_flyout_resize_handle: {
+      message:
+        'Cambiar el tamaño de la ventana del panel flotante. Presione la tecla Intro o la barra espaciadora para activar y, a continuación, use la tecla de flecha izquierda para ampliar la ventana del panel flotante y la tecla de flecha derecha para reducirla. Presione la tecla Intro, la barra espaciadora o la tecla Tab para desactivar.',
+    },
+  },
   'FR-CA': {
     skyux_flyout_close: { message: 'Fermer la fenêtre contextuelle' },
     skyux_flyout_iterator_previous_button: { message: 'Précédent' },

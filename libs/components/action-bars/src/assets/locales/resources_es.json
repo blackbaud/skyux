@@ -1,0 +1,10 @@
+{
+  "skyux_summary_action_bar_open_secondary": {
+    "_description": "Etiqueta del botón que muestra un menú secundario en la barra de acciones del resumen",
+    "message": "Mostrar acciones secundarias"
+  },
+  "skyux_summary_action_bar_expand": {
+    "_description": "Etiqueta del botón para expandir y contraer en la barra de acciones del resumen",
+    "message": "Expandir o contraer el resumen"
+  }
+}
