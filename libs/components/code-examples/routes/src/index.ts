@@ -289,6 +289,20 @@ export const routes: Routes = [
       import('@skyux/code-examples').then(({ CoreIdExampleComponent: c }) => c),
   },
   {
+    path: 'CoreInstrumentationBasicExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ CoreInstrumentationBasicExample: c }) => c,
+      ),
+  },
+  {
+    path: 'CoreInstrumentationModalExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ CoreInstrumentationModalExample: c }) => c,
+      ),
+  },
+  {
     path: 'CoreMediaQueryBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
@@ -461,13 +475,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ FormsButtonToolbarExampleComponent: c }) => c,
-      ),
-  },
-  {
-    path: 'FormsCharacterCountExampleComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ FormsCharacterCountExampleComponent: c }) => c,
       ),
   },
   {
@@ -793,13 +800,6 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'LayoutDefinitionListBasicExampleComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ LayoutDefinitionListBasicExampleComponent: c }) => c,
-      ),
-  },
-  {
     path: 'LayoutDescriptionListHelpKeyExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
@@ -867,13 +867,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ LayoutInlineDeleteRepeaterExampleComponent: c }) => c,
-      ),
-  },
-  {
-    path: 'LayoutPageSummaryBasicExampleComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ LayoutPageSummaryBasicExampleComponent: c }) => c,
       ),
   },
   {
@@ -1229,13 +1222,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ ProgressIndicatorWaterfallIndicatorBasicExampleComponent: c }) => c,
-      ),
-  },
-  {
-    path: 'ProgressIndicatorWizardBasicExampleComponent',
-    loadComponent: () =>
-      import('@skyux/code-examples').then(
-        ({ ProgressIndicatorWizardBasicExampleComponent: c }) => c,
       ),
   },
   {

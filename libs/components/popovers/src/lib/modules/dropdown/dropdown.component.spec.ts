@@ -23,11 +23,12 @@ import {
   SkyThemeSettingsChange,
 } from '@skyux/theme';
 
-import { BehaviorSubject, of as observableOf } from 'rxjs';
+import { BehaviorSubject, Subject, of as observableOf } from 'rxjs';
 
 import { SkyDropdownItemComponent } from './dropdown-item.component';
 import { SkyDropdownFixturesModule } from './fixtures/dropdown-fixtures.module';
 import { DropdownFixtureComponent } from './fixtures/dropdown.component.fixture';
+import { SkyDropdownMessage } from './types/dropdown-message';
 import { SkyDropdownMessageType } from './types/dropdown-message-type';
 
 describe('Dropdown component', () => {
@@ -240,7 +241,7 @@ describe('Dropdown component', () => {
       expect(fixture.componentInstance.dropdownItemRefs?.length).toEqual(4);
 
       const spy = spyOn(
-        fixture.componentInstance.messageStream,
+        fixture.componentInstance.messageStream(),
         'next',
       ).and.callThrough();
       fixture.componentInstance.changeItems();
@@ -444,7 +445,7 @@ describe('Dropdown component', () => {
       it('should focus on first menu item when clicked', fakeAsync(() => {
         detectChangesFakeAsync();
         const spy = spyOn(
-          fixture.componentInstance.messageStream,
+          fixture.componentInstance.messageStream(),
           'next',
         ).and.callThrough();
         const button = getButtonElement();
@@ -455,6 +456,33 @@ describe('Dropdown component', () => {
         expect(spy).toHaveBeenCalledWith({
           type: SkyDropdownMessageType.FocusFirstItem,
         });
+      }));
+    });
+
+    describe('message stream interactions', () => {
+      it('should create a new message stream if an undefined value is specified', fakeAsync(() => {
+        fixture.componentRef.setInput('useUndefinedMessageStream', true);
+        fixture.componentInstance.trigger = 'click';
+        detectChangesFakeAsync();
+
+        expect(
+          fixture.componentInstance.dropdownRef?.messageStream,
+        ).toBeTruthy();
+      }));
+
+      it('should throw an error when changing message stream after initialization', fakeAsync(() => {
+        fixture.componentInstance.trigger = 'click';
+        detectChangesFakeAsync();
+
+        expect(() => {
+          fixture.componentRef.setInput(
+            'messageStream',
+            new Subject<SkyDropdownMessage>(),
+          );
+          detectChangesFakeAsync();
+        }).toThrowError(
+          'Message stream cannot be modified after initialization.',
+        );
       }));
     });
 

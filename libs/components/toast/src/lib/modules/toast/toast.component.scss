@@ -28,6 +28,7 @@
   --sky-override-toast-color-icon-success: #{$sky-color-white};
   --sky-override-toast-color-icon-warning: #{$sky-color-white};
   --sky-override-toast-content-link-color: #212327cc;
+  --sky-override-toast-content-link-color-hover: #{$sky-text-color-default};
   --sky-override-toast-content-link-decoration: underline;
   --sky-override-toast-content-padding: #{$sky-padding} 0;
   --sky-override-toast-margin-bottom: #{$sky-margin-double};
@@ -192,7 +193,10 @@ sky-toast {
 
       &:hover,
       &:active {
-        color: var(--sky-color-text-action_on_status);
+        color: var(
+          --sky-override-toast-content-link-color-hover,
+          var(--sky-color-text-action_on_status)
+        );
       }
     }
   }
@@ -318,6 +322,13 @@ sky-toast {
     }
 
     .sky-toast-content {
+      a {
+        &:hover,
+        &:active {
+          color: var(--sky-color-text-action_on_status);
+        }
+      }
+
       a,
       .sky-btn-link-inline {
         &:focus-visible:not(:active) {

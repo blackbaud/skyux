@@ -240,6 +240,50 @@ export class FeatureModule {}
     expect(getDependencies(tree)).toEqual({ '@skyux/core': '^15.0.0' });
   });
 
+  it('should remove the module from a TestBed.configureTestingModule imports array when no template uses <sky-select-field>', async () => {
+    const tree = setupTree({
+      '/src/app/test.component.ts': `import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-test',
+  templateUrl: './test.component.html',
+})
+export class TestComponent {}
+`,
+      '/src/app/test.component.html': `<sky-lookup></sky-lookup>`,
+      '/src/app/test.component.spec.ts': `import { TestBed } from '@angular/core/testing';
+import { SkySelectFieldModule } from '@skyux/select-field';
+
+import { TestComponent } from './test.component';
+
+describe('TestComponent', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [SkySelectFieldModule, TestComponent],
+    });
+  });
+});
+`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.component.spec.ts'))
+      .toBe(`import { TestBed } from '@angular/core/testing';
+
+import { TestComponent } from './test.component';
+
+describe('TestComponent', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TestComponent],
+    });
+  });
+});
+`);
+    expect(getDependencies(tree)).toEqual({ '@skyux/core': '^15.0.0' });
+  });
+
   it('should only rewrite the project that does not use <sky-select-field> in a multi-project workspace', async () => {
     const tree = setupTree({
       '/src/app/feature.module.ts': `import { NgModule } from '@angular/core';

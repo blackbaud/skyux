@@ -3,14 +3,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  inject,
   Input,
   Output,
-  TemplateRef,
-  inject,
   signal,
+  TemplateRef,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { SkyIdModule } from '@skyux/core';
+import { _injectSkyInstrumentationEmitter, SkyIdModule } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyThemeModule } from '@skyux/theme';
@@ -46,6 +46,7 @@ import { SkyHelpInlinePopoverButtonComponent } from './button-popover.component'
   ],
 })
 export class SkyHelpInlineComponent {
+  readonly #instr = _injectSkyInstrumentationEmitter();
   readonly #labelText = signal<string | undefined>(undefined);
   readonly #resourcesSvc = inject(SkyLibResourcesService);
 
@@ -133,6 +134,11 @@ export class SkyHelpInlineComponent {
   );
 
   protected onClick(): void {
+    this.#instr.emit(
+      'sky.help-inline.help-requested',
+      this.helpKey ? { helpKey: this.helpKey } : undefined,
+    );
+
     this.actionClick.emit();
   }
 }

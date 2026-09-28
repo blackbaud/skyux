@@ -43,8 +43,12 @@ reviews:
       instructions: |
         This glob also matches manifest-generator test fixtures. Ignore anything
         under a fixtures/ directory at any level — those are test data, not
-        published barrels. For published barrels, apply the "Public API
-        Discipline" section of AGENTS.md as blocking.
+        published barrels. It also matches
+        libs/components/code-examples/src/index.ts, whose exports are demo
+        components named <Library><Component><ExampleName>Example — the `sky`
+        prefix rule does not apply there, though the additive-only rule still
+        does. For published barrels, apply the "Public API Discipline" section
+        of AGENTS.md as blocking.
     - path: '**/package.json'
       instructions: |
         Apply the "Dependency Discipline" section of AGENTS.md as blocking.
@@ -83,6 +87,11 @@ reviews:
           point such as libs/sdk/testing/private/src/index.ts.
           PASS if no published barrel changed. PASS if every change is purely
           additive and every added symbol is prefixed with `sky` or `Sky`.
+          Exempt libs/components/code-examples/src/index.ts from the prefix
+          requirement only: its exports are demo components named
+          <Library><Component><ExampleName>Example, so an added symbol there
+          passes without a `sky` prefix. The additive-only rule below still
+          applies to it.
           A breaking change (removed or renamed export, changed signature,
           narrowed parameter type, widened return type, removed overload,
           changed default behavior, or stricter runtime validation) qualifies
