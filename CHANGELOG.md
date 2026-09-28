@@ -3,10 +3,54 @@
 
 ## [15.0.0-beta.1](https://github.com/blackbaud/skyux/compare/15.0.0-beta.0...15.0.0-beta.1) (2026-09-28)
 
+### ⚠ BREAKING CHANGES
+
+* **components/i18n:** getString/getStrings observables no longer complete
+
+  [AB#4082284](https://dev.azure.com/blackbaud/f565481a-7bc9-4083-95d5-4f953da6d499/_workitems/edit/4082284)
+* **components/ag-grid:** requires
+  ag-grid-community/ag-grid-angular/ag-grid-enterprise 36.x.
+
+  ---
+
+
+  [AB#4045248](https://dev.azure.com/blackbaud/f565481a-7bc9-4083-95d5-4f953da6d499/_workitems/edit/4045248)
+
+  <sub>Stack created with <a
+  href="https://github.com/github/gh-stack">GitHub Stacks CLI</a> • <a
+  href="https://gh.io/stacks-feedback">Give Feedback 💬</a></sub>
+
+  <!-- This is an auto-generated comment: release notes by coderabbit.ai
+  -->
+  ## Summary by CodeRabbit
+
+  * **New Features**
+    * Added support for AG Grid 36.
+    * Disabled the pagination page-size selector by default.
+  * **Bug Fixes**
+  * Improved grid recreation, scrolling, sizing, editing, focus, and
+  keyboard behavior.
+  * Row-delete controls are now unavailable when fully clipped from view.
+  * Improved accessibility, inline help, validation, and scrollbar
+  behavior.
+  * **Style**
+  * Updated grid themes and layouts for improved header borders and
+  auto-height presentation.
+  * **Tests**
+  * Expanded coverage for clipping, asynchronous rendering, accessibility,
+  and grid lifecycle scenarios.
+  <!-- end of auto-generated comment: release notes by coderabbit.ai -->
+
+  ---------
+
+### Features
+
+* **components/ag-grid:** support AG Grid 36.0.0 ([#4578](https://github.com/blackbaud/skyux/issues/4578))
+* **components/i18n:** make getString/getStrings update on locale changes ([#4610](https://github.com/blackbaud/skyux/issues/4610))
 
 ### Reverts
 
-* **sdk/testing:** deprecate `expect` and `expectAsync` matchers ([#4826](https://github.com/blackbaud/skyux/issues/4826)) ([2b395eb](https://github.com/blackbaud/skyux/commit/2b395eb439c72cb007689a678fbfc53cff090ecf)), closes [AB#4134668](https://dev.azure.com/blackbaud/Products/_workitems/edit/4134668) [#4731](https://github.com/blackbaud/skyux/issues/4731)
+* **sdk/testing:** deprecate `expect` and `expectAsync` matchers ([#4826](https://github.com/blackbaud/skyux/issues/4826)) ([2b395eb](https://github.com/blackbaud/skyux/commit/2b395eb439c72cb007689a678fbfc53cff090ecf)), references [#4731](https://github.com/blackbaud/skyux/issues/4731)
 
 ## [15.0.0-beta.0](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.16...15.0.0-beta.0) (2026-09-24)
 
