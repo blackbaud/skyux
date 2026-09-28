@@ -64,6 +64,9 @@ ruleTester.run(RULE_NAME, rule, {
     `const component = { template: '<div class="sky-deprecated-class"></div>' };`,
     // Private sky- classes are not flagged in TS files (too many false positives).
     `element.classList.add('sky-private-class');`,
+    // CSS custom property names are not class names.
+    `getComputedStyle(el).getPropertyValue('--sky-theme-color-text-default');`,
+    `const style = 'var(--sky-deprecated-class)';`,
   ],
   invalid: [
     {

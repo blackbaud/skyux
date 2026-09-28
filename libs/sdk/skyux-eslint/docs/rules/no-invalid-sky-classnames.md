@@ -55,4 +55,7 @@ element.className = 'sky-theme-margin-bottom-xs';
 
 // Non-sky classes are ignored
 element.className = 'my-custom-class';
+
+// CSS custom property names are not class names
+getComputedStyle(el).getPropertyValue('--sky-theme-color-text-default');
 ```

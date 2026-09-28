@@ -11,7 +11,9 @@ import {
 export const RULE_NAME = 'no-invalid-sky-classnames';
 
 function extractSkyClassNames(value: string): string[] {
-  const matches = value.match(/sky-[a-z0-9-]+/g);
+  // A `--` prefix means the match is a CSS custom property name (e.g. read via
+  // `getPropertyValue('--sky-theme-color-text-default')`), not a class name.
+  const matches = value.match(/(?<!--)sky-[a-z0-9-]+/g);
   return matches ?? [];
 }
 
