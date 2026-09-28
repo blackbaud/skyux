@@ -68,11 +68,7 @@
     &-fit {
       // The global `.sky-layout-host-fit` rule positions a layout host against
       // the viewport with `position: absolute` plus `--sky-viewport-*` inset
-      // offsets. This element is not a layout host: it only borrows the layout
-      // host custom properties, and its `position` comes from
-      // `--sky-layout-host-content-position` above. The viewport offsets would
-      // otherwise still apply and shift the content by the omnibar height, so
-      // they are neutralized here.
+      // offsets. Resetting to `auto` ensures the content is positioned correctly within the vertical tabset.
       top: auto;
       right: auto;
       bottom: auto;
@@ -91,7 +87,10 @@
   // before the `layout` input existed, for apps that install the generated
   // compat stylesheet. Both themes default to the new behavior otherwise.
   &.sky-layout-host-none {
-    margin: var(--sky-compat-vertical-tabset-content-spacing-xs, 0);
+    margin: var(
+      --sky-compat-vertical-tabset-content-spacing-xs,
+      var(--sky-layout-host-content-spacing, 0)
+    );
     overflow-y: var(--sky-compat-vertical-tabset-content-overflow-y, visible);
   }
 }
@@ -145,7 +144,10 @@
     margin: var(--sky-layout-host-content-spacing, 0);
 
     &.sky-layout-host-none {
-      margin: var(--sky-compat-vertical-tabset-content-spacing-sm, 0);
+      margin: var(
+        --sky-compat-vertical-tabset-content-spacing-sm,
+        var(--sky-layout-host-content-spacing, 0)
+      );
     }
   }
 }

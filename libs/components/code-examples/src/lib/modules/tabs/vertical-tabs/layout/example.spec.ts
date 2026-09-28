@@ -48,9 +48,9 @@ describe('Vertical tabs layout example', () => {
     const listTab = await harness.getTab({ tabHeading: 'List' });
     expect(await listTab?.isDisabled()).toBeFalse();
 
-    const fitTab = await harness.getTab({ tabHeading: 'Fit' });
-    const fitTabContent = await fitTab?.getTabContent();
-    await fitTab?.click();
-    expect(await fitTabContent?.isVisible()).toBeTrue();
+    const blocksTab = await harness.getTab({ tabHeading: 'Blocks' });
+    const blocksTabContent = await blocksTab?.getTabContent();
+    await blocksTab?.click();
+    expect(await blocksTabContent?.isVisible()).toBeTrue();
   });
 });

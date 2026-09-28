@@ -51,11 +51,7 @@ Pointer events are no longer disabled on elements with the "sky-btn-disabled" cl
           styles: [
             {
               css: `
-/* The --sky-comp-* tokens used below are declared on the element that carries
-   the ".sky-theme-modern" class, and var() is substituted on the element that
-   declares the custom property. A ":root" block therefore cannot read them, so
-   the default theme values are written as literals here and the modern theme
-   values are re-declared in a separate ".sky-theme-modern" block. */
+/* Default theme */
 :root {
   --sky-compat-vertical-tabset-content-spacing-xs: 10px 0 0 10px;
   --sky-compat-vertical-tabset-content-spacing-sm: 10px 0 0 10px;
