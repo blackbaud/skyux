@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,7 +13,9 @@ import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
   SkyDateRangePickerModule,
+  SkyDatepickerModule,
 } from '@skyux/datetime';
+import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
 
 import { LocaleProvider } from './locale-provider';
@@ -43,6 +45,8 @@ function dateRangeExcludesWeekend(
     FormsModule,
     ReactiveFormsModule,
     SkyDateRangePickerModule,
+    SkyDatepickerModule,
+    SkyInputBoxModule,
   ],
   providers: [
     {
@@ -53,19 +57,22 @@ function dateRangeExcludesWeekend(
   selector: 'app-date-range-picker',
   templateUrl: './date-range-picker.component.html',
 })
-export class DateRangePickerComponent {
+export class DateRangePickerComponent implements OnDestroy {
   protected calculatorIds: SkyDateRangeCalculatorId[] | undefined;
   protected dateFormat: string | undefined;
   protected hintText: string | undefined;
   protected lastDonationControl = new FormControl<
     SkyDateRangeCalculation | string
   >('', [dateRangeExcludesWeekend]);
+  protected mockCurrentDateControl = new FormControl<Date | null>(null);
 
   protected formGroup = inject(FormBuilder).group({
     lastDonation: this.lastDonationControl,
   });
 
   readonly #localeProvider = inject(SkyAppLocaleProvider) as LocaleProvider;
+
+  #realDate: DateConstructor | undefined;
 
   constructor() {
     this.lastDonationControl.statusChanges.subscribe((x) => {
@@ -75,6 +82,18 @@ export class DateRangePickerComponent {
     this.lastDonationControl.valueChanges.subscribe((x) => {
       console.log('HOST VALUE CHANGE:', JSON.stringify(x));
     });
+
+    this.mockCurrentDateControl.valueChanges.subscribe((mockDate) => {
+      if (mockDate) {
+        this.#mockCurrentDate(mockDate);
+      } else {
+        this.#restoreCurrentDate();
+      }
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.#restoreCurrentDate();
   }
 
   protected changeCalculators(): void {
@@ -156,5 +175,28 @@ export class DateRangePickerComponent {
       this.lastDonationControl.addValidators(Validators.required);
     }
     this.lastDonationControl.updateValueAndValidity();
+  }
+
+  #mockCurrentDate(mockDate: Date): void {
+    this.#realDate ??= Date;
+    const realDate = this.#realDate;
+
+    window.Date = new Proxy(realDate, {
+      construct: (target, args): Date =>
+        args.length === 0
+          ? new target(mockDate.getTime())
+          : (Reflect.construct(target, args) as Date),
+      get: (target, property): unknown =>
+        property === 'now'
+          ? (): number => mockDate.getTime()
+          : Reflect.get(target, property),
+    });
+  }
+
+  #restoreCurrentDate(): void {
+    if (this.#realDate) {
+      window.Date = this.#realDate;
+      this.#realDate = undefined;
+    }
   }
 }
