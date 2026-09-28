@@ -13,6 +13,31 @@
         "docsIds": ["CoreIdExampleComponent"]
       }
     },
+    "instrumentation": {
+      "development": {
+        "docsIds": [
+          "SkyInstrumentationContext",
+          "SkyInstrumentationContextValue",
+          "provideSkyInstrumentationListener",
+          "SkyInstrumentationListener",
+          "SkyInstrumentationEvent",
+          "provideSkyInstrumentationContextFrom"
+        ],
+        "primaryDocsId": "SkyInstrumentationContext"
+      },
+      "testing": {
+        "docsIds": [
+          "provideSkyInstrumentationTesting",
+          "SkyInstrumentationTestingController"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "CoreInstrumentationBasicExample",
+          "CoreInstrumentationModalExample"
+        ]
+      }
+    },
     "media-query": {
       "development": {
         "docsIds": [
