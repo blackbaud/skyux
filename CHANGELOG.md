@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [15.0.0-beta.1](https://github.com/blackbaud/skyux/compare/15.0.0-beta.0...15.0.0-beta.1) (2026-09-28)
+
+
+### Reverts
+
+* **sdk/testing:** deprecate `expect` and `expectAsync` matchers ([#4826](https://github.com/blackbaud/skyux/issues/4826)) ([2b395eb](https://github.com/blackbaud/skyux/commit/2b395eb439c72cb007689a678fbfc53cff090ecf)), closes [AB#4134668](https://dev.azure.com/blackbaud/Products/_workitems/edit/4134668) [#4731](https://github.com/blackbaud/skyux/issues/4731)
+
 ## [15.0.0-beta.0](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.16...15.0.0-beta.0) (2026-09-24)
 
 
