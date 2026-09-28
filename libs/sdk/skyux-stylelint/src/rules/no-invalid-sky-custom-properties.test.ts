@@ -97,7 +97,7 @@ describe(ruleName, () => {
       {
         code: 'a { margin-top: var(--sky-deprecated-prop_suffix); }',
         description:
-          'custom property with an underscore should be reported by its full name',
+          'unknown custom property that begins with a deprecated name followed by an underscore should be reported by its full name',
         unfixable: true,
         warnings: [
           {
@@ -109,7 +109,7 @@ describe(ruleName, () => {
       {
         code: 'a { margin-top: var(--sky-theme-valid-propSuffix); }',
         description:
-          'custom property with an uppercase letter should be reported by its full name',
+          'unknown custom property that begins with a valid name followed by an uppercase letter should be reported by its full name',
         unfixable: true,
         warnings: [
           {
