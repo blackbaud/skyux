@@ -2,8 +2,6 @@ import { numberAttribute } from '@angular/core';
 
 /**
  * The allowed heading styles for charts, corresponding to the font styles defined in the SKY UX design system.
- *
- * @preview
  */
 export type SkyChartHeadingStyle = 2 | 3 | 4 | 5;
 
