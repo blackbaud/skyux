@@ -12,7 +12,9 @@ import {
 import {
   SkyDateRangeCalculation,
   SkyDateRangeCalculatorId,
+  SkyDateRangeCalculatorType,
   SkyDateRangePickerModule,
+  SkyDateRangeService,
   SkyDatepickerModule,
 } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -71,6 +73,7 @@ export class DateRangePickerComponent implements OnDestroy {
   });
 
   readonly #localeProvider = inject(SkyAppLocaleProvider) as LocaleProvider;
+  readonly #dateRangeService = inject(SkyDateRangeService);
 
   #realDate: DateConstructor | undefined;
 
@@ -89,6 +92,7 @@ export class DateRangePickerComponent implements OnDestroy {
       } else {
         this.#restoreCurrentDate();
       }
+      this.#recalculateRelativeRange();
     });
   }
 
@@ -197,6 +201,22 @@ export class DateRangePickerComponent implements OnDestroy {
     if (this.#realDate) {
       window.Date = this.#realDate;
       this.#realDate = undefined;
+    }
+  }
+
+  #recalculateRelativeRange(): void {
+    const value = this.lastDonationControl.value;
+
+    if (!value || typeof value !== 'object') {
+      return;
+    }
+
+    const [calculator] = this.#dateRangeService.filterCalculators([
+      value.calculatorId,
+    ]);
+
+    if (calculator?.type === SkyDateRangeCalculatorType.Relative) {
+      this.lastDonationControl.setValue(calculator.getValue());
     }
   }
 }
