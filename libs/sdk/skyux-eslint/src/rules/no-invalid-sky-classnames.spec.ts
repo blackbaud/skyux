@@ -67,6 +67,12 @@ ruleTester.run(RULE_NAME, rule, {
     // CSS custom property names are not class names.
     `getComputedStyle(el).getPropertyValue('--sky-theme-color-text-default');`,
     `const style = 'var(--sky-deprecated-class)';`,
+    // ID selectors and fragment references are not class names.
+    `element.querySelector('#sky-theme-color-text-default');`,
+    `const href = 'url(#sky-deprecated-class)';`,
+    // Sass variables and placeholder selectors are not class names.
+    `const scss = '$sky-theme-color-text-default: red;';`,
+    `const scss = '%sky-deprecated-class { color: red; }';`,
   ],
   invalid: [
     {

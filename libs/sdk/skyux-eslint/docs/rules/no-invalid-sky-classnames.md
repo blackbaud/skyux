@@ -58,4 +58,8 @@ element.className = 'my-custom-class';
 
 // CSS custom property names are not class names
 getComputedStyle(el).getPropertyValue('--sky-theme-color-text-default');
+
+// ID selectors, Sass variables, and Sass placeholder selectors are not class names
+element.querySelector('#sky-theme-color-text-default');
+const scss = '$sky-theme-color-text-default: red;';
 ```
