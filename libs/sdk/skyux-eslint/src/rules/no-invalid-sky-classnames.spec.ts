@@ -73,6 +73,8 @@ ruleTester.run(RULE_NAME, rule, {
     // Sass variables and placeholder selectors are not class names.
     `const scss = '$sky-theme-color-text-default: red;';`,
     `const scss = '%sky-deprecated-class { color: red; }';`,
+    // A `sky-` substring inside a larger hyphenated identifier is not a class name.
+    `element.setAttribute('data-sky-theme-color-text-default', 'foo');`,
   ],
   invalid: [
     {

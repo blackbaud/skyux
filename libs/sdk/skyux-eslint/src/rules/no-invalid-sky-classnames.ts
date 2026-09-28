@@ -11,7 +11,7 @@ import {
 export const RULE_NAME = 'no-invalid-sky-classnames';
 
 function extractSkyClassNames(value: string): string[] {
-  const matches = value.match(/(?<!--|[#$%])sky-[a-z0-9-]+/g);
+  const matches = value.match(/(?<=^|[.\s])sky-[a-z0-9-]+/g);
   return matches ?? [];
 }
 
