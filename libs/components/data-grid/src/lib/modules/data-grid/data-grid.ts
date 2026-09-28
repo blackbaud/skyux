@@ -5,7 +5,6 @@ import {
   coerceStringArray,
 } from '@angular/cdk/coercion';
 import {
-  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -129,7 +128,7 @@ interface SkyDataGridColumnInternal {
   templateUrl: './data-grid.html',
   styleUrl: './data-grid.css',
   host: {
-    '[class.fill-dock]': 'useFillDock()',
+    '[class.sky-data-grid-dock-fill]': 'useFillDock()',
     '[class.sky-margin-stacked-lg]': 'stacked()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -190,8 +189,9 @@ export class SkyDataGrid {
 
   /**
    * How the data grid docks to the page. Use `fill` to dock the data grid to the container's size where the container
-   * is a sky-page component with its layout set to `fit`, or where the container is another element with a relative or
-   * absolute position and a fixed size.
+   * is a `sky-page` component with its `layout` set to `fit`, or where the container is another element with a
+   * relative or absolute position and a fixed size. This property is applied when the grid initializes; changes
+   * after initialization are not reflected.
    * @default "none"
    */
   public readonly dock = input<SkyDataGridDockType>(DEFAULT_DOCK_TYPE);
@@ -397,6 +397,10 @@ export class SkyDataGrid {
 
   protected readonly skyViewkeeper = computed(() => {
     // Only used when not using SkyDataManagerService because data manager handles SkyViewkeeper.
+    // Not used in fill mode either: AG Grid keeps its own header in place in that layout.
+    if (this.useFillDock()) {
+      return [];
+    }
     const classes = ['.ag-header'];
     if (this.topScrollEnabled()) {
       classes.push('.ag-body-horizontal-scroll');
@@ -404,9 +408,7 @@ export class SkyDataGrid {
     return classes;
   });
 
-  protected readonly useFillDock = computed(
-    () => this.dock() !== DEFAULT_DOCK_TYPE,
-  );
+  protected readonly useFillDock = computed(() => this.dock() === 'fill');
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
   readonly #gridService = inject(SkyAgGridService);
@@ -488,26 +490,15 @@ export class SkyDataGrid {
     // `gridApi` untracked because a recreated grid rebuilds its options from the
     // `gridOptions` computed; the selection and page effects below instead track
     // `gridApi` so they re-apply their state to a freshly created grid.
-
-    // Using `afterRenderEffect` for columns because we need the results from
-    // `contentChildren` for the column definitions, and this allows columns
-    // that use control flow or inputs to stabilize.
-    afterRenderEffect({
-      earlyRead: () => {
-        const api = untracked(() => this.gridApi());
-        const columnDefs = this.#columnDefs();
-        api?.setGridOption('columnDefs', columnDefs);
-      },
+    effect(() => {
+      const api = untracked(() => this.gridApi());
+      const columnDefs = this.#columnDefs();
+      api?.setGridOption('columnDefs', columnDefs);
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
       const isLoading = this.loading() || !Array.isArray(this.data());
       api?.setGridOption('loading', isLoading);
-    });
-    effect(() => {
-      const api = untracked(() => this.gridApi());
-      const domLayout = this.useFillDock() ? 'normal' : 'autoHeight';
-      api?.setGridOption('domLayout', domLayout);
     });
     effect(() => {
       const api = untracked(() => this.gridApi());

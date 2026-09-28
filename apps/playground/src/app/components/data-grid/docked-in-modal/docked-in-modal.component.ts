@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { SkyPercentPipe } from '@skyux/core';
 import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import {
@@ -8,7 +9,7 @@ import {
 
 @Component({
   selector: 'app-docked-in-modal',
-  imports: [SkyModalModule, SkyDataGrid, SkyDataGridColumn],
+  imports: [SkyModalModule, SkyDataGrid, SkyDataGridColumn, SkyPercentPipe],
   templateUrl: './docked-in-modal.component.html',
 })
 export class DockedInModalComponent {

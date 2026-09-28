@@ -25,7 +25,7 @@ const routes: ComponentRouteInfo[] = [
   },
   {
     path: 'docked-tabs',
-    loadComponent: () => import('./docked-tabs/./docked-tabs.component'),
+    loadComponent: () => import('./docked-tabs/docked-tabs.component'),
     data: {
       name: 'Data grid docked in a tabs page',
       icon: 'table',

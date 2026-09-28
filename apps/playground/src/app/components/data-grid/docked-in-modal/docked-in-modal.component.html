@@ -1,3 +1,6 @@
+<ng-template #pct let-value="value">
+  {{ value | skyPercent }}
+</ng-template>
 <sky-modal headingText="Data grid docked in a modal" layout="fit">
   <sky-modal-content>
     <sky-data-grid dock="fill" [data]="data">
