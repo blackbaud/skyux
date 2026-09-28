@@ -1254,4 +1254,33 @@ describe('SkyDataManagerService', () => {
     expect(viewkeeperClasses?.[viewId]).toBeDefined();
     expect(viewkeeperClasses?.[viewId].includes(newClass)).toBeTrue();
   });
+
+  describe('state signal and updateState()', () => {
+    it('reflects the current data state as a signal', () => {
+      expect(dataManagerService.state().searchText).toBeUndefined();
+
+      dataManagerService.updateState({ searchText: 'mango' });
+
+      expect(dataManagerService.state().searchText).toBe('mango');
+    });
+
+    it('merges partial updates onto the current state without a sourceId', () => {
+      dataManagerService.updateState({ searchText: 'mango' });
+      dataManagerService.updateState({ selectedIds: ['1'] });
+
+      expect(dataManagerService.state().searchText).toBe('mango');
+      expect(dataManagerService.state().selectedIds).toEqual(['1']);
+    });
+
+    it('emits updateState() changes to existing getDataStateUpdates() subscribers', () => {
+      let received: string | undefined;
+      dataManagerService
+        .getDataStateUpdates('someOtherSource')
+        .subscribe((state) => (received = state.searchText));
+
+      dataManagerService.updateState({ searchText: 'lime' });
+
+      expect(received).toBe('lime');
+    });
+  });
 });

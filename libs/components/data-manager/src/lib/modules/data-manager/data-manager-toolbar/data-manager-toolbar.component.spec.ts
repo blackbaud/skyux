@@ -927,6 +927,8 @@ describe('SkyDataManagerToolbarComponent', () => {
         ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
         multiselectToolbarEnabled: true,
         columnPickerEnabled: true,
+        onSelectAllClick: () => {},
+        onClearAllClick: () => {},
       });
       dataManagerToolbarFixture.detectChanges();
 
@@ -966,6 +968,8 @@ describe('SkyDataManagerToolbarComponent', () => {
         ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
         multiselectToolbarEnabled: true,
         columnPickerEnabled: true,
+        onSelectAllClick: () => {},
+        onClearAllClick: () => {},
       });
       dataManagerToolbarFixture.detectChanges();
 

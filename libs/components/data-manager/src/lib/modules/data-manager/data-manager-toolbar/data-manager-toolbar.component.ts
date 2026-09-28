@@ -34,6 +34,7 @@ import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker
 import { SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS } from '../data-manager-column-picker/data-manager-column-picker-providers';
 import { SkyDataManagerColumnPickerService } from '../data-manager-column-picker/data-manager-column-picker.service';
 import { SkyDataManagerFilterModalContext } from '../data-manager-filter-context';
+import { SkyDataManagerComponent } from '../data-manager.component';
 import { SkyDataManagerService } from '../data-manager.service';
 import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
 import { SkyDataManagerConfig } from '../models/data-manager-config';
@@ -42,6 +43,7 @@ import { SkyDataManagerState } from '../models/data-manager-state';
 import { SkyDataViewConfig } from '../models/data-view-config';
 import { SkyDataViewState } from '../models/data-view-state';
 
+import { SkyDataManagerSortOptionComponent } from './data-manager-sort-option.component';
 import { SkyDataManagerToolbarLeftItemComponent } from './data-manager-toolbar-left-item.component';
 import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolbar-primary-item.component';
 import { SkyDataManagerToolbarRightItemComponent } from './data-manager-toolbar-right-item.component';
@@ -50,7 +52,9 @@ import { SkyDataManagerToolbarSectionComponent } from './data-manager-toolbar-se
 /**
  * Renders a `sky-toolbar` with the contents specified by the active view's `SkyDataViewConfig`
  * and the `SkyDataManagerToolbarLeftItemComponent`, `SkyDataManagerToolbarRightItemComponent`,
- * and `SkyDataManagerToolbarSectionComponent` wrappers.
+ * and `SkyDataManagerToolbarSectionComponent` wrappers. When placed in a `sky-data-manager`, also
+ * renders the search box, multiselect toolbar, and label configured on that component and
+ * the `sky-data-manager-sort-option` elements placed inside this toolbar.
  */
 @Component({
   selector: 'sky-data-manager-toolbar',
@@ -110,6 +114,10 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
   public onlyShowSelected: boolean | undefined;
 
+  protected readonly sortOptions = contentChildren(
+    SkyDataManagerSortOptionComponent,
+  );
+
   protected readonly primaryItems = contentChildren(
     SkyDataManagerToolbarPrimaryItemComponent,
   );
@@ -134,6 +142,8 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
       !!this.activeView?.sortEnabled ||
       !!this.activeView?.columnPickerEnabled ||
       !!this.activeView?.searchEnabled ||
+      !!this.dataManager?.searchEnabled() ||
+      this.sortOptions().length > 0 ||
       (!!this.activeView && this.views.length > 1) ||
       this.primaryItems().length > 0 ||
       this.leftItems().length > 0 ||
@@ -141,6 +151,10 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
       this.sections().length > 0
     );
   }
+
+  protected readonly dataManager = inject(SkyDataManagerComponent, {
+    optional: true,
+  });
 
   readonly #logger = inject(SkyLogService, { optional: true });
 
