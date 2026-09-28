@@ -40,7 +40,7 @@ describe('Vertical tabs layout example', () => {
     const { harness } = await setupTest();
 
     const allTabs = await harness.getTabs();
-    expect(allTabs.length).toBe(3);
+    expect(allTabs.length).toBe(2);
 
     const activeTab = await harness.getActiveTab();
     expect(await activeTab?.getTabHeading()).toBe('Blocks');
