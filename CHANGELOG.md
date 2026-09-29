@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [14.22.1](https://github.com/blackbaud/skyux/compare/14.22.0...14.22.1) (2026-09-29)
+
+
+### Bug Fixes
+
+* **components/datetime:** this month calculator returns wrong end date on the 31st ([#4838](https://github.com/blackbaud/skyux/issues/4838)) ([4ac1ad0](https://github.com/blackbaud/skyux/commit/4ac1ad01810a8f792ccdcf30d5871f06787322d0))
+* **sdk/skyux-eslint:** don't flag CSS custom property names as invalid sky- classnames ([#4829](https://github.com/blackbaud/skyux/issues/4829)) ([3bb2388](https://github.com/blackbaud/skyux/commit/3bb23886dca1c736e4a4091e9e13a1fd60248568))
+* **sdk/skyux-stylelint:** support underscores in custom property names for `no-invalid-sky-custom-properties` ([#4831](https://github.com/blackbaud/skyux/issues/4831)) ([28e1d6b](https://github.com/blackbaud/skyux/commit/28e1d6b940ebe24591a73ea4150f89fe67a62805))
+
 ## [15.0.0-beta.1](https://github.com/blackbaud/skyux/compare/15.0.0-beta.0...15.0.0-beta.1) (2026-09-29)
 
 
