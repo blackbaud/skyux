@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.0.0-beta.2](https://github.com/blackbaud/skyux/compare/15.0.0-beta.1...15.0.0-beta.2) (2026-09-29)
+
+### Bug Fixes
+
+* **sdk/skyux-stylelint:** support underscores in custom property names for `no-invalid-sky-custom-properties` ([#4831](https://github.com/blackbaud/skyux/issues/4831)) ([#4834](https://github.com/blackbaud/skyux/issues/4834)) ([2d1524e](https://github.com/blackbaud/skyux/commit/2d1524e4794f653767d59ead3fbfc0a8d54f4b91))
+
 ## [15.0.0-beta.1](https://github.com/blackbaud/skyux/compare/15.0.0-beta.0...15.0.0-beta.1) (2026-09-29)
 
 ### ⚠ BREAKING CHANGES
