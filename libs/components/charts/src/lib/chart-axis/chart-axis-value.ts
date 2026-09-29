@@ -18,8 +18,6 @@ import { optionalNumberAttribute } from './optional-number-attribute';
 /**
  * Defines the value axis of a chart, which scales the plotted series and
  * formats their values in axis labels, tooltips, and the data table.
- *
- * @preview
  */
 @Component({
   selector: 'sky-chart-axis-value',

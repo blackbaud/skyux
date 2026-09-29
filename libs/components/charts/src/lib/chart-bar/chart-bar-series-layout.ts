@@ -3,7 +3,5 @@
  * `grouped` places the series' bars side by side; `stacked` accumulates the
  * bars into a single bar per category. Neither has a visible effect when the
  * chart has a single series.
- *
- * @preview
  */
 export type SkyChartBarSeriesLayout = 'grouped' | 'stacked';
