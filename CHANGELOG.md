@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [15.0.0-beta.1](https://github.com/blackbaud/skyux/compare/15.0.0-beta.0...15.0.0-beta.1) (2026-09-28)
+## [15.0.0-beta.1](https://github.com/blackbaud/skyux/compare/15.0.0-beta.0...15.0.0-beta.1) (2026-09-29)
 
 ### ⚠ BREAKING CHANGES
 
@@ -47,6 +47,7 @@
 
 * **components/ag-grid:** support AG Grid 36.0.0 ([#4578](https://github.com/blackbaud/skyux/issues/4578))
 * **components/i18n:** make getString/getStrings update on locale changes ([#4610](https://github.com/blackbaud/skyux/issues/4610))
+* **components/tabs:** vertical tabs support the same layout options as tabs ([#4786](https://github.com/blackbaud/skyux/issues/4786)) ([e28d69b](https://github.com/blackbaud/skyux/commit/e28d69b4e4dcb5e04a0732ff5f0dab1a866cdb46))
 
 ### Reverts
 
