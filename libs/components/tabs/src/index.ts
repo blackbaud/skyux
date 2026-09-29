@@ -9,6 +9,7 @@ export { SkyTabsetNavButtonType } from './lib/modules/tabs/tabset-nav-button-typ
 export { SkyTabsetStyle } from './lib/modules/tabs/tabset-style';
 export { SkyTabsetTabIndexesChange } from './lib/modules/tabs/tabset-tab-indexes-change';
 
+export { SkyVerticalTabLayoutType } from './lib/modules/vertical-tabset/vertical-tab-layout-type';
 export { SkyVerticalTabsetModule } from './lib/modules/vertical-tabset/vertical-tabset.module';
 
 // The following export is needed because our docs use it as a prescribed pattern.
