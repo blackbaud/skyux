@@ -9,50 +9,9 @@
 
 ## [15.0.0-beta.1](https://github.com/blackbaud/skyux/compare/15.0.0-beta.0...15.0.0-beta.1) (2026-09-29)
 
-### ⚠ BREAKING CHANGES
-
-* **components/i18n:** getString/getStrings observables no longer complete
-
-  [AB#4082284](https://dev.azure.com/blackbaud/f565481a-7bc9-4083-95d5-4f953da6d499/_workitems/edit/4082284)
-* **components/ag-grid:** requires
-  ag-grid-community/ag-grid-angular/ag-grid-enterprise 36.x.
-
-  ---
-
-
-  [AB#4045248](https://dev.azure.com/blackbaud/f565481a-7bc9-4083-95d5-4f953da6d499/_workitems/edit/4045248)
-
-  <sub>Stack created with <a
-  href="https://github.com/github/gh-stack">GitHub Stacks CLI</a> • <a
-  href="https://gh.io/stacks-feedback">Give Feedback 💬</a></sub>
-
-  <!-- This is an auto-generated comment: release notes by coderabbit.ai
-  -->
-  ## Summary by CodeRabbit
-
-  * **New Features**
-    * Added support for AG Grid 36.
-    * Disabled the pagination page-size selector by default.
-  * **Bug Fixes**
-  * Improved grid recreation, scrolling, sizing, editing, focus, and
-  keyboard behavior.
-  * Row-delete controls are now unavailable when fully clipped from view.
-  * Improved accessibility, inline help, validation, and scrollbar
-  behavior.
-  * **Style**
-  * Updated grid themes and layouts for improved header borders and
-  auto-height presentation.
-  * **Tests**
-  * Expanded coverage for clipping, asynchronous rendering, accessibility,
-  and grid lifecycle scenarios.
-  <!-- end of auto-generated comment: release notes by coderabbit.ai -->
-
-  ---------
 
 ### Features
 
-* **components/ag-grid:** support AG Grid 36.0.0 ([#4578](https://github.com/blackbaud/skyux/issues/4578))
-* **components/i18n:** make getString/getStrings update on locale changes ([#4610](https://github.com/blackbaud/skyux/issues/4610))
 * **components/tabs:** vertical tabs support the same layout options as tabs ([#4786](https://github.com/blackbaud/skyux/issues/4786)) ([e28d69b](https://github.com/blackbaud/skyux/commit/e28d69b4e4dcb5e04a0732ff5f0dab1a866cdb46))
 
 ### Bug Fixes
