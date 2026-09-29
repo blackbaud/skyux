@@ -1,0 +1,23 @@
+<sky-vertical-tabset>
+  <sky-vertical-tab
+    tabHeading="tab 1"
+    [active]="activeTab() === 0"
+    [layout]="tab1Layout()"
+  >
+    Tab 1 content
+  </sky-vertical-tab>
+  <sky-vertical-tab
+    tabHeading="tab 2"
+    [active]="activeTab() === 1"
+    [layout]="tab2Layout()"
+  >
+    Tab 2 content
+  </sky-vertical-tab>
+  <sky-vertical-tab
+    tabHeading="tab 3"
+    [active]="activeTab() === 2"
+    [layout]="tab3Layout()"
+  >
+    Tab 3 content
+  </sky-vertical-tab>
+</sky-vertical-tabset>
