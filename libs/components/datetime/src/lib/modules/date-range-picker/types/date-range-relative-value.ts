@@ -87,6 +87,7 @@ export abstract class SkyDateRangeRelativeValue {
     startDate.setDate(1);
 
     const endDate = new Date();
+    endDate.setDate(1);
     endDate.setMonth(endDate.getMonth() + 1);
     endDate.setDate(0);
 
