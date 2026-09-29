@@ -13,7 +13,7 @@ export const ruleName = withNamespace(ruleId);
 const STYLE_API_DOCS_URL =
   'https://developer.blackbaud.com/skyux/design/styles';
 
-const CUSTOM_PROPERTY_PATTERN = /var\(\s*(--sky-[a-z0-9-]+)[^)]*\)/g;
+const CUSTOM_PROPERTY_PATTERN = /var\(\s*(--sky-[\w-]+)[^)]*\)/g;
 
 const messages = stylelint.utils.ruleMessages(ruleName, {
   deprecatedWithReplacement: (prop: string, replacement: string) =>
