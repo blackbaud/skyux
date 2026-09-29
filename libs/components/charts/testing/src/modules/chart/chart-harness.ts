@@ -11,7 +11,6 @@ import { SkyChartHarnessFilters } from './chart-harness-filters';
 /**
  * Harness for interacting with a chart component in tests. Query the plot's
  * harness (for example, `SkyChartBarHarness`) with `queryHarness`.
- * @preview
  */
 export class SkyChartHarness extends SkyQueryableComponentHarness {
   /**

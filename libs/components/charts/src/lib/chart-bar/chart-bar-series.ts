@@ -5,8 +5,6 @@ import { type SkyChartBarSeriesValue } from './chart-bar-series-value';
 /**
  * Defines a single series of values to plot on a bar chart, aligned to the
  * category axis by index.
- *
- * @preview
  */
 @Component({
   selector: 'sky-chart-bar-series',
