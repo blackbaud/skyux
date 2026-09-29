@@ -44,6 +44,41 @@ Pointer events are no longer disabled on elements with the "sky-btn-disabled" cl
       ],
     },
     {
+      name: '@skyux/tabs',
+      components: [
+        {
+          name: 'vertical-tabset',
+          styles: [
+            {
+              css: `
+/* Default theme */
+:root {
+  --sky-compat-vertical-tabset-content-spacing-xs: 10px 0 0 10px;
+  --sky-compat-vertical-tabset-content-spacing-sm: 10px 0 0 10px;
+  --sky-compat-vertical-tabset-content-overflow-y: auto;
+}
+
+.sky-theme-modern {
+  --sky-compat-vertical-tabset-content-spacing-xs:
+    var(--sky-comp-tab-vertical-content-space-inset-xs-top)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-right)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-bottom)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-left);
+  --sky-compat-vertical-tabset-content-spacing-sm:
+    var(--sky-comp-tab-vertical-content-space-inset-sm-top)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-right)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-bottom)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-left);
+}
+`,
+              instructions: `
+Vertical tab content spacing and scrolling are now controlled by the "layout" input on each "sky-vertical-tab" element, matching the "layout" input on "sky-tab". Tabs that do not specify a layout, or that specify "none", no longer receive the previous default padding or vertical scrolling. To address this change, set "layout" on each "sky-vertical-tab" to the value that matches its content ("blocks", "fit", or "list"), then remove these blocks of code.`,
+            },
+          ],
+        },
+      ],
+    },
+    {
       name: '@skyux/layout',
       components: [
         {
@@ -51,7 +86,7 @@ Pointer events are no longer disabled on elements with the "sky-btn-disabled" cl
           styles: [
             {
               css: `
-:root {
+.sky-theme-modern {
   --sky-compat-toolbar-container-padding: var(--sky-comp-toolbar-space-inset-top)
     var(--sky-comp-toolbar-space-inset-right)
     var(--sky-comp-toolbar-space-inset-bottom)
@@ -73,7 +108,7 @@ The toolbar no longer applies its own left, right, and top padding unless it is 
           styles: [
             {
               css: `
-:root {
+.sky-theme-modern {
   --sky-compat-filter-bar-toolbar-padding: var(--sky-comp-filter_bar-space-inset-top)
     var(--sky-comp-filter_bar-space-inset-right)
     var(--sky-comp-filter_bar-space-inset-bottom)
@@ -95,7 +130,7 @@ The filter bar no longer applies its own left, right, and top padding unless it 
           styles: [
             {
               css: `
-:root {
+.sky-theme-modern {
   --sky-compat-list-summary-padding: var(--sky-comp-list_summary-space-inset-top)
     var(--sky-comp-list_summary-space-inset-right)
     var(--sky-comp-list_summary-space-inset-bottom)
@@ -112,7 +147,7 @@ The list summary no longer applies its own left and right padding unless it is i
           styles: [
             {
               css: `
-:root {
+.sky-theme-modern {
   --sky-compat-repeater-first-item-space-inset-top: var(--sky-comp-repeater_item-space-inset-top);
 }
 `,
