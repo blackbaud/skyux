@@ -4,6 +4,7 @@
       <sky-vertical-tabset-group groupHeading="Group 1" [open]="true">
         <sky-vertical-tab
           tabHeading="Group 1 Tab 1"
+          layout="blocks"
           [tabHeaderCount]="5"
           [active]="true"
         >
@@ -48,7 +49,7 @@
   <div id="vertical-tabs-without-groups" class="sky-margin-stacked-xl">
     <sky-vertical-tabset showTabsText="Back to tabs list">
       <sky-vertical-tab tabHeading="tab 1"> Tab 1 content </sky-vertical-tab>
-      <sky-vertical-tab tabHeading="tab 2" [active]="true">
+      <sky-vertical-tab tabHeading="tab 2" layout="blocks" [active]="true">
         Tab 2 content
       </sky-vertical-tab>
       <sky-vertical-tab tabHeading="tab 3" [disabled]="true">
@@ -60,7 +61,11 @@
   <div id="vertical-tabs-mixed">
     <sky-vertical-tabset showTabsText="Mixed tabs list">
       <sky-vertical-tabset-group groupHeading="Group 1" [open]="true">
-        <sky-vertical-tab tabHeading="Group 1 — Tab 1" [active]="true">
+        <sky-vertical-tab
+          tabHeading="Group 1 — Tab 1"
+          layout="blocks"
+          [active]="true"
+        >
           Group 1 — Tab 1 Content
         </sky-vertical-tab>
         <sky-vertical-tab tabHeading="Group 1 — Tab 2">

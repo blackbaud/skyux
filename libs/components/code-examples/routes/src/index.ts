@@ -1295,6 +1295,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'TabsVerticalTabsLayoutExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ TabsVerticalTabsLayoutExample: c }) => c,
+      ),
+  },
+  {
     path: 'TabsVerticalTabsMixedExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
