@@ -3,6 +3,10 @@
 
 ## [15.0.0-beta.2](https://github.com/blackbaud/skyux/compare/15.0.0-beta.1...15.0.0-beta.2) (2026-09-29)
 
+### Features
+
+* **components/charts:** graduate charts from developer preview ([#4828](https://github.com/blackbaud/skyux/issues/4828)) ([d38edb9](https://github.com/blackbaud/skyux/commit/d38edb996b2cd983f110ae96f7189cbe9e34dcdd))
+
 ### Bug Fixes
 
 * **sdk/skyux-stylelint:** support underscores in custom property names for `no-invalid-sky-custom-properties` ([#4831](https://github.com/blackbaud/skyux/issues/4831)) ([#4834](https://github.com/blackbaud/skyux/issues/4834)) ([2d1524e](https://github.com/blackbaud/skyux/commit/2d1524e4794f653767d59ead3fbfc0a8d54f4b91))
