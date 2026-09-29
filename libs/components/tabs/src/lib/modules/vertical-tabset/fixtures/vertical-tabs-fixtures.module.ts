@@ -5,6 +5,7 @@ import { provideNoopSkyAnimations } from '@skyux/core';
 import { SkyVerticalTabsetModule } from '../vertical-tabset.module';
 
 import { VerticalTabsetEmptyGroupTestComponent } from './vertical-tabset-empty-group.component';
+import { VerticalTabsetLayoutTestComponent } from './vertical-tabset-layout.component.fixture';
 import { VerticalTabsetWithNgForTestComponent } from './vertical-tabset-ngfor.component.fixture';
 import { VerticalTabsetNoActiveTestComponent } from './vertical-tabset-no-active.component.fixture';
 import { VerticalTabsetNoGroupTestComponent } from './vertical-tabset-no-group.component.fixture';
@@ -18,6 +19,7 @@ import { VerticalTabsetTestComponent } from './vertical-tabset.component.fixture
     VerticalTabsetNoGroupTestComponent,
     VerticalTabsetNoActiveTestComponent,
     VerticalTabsetWithNgForTestComponent,
+    VerticalTabsetLayoutTestComponent,
   ],
   imports: [
     FormsModule,
@@ -32,6 +34,7 @@ import { VerticalTabsetTestComponent } from './vertical-tabset.component.fixture
     VerticalTabsetNoActiveTestComponent,
     VerticalTabsetProgrammaticTestComponent,
     VerticalTabsetWithNgForTestComponent,
+    VerticalTabsetLayoutTestComponent,
   ],
 })
 export class SkyVerticalTabsFixturesModule {}

@@ -14,9 +14,12 @@ import { Subject } from 'rxjs';
 
 import { SkyTabIdService } from '../shared/tab-id.service';
 
+import { SkyVerticalTabLayoutType } from './vertical-tab-layout-type';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetGroupService } from './vertical-tabset-group.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
+
+const LAYOUT_DEFAULT: SkyVerticalTabLayoutType = 'none';
 
 let nextId = 0;
 
@@ -89,6 +92,28 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
    */
   @Input()
   public errorIndicator: boolean | undefined = false;
+
+  /**
+   * The tab layout that applies spacing to the tab container element. Use the layout
+   * that corresponds with the top-level component type used within the tab, or use `fit` to
+   * constrain the tab contents to the available viewport.
+   * Use `none` for custom content that does not adhere to predefined spacing or constraints.
+   * @default "none"
+   */
+  @Input()
+  public set layout(value: SkyVerticalTabLayoutType | undefined) {
+    const layout = value || LAYOUT_DEFAULT;
+
+    this.#layout = layout;
+
+    if (this.active) {
+      this.#tabsetService.updateActiveTabLayout(layout);
+    }
+  }
+
+  public get layout(): SkyVerticalTabLayoutType {
+    return this.#layout;
+  }
 
   /**
    * Whether to indicate that the tab has required content.
@@ -171,6 +196,8 @@ export class SkyVerticalTabComponent implements OnInit, OnDestroy {
   #tabIdOrDefault: string;
 
   #defaultTabId: string;
+
+  #layout: SkyVerticalTabLayoutType = LAYOUT_DEFAULT;
 
   #mobileSubscription = new Subject();
 

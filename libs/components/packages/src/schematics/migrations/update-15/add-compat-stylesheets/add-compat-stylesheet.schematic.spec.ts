@@ -57,6 +57,25 @@ describe('Migrations > Add compat stylesheets', () => {
   async function validateCompatStylesheet(
     packageJson: string,
     existingWorkspaceStylesheets: string[] | undefined,
+    expectedContents: string[] = [
+      'COMPONENT: BUTTON',
+      `:root {
+  --sky-compat-btn-disabled-pointer-events: none;
+}`,
+      'COMPONENT: TOOLBAR',
+      `.sky-theme-modern {
+  --sky-compat-toolbar-container-padding: var(--sky-comp-toolbar-space-inset-top)`,
+      'COMPONENT: FILTER BAR',
+      `.sky-theme-modern {
+  --sky-compat-filter-bar-toolbar-padding: var(--sky-comp-filter_bar-space-inset-top)`,
+      'COMPONENT: LIST SUMMARY',
+      `.sky-theme-modern {
+  --sky-compat-list-summary-padding: var(--sky-comp-list_summary-space-inset-top)`,
+      'COMPONENT: REPEATER',
+      `.sky-theme-modern {
+  --sky-compat-repeater-first-item-space-inset-top: var(--sky-comp-repeater_item-space-inset-top);
+}`,
+    ],
     existingCompatStylesheet?: string,
   ): Promise<void> {
     const projectTargets = ['build', 'test'];
@@ -85,30 +104,9 @@ describe('Migrations > Add compat stylesheets', () => {
 
     const compatStylesheetContents = updatedTree.readText(compatStylesheetPath);
 
-    expect(compatStylesheetContents).toContain('COMPONENT: BUTTON');
-    expect(compatStylesheetContents).toContain(
-      '--sky-compat-btn-disabled-pointer-events: none;',
-    );
-
-    expect(compatStylesheetContents).toContain('COMPONENT: TOOLBAR');
-    expect(compatStylesheetContents).toContain(
-      '--sky-compat-toolbar-container-padding:',
-    );
-
-    expect(compatStylesheetContents).toContain('COMPONENT: FILTER BAR');
-    expect(compatStylesheetContents).toContain(
-      '--sky-compat-filter-bar-toolbar-padding:',
-    );
-
-    expect(compatStylesheetContents).toContain('COMPONENT: LIST SUMMARY');
-    expect(compatStylesheetContents).toContain(
-      '--sky-compat-list-summary-padding:',
-    );
-
-    expect(compatStylesheetContents).toContain('COMPONENT: REPEATER');
-    expect(compatStylesheetContents).toContain(
-      '--sky-compat-repeater-first-item-space-inset-top:',
-    );
+    for (const expected of expectedContents) {
+      expect(compatStylesheetContents).toContain(expected);
+    }
 
     const updatedAngularJson = updatedTree.readJson(
       '/angular.json',
@@ -209,6 +207,7 @@ describe('Migrations > Add compat stylesheets', () => {
         },
       }),
       [],
+      undefined,
       '/* */',
     );
   });
@@ -224,6 +223,7 @@ describe('Migrations > Add compat stylesheets', () => {
         },
       }),
       undefined, // <-- empty array
+      undefined,
       '/* */',
     );
   });
@@ -335,6 +335,52 @@ describe('Migrations > Add compat stylesheets', () => {
 
     // The base `styles` array still gets the compat stylesheet too.
     expect(updatedBuildTarget.options?.styles).toContain(compatStylesheetPath);
+  });
+
+  it('should add a compat stylesheet for @skyux/tabs', async () => {
+    await validateCompatStylesheet(
+      JSON.stringify({ dependencies: { '@skyux/tabs': '15.0.0' } }),
+      [],
+      [
+        'COMPONENT: VERTICAL-TABSET',
+        // The `:root` block supplies the default theme values as literals,
+        // since the `--sky-comp-*` tokens are not available on `:root`.
+        `:root {
+  --sky-compat-vertical-tabset-content-spacing-xs: 10px 0 0 10px;
+  --sky-compat-vertical-tabset-content-spacing-sm: 10px 0 0 10px;
+  --sky-compat-vertical-tabset-content-overflow-y: auto;
+}`,
+        // The modern theme values are re-declared on the element that owns the
+        // `--sky-comp-*` tokens.
+        `.sky-theme-modern {
+  --sky-compat-vertical-tabset-content-spacing-xs:
+    var(--sky-comp-tab-vertical-content-space-inset-xs-top)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-right)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-bottom)
+    var(--sky-comp-tab-vertical-content-space-inset-xs-left);
+  --sky-compat-vertical-tabset-content-spacing-sm:
+    var(--sky-comp-tab-vertical-content-space-inset-sm-top)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-right)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-bottom)
+    var(--sky-comp-tab-vertical-content-space-inset-sm-left);
+}`,
+      ],
+    );
+  });
+
+  it('should not add the vertical tabset block when @skyux/tabs is not installed', async () => {
+    const { runSchematic, tree } = await setupTest();
+
+    tree.overwrite(
+      '/package.json',
+      JSON.stringify({ dependencies: { '@skyux/theme': '15.0.0' } }),
+    );
+
+    const updatedTree = await runSchematic();
+    const contents = updatedTree.readText(compatStylesheetPath);
+
+    expect(contents).toContain('COMPONENT: BUTTON');
+    expect(contents).not.toContain('COMPONENT: VERTICAL-TABSET');
   });
 
   it('should ignore targets that are missing or whose builder has no styles option', async () => {
