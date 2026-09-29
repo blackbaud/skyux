@@ -1,6 +1,101 @@
 # Changelog
 
 
+## [15.0.0](https://github.com/blackbaud/skyux/compare/14.22.1...15.0.0) (2026-09-29)
+
+### ⚠ BREAKING CHANGES
+
+* **components/theme:** `sky-btn-disable` no longer disables pointer events (#4628)
+* **sdk/skyux-eslint:** add `no-native-click` ESLint rule to recommended ruleset (#4807)
+* **components/packages:** add migration to remove @skyux/packages/polyfills from projects (#4555)
+* add support for Angular 22 (#4464)
+* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils (#4651)
+* **components/layout:** description lists use medium stacked spacing between stacked items and do not have extra margins at the bottom of horizontal description lists (#4668)
+* **components/i18n:** getString/getStrings observables no longer complete
+* hide fluid grid's outer margin by default and add inset input (#4674)
+* **components/pages:** Needs-attention blocks without any items are no longer displayed.
+* **components/datetime:** remove `skyTimepickerRetainInvalidValues` input (#4587)
+* **components/layout:** remove deprecated SkyBoxHeaderComponent (#4617)
+* **components/forms:** remove deprecated SkyFileAttachmentLabelComponent (#4618)
+* **components/modals:** remove deprecated SkyModalHeaderComponent (#4623)
+* **components/select-field:** remove deprecated SkySelectFieldComponent (#4625)
+* **components/forms:** remove deprecated SkyToggleSwitchLabelComponent (#4620)
+* report unlabeled components in `prefer-label-text` rule (#4652)
+* **components/ag-grid:** requires ag-grid-community/ag-grid-angular/ag-grid-enterprise 36.x.
+* **sdk/testing:** retain default rules when custom overrides are assigned to `toBeAccessible` matcher (#4682)
+* the recommended ESLint and Stylelint configs now enable `no-invalid-sky-classnames` (TS and template), `no-invalid-sky-custom-properties`, and `no-deprecated-sky-scss-variables`.
+* **components/tiles:** tile dashboard remains multi-column at the sm breakpoint (#4694)
+* toolbar, filter bar, and list summary inherit container padding (#4707)
+* update `@skyux/icons`, `axe-core`, `autonumeric`, `dompurify`, `eslint`, `marked`, `stylelint`, `typescript-eslint`, and `validator` dependencies (#4522)
+* **components/theme:** update heading 5 color to use deemphasized text color (#4533)
+* **components/layout:** use number transform for fluid grid column size inputs (#4534)
+* **sdk/testing:** visibility checks no longer ignore earlier failed rules (#4616)
+
+### Features
+
+* add `@skyux-sdk/testing` and `@skyux-sdk/vitest` public API to manifest ([#4728](https://github.com/blackbaud/skyux/issues/4728)) ([d55def0](https://github.com/blackbaud/skyux/commit/d55def07c0be32fdad5977c431a9faba03371efe))
+* add `@skyux-sdk/vitest` package ([#4664](https://github.com/blackbaud/skyux/issues/4664)) ([3b0feab](https://github.com/blackbaud/skyux/commit/3b0feab4ed6d4dd563288a93d6d6e8ceaa6d72ca))
+* add locale-aware AG Grid text ([#4615](https://github.com/blackbaud/skyux/issues/4615)) ([af2509e](https://github.com/blackbaud/skyux/commit/af2509e3667d04f5f062b1014052b9c404994aae)), references [#200](https://github.com/blackbaud/skyux/issues/200)
+* add style public API rules to recommended ESLint and Stylelint rulesets ([#4684](https://github.com/blackbaud/skyux/issues/4684)) ([ac2c696](https://github.com/blackbaud/skyux/commit/ac2c696d765efc67011be746db52281d54ff73fc))
+* add support for `intl-tel-input@29.1.2` ([#4515](https://github.com/blackbaud/skyux/issues/4515)) ([0d94230](https://github.com/blackbaud/skyux/commit/0d942307ab609f0a5c2d2f80930f7e702f7f429a))
+* add support for Angular 22 ([#4464](https://github.com/blackbaud/skyux/issues/4464)) ([33ec181](https://github.com/blackbaud/skyux/commit/33ec181055f2b8545f2204dcf655e82e91f8534a))
+* **components/ag-grid:** add grid testing providers and deterministic render waits ([#4577](https://github.com/blackbaud/skyux/issues/4577)) ([4dfe78c](https://github.com/blackbaud/skyux/commit/4dfe78ce43e5dd7abfb09d191b50d2f4dd827e0f))
+* **components/ag-grid:** support AG Grid 36.0.0 ([#4578](https://github.com/blackbaud/skyux/issues/4578))
+* **components/charts:** add testing harnesses ([#4542](https://github.com/blackbaud/skyux/issues/4542))  ([#4546](https://github.com/blackbaud/skyux/issues/4546)) ([f2b612d](https://github.com/blackbaud/skyux/commit/f2b612deea1b0d06518ea30fd37ed5ec84854382))
+* **components/charts:** graduate charts from developer preview ([#4828](https://github.com/blackbaud/skyux/issues/4828)) ([d38edb9](https://github.com/blackbaud/skyux/commit/d38edb996b2cd983f110ae96f7189cbe9e34dcdd))
+* **components/core:** support masking additional edges for scrollable host clip path ([#4543](https://github.com/blackbaud/skyux/issues/4543)) ([c498e0e](https://github.com/blackbaud/skyux/commit/c498e0e0b1b8cbe2591452e2d465d12b68273f73))
+* **components/datetime:** remove `skyTimepickerRetainInvalidValues` input ([#4587](https://github.com/blackbaud/skyux/issues/4587)) ([24f1e03](https://github.com/blackbaud/skyux/commit/24f1e03bb228a4d238be4234f85183542380deac))
+* **components/datetime:** set datepicker value to today when F3 is pressed ([#4662](https://github.com/blackbaud/skyux/issues/4662)) ([02f2e22](https://github.com/blackbaud/skyux/commit/02f2e2256a693af412c458b6a8aad2b93b0ffb2f))
+* **components/forms:** add `sky-button` component ([#4779](https://github.com/blackbaud/skyux/issues/4779)) ([a0b007f](https://github.com/blackbaud/skyux/commit/a0b007f46c560c17fdf23cd792fd589ec5d4a889))
+* **components/forms:** deprecate character counter component ([#4714](https://github.com/blackbaud/skyux/issues/4714)) ([380ded6](https://github.com/blackbaud/skyux/commit/380ded612829c9406a36ed8cb6df5ed2753ff20a))
+* **components/forms:** remove deprecated SkyFileAttachmentLabelComponent ([#4618](https://github.com/blackbaud/skyux/issues/4618)) ([160d457](https://github.com/blackbaud/skyux/commit/160d4573f81aba59d10321ef5764dfee4e8acc11))
+* **components/forms:** remove deprecated SkyToggleSwitchLabelComponent ([#4620](https://github.com/blackbaud/skyux/issues/4620)) ([b95d193](https://github.com/blackbaud/skyux/commit/b95d193399b5864c46a37456b7ef881adf8d3b69))
+* **components/i18n:** make getString/getStrings update on locale changes ([#4610](https://github.com/blackbaud/skyux/issues/4610))
+* **components/layout:** remove deprecated SkyBoxHeaderComponent ([#4617](https://github.com/blackbaud/skyux/issues/4617)) ([62beb9b](https://github.com/blackbaud/skyux/commit/62beb9b2528c936e563045332ca8b476b5ae25bf))
+* **components/layout:** undeprecate card component ([#4821](https://github.com/blackbaud/skyux/issues/4821)) ([51c8bde](https://github.com/blackbaud/skyux/commit/51c8bdee3731e7fc09300b07e6f7deea4958bf1b))
+* **components/layout:** use number transform for fluid grid column size inputs ([#4534](https://github.com/blackbaud/skyux/issues/4534)) ([40241aa](https://github.com/blackbaud/skyux/commit/40241aa479f8223e213653dafec942707f08f584))
+* **components/lists:** add accessible single-select mode to repeater ([#4573](https://github.com/blackbaud/skyux/issues/4573)) ([e7c1d86](https://github.com/blackbaud/skyux/commit/e7c1d86743d76da9b805534486214bb418fd210c))
+* **components/modals:** remove deprecated SkyModalHeaderComponent ([#4623](https://github.com/blackbaud/skyux/issues/4623)) ([bd816e7](https://github.com/blackbaud/skyux/commit/bd816e7da751d8bb0f24996a99534f355fc95cb5))
+* **components/packages:** add `migrate-karma-to-vitest` generate schematic ([#4708](https://github.com/blackbaud/skyux/issues/4708)) ([1f5ac11](https://github.com/blackbaud/skyux/commit/1f5ac11e41133ac30713d97ea0a5306d50edf10b))
+* **components/packages:** add migration to remove @skyux/packages/polyfills from projects ([#4555](https://github.com/blackbaud/skyux/issues/4555)) ([960f5e6](https://github.com/blackbaud/skyux/commit/960f5e65690d5fc8f204cf0b48fbc1e6162002ac))
+* **components/packages:** remove unused references to SkySelectFieldModule during migration ([#4785](https://github.com/blackbaud/skyux/issues/4785)) ([238b8b3](https://github.com/blackbaud/skyux/commit/238b8b3d1c7fe6c1c79c5fa8a1c64044aef4852f))
+* **components/pages:** hide needs-attention block when empty ([#4477](https://github.com/blackbaud/skyux/issues/4477)) ([ac7da1d](https://github.com/blackbaud/skyux/commit/ac7da1d57d21b73be111c79cd1812ecbcaf4403b))
+* **components/select-field:** remove deprecated SkySelectFieldComponent ([#4625](https://github.com/blackbaud/skyux/issues/4625)) ([0458b51](https://github.com/blackbaud/skyux/commit/0458b51c232d406f5f49db1f100496d40b0e0ec3))
+* **components/tabs:** vertical tabs support the same layout options as tabs ([#4786](https://github.com/blackbaud/skyux/issues/4786)) ([e28d69b](https://github.com/blackbaud/skyux/commit/e28d69b4e4dcb5e04a0732ff5f0dab1a866cdb46))
+* **components/tiles:** tile dashboard remains multi-column at the sm breakpoint ([#4694](https://github.com/blackbaud/skyux/issues/4694)) ([0189da9](https://github.com/blackbaud/skyux/commit/0189da9017883a5a10a016c9b9f4ff8cb0477749))
+* **components/validation:** add sky email and url signal validators ([#4685](https://github.com/blackbaud/skyux/issues/4685)) ([43c4d01](https://github.com/blackbaud/skyux/commit/43c4d0183a3bba1c3d1e36d10da64c40200bad37)), references [#4629](https://github.com/blackbaud/skyux/issues/4629) [#4686](https://github.com/blackbaud/skyux/issues/4686) [#4687](https://github.com/blackbaud/skyux/issues/4687) [#4688](https://github.com/blackbaud/skyux/issues/4688) [#4689](https://github.com/blackbaud/skyux/issues/4689) [#4690](https://github.com/blackbaud/skyux/issues/4690) [#4691](https://github.com/blackbaud/skyux/issues/4691)
+* dark mode uses new `steel-grey` color scheme ([#4716](https://github.com/blackbaud/skyux/issues/4716)) ([07ab8d3](https://github.com/blackbaud/skyux/commit/07ab8d328821d22594099be870c937ff7918cfd6))
+* hide fluid grid's outer margin by default and add inset input ([#4674](https://github.com/blackbaud/skyux/issues/4674)) ([ab00d29](https://github.com/blackbaud/skyux/commit/ab00d29c4440dfeb66d56f88ae74a3a0ea00d0db))
+* report unlabeled components in `prefer-label-text` rule ([#4652](https://github.com/blackbaud/skyux/issues/4652)) ([7830ee9](https://github.com/blackbaud/skyux/commit/7830ee967cab9fa5b15659a000d282b5befe544c))
+* **sdk/skyux-eslint:** add `no-native-click` ESLint rule to recommended ruleset ([#4807](https://github.com/blackbaud/skyux/issues/4807)) ([e6441a1](https://github.com/blackbaud/skyux/commit/e6441a12f52f756af068d06dd6da178fba646d70))
+* **sdk/stylelint-config-skyux:** include `skyux-stylelint/no-sky-theme-imports` in recommended configuration ([#4795](https://github.com/blackbaud/skyux/issues/4795)) ([2233d71](https://github.com/blackbaud/skyux/commit/2233d71e685afca1185b8a66b8bfc8510a8dc774))
+* **sdk/testing:** deprecate `SkyAppTestUtility` and `SkyBy` testing utils ([#4651](https://github.com/blackbaud/skyux/issues/4651)) ([2c100e5](https://github.com/blackbaud/skyux/commit/2c100e5dd32e243fea37451890ea67f85b000793))
+* support Angular 22.1 ([#4649](https://github.com/blackbaud/skyux/issues/4649)) ([bd95643](https://github.com/blackbaud/skyux/commit/bd956439ea9811e2501cd7d0d105a6b314091a58))
+* update `@skyux/icons`, `axe-core`, `autonumeric`, `dompurify`, `eslint`, `marked`, `stylelint`, `typescript-eslint`, and `validator` dependencies ([#4522](https://github.com/blackbaud/skyux/issues/4522)) ([1a687cf](https://github.com/blackbaud/skyux/commit/1a687cfc0622411a44bd5e3fd8c07c6c45ceeecb))
+
+### Bug Fixes
+
+* **components/core:** dispatch change event during `SkyAppTestUtility.setInputValue` ([#4676](https://github.com/blackbaud/skyux/issues/4676)) ([9d9a2f1](https://github.com/blackbaud/skyux/commit/9d9a2f1c4f2705413693f9829e9bcea6d800fbf3))
+* **components/forms:** make file attachment file link keyboard accessible ([#4638](https://github.com/blackbaud/skyux/issues/4638)) ([2151133](https://github.com/blackbaud/skyux/commit/2151133428aee873afa324c8f0256c3f5a674053))
+* **components/forms:** remove reference to character counter component in the input box `characterLimit` docs ([#4730](https://github.com/blackbaud/skyux/issues/4730)) ([6c846be](https://github.com/blackbaud/skyux/commit/6c846be2a5062825d9f0a7c871f11b1a4ce4fdc9))
+* **components/i18n:** add detailed deprecation documentation for legacy i18n services ([#4696](https://github.com/blackbaud/skyux/issues/4696)) ([621a91b](https://github.com/blackbaud/skyux/commit/621a91b49faa9876c05768bcec4d6109214c18cf))
+* **components/layout:** description lists use medium stacked spacing between stacked items and do not have extra margins at the bottom of horizontal description lists ([#4668](https://github.com/blackbaud/skyux/issues/4668)) ([437407f](https://github.com/blackbaud/skyux/commit/437407f4414c474debd2d7f94b96426e641a4c6e))
+* **components/lists:** remove repeater item extra vertical space ([#4702](https://github.com/blackbaud/skyux/issues/4702)) ([b10c528](https://github.com/blackbaud/skyux/commit/b10c528cac55a575eddddafe6ad1a89a44ed672b))
+* **components/packages:** duplicate provider tokens in legacy-i18n-services migration ([#4816](https://github.com/blackbaud/skyux/issues/4816)) ([88c42f5](https://github.com/blackbaud/skyux/commit/88c42f5c243ffe70365fc66c9e20819091a25388))
+* **components/packages:** legacy resource service migrations should handle utf bom ([#4757](https://github.com/blackbaud/skyux/issues/4757)) ([7493666](https://github.com/blackbaud/skyux/commit/74936662d68664d6579b769bf6e118a14a4433a8))
+* **components/packages:** only add stylesheets to targets whose builder supports them ([#4792](https://github.com/blackbaud/skyux/issues/4792)) ([ba717af](https://github.com/blackbaud/skyux/commit/ba717aff01c7743abba3ae0e81d4b5da8cda6a29))
+* **components/packages:** remove class references from TestBed.configureTestingModule imports ([#4817](https://github.com/blackbaud/skyux/issues/4817)) ([641f822](https://github.com/blackbaud/skyux/commit/641f822bd977fa71782f02373d677851c843671a))
+* **components/packages:** replace `expectAsync` calls with `expect` when migrating tests to vitest ([#4723](https://github.com/blackbaud/skyux/issues/4723)) ([ed574b1](https://github.com/blackbaud/skyux/commit/ed574b1baaf312d965d00c9766266ec18321be11))
+* **components/theme:** `sky-btn-disable` no longer disables pointer events ([#4628](https://github.com/blackbaud/skyux/issues/4628)) ([949894b](https://github.com/blackbaud/skyux/commit/949894bae64cdd321f71b6ad703d7954824179af))
+* **components/theme:** default theme disabled buttons do not have interactive styles ([#4790](https://github.com/blackbaud/skyux/issues/4790)) ([85ebed6](https://github.com/blackbaud/skyux/commit/85ebed659a74c24758d8c77b7d313e56e8ffd15a))
+* **components/theme:** update heading 5 color to use deemphasized text color ([#4533](https://github.com/blackbaud/skyux/issues/4533)) ([fc08528](https://github.com/blackbaud/skyux/commit/fc08528f1c1f229c75053fb00257e90669b6fafe))
+* report the underlying axe error when accessibility checks fail ([#4712](https://github.com/blackbaud/skyux/issues/4712)) ([05a7184](https://github.com/blackbaud/skyux/commit/05a7184456da82d293b089a1a0974f2f09a8839c))
+* **sdk/skyux-stylelint:** no-deprecated-sky-scss-variables fix should handle scss namespacing ([#4758](https://github.com/blackbaud/skyux/issues/4758)) ([5ea208c](https://github.com/blackbaud/skyux/commit/5ea208cd864d63927447dfc6024616316873570c))
+* **sdk/testing:** retain default rules when custom overrides are assigned to `toBeAccessible` matcher ([#4682](https://github.com/blackbaud/skyux/issues/4682)) ([649ec93](https://github.com/blackbaud/skyux/commit/649ec93623e5313ea197bc62c59d767d552cf7f0))
+* **sdk/testing:** visibility checks no longer ignore earlier failed rules ([#4616](https://github.com/blackbaud/skyux/issues/4616)) ([593ba9a](https://github.com/blackbaud/skyux/commit/593ba9adb5c68fc109924a3c5d7e2665dbff07de))
+* **sdk/vitest:** add './package.json' to exports ([#4701](https://github.com/blackbaud/skyux/issues/4701)) ([82cccb5](https://github.com/blackbaud/skyux/commit/82cccb5271ea72cbebca8f2f0e2b374f6e4949f2))
+* toolbar, filter bar, and list summary inherit container padding ([#4707](https://github.com/blackbaud/skyux/issues/4707)) ([054b5ad](https://github.com/blackbaud/skyux/commit/054b5ad26a7cb7c5723fe5c715bb94f71c74c733))
+
 ## [15.0.0-beta.2](https://github.com/blackbaud/skyux/compare/15.0.0-beta.1...15.0.0-beta.2) (2026-09-29)
 
 ### Features
