@@ -1,6 +1,21 @@
 # Changelog
 
 
+## [15.0.0-beta.1](https://github.com/blackbaud/skyux/compare/15.0.0-beta.0...15.0.0-beta.1) (2026-09-29)
+
+
+### Features
+
+* **components/tabs:** vertical tabs support the same layout options as tabs ([#4786](https://github.com/blackbaud/skyux/issues/4786)) ([e28d69b](https://github.com/blackbaud/skyux/commit/e28d69b4e4dcb5e04a0732ff5f0dab1a866cdb46))
+
+### Bug Fixes
+
+* **sdk/skyux-eslint:** don't flag CSS custom property names as invalid sky- classnames ([#4829](https://github.com/blackbaud/skyux/issues/4829)) ([#4839](https://github.com/blackbaud/skyux/issues/4839)) ([180a5d6](https://github.com/blackbaud/skyux/commit/180a5d670716dc2070da88fa0d0faee73a634b8e))
+
+### Reverts
+
+* **sdk/testing:** deprecate `expect` and `expectAsync` matchers ([#4826](https://github.com/blackbaud/skyux/issues/4826)) ([2b395eb](https://github.com/blackbaud/skyux/commit/2b395eb439c72cb007689a678fbfc53cff090ecf)), references [#4731](https://github.com/blackbaud/skyux/issues/4731)
+
 ## [15.0.0-beta.0](https://github.com/blackbaud/skyux/compare/15.0.0-alpha.16...15.0.0-beta.0) (2026-09-24)
 
 

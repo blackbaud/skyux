@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
 import { provideSkyMediaQueryTesting } from '@skyux/core/testing';
 
+import { SkyVerticalTabLayoutType } from './vertical-tab-layout-type';
 import { SkyVerticalTabsetAdapterService } from './vertical-tabset-adapter.service';
 import { SkyVerticalTabsetService } from './vertical-tabset.service';
 
@@ -133,5 +134,32 @@ describe('Vertical tabset service', () => {
     service.destroyTab(tab1);
     expect(service.tabs.length).toBe(1);
     expect(service.tabs[0]).toBe(tab2);
+  });
+
+  describe('activeTabLayout', () => {
+    it('should emit when updateActiveTabLayout is called', () => {
+      const layouts: SkyVerticalTabLayoutType[] = [];
+
+      service.activeTabLayout.subscribe((layout) => layouts.push(layout));
+
+      service.updateActiveTabLayout('fit');
+      service.updateActiveTabLayout('none');
+
+      expect(layouts).toEqual(['fit', 'none']);
+    });
+
+    it('should complete when the service is destroyed', () => {
+      let completed = false;
+
+      service.activeTabLayout.subscribe({
+        complete: () => {
+          completed = true;
+        },
+      });
+
+      service.ngOnDestroy();
+
+      expect(completed).toBeTrue();
+    });
   });
 });
