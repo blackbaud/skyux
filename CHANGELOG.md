@@ -9,6 +9,7 @@
 
 ### Bug Fixes
 
+* **components/datetime:** this month calculator returns wrong end date on the 31st ([#4838](https://github.com/blackbaud/skyux/issues/4838)) ([#4843](https://github.com/blackbaud/skyux/issues/4843)) ([f34cf03](https://github.com/blackbaud/skyux/commit/f34cf03c260a2d5800527ec0ea5d9ecd25516bc0))
 * **sdk/skyux-stylelint:** support underscores in custom property names for `no-invalid-sky-custom-properties` ([#4831](https://github.com/blackbaud/skyux/issues/4831)) ([#4834](https://github.com/blackbaud/skyux/issues/4834)) ([2d1524e](https://github.com/blackbaud/skyux/commit/2d1524e4794f653767d59ead3fbfc0a8d54f4b91))
 
 ## [15.0.0-beta.1](https://github.com/blackbaud/skyux/compare/15.0.0-beta.0...15.0.0-beta.1) (2026-09-29)
