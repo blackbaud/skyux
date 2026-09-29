@@ -86,11 +86,15 @@ reviews:
           src/index.ts, its testing/src/public-api.ts, or a secondary entry
           point such as libs/sdk/testing/private/src/index.ts.
           PASS if no published barrel changed. PASS if every change is purely
-          additive and every added symbol is prefixed with `sky` or `Sky`.
-          Exempt libs/components/code-examples/src/index.ts from the prefix
+          additive and every added symbol carries `sky` or `Sky` somewhere in
+          its name — the prefix is the norm (SkyThingOptions), but the name may
+          carry it internally when a framework convention owns the prefix
+          (provideSkyThing, injectSkyThing, and their underscore-prefixed
+          internal variants).
+          Exempt libs/components/code-examples/src/index.ts from the naming
           requirement only: its exports are demo components named
           <Library><Component><ExampleName>Example, so an added symbol there
-          passes without a `sky` prefix. The additive-only rule below still
+          passes without `sky` in its name. The additive-only rule below still
           applies to it.
           A breaking change (removed or renamed export, changed signature,
           narrowed parameter type, widened return type, removed overload,
@@ -111,7 +115,7 @@ reviews:
           Otherwise FAIL, even when the PR title or description claims the
           change targets a major release. A prose claim, or a `!` marker on a
           released major, is not release metadata.
-          On FAIL, name each breaking or unprefixed export and state both
+          On FAIL, name each breaking or misnamed export and state both
           `version` values you compared.
       - name: 'New dependencies justified'
         mode: error
@@ -136,6 +140,10 @@ reviews:
           the files missing test coverage.
           Do not require tests for changes under apps/ — those projects are
           non-published manual-test, integration, and e2e harnesses.
+          Do not require a spec for a barrel that only re-exports other files
+          (src/index.ts, testing/src/public-api.ts), or for a file whose header
+          marks it AUTO-GENERATED — both are covered by the specs of the files
+          they point at.
       - name: 'Scope is minimal'
         mode: warning
         instructions: |
