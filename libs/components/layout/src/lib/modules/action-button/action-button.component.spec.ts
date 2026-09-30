@@ -193,6 +193,18 @@ describe('Action button component', () => {
         .querySelector('[data-sky-id="bb-nav-link-hidden"] a')
         .matches('[hidden]'),
     ).toBeTrue();
+
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('[data-sky-id="bb-nav-link-visible"]')
+        .hidden,
+    ).toBeFalse();
+
+    expect(
+      fixture.nativeElement.querySelector('[data-sky-id="bb-nav-link-hidden"]')
+        .hidden,
+    ).toBeTrue();
   });
 
   it('should be accessible', async () => {
