@@ -52,11 +52,9 @@ export class SkyActionButtonComponent {
   }
 
   public onSkyHrefDisplayChange($event: SkyHrefChange): void {
-    if (this.hidden === $event.userHasAccess) {
-      setTimeout(() => {
-        this.hidden = !$event.userHasAccess;
-        this.#changeDetector.markForCheck();
-      });
-    }
+    setTimeout(() => {
+      this.hidden = !$event.userHasAccess;
+      this.#changeDetector.markForCheck();
+    });
   }
 }
