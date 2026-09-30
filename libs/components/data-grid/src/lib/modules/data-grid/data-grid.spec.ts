@@ -1071,6 +1071,26 @@ describe('SkyDataGrid', () => {
       expect(colDef?.minWidth).toBe(120);
     });
 
+    it('should keep flex sizing and hidden columns when an initial sort is set before the grid renders', async () => {
+      const flexFixture = TestBed.createComponent(FlexWidthTestComponent);
+      flexFixture.componentRef.setInput('sort', {
+        field: 'column3',
+        direction: 'desc',
+      });
+      flexFixture.detectChanges();
+      await flexFixture.whenStable();
+      const api = await getGridApi(
+        flexFixture.nativeElement.querySelector('ag-grid-angular'),
+        flexFixture,
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getColumn('column3')?.getFlex()).toBe(2);
+      expect(api?.getColumn('column4')?.isVisible()).toBeFalse();
+      expect(api?.getState()?.sort?.sortModel).toEqual([
+        { colId: 'column3', sort: 'desc', type: 'default' },
+      ]);
+    });
+
     it('should apply min and max width when a column is not resizable', async () => {
       const flexFixture = TestBed.createComponent(ColumnWidthTestComponent);
       flexFixture.detectChanges();
