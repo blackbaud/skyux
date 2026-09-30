@@ -33,7 +33,11 @@ describe('repeater spacing', () => {
           .contains('Repeater spacing in modal')
           .should('be.visible')
           .click();
-        cy.skyReady('sky-modal app-repeater-spacing');
+        cy.skyReady(
+          '',
+          ['sky-modal app-repeater-spacing'],
+          ['sky-modal app-repeater-spacing'],
+        );
         cy.skyVisualTest(`repeater-spacing-${theme}-modal`, {
           disableTimersAndAnimations: true,
         });
