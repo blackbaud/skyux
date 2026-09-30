@@ -310,6 +310,8 @@ export class SkyDataGrid {
     // Seed the initial sort through AG Grid's own state so it is applied as the
     // grid initializes (and re-applied when the grid is recreated). Subsequent
     // sort changes are applied at runtime by the dedicated `sort` effect.
+    // `partialColumnState` keeps AG Grid from resetting every other column state
+    // (flex, visibility, pinning) that the state object doesn't mention.
     const sort = untracked(() => this.sort());
     return this.#gridService.getGridOptions({
       gridOptions: {
@@ -320,6 +322,7 @@ export class SkyDataGrid {
         domLayout: 'autoHeight',
         initialState: sort
           ? {
+              partialColumnState: true,
               sort: {
                 sortModel: [
                   { colId: sort.field as string, sort: sort.direction },
