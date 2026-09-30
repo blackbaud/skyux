@@ -1084,6 +1084,10 @@ describe('SkyDataGrid', () => {
         flexFixture,
       );
       expect(api).toBeTruthy();
+      // The `columnDefs` effect re-applies flex and visibility once the grid
+      // API is ready, which masks a full column state reset in the assertions
+      // below, so the option that prevents the reset is checked directly.
+      expect(api?.getGridOption('initialState')?.partialColumnState).toBeTrue();
       expect(api?.getColumn('column3')?.getFlex()).toBe(2);
       expect(api?.getColumn('column4')?.isVisible()).toBeFalse();
       expect(api?.getState()?.sort?.sortModel).toEqual([
