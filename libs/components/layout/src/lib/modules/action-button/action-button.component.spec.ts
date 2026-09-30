@@ -314,6 +314,21 @@ describe('Action button component modern theme', () => {
     }
   }));
 
+  it('should show action buttons when the SkyHref resolver settles before the initial hidden state is applied', fakeAsync(() => {
+    const linksFixture = TestBed.createComponent(ActionButtonLinksComponent);
+    linksFixture.componentInstance.permalink = '1bb-nav://yep/';
+    linksFixture.detectChanges();
+    tick();
+    linksFixture.detectChanges();
+
+    const actionButtons: NodeListOf<HTMLElement> =
+      linksFixture.nativeElement.querySelectorAll('sky-action-button');
+    expect(actionButtons.length).toBe(3);
+    for (const actionButton of Array.from(actionButtons)) {
+      expect(actionButton.hidden).toBeFalse();
+    }
+  }));
+
   it(`should sync all child action buttons to have the same height when using SkyHref, delayed resolver`, fakeAsync(() => {
     const linksFixture = TestBed.createComponent(ActionButtonLinksComponent);
     linksFixture.componentInstance.permalink = 'delayed://yep/';
