@@ -1,11 +1,12 @@
 # Changelog
 
 
-## [15.0.1](https://github.com/blackbaud/skyux/compare/15.0.0...15.0.1) (2026-09-30)
+## [14.22.2](https://github.com/blackbaud/skyux/compare/14.22.1...14.22.2) (2026-09-30)
+
 
 ### Bug Fixes
 
-* **components/data-grid:** preserve flex column widths when an initial sort is set ([#4847](https://github.com/blackbaud/skyux/issues/4847)) ([#4852](https://github.com/blackbaud/skyux/issues/4852)) ([b851431](https://github.com/blackbaud/skyux/commit/b85143104eebf7f8253d6ac7df8f7662c9fe81a3)), closes [#4824](https://github.com/blackbaud/skyux/issues/4824)
+* **components/data-grid:** preserve flex column widths when an initial sort is set ([#4847](https://github.com/blackbaud/skyux/issues/4847)) ([4359b17](https://github.com/blackbaud/skyux/commit/4359b17f2ce7b05a35d82c21f08a79653168d982)), closes [AB#4134640](https://dev.azure.com/blackbaud/Products/_workitems/edit/4134640) [#4824](https://github.com/blackbaud/skyux/issues/4824)
 
 ## [15.0.0](https://github.com/blackbaud/skyux/compare/14.22.1...15.0.0) (2026-09-29)
 
