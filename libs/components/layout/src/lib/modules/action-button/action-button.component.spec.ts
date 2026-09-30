@@ -41,6 +41,14 @@ function getActionButtons(
     '.sky-action-button-container .sky-action-button:not([hidden])',
   );
 }
+
+function getActionButtonHostHiddenStates(
+  fixture: ComponentFixture<any>,
+): boolean[] {
+  const hosts: NodeListOf<HTMLElement> =
+    fixture.nativeElement.querySelectorAll('sky-action-button');
+  return Array.from(hosts).map((host) => host.hidden);
+}
 //#endregion
 
 describe('Action button component', () => {
@@ -333,12 +341,11 @@ describe('Action button component modern theme', () => {
     tick();
     linksFixture.detectChanges();
 
-    const actionButtons: NodeListOf<HTMLElement> =
-      linksFixture.nativeElement.querySelectorAll('sky-action-button');
-    expect(actionButtons.length).toBe(3);
-    for (const actionButton of Array.from(actionButtons)) {
-      expect(actionButton.hidden).toBeFalse();
-    }
+    expect(getActionButtonHostHiddenStates(linksFixture)).toEqual([
+      false,
+      false,
+      false,
+    ]);
   }));
 
   it(`should sync all child action buttons to have the same height when using SkyHref, delayed resolver`, fakeAsync(() => {
@@ -358,6 +365,12 @@ describe('Action button component modern theme', () => {
     for (const button of Array.from(buttons)) {
       expect(button.style.height).toEqual('500px');
     }
+    linksFixture.detectChanges();
+    expect(getActionButtonHostHiddenStates(linksFixture)).toEqual([
+      false,
+      false,
+      false,
+    ]);
   }));
 
   it(`should sync all child action buttons to have the same height when using SkyHref, delayed resolver, no access`, fakeAsync(() => {
@@ -368,11 +381,23 @@ describe('Action button component modern theme', () => {
     tick();
     let buttons = getActionButtons(linksFixture);
     expect(buttons.length).toBe(0);
+    linksFixture.detectChanges();
+    expect(getActionButtonHostHiddenStates(linksFixture)).toEqual([
+      true,
+      true,
+      true,
+    ]);
     tick(600);
     linksFixture.detectChanges();
     tick();
     buttons = getActionButtons(linksFixture);
     expect(buttons.length).toBe(0);
+    linksFixture.detectChanges();
+    expect(getActionButtonHostHiddenStates(linksFixture)).toEqual([
+      true,
+      true,
+      true,
+    ]);
   }));
 });
 
