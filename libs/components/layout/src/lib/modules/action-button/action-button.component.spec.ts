@@ -41,6 +41,14 @@ function getActionButtons(
     '.sky-action-button-container .sky-action-button:not([hidden])',
   );
 }
+
+function getActionButtonHostHiddenStates(
+  fixture: ComponentFixture<any>,
+): boolean[] {
+  const hosts: NodeListOf<HTMLElement> =
+    fixture.nativeElement.querySelectorAll('sky-action-button');
+  return Array.from(hosts).map((host) => host.hidden);
+}
 //#endregion
 
 describe('Action button component', () => {
@@ -193,6 +201,18 @@ describe('Action button component', () => {
         .querySelector('[data-sky-id="bb-nav-link-hidden"] a')
         .matches('[hidden]'),
     ).toBeTrue();
+
+    fixture.detectChanges();
+
+    expect(
+      fixture.nativeElement.querySelector('[data-sky-id="bb-nav-link-visible"]')
+        .hidden,
+    ).toBeFalse();
+
+    expect(
+      fixture.nativeElement.querySelector('[data-sky-id="bb-nav-link-hidden"]')
+        .hidden,
+    ).toBeTrue();
   });
 
   it('should be accessible', async () => {
@@ -314,6 +334,20 @@ describe('Action button component modern theme', () => {
     }
   }));
 
+  it('should show action buttons when the SkyHref resolver settles before the initial hidden state is applied', fakeAsync(() => {
+    const linksFixture = TestBed.createComponent(ActionButtonLinksComponent);
+    linksFixture.componentInstance.permalink = '1bb-nav://yep/';
+    linksFixture.detectChanges();
+    tick();
+    linksFixture.detectChanges();
+
+    expect(getActionButtonHostHiddenStates(linksFixture)).toEqual([
+      false,
+      false,
+      false,
+    ]);
+  }));
+
   it(`should sync all child action buttons to have the same height when using SkyHref, delayed resolver`, fakeAsync(() => {
     const linksFixture = TestBed.createComponent(ActionButtonLinksComponent);
     linksFixture.componentRef.setInput('permalink', 'delayed://yep/');
@@ -331,6 +365,12 @@ describe('Action button component modern theme', () => {
     for (const button of Array.from(buttons)) {
       expect(button.style.height).toEqual('500px');
     }
+    linksFixture.detectChanges();
+    expect(getActionButtonHostHiddenStates(linksFixture)).toEqual([
+      false,
+      false,
+      false,
+    ]);
   }));
 
   it(`should sync all child action buttons to have the same height when using SkyHref, delayed resolver, no access`, fakeAsync(() => {
@@ -341,11 +381,23 @@ describe('Action button component modern theme', () => {
     tick();
     let buttons = getActionButtons(linksFixture);
     expect(buttons.length).toBe(0);
+    linksFixture.detectChanges();
+    expect(getActionButtonHostHiddenStates(linksFixture)).toEqual([
+      true,
+      true,
+      true,
+    ]);
     tick(600);
     linksFixture.detectChanges();
     tick();
     buttons = getActionButtons(linksFixture);
     expect(buttons.length).toBe(0);
+    linksFixture.detectChanges();
+    expect(getActionButtonHostHiddenStates(linksFixture)).toEqual([
+      true,
+      true,
+      true,
+    ]);
   }));
 });
 
