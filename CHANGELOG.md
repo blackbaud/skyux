@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.22.3](https://github.com/blackbaud/skyux/compare/14.22.2...14.22.3) (2026-10-01)
+
+
+### Bug Fixes
+
+* **components/layout:** action button with a skyHref permalink stays hidden when the resolver settles quickly ([#4854](https://github.com/blackbaud/skyux/issues/4854)) ([c5b7336](https://github.com/blackbaud/skyux/commit/c5b73366c45b3d8e7f2b72e843e3e0070bfcefd4))
+
 ## [14.22.2](https://github.com/blackbaud/skyux/compare/14.22.1...14.22.2) (2026-09-30)
 
 
