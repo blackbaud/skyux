@@ -47,7 +47,7 @@ function getActionButtonHostHiddenStates(
 ): boolean[] {
   const hosts: NodeListOf<HTMLElement> =
     fixture.nativeElement.querySelectorAll('sky-action-button');
-  return Array.from(hosts).map((host) => host.hidden);
+  return Array.from(hosts).map((host) => host.hasAttribute('hidden'));
 }
 //#endregion
 
@@ -336,7 +336,7 @@ describe('Action button component modern theme', () => {
 
   it('should show action buttons when the SkyHref resolver settles before the initial hidden state is applied', fakeAsync(() => {
     const linksFixture = TestBed.createComponent(ActionButtonLinksComponent);
-    linksFixture.componentInstance.permalink = '1bb-nav://yep/';
+    linksFixture.componentRef.setInput('permalink', '1bb-nav://yep/');
     linksFixture.detectChanges();
     tick();
     linksFixture.detectChanges();
