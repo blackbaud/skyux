@@ -1,12 +1,12 @@
 # Changelog
 
 
-## [15.0.1](https://github.com/blackbaud/skyux/compare/15.0.0...15.0.1) (2026-10-01)
+## [14.22.3](https://github.com/blackbaud/skyux/compare/14.22.2...14.22.3) (2026-10-01)
+
 
 ### Bug Fixes
 
-* **components/data-grid:** preserve flex column widths when an initial sort is set ([#4847](https://github.com/blackbaud/skyux/issues/4847)) ([#4852](https://github.com/blackbaud/skyux/issues/4852)) ([b851431](https://github.com/blackbaud/skyux/commit/b85143104eebf7f8253d6ac7df8f7662c9fe81a3)), closes [#4824](https://github.com/blackbaud/skyux/issues/4824)
-* **components/layout:** action button with a skyHref permalink stays hidden when the resolver settles quickly ([#4854](https://github.com/blackbaud/skyux/issues/4854)) ([#4855](https://github.com/blackbaud/skyux/issues/4855)) ([f2d0837](https://github.com/blackbaud/skyux/commit/f2d08370da7ee4b62a1d4a18913feb53e0760401))
+* **components/layout:** action button with a skyHref permalink stays hidden when the resolver settles quickly ([#4854](https://github.com/blackbaud/skyux/issues/4854)) ([c5b7336](https://github.com/blackbaud/skyux/commit/c5b73366c45b3d8e7f2b72e843e3e0070bfcefd4))
 
 ## [14.22.2](https://github.com/blackbaud/skyux/compare/14.22.1...14.22.2) (2026-09-30)
 
