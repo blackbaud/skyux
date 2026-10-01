@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [15.0.1](https://github.com/blackbaud/skyux/compare/15.0.0...15.0.1) (2026-09-30)
+## [15.0.1](https://github.com/blackbaud/skyux/compare/15.0.0...15.0.1) (2026-10-01)
 
 ### Bug Fixes
 
