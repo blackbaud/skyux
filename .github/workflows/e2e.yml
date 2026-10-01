@@ -356,6 +356,9 @@ jobs:
             echo -n "Checking exit code: "
             grep -E ' exited with status: 0$' ${{ runner.temp }}/percy-${{ matrix.project }}.log || true
             SUCCESS=$(grep -cE ' exited with status: 0$' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
+            echo -n "Checking for snapshot errors: "
+            grep -E 'Encountered an error (taking|uploading) snapshot' ${{ runner.temp }}/percy-${{ matrix.project }}.log || true
+            SNAPSHOT_ERRORS=$(grep -cE 'Encountered an error (taking|uploading) snapshot' ${{ runner.temp }}/percy-${{ matrix.project }}.log || true)
             separator
           }
 
@@ -383,6 +386,11 @@ jobs:
               echo "Exiting."
               exit 1
             fi
+          fi
+          # Snapshots are posted asynchronously, so Percy errors do not fail the Cypress test that took them.
+          if [ $SNAPSHOT_ERRORS -gt 0 ]; then
+            echo "Percy failed to process one or more snapshots."
+            exit 1
           fi
           # Extract the Percy build number from the log
           node -e "const wf = require('./dist/libs/sdk/e2e-schematics/src/workflow/index.js'); console.log(wf.readPercyBuildNumberFromLogFile('${{ runner.temp }}/percy-${{ matrix.project }}.log') ?? '');" > ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
