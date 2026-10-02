@@ -48,7 +48,10 @@ reviews:
         components named <Library><Component><ExampleName>Example — the `sky`
         prefix rule does not apply there, though the additive-only rule still
         does. For published barrels, apply the "Public API Discipline" section
-        of AGENTS.md as blocking.
+        of AGENTS.md as blocking. Symbols whose exported names begin with `λ`
+        (for example, `λ10`) are exported so the Angular compiler can access
+        them, but are not part of the public API. Exclude them from public API
+        naming and compatibility checks.
     - path: '**/package.json'
       instructions: |
         Apply the "Dependency Discipline" section of AGENTS.md as blocking.
@@ -85,6 +88,10 @@ reviews:
           Inspect only the diffs of published barrels: a library's
           src/index.ts, its testing/src/public-api.ts, or a secondary entry
           point such as libs/sdk/testing/private/src/index.ts.
+          Exclude symbols whose exported names begin with `λ` (for example,
+          `λ10`) from this check. They are exported so the Angular compiler
+          can access them, but are not part of the public API; public API
+          naming and compatibility requirements do not apply to them.
           PASS if no published barrel changed. PASS if every change is purely
           additive and every added symbol carries `sky` or `Sky` somewhere in
           its name — the prefix is the norm (SkyThingOptions), but the name may

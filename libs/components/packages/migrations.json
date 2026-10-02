@@ -26,32 +26,32 @@
       "description": "Remove the @skyux/packages/polyfills entry from project config, replacing it with a local copy when Dragula is still installed."
     },
     "remove-timepicker-retain-invalid-values": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "15.0.0",
       "factory": "./src/schematics/migrations/update-15/remove-timepicker-retain-invalid-values/remove-timepicker-retain-invalid-values.schematic",
       "description": "Remove the skyTimepickerRetainInvalidValues input from timepicker inputs since retaining invalid values is now the default behavior."
     },
     "add-compat-stylesheets": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "15.0.0",
       "factory": "./src/schematics/migrations/update-15/add-compat-stylesheets/add-compat-stylesheet.schematic",
       "description": "Add a backwards-compatible stylesheet with styles that have been removed from components in SKY UX 15."
     },
     "migrate-sdk-testing-imports": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "15.0.0",
       "factory": "./src/schematics/migrations/update-15/migrate-sdk-testing-imports/migrate-sdk-testing-imports.schematic",
       "description": "Move SkyAppTestUtility, SkyAppTestUtilityDomEventOptions, and SkyBy imports from the deprecated @skyux-sdk/testing package to @skyux/core/testing."
     },
     "legacy-i18n-services": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "15.0.0",
       "factory": "./src/schematics/migrations/update-15/legacy-i18n-services/legacy-i18n-services.schematic",
       "description": "Replace SkyAppResourcesService and SkyLibResourcesService with their legacy equivalents since the originals now emit whenever the locale changes."
     },
     "fluid-grid-inset": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "15.0.0",
       "factory": "./src/schematics/migrations/update-15/fluid-grid-inset/fluid-grid-inset.schematic",
       "description": "Migrate sky-fluid-grid elements from the deprecated disableMargin input to the new inset input, since hiding the outer margin is now the default behavior."
     },
     "remove-select-field": {
-      "version": "0.0.0-PLACEHOLDER",
+      "version": "15.0.0",
       "factory": "./src/schematics/migrations/update-15/remove-select-field/remove-select-field.schematic",
       "description": "Remove the SkySelectFieldModule import and the @skyux/select-field dependency from projects that do not reference <sky-select-field> in any template."
     }
