@@ -2,15 +2,6 @@ import { skyThemes } from '@skyux-sdk/e2e-schematics';
 
 import { agGridVariants } from '../support/ag-grid-variants';
 
-// This is to mitigate a Cypress issue (https://github.com/cypress-io/cypress/issues/20341) where a ResizeObserver exception is thrown.
-Cypress.on(
-  'uncaught:exception',
-  (err) =>
-    !err.message.includes(
-      'ResizeObserver loop completed with undelivered notifications.',
-    ),
-);
-
 describe(`ag-grid-storybook data manager`, () => {
   agGridVariants.forEach(({ compact, themes }) => {
     describe(compact ? 'compact' : 'standard', () => {
