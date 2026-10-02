@@ -15,7 +15,8 @@ export const E2eVariations = {
 /**
  * Captures every `screenshot` and `percySnapshot` in the enclosing suite once per
  * theme, switching themes in place instead of reloading the page. Call it at the
- * top of a spec file or inside a `describe`; the innermost call wins.
+ * top of a spec file or inside a `describe`; the innermost call wins. Requires the
+ * `@skyux-sdk/cypress-commands` support file, which applies the per-theme capture.
  * @param themes The themes to capture. Defaults to every theme.
  */
 export function skyThemes(themes?: E2EVariationName[]): void {
