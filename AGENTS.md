@@ -163,7 +163,10 @@ what you find **before** handing it over:
   those barrels is internal, even if it uses the `export` keyword — internal
   exports exist to share code between files within a library. Do NOT require or
   flag `sky` prefixes, signature stability, or other public API concerns for
-  internal exports.
+  internal exports. Symbols whose exported names begin with `λ` (for example,
+  `λ10`) are also internal, even when exported from a barrel: they are exported
+  so the Angular compiler can access them, but are not part of the public API.
+  Exclude them from public API naming and compatibility checks.
 - The public API is sacred within a major version. Never introduce — and always
   flag — a breaking change in a non-major release: removed or renamed exports,
   changed function signatures, narrowed parameter types, widened return types,
