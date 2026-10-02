@@ -116,7 +116,9 @@
   ) {
     <sky-toolbar class="sky-data-manager-multiselect-toolbar">
       <sky-toolbar-section>
-        @if (activeView?.onSelectAllClick) {
+        @if (
+          activeView?.multiselectToolbarEnabled || activeView?.onSelectAllClick
+        ) {
           <sky-toolbar-item>
             <button
               class="sky-btn sky-btn-link sky-data-manager-select-all-btn"
@@ -135,7 +137,9 @@
             </button>
           </sky-toolbar-item>
         }
-        @if (activeView?.onClearAllClick) {
+        @if (
+          activeView?.multiselectToolbarEnabled || activeView?.onClearAllClick
+        ) {
           <sky-toolbar-item>
             <button
               class="sky-btn sky-btn-link sky-data-manager-clear-all-btn"

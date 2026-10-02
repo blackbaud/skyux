@@ -519,6 +519,12 @@ describe('SkyDataManagerComponent template API', () => {
           '.sky-data-manager-multiselect-toolbar',
         ),
       ).toExist();
+      expect(
+        fixture.nativeElement.querySelector('.sky-data-manager-select-all-btn'),
+      ).toBeNull();
+      expect(
+        fixture.nativeElement.querySelector('.sky-data-manager-clear-all-btn'),
+      ).toBeNull();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
