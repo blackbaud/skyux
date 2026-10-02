@@ -59,9 +59,15 @@ function switchTheme(theme: E2EVariationName): void {
       channel.emit('updateGlobals', { globals: { theme } });
     });
 
-    cy.get('body', { log: false })
-      .should('have.class', themeClass)
-      .and('have.class', modeClass);
+    // A short timeout so a theme that never applies fails fast instead of
+    // waiting out the 60s default command timeout on every retry.
+    cy.get('body', { log: false, timeout: 10000 }).should(($body) => {
+      if (!$body.hasClass(themeClass) || !$body.hasClass(modeClass)) {
+        throw new Error(
+          `\`skyThemes\` switched to "${theme}", but <body> never got the ${themeClass} and ${modeClass} classes.`,
+        );
+      }
+    });
 
     // Give change detection and layout from the theme change two frames to
     // settle before capturing.
