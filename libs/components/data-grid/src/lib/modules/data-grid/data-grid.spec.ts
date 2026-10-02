@@ -100,6 +100,48 @@ describe('SkyDataGrid', () => {
       ).toBe('50px');
     });
 
+    it('should use a normal domLayout and skip header pinning when dock is "fill"', async () => {
+      fixture.componentRef.setInput('dock', 'fill');
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const gridHost = fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"]',
+      ) as HTMLElement;
+      expect(gridHost.classList).toContain('sky-data-grid-dock-fill');
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getGridOption('domLayout')).toBe('normal');
+
+      const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
+        .componentInstance as unknown as { skyViewkeeper: () => string[] };
+      expect(grid.skyViewkeeper()).toEqual([]);
+    });
+
+    it('should default to an autoHeight domLayout when dock is unset', async () => {
+      fixture.componentRef.setInput('dock', undefined);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const gridHost = fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"]',
+      ) as HTMLElement;
+      expect(gridHost.classList).not.toContain('sky-data-grid-dock-fill');
+
+      const api = getGridApi(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getGridOption('domLayout')).toBe('autoHeight');
+    });
+
     it('should destroy and recreate grid', async () => {
       fixture.detectChanges();
       await fixture.whenStable();
