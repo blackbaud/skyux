@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.0.2](https://github.com/blackbaud/skyux/compare/15.0.1...15.0.2) (2026-10-02)
+
+### Bug Fixes
+
+* **components/packages:** pin migration schematics ([#4859](https://github.com/blackbaud/skyux/issues/4859)) ([8f5212d](https://github.com/blackbaud/skyux/commit/8f5212daaf67aaec82e5e45b0ef764a2aa66e48e))
+
 ## [15.0.1](https://github.com/blackbaud/skyux/compare/15.0.0...15.0.1) (2026-10-01)
 
 ### Bug Fixes
