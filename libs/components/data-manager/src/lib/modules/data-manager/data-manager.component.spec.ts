@@ -3,7 +3,11 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
-import { SkyLiveAnnouncerService, SkyUIConfigService } from '@skyux/core';
+import {
+  SkyLiveAnnouncerService,
+  SkyLogService,
+  SkyUIConfigService,
+} from '@skyux/core';
 import { provideSkyMediaQueryTesting } from '@skyux/core/testing';
 import { SkyTextHighlightDirective } from '@skyux/indicators';
 import { SkyBackToTopMessageType } from '@skyux/layout';
@@ -309,6 +313,40 @@ describe('SkyDataManagerComponent', () => {
 
       expect(injectedInstance).toBeInstanceOf(SkyDataManagerService);
       expect(TestBed.inject(SkyDataManagerService, null)).toBeNull();
+    });
+
+    it('passes SkyLogService to the service it self-provides', async () => {
+      @Component({
+        selector: 'sky-data-manager-no-provider-logger-fixture',
+        template: `<sky-data-manager />`,
+        imports: [SkyDataManagerComponent],
+      })
+      class NoProviderLoggerFixtureComponent {}
+
+      TestBed.resetTestingModule();
+      await TestBed.configureTestingModule({
+        imports: [NoProviderLoggerFixtureComponent],
+      }).compileComponents();
+
+      const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+      const fixture = TestBed.createComponent(NoProviderLoggerFixtureComponent);
+      fixture.detectChanges();
+
+      const service = fixture.debugElement
+        .query(By.directive(SkyDataManagerComponent))
+        .injector.get(SkyDataManagerService);
+
+      service
+        .getDataStateUpdates('test', {
+          comparator: () => {
+            throw new Error('comparator failed');
+          },
+        })
+        .subscribe();
+      service.updateDataState(new SkyDataManagerState({}), 'test-a');
+      service.updateDataState(new SkyDataManagerState({}), 'test-b');
+
+      expect(warnSpy).toHaveBeenCalled();
     });
   });
 });

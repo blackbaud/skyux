@@ -18,6 +18,7 @@ import {
 } from '@angular/core';
 import {
   SkyLiveAnnouncerService,
+  SkyLogService,
   SkyUIConfigService,
   SkyViewkeeperModule,
 } from '@skyux/core';
@@ -61,7 +62,10 @@ const DEFAULT_DOCK_TYPE: SkyDataManagerDockType = 'none';
       provide: SkyDataManagerService,
       useFactory: (): SkyDataManagerService =>
         inject(SkyDataManagerService, { skipSelf: true, optional: true }) ??
-        new SkyDataManagerService(inject(SkyUIConfigService)),
+        new SkyDataManagerService(
+          inject(SkyUIConfigService),
+          inject(SkyLogService),
+        ),
     },
   ],
 })
