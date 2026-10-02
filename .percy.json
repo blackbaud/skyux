@@ -10,6 +10,9 @@
     "allowed-hostnames": ["maxcdn.bootstrapcdn.com", "sky.blackbaudcdn.net"],
     "disable-cache": false,
     "concurrency": 15,
+    "launch-options": {
+      "timeout": 90000
+    },
     "network-idle-timeout": 750
   }
 }
