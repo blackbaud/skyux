@@ -34,6 +34,9 @@ export { ChartsChartBarMultipleSeriesExample } from './lib/modules/charts/chart-
 export { ChartsChartBarStackedExample } from './lib/modules/charts/chart-bar/stacked/example';
 export { ChartsChartBarValueBoundsExample } from './lib/modules/charts/chart-bar/value-bounds/example';
 export { ChartsChartBarValueFormatExample } from './lib/modules/charts/chart-bar/value-format/example';
+export { ChartsChartPieAsyncExample } from './lib/modules/charts/chart-pie/async/example';
+export { ChartsChartPieBasicExample } from './lib/modules/charts/chart-pie/basic/example';
+export { ChartsChartPieDonutExample } from './lib/modules/charts/chart-pie/donut/example';
 export { ColorpickerBasicExampleComponent } from './lib/modules/colorpicker/colorpicker/basic/example.component';
 export { ColorpickerHelpKeyExampleComponent } from './lib/modules/colorpicker/colorpicker/help-key/example.component';
 export { ColorpickerProgrammaticExampleComponent } from './lib/modules/colorpicker/colorpicker/programmatic/example.component';
