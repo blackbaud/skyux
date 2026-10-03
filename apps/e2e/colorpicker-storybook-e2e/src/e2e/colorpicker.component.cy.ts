@@ -1,4 +1,4 @@
-import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+import { E2eVariations, skyThemes } from '@skyux-sdk/e2e-schematics';
 
 describe('colorpicker-storybook', () => {
   const colorpickerVariations = [
@@ -17,71 +17,68 @@ describe('colorpicker-storybook', () => {
     },
   ];
 
-  E2eVariations.forEachTheme((theme) => {
-    describe(`in ${theme} theme`, () => {
-      beforeEach(() =>
-        cy
-          .viewport(960, 1100)
-          .visit(
-            `/iframe.html?globals=theme:${theme}&id=colorpickercomponent-colorpicker--colorpicker`,
-          ),
-      );
-      it('should render the components', () => {
-        cy.skyReady('app-colorpicker', ['#ready']);
-        cy.get('#colorpicker-error .sky-colorpicker-button')
-          .should('exist')
-          .should('be.visible')
-          .click();
-        cy.get('.sky-btn-colorpicker-apply')
-          .should('exist')
-          .should('be.visible')
-          .click();
-        cy.get('app-colorpicker')
-          .should('exist')
-          .should('be.visible')
-          .screenshot(`colorpickercomponent-colorpicker--colorpicker-${theme}`);
-        cy.get('app-colorpicker').percySnapshot(
-          `colorpickercomponent-colorpicker--colorpicker-${theme}`,
-          {
-            widths: E2eVariations.DISPLAY_WIDTHS,
-          },
-        );
-      });
+  skyThemes();
 
-      colorpickerVariations.forEach((colorpicker) => {
-        it(`should open the ${colorpicker.description}`, () => {
-          cy.skyReady('app-colorpicker', ['#ready']);
-          cy.get('app-colorpicker').should('exist').should('be.visible');
+  beforeEach(() =>
+    cy
+      .viewport(960, 1100)
+      .visit('/iframe.html?id=colorpickercomponent-colorpicker--colorpicker'),
+  );
 
-          cy.get(`#${colorpicker.id} .sky-colorpicker-button`)
-            .should('exist')
-            .should('be.visible')
-            .click();
+  it('should render the components', () => {
+    cy.skyReady('app-colorpicker', ['#ready']);
+    cy.get('#colorpicker-error .sky-colorpicker-button')
+      .should('exist')
+      .should('be.visible')
+      .click();
+    cy.get('.sky-btn-colorpicker-apply')
+      .should('exist')
+      .should('be.visible')
+      .click();
+    cy.get('app-colorpicker')
+      .should('exist')
+      .should('be.visible')
+      .screenshot('colorpickercomponent-colorpicker--colorpicker');
+    cy.get('app-colorpicker').percySnapshot(
+      'colorpickercomponent-colorpicker--colorpicker',
+      {
+        widths: E2eVariations.DISPLAY_WIDTHS,
+      },
+    );
+  });
 
-          cy.get('.sky-colorpicker-container')
-            .should('exist')
-            .should('be.visible')
-            .then(($el) => {
-              cy.wrap($el.position().top)
-                .should('be.gte', 0)
-                .should('be.lessThan', 1000);
-              cy.wrap($el.position().left).should('be.gte', 12);
-            });
+  colorpickerVariations.forEach((colorpicker) => {
+    it(`should open the ${colorpicker.description}`, () => {
+      cy.skyReady('app-colorpicker', ['#ready']);
+      cy.get('app-colorpicker').should('exist').should('be.visible');
 
-          cy.window().screenshot(
-            `colorpickercomponent-colorpicker--${colorpicker.id}-menu-${theme}`,
-            {
-              disableTimersAndAnimations: true,
-            },
-          );
-          cy.window().percySnapshot(
-            `colorpickercomponent-colorpicker--${colorpicker.id}-menu-${theme}`,
-            {
-              widths: E2eVariations.DISPLAY_WIDTHS,
-            },
-          );
+      cy.get(`#${colorpicker.id} .sky-colorpicker-button`)
+        .should('exist')
+        .should('be.visible')
+        .click();
+
+      cy.get('.sky-colorpicker-container')
+        .should('exist')
+        .should('be.visible')
+        .then(($el) => {
+          cy.wrap($el.position().top)
+            .should('be.gte', 0)
+            .should('be.lessThan', 1000);
+          cy.wrap($el.position().left).should('be.gte', 12);
         });
-      });
+
+      cy.window().screenshot(
+        `colorpickercomponent-colorpicker--${colorpicker.id}-menu`,
+        {
+          disableTimersAndAnimations: true,
+        },
+      );
+      cy.window().percySnapshot(
+        `colorpickercomponent-colorpicker--${colorpicker.id}-menu`,
+        {
+          widths: E2eVariations.DISPLAY_WIDTHS,
+        },
+      );
     });
   });
 });

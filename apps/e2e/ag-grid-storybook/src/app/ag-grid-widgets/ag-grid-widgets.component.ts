@@ -184,6 +184,9 @@ export class AgGridWidgetsComponent
         suppressRowVirtualisation: true,
         alwaysShowHorizontalScroll: true,
         alwaysShowVerticalScroll: true,
+        // The e2e spec captures the open tooltip once per theme; the 10s default
+        // can hide it before the last theme is captured.
+        tooltipHideDelay: 60000,
         onFirstDataRendered: () => {
           (this.#gridsReady.get(dataSet.id) as BehaviorSubject<boolean>).next(
             true,
