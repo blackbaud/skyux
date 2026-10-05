@@ -5,6 +5,7 @@
 
 ### Bug Fixes
 
+* **components/data-grid:** update module registration to only include necessary modules ([#4866](https://github.com/blackbaud/skyux/issues/4866)) ([#4869](https://github.com/blackbaud/skyux/issues/4869)) ([3fc2197](https://github.com/blackbaud/skyux/commit/3fc219796d73adbae1d494f897aaa6f5cc0cdb7d))
 * **components/forms:** allow undefined iconName for button component ([#4868](https://github.com/blackbaud/skyux/issues/4868)) ([0e6940c](https://github.com/blackbaud/skyux/commit/0e6940c1c643649f746ebd6ce9726b7cdf6a9061))
 
 ## [15.0.2](https://github.com/blackbaud/skyux/compare/15.0.1...15.0.2) (2026-10-02)
