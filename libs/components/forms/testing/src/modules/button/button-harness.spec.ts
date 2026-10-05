@@ -71,6 +71,12 @@ describe('Button harness', () => {
       await expectAsync(buttonHarness.getIconName()).toBeResolvedTo('add');
     });
 
+    it('should return the undefined when icon is undefined', async () => {
+      fixture.componentRef.setInput('iconName', undefined);
+
+      await expectAsync(buttonHarness.getIconName()).toBeResolvedTo(undefined);
+    });
+
     it('should return the button style', async () => {
       await validateButtonStyle(buttonHarness, fixture, 'danger');
       await validateButtonStyle(buttonHarness, fixture, 'default');

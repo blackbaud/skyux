@@ -54,7 +54,7 @@ export class ButtonTest {
   /**
    * The name of the icon to display.
    */
-  public readonly iconName = input<string>('');
+  public readonly iconName = input<string>();
 
   /**
    * Whether to hide the button's label. When the label is hidden, `labelText` is used as the button's ARIA label.

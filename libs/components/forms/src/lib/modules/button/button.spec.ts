@@ -143,6 +143,15 @@ describe('Button component', () => {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
+    it('should handle an undefined icon input value', async () => {
+      fixture.componentRef.setInput('iconName', undefined);
+      fixture.detectChanges();
+
+      expect(getIcon()).toBeNull();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
     describe('with icon', () => {
       it('should set the expected icon', async () => {
         fixture.componentRef.setInput('iconName', 'add');
