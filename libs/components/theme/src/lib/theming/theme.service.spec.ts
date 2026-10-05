@@ -110,7 +110,9 @@ describe('Theme service', () => {
       'registerBrand',
       'unregisterBrand',
       'destroy',
+      'resolveBrand',
     ]);
+    mockBrandService.resolveBrand.and.callFake((brand) => brand);
     mockHostEl = {
       foo: 'bar',
     };
@@ -483,6 +485,37 @@ describe('Theme service', () => {
 
       it('should throw error if called before initialization', () => {
         validateInitError(() => themeSvc.setTheme(SkyTheme.presets.modern));
+      });
+
+      it('should switch to the first supported mode when switching to a theme that does not support the current mode', () => {
+        themeSvc.init(
+          mockHostEl,
+          mockRenderer as unknown as Renderer2,
+          new SkyThemeSettings(
+            SkyTheme.presets.modern,
+            SkyThemeMode.presets.dark,
+          ),
+        );
+
+        mockRenderer.addClass.calls.reset();
+        mockRenderer.removeClass.calls.reset();
+
+        let capturedSettings: SkyThemeSettings | undefined;
+        themeSvc.settingsChange.subscribe((settingsChange) => {
+          capturedSettings = settingsChange.currentSettings;
+        });
+
+        themeSvc.setTheme(SkyTheme.presets.default);
+
+        expect(capturedSettings?.mode).toBe(SkyThemeMode.presets.light);
+        expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+          mockHostEl,
+          SkyThemeMode.presets.dark.hostClass,
+        );
+        expect(mockRenderer.addClass).toHaveBeenCalledWith(
+          mockHostEl,
+          SkyThemeMode.presets.light.hostClass,
+        );
       });
 
       it('should remove brand when switching to a theme that does not support branding', () => {
@@ -1052,6 +1085,117 @@ describe('Theme service', () => {
         brand2,
         blackbaudBrand,
       );
+    });
+  });
+
+  describe('brand supported modes', () => {
+    const lightOnlyBrand = new SkyThemeBrand(
+      'light-only',
+      '1.0.0',
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      [SkyThemeMode.presets.light],
+    );
+
+    function initModernDark(brand?: SkyThemeBrand): {
+      currentSettings: SkyThemeSettings | undefined;
+    } {
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.dark,
+          undefined,
+          brand,
+        ),
+      );
+
+      const captured: { currentSettings: SkyThemeSettings | undefined } = {
+        currentSettings: undefined,
+      };
+
+      themeSvc.settingsChange.subscribe((settingsChange) => {
+        captured.currentSettings = settingsChange.currentSettings;
+      });
+
+      return captured;
+    }
+
+    it('should switch to the first supported mode when the brand does not support the current mode', () => {
+      const captured = initModernDark();
+
+      mockRenderer.addClass.calls.reset();
+      mockRenderer.removeClass.calls.reset();
+
+      themeSvc.setThemeBrand(lightOnlyBrand);
+
+      expect(captured.currentSettings?.mode).toBe(SkyThemeMode.presets.light);
+      expect(mockRenderer.removeClass).toHaveBeenCalledWith(
+        mockHostEl,
+        SkyThemeMode.presets.dark.hostClass,
+      );
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        SkyThemeMode.presets.light.hostClass,
+      );
+    });
+
+    it('should apply the first supported mode when initialized with a brand that does not support the given mode', () => {
+      const captured = initModernDark(lightOnlyBrand);
+
+      expect(captured.currentSettings?.mode).toBe(SkyThemeMode.presets.light);
+      expect(mockRenderer.addClass).not.toHaveBeenCalledWith(
+        mockHostEl,
+        SkyThemeMode.presets.dark.hostClass,
+      );
+    });
+
+    it('should keep the current mode when the brand supports it', () => {
+      const darkBrand = new SkyThemeBrand(
+        'dark',
+        '1.0.0',
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        [SkyThemeMode.presets.light, SkyThemeMode.presets.dark],
+      );
+
+      const captured = initModernDark(darkBrand);
+
+      expect(captured.currentSettings?.mode).toBe(SkyThemeMode.presets.dark);
+    });
+
+    it("should use the registered brand's supported modes", () => {
+      mockBrandService.resolveBrand.and.returnValue(lightOnlyBrand);
+
+      const captured = initModernDark(new SkyThemeBrand('light-only', '1.0.0'));
+
+      expect(captured.currentSettings?.mode).toBe(SkyThemeMode.presets.light);
+    });
+
+    it('should throw error when setting a mode the brand does not support', () => {
+      themeSvc.init(
+        mockHostEl,
+        mockRenderer as unknown as Renderer2,
+        new SkyThemeSettings(
+          SkyTheme.presets.modern,
+          SkyThemeMode.presets.light,
+          undefined,
+          lightOnlyBrand,
+        ),
+      );
+
+      expect(() => {
+        themeSvc.setThemeMode(SkyThemeMode.presets.dark);
+      }).toThrowError('The current theme does not support the specified mode.');
     });
   });
 
