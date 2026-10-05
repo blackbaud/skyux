@@ -34,11 +34,11 @@ import { AgGridAngular } from 'ag-grid-angular';
 import {
   AutoSizeStrategy,
   CellStyleModule,
-  ClientSideRowModelApiModule,
   ClientSideRowModelModule,
   ColDef,
   ColumnApiModule,
   ColumnAutoSizeModule,
+  CustomEditorModule,
   EventApiModule,
   GridApi,
   GridOptions,
@@ -53,7 +53,6 @@ import {
   RowSelectionModule,
   RowSelectionOptions,
   RowStyleModule,
-  ValidationModule,
 } from 'ag-grid-community';
 import {
   filter,
@@ -74,15 +73,14 @@ import { fromGridEvent } from './data-grid-event-utils';
 // Register only the AG Grid community modules this component actually uses,
 // rather than `AllCommunityModule`, to keep the consumer's bundle lean. This
 // covers the client-side row model, sorting, pagination, row selection, cell
-// and row styling, column auto-sizing, auto-height (text wrap), the grid/column
-// state and event APIs the component and its harness rely on, and dev-time
-// validation messaging.
+// and row styling, column auto-sizing, auto-height (text wrap), and the
+// grid/column state and event APIs the component and its harness rely on.
 ModuleRegistry.registerModules([
   CellStyleModule,
-  ClientSideRowModelApiModule,
   ClientSideRowModelModule,
   ColumnApiModule,
   ColumnAutoSizeModule,
+  CustomEditorModule,
   EventApiModule,
   GridStateModule,
   LocaleModule,
@@ -92,7 +90,6 @@ ModuleRegistry.registerModules([
   RowAutoHeightModule,
   RowSelectionModule,
   RowStyleModule,
-  ValidationModule,
 ]);
 
 function arraySorted(arr: string[]): string[] {
