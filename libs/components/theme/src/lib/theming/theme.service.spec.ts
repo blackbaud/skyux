@@ -1151,6 +1151,10 @@ describe('Theme service', () => {
       const captured = initModernDark(lightOnlyBrand);
 
       expect(captured.currentSettings?.mode).toBe(SkyThemeMode.presets.light);
+      expect(mockRenderer.addClass).toHaveBeenCalledWith(
+        mockHostEl,
+        SkyThemeMode.presets.light.hostClass,
+      );
       expect(mockRenderer.addClass).not.toHaveBeenCalledWith(
         mockHostEl,
         SkyThemeMode.presets.dark.hostClass,
