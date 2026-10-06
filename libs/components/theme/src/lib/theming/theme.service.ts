@@ -206,10 +206,12 @@ export class SkyThemeService {
 
     let supportedValues: SkyThemeMode[] | SkyThemeSpacing[] | undefined =
       undefined;
+    let supportedBy = 'theme';
 
     switch (property) {
       case 'mode':
         supportedValues = this.#getSupportedModes(currentTheme, current.brand);
+        supportedBy = 'theme or brand';
         break;
       case 'spacing':
         supportedValues = currentTheme.supportedSpacing;
@@ -219,7 +221,7 @@ export class SkyThemeService {
 
     if (supportedValues && value && !supportedValues.includes(value)) {
       throw new Error(
-        `The current theme does not support the specified ${property}.`,
+        `The current ${supportedBy} does not support the specified ${property}.`,
       );
     }
 

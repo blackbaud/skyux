@@ -756,7 +756,9 @@ describe('Theme service', () => {
 
       expect(() => {
         themeSvc.setThemeMode(SkyThemeMode.presets.dark);
-      }).toThrowError('The current theme does not support the specified mode.');
+      }).toThrowError(
+        'The current theme or brand does not support the specified mode.',
+      );
     });
   });
 
@@ -1195,7 +1197,9 @@ describe('Theme service', () => {
 
       expect(() => {
         themeSvc.setThemeMode(SkyThemeMode.presets.dark);
-      }).toThrowError('The current theme does not support the specified mode.');
+      }).toThrowError(
+        'The current theme or brand does not support the specified mode.',
+      );
     });
   });
 
