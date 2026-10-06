@@ -149,6 +149,10 @@ export class SkyThemeService {
       settings.brand,
     );
 
+    if (supportedModes.length === 0) {
+      throw new Error('The theme and brand do not support any common modes.');
+    }
+
     if (!supportedModes.includes(settings.mode)) {
       settings = new SkyThemeSettings(
         settings.theme,

@@ -1187,6 +1187,31 @@ describe('Theme service', () => {
       expect(captured.currentSettings?.mode).toBe(SkyThemeMode.presets.light);
     });
 
+    it('should throw error when the theme and brand do not support any common modes', () => {
+      const highContrastBrand = new SkyThemeBrand(
+        'high-contrast',
+        '1.0.0',
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        [new SkyThemeMode('high-contrast', 'sky-theme-mode-high-contrast')],
+      );
+
+      initModernDark();
+
+      mockRenderer.addClass.calls.reset();
+      mockRenderer.removeClass.calls.reset();
+
+      expect(() => {
+        themeSvc.setThemeBrand(highContrastBrand);
+      }).toThrowError('The theme and brand do not support any common modes.');
+      expect(mockRenderer.addClass).not.toHaveBeenCalled();
+      expect(mockRenderer.removeClass).not.toHaveBeenCalled();
+    });
+
     it('should throw error when setting a mode the brand does not support', () => {
       themeSvc.init(
         mockHostEl,
