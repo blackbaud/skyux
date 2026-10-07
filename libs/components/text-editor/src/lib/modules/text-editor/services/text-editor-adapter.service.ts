@@ -42,9 +42,10 @@ export class SkyTextEditorAdapterService {
     }
 
     const styleEl = documentEl.createElement('style');
-    styleEl.innerHTML = `.editor:empty:before {
+    styleEl.innerHTML = `${this.#getHostFontFaceCss()}
+    .editor:empty:before {
       content: attr(data-placeholder);
-      font-family: "Blackbaud Sans", Arial, sans-serif;
+      font-family: "BLKB Sans", Arial, sans-serif;
       color: #686c73;
       font-weight: 400;
       font-size: 15px;
@@ -428,6 +429,33 @@ export class SkyTextEditorAdapterService {
     /* istanbul ignore next */
     return this.#textEditorService.editor.iframeElementRef
       .contentDocument as Document;
+  }
+
+  /**
+   * `@font-face` rules don't apply across documents, so fonts loaded by the
+   * host page (e.g. BLKB Sans) must be redeclared inside the editor's iframe.
+   */
+  #getHostFontFaceCss(): string {
+    const hostDocument: Document = this.#windowRef.nativeWindow.document;
+    const fontFaceRules: string[] = [];
+
+    for (const styleSheet of Array.from(hostDocument.styleSheets)) {
+      let cssRules: CSSRuleList;
+      try {
+        cssRules = styleSheet.cssRules;
+      } catch {
+        // Cross-origin stylesheets don't expose their rules.
+        continue;
+      }
+
+      for (const cssRule of Array.from(cssRules)) {
+        if (cssRule instanceof CSSFontFaceRule) {
+          fontFaceRules.push(cssRule.cssText);
+        }
+      }
+    }
+
+    return fontFaceRules.join('\n');
   }
 
   #getFontSize(): string {

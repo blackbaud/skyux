@@ -87,6 +87,61 @@ describe('SkyTextEditorAdapterService', () => {
     );
   });
 
+  it("should copy the host page's font faces into the iframe", () => {
+    const hostStyleEl = document.createElement('style');
+    hostStyleEl.textContent = `
+      @font-face { font-family: 'Test Font'; src: url('test-font.woff'); }
+      .test-not-a-font-face { color: red; }
+    `;
+    document.head.appendChild(hostStyleEl);
+
+    const service = TestBed.inject(SkyTextEditorAdapterService);
+    const iframe = jasmine.createSpyObj<HTMLIFrameElement>(
+      'HTMLIFrameElement',
+      ['addEventListener', 'removeEventListener'],
+      {
+        contentWindow: win,
+        contentDocument: doc,
+      },
+    );
+    service.initEditor('test', iframe, styleState);
+    hostStyleEl.remove();
+
+    const iframeStyleEl = (
+      doc.head.appendChild as jasmine.Spy
+    ).calls.mostRecent().args[0] as HTMLStyleElement;
+    expect(iframeStyleEl.innerHTML).toContain('font-family: "Test Font"');
+    expect(iframeStyleEl.innerHTML).not.toContain('.test-not-a-font-face');
+  });
+
+  it('should skip host stylesheets whose rules cannot be read', () => {
+    const crossOriginStyleSheet = {
+      get cssRules(): CSSRuleList {
+        throw new DOMException('Cannot access rules', 'SecurityError');
+      },
+    } as unknown as CSSStyleSheet;
+    spyOnProperty(document, 'styleSheets').and.returnValue([
+      crossOriginStyleSheet,
+    ] as unknown as StyleSheetList);
+
+    const service = TestBed.inject(SkyTextEditorAdapterService);
+    const iframe = jasmine.createSpyObj<HTMLIFrameElement>(
+      'HTMLIFrameElement',
+      ['addEventListener', 'removeEventListener'],
+      {
+        contentWindow: win,
+        contentDocument: doc,
+      },
+    );
+    service.initEditor('test', iframe, styleState);
+
+    const iframeStyleEl = (
+      doc.head.appendChild as jasmine.Spy
+    ).calls.mostRecent().args[0] as HTMLStyleElement;
+    expect(iframeStyleEl.innerHTML).not.toContain('@font-face');
+    expect(iframeStyleEl.innerHTML).toContain('.editor:empty:before');
+  });
+
   it('should stop initializing the editor when document is null', () => {
     const service = TestBed.inject(SkyTextEditorAdapterService);
     const iframe = jasmine.createSpyObj<HTMLIFrameElement>(

@@ -85,11 +85,11 @@ export class SkyTextEditorToolbarComponent implements OnInit {
   public set styleState(value: SkyTextEditorStyleState) {
     this.#_styleState = value;
     if (value.font !== this.styleStateFontName) {
-      if (value.font === '"Blackbaud Sans", Arial, sans-serif') {
-        this.styleStateFontName = this.#getFontName('Blackbaud Sans');
-      } else {
-        this.styleStateFontName = this.#getFontName(value.font);
-      }
+      // Content saved before "Blackbaud Sans" was renamed to "BLKB Sans" still
+      // references the old name, so fall back to the new one.
+      this.styleStateFontName =
+        this.#getFontName(value.font) ??
+        this.#getFontName(value.font.replace('Blackbaud Sans', 'BLKB Sans'));
     }
   }
 
@@ -247,14 +247,16 @@ export class SkyTextEditorToolbarComponent implements OnInit {
     this.fontSizeStream.next({ type: SkyDropdownMessageType.Close });
   }
 
-  #getFontName(fontName: string): string | undefined {
-    for (const skyTextEditorFont of this.fontList) {
-      if (fontName.replace(/['"]+/g, '') === skyTextEditorFont.name) {
-        return skyTextEditorFont.name;
-      }
-    }
+  #getFontName(font: string): string | undefined {
+    const unquotedFont = font.replace(/['"]+/g, '');
 
-    /* istanbul ignore next */
-    return undefined;
+    return (
+      this.fontList.find(
+        (skyTextEditorFont) => skyTextEditorFont.value === font,
+      )?.name ??
+      this.fontList.find(
+        (skyTextEditorFont) => skyTextEditorFont.name === unquotedFont,
+      )?.name
+    );
   }
 }
