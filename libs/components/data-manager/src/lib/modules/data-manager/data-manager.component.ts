@@ -317,6 +317,9 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+    if (this.#ownsService) {
+      this.#dataManagerService.ngOnDestroy();
+    }
   }
 
   /**
