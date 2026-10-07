@@ -756,9 +756,7 @@ describe('Theme service', () => {
 
       expect(() => {
         themeSvc.setThemeMode(SkyThemeMode.presets.dark);
-      }).toThrowError(
-        'The current theme or brand does not support the specified mode.',
-      );
+      }).toThrowError('The current theme does not support the specified mode.');
     });
   });
 
@@ -1187,7 +1185,7 @@ describe('Theme service', () => {
       expect(captured.currentSettings?.mode).toBe(SkyThemeMode.presets.light);
     });
 
-    it('should throw error when the theme and brand do not support any common modes', () => {
+    it("should fall back to the theme's first mode when the theme and brand do not support any common modes", () => {
       const highContrastBrand = new SkyThemeBrand(
         'high-contrast',
         '1.0.0',
@@ -1200,35 +1198,24 @@ describe('Theme service', () => {
         [new SkyThemeMode('high-contrast', 'sky-theme-mode-high-contrast')],
       );
 
-      initModernDark();
+      const captured = initModernDark();
+
+      themeSvc.setThemeBrand(highContrastBrand);
+
+      expect(captured.currentSettings?.mode).toBe(SkyThemeMode.presets.light);
+    });
+
+    it('should not change the mode when setting a mode the brand does not support', () => {
+      const captured = initModernDark(lightOnlyBrand);
 
       mockRenderer.addClass.calls.reset();
       mockRenderer.removeClass.calls.reset();
 
-      expect(() => {
-        themeSvc.setThemeBrand(highContrastBrand);
-      }).toThrowError('The theme and brand do not support any common modes.');
+      themeSvc.setThemeMode(SkyThemeMode.presets.dark);
+
+      expect(captured.currentSettings?.mode).toBe(SkyThemeMode.presets.light);
       expect(mockRenderer.addClass).not.toHaveBeenCalled();
       expect(mockRenderer.removeClass).not.toHaveBeenCalled();
-    });
-
-    it('should throw error when setting a mode the brand does not support', () => {
-      themeSvc.init(
-        mockHostEl,
-        mockRenderer as unknown as Renderer2,
-        new SkyThemeSettings(
-          SkyTheme.presets.modern,
-          SkyThemeMode.presets.light,
-          undefined,
-          lightOnlyBrand,
-        ),
-      );
-
-      expect(() => {
-        themeSvc.setThemeMode(SkyThemeMode.presets.dark);
-      }).toThrowError(
-        'The current theme or brand does not support the specified mode.',
-      );
     });
   });
 

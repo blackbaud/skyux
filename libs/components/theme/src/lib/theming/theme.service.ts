@@ -149,10 +149,6 @@ export class SkyThemeService {
       settings.brand,
     );
 
-    if (supportedModes.length === 0) {
-      throw new Error('The theme and brand do not support any common modes.');
-    }
-
     if (!supportedModes.includes(settings.mode)) {
       settings = new SkyThemeSettings(
         settings.theme,
@@ -210,12 +206,10 @@ export class SkyThemeService {
 
     let supportedValues: SkyThemeMode[] | SkyThemeSpacing[] | undefined =
       undefined;
-    let supportedBy = 'theme';
 
     switch (property) {
       case 'mode':
-        supportedValues = this.#getSupportedModes(currentTheme, current.brand);
-        supportedBy = 'theme or brand';
+        supportedValues = currentTheme.supportedModes;
         break;
       case 'spacing':
         supportedValues = currentTheme.supportedSpacing;
@@ -225,7 +219,7 @@ export class SkyThemeService {
 
     if (supportedValues && value && !supportedValues.includes(value)) {
       throw new Error(
-        `The current ${supportedBy} does not support the specified ${property}.`,
+        `The current theme does not support the specified ${property}.`,
       );
     }
 
@@ -330,9 +324,11 @@ export class SkyThemeService {
     const brandModes =
       brand && this.#brandSvc.resolveBrand(brand).supportedModes;
 
-    return brandModes
+    const commonModes = brandModes
       ? theme.supportedModes.filter((mode) => brandModes.includes(mode))
       : theme.supportedModes;
+
+    return commonModes.length > 0 ? commonModes : [theme.supportedModes[0]];
   }
 
   #getRenderer(): Renderer2 {
