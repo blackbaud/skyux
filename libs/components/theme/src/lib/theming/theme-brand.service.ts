@@ -46,6 +46,10 @@ export class SkyThemeBrandService {
     this.#registeredBrands.delete(name);
   }
 
+  public resolveBrand(brand: SkyThemeBrand): SkyThemeBrand {
+    return this.#registeredBrands.get(brand.name) ?? brand;
+  }
+
   /**
    * Updates all brand-related styling and classes for the host element.
    * This consolidates brand stylesheet updates and host class management,
@@ -61,9 +65,8 @@ export class SkyThemeBrandService {
     brand: SkyThemeBrand | undefined,
     previousBrand: SkyThemeBrand | undefined,
   ): void {
-    // Resolve to registered brand if available
     if (brand) {
-      brand = this.#registeredBrands.get(brand.name) ?? brand;
+      brand = this.resolveBrand(brand);
     }
 
     const previousClass = previousBrand?.hostClass;
