@@ -1,0 +1,29 @@
+<sky-data-manager
+  labelText="fruit"
+  searchEnabled
+  [totalCount]="totalCount()"
+  [(searchText)]="searchText"
+  [(sort)]="sort"
+>
+  <sky-data-manager-toolbar>
+    <sky-data-manager-sort-option
+      propertyName="name"
+      label="Name (A - Z)"
+      [id]="'az'"
+    />
+    <sky-data-manager-sort-option
+      propertyName="name"
+      label="Name (Z - A)"
+      [id]="'za'"
+      [descending]="true"
+    />
+  </sky-data-manager-toolbar>
+
+  <ul>
+    @for (item of data.value()?.items; track item.id) {
+      <li>{{ item.name }}</li>
+    } @empty {
+      <li>No fruit found.</li>
+    }
+  </ul>
+</sky-data-manager>
