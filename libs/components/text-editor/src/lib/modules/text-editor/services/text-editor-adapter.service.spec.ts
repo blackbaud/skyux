@@ -114,6 +114,52 @@ describe('SkyTextEditorAdapterService', () => {
     expect(iframeStyleEl.innerHTML).not.toContain('.test-not-a-font-face');
   });
 
+  describe('font face URLs', () => {
+    function getIframeCssForHostStyleSheet(href: string | null): string {
+      const hostStyleEl = document.createElement('style');
+      hostStyleEl.textContent = `@font-face { font-family: 'Test Font'; src: url('fonts/test-font.woff'); }`;
+      document.head.appendChild(hostStyleEl);
+      spyOnProperty(document, 'styleSheets').and.returnValue([
+        { href, cssRules: hostStyleEl.sheet?.cssRules },
+      ] as unknown as StyleSheetList);
+
+      const service = TestBed.inject(SkyTextEditorAdapterService);
+      const iframe = jasmine.createSpyObj<HTMLIFrameElement>(
+        'HTMLIFrameElement',
+        ['addEventListener', 'removeEventListener'],
+        {
+          contentWindow: win,
+          contentDocument: doc,
+        },
+      );
+      service.initEditor('test', iframe, styleState);
+      hostStyleEl.remove();
+
+      return (
+        (doc.head.appendChild as jasmine.Spy).calls.mostRecent()
+          .args[0] as HTMLStyleElement
+      ).innerHTML;
+    }
+
+    it("should resolve relative URLs against the rule's stylesheet", () => {
+      expect(
+        getIframeCssForHostStyleSheet('https://cdn.example.com/styles/app.css'),
+      ).toContain('url("https://cdn.example.com/styles/fonts/test-font.woff")');
+    });
+
+    it("should resolve relative URLs against the host document's base URI when the stylesheet has no URL", () => {
+      expect(getIframeCssForHostStyleSheet(null)).toContain(
+        `url("${new URL('fonts/test-font.woff', document.baseURI).href}")`,
+      );
+    });
+
+    it('should preserve URLs that cannot be resolved', () => {
+      expect(getIframeCssForHostStyleSheet('not a valid url')).toContain(
+        'url("fonts/test-font.woff")',
+      );
+    });
+  });
+
   it('should skip host stylesheets whose rules cannot be read', () => {
     const crossOriginStyleSheet = {
       get cssRules(): CSSRuleList {

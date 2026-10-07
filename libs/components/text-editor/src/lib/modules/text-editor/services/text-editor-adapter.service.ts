@@ -15,6 +15,19 @@ import { UrlTarget } from '../url-modal/text-editor-url-target';
 import { SkyTextEditorSelectionService } from './text-editor-selection.service';
 import { SkyTextEditorService } from './text-editor.service';
 
+function resolveCssUrls(css: string, baseUrl: string): string {
+  return css.replace(
+    /url\((['"]?)(.*?)\1\)/g,
+    (cssUrl: string, quote: string, url: string) => {
+      try {
+        return `url(${quote}${new URL(url, baseUrl).href}${quote})`;
+      } catch {
+        return cssUrl;
+      }
+    },
+  );
+}
+
 /**
  * @internal
  */
@@ -448,9 +461,12 @@ export class SkyTextEditorAdapterService {
         continue;
       }
 
+      // Relative URLs resolve against their stylesheet, not the iframe.
+      const baseUrl = styleSheet.href ?? hostDocument.baseURI;
+
       for (const cssRule of Array.from(cssRules)) {
         if (cssRule instanceof CSSFontFaceRule) {
-          fontFaceRules.push(cssRule.cssText);
+          fontFaceRules.push(resolveCssUrls(cssRule.cssText, baseUrl));
         }
       }
     }
