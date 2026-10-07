@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.1.0](https://github.com/blackbaud/skyux/compare/15.0.3...15.1.0) (2026-10-07)
+
+### Features
+
+* **components/theme:** coerce theme mode to one supported by the theme and brand ([#4872](https://github.com/blackbaud/skyux/issues/4872)) ([#4873](https://github.com/blackbaud/skyux/issues/4873)) ([6e7a34a](https://github.com/blackbaud/skyux/commit/6e7a34ab43a1d830384bbcfe3fee793fe1c8115d))
+
 ## [15.0.3](https://github.com/blackbaud/skyux/compare/15.0.2...15.0.3) (2026-10-05)
 
 ### Bug Fixes
