@@ -64,6 +64,23 @@ describe('SkyThemeBrandService', () => {
     });
   });
 
+  describe('resolveBrand()', () => {
+    it('should return the registered brand with the same name', () => {
+      const registeredBrand = new SkyThemeBrand('test', '2.0.0');
+      service.registerBrand(registeredBrand);
+
+      expect(service.resolveBrand(new SkyThemeBrand('test', '1.0.0'))).toBe(
+        registeredBrand,
+      );
+    });
+
+    it('should return the given brand when no brand is registered', () => {
+      const brand = new SkyThemeBrand('test', '1.0.0');
+
+      expect(service.resolveBrand(brand)).toBe(brand);
+    });
+  });
+
   describe('updateBrand()', () => {
     it('should resolve registered brand and update DOM when brand changes', () => {
       const originalBrand = new SkyThemeBrand('test', '1.0.0');
