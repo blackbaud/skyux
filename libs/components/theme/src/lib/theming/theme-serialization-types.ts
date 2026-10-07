@@ -33,6 +33,7 @@ export interface SkyThemeBrandData {
   title?: string;
   faviconUrl?: string;
   maskIcon?: SkyThemeBrandMaskIcon;
+  supportedModes?: SkyThemeModeData[];
 }
 
 /**
