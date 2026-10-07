@@ -63,8 +63,10 @@ export { FilterBarModalExampleComponent } from './lib/modules/filter-bar/filter-
 export { FilterBarSelectableExampleComponent } from './lib/modules/filter-bar/filter-bar/selectable/example.component';
 export { FlyoutBasicExampleComponent } from './lib/modules/flyout/flyout/basic/example.component';
 export { FlyoutCustomHeadersExampleComponent } from './lib/modules/flyout/flyout/custom-headers/example.component';
-export { FormsButtonExampleComponent } from './lib/modules/forms/button/basic/example.component';
-export { FormsButtonToolbarExampleComponent } from './lib/modules/forms/button/toolbar/example.component';
+export { FormsButtonExample } from './lib/modules/forms/button/basic/example';
+export { FormsButtonInModalExample } from './lib/modules/forms/button/modal/example';
+export { FormsButtonPermalinkExample } from './lib/modules/forms/button/permalink/example';
+export { FormsButtonToolbarExample } from './lib/modules/forms/button/toolbar/example';
 export { FormsCheckboxBasicExampleComponent } from './lib/modules/forms/checkbox/basic/example.component';
 export { FormsCheckboxHelpKeyExampleComponent } from './lib/modules/forms/checkbox/help-key/example.component';
 export { FormsCheckboxIconGroupExampleComponent } from './lib/modules/forms/checkbox/icon-group/example.component';

@@ -1,0 +1,25 @@
+<sky-button
+  data-sky-id="add-button"
+  iconName="add"
+  labelText="Add user"
+  (buttonClick)="addUserClick()"
+/>
+
+@if (userNames().length > 0) {
+  <h4>Users</h4>
+  <ul class="sky-theme-list-unstyled">
+    @for (userName of userNames(); let i = $index; track userName) {
+      <li>
+        <sky-button
+          buttonStyle="icon-borderless"
+          class="sky-theme-margin-right-xs"
+          iconName="delete"
+          labelHidden
+          [labelText]="`Delete ${userName}`"
+          (click)="deleteUser(i)"
+        />
+        <span>{{ userName }}</span>
+      </li>
+    }
+  </ul>
+}

@@ -16,8 +16,10 @@
       },
       "codeExamples": {
         "docsIds": [
-          "FormsButtonExampleComponent",
-          "FormsButtonToolbarExampleComponent"
+          "FormsButtonExample",
+          "FormsButtonPermalinkExample",
+          "FormsButtonToolbarExample",
+          "FormsButtonInModalExample"
         ]
       }
     },

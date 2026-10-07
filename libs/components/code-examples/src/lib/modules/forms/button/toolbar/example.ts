@@ -7,7 +7,7 @@ import { SkyToolbarModule } from '@skyux/layout';
  */
 @Component({
   selector: 'app-forms-button-toolbar-example',
-  templateUrl: './example.component.html',
+  templateUrl: './example.html',
   imports: [SkyButton, SkyToolbarModule],
 })
-export class FormsButtonToolbarExampleComponent {}
+export class FormsButtonToolbarExample {}
