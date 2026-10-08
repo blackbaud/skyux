@@ -353,6 +353,20 @@ export class SkyDataGrid implements SkyDataColumnSource {
     { equal: arraysEqual },
   );
 
+  /**
+   * The selectors of the elements the grid keeps visible at the top of the
+   * viewport while the page scrolls. Read by column picker integrations
+   * through `SkyDataColumnSource`.
+   * @internal
+   */
+  public readonly viewkeeperClasses = computed(() => {
+    const classes = ['.ag-header'];
+    if (this.topScrollEnabled()) {
+      classes.push('.ag-body-horizontal-scroll');
+    }
+    return classes;
+  });
+
   protected readonly gridApi = signal<GridApi<SkyDataGridRowData> | undefined>(
     undefined,
   );
@@ -461,16 +475,12 @@ export class SkyDataGrid implements SkyDataColumnSource {
     },
   });
 
-  protected readonly skyViewkeeper = computed(() => {
-    // Only used when not using SkyDataManagerService because data manager handles SkyViewkeeper.
-    const classes = ['.ag-header'];
-    if (this.topScrollEnabled()) {
-      classes.push('.ag-body-horizontal-scroll');
-    }
-    return classes;
-  });
+  protected readonly skyViewkeeper = computed(() =>
+    this.#viewkeeperDisabled() ? [] : this.viewkeeperClasses(),
+  );
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
+  readonly #viewkeeperDisabled = signal(false);
   readonly #gridService = inject(SkyAgGridService);
   readonly #logger = inject(SkyLogService);
   readonly #router = inject(Router, { optional: true });
@@ -817,6 +827,16 @@ export class SkyDataGrid implements SkyDataColumnSource {
         this.sort.update(() => undefined);
       }
     });
+  }
+
+  /**
+   * Stops the grid from keeping the `viewkeeperClasses` elements visible
+   * itself. Called by column picker integrations through `SkyDataColumnSource`
+   * when a container keeps them visible instead.
+   * @internal
+   */
+  public disableViewkeeper(): void {
+    this.#viewkeeperDisabled.set(true);
   }
 
   /**
