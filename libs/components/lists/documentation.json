@@ -140,18 +140,6 @@
       "codeExamples": {
         "docsIds": ["ListsSortBasicExampleComponent"]
       }
-    },
-    "data-column-source": {
-      "development": {
-        "docsIds": ["SkyDataColumnSource", "SkyDataColumnOption"],
-        "primaryDocsId": "SkyDataColumnSource"
-      },
-      "testing": {
-        "docsIds": []
-      },
-      "codeExamples": {
-        "docsIds": []
-      }
     }
   }
 }

@@ -6,13 +6,15 @@ import { SkyDataColumnOption } from './data-column-option';
  * Implemented by column-based components, such as a data grid, so that column
  * picker UIs can discover the available columns and control which columns
  * display without depending on the component itself.
- * @preview
+ * @internal
  */
 export abstract class SkyDataColumnSource {
   /**
    * The columns the component can display, in declaration order.
    */
-  public abstract readonly dataColumns: Signal<readonly SkyDataColumnOption[]>;
+  public abstract readonly columnOptions: Signal<
+    readonly SkyDataColumnOption[]
+  >;
 
   /**
    * The IDs of the columns that currently display, in display order. This
@@ -24,5 +26,5 @@ export abstract class SkyDataColumnSource {
   /**
    * Sets the columns that display and their order.
    */
-  public abstract setDisplayedColumnIds(columnIds: string[]): void;
+  public abstract setDisplayedColumnIds(columnIds: readonly string[]): void;
 }
