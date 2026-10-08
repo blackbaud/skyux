@@ -7,6 +7,10 @@
 
 * **components/theme:** coerce theme mode to one supported by the theme and brand ([#4872](https://github.com/blackbaud/skyux/issues/4872)) ([#4873](https://github.com/blackbaud/skyux/issues/4873)) ([6e7a34a](https://github.com/blackbaud/skyux/commit/6e7a34ab43a1d830384bbcfe3fee793fe1c8115d))
 
+### Bug Fixes
+
+* **components/text-editor:** load BLKB Sans in the editor and rename the default font option ([#4877](https://github.com/blackbaud/skyux/issues/4877)) ([8c2368d](https://github.com/blackbaud/skyux/commit/8c2368d8cd866c196df58aded8cac87c4d5f5204))
+
 ## [15.0.3](https://github.com/blackbaud/skyux/compare/15.0.2...15.0.3) (2026-10-05)
 
 ### Bug Fixes
