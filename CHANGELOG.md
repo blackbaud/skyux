@@ -5,6 +5,7 @@
 
 ### Features
 
+* **components/forms:** add button code examples and support for modal footer ([#4878](https://github.com/blackbaud/skyux/issues/4878)) ([e875ff3](https://github.com/blackbaud/skyux/commit/e875ff342ae4e5df40fbff46f4aca85e6e3682a3))
 * **components/theme:** coerce theme mode to one supported by the theme and brand ([#4872](https://github.com/blackbaud/skyux/issues/4872)) ([#4873](https://github.com/blackbaud/skyux/issues/4873)) ([6e7a34a](https://github.com/blackbaud/skyux/commit/6e7a34ab43a1d830384bbcfe3fee793fe1c8115d))
 
 ### Bug Fixes
