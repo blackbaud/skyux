@@ -1,13 +1,4 @@
-/**
- * The subset of a column option needed to reconcile column state. Both
- * `SkyDataManagerColumnPickerOption` and `SkyDataColumnOption` satisfy it.
- * @internal
- */
-export interface SkyDataManagerColumnStateOption {
-  alwaysDisplayed?: boolean;
-  id: string;
-  initialHide?: boolean;
-}
+import { SkyDataColumnOption } from '@skyux/lists';
 
 /**
  * The set of columns a data manager knows about and which of them display.
@@ -36,51 +27,41 @@ export interface SkyDataManagerColumnState {
  */
 export function reconcileColumnState(
   stored: Partial<SkyDataManagerColumnState> | undefined,
-  columnOptions: SkyDataManagerColumnStateOption[],
+  columnOptions: readonly SkyDataColumnOption[],
 ): SkyDataManagerColumnState {
   const columnIds = columnOptions.map((option) => option.id);
-  const previouslyKnown = new Set(stored?.columnIds ?? []);
-  const storedDisplayed = stored?.displayedColumnIds ?? [];
+  const knownIds = stored?.columnIds ?? [];
+  const storedDisplayedIds = stored?.displayedColumnIds ?? [];
 
-  if (previouslyKnown.size === 0 && storedDisplayed.length === 0) {
-    // Nothing was stored, so fall back to the columns' declared visibility.
-    return {
-      columnIds,
-      displayedColumnIds: columnOptions
-        .filter((option) => option.alwaysDisplayed || !option.initialHide)
-        .map((option) => option.id),
-    };
-  }
+  // Keep the stored columns that still exist, in their stored order.
+  const keptIds = storedDisplayedIds.filter((id) => columnIds.includes(id));
 
-  // Drop columns that no longer exist.
-  const available = new Set(columnIds);
-  const displayedColumnIds = storedDisplayed.filter((id) => available.has(id));
-  const displayed = new Set(displayedColumnIds);
-
-  // A column that did not exist when the state was stored is new, so display it
-  // unless it is meant to start hidden. When `columnIds` was never stored there
-  // is no way to tell a new column from one the user hid, so the stored list is
-  // taken at face value.
-  if (previouslyKnown.size > 0) {
-    for (const option of columnOptions) {
-      if (
-        !previouslyKnown.has(option.id) &&
-        !displayed.has(option.id) &&
-        !option.initialHide
-      ) {
-        displayedColumnIds.push(option.id);
-        displayed.add(option.id);
-      }
-    }
-  }
+  // A column missing from the stored `columnIds` is new, so it displays unless
+  // it starts hidden; with nothing stored, every column is new. When only
+  // `displayedColumnIds` was stored, a new column cannot be told apart from
+  // one the user hid, so none are added.
+  const canAddColumns = knownIds.length > 0 || storedDisplayedIds.length === 0;
+  const addedIds = canAddColumns
+    ? columnOptions
+        .filter(
+          (option) =>
+            !option.initialHide &&
+            !knownIds.includes(option.id) &&
+            !keptIds.includes(option.id),
+        )
+        .map((option) => option.id)
+    : [];
 
   // Columns that can never be hidden always display, and display first.
-  for (const option of [...columnOptions].reverse()) {
-    if (option.alwaysDisplayed && !displayed.has(option.id)) {
-      displayedColumnIds.unshift(option.id);
-      displayed.add(option.id);
-    }
-  }
+  const displayedIds = [...keptIds, ...addedIds];
+  const alwaysDisplayedIds = columnOptions
+    .filter(
+      (option) => option.alwaysDisplayed && !displayedIds.includes(option.id),
+    )
+    .map((option) => option.id);
 
-  return { columnIds, displayedColumnIds };
+  return {
+    columnIds,
+    displayedColumnIds: [...alwaysDisplayedIds, ...displayedIds],
+  };
 }

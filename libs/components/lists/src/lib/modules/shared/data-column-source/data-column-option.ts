@@ -1,6 +1,6 @@
 /**
  * Describes a column that a column-based component can display.
- * @preview
+ * @internal
  */
 export interface SkyDataColumnOption {
   /**

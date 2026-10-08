@@ -1,11 +1,13 @@
+import { SkyDataColumnOption } from '@skyux/lists';
+
 import { reconcileColumnState } from './data-manager-column-state';
 
 describe('reconcileColumnState', () => {
-  const columns = [
-    { id: 'locked', alwaysDisplayed: true },
-    { id: 'name' },
-    { id: 'age' },
-    { id: 'notes', initialHide: true },
+  const columns: SkyDataColumnOption[] = [
+    { id: 'locked', labelText: 'Locked', alwaysDisplayed: true },
+    { id: 'name', labelText: 'Name' },
+    { id: 'age', labelText: 'Age' },
+    { id: 'notes', labelText: 'Notes', initialHide: true },
   ];
 
   it('should use the declared visibility when nothing is stored', () => {
@@ -116,9 +118,9 @@ describe('reconcileColumnState', () => {
           displayedColumnIds: ['name'],
         },
         [
-          { id: 'a', alwaysDisplayed: true },
-          { id: 'b', alwaysDisplayed: true },
-          { id: 'name' },
+          { id: 'a', labelText: 'A', alwaysDisplayed: true },
+          { id: 'b', labelText: 'B', alwaysDisplayed: true },
+          { id: 'name', labelText: 'Name' },
         ],
       ).displayedColumnIds,
     ).toEqual(['a', 'b', 'name']);
