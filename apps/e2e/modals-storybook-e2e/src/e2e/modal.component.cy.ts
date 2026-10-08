@@ -23,6 +23,7 @@ describe('modals-storybook', () => {
         'banner-image',
         'banner-content-image',
         'banner-heading-visible',
+        'sky-button',
       ]) {
         it(`should render the ${modalType} modal on desktop`, () => {
           cy.skyReady('app-modal');
@@ -63,7 +64,12 @@ describe('modals-storybook', () => {
               },
             );
           }
-          cy.get('.sky-btn-close').should('exist').should('be.visible').click();
+          cy.get(
+            'button[data-sky-id="close-button"], [data-sky-id="close-button"] button',
+          )
+            .should('exist')
+            .should('be.visible')
+            .click();
         });
 
         it(`should render the ${modalType} modal on mobile`, () => {
@@ -91,7 +97,12 @@ describe('modals-storybook', () => {
               widths: E2eVariations.MOBILE_WIDTHS,
             },
           );
-          cy.get('.sky-btn-close').should('exist').should('be.visible').click();
+          cy.get(
+            'button[data-sky-id="close-button"], [data-sky-id="close-button"] button',
+          )
+            .should('exist')
+            .should('be.visible')
+            .click();
         });
       }
     });
