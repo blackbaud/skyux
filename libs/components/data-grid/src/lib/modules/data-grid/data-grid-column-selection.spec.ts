@@ -49,13 +49,10 @@ describe('SkyDataGrid column selection', () => {
   }
 
   /**
-   * Drags a column header past another column header, then releases it outside
-   * the grid.
+   * Drags a column header past another column header without releasing the
+   * mouse button.
    */
-  function dragColumnAndReleaseOutsideGrid(
-    columnId: string,
-    pastColumnId: string,
-  ): void {
+  function dragColumnPast(columnId: string, pastColumnId: string): void {
     const el = fixture.nativeElement as HTMLElement;
     const header = el.querySelector(
       `.ag-header-cell[col-id="${columnId}"] .ag-header-cell-text`,
@@ -66,19 +63,13 @@ describe('SkyDataGrid column selection', () => {
         `.ag-header-cell[col-id="${pastColumnId}"]`,
       ) as HTMLElement
     ).getBoundingClientRect();
-    const y = start.top + start.height / 2;
-    const fire = (
-      target: EventTarget,
-      type: string,
-      x: number,
-      clientY = y,
-    ): void => {
+    const fire = (target: EventTarget, type: string, x: number): void => {
       target.dispatchEvent(
         new MouseEvent(type, {
           bubbles: true,
           buttons: 1,
           clientX: x,
-          clientY,
+          clientY: start.top + start.height / 2,
         }),
       );
     };
@@ -87,9 +78,19 @@ describe('SkyDataGrid column selection', () => {
     for (let x = start.left + 5; x <= end.right; x += 10) {
       fire(document, 'mousemove', x);
     }
-    // Leave the grid before releasing the mouse.
-    fire(document, 'mousemove', end.right, y + 1000);
-    fire(document, 'mouseup', end.right, y + 1000);
+  }
+
+  function releaseMouseOutsideGrid(): void {
+    for (const type of ['mousemove', 'mouseup']) {
+      document.dispatchEvent(
+        new MouseEvent(type, {
+          bubbles: true,
+          buttons: 1,
+          clientX: 0,
+          clientY: 5000,
+        }),
+      );
+    }
   }
 
   beforeEach(() => {
@@ -147,6 +148,24 @@ describe('SkyDataGrid column selection', () => {
         .columnOptions()
         .map((col) => col.id),
     ).toEqual(['locked', 'name', 'age', 'extra']);
+  });
+
+  it('should keep columns that share a field', async () => {
+    fixture.componentRef.setInput('showDuplicateName', true);
+    await detect();
+
+    expect(
+      getGridApi()
+        .getAllDisplayedColumns()
+        .map((column) => column.getColDef().headerName),
+    ).toEqual(['Locked', 'Name', 'Age', 'Extra', 'Name again']);
+    expect(getColumnSource().displayedColumnIds()).toEqual([
+      'locked',
+      'name',
+      'age',
+      'extra',
+      'name_1',
+    ]);
   });
 
   it('should display every column in declaration order by default', async () => {
@@ -271,7 +290,7 @@ describe('SkyDataGrid column selection', () => {
     expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(400);
   });
 
-  it('should store the new order when the user moves a column', async () => {
+  it('should emit the new order when the user moves a column', async () => {
     fixture.componentInstance.selectedColumnIds.set([
       'locked',
       'name',
@@ -291,7 +310,7 @@ describe('SkyDataGrid column selection', () => {
     ]);
   });
 
-  it('should store the new order when the user drags a column and releases it outside the grid', async () => {
+  it('should emit the new order when the user drags a column and releases it outside the grid', async () => {
     fixture.componentInstance.selectedColumnIds.set([
       'locked',
       'name',
@@ -300,7 +319,32 @@ describe('SkyDataGrid column selection', () => {
     ]);
     await detect();
 
-    dragColumnAndReleaseOutsideGrid('name', 'extra');
+    dragColumnPast('name', 'extra');
+    releaseMouseOutsideGrid();
+    await detect();
+
+    expect(fixture.componentInstance.selectedColumnIds()).toEqual([
+      'locked',
+      'age',
+      'extra',
+      'name',
+    ]);
+  });
+
+  it('should emit the new order when the user cancels a column drag', async () => {
+    fixture.componentInstance.selectedColumnIds.set([
+      'locked',
+      'name',
+      'age',
+      'extra',
+    ]);
+    await detect();
+
+    // A drag moves columns as it goes, and cancelling it leaves them moved.
+    dragColumnPast('name', 'extra');
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { bubbles: true, key: 'Escape' }),
+    );
     await detect();
 
     expect(fixture.componentInstance.selectedColumnIds()).toEqual([

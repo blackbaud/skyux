@@ -25,6 +25,9 @@ import { SkyDataGridColumn } from '../data-grid-column';
         [columnHidden]="extraHidden()"
       />
     }
+    @if (showDuplicateName()) {
+      <sky-data-grid-column field="name" headingText="Name again" />
+    }
     <!-- A column with neither columnId nor field is omitted from the column options. -->
     @if (showInvalid()) {
       <sky-data-grid-column headingText="Invalid" />
@@ -42,6 +45,7 @@ export class ColumnSelectionTestComponent {
   public readonly extraHidden = input<boolean>(false);
   public readonly lockedDescription = input<string | undefined>(undefined);
   public readonly multiselect = input<boolean>(false);
+  public readonly showDuplicateName = input<boolean>(false);
   public readonly showExtra = input<boolean>(true);
   public readonly showInvalid = input<boolean>(false);
 }

@@ -292,8 +292,8 @@ export class SkyDataGrid implements SkyDataColumnSource {
    * included are hidden, and IDs that do not match a column are ignored. This
    * is two-way bindable: once set, it emits the IDs of the displayed columns
    * when the user reorders columns. When `undefined`, every column displays in
-   * declaration order except those marked `columnHidden`. Locked columns
-   * always display first.
+   * declaration order except those marked `columnHidden`. Displayed locked
+   * columns come first.
    */
   public readonly selectedColumnIds = model<string[] | undefined>();
 
@@ -392,12 +392,14 @@ export class SkyDataGrid implements SkyDataColumnSource {
         loading: untracked(() => this.loading() || !Array.isArray(this.data())),
         // A user moves columns with the keyboard or by dragging a column
         // header. A drag moves columns as it goes, and a drag released outside
-        // the grid reports no finished move, so sync when any drag stops too.
+        // the grid or cancelled with Escape reports no finished move, so sync
+        // when any drag ends too.
         onColumnMoved: (event) => {
           if (event.finished) {
             this.#syncColumnOrderFromGrid(event.api);
           }
         },
+        onDragCancelled: (event) => this.#syncColumnOrderFromGrid(event.api),
         onDragStopped: (event) => this.#syncColumnOrderFromGrid(event.api),
         onGridReady: (args) => {
           // The displayed columns may have changed since the column
@@ -479,18 +481,18 @@ export class SkyDataGrid implements SkyDataColumnSource {
     // rebuild the column definitions, which would reset flex columns the user
     // resized. An effect applies those changes as runtime column state instead.
     const displayedIds = untracked(this.displayedColumnIds);
-    const columnsById = new Map(catalog.map(({ id, column }) => [id, column]));
+    const entriesById = new Map(catalog.map((entry) => [entry.id, entry]));
 
     // Displayed columns first, in display order, followed by the hidden
     // columns. Hidden columns keep their column definitions so AG Grid retains
     // their state and they can be shown again without being recreated.
     const displayedColDefs = displayedIds
-      .map((id) => columnsById.get(id))
-      .filter((column) => !!column)
-      .map((column) => this.#createColDef(column, false));
+      .map((id) => entriesById.get(id))
+      .filter((entry) => !!entry)
+      .map(({ column, id }) => this.#createColDef(column, id, false));
     const hiddenColDefs = catalog
       .filter(({ id }) => !displayedIds.includes(id))
-      .map(({ column }) => this.#createColDef(column, true));
+      .map(({ column, id }) => this.#createColDef(column, id, true));
 
     return [...displayedColDefs, ...hiddenColDefs];
   });
@@ -499,17 +501,29 @@ export class SkyDataGrid implements SkyDataColumnSource {
   /**
    * The declared columns that have a usable ID, in declaration order. Columns
    * missing both `columnId` and `field` are omitted; `SkyDataGridColumn`
-   * already warns about them.
+   * already warns about them. A repeated ID is suffixed the way AG Grid
+   * suffixes it (`name_1`), so that every column can be addressed.
    */
-  readonly #columnCatalog = computed(() =>
-    this.columns()
-      .map((column) => ({ column, id: this.#getColumnId(column) }))
-      .filter(
-        (entry): entry is { column: SkyDataGridColumn; id: string } =>
-          !!entry.id &&
-          (entry.column as unknown as SkyDataGridColumnInternal).initialized(),
-      ),
-  );
+  readonly #columnCatalog = computed(() => {
+    const catalog: { column: SkyDataGridColumn; id: string }[] = [];
+
+    for (const column of this.columns()) {
+      const declaredId = column.columnId() ?? column.field();
+
+      if (
+        declaredId &&
+        (column as unknown as SkyDataGridColumnInternal).initialized()
+      ) {
+        let id = declaredId;
+        for (let i = 1; catalog.some((entry) => entry.id === id); i++) {
+          id = `${declaredId}_${i}`;
+        }
+        catalog.push({ column, id });
+      }
+    }
+
+    return catalog;
+  });
 
   readonly #gridDestroyed = toObservable(this.gridApi).pipe(
     filter(Boolean),
@@ -852,10 +866,10 @@ export class SkyDataGrid implements SkyDataColumnSource {
     });
   }
 
-  #createColDef(col: SkyDataGridColumn, hide: boolean): ColDef {
+  #createColDef(col: SkyDataGridColumn, colId: string, hide: boolean): ColDef {
     const field = col.field();
     const colDef: ColDef = {
-      colId: col.columnId(),
+      colId,
       field,
       headerName: col.headingText(),
       headerComponentParams: this.#getHeaderComponentParams(col),
@@ -941,10 +955,6 @@ export class SkyDataGrid implements SkyDataColumnSource {
       ],
       applyOrder: true,
     });
-  }
-
-  #getColumnId(col: SkyDataGridColumn): string | undefined {
-    return col.columnId() ?? col.field();
   }
 
   #syncColumnOrderFromGrid(api: GridApi): void {
