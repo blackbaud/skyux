@@ -15,6 +15,19 @@ import { UrlTarget } from '../url-modal/text-editor-url-target';
 import { SkyTextEditorSelectionService } from './text-editor-selection.service';
 import { SkyTextEditorService } from './text-editor.service';
 
+function resolveCssUrls(css: string, baseUrl: string): string {
+  return css.replace(
+    /url\((['"]?)(.*?)\1\)/g,
+    (cssUrl: string, quote: string, url: string) => {
+      try {
+        return `url(${quote}${new URL(url, baseUrl).href}${quote})`;
+      } catch {
+        return cssUrl;
+      }
+    },
+  );
+}
+
 /**
  * @internal
  */
@@ -42,9 +55,10 @@ export class SkyTextEditorAdapterService {
     }
 
     const styleEl = documentEl.createElement('style');
-    styleEl.innerHTML = `.editor:empty:before {
+    styleEl.innerHTML = `${this.#getHostFontFaceCss()}
+    .editor:empty:before {
       content: attr(data-placeholder);
-      font-family: "Blackbaud Sans", Arial, sans-serif;
+      font-family: "BLKB Sans", Arial, sans-serif;
       color: #686c73;
       font-weight: 400;
       font-size: 15px;
@@ -428,6 +442,36 @@ export class SkyTextEditorAdapterService {
     /* istanbul ignore next */
     return this.#textEditorService.editor.iframeElementRef
       .contentDocument as Document;
+  }
+
+  /**
+   * `@font-face` rules don't apply across documents, so fonts loaded by the
+   * host page (e.g. BLKB Sans) must be redeclared inside the editor's iframe.
+   */
+  #getHostFontFaceCss(): string {
+    const hostDocument: Document = this.#windowRef.nativeWindow.document;
+    const fontFaceRules: string[] = [];
+
+    for (const styleSheet of Array.from(hostDocument.styleSheets)) {
+      let cssRules: CSSRuleList;
+      try {
+        cssRules = styleSheet.cssRules;
+      } catch {
+        // Cross-origin stylesheets don't expose their rules.
+        continue;
+      }
+
+      // Relative URLs resolve against their stylesheet, not the iframe.
+      const baseUrl = styleSheet.href ?? hostDocument.baseURI;
+
+      for (const cssRule of Array.from(cssRules)) {
+        if (cssRule instanceof CSSFontFaceRule) {
+          fontFaceRules.push(resolveCssUrls(cssRule.cssText, baseUrl));
+        }
+      }
+    }
+
+    return fontFaceRules.join('\n');
   }
 
   #getFontSize(): string {

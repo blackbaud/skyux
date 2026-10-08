@@ -5,8 +5,8 @@ import { SkyTextEditorFont } from '../types/font-state';
  */
 export const FONT_LIST_DEFAULTS: SkyTextEditorFont[] = [
   {
-    name: 'Blackbaud Sans',
-    value: '"Blackbaud Sans", Arial, sans-serif',
+    name: 'BLKB Sans',
+    value: '"BLKB Sans", Arial, sans-serif',
   },
   {
     name: 'Arial',
