@@ -98,6 +98,13 @@ describe('reconcileColumnState', () => {
     ).toEqual(['locked', 'name']);
   });
 
+  it('should use the declared visibility when no stored column still exists', () => {
+    expect(
+      reconcileColumnState({ displayedColumnIds: ['removed'] }, columns)
+        .displayedColumnIds,
+    ).toEqual(['locked', 'name', 'age']);
+  });
+
   it('should always display a column that cannot be hidden', () => {
     expect(
       reconcileColumnState(

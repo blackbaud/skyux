@@ -39,8 +39,8 @@ export function reconcileColumnState(
   // A column missing from the stored `columnIds` is new, so it displays unless
   // it starts hidden; with nothing stored, every column is new. When only
   // `displayedColumnIds` was stored, a new column cannot be told apart from
-  // one the user hid, so none are added.
-  const canAddColumns = knownIds.length > 0 || storedDisplayedIds.length === 0;
+  // one the user hid, so none are added unless no stored column still exists.
+  const canAddColumns = knownIds.length > 0 || keptIds.length === 0;
   const addedIds = canAddColumns
     ? columnOptions
         .filter(
