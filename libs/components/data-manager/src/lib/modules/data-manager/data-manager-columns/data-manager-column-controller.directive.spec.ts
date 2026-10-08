@@ -260,6 +260,65 @@ describe('SkyDataManagerColumnControllerDirective', () => {
     ]);
   });
 
+  it('should offer the columns when the view is initialized after the columns render', async () => {
+    dataManagerSvc.initDataManager({
+      activeViewId: 'view-1',
+      dataManagerConfig: {},
+      defaultDataState: new SkyDataManagerState({}),
+    });
+    await detect();
+
+    dataManagerSvc.initDataView({ id: 'view-1', name: 'View' });
+    await detect();
+
+    expect(
+      dataManagerSvc
+        .getViewById('view-1')
+        ?.columnOptions?.map((option) => option.id),
+    ).toEqual(['locked', 'name', 'age', 'notes']);
+  });
+
+  it('should keep offering changed columns after the user switches views', async () => {
+    initDataManager();
+    await detect();
+
+    // Switching views destroys the inactive view's content, including the
+    // directive, and recreates it when the user switches back.
+    dataManagerSvc.updateActiveViewId('view-2');
+    await detect();
+    dataManagerSvc.updateActiveViewId('view-1');
+    await detect();
+
+    fixture.componentInstance.columnOptions.update((columnOptions) => [
+      ...columnOptions,
+      { id: 'email', labelText: 'Email' },
+    ]);
+    await detect();
+
+    expect(
+      dataManagerSvc
+        .getViewById('view-1')
+        ?.columnOptions?.map((option) => option.id),
+    ).toEqual(['locked', 'name', 'age', 'notes', 'email']);
+  });
+
+  it('should display a column added since the column layout was stored', async () => {
+    initDataManager({
+      viewState: {
+        viewId: 'view-1',
+        columnIds: ['locked', 'name', 'notes'],
+        displayedColumnIds: ['locked', 'name'],
+      },
+    });
+    await detect();
+
+    expect(getColumnSource().displayedColumnIds()).toEqual([
+      'locked',
+      'name',
+      'age',
+    ]);
+  });
+
   it('should do nothing when the data view has no view ID', async () => {
     fixture.componentInstance.viewId.set(undefined);
     initDataManager();

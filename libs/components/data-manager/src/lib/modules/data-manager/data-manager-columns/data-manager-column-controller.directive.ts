@@ -2,6 +2,8 @@ import { Directive, computed, effect, inject, untracked } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyDataColumnSource } from '@skyux/lists';
 
+import { map } from 'rxjs';
+
 import { SkyDataManagerService } from '../data-manager.service';
 import { SkyDataViewComponent } from '../data-view.component';
 import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
@@ -13,6 +15,14 @@ import {
 } from './data-manager-column-state';
 
 const SOURCE_ID = 'skyDataManagerColumnController';
+
+// The column options any instance of the directive has published to a view
+// config. A directive recreated with its view, such as when the user switches
+// views, recognizes them as its own rather than as options the view config
+// supplies.
+const PUBLISHED_COLUMN_OPTIONS = new WeakSet<
+  SkyDataManagerColumnPickerOption[]
+>();
 
 function arraysEqual(a: readonly string[], b: readonly string[]): boolean {
   return a.length === b.length && a.every((value, i) => value === b[i]);
@@ -39,6 +49,24 @@ export class SkyDataManagerColumnControllerDirective {
     this.#dataManagerSvc.getDataStateUpdates(`${SOURCE_ID}#dataState`),
   );
 
+  // The service changes its view config array in place before re-emitting it,
+  // so copy it for the signal to register the change.
+  readonly #viewConfigs = toSignal(
+    this.#dataManagerSvc.getDataViewsUpdates().pipe(map((views) => [...views])),
+    { requireSync: true },
+  );
+
+  readonly #pickerColumnOptions = computed<SkyDataManagerColumnPickerOption[]>(
+    () =>
+      this.#columnSource.columnOptions().map((column) => ({
+        alwaysDisplayed: column.alwaysDisplayed,
+        description: column.description,
+        id: column.id,
+        initialHide: column.initialHide,
+        label: column.labelText,
+      })),
+  );
+
   /**
    * The view's stored column state, reconciled against the columns the source
    * currently declares. This is `undefined` until the data manager emits its
@@ -62,33 +90,22 @@ export class SkyDataManagerColumnControllerDirective {
     },
   );
 
-  #publishedColumnOptions: SkyDataManagerColumnPickerOption[] | undefined;
-
   constructor() {
     // Offer the source's columns in the column picker. A view config that
     // supplies its own column options keeps them.
     effect(() => {
-      const columnOptions = this.#columnSource.columnOptions();
-      const view = this.#dataManagerSvc.getViewById(
-        this.#dataView.viewId ?? '',
-      );
+      const columnOptions = this.#pickerColumnOptions();
+      const viewId = this.#dataView.viewId;
+      const view = this.#viewConfigs().find((config) => config.id === viewId);
 
       if (
         view &&
+        view.columnOptions !== columnOptions &&
         (!view.columnOptions ||
-          view.columnOptions === this.#publishedColumnOptions)
+          PUBLISHED_COLUMN_OPTIONS.has(view.columnOptions))
       ) {
-        this.#publishedColumnOptions = columnOptions.map((column) => ({
-          alwaysDisplayed: column.alwaysDisplayed,
-          description: column.description,
-          id: column.id,
-          initialHide: column.initialHide,
-          label: column.labelText,
-        }));
-        this.#dataManagerSvc.updateViewConfig({
-          ...view,
-          columnOptions: this.#publishedColumnOptions,
-        });
+        PUBLISHED_COLUMN_OPTIONS.add(columnOptions);
+        this.#dataManagerSvc.updateViewConfig({ ...view, columnOptions });
       }
     });
 
@@ -111,14 +128,18 @@ export class SkyDataManagerColumnControllerDirective {
     });
 
     // Store changes the user makes in the source itself, such as reordering
-    // columns by dragging a column header.
+    // columns by dragging a column header. Only the source is tracked, so a data
+    // state change re-runs the effect above rather than this one.
     effect(() => {
       const displayedColumnIds = this.#columnSource.displayedColumnIds();
-      const state = untracked(this.#reconciledState);
 
-      if (state) {
-        this.#storeColumnState(state.columnIds, displayedColumnIds);
-      }
+      untracked(() => {
+        const state = this.#reconciledState();
+
+        if (state) {
+          this.#storeColumnState(state.columnIds, displayedColumnIds);
+        }
+      });
     });
   }
 
