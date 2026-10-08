@@ -26,7 +26,9 @@ import { SkyLogService } from '@skyux/core';
 })
 export class SkyDataGridColumn implements OnInit {
   /**
-   * Whether the column is hidden.
+   * Whether the column is hidden. When the grid's `selectedColumnIds` is set,
+   * it determines which columns display instead. In a data manager's column
+   * picker, the column starts hidden and users can choose to display it.
    * @default false
    */
   public readonly columnHidden = input<boolean, unknown>(false, {
@@ -49,9 +51,8 @@ export class SkyDataGridColumn implements OnInit {
   );
 
   /**
-   * The description of the column to display beneath the column label in a
-   * column picker. This applies only when the grid participates in a column
-   * picker, such as when it is used inside a data manager.
+   * The text to display beneath the column's `headingText` in a data
+   * manager's column picker.
    */
   public readonly description = input<string>();
 
@@ -105,7 +106,9 @@ export class SkyDataGridColumn implements OnInit {
   /**
    * Whether the column is locked. The intent is to display locked columns first
    * on the left side of the grid. If set to `true`, then users cannot drag the column
-   * to another position or drag other columns before it.
+   * to another position or drag other columns before it. In a data manager's
+   * column picker, a locked column always displays and is not offered as an
+   * option.
    * @default false
    */
   public readonly locked = input<boolean, unknown>(false, {

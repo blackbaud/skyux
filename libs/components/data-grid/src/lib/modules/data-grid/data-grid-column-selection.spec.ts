@@ -6,16 +6,6 @@ import { GridApi, getGridApi } from 'ag-grid-community';
 import { SkyDataGrid } from './data-grid';
 import { ColumnSelectionTestComponent } from './fixtures/column-selection-test.component';
 
-function mouseEvent(type: string, x: number, y: number): MouseEvent {
-  return new MouseEvent(type, {
-    bubbles: true,
-    cancelable: true,
-    clientX: x,
-    clientY: y,
-    buttons: 1,
-  });
-}
-
 describe('SkyDataGrid column selection', () => {
   let fixture: ComponentFixture<ColumnSelectionTestComponent>;
 
@@ -33,42 +23,21 @@ describe('SkyDataGrid column selection', () => {
   }
 
   /**
-   * Drags one column header onto another, the way a user reorders columns.
+   * Moves a column one position to the right with the keyboard, the way a
+   * user reorders columns.
    */
-  function dragColumn(fromColumnId: string, toColumnId: string): void {
-    const el = fixture.nativeElement as HTMLElement;
-    const source = el.querySelector<HTMLElement>(
-      `.ag-header-cell[col-id="${fromColumnId}"]`,
+  function moveColumnRight(columnId: string): void {
+    const header = (fixture.nativeElement as HTMLElement).querySelector(
+      `.ag-header-cell[col-id="${columnId}"]`,
+    ) as HTMLElement;
+    header.focus();
+    header.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'ArrowRight',
+        shiftKey: true,
+        bubbles: true,
+      }),
     );
-    const target = el.querySelector<HTMLElement>(
-      `.ag-header-cell[col-id="${toColumnId}"]`,
-    );
-
-    if (!source || !target) {
-      throw new Error(
-        `Could not find the column headers to drag from "${fromColumnId}" to "${toColumnId}".`,
-      );
-    }
-
-    const sourceRect = source.getBoundingClientRect();
-    const targetRect = target.getBoundingClientRect();
-    const y = sourceRect.top + sourceRect.height / 2;
-
-    source.dispatchEvent(
-      mouseEvent('mousedown', sourceRect.left + sourceRect.width / 2, y),
-    );
-
-    // Move past the drag threshold, then onto the target column.
-    for (const x of [
-      sourceRect.left + sourceRect.width / 2 - 10,
-      targetRect.left + targetRect.width,
-      targetRect.left + targetRect.width / 2,
-      targetRect.left + 2,
-    ]) {
-      document.dispatchEvent(mouseEvent('mousemove', x, y));
-    }
-
-    document.dispatchEvent(mouseEvent('mouseup', targetRect.left + 2, y));
   }
 
   beforeEach(() => {
@@ -85,7 +54,7 @@ describe('SkyDataGrid column selection', () => {
     fixture.componentRef.setInput('lockedDescription', 'Always shown.');
     await detect();
 
-    expect(getColumnSource().dataColumns()).toEqual([
+    expect(getColumnSource().columnOptions()).toEqual([
       {
         alwaysDisplayed: true,
         description: 'Always shown.',
@@ -123,7 +92,7 @@ describe('SkyDataGrid column selection', () => {
 
     expect(
       getColumnSource()
-        .dataColumns()
+        .columnOptions()
         .map((col) => col.id),
     ).toEqual(['locked', 'name', 'age', 'extra']);
   });
@@ -148,18 +117,14 @@ describe('SkyDataGrid column selection', () => {
       'name',
       'age',
     ]);
-    expect(getColumnSource().dataColumns()[3].initialHide).toBeTrue();
+    expect(getColumnSource().columnOptions()[3].initialHide).toBeTrue();
   });
 
-  it('should display the columns named by selectedColumnIds, in order', async () => {
-    fixture.componentInstance.selectedColumnIds.set(['locked', 'age', 'name']);
+  it('should display only the columns named by selectedColumnIds, in order', async () => {
+    fixture.componentInstance.selectedColumnIds.set(['age', 'name']);
     await detect();
 
-    expect(getColumnSource().displayedColumnIds()).toEqual([
-      'locked',
-      'age',
-      'name',
-    ]);
+    expect(getColumnSource().displayedColumnIds()).toEqual(['age', 'name']);
   });
 
   it('should drop IDs for columns that do not exist', async () => {
@@ -171,17 +136,6 @@ describe('SkyDataGrid column selection', () => {
     await detect();
 
     expect(getColumnSource().displayedColumnIds()).toEqual(['locked', 'name']);
-  });
-
-  it('should display locked columns first even when they are omitted', async () => {
-    fixture.componentInstance.selectedColumnIds.set(['age', 'name']);
-    await detect();
-
-    expect(getColumnSource().displayedColumnIds()).toEqual([
-      'locked',
-      'age',
-      'name',
-    ]);
   });
 
   it('should update the displayed columns when setDisplayedColumnIds is called', async () => {
@@ -200,12 +154,10 @@ describe('SkyDataGrid column selection', () => {
   it('should not emit when setDisplayedColumnIds matches what displays', async () => {
     await detect();
 
-    const before = fixture.componentInstance.selectedColumnIds();
     getColumnSource().setDisplayedColumnIds(['locked', 'name', 'age', 'extra']);
     await detect();
 
-    // The model is untouched, so it keeps its empty declarative default.
-    expect(fixture.componentInstance.selectedColumnIds()).toBe(before);
+    expect(fixture.componentInstance.selectedColumnIds()).toBeUndefined();
   });
 
   it('should keep hidden columns defined so they can be shown again', async () => {
@@ -228,10 +180,10 @@ describe('SkyDataGrid column selection', () => {
     ]);
   });
 
-  it('should store the new order when the user drags a column header', async () => {
+  it('should store the new order when the user moves a column', async () => {
     await detect();
 
-    dragColumn('age', 'name');
+    moveColumnRight('name');
     await detect();
 
     expect(fixture.componentInstance.selectedColumnIds()).toEqual([
