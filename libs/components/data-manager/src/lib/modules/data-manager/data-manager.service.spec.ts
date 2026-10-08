@@ -819,7 +819,7 @@ describe('SkyDataManagerService', () => {
       );
     });
 
-    it('should keep the column IDs of an existing view state when the view config has no column options', async () => {
+    it('should keep the column IDs of an existing view state when the view config has no column options', () => {
       let currentDataState: SkyDataManagerState | undefined;
 
       subscription.add(
