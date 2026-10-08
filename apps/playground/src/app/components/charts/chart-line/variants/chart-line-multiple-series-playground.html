@@ -1,0 +1,9 @@
+<sky-chart headingText="Acquisitions vs. target">
+  <sky-chart-line>
+    <sky-chart-axis-category labelText="Year" [categories]="years" />
+    <sky-chart-axis-value labelText="Acquisitions" />
+    <sky-chart-line-series labelText="Actual" [values]="acquisitions" />
+    <sky-chart-line-series labelText="Target" [values]="target" />
+    <sky-chart-line-series labelText="Prior year" [values]="priorYear" />
+  </sky-chart-line>
+</sky-chart>

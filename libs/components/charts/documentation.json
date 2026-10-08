@@ -32,6 +32,7 @@
         "docsIds": [
           "ChartsChartBarBasicExample",
           "ChartsChartBarHorizontalExample",
+          "ChartsChartBarAsyncExample",
           "ChartsChartBarMultipleSeriesExample",
           "ChartsChartBarStackedExample",
           "ChartsChartBarGroupedStackedExample",
@@ -40,8 +41,42 @@
           "ChartsChartBarHiddenLabelsExample",
           "ChartsChartBarLogarithmicExample",
           "ChartsChartBarValueBoundsExample",
-          "ChartsChartBarValueFormatExample",
-          "ChartsChartBarAsyncExample"
+          "ChartsChartBarValueFormatExample"
+        ]
+      }
+    },
+    "chart-line": {
+      "development": {
+        "docsIds": [
+          "SkyChart",
+          "SkyChartAxisCategory",
+          "SkyChartAxisValue",
+          "SkyChartLine",
+          "SkyChartLineSeries",
+          "SkyChartLineSeriesValue",
+          "SkyChartHeadingLevel",
+          "SkyChartHeadingStyle",
+          "SkyChartValueFormat",
+          "SkyChartValueScaleType"
+        ],
+        "primaryDocsId": "SkyChart"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyChartLineHarness",
+          "SkyChartLineHarnessFilters",
+          "SkyChartHarness",
+          "SkyChartHarnessFilters",
+          "SkyChartTableModalHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ChartsChartLineBasicExample",
+          "ChartsChartLineAsyncExample",
+          "ChartsChartLineMultipleSeriesExample",
+          "ChartsChartLineGapsExample",
+          "ChartsChartLineValueFormatExample"
         ]
       }
     }
