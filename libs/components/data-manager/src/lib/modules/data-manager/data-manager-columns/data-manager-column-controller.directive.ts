@@ -39,7 +39,8 @@ function arraysEqual(a: readonly string[], b: readonly string[]): boolean {
  * controls which of them display, and the columns the user displays and
  * reorders are stored in the view state, so the view config does not need to
  * supply `columnOptions`. Set `columnPickerEnabled` on the view config to
- * display the column picker.
+ * display the column picker. The data manager also keeps the grid's column
+ * headers visible beneath its toolbar while the page scrolls.
  * @preview
  */
 @Directive({ selector: '[skyDataManagerColumnController]' })
@@ -138,6 +139,25 @@ export class SkyDataManagerColumnControllerDirective {
       ) {
         this.#publishedColumnOptions = columnOptions;
         this.#dataManagerSvc.updateViewConfig({ ...view, columnOptions });
+      }
+    });
+
+    // Keep the source's column headers visible beneath the data manager's
+    // toolbar while the page scrolls. The source would otherwise keep them
+    // visible itself, at the top of the viewport over the toolbar.
+    effect(() => {
+      if (!this.#claimDataView()) {
+        return;
+      }
+
+      const viewId = this.#dataView.viewId;
+      const viewkeeperClasses = this.#columnSource.viewkeeperClasses();
+
+      if (viewId) {
+        untracked(() => this.#columnSource.disableViewkeeper());
+        this.#dataManagerSvc.setViewkeeperClasses(viewId, [
+          ...viewkeeperClasses,
+        ]);
       }
     });
 
