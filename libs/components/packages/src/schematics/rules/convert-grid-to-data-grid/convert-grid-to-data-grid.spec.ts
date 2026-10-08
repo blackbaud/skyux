@@ -96,7 +96,7 @@ describe('Convert Grid to Data Grid', () => {
     tree.create(
       'src/app/test.component.html',
       stripIndents`
-        <sky-grid [data]="data" hasToolbar="true" [height]="300" highlightText="x" [messageStream]="ms" multiselectRowId="key" [rowHighlightedId]="rid" [selectedColumnIds]="cols" (selectedColumnIdsChange)="onCols($event)" settingsKey="grid1" [width]="500" (columnWidthChange)="onW($event)" (rowDeleteCancel)="onCancel($event)" (rowDeleteConfirm)="onConfirm($event)"></sky-grid>
+        <sky-grid [data]="data" hasToolbar="true" [height]="300" highlightText="x" [messageStream]="ms" multiselectRowId="key" [rowHighlightedId]="rid" settingsKey="grid1" [width]="500" (columnWidthChange)="onW($event)" (rowDeleteCancel)="onCancel($event)" (rowDeleteConfirm)="onConfirm($event)"></sky-grid>
       `,
     );
     const result = await convert(tree);
@@ -107,9 +107,24 @@ describe('Convert Grid to Data Grid', () => {
     expect(hasLog('"hasToolbar" binding')).toBe(true);
     expect(hasLog('"settingsKey" binding')).toBe(true);
     expect(hasLog('"columnWidthChange" binding')).toBe(true);
-    expect(hasLog('"selectedColumnIdsChange" binding')).toBe(true);
     expect(hasLog('"rowDeleteCancel" binding')).toBe(true);
     expect(hasLog('"rowDeleteConfirm" binding')).toBe(true);
+  });
+
+  it('should keep the selected column ID bindings', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/test.component.html',
+      stripIndents`
+        <sky-grid [data]="data" [selectedColumnIds]="cols" (selectedColumnIdsChange)="onCols($event)"></sky-grid>
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.html')}`)
+      .toBe(stripIndents`
+      <sky-data-grid [data]="data" [selectedColumnIds]="cols" (selectedColumnIdsChange)="onCols($event)"></sky-data-grid>
+    `);
+    expect(hasLog('"selectedColumnIds" binding')).toBe(false);
   });
 
   it('should map description to helpPopoverContent and drop other column inputs', async () => {

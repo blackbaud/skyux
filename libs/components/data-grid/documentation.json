@@ -12,6 +12,7 @@
       "codeExamples": {
         "docsIds": [
           "DataGridBasicExampleComponent",
+          "DataGridDataManagerExampleComponent",
           "DataGridLoadingExampleComponent",
           "DataGridPagingExampleComponent",
           "DataGridSortingExampleComponent"
