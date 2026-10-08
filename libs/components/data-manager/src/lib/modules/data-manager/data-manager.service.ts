@@ -212,8 +212,12 @@ export class SkyDataManagerService implements OnDestroy {
               updatedViewState.displayedColumnIds.concat(newColumnIds);
           }
           // Add the column IDs that now exist to the data manager state both as available
-          // and as shown.
-          updatedViewState.columnIds = currentAvailableColumnIds;
+          // and as shown. A view config without column options, such as one whose
+          // columns are supplied later by `skyDataManagerColumnController`, keeps the
+          // stored column IDs so columns added since then can still be recognized.
+          if (viewConfig.columnOptions) {
+            updatedViewState.columnIds = currentAvailableColumnIds;
+          }
 
           const newDataState = dataState.addOrUpdateView(
             viewConfig.id,
