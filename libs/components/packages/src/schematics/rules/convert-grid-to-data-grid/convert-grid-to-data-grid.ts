@@ -243,6 +243,18 @@ function gridTagSwap(context: SchematicContext): SwapTagCallback<'sky-grid'> {
         'The "data" binding on <sky-grid> was copied to <sky-data-grid>, whose "data" input is typed as SkyDataGridRowData[]: each row object must have a unique string "id" property. Update the bound array if template type checking reports an assignment error.',
       );
     }
+    if (
+      hasAttribute(node, [
+        ...inputForms('selectedColumnIds'),
+        outputForm('selectedColumnIdsChange'),
+      ])
+    ) {
+      logOnce(
+        context,
+        'warn',
+        'The "selectedColumnIds"/"(selectedColumnIdsChange)" bindings on <sky-grid> were copied to <sky-data-grid>, which emits "selectedColumnIdsChange" when the user reorders columns only once "selectedColumnIds" is set. Initialize the bound value if it can be undefined.',
+      );
+    }
     for (const label of GRID_REMOVED_INPUTS) {
       if (hasAttribute(node, inputForms(label))) {
         logOnce(context, 'warn', gridRemovedMessage(label));

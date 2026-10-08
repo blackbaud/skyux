@@ -290,9 +290,9 @@ export class SkyDataGrid implements SkyDataColumnSource {
   /**
    * The IDs of the columns to display, in display order. Columns that are not
    * included are hidden, and IDs that do not match a column are ignored. This
-   * is two-way bindable: once set, it emits a new value when the user reorders
-   * columns. When `undefined`, every column displays in declaration order
-   * except those marked `columnHidden`.
+   * is two-way bindable: once set, it emits the IDs of the displayed columns
+   * when the user reorders columns. When `undefined`, every column displays in
+   * declaration order except those marked `columnHidden`.
    */
   public readonly selectedColumnIds = model<string[] | undefined>();
 
@@ -325,22 +325,29 @@ export class SkyDataGrid implements SkyDataColumnSource {
    * The IDs of the columns that display, in display order: the
    * `selectedColumnIds` that match a declared column or, when
    * `selectedColumnIds` is `undefined`, every column not marked `columnHidden`.
-   * Read by column picker integrations through `SkyDataColumnSource`.
+   * Locked columns come first, as the grid displays them. Read by column
+   * picker integrations through `SkyDataColumnSource`.
    * @internal
    */
   public readonly displayedColumnIds = computed<string[]>(
     () => {
       const catalog = this.#columnCatalog();
       const selectedColumnIds = this.selectedColumnIds();
+      const declaredIds = catalog.map(({ id }) => id);
+      const lockedIds = catalog
+        .filter(({ column }) => column.locked())
+        .map(({ id }) => id);
 
-      if (!selectedColumnIds) {
-        return catalog
-          .filter(({ column }) => !column.columnHidden())
-          .map(({ id }) => id);
-      }
+      const columnIds = selectedColumnIds
+        ? selectedColumnIds.filter((id) => declaredIds.includes(id))
+        : catalog
+            .filter(({ column }) => !column.columnHidden())
+            .map(({ id }) => id);
 
-      const declaredIds = new Set(catalog.map(({ id }) => id));
-      return selectedColumnIds.filter((id) => declaredIds.has(id));
+      return [
+        ...columnIds.filter((id) => lockedIds.includes(id)),
+        ...columnIds.filter((id) => !lockedIds.includes(id)),
+      ];
     },
     { equal: arraysEqual },
   );
@@ -925,6 +932,9 @@ export class SkyDataGrid implements SkyDataColumnSource {
       .filter((id) => !displayedIds.includes(id));
     api.applyColumnState({
       state: [
+        // AG Grid moves columns missing from the state to the end, which
+        // would put the multiselect column after any locked columns.
+        { colId: SELECTION_COLUMN_ID },
         ...displayedIds.map((colId) => ({ colId, hide: false })),
         ...hiddenIds.map((colId) => ({ colId, hide: true })),
       ],
