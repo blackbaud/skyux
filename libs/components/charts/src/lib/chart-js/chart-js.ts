@@ -9,6 +9,7 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  ArcElement,
   BarController,
   BarElement,
   CategoryScale,
@@ -18,16 +19,19 @@ import {
   Legend,
   LinearScale,
   LogarithmicScale,
+  PieController,
   Tooltip,
 } from 'chart.js';
 
 Chart.register(
+  ArcElement,
   BarController,
   BarElement,
   CategoryScale,
   LinearScale,
   LogarithmicScale,
   Legend,
+  PieController,
   Tooltip,
 );
 

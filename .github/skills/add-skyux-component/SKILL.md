@@ -84,23 +84,31 @@ for exact style; do not invent new patterns.
 8. **Update documentation.** Add the new doc IDs to the library's
    `documentation.json` (`development`, `testing`, and `codeExamples`
    sections) so the manifest picks them up.
-9. **Verify.** Run the affected tests, lint, and format before committing:
-   ```bash
-   npx nx test <library> --browsers=ChromeHeadless
-   npx nx test <library>-testing --browsers=ChromeHeadless
-   npx nx test code-examples --browsers=ChromeHeadless
-   npx nx build <library>-storybook
-   npm run lint:affected
-   nx format --files=<changed-file-paths>
-   ```
-10. **Commit.** Use a Conventional Commit with the matching
+9. **Add a playground page.** Create a page for manual testing under
+   `apps/playground/src/app/components/<library>/<component>/` and register
+   it in that library's `<library>.routes.ts` (set `name`, `icon`, and
+   `library` in the route `data`). Mirror a sibling playground page's
+   structure (a default-exported `*-playground.ts` component; larger pages
+   split scenarios into a `variants/` folder). Verify with
+   `npx nx serve playground`.
+10. **Verify.** Run the affected tests, lint, and format before committing:
+    ```bash
+    npx nx test <library> --browsers=ChromeHeadless
+    npx nx test <library>-testing --browsers=ChromeHeadless
+    npx nx test code-examples --browsers=ChromeHeadless
+    npx nx build <library>-storybook
+    npm run lint:affected
+    nx format --files=<changed-file-paths>
+    ```
+11. **Commit.** Use a Conventional Commit with the matching
     `components/<library>` scope per
     [commit-message.instructions.md](../../instructions/commit-message.instructions.md).
 
 ## Definition of Done
 
-- Component, module, spec, harness (+ spec), visual-test story, and code
-  example (+ spec) exist and follow a sibling component's structure.
+- Component, module, spec, harness (+ spec), visual-test story, code
+  example (+ spec), and playground page exist and follow a sibling
+  component's structure.
 - Public types are exported with the `sky`/`Sky` prefix from `src/index.ts`
   and `testing/src/public-api.ts`.
 - `documentation.json` lists the new development, testing, and code-example

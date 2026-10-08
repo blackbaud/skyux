@@ -263,6 +263,27 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ChartsChartPieAsyncExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartPieAsyncExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartPieBasicExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartPieBasicExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartPieDonutExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartPieDonutExample: c }) => c,
+      ),
+  },
+  {
     path: 'ColorpickerBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
