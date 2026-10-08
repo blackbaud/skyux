@@ -37,7 +37,7 @@ export class ColumnSelectionTestComponent {
     { id: '2', name: 'Bob', age: 40 },
   ]);
 
-  public readonly selectedColumnIds = model<string[]>([]);
+  public readonly selectedColumnIds = model<string[] | undefined>();
   public readonly extraHidden = input<boolean>(false);
   public readonly lockedDescription = input<string | undefined>(undefined);
   public readonly showExtra = input<boolean>(true);

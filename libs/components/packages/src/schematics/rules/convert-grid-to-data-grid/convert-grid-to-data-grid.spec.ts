@@ -124,7 +124,7 @@ describe('Convert Grid to Data Grid', () => {
       .toBe(stripIndents`
       <sky-data-grid [data]="data" [selectedColumnIds]="cols" (selectedColumnIdsChange)="onCols($event)"></sky-data-grid>
     `);
-    expect(hasLog('"selectedColumnIds" binding')).toBe(false);
+    expect(hasLog('selectedColumnIds')).toBe(false);
   });
 
   it('should map description to helpPopoverContent and drop other column inputs', async () => {
