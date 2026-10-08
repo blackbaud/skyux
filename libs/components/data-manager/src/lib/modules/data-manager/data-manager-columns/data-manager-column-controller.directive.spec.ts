@@ -26,6 +26,12 @@ class TestColumnsComponent implements SkyDataColumnSource {
     input.required<readonly SkyDataColumnOption[]>();
 
   public readonly displayedColumnIds = signal<readonly string[]>([]);
+  public readonly viewkeeperClasses = signal<readonly string[]>(['.header']);
+  public readonly viewkeeperDisabled = signal(false);
+
+  public disableViewkeeper(): void {
+    this.viewkeeperDisabled.set(true);
+  }
 
   public setDisplayedColumnIds(columnIds: readonly string[]): void {
     this.displayedColumnIds.set(columnIds);
@@ -195,6 +201,16 @@ describe('SkyDataManagerColumnControllerDirective', () => {
     ]);
   });
 
+  it('should keep the column headers visible beneath the toolbar', async () => {
+    initDataManager();
+    await detect();
+
+    expect(getColumnSource().viewkeeperDisabled()).toBeTrue();
+    expect(dataManagerSvc.viewkeeperClasses.value['view-1']).toEqual([
+      '.header',
+    ]);
+  });
+
   it('should apply a stored column layout', async () => {
     initDataManager({
       viewState: {
@@ -359,6 +375,11 @@ describe('SkyDataManagerColumnControllerDirective', () => {
       'name',
       'age',
     ]);
+
+    const otherColumnSource = fixture.debugElement.queryAll(
+      (node) => node.componentInstance instanceof TestColumnsComponent,
+    )[1].componentInstance as TestColumnsComponent;
+    expect(otherColumnSource.viewkeeperDisabled()).toBeFalse();
   });
 
   it('should display a column added since the column layout was stored', async () => {
