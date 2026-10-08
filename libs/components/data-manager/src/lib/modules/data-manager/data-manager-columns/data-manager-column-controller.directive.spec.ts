@@ -36,7 +36,7 @@ class TestColumnsComponent implements SkyDataColumnSource {
   template: `<sky-data-manager>
     <sky-data-manager-toolbar />
     <sky-data-view [viewId]="viewId()">
-      @if (showColumns()) {
+      @for (key of columnSourceKeys(); track key) {
         <app-test-columns
           skyDataManagerColumnController
           [columnOptions]="columnOptions()"
@@ -54,7 +54,8 @@ class TestColumnsComponent implements SkyDataColumnSource {
   providers: [SkyDataManagerService],
 })
 class TestHostComponent {
-  public readonly showColumns = model(true);
+  // Changing the key recreates the column source.
+  public readonly columnSourceKeys = model(['a']);
   public readonly showOtherColumns = model(false);
   public readonly viewId = model<string | undefined>('view-1');
   public readonly columnOptions = model<readonly SkyDataColumnOption[]>([
@@ -293,7 +294,7 @@ describe('SkyDataManagerColumnControllerDirective', () => {
     initDataManager();
     await detect();
 
-    fixture.componentInstance.showColumns.set(false);
+    fixture.componentInstance.columnSourceKeys.set([]);
     await detect();
 
     expect(dataManagerSvc.getViewById('view-1')?.columnOptions).toBeUndefined();
@@ -302,9 +303,36 @@ describe('SkyDataManagerColumnControllerDirective', () => {
       ...columnOptions,
       { id: 'email', labelText: 'Email' },
     ]);
-    fixture.componentInstance.showColumns.set(true);
+    fixture.componentInstance.columnSourceKeys.set(['b']);
     await detect();
 
+    expect(
+      dataManagerSvc
+        .getViewById('view-1')
+        ?.columnOptions?.map((option) => option.id),
+    ).toEqual(['locked', 'name', 'age', 'notes', 'email']);
+  });
+
+  it('should let a column source created before the one it replaces is destroyed take over', async () => {
+    const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+    initDataManager();
+    await detect();
+
+    // `@for` creates the new column source before destroying the old one.
+    fixture.componentInstance.columnOptions.update((columnOptions) => [
+      ...columnOptions,
+      { id: 'email', labelText: 'Email' },
+    ]);
+    fixture.componentInstance.columnSourceKeys.set(['b']);
+    await detect();
+
+    expect(warnSpy).not.toHaveBeenCalled();
+    expect(getColumnSource().displayedColumnIds()).toEqual([
+      'locked',
+      'name',
+      'age',
+      'email',
+    ]);
     expect(
       dataManagerSvc
         .getViewById('view-1')
