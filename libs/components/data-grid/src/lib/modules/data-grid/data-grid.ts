@@ -289,11 +289,11 @@ export class SkyDataGrid implements SkyDataColumnSource {
 
   /**
    * The IDs of the columns to display, in display order. Columns that are not
-   * included are hidden, and IDs that do not match a column are ignored. This
-   * is two-way bindable: once set, it emits the IDs of the displayed columns
-   * when the user reorders columns. When `undefined`, every column displays in
-   * declaration order except those marked `columnHidden`. Displayed locked
-   * columns come first.
+   * included are hidden. An ID that does not match a column is ignored until a
+   * column with that ID is declared. This is two-way bindable: once set, it
+   * emits a new value when the user reorders columns. When `undefined`, every
+   * column displays in declaration order except those marked `columnHidden`.
+   * Displayed locked columns come first.
    */
   public readonly selectedColumnIds = model<string[] | undefined>();
 
@@ -982,7 +982,8 @@ export class SkyDataGrid implements SkyDataColumnSource {
     // without it keeps following each column's `columnHidden` setting. Applying
     // a column layout moves columns too, so compare against what the grid
     // should display; only a move the user made differs.
-    if (!this.selectedColumnIds()) {
+    const selectedColumnIds = this.selectedColumnIds();
+    if (!selectedColumnIds) {
       return;
     }
 
@@ -992,7 +993,13 @@ export class SkyDataGrid implements SkyDataColumnSource {
       .map((state) => state.colId);
 
     if (!arraysEqual(this.displayedColumnIds(), displayedColumnIds)) {
-      this.selectedColumnIds.set(displayedColumnIds);
+      // Keep the IDs of columns that are not declared, such as a column
+      // rendered conditionally, so they display once the column is declared.
+      const declaredIds = this.#columnCatalog().map(({ id }) => id);
+      this.selectedColumnIds.set([
+        ...displayedColumnIds,
+        ...selectedColumnIds.filter((id) => !declaredIds.includes(id)),
+      ]);
     }
   }
 
