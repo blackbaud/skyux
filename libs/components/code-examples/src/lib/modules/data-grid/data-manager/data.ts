@@ -1,12 +1,4 @@
-export interface DataGridDataManagerRow {
-  id: string;
-  name: string;
-  type: string;
-  color: string;
-  quantity: number;
-}
-
-export const DATA_GRID_DEMO_DATA: DataGridDataManagerRow[] = [
+export const DATA_GRID_DEMO_DATA = [
   { id: '1', name: 'Apple', type: 'Pome', color: 'Red', quantity: 12 },
   { id: '2', name: 'Banana', type: 'Berry', color: 'Yellow', quantity: 8 },
   { id: '3', name: 'Cherry', type: 'Drupe', color: 'Red', quantity: 45 },

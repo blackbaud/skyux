@@ -105,10 +105,6 @@ function arraysEqual(a: readonly string[], b: readonly string[]): boolean {
   return a.length === b.length && a.every((value, i) => value === b[i]);
 }
 
-// Columns AG Grid creates and manages itself, which are never offered to a
-// column picker and never included in the displayed column IDs.
-const RESERVED_COLUMN_IDS: string[] = [SELECTION_COLUMN_ID];
-
 /**
  * Members of `SkyDataGridColumn` that are `protected` because they are for
  * this grid's use only, not part of the column's public API.
@@ -293,9 +289,9 @@ export class SkyDataGrid implements SkyDataColumnSource {
 
   /**
    * The IDs of the columns to display, in display order. Columns that are not
-   * included are hidden. This is two-way bindable: it emits a new value when
-   * the user reorders columns, and you can set it to control which columns
-   * display. When `undefined`, every column displays in declaration order
+   * included are hidden, and IDs that do not match a column are ignored. This
+   * is two-way bindable: once set, it emits a new value when the user reorders
+   * columns. When `undefined`, every column displays in declaration order
    * except those marked `columnHidden`.
    */
   public readonly selectedColumnIds = model<string[] | undefined>();
@@ -332,19 +328,22 @@ export class SkyDataGrid implements SkyDataColumnSource {
    * Read by column picker integrations through `SkyDataColumnSource`.
    * @internal
    */
-  public readonly displayedColumnIds = computed<string[]>(() => {
-    const catalog = this.#columnCatalog();
-    const selectedColumnIds = this.selectedColumnIds();
+  public readonly displayedColumnIds = computed<string[]>(
+    () => {
+      const catalog = this.#columnCatalog();
+      const selectedColumnIds = this.selectedColumnIds();
 
-    if (!selectedColumnIds) {
-      return catalog
-        .filter(({ column }) => !column.columnHidden())
-        .map(({ id }) => id);
-    }
+      if (!selectedColumnIds) {
+        return catalog
+          .filter(({ column }) => !column.columnHidden())
+          .map(({ id }) => id);
+      }
 
-    const declaredIds = new Set(catalog.map(({ id }) => id));
-    return selectedColumnIds.filter((id) => declaredIds.has(id));
-  });
+      const declaredIds = new Set(catalog.map(({ id }) => id));
+      return selectedColumnIds.filter((id) => declaredIds.has(id));
+    },
+    { equal: arraysEqual },
+  );
 
   protected readonly gridApi = signal<GridApi<SkyDataGridRowData> | undefined>(
     undefined,
@@ -393,6 +392,9 @@ export class SkyDataGrid implements SkyDataColumnSource {
           }
         },
         onGridReady: (args) => {
+          // The displayed columns may have changed since the column
+          // definitions were created.
+          this.#applyDisplayedColumns(args.api, this.displayedColumnIds());
           this.gridApi.set(args.api);
           this.gridReady.set(true);
         },
@@ -464,8 +466,11 @@ export class SkyDataGrid implements SkyDataColumnSource {
   readonly #router = inject(Router, { optional: true });
 
   readonly #columnDefs = computed<ColDef<SkyDataGridRowData>[]>(() => {
-    const displayedIds = this.displayedColumnIds();
     const catalog = this.#columnCatalog();
+    // Read untracked so that showing, hiding, or reordering columns does not
+    // rebuild the column definitions, which would reset flex columns the user
+    // resized. An effect applies those changes as runtime column state instead.
+    const displayedIds = untracked(this.displayedColumnIds);
     const columnsById = new Map(catalog.map(({ id, column }) => [id, column]));
 
     // Displayed columns first, in display order, followed by the hidden
@@ -494,7 +499,6 @@ export class SkyDataGrid implements SkyDataColumnSource {
       .filter(
         (entry): entry is { column: SkyDataGridColumn; id: string } =>
           !!entry.id &&
-          !RESERVED_COLUMN_IDS.includes(entry.id) &&
           (entry.column as unknown as SkyDataGridColumnInternal).initialized(),
       ),
   );
@@ -656,6 +660,18 @@ export class SkyDataGrid implements SkyDataColumnSource {
         defaultState: { sort: null },
       });
     });
+    // Apply changes to the displayed columns as runtime column state rather
+    // than through `columnDefs`, so showing, hiding, or reordering columns does
+    // not reset flex columns the user resized. Only a change to the displayed
+    // columns re-runs this, so a column order the user set by dragging a header
+    // is otherwise left alone.
+    effect(() => {
+      const displayedIds = this.displayedColumnIds();
+      const api = untracked(() => this.gridApi());
+      if (api) {
+        this.#applyDisplayedColumns(api, displayedIds);
+      }
+    });
     effect(() => {
       const api = this.gridApi();
       const page = this.page();
@@ -787,7 +803,8 @@ export class SkyDataGrid implements SkyDataColumnSource {
    * @internal
    */
   public setDisplayedColumnIds(columnIds: readonly string[]): void {
-    if (!arraysEqual(this.displayedColumnIds(), columnIds)) {
+    const selectedColumnIds = this.selectedColumnIds();
+    if (!selectedColumnIds || !arraysEqual(selectedColumnIds, columnIds)) {
       this.selectedColumnIds.set([...columnIds]);
     }
   }
@@ -902,16 +919,34 @@ export class SkyDataGrid implements SkyDataColumnSource {
     };
   }
 
+  #applyDisplayedColumns(api: GridApi, displayedIds: readonly string[]): void {
+    const hiddenIds = untracked(this.#columnCatalog)
+      .map(({ id }) => id)
+      .filter((id) => !displayedIds.includes(id));
+    api.applyColumnState({
+      state: [
+        ...displayedIds.map((colId) => ({ colId, hide: false })),
+        ...hiddenIds.map((colId) => ({ colId, hide: true })),
+      ],
+      applyOrder: true,
+    });
+  }
+
   #getColumnId(col: SkyDataGridColumn): string | undefined {
     return col.columnId() ?? col.field();
   }
 
   #syncColumnOrderFromGrid(api: GridApi): void {
+    // Column moves are tracked only once `selectedColumnIds` is set, so a grid
+    // without it keeps following each column's `columnHidden` setting.
+    if (!this.selectedColumnIds()) {
+      return;
+    }
+
     const displayedColumnIds = api
       .getColumnState()
-      .filter((state) => !state.hide)
-      .map((state) => state.colId)
-      .filter((colId) => !RESERVED_COLUMN_IDS.includes(colId));
+      .filter((state) => !state.hide && state.colId !== SELECTION_COLUMN_ID)
+      .map((state) => state.colId);
 
     if (!arraysEqual(this.displayedColumnIds(), displayedColumnIds)) {
       this.selectedColumnIds.set(displayedColumnIds);

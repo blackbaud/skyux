@@ -7,6 +7,7 @@ import { SkyDataGridColumn } from '../data-grid-column';
   selector: 'app-column-selection-test',
   template: `<sky-data-grid
     [data]="data()"
+    [multiselect]="multiselect()"
     [(selectedColumnIds)]="selectedColumnIds"
   >
     <sky-data-grid-column
@@ -15,7 +16,7 @@ import { SkyDataGridColumn } from '../data-grid-column';
       locked
       [description]="lockedDescription()"
     />
-    <sky-data-grid-column field="name" headingText="Name" />
+    <sky-data-grid-column field="name" headingText="Name" flexWidth="1" />
     <sky-data-grid-column field="age" headingText="Age" dataType="number" />
     @if (showExtra()) {
       <sky-data-grid-column
@@ -24,7 +25,7 @@ import { SkyDataGridColumn } from '../data-grid-column';
         [columnHidden]="extraHidden()"
       />
     }
-    <!-- A column with neither columnId nor field is omitted from the catalog. -->
+    <!-- A column with neither columnId nor field is omitted from the column options. -->
     @if (showInvalid()) {
       <sky-data-grid-column headingText="Invalid" />
     }
@@ -40,6 +41,7 @@ export class ColumnSelectionTestComponent {
   public readonly selectedColumnIds = model<string[] | undefined>();
   public readonly extraHidden = input<boolean>(false);
   public readonly lockedDescription = input<string | undefined>(undefined);
+  public readonly multiselect = input<boolean>(false);
   public readonly showExtra = input<boolean>(true);
   public readonly showInvalid = input<boolean>(false);
 }

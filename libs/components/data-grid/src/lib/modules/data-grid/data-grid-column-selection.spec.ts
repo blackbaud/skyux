@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDataColumnSource } from '@skyux/lists';
 
-import { GridApi, getGridApi } from 'ag-grid-community';
+import { GridApi, getGridApi as getAgGridApi } from 'ag-grid-community';
 
 import { SkyDataGrid } from './data-grid';
 import { ColumnSelectionTestComponent } from './fixtures/column-selection-test.component';
@@ -13,6 +13,14 @@ describe('SkyDataGrid column selection', () => {
     return fixture.debugElement
       .query((node) => node.componentInstance instanceof SkyDataGrid)
       .injector.get(SkyDataColumnSource);
+  }
+
+  function getGridApi(): GridApi {
+    return getAgGridApi(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        'ag-grid-angular',
+      ) as HTMLElement,
+    ) as GridApi;
   }
 
   async function detect(): Promise<void> {
@@ -50,7 +58,7 @@ describe('SkyDataGrid column selection', () => {
     expect(getColumnSource()).toBeInstanceOf(SkyDataGrid);
   });
 
-  it('should derive the column catalog from the declared columns', async () => {
+  it('should describe the declared columns as column options', async () => {
     fixture.componentRef.setInput('lockedDescription', 'Always shown.');
     await detect();
 
@@ -86,7 +94,7 @@ describe('SkyDataGrid column selection', () => {
     ]);
   });
 
-  it('should omit columns that have neither a columnId nor a field', async () => {
+  it('should omit columns that have neither a columnId nor a field from the column options', async () => {
     fixture.componentRef.setInput('showInvalid', true);
     await detect();
 
@@ -151,27 +159,27 @@ describe('SkyDataGrid column selection', () => {
     ]);
   });
 
-  it('should not emit when setDisplayedColumnIds matches what displays', async () => {
+  it('should not emit when setDisplayedColumnIds matches selectedColumnIds', async () => {
+    fixture.componentInstance.selectedColumnIds.set(['locked', 'name']);
     await detect();
 
-    getColumnSource().setDisplayedColumnIds(['locked', 'name', 'age', 'extra']);
+    const selectedColumnIds = fixture.componentInstance.selectedColumnIds();
+    getColumnSource().setDisplayedColumnIds(['locked', 'name']);
     await detect();
 
-    expect(fixture.componentInstance.selectedColumnIds()).toBeUndefined();
+    expect(fixture.componentInstance.selectedColumnIds()).toBe(
+      selectedColumnIds,
+    );
   });
 
   it('should keep hidden columns defined so they can be shown again', async () => {
     fixture.componentInstance.selectedColumnIds.set(['locked', 'name']);
     await detect();
 
-    const columnState = (
-      getGridApi(
-        fixture.nativeElement.querySelector('ag-grid-angular'),
-      ) as GridApi
-    ).getColumnState();
-
     expect(
-      columnState.map((state) => ({ id: state.colId, hide: !!state.hide })),
+      getGridApi()
+        .getColumnState()
+        .map((state) => ({ id: state.colId, hide: !!state.hide })),
     ).toEqual([
       { id: 'locked', hide: false },
       { id: 'name', hide: false },
@@ -180,7 +188,41 @@ describe('SkyDataGrid column selection', () => {
     ]);
   });
 
+  it('should apply the column order to the grid', async () => {
+    await detect();
+
+    fixture.componentInstance.selectedColumnIds.set(['locked', 'age', 'name']);
+    await detect();
+
+    expect(
+      getGridApi()
+        .getColumnState()
+        .filter((state) => !state.hide)
+        .map((state) => state.colId),
+    ).toEqual(['locked', 'age', 'name']);
+  });
+
+  it('should keep the width of a resized flex column when the displayed columns change', async () => {
+    await detect();
+
+    getGridApi().setColumnWidths(
+      [{ key: 'name', newWidth: 400 }],
+      true,
+      'uiColumnResized',
+    );
+    fixture.componentInstance.selectedColumnIds.set(['locked', 'age', 'name']);
+    await detect();
+
+    expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(400);
+  });
+
   it('should store the new order when the user moves a column', async () => {
+    fixture.componentInstance.selectedColumnIds.set([
+      'locked',
+      'name',
+      'age',
+      'extra',
+    ]);
     await detect();
 
     moveColumnRight('name');
@@ -192,7 +234,22 @@ describe('SkyDataGrid column selection', () => {
       'name',
       'extra',
     ]);
-    expect(getColumnSource().displayedColumnIds()).toEqual([
+  });
+
+  it('should leave out the multiselect column when the user moves a column', async () => {
+    fixture.componentRef.setInput('multiselect', true);
+    fixture.componentInstance.selectedColumnIds.set([
+      'locked',
+      'name',
+      'age',
+      'extra',
+    ]);
+    await detect();
+
+    moveColumnRight('name');
+    await detect();
+
+    expect(fixture.componentInstance.selectedColumnIds()).toEqual([
       'locked',
       'age',
       'name',
@@ -200,37 +257,41 @@ describe('SkyDataGrid column selection', () => {
     ]);
   });
 
-  it('should not store a new order when applying a layout moves columns', async () => {
+  it('should not track column moves until selectedColumnIds is set', async () => {
     await detect();
 
-    // Applying a layout moves columns in the grid, which must not be mistaken
-    // for a move the user made.
-    getColumnSource().setDisplayedColumnIds(['locked', 'age', 'name']);
+    moveColumnRight('name');
+    await detect();
+    fixture.componentRef.setInput('extraHidden', true);
+    await detect();
+
+    expect(fixture.componentInstance.selectedColumnIds()).toBeUndefined();
+    expect(getColumnSource().displayedColumnIds()).toEqual([
+      'locked',
+      'name',
+      'age',
+    ]);
+  });
+
+  it('should not mistake applying a column layout for a user moving a column', async () => {
+    await detect();
+
+    // The grid moves columns to apply the layout. Storing that as a user move
+    // would replace the IDs given with the grid's order, dropping "missing".
+    getColumnSource().setDisplayedColumnIds([
+      'locked',
+      'missing',
+      'age',
+      'name',
+    ]);
     await detect();
 
     expect(fixture.componentInstance.selectedColumnIds()).toEqual([
       'locked',
+      'missing',
       'age',
       'name',
     ]);
-  });
-
-  it('should apply the column order to the grid', async () => {
-    await detect();
-
-    fixture.componentInstance.selectedColumnIds.set(['locked', 'age', 'name']);
-    await detect();
-
-    const api = getGridApi(
-      fixture.nativeElement.querySelector('ag-grid-angular'),
-    ) as GridApi;
-
-    expect(
-      api
-        .getColumnState()
-        .filter((state) => !state.hide)
-        .map((state) => state.colId),
-    ).toEqual(['locked', 'age', 'name']);
   });
 
   it('should drop a column from the display when it is removed from the template', async () => {
