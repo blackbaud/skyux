@@ -64,7 +64,7 @@ describe('Basic button in modal example', () => {
     expect(userListItems?.[0].innerText.trim()).toBe('test.user');
   });
 
-  fit('should not save the user modal when Cancel is clicked', async () => {
+  it('should not save the user modal when Cancel is clicked', async () => {
     const { fixture, loader, rootLoader } = await setupTest();
 
     const addUserButton = await loader.getHarness(

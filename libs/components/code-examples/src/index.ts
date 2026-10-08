@@ -63,7 +63,7 @@ export { FilterBarModalExampleComponent } from './lib/modules/filter-bar/filter-
 export { FilterBarSelectableExampleComponent } from './lib/modules/filter-bar/filter-bar/selectable/example.component';
 export { FlyoutBasicExampleComponent } from './lib/modules/flyout/flyout/basic/example.component';
 export { FlyoutCustomHeadersExampleComponent } from './lib/modules/flyout/flyout/custom-headers/example.component';
-export { FormsButtonExample } from './lib/modules/forms/button/basic/example';
+export { FormsButtonBasicExample } from './lib/modules/forms/button/basic/example';
 export { FormsButtonInModalExample } from './lib/modules/forms/button/modal/example';
 export { FormsButtonPermalinkExample } from './lib/modules/forms/button/permalink/example';
 export { FormsButtonToolbarExample } from './lib/modules/forms/button/toolbar/example';

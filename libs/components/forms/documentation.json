@@ -16,7 +16,7 @@
       },
       "codeExamples": {
         "docsIds": [
-          "FormsButtonExample",
+          "FormsButtonBasicExample",
           "FormsButtonPermalinkExample",
           "FormsButtonToolbarExample",
           "FormsButtonInModalExample"

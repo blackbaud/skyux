@@ -10,7 +10,7 @@ import { SkyConfirmService, SkyConfirmType } from '@skyux/modals';
   templateUrl: 'example.html',
   imports: [SkyButton],
 })
-export class FormsButtonExample {
+export class FormsButtonBasicExample {
   readonly #confirmSvc = inject(SkyConfirmService);
 
   protected buttonClick(): void {

@@ -4,14 +4,14 @@ import { SkyButtonHarness } from '@skyux/forms/testing';
 
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { SkyConfirmHarness } from '@skyux/modals/testing';
-import { FormsButtonExample } from './example';
+import { FormsButtonBasicExample } from './example';
 
 describe('Basic button example', () => {
   async function setupTest(dataSkyId: string): Promise<{
     harness: SkyButtonHarness;
     rootLoader: HarnessLoader;
   }> {
-    const fixture = TestBed.createComponent(FormsButtonExample);
+    const fixture = TestBed.createComponent(FormsButtonBasicExample);
 
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);

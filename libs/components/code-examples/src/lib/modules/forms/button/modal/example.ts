@@ -29,13 +29,14 @@ export class FormsButtonInModalExample {
             userName: string;
           };
 
-          this.userNames.set([...this.userNames(), user.userName]);
+          this.userNames.update((userNames) => [...userNames, user.userName]);
         }
       });
   }
 
   protected deleteUser(index: number): void {
     this.userNames.update((userNames) => {
+      userNames = [...userNames];
       userNames.splice(index, 1);
 
       return userNames;
