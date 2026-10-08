@@ -17,9 +17,8 @@ export abstract class SkyDataColumnSource {
   >;
 
   /**
-   * The IDs of the columns that currently display, in display order. This
-   * always reflects what the component displays, including its own default
-   * before any columns have been set.
+   * The IDs of the columns the component displays, in display order. Before
+   * any columns are set, these are the component's default columns.
    */
   public abstract readonly displayedColumnIds: Signal<readonly string[]>;
 
