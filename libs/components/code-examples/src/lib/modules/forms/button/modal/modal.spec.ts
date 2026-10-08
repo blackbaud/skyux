@@ -1,13 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyButtonHarness } from '@skyux/forms/testing';
+import { SkyButtonHarness, SkyInputBoxHarness } from '@skyux/forms/testing';
 
-import { ComponentHarness, HarnessLoader } from '@angular/cdk/testing';
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { FormsButtonInModalExample } from './example';
-
-class UserNameHarness extends ComponentHarness {
-  public static hostSelector = 'input[data-sky-id="user-name-input"]';
-}
 
 describe('Basic button in modal example', () => {
   async function setupTest(): Promise<{
@@ -41,10 +37,15 @@ describe('Basic button in modal example', () => {
 
     await addUserButton.click();
 
-    const userNameHarness = await rootLoader.getHarness(UserNameHarness);
-    const userNameHarnessHost = await userNameHarness.host();
+    const userNameHarness = await rootLoader.getHarness(
+      SkyInputBoxHarness.with({
+        dataSkyId: 'user-name-input-box',
+      }),
+    );
 
-    await userNameHarnessHost.sendKeys('test.user');
+    const userNameInput = await userNameHarness.querySelector('input');
+
+    await userNameInput.sendKeys('test.user');
 
     const saveButtonHarness = await rootLoader.getHarness(
       SkyButtonHarness.with({

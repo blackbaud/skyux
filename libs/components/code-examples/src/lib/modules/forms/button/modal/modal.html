@@ -5,12 +5,8 @@
 >
   <sky-modal headingText="Add user" [isDirty]="userForm.dirty">
     <sky-modal-content>
-      <sky-input-box labelText="User name">
-        <input
-          data-sky-id="user-name-input"
-          formControlName="userName"
-          type="text"
-        />
+      <sky-input-box data-sky-id="user-name-input-box" labelText="User name">
+        <input formControlName="userName" type="text" />
       </sky-input-box>
     </sky-modal-content>
     <sky-modal-footer>
