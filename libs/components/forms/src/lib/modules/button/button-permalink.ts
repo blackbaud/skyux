@@ -4,6 +4,7 @@ import { NavigationExtras } from '@angular/router';
  * Specifies an Angular router link with the `route` property or a direct
  * link with the `url` property. If it provides both, the button uses
  * the `route` property.
+ * @preview
  */
 export interface SkyButtonPermalink {
   /**
