@@ -379,6 +379,37 @@ describe('SkyDataGrid column selection', () => {
     ]);
   });
 
+  it('should keep the IDs of undeclared columns when the user moves a column', async () => {
+    fixture.componentRef.setInput('showExtra', false);
+    fixture.componentInstance.selectedColumnIds.set([
+      'locked',
+      'name',
+      'age',
+      'extra',
+    ]);
+    await detect();
+
+    moveColumnRight('name');
+    await detect();
+
+    expect(fixture.componentInstance.selectedColumnIds()).toEqual([
+      'locked',
+      'age',
+      'name',
+      'extra',
+    ]);
+
+    fixture.componentRef.setInput('showExtra', true);
+    await detect();
+
+    expect(getColumnSource().displayedColumnIds()).toEqual([
+      'locked',
+      'age',
+      'name',
+      'extra',
+    ]);
+  });
+
   it('should leave out the multiselect column when the user moves a column', async () => {
     fixture.componentRef.setInput('multiselect', true);
     fixture.componentInstance.selectedColumnIds.set([
