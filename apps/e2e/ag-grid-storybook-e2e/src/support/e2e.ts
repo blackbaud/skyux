@@ -16,3 +16,14 @@
 import '@skyux-sdk/cypress-commands';
 
 import './commands';
+
+// Resizing a grid (for example, switching themes in place) makes the browser report a benign
+// ResizeObserver loop error, which Cypress treats as a test failure.
+// See https://github.com/cypress-io/cypress/issues/20341.
+Cypress.on(
+  'uncaught:exception',
+  (err) =>
+    !err.message.includes(
+      'ResizeObserver loop completed with undelivered notifications.',
+    ),
+);
