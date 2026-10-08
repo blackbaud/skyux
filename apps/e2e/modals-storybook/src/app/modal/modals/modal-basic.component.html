@@ -11,12 +11,27 @@
   }
   <sky-modal-content>{{ context?.modalContent }}</sky-modal-content>
   <sky-modal-footer>
-    <button
-      class="sky-btn sky-btn-link sky-btn-close"
-      type="button"
-      (click)="closeModal()"
-    >
-      Close
-    </button>
+    @if (context?.useSkyButton) {
+      <sky-button
+        buttonStyle="primary"
+        labelText="Save"
+        (buttonClick)="closeModal()"
+      />
+      <sky-button
+        buttonStyle="link"
+        data-sky-id="close-button"
+        labelText="Close"
+        (buttonClick)="closeModal()"
+      />
+    } @else {
+      <button
+        class="sky-btn sky-btn-link"
+        data-sky-id="close-button"
+        type="button"
+        (click)="closeModal()"
+      >
+        Close
+      </button>
+    }
   </sky-modal-footer>
 </sky-modal>

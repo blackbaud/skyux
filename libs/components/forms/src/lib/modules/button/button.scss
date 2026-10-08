@@ -1,5 +1,9 @@
 :host {
-  display: inline;
+  display: inline-block;
+
+  &:has(> .sky-btn-link-inline) {
+    display: inline;
+  }
 
   &:has(> .sky-btn-block) {
     display: block;
