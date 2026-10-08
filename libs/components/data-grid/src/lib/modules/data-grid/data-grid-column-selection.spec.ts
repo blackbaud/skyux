@@ -135,6 +135,17 @@ describe('SkyDataGrid column selection', () => {
     expect(getColumnSource().displayedColumnIds()).toEqual(['age', 'name']);
   });
 
+  it('should list locked columns first, as the grid displays them', async () => {
+    fixture.componentInstance.selectedColumnIds.set(['name', 'locked', 'age']);
+    await detect();
+
+    expect(getColumnSource().displayedColumnIds()).toEqual([
+      'locked',
+      'name',
+      'age',
+    ]);
+  });
+
   it('should drop IDs for columns that do not exist', async () => {
     fixture.componentInstance.selectedColumnIds.set([
       'locked',
@@ -255,6 +266,20 @@ describe('SkyDataGrid column selection', () => {
       'name',
       'extra',
     ]);
+  });
+
+  it('should keep the multiselect column first when the displayed columns change', async () => {
+    fixture.componentRef.setInput('multiselect', true);
+    await detect();
+
+    fixture.componentInstance.selectedColumnIds.set(['locked', 'age', 'name']);
+    await detect();
+
+    expect(
+      getGridApi()
+        .getAllDisplayedColumns()
+        .map((column) => column.getColId()),
+    ).toEqual(['ag-Grid-SelectionColumn', 'locked', 'age', 'name']);
   });
 
   it('should not track column moves until selectedColumnIds is set', async () => {
