@@ -116,13 +116,13 @@ describe('Convert Grid to Data Grid', () => {
     tree.create(
       'src/app/test.component.html',
       stripIndents`
-        <sky-grid [data]="data" [selectedColumnIds]="cols" (selectedColumnIdsChange)="onCols($event)"></sky-grid>
+        <sky-grid [data]="data" [(selectedColumnIds)]="cols"></sky-grid>
       `,
     );
     const result = await convert(tree);
     expect(stripIndents`${result.readText('src/app/test.component.html')}`)
       .toBe(stripIndents`
-      <sky-data-grid [data]="data" [selectedColumnIds]="cols" (selectedColumnIdsChange)="onCols($event)"></sky-data-grid>
+      <sky-data-grid [data]="data" [(selectedColumnIds)]="cols"></sky-data-grid>
     `);
     expect(hasLog('"selectedColumnIds" binding')).toBe(false);
     expect(hasLog('only once "selectedColumnIds" is set')).toBe(true);

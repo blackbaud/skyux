@@ -48,6 +48,50 @@ describe('SkyDataGrid column selection', () => {
     );
   }
 
+  /**
+   * Drags a column header past another column header, then releases it outside
+   * the grid.
+   */
+  function dragColumnAndReleaseOutsideGrid(
+    columnId: string,
+    pastColumnId: string,
+  ): void {
+    const el = fixture.nativeElement as HTMLElement;
+    const header = el.querySelector(
+      `.ag-header-cell[col-id="${columnId}"] .ag-header-cell-text`,
+    ) as HTMLElement;
+    const start = header.getBoundingClientRect();
+    const end = (
+      el.querySelector(
+        `.ag-header-cell[col-id="${pastColumnId}"]`,
+      ) as HTMLElement
+    ).getBoundingClientRect();
+    const y = start.top + start.height / 2;
+    const fire = (
+      target: EventTarget,
+      type: string,
+      x: number,
+      clientY = y,
+    ): void => {
+      target.dispatchEvent(
+        new MouseEvent(type, {
+          bubbles: true,
+          buttons: 1,
+          clientX: x,
+          clientY,
+        }),
+      );
+    };
+
+    fire(header, 'mousedown', start.left + 5);
+    for (let x = start.left + 5; x <= end.right; x += 10) {
+      fire(document, 'mousemove', x);
+    }
+    // Leave the grid before releasing the mouse.
+    fire(document, 'mousemove', end.right, y + 1000);
+    fire(document, 'mouseup', end.right, y + 1000);
+  }
+
   beforeEach(() => {
     fixture = TestBed.createComponent(ColumnSelectionTestComponent);
   });
@@ -244,6 +288,26 @@ describe('SkyDataGrid column selection', () => {
       'age',
       'name',
       'extra',
+    ]);
+  });
+
+  it('should store the new order when the user drags a column and releases it outside the grid', async () => {
+    fixture.componentInstance.selectedColumnIds.set([
+      'locked',
+      'name',
+      'age',
+      'extra',
+    ]);
+    await detect();
+
+    dragColumnAndReleaseOutsideGrid('name', 'extra');
+    await detect();
+
+    expect(fixture.componentInstance.selectedColumnIds()).toEqual([
+      'locked',
+      'age',
+      'extra',
+      'name',
     ]);
   });
 

@@ -246,6 +246,7 @@ function gridTagSwap(context: SchematicContext): SwapTagCallback<'sky-grid'> {
     if (
       hasAttribute(node, [
         ...inputForms('selectedColumnIds'),
+        '[(selectedcolumnids)]',
         outputForm('selectedColumnIdsChange'),
       ])
     ) {
