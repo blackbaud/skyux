@@ -1,6 +1,7 @@
 import { Component, inject, input, model, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyLogService } from '@skyux/core';
 import { SkyDataColumnOption, SkyDataColumnSource } from '@skyux/lists';
 
 import { SkyDataManagerModule } from '../data-manager.module';
@@ -35,16 +36,26 @@ class TestColumnsComponent implements SkyDataColumnSource {
   template: `<sky-data-manager>
     <sky-data-manager-toolbar />
     <sky-data-view [viewId]="viewId()">
-      <app-test-columns
-        skyDataManagerColumnController
-        [columnOptions]="columnOptions()"
-      />
+      @if (showColumns()) {
+        <app-test-columns
+          skyDataManagerColumnController
+          [columnOptions]="columnOptions()"
+        />
+      }
+      @if (showOtherColumns()) {
+        <app-test-columns
+          skyDataManagerColumnController
+          [columnOptions]="[{ id: 'other', labelText: 'Other' }]"
+        />
+      }
     </sky-data-view>
   </sky-data-manager>`,
   imports: [SkyDataManagerModule, TestColumnsComponent],
   providers: [SkyDataManagerService],
 })
 class TestHostComponent {
+  public readonly showColumns = model(true);
+  public readonly showOtherColumns = model(false);
   public readonly viewId = model<string | undefined>('view-1');
   public readonly columnOptions = model<readonly SkyDataColumnOption[]>([
     { id: 'locked', labelText: 'Locked', alwaysDisplayed: true },
@@ -278,21 +289,20 @@ describe('SkyDataManagerColumnControllerDirective', () => {
     ).toEqual(['locked', 'name', 'age', 'notes']);
   });
 
-  it('should keep offering changed columns after the user switches views', async () => {
+  it('should offer the columns of a column source that is recreated', async () => {
     initDataManager();
     await detect();
 
-    // Switching views destroys the inactive view's content, including the
-    // directive, and recreates it when the user switches back.
-    dataManagerSvc.updateActiveViewId('view-2');
+    fixture.componentInstance.showColumns.set(false);
     await detect();
-    dataManagerSvc.updateActiveViewId('view-1');
-    await detect();
+
+    expect(dataManagerSvc.getViewById('view-1')?.columnOptions).toBeUndefined();
 
     fixture.componentInstance.columnOptions.update((columnOptions) => [
       ...columnOptions,
       { id: 'email', labelText: 'Email' },
     ]);
+    fixture.componentInstance.showColumns.set(true);
     await detect();
 
     expect(
@@ -300,6 +310,27 @@ describe('SkyDataManagerColumnControllerDirective', () => {
         .getViewById('view-1')
         ?.columnOptions?.map((option) => option.id),
     ).toEqual(['locked', 'name', 'age', 'notes', 'email']);
+  });
+
+  it('should let only the first column controller in a data view take effect', async () => {
+    const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+    fixture.componentInstance.showOtherColumns.set(true);
+    initDataManager();
+    await detect();
+
+    expect(warnSpy).toHaveBeenCalledOnceWith(
+      'A data view can have only one `skyDataManagerColumnController`. Only the first one controls the columns.',
+    );
+    expect(
+      dataManagerSvc
+        .getViewById('view-1')
+        ?.columnOptions?.map((option) => option.id),
+    ).toEqual(['locked', 'name', 'age', 'notes']);
+    expect(getStoredViewState()?.displayedColumnIds).toEqual([
+      'locked',
+      'name',
+      'age',
+    ]);
   });
 
   it('should display a column added since the column layout was stored', async () => {

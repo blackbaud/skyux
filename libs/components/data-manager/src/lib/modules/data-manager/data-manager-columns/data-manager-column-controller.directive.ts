@@ -1,5 +1,13 @@
-import { Directive, computed, effect, inject, untracked } from '@angular/core';
+import {
+  DestroyRef,
+  Directive,
+  computed,
+  effect,
+  inject,
+  untracked,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyLogService } from '@skyux/core';
 import { SkyDataColumnSource } from '@skyux/lists';
 
 import { map } from 'rxjs';
@@ -7,6 +15,7 @@ import { map } from 'rxjs';
 import { SkyDataManagerService } from '../data-manager.service';
 import { SkyDataViewComponent } from '../data-view.component';
 import { SkyDataManagerColumnPickerOption } from '../models/data-manager-column-picker-option';
+import { SkyDataViewConfig } from '../models/data-view-config';
 import { SkyDataViewState } from '../models/data-view-state';
 
 import {
@@ -16,13 +25,9 @@ import {
 
 const SOURCE_ID = 'skyDataManagerColumnController';
 
-// The column options any instance of the directive has published to a view
-// config. A directive recreated with its view, such as when the user switches
-// views, recognizes them as its own rather than as options the view config
-// supplies.
-const PUBLISHED_COLUMN_OPTIONS = new WeakSet<
-  SkyDataManagerColumnPickerOption[]
->();
+// The data views that already have a column controller. A data view stores a
+// single column layout, so only its first column controller takes effect.
+const CONTROLLED_DATA_VIEWS = new WeakSet<SkyDataViewComponent>();
 
 function arraysEqual(a: readonly string[], b: readonly string[]): boolean {
   return a.length === b.length && a.every((value, i) => value === b[i]);
@@ -90,21 +95,45 @@ export class SkyDataManagerColumnControllerDirective {
     },
   );
 
+  #publishedColumnOptions: SkyDataManagerColumnPickerOption[] | undefined;
+
   constructor() {
+    if (CONTROLLED_DATA_VIEWS.has(this.#dataView)) {
+      inject(SkyLogService).warn(
+        'A data view can have only one `skyDataManagerColumnController`. Only the first one controls the columns.',
+      );
+      return;
+    }
+
+    CONTROLLED_DATA_VIEWS.add(this.#dataView);
+
+    // Withdraw the published column options so that a column controller
+    // created later, such as when the grid is recreated, publishes its own.
+    inject(DestroyRef).onDestroy(() => {
+      CONTROLLED_DATA_VIEWS.delete(this.#dataView);
+
+      const view = this.#findViewConfig();
+      if (view && view.columnOptions === this.#publishedColumnOptions) {
+        this.#dataManagerSvc.updateViewConfig({
+          ...view,
+          columnOptions: undefined,
+        });
+      }
+    });
+
     // Offer the source's columns in the column picker. A view config that
     // supplies its own column options keeps them.
     effect(() => {
       const columnOptions = this.#pickerColumnOptions();
-      const viewId = this.#dataView.viewId;
-      const view = this.#viewConfigs().find((config) => config.id === viewId);
+      const view = this.#findViewConfig();
 
       if (
         view &&
         view.columnOptions !== columnOptions &&
         (!view.columnOptions ||
-          PUBLISHED_COLUMN_OPTIONS.has(view.columnOptions))
+          view.columnOptions === this.#publishedColumnOptions)
       ) {
-        PUBLISHED_COLUMN_OPTIONS.add(columnOptions);
+        this.#publishedColumnOptions = columnOptions;
         this.#dataManagerSvc.updateViewConfig({ ...view, columnOptions });
       }
     });
@@ -141,6 +170,11 @@ export class SkyDataManagerColumnControllerDirective {
         }
       });
     });
+  }
+
+  #findViewConfig(): SkyDataViewConfig | undefined {
+    const viewId = this.#dataView.viewId;
+    return this.#viewConfigs().find((config) => config.id === viewId);
   }
 
   #storeColumnState(
