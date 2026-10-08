@@ -14,6 +14,38 @@ describe('SkyTextEditorAdapterService', () => {
   let doc: SpyObj<Document>;
   let win: SpyObj<Window>;
 
+  function createHostStyleSheet(
+    css: string,
+    href: string | null = null,
+  ): Partial<CSSStyleSheet> {
+    const styleSheet = new CSSStyleSheet();
+    styleSheet.replaceSync(css);
+
+    return { href, cssRules: styleSheet.cssRules };
+  }
+
+  function getIframeCss(hostStyleSheets: Partial<CSSStyleSheet>[]): string {
+    spyOnProperty(document, 'styleSheets').and.returnValue(
+      hostStyleSheets as unknown as StyleSheetList,
+    );
+
+    const service = TestBed.inject(SkyTextEditorAdapterService);
+    const iframe = jasmine.createSpyObj<HTMLIFrameElement>(
+      'HTMLIFrameElement',
+      ['addEventListener', 'removeEventListener'],
+      {
+        contentWindow: win,
+        contentDocument: doc,
+      },
+    );
+    service.initEditor('test', iframe, styleState);
+
+    return (
+      (doc.head.appendChild as jasmine.Spy).calls.mostRecent()
+        .args[0] as HTMLStyleElement
+    ).innerHTML;
+  }
+
   beforeEach(() => {
     styleState = Object.assign({}, STYLE_STATE_DEFAULTS);
     doc = jasmine.createSpyObj<Document>(
@@ -88,104 +120,55 @@ describe('SkyTextEditorAdapterService', () => {
   });
 
   it("should copy the host page's font faces into the iframe", () => {
-    const hostStyleEl = document.createElement('style');
-    hostStyleEl.textContent = `
-      @font-face { font-family: 'Test Font'; src: url('test-font.woff'); }
-      .test-not-a-font-face { color: red; }
-    `;
-    document.head.appendChild(hostStyleEl);
+    const iframeCss = getIframeCss([
+      createHostStyleSheet(`
+        @font-face { font-family: 'Test Font'; src: url('test-font.woff'); }
+        .test-not-a-font-face { color: red; }
+      `),
+    ]);
 
-    const service = TestBed.inject(SkyTextEditorAdapterService);
-    const iframe = jasmine.createSpyObj<HTMLIFrameElement>(
-      'HTMLIFrameElement',
-      ['addEventListener', 'removeEventListener'],
-      {
-        contentWindow: win,
-        contentDocument: doc,
-      },
-    );
-    service.initEditor('test', iframe, styleState);
-    hostStyleEl.remove();
-
-    const iframeStyleEl = (
-      doc.head.appendChild as jasmine.Spy
-    ).calls.mostRecent().args[0] as HTMLStyleElement;
-    expect(iframeStyleEl.innerHTML).toContain('font-family: "Test Font"');
-    expect(iframeStyleEl.innerHTML).not.toContain('.test-not-a-font-face');
+    expect(iframeCss).toContain('font-family: "Test Font"');
+    expect(iframeCss).not.toContain('.test-not-a-font-face');
   });
 
   describe('font face URLs', () => {
-    function getIframeCssForHostStyleSheet(href: string | null): string {
-      const hostStyleEl = document.createElement('style');
-      hostStyleEl.textContent = `@font-face { font-family: 'Test Font'; src: url('fonts/test-font.woff'); }`;
-      document.head.appendChild(hostStyleEl);
-      spyOnProperty(document, 'styleSheets').and.returnValue([
-        { href, cssRules: hostStyleEl.sheet?.cssRules },
-      ] as unknown as StyleSheetList);
-
-      const service = TestBed.inject(SkyTextEditorAdapterService);
-      const iframe = jasmine.createSpyObj<HTMLIFrameElement>(
-        'HTMLIFrameElement',
-        ['addEventListener', 'removeEventListener'],
-        {
-          contentWindow: win,
-          contentDocument: doc,
-        },
-      );
-      service.initEditor('test', iframe, styleState);
-      hostStyleEl.remove();
-
-      return (
-        (doc.head.appendChild as jasmine.Spy).calls.mostRecent()
-          .args[0] as HTMLStyleElement
-      ).innerHTML;
-    }
+    const fontFaceCss = `@font-face { font-family: 'Test Font'; src: url('fonts/test-font.woff'); }`;
 
     it("should resolve relative URLs against the rule's stylesheet", () => {
       expect(
-        getIframeCssForHostStyleSheet('https://cdn.example.com/styles/app.css'),
+        getIframeCss([
+          createHostStyleSheet(
+            fontFaceCss,
+            'https://cdn.example.com/styles/app.css',
+          ),
+        ]),
       ).toContain('url("https://cdn.example.com/styles/fonts/test-font.woff")');
     });
 
     it("should resolve relative URLs against the host document's base URI when the stylesheet has no URL", () => {
-      expect(getIframeCssForHostStyleSheet(null)).toContain(
+      expect(getIframeCss([createHostStyleSheet(fontFaceCss)])).toContain(
         `url("${new URL('fonts/test-font.woff', document.baseURI).href}")`,
       );
     });
 
     it('should preserve URLs that cannot be resolved', () => {
-      expect(getIframeCssForHostStyleSheet('not a valid url')).toContain(
-        'url("fonts/test-font.woff")',
-      );
+      expect(
+        getIframeCss([createHostStyleSheet(fontFaceCss, 'not a valid url')]),
+      ).toContain('url("fonts/test-font.woff")');
     });
   });
 
   it('should skip host stylesheets whose rules cannot be read', () => {
-    const crossOriginStyleSheet = {
-      get cssRules(): CSSRuleList {
-        throw new DOMException('Cannot access rules', 'SecurityError');
-      },
-    } as unknown as CSSStyleSheet;
-    spyOnProperty(document, 'styleSheets').and.returnValue([
-      crossOriginStyleSheet,
-    ] as unknown as StyleSheetList);
-
-    const service = TestBed.inject(SkyTextEditorAdapterService);
-    const iframe = jasmine.createSpyObj<HTMLIFrameElement>(
-      'HTMLIFrameElement',
-      ['addEventListener', 'removeEventListener'],
+    const iframeCss = getIframeCss([
       {
-        contentWindow: win,
-        contentDocument: doc,
+        get cssRules(): CSSRuleList {
+          throw new DOMException('Cannot access rules', 'SecurityError');
+        },
       },
-    );
-    service.initEditor('test', iframe, styleState);
+    ]);
 
-    const iframeStyleEl = (
-      doc.head.appendChild as jasmine.Spy
-    ).calls.mostRecent().args[0] as HTMLStyleElement;
-    expect(iframeStyleEl.innerHTML).not.toContain('@font-face');
-    expect(iframeStyleEl.innerHTML).toContain('.editor:empty:before');
+    expect(iframeCss).not.toContain('@font-face');
+    expect(iframeCss).toContain('.editor:empty:before');
   });
 
   it('should stop initializing the editor when document is null', () => {
