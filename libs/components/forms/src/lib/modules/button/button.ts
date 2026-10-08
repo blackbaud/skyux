@@ -14,6 +14,7 @@ import { SkyButtonType } from './button-type';
 
 /**
  * Buttons provide interactive elements for users to trigger actions in the system.
+ * @preview
  */
 @Component({
   selector: 'sky-button',

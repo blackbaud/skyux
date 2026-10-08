@@ -193,6 +193,24 @@ export class ModalComponent {
     });
   }
 
+  protected onOpenSkyButtonModalClick(): void {
+    this.openModal(ModalBasicComponent, {
+      providers: [
+        {
+          provide: ModalTestContext,
+          useFactory: (): ModalTestContext => {
+            const context = new ModalTestContext();
+            context.headingText = 'My heading';
+            context.modalContent = 'Modal content';
+            context.useSkyButton = true;
+
+            return context;
+          },
+        },
+      ],
+    });
+  }
+
   private openModal(
     modalInstance: any,
     options?: SkyModalConfigurationInterface,
