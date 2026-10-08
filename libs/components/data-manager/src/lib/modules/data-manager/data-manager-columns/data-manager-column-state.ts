@@ -52,7 +52,8 @@ export function reconcileColumnState(
         .map((option) => option.id)
     : [];
 
-  // Columns that can never be hidden always display, and display first.
+  // Columns that can never be hidden always display. Any missing from the
+  // stored layout display first.
   const displayedIds = [...keptIds, ...addedIds];
   const alwaysDisplayedIds = columnOptions
     .filter(

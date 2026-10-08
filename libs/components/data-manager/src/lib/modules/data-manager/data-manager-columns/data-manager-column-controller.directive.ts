@@ -25,8 +25,8 @@ import {
 
 const SOURCE_ID = 'skyDataManagerColumnController';
 
-// The data views that already have a column controller. A data view stores a
-// single column layout, so only its first column controller takes effect.
+// The data views that a column controller controls. A data view stores a
+// single column layout, so only one column controller can control it.
 const CONTROLLED_DATA_VIEWS = new WeakSet<SkyDataViewComponent>();
 
 function arraysEqual(a: readonly string[], b: readonly string[]): boolean {
@@ -38,7 +38,8 @@ function arraysEqual(a: readonly string[], b: readonly string[]): boolean {
  * contains it. The data manager's column picker offers the grid's columns and
  * controls which of them display, and the columns the user displays and
  * reorders are stored in the view state, so the view config does not need to
- * supply `columnOptions`.
+ * supply `columnOptions`. Set `columnPickerEnabled` on the view config to
+ * display the column picker.
  * @preview
  */
 @Directive({ selector: '[skyDataManagerColumnController]' })
@@ -46,6 +47,7 @@ export class SkyDataManagerColumnControllerDirective {
   readonly #columnSource = inject(SkyDataColumnSource, { self: true });
   readonly #dataManagerSvc = inject(SkyDataManagerService);
   readonly #dataView = inject(SkyDataViewComponent);
+  readonly #logger = inject(SkyLogService);
 
   // Subscribe under a different ID than the one updates are published with,
   // so the directive also receives its own updates and always holds the
@@ -95,25 +97,22 @@ export class SkyDataManagerColumnControllerDirective {
     },
   );
 
+  #controlsDataView: boolean | undefined;
   #publishedColumnOptions: SkyDataManagerColumnPickerOption[] | undefined;
 
   constructor() {
-    if (CONTROLLED_DATA_VIEWS.has(this.#dataView)) {
-      inject(SkyLogService).warn(
-        'A data view can have only one `skyDataManagerColumnController`. Only the first one controls the columns.',
-      );
-      return;
-    }
-
-    CONTROLLED_DATA_VIEWS.add(this.#dataView);
-
     // Withdraw the published column options so that a column controller
     // created later, such as when the grid is recreated, publishes its own.
     inject(DestroyRef).onDestroy(() => {
-      CONTROLLED_DATA_VIEWS.delete(this.#dataView);
+      if (this.#controlsDataView) {
+        CONTROLLED_DATA_VIEWS.delete(this.#dataView);
+      }
 
       const view = this.#findViewConfig();
-      if (view && view.columnOptions === this.#publishedColumnOptions) {
+      if (
+        view?.columnOptions &&
+        view.columnOptions === this.#publishedColumnOptions
+      ) {
         this.#dataManagerSvc.updateViewConfig({
           ...view,
           columnOptions: undefined,
@@ -124,6 +123,10 @@ export class SkyDataManagerColumnControllerDirective {
     // Offer the source's columns in the column picker. A view config that
     // supplies its own column options keeps them.
     effect(() => {
+      if (!this.#claimDataView()) {
+        return;
+      }
+
       const columnOptions = this.#pickerColumnOptions();
       const view = this.#findViewConfig();
 
@@ -143,6 +146,10 @@ export class SkyDataManagerColumnControllerDirective {
     // was stored. The source is read untracked so that a user reordering
     // columns does not re-run this effect and restore the stored order.
     effect(() => {
+      if (!this.#claimDataView()) {
+        return;
+      }
+
       const state = this.#reconciledState();
 
       if (state) {
@@ -160,6 +167,10 @@ export class SkyDataManagerColumnControllerDirective {
     // columns by dragging a column header. Only the source is tracked, so a data
     // state change re-runs the effect above rather than this one.
     effect(() => {
+      if (!this.#claimDataView()) {
+        return;
+      }
+
       const displayedColumnIds = this.#columnSource.displayedColumnIds();
 
       untracked(() => {
@@ -170,6 +181,28 @@ export class SkyDataManagerColumnControllerDirective {
         }
       });
     });
+  }
+
+  /**
+   * Whether this directive controls its data view's columns, decided when its
+   * effects first run. Deciding then rather than at construction lets a grid
+   * that is created before the grid it replaces is destroyed, such as by a
+   * `@for` block, take over the data view.
+   */
+  #claimDataView(): boolean {
+    if (this.#controlsDataView === undefined) {
+      this.#controlsDataView = !CONTROLLED_DATA_VIEWS.has(this.#dataView);
+
+      if (this.#controlsDataView) {
+        CONTROLLED_DATA_VIEWS.add(this.#dataView);
+      } else {
+        this.#logger.warn(
+          'A data view can have only one `skyDataManagerColumnController`. Only the first one controls the columns.',
+        );
+      }
+    }
+
+    return this.#controlsDataView;
   }
 
   #findViewConfig(): SkyDataViewConfig | undefined {
