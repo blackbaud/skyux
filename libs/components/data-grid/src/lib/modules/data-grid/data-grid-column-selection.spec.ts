@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyViewkeeperService } from '@skyux/core';
 import { SkyDataColumnSource } from '@skyux/lists';
 
 import { GridApi, getGridApi as getAgGridApi } from 'ag-grid-community';
@@ -101,6 +102,29 @@ describe('SkyDataGrid column selection', () => {
     await detect();
 
     expect(getColumnSource()).toBeInstanceOf(SkyDataGrid);
+  });
+
+  it('should keep its column headers visible while the page scrolls', async () => {
+    const createSpy = spyOn(
+      TestBed.inject(SkyViewkeeperService),
+      'create',
+    ).and.callThrough();
+    await detect();
+
+    expect(getColumnSource().viewkeeperClasses()).toEqual(['.ag-header']);
+    expect(
+      createSpy.calls
+        .allArgs()
+        .map(([options]) => options.el?.classList.contains('ag-header')),
+    ).toEqual([true]);
+  });
+
+  it('should stop keeping its column headers visible when a container keeps them visible', async () => {
+    const createSpy = spyOn(TestBed.inject(SkyViewkeeperService), 'create');
+    getColumnSource().disableViewkeeper();
+    await detect();
+
+    expect(createSpy).not.toHaveBeenCalled();
   });
 
   it('should describe the declared columns as column options', async () => {
