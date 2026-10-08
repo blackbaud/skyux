@@ -292,7 +292,8 @@ export class SkyDataGrid implements SkyDataColumnSource {
    * included are hidden, and IDs that do not match a column are ignored. This
    * is two-way bindable: once set, it emits the IDs of the displayed columns
    * when the user reorders columns. When `undefined`, every column displays in
-   * declaration order except those marked `columnHidden`.
+   * declaration order except those marked `columnHidden`. Locked columns
+   * always display first.
    */
   public readonly selectedColumnIds = model<string[] | undefined>();
 
@@ -389,15 +390,15 @@ export class SkyDataGrid implements SkyDataColumnSource {
             }
           : undefined,
         loading: untracked(() => this.loading() || !Array.isArray(this.data())),
+        // A user moves columns with the keyboard or by dragging a column
+        // header. A drag moves columns as it goes, and a drag released outside
+        // the grid reports no finished move, so sync when any drag stops too.
         onColumnMoved: (event) => {
-          // Applying a column layout moves columns too, so compare against what
-          // the grid should display; only a move the grid made on its own, such
-          // as a user dragging a column header, differs here. Intermediate
-          // moves reported mid-drag are followed by a finished one.
           if (event.finished) {
             this.#syncColumnOrderFromGrid(event.api);
           }
         },
+        onDragStopped: (event) => this.#syncColumnOrderFromGrid(event.api),
         onGridReady: (args) => {
           // The displayed columns may have changed since the column
           // definitions were created.
@@ -948,7 +949,9 @@ export class SkyDataGrid implements SkyDataColumnSource {
 
   #syncColumnOrderFromGrid(api: GridApi): void {
     // Column moves are tracked only once `selectedColumnIds` is set, so a grid
-    // without it keeps following each column's `columnHidden` setting.
+    // without it keeps following each column's `columnHidden` setting. Applying
+    // a column layout moves columns too, so compare against what the grid
+    // should display; only a move the user made differs.
     if (!this.selectedColumnIds()) {
       return;
     }
