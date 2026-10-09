@@ -11,8 +11,7 @@ import { RouterLink } from '@angular/router';
 import {
   SkyDataGrid,
   SkyDataGridColumn,
-  SkyDataGridRowDeleteCancelArgs,
-  SkyDataGridRowDeleteConfirmArgs,
+  SkyDataGridRowDeleteArgs,
 } from '@skyux/data-grid';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
@@ -99,12 +98,12 @@ export default class DataGridComponent {
     this.#cdr.markForCheck();
   }
 
-  public cancelRowDelete(args: SkyDataGridRowDeleteCancelArgs): void {
+  public cancelRowDelete(args: SkyDataGridRowDeleteArgs): void {
     this.rowDeleteEvents = this.rowDeleteEvents.concat(`Cancelled ${args.id}`);
     this.#cdr.markForCheck();
   }
 
-  public confirmRowDelete(args: SkyDataGridRowDeleteConfirmArgs): void {
+  public confirmRowDelete(args: SkyDataGridRowDeleteArgs): void {
     this.rowDeleteEvents = this.rowDeleteEvents.concat(`Confirmed ${args.id}`);
     this.#cdr.markForCheck();
     // Simulate a server request so the pending state is visible.

@@ -6,8 +6,7 @@
         "docsIds": [
           "SkyDataGrid",
           "SkyDataGridColumn",
-          "SkyDataGridRowDeleteCancelArgs",
-          "SkyDataGridRowDeleteConfirmArgs",
+          "SkyDataGridRowDeleteArgs",
           "SkyDataGridSort"
         ],
         "primaryDocsId": "SkyDataGrid"

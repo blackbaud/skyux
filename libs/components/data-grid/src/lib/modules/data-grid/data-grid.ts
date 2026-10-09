@@ -68,8 +68,7 @@ import {
 } from 'rxjs';
 
 import { SkyDataGridRowData } from '../types/data-grid-row-data';
-import { SkyDataGridRowDeleteCancelArgs } from '../types/data-grid-row-delete-cancel-args';
-import { SkyDataGridRowDeleteConfirmArgs } from '../types/data-grid-row-delete-confirm-args';
+import { SkyDataGridRowDeleteArgs } from '../types/data-grid-row-delete-args';
 import { SkyDataGridSort } from '../types/data-grid-sort';
 
 import { SkyDataGridColumn } from './data-grid-column';
@@ -286,13 +285,13 @@ export class SkyDataGrid {
   /**
    * Fires when the user cancels the deletion of a row.
    */
-  public readonly rowDeleteCancel = output<SkyDataGridRowDeleteCancelArgs>();
+  public readonly rowDeleteCancel = output<SkyDataGridRowDeleteArgs>();
 
   /**
    * Fires when the user confirms the deletion of a row. To complete the
    * deletion, remove the row from `data`.
    */
-  public readonly rowDeleteConfirm = output<SkyDataGridRowDeleteConfirmArgs>();
+  public readonly rowDeleteConfirm = output<SkyDataGridRowDeleteArgs>();
 
   /**
    * The set of IDs for the rows to select in a multiselect grid.
