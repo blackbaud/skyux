@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.2.0](https://github.com/blackbaud/skyux/compare/15.1.0...15.2.0) (2026-10-09)
+
+### Features
+
+* **components/ag-grid:** add test harnesses for render waiting and provide code example tests ([#4885](https://github.com/blackbaud/skyux/issues/4885)) ([a0373a7](https://github.com/blackbaud/skyux/commit/a0373a7d86ba8a01b2f9e79c7caacbdc4b27ecc2))
+
 ## [15.1.0](https://github.com/blackbaud/skyux/compare/15.0.3...15.1.0) (2026-10-09)
 
 ### Features
