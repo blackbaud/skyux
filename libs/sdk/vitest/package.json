@@ -23,9 +23,8 @@
     "./globals": {
       "types": "./globals.d.ts"
     },
-    "./matchers-setup.mjs": {
-      "types": "./matchers-setup.d.mts",
-      "default": "./matchers-setup.mjs"
+    "./matchers-setup.ts": {
+      "default": "./matchers-setup.ts"
     },
     "./package.json": {
       "default": "./package.json"

@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [15.1.0](https://github.com/blackbaud/skyux/compare/15.0.3...15.1.0) (2026-10-09)
+
+### Features
+
+* **components/data-grid:** add `helpKey` input to data grid column ([#4883](https://github.com/blackbaud/skyux/issues/4883)) ([cc78f1e](https://github.com/blackbaud/skyux/commit/cc78f1e7151e50af4614982ba99a9df80329b998))
+* **components/forms:** add button code examples and support for modal footer ([#4878](https://github.com/blackbaud/skyux/issues/4878)) ([e875ff3](https://github.com/blackbaud/skyux/commit/e875ff342ae4e5df40fbff46f4aca85e6e3682a3))
+* **components/pages:** add helpKey input to action hub ([#4882](https://github.com/blackbaud/skyux/issues/4882)) ([30235bc](https://github.com/blackbaud/skyux/commit/30235bc2a9f34d95b17adfdd30fbb6f0a85b579c))
+* **components/theme:** coerce theme mode to one supported by the theme and brand ([#4872](https://github.com/blackbaud/skyux/issues/4872)) ([#4873](https://github.com/blackbaud/skyux/issues/4873)) ([6e7a34a](https://github.com/blackbaud/skyux/commit/6e7a34ab43a1d830384bbcfe3fee793fe1c8115d))
+
+### Bug Fixes
+
+* **components/text-editor:** load BLKB Sans in the editor and rename the default font option ([#4877](https://github.com/blackbaud/skyux/issues/4877)) ([8c2368d](https://github.com/blackbaud/skyux/commit/8c2368d8cd866c196df58aded8cac87c4d5f5204))
+* **sdk/vitest:** publish the matchers setup file as TypeScript ([#4884](https://github.com/blackbaud/skyux/issues/4884)) ([73e546d](https://github.com/blackbaud/skyux/commit/73e546d35a30c47c889abe20b443a995177f4fd3))
+
 ## [15.0.3](https://github.com/blackbaud/skyux/compare/15.0.2...15.0.3) (2026-10-05)
 
 ### Bug Fixes
