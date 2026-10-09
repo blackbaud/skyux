@@ -15,6 +15,7 @@ import {
   SkyFilterBarModule,
   SkyFilterItemLookupSearchAsyncArgs,
 } from '@skyux/filter-bar';
+import { SkyButton } from '@skyux/forms';
 import { SkyListSummaryModule } from '@skyux/lists';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
@@ -39,6 +40,7 @@ const SOURCE_ID = 'data_entry_grid_data_manager_example_id';
   providers: [SkyDataManagerService],
   imports: [
     ViewGridComponent,
+    SkyButton,
     SkyDataManagerModule,
     SkyFilterBarModule,
     SkyListSummaryModule,

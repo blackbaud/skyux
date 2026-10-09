@@ -102,14 +102,18 @@ export class ViewGridComponent {
     },
   ];
   readonly #dataManagerSvc = inject(SkyDataManagerService);
+  // The grid adapter publishes row selection changes using the view ID as its
+  // source, so subscribe with a different ID to receive them.
   readonly #dataState = toSignal(
-    this.#dataManagerSvc.getDataStateUpdates(this.viewId),
+    this.#dataManagerSvc.getDataStateUpdates('viewGrid'),
     { initialValue: new SkyDataManagerState({}) },
   );
   readonly #gridApi = signal<GridApi | undefined>(undefined);
 
   protected readonly displayedItems = computed(() =>
-    this.#filterItems(this.#searchItems(this.items())),
+    this.#onlyShowSelectedItems(
+      this.#filterItems(this.#searchItems(this.items())),
+    ),
   );
   protected readonly gridOptions = inject(SkyAgGridService).getGridOptions({
     gridOptions: {
@@ -144,6 +148,7 @@ export class ViewGridComponent {
       iconName: 'table',
       searchEnabled: true,
       columnPickerEnabled: true,
+      multiselectToolbarEnabled: true,
       columnOptions: [
         {
           id: 'selected',
@@ -231,6 +236,16 @@ export class ViewGridComponent {
     }
 
     return filteredItems;
+  }
+
+  #onlyShowSelectedItems(items: AgGridDemoRow[]): AgGridDemoRow[] {
+    const dataState = this.#dataState();
+
+    if (dataState.onlyShowSelected) {
+      return items.filter((item) => dataState.selectedIds?.includes(item.id));
+    }
+
+    return items;
   }
 
   #searchItems(items: AgGridDemoRow[]): AgGridDemoRow[] {

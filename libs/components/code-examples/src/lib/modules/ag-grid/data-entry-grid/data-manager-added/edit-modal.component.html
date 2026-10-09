@@ -1,6 +1,6 @@
 <sky-modal headingText="Edit employee information">
   <sky-modal-content>
-    <sky-ag-grid-wrapper>
+    <sky-ag-grid-wrapper data-sky-id="edit-employees-grid">
       <ag-grid-angular
         class="sky-ag-grid-editable"
         [gridOptions]="gridOptions"
@@ -8,15 +8,17 @@
     </sky-ag-grid-wrapper>
   </sky-modal-content>
   <sky-modal-footer>
-    <button class="sky-btn sky-btn-primary" type="button" (click)="saveData()">
-      Save
-    </button>
-    <button
-      class="sky-btn sky-btn-link"
-      type="button"
-      (click)="instance.cancel()"
-    >
-      Cancel
-    </button>
+    <sky-button
+      buttonStyle="primary"
+      data-sky-id="save-button"
+      labelText="Save"
+      (buttonClick)="saveData()"
+    />
+    <sky-button
+      buttonStyle="link"
+      data-sky-id="cancel-button"
+      labelText="Cancel"
+      (buttonClick)="instance.cancel()"
+    />
   </sky-modal-footer>
 </sky-modal>

@@ -1,11 +1,15 @@
 <sky-toolbar>
   <sky-toolbar-item>
-    <button class="sky-btn sky-btn-primary" type="button" (click)="openModal()">
-      Edit
-    </button>
+    <sky-button
+      buttonStyle="primary"
+      data-sky-id="edit-button"
+      labelText="Edit"
+      (buttonClick)="openModal()"
+    />
   </sky-toolbar-item>
   <sky-toolbar-item>
     <sky-search
+      data-sky-id="employee-search"
       [debounceTime]="250"
       (searchApply)="searchApplied($event)"
       (searchChange)="searchApplied($event)"
@@ -13,6 +17,10 @@
     />
   </sky-toolbar-item>
 </sky-toolbar>
-<sky-ag-grid-wrapper>
-  <ag-grid-angular [gridOptions]="gridOptions" />
+<sky-ag-grid-wrapper data-sky-id="employee-grid">
+  <ag-grid-angular
+    [gridOptions]="gridOptions"
+    [quickFilterText]="searchText()"
+    [rowData]="gridData()"
+  />
 </sky-ag-grid-wrapper>

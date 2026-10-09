@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   SkyAgGridAutocompleteProperties,
   SkyAgGridDatepickerProperties,
@@ -12,20 +7,24 @@ import {
   SkyCellType,
   defineSkyAgGridColDef,
 } from '@skyux/ag-grid';
-import { SkyAutocompleteSelectionChange } from '@skyux/lookup';
+import { SkyButton } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
-  GridApi,
   ICellEditorParams,
-  IRowNode,
   ModuleRegistry,
+  ValueSetterParams,
 } from 'ag-grid-community';
 
-import { AgGridDemoRow, DEPARTMENTS, JOB_TITLES } from './data';
+import {
+  AgGridDemoRow,
+  AutocompleteOption,
+  DEPARTMENTS,
+  JOB_TITLES,
+} from './data';
 import { EditModalContext } from './edit-modal-context';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -34,7 +33,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-edit-modal',
   templateUrl: './edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridAngular, SkyAgGridModule, SkyModalModule],
+  imports: [AgGridAngular, SkyButton, SkyAgGridModule, SkyModalModule],
 })
 export class EditModalComponent {
   protected gridData = inject(EditModalContext).gridData;
@@ -100,22 +99,27 @@ export class EditModalComponent {
           headerName: 'Department',
           type: SkyCellType.Autocomplete,
           editable: true,
-          cellEditorParams: (
-            params: ICellEditorParams<AgGridDemoRow>,
-          ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
-            return {
-              skyComponentProperties: {
-                data: DEPARTMENTS,
-                selectionChange: (change): void => {
-                  this.#departmentSelectionChange(change, params.node);
-                },
-              },
-            };
+          cellEditorParams: {
+            skyComponentProperties: {
+              data: DEPARTMENTS,
+            },
           },
-          onCellValueChanged: (event): void => {
-            if (event.newValue !== event.oldValue) {
-              this.#clearJobTitle(event.node);
+          valueSetter: (
+            params: ValueSetterParams<AgGridDemoRow, AutocompleteOption>,
+          ): boolean => {
+            if (params.newValue?.name === params.oldValue?.name) {
+              return false;
             }
+
+            params.data.department = params.newValue ?? undefined;
+            // Job titles belong to a department, so clear the title when the
+            // department changes. This must happen here rather than in
+            // `onCellValueChanged`, because tabbing to the next cell starts
+            // the job title editor before that event fires.
+            params.data.jobTitle = undefined;
+            params.api.refreshCells({ columns: ['jobTitle'] });
+
+            return true;
           },
         }),
         defineSkyAgGridColDef({
@@ -126,17 +130,13 @@ export class EditModalComponent {
           cellEditorParams: (
             params: ICellEditorParams<AgGridDemoRow>,
           ): { skyComponentProperties: SkyAgGridAutocompleteProperties } => {
-            const selectedDepartment = params.data?.department?.name;
-            const editParams: {
-              skyComponentProperties: SkyAgGridAutocompleteProperties;
-            } = { skyComponentProperties: { data: [] } };
+            const department = params.data.department?.name;
 
-            if (selectedDepartment) {
-              editParams.skyComponentProperties.data =
-                JOB_TITLES[selectedDepartment];
-            }
-
-            return editParams;
+            return {
+              skyComponentProperties: {
+                data: department ? JOB_TITLES[department] : [],
+              },
+            };
           },
         }),
         {
@@ -161,36 +161,13 @@ export class EditModalComponent {
           editable: true,
         }),
       ] as ColDef<AgGridDemoRow>[],
-      onGridReady: (gridReadyEvent): void => {
-        this.#gridApi.set(gridReadyEvent.api);
-      },
-      onGridPreDestroyed: (): void => {
-        this.#gridApi.set(undefined);
-      },
       stopEditingWhenCellsLoseFocus: true,
     },
   });
-  readonly #gridApi = signal<GridApi | undefined>(undefined);
 
   protected readonly instance = inject(SkyModalInstance);
 
   protected saveData(): void {
     this.instance.save(this.gridData);
-  }
-
-  #departmentSelectionChange(
-    change: SkyAutocompleteSelectionChange,
-    node: IRowNode<AgGridDemoRow>,
-  ): void {
-    if (change.selectedItem && change.selectedItem !== node.data?.department) {
-      this.#clearJobTitle(node);
-    }
-  }
-
-  #clearJobTitle(node: IRowNode<AgGridDemoRow> | null): void {
-    if (node?.data) {
-      node.data.jobTitle = undefined;
-      this.#gridApi()?.applyTransaction({ update: [node.data] });
-    }
   }
 }
