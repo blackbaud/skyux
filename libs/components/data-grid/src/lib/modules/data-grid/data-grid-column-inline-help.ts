@@ -15,6 +15,7 @@ import { SkyHelpInlineModule } from '@skyux/help-inline';
   imports: [SkyHelpInlineModule],
   template: `@if (showHelpInline()) {
     <sky-help-inline
+      [helpKey]="helpKey()"
       [popoverTitle]="helpPopoverTitle()"
       [popoverContent]="helpPopoverContent()"
     />
@@ -25,7 +26,7 @@ export class SkyDataGridColumnInlineHelp {
   protected readonly info = inject(SkyAgGridHeaderInfo);
 
   protected readonly showHelpInline = computed(
-    () => !!this.helpPopoverContent(),
+    () => !!this.helpPopoverContent() || !!this.helpKey(),
   );
 
   protected readonly helpPopoverTitle = computed(
@@ -34,6 +35,10 @@ export class SkyDataGridColumnInlineHelp {
 
   protected readonly helpPopoverContent = computed(
     () => this.#headerComponentParams()?.helpPopoverContent,
+  );
+
+  protected readonly helpKey = computed(
+    () => this.#headerComponentParams()?.helpKey,
   );
 
   readonly #headerComponentParams = computed(

@@ -863,6 +863,7 @@ export class SkyDataGrid {
       headerHidden: col.headingHidden(),
       helpPopoverTitle: col.helpPopoverTitle(),
       helpPopoverContent: col.helpPopoverContent(),
+      helpKey: col.helpKey(),
       inlineHelpComponent: SkyDataGridColumnInlineHelp,
     };
   }
