@@ -15,6 +15,7 @@ import {
   input,
   linkedSignal,
   model,
+  output,
   Signal,
   signal,
   TemplateRef,
@@ -67,6 +68,8 @@ import {
 } from 'rxjs';
 
 import { SkyDataGridRowData } from '../types/data-grid-row-data';
+import { SkyDataGridRowDeleteCancelArgs } from '../types/data-grid-row-delete-cancel-args';
+import { SkyDataGridRowDeleteConfirmArgs } from '../types/data-grid-row-delete-confirm-args';
 import { SkyDataGridSort } from '../types/data-grid-sort';
 
 import { SkyDataGridColumn } from './data-grid-column';
@@ -271,6 +274,25 @@ export class SkyDataGrid {
    * @default 1
    */
   public readonly page = model<number>(1);
+
+  /**
+   * The IDs of the rows that display an inline delete confirmation. This is
+   * two-way bindable: an ID is removed when the user cancels the deletion of
+   * its row, or when its row is no longer in the grid.
+   * @default []
+   */
+  public readonly rowDeleteIds = model<string[]>([]);
+
+  /**
+   * Fires when the user cancels the deletion of a row.
+   */
+  public readonly rowDeleteCancel = output<SkyDataGridRowDeleteCancelArgs>();
+
+  /**
+   * Fires when the user confirms the deletion of a row. To complete the
+   * deletion, remove the row from `data`.
+   */
+  public readonly rowDeleteConfirm = output<SkyDataGridRowDeleteConfirmArgs>();
 
   /**
    * The set of IDs for the rows to select in a multiselect grid.

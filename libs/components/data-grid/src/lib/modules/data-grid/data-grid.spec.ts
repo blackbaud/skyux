@@ -32,6 +32,7 @@ import { DataGridTestComponent } from './fixtures/data-grid-test.component';
 import { FlexWidthTestComponent } from './fixtures/flex-width-test.component';
 import { ResourceColumnsTestComponent } from './fixtures/resource-columns-test.component';
 import { ResourceDataTestComponent } from './fixtures/resource-data-test.component';
+import { RowDeleteTestComponent } from './fixtures/row-delete-test.component';
 import { TemplateColumnTestComponent } from './fixtures/template-column-test.component';
 
 /**
@@ -1484,6 +1485,108 @@ describe('SkyDataGrid', () => {
       );
       expect(api?.getGridOption('pagination')).toBeTrue();
       expect(api?.getGridOption('paginationPageSize')).toBe(1);
+    });
+  });
+
+  describe('row delete', () => {
+    let fixture: ComponentFixture<RowDeleteTestComponent>;
+    let dataGrid: SkyDataGrid;
+
+    function getInlineDeletes(): NodeListOf<HTMLElement> {
+      return document.querySelectorAll('.sky-inline-delete-standard');
+    }
+
+    async function setRowDeleteIds(ids: string[]): Promise<void> {
+      fixture.componentInstance.rowDeleteIds.set(ids);
+      await flushAgGridWork(fixture);
+    }
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(RowDeleteTestComponent);
+      dataGrid = fixture.debugElement.query(By.directive(SkyDataGrid))
+        .componentInstance as SkyDataGrid;
+    });
+
+    afterEach(() => {
+      fixture.destroy();
+    });
+
+    it('should not show an inline delete when rowDeleteIds is empty', async () => {
+      await flushAgGridWork(fixture);
+
+      expect(getInlineDeletes()).toHaveSize(0);
+    });
+
+    it('should show an inline delete for each row in rowDeleteIds', async () => {
+      await flushAgGridWork(fixture);
+      await setRowDeleteIds(['1', '3']);
+
+      expect(getInlineDeletes()).toHaveSize(2);
+      expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
+      expect(document.querySelector('#row-delete-ref-3')).not.toBeNull();
+    });
+
+    it('should remove the row ID and emit rowDeleteCancel when deletion is cancelled', async () => {
+      const cancelSpy = jasmine.createSpy('rowDeleteCancel');
+      const confirmSpy = jasmine.createSpy('rowDeleteConfirm');
+      dataGrid.rowDeleteCancel.subscribe(cancelSpy);
+      dataGrid.rowDeleteConfirm.subscribe(confirmSpy);
+      await flushAgGridWork(fixture);
+      await setRowDeleteIds(['1', '2']);
+
+      document
+        .querySelector<HTMLElement>(
+          '#row-delete-ref-1 .sky-inline-delete-cancel-button',
+        )
+        ?.click();
+      await flushAgGridWork(fixture);
+
+      expect(cancelSpy).toHaveBeenCalledOnceWith({ id: '1' });
+      expect(confirmSpy).not.toHaveBeenCalled();
+      expect(fixture.componentInstance.rowDeleteIds()).toEqual(['2']);
+      expect(getInlineDeletes()).toHaveSize(1);
+    });
+
+    it('should emit rowDeleteConfirm and remove the row ID once the row is removed from data', async () => {
+      const cancelSpy = jasmine.createSpy('rowDeleteCancel');
+      const confirmSpy = jasmine.createSpy('rowDeleteConfirm');
+      dataGrid.rowDeleteCancel.subscribe(cancelSpy);
+      dataGrid.rowDeleteConfirm.subscribe(confirmSpy);
+      await flushAgGridWork(fixture);
+      await setRowDeleteIds(['1', '2']);
+
+      document
+        .querySelector<HTMLElement>(
+          '#row-delete-ref-1 .sky-inline-delete-button',
+        )
+        ?.click();
+      await flushAgGridWork(fixture);
+
+      expect(confirmSpy).toHaveBeenCalledOnceWith({ id: '1' });
+      expect(cancelSpy).not.toHaveBeenCalled();
+      expect(fixture.componentInstance.rowDeleteIds()).toEqual(['1', '2']);
+
+      fixture.componentInstance.data.update((data) =>
+        data.filter((row) => row.id !== '1'),
+      );
+      await flushAgGridWork(fixture);
+
+      expect(fixture.componentInstance.rowDeleteIds()).toEqual(['2']);
+      expect(document.querySelector('#row-delete-ref-1')).toBeNull();
+      expect(getInlineDeletes()).toHaveSize(1);
+    });
+
+    describe('a11y', () => {
+      it('should be accessible when an inline delete is shown', async () => {
+        await flushAgGridWork(fixture);
+        await setRowDeleteIds(['1']);
+
+        // The inline delete renders in an overlay outside the fixture, so
+        // check the whole page; the bare test page has no landmarks.
+        await expectAsync(document.body).toBeAccessible({
+          rules: { region: { enabled: false } },
+        });
+      });
     });
   });
 
