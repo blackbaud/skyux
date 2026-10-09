@@ -2,6 +2,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAgGridModule } from '@skyux/ag-grid';
+import { SkyInlineDeleteHarness } from '@skyux/layout/testing';
 
 import { provideSkyAgGridTesting } from '../ag-grid/provide-ag-grid-testing';
 import { SkyAgGridWrapperHarness } from './ag-grid-wrapper-harness';
@@ -13,6 +14,16 @@ import { AgGridTestComponent } from './fixtures/ag-grid-test.component';
   imports: [SkyAgGridModule],
 })
 class TestComponent {}
+
+@Component({
+  selector: 'app-two-grids-test',
+  template: `
+    <app-ag-grid-test [rowDeleteIds]="['2']" />
+    <app-ag-grid-test />
+  `,
+  imports: [AgGridTestComponent],
+})
+class TwoGridsTestComponent {}
 
 describe('SkyAgGridWrapperHarness', () => {
   describe('using TestComponent', () => {
@@ -143,6 +154,53 @@ describe('SkyAgGridWrapperHarness', () => {
       } finally {
         (window as any).AG_GRID_UNDER_TEST = originalValue;
       }
+    });
+
+    it('should get the inline delete for a row', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(
+        SkyAgGridWrapperHarness.with({ dataSkyId: 'ag-grid-wrapper' }),
+      );
+      await expectAsync(harness.getRowInlineDelete('2')).toBeResolvedTo(null);
+
+      fixture.componentRef.setInput('rowDeleteIds', ['2']);
+
+      const inlineDelete = await harness.getRowInlineDelete('2');
+      expect(inlineDelete).toBeInstanceOf(SkyInlineDeleteHarness);
+      await expectAsync(inlineDelete?.isPending()).toBeResolvedTo(false);
+      await expectAsync(harness.getRowInlineDelete('3')).toBeResolvedTo(null);
+
+      await inlineDelete?.clickCancelButton();
+
+      await expectAsync(harness.getRowInlineDelete('2')).toBeResolvedTo(null);
+    });
+  });
+
+  describe('using TwoGridsTestComponent', () => {
+    it('should only get the inline delete for a row in its own grid', async () => {
+      TestBed.configureTestingModule({
+        providers: [provideSkyAgGridTesting()],
+      });
+      const fixture = TestBed.createComponent(TwoGridsTestComponent);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // Both grids have a row with the ID '2', but only the first grid is
+      // showing an inline delete for it.
+      const [firstGrid, secondGrid] = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getAllHarnesses(SkyAgGridWrapperHarness);
+
+      await expectAsync(firstGrid.getRowInlineDelete('2')).toBeResolvedTo(
+        jasmine.any(SkyInlineDeleteHarness),
+      );
+      await expectAsync(secondGrid.getRowInlineDelete('2')).toBeResolvedTo(
+        null,
+      );
     });
   });
 });

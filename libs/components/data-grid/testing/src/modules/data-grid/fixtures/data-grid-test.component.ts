@@ -61,6 +61,7 @@ export class DataGridTestComponent {
 
   public page = 1;
   public readonly pageSize = input(0);
+  public readonly rowDeleteIds = input<string[]>([]);
   public pageQueryParam = '';
 
   protected readonly showAllColumns = input<boolean>(true);

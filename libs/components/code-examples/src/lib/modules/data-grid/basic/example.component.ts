@@ -5,7 +5,11 @@ import {
   model,
   signal,
 } from '@angular/core';
-import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+import {
+  SkyDataGrid,
+  SkyDataGridColumn,
+  SkyDataGridRowDeleteArgs,
+} from '@skyux/data-grid';
 import { SkyBoxModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -22,6 +26,7 @@ import { DATA_GRID_DEMO_DATA, DataGridDemoRow } from './data';
 })
 export class DataGridBasicExampleComponent {
   protected readonly gridData = signal<DataGridDemoRow[]>(DATA_GRID_DEMO_DATA);
+  protected readonly rowDeleteIds = signal<string[]>([]);
   protected readonly selectedRowIds = model<string[]>([]);
 
   protected readonly selectedNames = computed(() => {
@@ -35,5 +40,14 @@ export class DataGridBasicExampleComponent {
 
   public actionClicked(row: DataGridDemoRow, action: string): void {
     alert(`${action} clicked for ${row.name}`);
+  }
+
+  protected deleteRow(row: DataGridDemoRow): void {
+    this.rowDeleteIds.update((ids) => [...ids, row.id]);
+  }
+
+  protected onRowDeleteConfirm(args: SkyDataGridRowDeleteArgs): void {
+    // Removing the row from the data also removes its ID from `rowDeleteIds`.
+    this.gridData.update((rows) => rows.filter((row) => row.id !== args.id));
   }
 }

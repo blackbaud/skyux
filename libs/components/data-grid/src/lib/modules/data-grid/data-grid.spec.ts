@@ -19,6 +19,8 @@ import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyWaitHarness } from '@skyux/indicators/testing';
 // eslint-disable-next-line @nx/enforce-module-boundaries
+import { SkyInlineDeleteHarness } from '@skyux/layout/testing';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
 import { ColDef, getGridApi as getAgGridApi, GridApi } from 'ag-grid-community';
@@ -1492,9 +1494,21 @@ describe('SkyDataGrid', () => {
   describe('row delete', () => {
     let fixture: ComponentFixture<RowDeleteTestComponent>;
     let dataGrid: SkyDataGrid;
+    let docLoader: HarnessLoader;
 
-    function getInlineDeletes(): NodeListOf<HTMLElement> {
-      return document.querySelectorAll('.sky-inline-delete-standard');
+    // The inline deletes render in an overlay outside the fixture, so they
+    // are queried from the document root.
+    async function getInlineDeletes(): Promise<SkyInlineDeleteHarness[]> {
+      return await docLoader.getAllHarnesses(SkyInlineDeleteHarness);
+    }
+
+    async function getRowInlineDelete(
+      rowId: string,
+    ): Promise<SkyInlineDeleteHarness | null> {
+      const wrapper = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(SkyAgGridWrapperHarness);
+      return await wrapper.getRowInlineDelete(rowId);
     }
 
     async function setRowDeleteIds(ids: string[]): Promise<void> {
@@ -1504,6 +1518,7 @@ describe('SkyDataGrid', () => {
 
     beforeEach(() => {
       fixture = TestBed.createComponent(RowDeleteTestComponent);
+      docLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
       dataGrid = fixture.debugElement.query(By.directive(SkyDataGrid))
         .componentInstance as SkyDataGrid;
     });
@@ -1515,16 +1530,21 @@ describe('SkyDataGrid', () => {
     it('should not show an inline delete when rowDeleteIds is empty', async () => {
       await flushAgGridWork(fixture);
 
-      expect(getInlineDeletes()).toHaveSize(0);
+      await expectAsync(getInlineDeletes()).toBeResolvedTo([]);
     });
 
     it('should show an inline delete for each row in rowDeleteIds', async () => {
       await flushAgGridWork(fixture);
       await setRowDeleteIds(['1', '3']);
 
-      expect(getInlineDeletes()).toHaveSize(2);
-      expect(document.querySelector('#row-delete-ref-1')).not.toBeNull();
-      expect(document.querySelector('#row-delete-ref-3')).not.toBeNull();
+      expect(await getInlineDeletes()).toHaveSize(2);
+      await expectAsync(getRowInlineDelete('1')).toBeResolvedTo(
+        jasmine.any(SkyInlineDeleteHarness),
+      );
+      await expectAsync(getRowInlineDelete('3')).toBeResolvedTo(
+        jasmine.any(SkyInlineDeleteHarness),
+      );
+      await expectAsync(getRowInlineDelete('2')).toBeResolvedTo(null);
     });
 
     it('should remove the row ID and emit rowDeleteCancel when deletion is cancelled', async () => {
@@ -1541,17 +1561,14 @@ describe('SkyDataGrid', () => {
       await flushAgGridWork(fixture);
       await setRowDeleteIds(['1', '2']);
 
-      document
-        .querySelector<HTMLElement>(
-          '#row-delete-ref-1 .sky-inline-delete-cancel-button',
-        )
-        ?.click();
+      await (await getRowInlineDelete('1'))?.clickCancelButton();
       await flushAgGridWork(fixture);
 
       expect(cancelSpy).toHaveBeenCalledOnceWith({ id: '1' });
       expect(confirmSpy).not.toHaveBeenCalled();
       expect(fixture.componentInstance.rowDeleteIds()).toEqual(['2']);
-      expect(getInlineDeletes()).toHaveSize(1);
+      await expectAsync(getRowInlineDelete('1')).toBeResolvedTo(null);
+      expect(await getInlineDeletes()).toHaveSize(1);
     });
 
     it('should emit rowDeleteConfirm and remove the row ID once the row is removed from data', async () => {
@@ -1568,16 +1585,14 @@ describe('SkyDataGrid', () => {
       await flushAgGridWork(fixture);
       await setRowDeleteIds(['1', '2']);
 
-      document
-        .querySelector<HTMLElement>(
-          '#row-delete-ref-1 .sky-inline-delete-button',
-        )
-        ?.click();
+      const inlineDelete = await getRowInlineDelete('1');
+      await inlineDelete?.clickDeleteButton();
       await flushAgGridWork(fixture);
 
       expect(confirmSpy).toHaveBeenCalledOnceWith({ id: '1' });
       expect(cancelSpy).not.toHaveBeenCalled();
       expect(fixture.componentInstance.rowDeleteIds()).toEqual(['1', '2']);
+      await expectAsync(inlineDelete?.isPending()).toBeResolvedTo(true);
 
       fixture.componentInstance.data.update((data) =>
         data.filter((row) => row.id !== '1'),
@@ -1585,8 +1600,8 @@ describe('SkyDataGrid', () => {
       await flushAgGridWork(fixture);
 
       expect(fixture.componentInstance.rowDeleteIds()).toEqual(['2']);
-      expect(document.querySelector('#row-delete-ref-1')).toBeNull();
-      expect(getInlineDeletes()).toHaveSize(1);
+      await expectAsync(getRowInlineDelete('1')).toBeResolvedTo(null);
+      expect(await getInlineDeletes()).toHaveSize(1);
     });
 
     describe('a11y', () => {

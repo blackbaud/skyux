@@ -706,6 +706,21 @@ describe('SkyAgGridRowDeleteDirective', () => {
     expect(document.getElementById(otherOverlay.id)).toBeFalsy();
   });
 
+  it('should tag the row delete overlay with the ID of its grid', async () => {
+    setupTest();
+    await fixture.whenStable();
+
+    const gridId = (fixture.nativeElement as HTMLElement).querySelector(
+      'div.sky-ag-grid',
+    )?.id;
+    expect(gridId).toMatch(/^sky-ag-grid-\d+$/);
+    expect(
+      document.querySelectorAll(
+        `sky-overlay[data-sky-ag-grid-id="${gridId}"] sky-ag-grid-row-delete`,
+      ),
+    ).toHaveSize(1);
+  });
+
   it('should be accessible', async () => {
     setupTest();
     fixture.componentInstance.rowDeleteIds.set(['0', '1']);
@@ -714,5 +729,41 @@ describe('SkyAgGridRowDeleteDirective', () => {
     await expectAsync(document.body).toBeAccessible({
       rules: { region: { enabled: false } },
     });
+  });
+});
+
+describe('SkyAgGridRowDeleteDirective outside of a grid wrapper', () => {
+  @Component({
+    imports: [SkyAgGridRowDeleteDirective],
+    template: '<div skyAgGridRowDelete></div>',
+  })
+  class RowDeleteWithoutGridComponent {}
+
+  it('should not tag the row delete overlay with a grid ID', async () => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: SkyScrollableHostService,
+          useValue: {
+            watchScrollableHostClipPathChanges: jasmine
+              .createSpy('watchScrollableHostClipPathChanges')
+              .and.returnValue(of('none')),
+          },
+        },
+      ],
+    });
+    const getUntaggedOverlayCount = (): number =>
+      document.querySelectorAll(
+        'sky-overlay:not([data-sky-ag-grid-id]) sky-ag-grid-row-delete',
+      ).length;
+    const untaggedOverlayCount = getUntaggedOverlayCount();
+
+    const fixture = TestBed.createComponent(RowDeleteWithoutGridComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(getUntaggedOverlayCount()).toBe(untaggedOverlayCount + 1);
+
+    fixture.destroy();
   });
 });
