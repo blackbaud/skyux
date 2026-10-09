@@ -1,3 +1,6 @@
+import { createRequire } from 'node:module';
+import path from 'node:path';
+
 import { TestBed } from '@angular/core/testing';
 import { SkyAppResourcesService, SkyLibResourcesService } from '@skyux/i18n';
 import { EMPTY, of as observableOf } from 'rxjs';
@@ -8,13 +11,15 @@ import {
 } from '../testing/provide-resources.js';
 
 describe('Vitest setupFiles integration', () => {
-  it('should resolve the matchers-setup.js subpath at compile time', () => {
-    type SetupMatchersModule =
-      typeof import('@skyux-sdk/vitest/matchers-setup.mjs');
+  it('should export the matchers-setup.ts subpath', () => {
+    // The SKY UX `unit-test` builder resolves the setup file the same way.
+    const resolved = createRequire(import.meta.url).resolve(
+      '@skyux-sdk/vitest/matchers-setup.ts',
+    );
 
-    const resolved = true as boolean | SetupMatchersModule;
-
-    expect(resolved).toBe(true);
+    expect(resolved).toBe(
+      path.join(import.meta.dirname, '../../matchers-setup.ts'),
+    );
   });
 
   describe('toBeAccessible', () => {

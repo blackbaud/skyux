@@ -20,7 +20,11 @@
         "tsConfig": "libs/sdk/vitest/tsconfig.lib.json",
         "packageJson": "libs/sdk/vitest/package.json",
         "main": "libs/sdk/vitest/src/index.ts",
-        "assets": ["libs/sdk/vitest/*.md", "libs/sdk/vitest/globals.d.ts"]
+        "assets": [
+          "libs/sdk/vitest/*.md",
+          "libs/sdk/vitest/globals.d.ts",
+          "libs/sdk/vitest/matchers-setup.ts"
+        ]
       }
     },
     "lint": {
@@ -28,7 +32,7 @@
       "options": {
         "lintFilePatterns": [
           "{projectRoot}/src/**/*.ts",
-          "{projectRoot}/matchers-setup.mts"
+          "{projectRoot}/matchers-setup.ts"
         ]
       }
     },
