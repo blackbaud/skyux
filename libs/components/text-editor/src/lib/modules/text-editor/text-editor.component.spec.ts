@@ -722,8 +722,8 @@ describe('Text editor', () => {
     it('Shows correct font list', fakeAsync(() => {
       testComponent.fontList = [
         {
-          name: 'Blackbaud Sans',
-          value: '"Blackbaud Sans", Arial, sans-serif',
+          name: 'BLKB Sans',
+          value: '"BLKB Sans", Arial, sans-serif',
         },
         {
           name: 'Arial',
@@ -1505,6 +1505,58 @@ describe('Text editor', () => {
       expect(style.getPropertyValue('font-family')).toEqual(`"${font}"`);
       expect(style.getPropertyValue('font-size')).toEqual(`${fontSize}px`);
     }));
+
+    describe('font picker label', () => {
+      function getFontPickerLabel(): string | undefined {
+        return fixture.nativeElement
+          .querySelector('.sky-text-editor-font-picker sky-dropdown-button')
+          ?.textContent?.trim();
+      }
+
+      function setInitialFont(font: string): void {
+        testComponent.initialStyleState = {
+          ...STYLE_STATE_DEFAULTS,
+          font,
+        };
+        fixture.detectChanges();
+      }
+
+      it('should show the default font', () => {
+        fixture.detectChanges();
+
+        expect(getFontPickerLabel()).toBe('BLKB Sans');
+      });
+
+      it('should show "BLKB Sans" for the deprecated "Blackbaud Sans" font family', () => {
+        setInitialFont('"Blackbaud Sans", Arial, sans-serif');
+
+        expect(getFontPickerLabel()).toBe('BLKB Sans');
+      });
+
+      it('should show "BLKB Sans" for the deprecated "Blackbaud Sans" font name', () => {
+        setInitialFont('"Blackbaud Sans"');
+
+        expect(getFontPickerLabel()).toBe('BLKB Sans');
+      });
+
+      it('should show "Blackbaud Sans" when a custom font list still includes it', () => {
+        testComponent.fontList = [
+          {
+            name: 'Blackbaud Sans',
+            value: '"Blackbaud Sans", Arial, sans-serif',
+          },
+        ];
+        setInitialFont('"Blackbaud Sans", Arial, sans-serif');
+
+        expect(getFontPickerLabel()).toBe('Blackbaud Sans');
+      });
+
+      it('should show no font when the font is not in the font list', () => {
+        setInitialFont('"Not A Listed Font"');
+
+        expect(getFontPickerLabel()).toBe('');
+      });
+    });
 
     it('should pass accessibility', async () => {
       fixture.detectChanges();

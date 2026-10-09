@@ -62,7 +62,8 @@ sky-modal-footer {
     --sky-font-text_decoration-standalone_link-disabled
   );
 
-  .sky-btn + .sky-btn {
+  .sky-btn + .sky-btn,
+  sky-button + sky-button {
     margin-left: var(
       --sky-override-modal-footer-btn-btn-margin,
       var(--sky-space-gap-action_group-m)

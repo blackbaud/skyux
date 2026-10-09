@@ -464,17 +464,31 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'FormsButtonExampleComponent',
+    path: 'FormsButtonBasicExample',
     loadComponent: () =>
       import('@skyux/code-examples').then(
-        ({ FormsButtonExampleComponent: c }) => c,
+        ({ FormsButtonBasicExample: c }) => c,
       ),
   },
   {
-    path: 'FormsButtonToolbarExampleComponent',
+    path: 'FormsButtonInModalExample',
     loadComponent: () =>
       import('@skyux/code-examples').then(
-        ({ FormsButtonToolbarExampleComponent: c }) => c,
+        ({ FormsButtonInModalExample: c }) => c,
+      ),
+  },
+  {
+    path: 'FormsButtonPermalinkExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ FormsButtonPermalinkExample: c }) => c,
+      ),
+  },
+  {
+    path: 'FormsButtonToolbarExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ FormsButtonToolbarExample: c }) => c,
       ),
   },
   {

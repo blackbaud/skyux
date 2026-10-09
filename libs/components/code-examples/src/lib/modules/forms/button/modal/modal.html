@@ -1,0 +1,27 @@
+<form
+  data-sky-id="add-user-modal"
+  [formGroup]="userForm"
+  (ngSubmit)="saveUser()"
+>
+  <sky-modal headingText="Add user" [isDirty]="userForm.dirty">
+    <sky-modal-content>
+      <sky-input-box data-sky-id="user-name-input-box" labelText="User name">
+        <input formControlName="userName" type="text" />
+      </sky-input-box>
+    </sky-modal-content>
+    <sky-modal-footer>
+      <sky-button
+        buttonStyle="primary"
+        buttonType="submit"
+        data-sky-id="user-save-button"
+        labelText="Save"
+      />
+      <sky-button
+        buttonStyle="link"
+        data-sky-id="user-cancel-button"
+        labelText="Cancel"
+        (buttonClick)="instance.cancel()"
+      />
+    </sky-modal-footer>
+  </sky-modal>
+</form>

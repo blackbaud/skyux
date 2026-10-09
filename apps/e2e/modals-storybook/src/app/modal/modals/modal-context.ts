@@ -8,4 +8,5 @@ export class ModalTestContext {
   public headingText?: string;
   public helpPopoverContent?: string;
   public modalContent?: string;
+  public useSkyButton?: boolean;
 }

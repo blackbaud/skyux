@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyModalError, SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { ModalTestContext } from './modal-context';
@@ -6,7 +7,7 @@ import { ModalTestContext } from './modal-context';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal-basic.component.html',
-  imports: [SkyModalModule],
+  imports: [SkyButton, SkyModalModule],
 })
 export class ModalBasicComponent {
   public errors: SkyModalError[] | undefined;

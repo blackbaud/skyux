@@ -144,6 +144,20 @@ export class SkyThemeService {
       );
     }
 
+    const supportedModes = this.#getSupportedModes(
+      settings.theme,
+      settings.brand,
+    );
+
+    if (!supportedModes.includes(settings.mode)) {
+      settings = new SkyThemeSettings(
+        settings.theme,
+        supportedModes[0],
+        settings.spacing,
+        settings.brand,
+      );
+    }
+
     const previous = this.#current;
 
     this.#applyThemeClass(previous, settings, 'theme');
@@ -297,6 +311,20 @@ export class SkyThemeService {
     return theme === SkyTheme.presets.modern
       ? new SkyThemeBrand('blackbaud', '1.0.0')
       : undefined;
+  }
+
+  #getSupportedModes(
+    theme: SkyTheme,
+    brand: SkyThemeBrand | undefined,
+  ): SkyThemeMode[] {
+    const brandModes =
+      brand && this.#brandSvc.resolveBrand(brand).supportedModes;
+
+    const commonModes = brandModes
+      ? theme.supportedModes.filter((mode) => brandModes.includes(mode))
+      : theme.supportedModes;
+
+    return commonModes.length > 0 ? commonModes : [theme.supportedModes[0]];
   }
 
   #getRenderer(): Renderer2 {

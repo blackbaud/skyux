@@ -1,4 +1,5 @@
 import { SkyThemeBrand } from './theme-brand';
+import { SkyThemeMode } from './theme-mode';
 
 describe('Theme brand', () => {
   it('should set the name correctly', () => {
@@ -297,6 +298,26 @@ describe('Theme brand', () => {
       });
     });
 
+    it('should serialize brand with supportedModes correctly', () => {
+      const brand = new SkyThemeBrand(
+        'custom',
+        '2.0.0',
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        [SkyThemeMode.presets.light],
+      );
+
+      expect(brand.serialize()).toEqual({
+        name: 'custom',
+        version: '2.0.0',
+        supportedModes: [{ name: 'light', isPreset: true }],
+      });
+    });
+
     it('should serialize brand with all properties correctly', () => {
       const styleUrl = 'https://example.com/styles.css';
       const sriHash = 'sha384-abc123def456';
@@ -428,6 +449,16 @@ describe('Theme brand', () => {
         color: '#fff',
         url: 'https://example.com/mask-icon.ico',
       });
+    });
+
+    it('should deserialize brand with supportedModes correctly', () => {
+      const brand = SkyThemeBrand.deserialize({
+        name: 'custom',
+        version: '2.0.0',
+        supportedModes: [{ name: 'light', isPreset: true }],
+      });
+
+      expect(brand.supportedModes).toEqual([SkyThemeMode.presets.light]);
     });
 
     it('should deserialize brand with all properties correctly', () => {
