@@ -23,6 +23,7 @@ import { SkyPagingHarness } from '@skyux/lists/testing';
 
 import { ColDef, getGridApi as getAgGridApi, GridApi } from 'ag-grid-community';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { SkyDataGridRowDeleteArgs } from '../types/data-grid-row-delete-args';
 import { SkyDataGrid } from './data-grid';
 import { SkyDataGridColumn } from './data-grid-column';
 import { AsyncColumnsTestComponent } from './fixtures/async-columns-test.component';
@@ -1527,8 +1528,14 @@ describe('SkyDataGrid', () => {
     });
 
     it('should remove the row ID and emit rowDeleteCancel when deletion is cancelled', async () => {
-      const cancelSpy = jasmine.createSpy('rowDeleteCancel');
-      const confirmSpy = jasmine.createSpy('rowDeleteConfirm');
+      const cancelSpy =
+        jasmine.createSpy<(args: SkyDataGridRowDeleteArgs) => void>(
+          'rowDeleteCancel',
+        );
+      const confirmSpy =
+        jasmine.createSpy<(args: SkyDataGridRowDeleteArgs) => void>(
+          'rowDeleteConfirm',
+        );
       dataGrid.rowDeleteCancel.subscribe(cancelSpy);
       dataGrid.rowDeleteConfirm.subscribe(confirmSpy);
       await flushAgGridWork(fixture);
@@ -1548,8 +1555,14 @@ describe('SkyDataGrid', () => {
     });
 
     it('should emit rowDeleteConfirm and remove the row ID once the row is removed from data', async () => {
-      const cancelSpy = jasmine.createSpy('rowDeleteCancel');
-      const confirmSpy = jasmine.createSpy('rowDeleteConfirm');
+      const cancelSpy =
+        jasmine.createSpy<(args: SkyDataGridRowDeleteArgs) => void>(
+          'rowDeleteCancel',
+        );
+      const confirmSpy =
+        jasmine.createSpy<(args: SkyDataGridRowDeleteArgs) => void>(
+          'rowDeleteConfirm',
+        );
       dataGrid.rowDeleteCancel.subscribe(cancelSpy);
       dataGrid.rowDeleteConfirm.subscribe(confirmSpy);
       await flushAgGridWork(fixture);
