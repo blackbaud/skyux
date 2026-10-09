@@ -91,7 +91,7 @@ export interface AgGridDemoRow {
   age: number;
   startDate: Date;
   endDate?: Date;
-  department: AutocompleteOption;
+  department?: AutocompleteOption;
   jobTitle?: AutocompleteOption;
   validationCurrency?: number;
   validationDate?: Date;

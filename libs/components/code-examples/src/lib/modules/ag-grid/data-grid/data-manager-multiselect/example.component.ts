@@ -36,7 +36,8 @@ const SOURCE_ID = 'data_grid_data_manager_multiselect_example_id';
   ],
 })
 export class AgGridDataGridDataManagerMultiselectExampleComponent {
-  protected items = AG_GRID_DEMO_DATA;
+  // Copy the rows because the row selector writes the `selected` field back to each row.
+  protected items = AG_GRID_DEMO_DATA.map((row) => ({ ...row }));
   protected salesModal = SalesModalComponent;
 
   readonly #dataManagerSvc = inject(SkyDataManagerService);

@@ -1,8 +1,9 @@
-<sky-ag-grid-wrapper>
+<sky-ag-grid-wrapper data-sky-id="paging-grid">
   <ag-grid-angular [gridOptions]="gridOptions" [rowData]="gridData" />
 </sky-ag-grid-wrapper>
 
 <sky-paging
+  data-sky-id="paging-grid-paging"
   [currentPage]="currentPage"
   [itemCount]="gridData.length"
   [pageSize]="pageSize"
