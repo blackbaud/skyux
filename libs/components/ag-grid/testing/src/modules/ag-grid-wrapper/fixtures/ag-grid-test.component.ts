@@ -30,6 +30,8 @@ export class AgGridTestComponent {
     { id: '7', column1: '21', column2: 'Grape', column3: true },
   ];
 
+  public readonly rowDeleteIds = input<string[]>([]);
+
   protected readonly showAllGrids = input<boolean>(true);
   protected readonly gridOptions = inject(SkyAgGridService).getGridOptions({
     gridOptions: {

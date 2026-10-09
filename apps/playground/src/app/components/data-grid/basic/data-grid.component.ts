@@ -8,7 +8,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+import {
+  SkyDataGrid,
+  SkyDataGridColumn,
+  SkyDataGridRowDeleteArgs,
+} from '@skyux/data-grid';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
 
 interface RowModel {
@@ -57,6 +61,10 @@ export default class DataGridComponent {
 
   public selectedRowIds: string[] = [];
 
+  public dataForRowDeleteGrid: RowModel[] = this.dataForSimpleGrid.slice();
+  public rowDeleteIds: string[] = [];
+  public rowDeleteEvents: string[] = [];
+
   protected readonly hideCol3 = model<boolean>(false);
   protected toggleCol3(): void {
     this.hideCol3.update((show) => !show);
@@ -83,6 +91,28 @@ export default class DataGridComponent {
   public clearAll(): void {
     this.selectedRowIds = [];
     this.#cdr.markForCheck();
+  }
+
+  public deleteRow(id: string): void {
+    this.rowDeleteIds = this.rowDeleteIds.concat(id);
+    this.#cdr.markForCheck();
+  }
+
+  public cancelRowDelete(args: SkyDataGridRowDeleteArgs): void {
+    this.rowDeleteEvents = this.rowDeleteEvents.concat(`Cancelled ${args.id}`);
+    this.#cdr.markForCheck();
+  }
+
+  public confirmRowDelete(args: SkyDataGridRowDeleteArgs): void {
+    this.rowDeleteEvents = this.rowDeleteEvents.concat(`Confirmed ${args.id}`);
+    this.#cdr.markForCheck();
+    // Simulate a server request so the pending state is visible.
+    setTimeout(() => {
+      this.dataForRowDeleteGrid = this.dataForRowDeleteGrid.filter(
+        (row) => row.id !== args.id,
+      );
+      this.#cdr.markForCheck();
+    }, 1000);
   }
 
   public selectRow(): void {

@@ -2,6 +2,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 import { SkyWaitHarness } from '@skyux/indicators/testing';
+import { SkyInlineDeleteHarness } from '@skyux/layout/testing';
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
 import { SkyDataGridHarness } from './data-grid-harness';
@@ -222,6 +223,24 @@ describe('data-grid-harness', () => {
     await expectAsync(harness.getPagingOrNull()).toBeResolvedTo(
       jasmine.any(SkyPagingHarness),
     );
+  });
+
+  it('should get the inline delete for a row', async () => {
+    fixture.detectChanges();
+
+    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
+      SkyDataGridHarness.with({ dataSkyId: 'grid' }),
+    );
+
+    await expectAsync(harness.getRowInlineDelete('2')).toBeResolvedTo(null);
+
+    fixture.componentRef.setInput('rowDeleteIds', ['2']);
+    fixture.detectChanges();
+
+    await expectAsync(harness.getRowInlineDelete('2')).toBeResolvedTo(
+      jasmine.any(SkyInlineDeleteHarness),
+    );
+    await expectAsync(harness.getRowInlineDelete('3')).toBeResolvedTo(null);
   });
 
   it('should throw an error when getting paging for an unpaged grid', async () => {

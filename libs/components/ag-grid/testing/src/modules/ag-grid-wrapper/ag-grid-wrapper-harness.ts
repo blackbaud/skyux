@@ -1,6 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { UnitTestElement } from '@angular/cdk/testing/testbed';
 import { SkyComponentHarness } from '@skyux/core/testing';
+import { SkyInlineDeleteHarness } from '@skyux/layout/testing';
 
 import { GridApi, getGridApi } from 'ag-grid-community';
 
@@ -23,6 +24,8 @@ export class SkyAgGridWrapperHarness extends SkyComponentHarness {
    * @internal
    */
   public static hostSelector = 'sky-ag-grid-wrapper';
+
+  #getGrid = this.locatorFor('div.sky-ag-grid');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -69,6 +72,29 @@ export class SkyAgGridWrapperHarness extends SkyComponentHarness {
       .catch(() =>
         Promise.reject('Unable to retrieve displayed column header names.'),
       );
+  }
+
+  /**
+   * Gets the inline delete confirmation shown for a row by the
+   * `skyAgGridRowDelete` directive, or `null` if the row is not showing one.
+   * @param rowId The ID of the row.
+   */
+  public async getRowInlineDelete(
+    rowId: string,
+  ): Promise<SkyInlineDeleteHarness | null> {
+    await this.waitUntilRendered();
+    // The row delete overlay updates after the grid renders, outside the
+    // Angular zone, so let its change detection run before querying it.
+    await new Promise((resolve) => setTimeout(resolve));
+    await this.forceStabilize();
+    // The overlay renders outside the grid, attached to the document body, and
+    // is tagged with the grid's ID so rows from other grids are not matched.
+    const gridId = await (await this.#getGrid()).getAttribute('id');
+    const rowLoader =
+      await this.documentRootLocatorFactory().harnessLoaderForOptional(
+        `[data-sky-ag-grid-id="${gridId}"] [id="row-delete-ref-${rowId}"]`,
+      );
+    return (await rowLoader?.getHarnessOrNull(SkyInlineDeleteHarness)) ?? null;
   }
 
   /**

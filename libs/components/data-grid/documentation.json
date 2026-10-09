@@ -3,7 +3,12 @@
   "groups": {
     "data-grid-component": {
       "development": {
-        "docsIds": ["SkyDataGrid", "SkyDataGridColumn", "SkyDataGridSort"],
+        "docsIds": [
+          "SkyDataGrid",
+          "SkyDataGridColumn",
+          "SkyDataGridRowDeleteArgs",
+          "SkyDataGridSort"
+        ],
         "primaryDocsId": "SkyDataGrid"
       },
       "testing": {
