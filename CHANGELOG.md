@@ -13,6 +13,7 @@
 ### Bug Fixes
 
 * **components/text-editor:** load BLKB Sans in the editor and rename the default font option ([#4877](https://github.com/blackbaud/skyux/issues/4877)) ([8c2368d](https://github.com/blackbaud/skyux/commit/8c2368d8cd866c196df58aded8cac87c4d5f5204))
+* **sdk/vitest:** publish the matchers setup file as TypeScript ([#4884](https://github.com/blackbaud/skyux/issues/4884)) ([73e546d](https://github.com/blackbaud/skyux/commit/73e546d35a30c47c889abe20b443a995177f4fd3))
 
 ## [15.0.3](https://github.com/blackbaud/skyux/compare/15.0.2...15.0.3) (2026-10-05)
 
