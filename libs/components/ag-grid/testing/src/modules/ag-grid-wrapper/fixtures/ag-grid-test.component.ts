@@ -10,7 +10,7 @@ interface RowModel {
   id: string;
   column1: string;
   column2: string;
-  column3: boolean;
+  column3?: boolean;
   myId?: string;
 }
 

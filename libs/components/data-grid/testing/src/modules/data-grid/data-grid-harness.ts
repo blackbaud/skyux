@@ -98,7 +98,6 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
   public async clickColumnSortButton(column: string): Promise<void> {
     const grid = await this.#getGridWrapper();
     const api = await grid.getGridApi();
-    const renderCountBeforeClick = await grid.getRenderCount();
     const btn = await this.locatorFor(
       `.ag-header-cell.ag-header-cell-sortable[col-id="${column}"] button.ag-header-cell-label-sortable`,
     )();
@@ -115,8 +114,7 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
     });
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
     try {
-      await btn.click();
-      await grid.waitUntilRendered(renderCountBeforeClick);
+      await grid.waitUntilRendered(() => btn.click());
       await Promise.race([
         sortChanged,
         new Promise((resolve) => {

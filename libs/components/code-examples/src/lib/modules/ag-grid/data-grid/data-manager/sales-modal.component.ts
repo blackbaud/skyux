@@ -10,14 +10,14 @@ import {
   SkyFilterItemModal,
   SkyFilterItemModalInstance,
 } from '@skyux/filter-bar';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyButton, SkyCheckboxModule } from '@skyux/forms';
 import { SkyModalModule } from '@skyux/modals';
 
 @Component({
   selector: 'app-sales-modal',
   templateUrl: './sales-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, SkyCheckboxModule, SkyModalModule],
+  imports: [FormsModule, SkyButton, SkyCheckboxModule, SkyModalModule],
 })
 export class SalesModalComponent implements SkyFilterItemModal {
   public readonly modalInstance = inject(SkyFilterItemModalInstance);

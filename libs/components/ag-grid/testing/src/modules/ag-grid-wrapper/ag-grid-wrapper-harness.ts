@@ -6,7 +6,7 @@ import { GridApi, getGridApi } from 'ag-grid-community';
 
 import {
   getMsSinceLastRender,
-  getRenderCount as getTrackedRenderCount,
+  getRenderCount,
   isRenderTrackingActive,
 } from '../ag-grid/ag-grid-render-tracking';
 
@@ -83,29 +83,48 @@ export class SkyAgGridWrapperHarness extends SkyComponentHarness {
   }
 
   /**
-   * @internal
-   * The number of `modelUpdated` render passes AG Grid has completed for
-   * this grid so far. Callers that need to observe the *next* render (e.g.
-   * after triggering a sort) should capture this before acting, then pass it
-   * to `waitUntilRendered()`.
+   * Retrieves the formatted values of a column for the rows the grid currently
+   * displays, in display order.
+   * @param columnId The ID of the column.
    */
-  public async getRenderCount(): Promise<number> {
-    return getTrackedRenderCount(await this.#locateGridApi());
+  public async getDisplayedCellValues(columnId: string): Promise<string[]> {
+    const api = await this.getGridApi();
+    if (!api.getColumn(columnId)) {
+      throw new Error(`Unable to find column "${columnId}".`);
+    }
+
+    return api
+      .getRenderedNodes()
+      .map((rowNode) =>
+        String(
+          api.getCellValue({ rowNode, colKey: columnId, useFormatter: true }) ??
+            '',
+        ),
+      );
   }
 
   /**
-   * @internal
-   * Waits, on a bounded wall-clock poll, until the grid has completed more
-   * than `afterCount` render passes. Defaults to `0`, i.e. "has rendered at
-   * least once" - use this instead of `whenStable()`/`waitForTasksOutsideAngular()`,
-   * since AG Grid 36 schedules its render work outside the Angular zone.
+   * Waits until the grid finishes rendering. Use this instead of
+   * `fixture.whenStable()`, since AG Grid renders outside the Angular zone.
+   * Requires `provideSkyAgGridTesting()`; without it, this resolves without waiting.
+   * @param action An action that causes the grid to render again, such as
+   * entering search text. When provided, the action runs first, and this waits
+   * for the render it causes.
    */
-  public async waitUntilRendered(afterCount = 0): Promise<void> {
+  public async waitUntilRendered(
+    action?: () => Promise<void> | void,
+  ): Promise<void> {
     if (!isRenderTrackingActive()) {
+      await action?.();
       return;
     }
     const api = await this.#locateGridApi();
-    await this.#waitForRenderCount(api, (count) => count > afterCount);
+    const renderCountBeforeAction = action ? getRenderCount(api) : 0;
+    await action?.();
+    await this.#waitForRenderCount(
+      api,
+      (count) => count > renderCountBeforeAction,
+    );
   }
 
   async #locateGridApi(): Promise<GridApi> {
@@ -140,7 +159,7 @@ export class SkyAgGridWrapperHarness extends SkyComponentHarness {
   ): Promise<void> {
     const deadline = Date.now() + timeoutMs;
     while (
-      !predicate(getTrackedRenderCount(api)) ||
+      !predicate(getRenderCount(api)) ||
       getMsSinceLastRender(api) < settleMs
     ) {
       if (Date.now() >= deadline) {
