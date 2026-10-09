@@ -1,5 +1,9 @@
 <div class="sky-theme-padding-inset-balanced-l">
-  <sky-data-grid [columnFit]="columnFit()" [data]="gridData">
+  <sky-data-grid
+    [columnFit]="columnFit()"
+    [data]="gridData"
+    [(rowDeleteIds)]="rowDeleteIds"
+  >
     <sky-data-grid-column
       columnId="context"
       headingHidden
