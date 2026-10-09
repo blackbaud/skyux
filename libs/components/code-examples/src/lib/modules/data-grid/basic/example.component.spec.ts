@@ -102,7 +102,7 @@ describe('Basic data grid example', () => {
   describe('row delete', () => {
     async function showRowDelete(): Promise<{
       gridHarness: SkyDataGridHarness;
-      inlineDeleteHarness: SkyInlineDeleteHarness | null;
+      inlineDeleteHarness: SkyInlineDeleteHarness;
     }> {
       const { loader } = await setupTest();
       const gridHarness = await loader.getHarness(
@@ -125,6 +125,9 @@ describe('Basic data grid example', () => {
       await deleteItem.click();
 
       const inlineDeleteHarness = await gridHarness.getRowInlineDelete('2');
+      if (!inlineDeleteHarness) {
+        throw new Error('Expected an inline delete for row 2.');
+      }
 
       return { gridHarness, inlineDeleteHarness };
     }
@@ -132,9 +135,9 @@ describe('Basic data grid example', () => {
     it('should remove the row when the deletion is confirmed', async () => {
       const { gridHarness, inlineDeleteHarness } = await showRowDelete();
       await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(7);
-      await expectAsync(inlineDeleteHarness?.isPending()).toBeResolvedTo(false);
+      await expectAsync(inlineDeleteHarness.isPending()).toBeResolvedTo(false);
 
-      await inlineDeleteHarness?.clickDeleteButton();
+      await inlineDeleteHarness.clickDeleteButton();
 
       await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(6);
       await expectAsync(gridHarness.getRowInlineDelete('2')).toBeResolvedTo(
@@ -145,7 +148,7 @@ describe('Basic data grid example', () => {
     it('should keep the row when the deletion is cancelled', async () => {
       const { gridHarness, inlineDeleteHarness } = await showRowDelete();
 
-      await inlineDeleteHarness?.clickCancelButton();
+      await inlineDeleteHarness.clickCancelButton();
 
       await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(7);
       await expectAsync(gridHarness.getRowInlineDelete('2')).toBeResolvedTo(

@@ -739,7 +739,9 @@ describe('SkyAgGridRowDeleteDirective outside of a grid wrapper', () => {
   })
   class RowDeleteWithoutGridComponent {}
 
-  it('should not tag the row delete overlay with a grid ID', async () => {
+  let fixture: ComponentFixture<RowDeleteWithoutGridComponent>;
+
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {
@@ -752,18 +754,23 @@ describe('SkyAgGridRowDeleteDirective outside of a grid wrapper', () => {
         },
       ],
     });
+    fixture = TestBed.createComponent(RowDeleteWithoutGridComponent);
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  it('should not tag the row delete overlay with a grid ID', async () => {
     const getUntaggedOverlayCount = (): number =>
       document.querySelectorAll(
         'sky-overlay:not([data-sky-ag-grid-id]) sky-ag-grid-row-delete',
       ).length;
     const untaggedOverlayCount = getUntaggedOverlayCount();
 
-    const fixture = TestBed.createComponent(RowDeleteWithoutGridComponent);
     fixture.detectChanges();
     await fixture.whenStable();
 
     expect(getUntaggedOverlayCount()).toBe(untaggedOverlayCount + 1);
-
-    fixture.destroy();
   });
 });
