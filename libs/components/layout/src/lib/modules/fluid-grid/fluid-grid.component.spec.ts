@@ -212,14 +212,15 @@ describe('SkyFluidGridComponent', () => {
             );
           });
 
-          it('should pad columns using the inner grid gutter', () => {
-            nestedFixture.detectChanges();
+          it('should pad columns using the inner grid gutter', async () => {
+            await nestedFixture.whenStable();
 
             const { grid, column } = getInnerElements();
+            const columnStyle = getComputedStyle(column);
+            const gridStyle = getComputedStyle(grid);
 
-            expect(getComputedStyle(column).paddingLeft).toBe(
-              getComputedStyle(grid).paddingLeft,
-            );
+            expect(columnStyle.paddingLeft).toBe(gridStyle.paddingLeft);
+            expect(columnStyle.paddingRight).toBe(gridStyle.paddingRight);
           });
 
           it('should align content with the inner grid edge when inset is false', () => {
