@@ -5,9 +5,10 @@ import { SkyDataColumnOption } from './data-column-option';
 /**
  * Implemented by column-based components, such as a data grid, so that column
  * picker UIs can discover the available columns and control which columns
- * display, and so that a container that keeps its own toolbar visible while
- * the page scrolls can keep the column headers visible beneath it, without
- * depending on the component itself.
+ * display, so that a container can store the widths users give columns and
+ * restore them later, and so that a container that keeps its own toolbar
+ * visible while the page scrolls can keep the column headers visible beneath
+ * it, without depending on the component itself.
  * @internal
  */
 export abstract class SkyDataColumnSource {
@@ -16,6 +17,13 @@ export abstract class SkyDataColumnSource {
    */
   public abstract readonly columnOptions: Signal<
     readonly SkyDataColumnOption[]
+  >;
+
+  /**
+   * The widths in pixels of the columns users resized, keyed by column ID.
+   */
+  public abstract readonly columnWidths: Signal<
+    Readonly<Record<string, number>>
   >;
 
   /**
@@ -35,6 +43,15 @@ export abstract class SkyDataColumnSource {
    * itself, because a container keeps them visible instead.
    */
   public abstract disableViewkeeper(): void;
+
+  /**
+   * Sets the widths in pixels of columns, keyed by column ID. Columns that are
+   * not included return to the widths they are declared with. Until this is
+   * called, the component does not track the widths users give columns.
+   */
+  public abstract setColumnWidths(
+    columnWidths: Readonly<Record<string, number>>,
+  ): void;
 
   /**
    * Sets the columns that display and their order.
