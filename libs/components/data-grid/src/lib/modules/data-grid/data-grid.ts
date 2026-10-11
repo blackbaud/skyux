@@ -31,6 +31,8 @@ import { SkyWaitModule } from '@skyux/indicators';
 import {
   SkyDataColumnOption,
   SkyDataColumnSource,
+  SkyDataSelectionSource,
+  SkyDataSortSource,
   SkyPagingModule,
 } from '@skyux/lists';
 
@@ -40,6 +42,7 @@ import {
   CellStyleModule,
   ClientSideRowModelModule,
   ColDef,
+  Column,
   ColumnApiModule,
   ColumnAutoSizeModule,
   CustomEditorModule,
@@ -105,6 +108,19 @@ function arraysEqual(a: readonly string[], b: readonly string[]): boolean {
   return a.length === b.length && a.every((value, i) => value === b[i]);
 }
 
+// The data manager has its own copy of this function, because the two
+// libraries cannot share an internal function without exporting it.
+function columnWidthsEqual(
+  a: Readonly<Record<string, number>>,
+  b: Readonly<Record<string, number>>,
+): boolean {
+  const keys = Object.keys(a);
+  return (
+    keys.length === Object.keys(b).length &&
+    keys.every((key) => a[key] === b[key])
+  );
+}
+
 /**
  * Members of `SkyDataGridColumn` that are `protected` because they are for
  * this grid's use only, not part of the column's public API.
@@ -133,10 +149,16 @@ interface SkyDataGridColumnInternal {
   host: {
     '[class.sky-margin-stacked-lg]': 'stacked()',
   },
-  providers: [{ provide: SkyDataColumnSource, useExisting: SkyDataGrid }],
+  providers: [
+    { provide: SkyDataColumnSource, useExisting: SkyDataGrid },
+    { provide: SkyDataSelectionSource, useExisting: SkyDataGrid },
+    { provide: SkyDataSortSource, useExisting: SkyDataGrid },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkyDataGrid implements SkyDataColumnSource {
+export class SkyDataGrid
+  implements SkyDataColumnSource, SkyDataSelectionSource, SkyDataSortSource
+{
   /**
    * Whether the grid sorts the data order when a column header is clicked.
    * When `autoSort` is set to `false`, the data grid will not modify the sort
@@ -323,6 +345,15 @@ export class SkyDataGrid implements SkyDataColumnSource {
   );
 
   /**
+   * The widths in pixels of the columns users resized, keyed by column ID.
+   * Read by data manager integrations through `SkyDataColumnSource`.
+   * @internal
+   */
+  public readonly columnWidths = computed<Readonly<Record<string, number>>>(
+    () => this.#columnWidths() ?? {},
+  );
+
+  /**
    * The IDs of the columns that display, in display order: the
    * `selectedColumnIds` that match a declared column or, when
    * `selectedColumnIds` is `undefined`, every column not marked `columnHidden`.
@@ -413,12 +444,35 @@ export class SkyDataGrid implements SkyDataColumnSource {
             this.#syncColumnOrderFromGrid(event.api);
           }
         },
+        // The grid's initial content sizing runs after the grid is ready and
+        // would replace the widths applied then, so apply them again. Content
+        // sizing after that is a user double-clicking a column's edge.
+        onColumnResized: (event) => {
+          if (
+            event.source === 'autosizeColumns' &&
+            this.#awaitingInitialAutoSize
+          ) {
+            this.#awaitingInitialAutoSize = false;
+            this.#reapplyColumnWidths(event.api);
+          } else if (
+            (event.source === 'uiColumnResized' && event.finished) ||
+            event.source === 'autosizeColumns'
+          ) {
+            // AG Grid reports the resized columns with every resize it
+            // dispatches from these sources.
+            /* istanbul ignore next */
+            this.#syncColumnWidthsFromGrid(event.columns ?? []);
+          }
+        },
         onDragCancelled: (event) => this.#syncColumnOrderFromGrid(event.api),
         onDragStopped: (event) => this.#syncColumnOrderFromGrid(event.api),
         onGridReady: (args) => {
           // The displayed columns may have changed since the column
           // definitions were created.
           this.#applyDisplayedColumns(args.api, this.displayedColumnIds());
+          this.#awaitingInitialAutoSize =
+            !!args.api.getGridOption('autoSizeStrategy');
+          this.#reapplyColumnWidths(args.api);
           this.gridApi.set(args.api);
           this.gridReady.set(true);
         },
@@ -480,7 +534,17 @@ export class SkyDataGrid implements SkyDataColumnSource {
   );
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
+  /**
+   * The widths in pixels of the columns users resized, keyed by column ID.
+   * This is `undefined` until a data manager integration sets the widths, so a
+   * grid outside a data manager neither tracks nor restores them.
+   */
+  readonly #columnWidths = signal<Record<string, number> | undefined>(
+    undefined,
+  );
+  readonly #selectionPruningDisabled = signal(false);
   readonly #viewkeeperDisabled = signal(false);
+  #awaitingInitialAutoSize = false;
   readonly #gridService = inject(SkyAgGridService);
   readonly #logger = inject(SkyLogService);
   readonly #router = inject(Router, { optional: true });
@@ -603,7 +667,11 @@ export class SkyDataGrid implements SkyDataColumnSource {
     effect(() => {
       const api = untracked(() => this.gridApi());
       const columnDefs = this.#columnDefs();
-      api?.setGridOption('columnDefs', columnDefs);
+      if (api) {
+        api.setGridOption('columnDefs', columnDefs);
+        // New column definitions make columns users resized flex again.
+        untracked(() => this.#reapplyColumnWidths(api));
+      }
     });
     effect(() => {
       const api = untracked(() => this.gridApi());
@@ -642,8 +710,11 @@ export class SkyDataGrid implements SkyDataColumnSource {
       const validSelectedRowIds = selectedRowIds.filter((id) =>
         validRowIds.has(id),
       );
+      // A data manager integration keeps the IDs of rows its search or
+      // filters hide, so they are selected again when the rows return.
       if (
         this.autoPage() &&
+        !this.#selectionPruningDisabled() &&
         validSelectedRowIds.length !== selectedRowIds.length
       ) {
         this.selectedRowIds.set(validSelectedRowIds);
@@ -809,24 +880,22 @@ export class SkyDataGrid implements SkyDataColumnSource {
           return val;
         });
       });
-    this.#gridSortChange.pipe(takeUntilDestroyed()).subscribe((sortChange) => {
-      if (sortChange) {
-        this.sort.update((sort) => {
-          if (
-            !!sort !== !!sortChange ||
-            sort?.direction !== sortChange?.direction ||
-            sort?.field !== sortChange?.field
-          ) {
-            return sortChange;
-          }
-          return sort;
-        });
-      } else {
-        // Clear the sort when the grid no longer has a sorted column so the
-        // two-way bound model does not retain a stale value.
-        this.sort.update(() => undefined);
-      }
-    });
+    // Emit the grid's sort, including no sort once no column is sorted, so
+    // the two-way bound model does not retain a stale value.
+    this.#gridSortChange
+      .pipe(takeUntilDestroyed())
+      .subscribe((sortChange) => this.setSort(sortChange));
+  }
+
+  /**
+   * Stops the grid from removing the IDs of rows that are not in `data` from
+   * `selectedRowIds`. Called by data manager integrations through
+   * `SkyDataSelectionSource` when they keep rows that a search or filter hides
+   * selected.
+   * @internal
+   */
+  public disableSelectionPruning(): void {
+    this.#selectionPruningDisabled.set(true);
   }
 
   /**
@@ -848,6 +917,55 @@ export class SkyDataGrid implements SkyDataColumnSource {
     const selectedColumnIds = this.selectedColumnIds();
     if (!selectedColumnIds || !arraysEqual(selectedColumnIds, columnIds)) {
       this.selectedColumnIds.set([...columnIds]);
+    }
+  }
+
+  /**
+   * Sets the widths in pixels of columns, keyed by column ID, and starts
+   * tracking the widths users give columns. Columns that are not included
+   * return to the widths they are declared with. Called by data manager
+   * integrations through `SkyDataColumnSource`.
+   * @internal
+   */
+  public setColumnWidths(columnWidths: Readonly<Record<string, number>>): void {
+    const currentWidths = this.#columnWidths();
+    if (currentWidths && columnWidthsEqual(currentWidths, columnWidths)) {
+      return;
+    }
+
+    this.#columnWidths.set({ ...columnWidths });
+
+    const api = untracked(this.gridApi);
+    if (api) {
+      this.#applyColumnWidths(api, columnWidths);
+    }
+  }
+
+  /**
+   * Sets the selected rows. Called by data manager integrations through
+   * `SkyDataSelectionSource`.
+   * @internal
+   */
+  public setSelectedRowIds(selectedRowIds: readonly string[]): void {
+    if (
+      !arraysEqual(coerceStringArray(this.selectedRowIds()), selectedRowIds)
+    ) {
+      this.selectedRowIds.set([...selectedRowIds]);
+    }
+  }
+
+  /**
+   * Sets the sort the grid applies. Called by data manager integrations
+   * through `SkyDataSortSource`.
+   * @internal
+   */
+  public setSort(sort: SkyDataGridSort | undefined): void {
+    const currentSort = this.sort();
+    if (
+      currentSort?.field !== sort?.field ||
+      currentSort?.direction !== sort?.direction
+    ) {
+      this.sort.set(sort);
     }
   }
 
@@ -1000,6 +1118,56 @@ export class SkyDataGrid implements SkyDataColumnSource {
         ...displayedColumnIds,
         ...selectedColumnIds.filter((id) => !declaredIds.includes(id)),
       ]);
+    }
+  }
+
+  /**
+   * Applies the column widths, and returns columns without one to the widths
+   * they are declared with.
+   */
+  #applyColumnWidths(
+    api: GridApi,
+    columnWidths: Readonly<Record<string, number>>,
+  ): void {
+    api.applyColumnState({
+      state: untracked(this.#columnDefs).map(
+        ({ colId, flex, initialWidth }) => {
+          const width = columnWidths[colId as string];
+          // A width stops a column flexing, as a user resizing it does.
+          return width === undefined
+            ? {
+                colId: colId as string,
+                flex: flex ?? null,
+                width: initialWidth,
+              }
+            : { colId: colId as string, flex: null, width };
+        },
+      ),
+    });
+  }
+
+  #reapplyColumnWidths(api: GridApi): void {
+    const columnWidths = this.#columnWidths();
+    if (columnWidths && Object.keys(columnWidths).length > 0) {
+      this.#applyColumnWidths(api, columnWidths);
+    }
+  }
+
+  #syncColumnWidthsFromGrid(columns: readonly Column[]): void {
+    const columnWidths = this.#columnWidths();
+    if (!columnWidths) {
+      return;
+    }
+
+    // A column a user resizes stops flexing. The flex columns that only filled
+    // the space it left keep flexing, so their widths are not the user's.
+    const updatedWidths = { ...columnWidths };
+    for (const column of columns.filter((col) => !col.getFlex())) {
+      updatedWidths[column.getColId()] = column.getActualWidth();
+    }
+
+    if (!columnWidthsEqual(columnWidths, updatedWidths)) {
+      this.#columnWidths.set(updatedWidths);
     }
   }
 

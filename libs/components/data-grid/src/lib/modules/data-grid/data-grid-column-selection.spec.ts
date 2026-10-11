@@ -1,14 +1,25 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyAgGridService } from '@skyux/ag-grid';
 import { SkyViewkeeperService } from '@skyux/core';
-import { SkyDataColumnSource } from '@skyux/lists';
+import {
+  SkyDataColumnSource,
+  SkyDataSelectionSource,
+  SkyDataSortSource,
+} from '@skyux/lists';
 
 import { GridApi, getGridApi as getAgGridApi } from 'ag-grid-community';
 
 import { SkyDataGrid } from './data-grid';
 import { ColumnSelectionTestComponent } from './fixtures/column-selection-test.component';
 
-describe('SkyDataGrid column selection', () => {
+describe('SkyDataGrid data sources', () => {
   let fixture: ComponentFixture<ColumnSelectionTestComponent>;
+
+  function getGrid(): SkyDataGrid {
+    return fixture.debugElement.query(
+      (node) => node.componentInstance instanceof SkyDataGrid,
+    ).componentInstance as SkyDataGrid;
+  }
 
   function getColumnSource(): SkyDataColumnSource {
     return fixture.debugElement
@@ -98,10 +109,15 @@ describe('SkyDataGrid column selection', () => {
     fixture = TestBed.createComponent(ColumnSelectionTestComponent);
   });
 
-  it('should provide itself as a SkyDataColumnSource', async () => {
+  it('should provide itself as each data source', async () => {
     await detect();
 
-    expect(getColumnSource()).toBeInstanceOf(SkyDataGrid);
+    const injector = fixture.debugElement.query(
+      (node) => node.componentInstance instanceof SkyDataGrid,
+    ).injector;
+    expect(injector.get(SkyDataColumnSource)).toBe(getGrid());
+    expect(injector.get(SkyDataSelectionSource)).toBe(getGrid());
+    expect(injector.get(SkyDataSortSource)).toBe(getGrid());
   });
 
   it('should keep its column headers visible while the page scrolls', async () => {
@@ -496,5 +512,319 @@ describe('SkyDataGrid column selection', () => {
     await detect();
 
     expect(getColumnSource().displayedColumnIds()).toEqual(['locked', 'name']);
+  });
+  describe('sort', () => {
+    it('should emit the sort a user applies by clicking a column header', async () => {
+      await detect();
+
+      (
+        (fixture.nativeElement as HTMLElement).querySelector(
+          '.ag-header-cell.ag-header-cell-sortable[col-id="name"] button.ag-header-cell-label-sortable',
+        ) as HTMLElement
+      ).click();
+      await detect();
+
+      expect(fixture.componentInstance.sort()).toEqual({
+        direction: 'asc',
+        field: 'name',
+      });
+    });
+
+    it('should apply a sort that setSort sets', async () => {
+      await detect();
+
+      getGrid().setSort({ direction: 'desc', field: 'name' });
+      await detect();
+
+      expect(fixture.componentInstance.sort()).toEqual({
+        direction: 'desc',
+        field: 'name',
+      });
+      expect(getGridApi().getColumn('name')?.getSort()).toBe('desc');
+
+      getGrid().setSort({ direction: 'asc', field: 'name' });
+      await detect();
+
+      expect(getGridApi().getColumn('name')?.getSort()).toBe('asc');
+
+      getGrid().setSort(undefined);
+      await detect();
+
+      expect(fixture.componentInstance.sort()).toBeUndefined();
+      expect(getGridApi().getColumn('name')?.getSort()).toBeFalsy();
+    });
+
+    it('should not emit when setSort matches the sort', async () => {
+      fixture.componentInstance.sort.set({ direction: 'asc', field: 'name' });
+      await detect();
+
+      const sort = fixture.componentInstance.sort();
+      getGrid().setSort({ direction: 'asc', field: 'name' });
+      await detect();
+
+      expect(fixture.componentInstance.sort()).toBe(sort);
+    });
+  });
+
+  describe('row selection', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('multiselect', true);
+    });
+
+    it('should select the rows that setSelectedRowIds sets', async () => {
+      await detect();
+
+      getGrid().setSelectedRowIds(['2']);
+      await detect();
+
+      expect(fixture.componentInstance.selectedRowIds()).toEqual(['2']);
+      expect(
+        getGridApi()
+          .getSelectedNodes()
+          .map((node) => node.id),
+      ).toEqual(['2']);
+    });
+
+    it('should not emit when setSelectedRowIds matches the selection', async () => {
+      fixture.componentInstance.selectedRowIds.set(['1']);
+      await detect();
+
+      const selectedRowIds = fixture.componentInstance.selectedRowIds();
+      getGrid().setSelectedRowIds(['1']);
+      await detect();
+
+      expect(fixture.componentInstance.selectedRowIds()).toBe(selectedRowIds);
+    });
+
+    it('should keep the IDs of rows that are not in the data once selection pruning is disabled', async () => {
+      fixture.componentInstance.selectedRowIds.set(['1', '2']);
+      getGrid().disableSelectionPruning();
+      await detect();
+
+      fixture.componentRef.setInput('data', [
+        { id: '1', name: 'Amy', age: 30 },
+      ]);
+      await detect();
+
+      expect(fixture.componentInstance.selectedRowIds()).toEqual(['1', '2']);
+    });
+
+    it('should keep the IDs of hidden rows when the user selects a row', async () => {
+      fixture.componentRef.setInput('data', [
+        { id: '1', name: 'Amy', age: 30 },
+      ]);
+      fixture.componentInstance.selectedRowIds.set(['2']);
+      getGrid().disableSelectionPruning();
+      await detect();
+
+      getGridApi().getRowNode('1')?.setSelected(true);
+      // AG Grid emits `selectionChanged` in a later task, which `whenStable()`
+      // does not await on its own.
+      await new Promise((resolve) => setTimeout(resolve));
+      await detect();
+
+      expect(fixture.componentInstance.selectedRowIds()).toEqual(['1', '2']);
+    });
+  });
+
+  describe('column widths', () => {
+    /**
+     * Resizes a column, then waits for the grid to handle the resize. AG Grid
+     * reports resizes in a later task, which `whenStable()` does not await on
+     * its own.
+     */
+    async function resizeColumn(
+      columnId: string,
+      width: number,
+      finished = true,
+      source: 'api' | 'uiColumnResized' = 'uiColumnResized',
+    ): Promise<void> {
+      getGridApi().setColumnWidths(
+        [{ key: columnId, newWidth: width }],
+        finished,
+        source,
+      );
+      await new Promise((resolve) => setTimeout(resolve));
+      await detect();
+    }
+
+    it('should not track the widths users set until widths are set', async () => {
+      await detect();
+
+      await resizeColumn('age', 150);
+
+      expect(getGrid().columnWidths()).toEqual({});
+    });
+
+    it('should track the width of a column a user resizes', async () => {
+      getGrid().setColumnWidths({});
+      await detect();
+
+      await resizeColumn('age', 150, false);
+      await resizeColumn('age', 160, true, 'api');
+
+      expect(getGrid().columnWidths()).toEqual({});
+
+      await resizeColumn('age', 150);
+
+      expect(getGrid().columnWidths()).toEqual({ age: 150 });
+
+      const columnWidths = getGrid().columnWidths();
+      await resizeColumn('age', 150);
+
+      expect(getGrid().columnWidths()).toBe(columnWidths);
+
+      await resizeColumn('age', 170);
+
+      expect(getGrid().columnWidths()).toEqual({ age: 170 });
+    });
+
+    it('should not track the widths of flex columns that fill the space a resized column leaves', async () => {
+      getGrid().setColumnWidths({});
+      await detect();
+
+      await resizeColumn('locked', 150);
+
+      expect(getGrid().columnWidths()).toEqual({ locked: 150 });
+    });
+
+    it('should keep the widths of undeclared columns when a user resizes a column', async () => {
+      getGrid().setColumnWidths({ missing: 50 });
+      await detect();
+
+      await resizeColumn('age', 150);
+
+      expect(getGrid().columnWidths()).toEqual({ missing: 50, age: 150 });
+    });
+
+    it('should apply column widths, which stops the columns flexing', async () => {
+      await detect();
+
+      getGrid().setColumnWidths({ age: 150, name: 300 });
+      await detect();
+
+      expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(300);
+      expect(getGridApi().getColumn('name')?.getFlex()).toBeNull();
+      expect(getGridApi().getColumn('age')?.getActualWidth()).toBe(150);
+    });
+
+    it('should apply column widths set before the grid is created', async () => {
+      getGrid().setColumnWidths({ age: 150 });
+      await detect();
+
+      expect(getGridApi().getColumn('age')?.getActualWidth()).toBe(150);
+    });
+
+    it('should return columns without a width to their declared sizing', async () => {
+      getGrid().setColumnWidths({ age: 150, name: 300 });
+      await detect();
+
+      getGrid().setColumnWidths({});
+      await detect();
+
+      expect(getGridApi().getColumn('name')?.getFlex()).toBe(1);
+      expect(getGridApi().getColumn('age')?.getActualWidth()).toBe(100);
+    });
+
+    it('should not apply column widths that match the widths', async () => {
+      getGrid().setColumnWidths({ age: 150 });
+      await detect();
+
+      const applyColumnStateSpy = spyOn(
+        getGridApi(),
+        'applyColumnState',
+      ).and.callThrough();
+      getGrid().setColumnWidths({ age: 150 });
+
+      expect(applyColumnStateSpy).not.toHaveBeenCalled();
+    });
+
+    it('should keep the column widths when the column definitions change', async () => {
+      getGrid().setColumnWidths({ name: 300 });
+      await detect();
+
+      fixture.componentRef.setInput('showDuplicateName', true);
+      await detect();
+
+      expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(300);
+      expect(getGridApi().getColumn('name')?.getFlex()).toBeNull();
+    });
+
+    it('should not change the column definitions when a user resizes a column', async () => {
+      getGrid().setColumnWidths({});
+      await detect();
+
+      const setGridOptionSpy = spyOn(
+        getGridApi(),
+        'setGridOption',
+      ).and.callThrough();
+      await resizeColumn('age', 150);
+
+      expect(setGridOptionSpy).not.toHaveBeenCalledWith(
+        'columnDefs',
+        jasmine.anything(),
+      );
+    });
+
+    describe('with columns sized to their content', () => {
+      let resolveContentSizing: (() => void) | undefined;
+
+      /**
+       * Resolves once the grid handles the next time columns are sized to
+       * their content, which the grid first does in a later task after its
+       * rows render.
+       */
+      function waitForContentSizing(): Promise<void> {
+        return new Promise((resolve) => {
+          resolveContentSizing = resolve;
+        });
+      }
+
+      beforeEach(() => {
+        // A grid without flex columns sizes its columns to their content.
+        fixture.componentRef.setInput('nameFlexWidth', undefined);
+
+        const gridService = TestBed.inject(SkyAgGridService);
+        const getGridOptions = gridService.getGridOptions.bind(gridService);
+        spyOn(gridService, 'getGridOptions').and.callFake((args) => {
+          const gridOptions = getGridOptions(args);
+          const onColumnResized = gridOptions.onColumnResized;
+          gridOptions.onColumnResized = (event): void => {
+            onColumnResized?.(event);
+            if (event.source === 'autosizeColumns') {
+              resolveContentSizing?.();
+            }
+          };
+          return gridOptions;
+        });
+      });
+
+      it('should apply the column widths again after the grid sizes its columns to their content', async () => {
+        getGrid().setColumnWidths({ name: 300 });
+        const contentSizing = waitForContentSizing();
+        await detect();
+        await contentSizing;
+        await detect();
+
+        expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(300);
+        expect(getGrid().columnWidths()).toEqual({ name: 300 });
+      });
+
+      it('should track the width of a column a user sizes to its content', async () => {
+        getGrid().setColumnWidths({});
+        const initialContentSizing = waitForContentSizing();
+        await detect();
+        await initialContentSizing;
+
+        const contentSizing = waitForContentSizing();
+        getGridApi().autoSizeColumns(['name']);
+        await contentSizing;
+        await detect();
+
+        expect(getGrid().columnWidths()).toEqual({
+          name: getGridApi().getColumn('name')?.getActualWidth() as number,
+        });
+      });
+    });
   });
 });

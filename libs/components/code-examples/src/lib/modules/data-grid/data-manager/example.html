@@ -1,11 +1,7 @@
 <sky-data-manager>
   <sky-data-manager-toolbar />
   <sky-data-view [viewId]="viewId">
-    <sky-data-grid
-      skyDataManagerColumnController
-      labelText="Fruit"
-      [data]="data"
-    >
+    <sky-data-grid skyDataManagerViewController labelText="Fruit" [data]="data">
       <sky-data-grid-column field="name" headingText="Name" />
       <sky-data-grid-column
         field="type"
