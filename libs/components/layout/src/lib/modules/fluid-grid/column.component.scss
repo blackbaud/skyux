@@ -5,8 +5,6 @@
 $sky-fluid-grid-columns: 12 !default;
 
 @include compatMixins.sky-default-overrides('.sky-column') {
-  --sky-override-fluid-grid-gutter-size-small: #{$sky-padding-half};
-  --sky-override-fluid-grid-gutter-size-medium: #{$sky-padding};
   --sky-override-fluid-grid-gutter-size-large: #{$sky-padding-plus-half};
   --sky-override-fluid-grid-top-bottom: 0;
 }
@@ -20,62 +18,28 @@ $sky-fluid-grid-columns: 12 !default;
 }
 
 sky-column.sky-column {
+  // Default to large gutters for backwards compatibility.
   padding: var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-top-xl)
-    )
+    --sky-fluid-grid-gutter,
     var(
-      --sky-override-fluid-grid-gutter-size-large,
-      var(--sky-space-inset-horizontal-right-xl)
-    )
-    var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-bottom-xl)
-    )
-    var(
-      --sky-override-fluid-grid-gutter-size-large,
-      var(--sky-space-inset-horizontal-left-xl)
-    );
+        --sky-override-fluid-grid-top-bottom,
+        var(--sky-space-inset-horizontal-top-xl)
+      )
+      var(
+        --sky-override-fluid-grid-gutter-size-large,
+        var(--sky-space-inset-horizontal-right-xl)
+      )
+      var(
+        --sky-override-fluid-grid-top-bottom,
+        var(--sky-space-inset-horizontal-bottom-xl)
+      )
+      var(
+        --sky-override-fluid-grid-gutter-size-large,
+        var(--sky-space-inset-horizontal-left-xl)
+      )
+  );
   width: 100%;
   min-height: 1px;
-}
-
-.sky-fluid-grid-gutter-size-small sky-column.sky-column {
-  padding: var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-top-s)
-    )
-    var(
-      --sky-override-fluid-grid-gutter-size-small,
-      var(--sky-space-inset-horizontal-right-s)
-    )
-    var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-bottom-s)
-    )
-    var(
-      --sky-override-fluid-grid-gutter-size-small,
-      var(--sky-space-inset-horizontal-left-s)
-    );
-}
-
-.sky-fluid-grid-gutter-size-medium sky-column.sky-column {
-  padding: var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-top-m)
-    )
-    var(
-      --sky-override-fluid-grid-gutter-size-medium,
-      var(--sky-space-inset-horizontal-right-m)
-    )
-    var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-bottom-m)
-    )
-    var(
-      --sky-override-fluid-grid-gutter-size-medium,
-      var(--sky-space-inset-horizontal-left-m)
-    );
 }
 
 @include mixins.sky-host-responsive-container-xs-min(false) {

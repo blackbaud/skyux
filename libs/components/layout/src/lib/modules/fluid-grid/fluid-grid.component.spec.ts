@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 
+import { FluidGridNestedTestComponent } from './fixtures/fluid-grid-nested.component.fixture';
 import { FluidGridTestComponent } from './fixtures/fluid-grid.component.fixture';
 import { FluidGridTestModule } from './fixtures/fluid-grid.module.fixture';
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
@@ -158,5 +159,89 @@ describe('SkyFluidGridComponent', () => {
     fixture.detectChanges();
 
     expect(spy).not.toHaveBeenCalled();
+  });
+
+  describe('nested', () => {
+    const gutterSizes: SkyFluidGridGutterSizeType[] = [
+      'small',
+      'medium',
+      'large',
+    ];
+
+    let nestedFixture: ComponentFixture<FluidGridNestedTestComponent>;
+
+    function getInnerElements(): {
+      grid: HTMLElement;
+      column: HTMLElement;
+      content: HTMLElement;
+    } {
+      const inner = nestedFixture.nativeElement.querySelector(
+        '.inner-fluid-grid',
+      ) as HTMLElement;
+
+      return {
+        grid: inner.querySelector('.sky-fluid-grid') as HTMLElement,
+        column: inner.querySelector('sky-column') as HTMLElement,
+        content: inner.querySelector('.inner-content') as HTMLElement,
+      };
+    }
+
+    function getContentOffset(): number {
+      const { grid, content } = getInnerElements();
+
+      return (
+        content.getBoundingClientRect().left - grid.getBoundingClientRect().left
+      );
+    }
+
+    beforeEach(() => {
+      nestedFixture = TestBed.createComponent(FluidGridNestedTestComponent);
+    });
+
+    for (const outerGutterSize of gutterSizes) {
+      for (const innerGutterSize of gutterSizes) {
+        describe(`with a ${innerGutterSize} grid inside a ${outerGutterSize} grid`, () => {
+          beforeEach(() => {
+            nestedFixture.componentRef.setInput(
+              'outerGutterSize',
+              outerGutterSize,
+            );
+            nestedFixture.componentRef.setInput(
+              'innerGutterSize',
+              innerGutterSize,
+            );
+          });
+
+          it('should pad columns using the inner grid gutter', async () => {
+            await nestedFixture.whenStable();
+
+            const { grid, column } = getInnerElements();
+            const columnStyle = getComputedStyle(column);
+            const gridStyle = getComputedStyle(grid);
+
+            expect(columnStyle.paddingLeft).toBe(gridStyle.paddingLeft);
+            expect(columnStyle.paddingRight).toBe(gridStyle.paddingRight);
+          });
+
+          it('should align content with the inner grid edge when inset is false', () => {
+            nestedFixture.componentRef.setInput('innerInset', false);
+            nestedFixture.detectChanges();
+
+            expect(getContentOffset()).toBe(0);
+          });
+
+          it('should inset content by the inner grid gutter when inset is true', () => {
+            nestedFixture.componentRef.setInput('innerInset', true);
+            nestedFixture.detectChanges();
+
+            const { grid } = getInnerElements();
+
+            expect(getContentOffset()).toBe(
+              parseFloat(getComputedStyle(grid).paddingLeft),
+            );
+          });
+        });
+      }
+    }
   });
 });

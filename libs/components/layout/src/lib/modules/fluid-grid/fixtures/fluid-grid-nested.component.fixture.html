@@ -1,0 +1,17 @@
+<sky-fluid-grid [gutterSize]="outerGutterSize()">
+  <sky-row>
+    <sky-column>
+      <sky-fluid-grid
+        class="inner-fluid-grid"
+        [gutterSize]="innerGutterSize()"
+        [inset]="innerInset()"
+      >
+        <sky-row>
+          <sky-column>
+            <div class="inner-content">Inner grid content</div>
+          </sky-column>
+        </sky-row>
+      </sky-fluid-grid>
+    </sky-column>
+  </sky-row>
+</sky-fluid-grid>
