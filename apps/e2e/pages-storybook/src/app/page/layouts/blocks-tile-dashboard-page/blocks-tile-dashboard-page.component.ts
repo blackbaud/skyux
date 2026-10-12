@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SkyAvatarModule } from '@skyux/avatar';
+import { SkyButton } from '@skyux/forms';
 import { SkyAlertModule, SkyLabelModule } from '@skyux/indicators';
 import { SkyPageModule } from '@skyux/pages';
 
@@ -7,6 +8,7 @@ import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard
 
 @Component({
   imports: [
+    SkyButton,
     PageLayoutTileDashboardComponent,
     SkyAlertModule,
     SkyAvatarModule,
@@ -37,12 +39,8 @@ import { PageLayoutTileDashboardComponent } from '../shared/tiles/tile-dashboard
         </sky-label>
       </sky-page-header-details>
       <sky-page-header-actions>
-        <button class="sky-btn sky-btn-default" type="button">
-          Action one
-        </button>
-        <button class="sky-btn sky-btn-default" type="button">
-          Action two
-        </button>
+        <sky-button labelText="Action one" />
+        <sky-button labelText="Action two" />
       </sky-page-header-actions>
       <sky-page-header-avatar>
         <sky-avatar name="Test name" />

@@ -11,22 +11,6 @@ check what is left. Delete an entry here when its buttons are migrated.
 
 ## Blocked on a library change
 
-### Page header actions (9 buttons)
-
-`libs/components/pages/src/lib/modules/page-header/page-header-actions.component.scss`
-styles only direct children, with `> :is(.sky-btn, sky-dropdown)`. A
-`<sky-button>` wrapper does not match that selector, so it would lose its
-spacing and wrapping margins.
-
-- `pages-storybook/src/app/page/layouts/blocks-page/blocks-page.component.html` (3)
-- `pages-storybook/src/app/page/layouts/tabs-page/tabs-page.component.html` (2)
-- `pages-storybook/src/app/page/layouts/blocks-tile-dashboard-page/blocks-tile-dashboard-page.component.ts` (2, inline template)
-- `pages-storybook/src/app/page/layouts/tabs-tile-dashboard-page/tabs-tile-dashboard-page.component.ts` (2, inline template)
-
-**To do:** add `sky-button` to that selector alongside `.sky-btn`. Do not
-replace it, because native `.sky-btn` buttons are still projected there. Then
-migrate these buttons and compare the page-header snapshots in both themes.
-
 ### Input box buttons (10 buttons)
 
 `libs/components/forms/src/lib/modules/input-box/input-box.component.scss`
