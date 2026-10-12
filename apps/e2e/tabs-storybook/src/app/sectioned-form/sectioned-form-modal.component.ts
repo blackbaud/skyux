@@ -5,6 +5,7 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkySectionedFormComponent, SkySectionedFormModule } from '@skyux/tabs';
 
@@ -18,6 +19,7 @@ import { SectionedFormPhoneFormDemoComponent } from './sectioned-form-phone-form
   templateUrl: './sectioned-form-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    SkyButton,
     CommonModule,
     SectionedFormAddressFormDemoComponent,
     SectionedFormDateFormDemoComponent,

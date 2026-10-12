@@ -24,14 +24,12 @@
         (buttonClick)="closeModal()"
       />
     } @else {
-      <button
-        class="sky-btn sky-btn-link"
+      <sky-button
+        buttonStyle="link"
         data-sky-id="close-button"
-        type="button"
-        (click)="closeModal()"
-      >
-        Close
-      </button>
+        labelText="Close"
+        (buttonClick)="closeModal()"
+      />
     }
   </sky-modal-footer>
 </sky-modal>

@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyActionButtonModule } from '@skyux/layout';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  imports: [SkyActionButtonModule, SkyModalModule],
+  imports: [SkyButton, SkyActionButtonModule, SkyModalModule],
   templateUrl: './action-button-modal.component.html',
 })
 export class ActionButtonModalComponent {

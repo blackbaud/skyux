@@ -9,21 +9,18 @@
     {{ stackOrderForDisplay }}
   </div>
 
-  <button
-    class="sky-btn sky-btn-primary sky-theme-margin-right-xs"
-    type="button"
-    (click)="setHeight()"
-  >
-    Set height
-  </button>
+  <sky-button
+    buttonStyle="primary"
+    class="sky-theme-margin-right-xs"
+    labelText="Set height"
+    (buttonClick)="setHeight()"
+  />
 
-  <button
-    class="sky-btn sky-btn-default sky-theme-margin-right-xs"
-    type="button"
-    (click)="onCloseClick()"
-  >
-    Close
-  </button>
+  <sky-button
+    class="sky-theme-margin-right-xs"
+    labelText="Close"
+    (buttonClick)="onCloseClick()"
+  />
 
   <strong> Unique ID: {{ uniqueId }} </strong>
 

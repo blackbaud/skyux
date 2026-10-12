@@ -135,88 +135,66 @@
     </p>
   </form>
 </div>
-<button
-  class="sky-btn sky-btn-primary"
-  type="button"
-  (click)="setReactiveString(false)"
->
-  Set string value with emitEvent: false
-</button>
-<button
-  class="sky-btn sky-btn-primary"
-  type="button"
-  (click)="setReactiveString()"
->
-  Set string value with emitEvent: true
-</button>
-<button
-  class="sky-btn sky-btn-primary"
-  type="button"
-  (click)="setReactiveDate(false)"
->
-  Set date value with emitEvent: false
-</button>
-<button
-  class="sky-btn sky-btn-primary"
-  type="button"
-  (click)="setReactiveDate()"
->
-  Set date value with emitEvent: true
-</button>
-<button
-  class="sky-btn sky-btn-primary"
-  type="button"
-  (click)="setMinMaxDates()"
->
-  Set min and max dates
-</button>
-<button
-  class="sky-btn sky-btn-primary"
-  type="button"
-  (click)="setStartingDay()"
->
-  Set starting day to Monday
-</button>
-<button
-  class="sky-btn sky-btn-primary"
+<sky-button
+  buttonStyle="primary"
+  labelText="Set string value with emitEvent: false"
+  (buttonClick)="setReactiveString(false)"
+/>
+<sky-button
+  buttonStyle="primary"
+  labelText="Set string value with emitEvent: true"
+  (buttonClick)="setReactiveString()"
+/>
+<sky-button
+  buttonStyle="primary"
+  labelText="Set date value with emitEvent: false"
+  (buttonClick)="setReactiveDate(false)"
+/>
+<sky-button
+  buttonStyle="primary"
+  labelText="Set date value with emitEvent: true"
+  (buttonClick)="setReactiveDate()"
+/>
+<sky-button
+  buttonStyle="primary"
+  labelText="Set min and max dates"
+  (buttonClick)="setMinMaxDates()"
+/>
+<sky-button
+  buttonStyle="primary"
+  labelText="Set starting day to Monday"
+  (buttonClick)="setStartingDay()"
+/>
+<sky-button
+  buttonStyle="primary"
   id="toggle-disabled-btn"
-  type="button"
-  (click)="toggleDisabled()"
->
-  Toggle disabled
-</button>
-<button
-  class="sky-btn sky-btn-primary"
+  labelText="Toggle disabled"
+  (buttonClick)="toggleDisabled()"
+/>
+<sky-button
+  buttonStyle="primary"
   id="set-value-button"
-  type="button"
-  (click)="setValue()"
->
-  Set new value
-</button>
-<button
-  class="sky-btn sky-btn-primary"
+  labelText="Set new value"
+  (buttonClick)="setValue()"
+/>
+<sky-button
+  buttonStyle="primary"
   id="button-set-invalid-value"
-  type="button"
-  (click)="setInvalidValue()"
->
-  Set invalid value
-</button>
-<button
-  class="sky-btn sky-btn-primary"
+  labelText="Set invalid value"
+  (buttonClick)="setInvalidValue()"
+/>
+<sky-button
+  buttonStyle="primary"
   id="button-toggle-strict-formatting"
-  type="button"
-  (click)="strict = !strict"
->
-  Toggle strict formatting
-</button>
-<button
-  class="sky-btn sky-btn-primary"
+  labelText="Toggle strict formatting"
+  (buttonClick)="strict = !strict"
+/>
+<sky-button
+  buttonStyle="primary"
   id="button-set-custom-dates"
-  type="button"
-  (click)="onToggleCustomDatesClick()"
->
-  Toggle custom dates
-</button>
+  labelText="Toggle custom dates"
+  (buttonClick)="onToggleCustomDatesClick()"
+/>
 
 <div
   class="app-screenshot"
