@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.2.1](https://github.com/blackbaud/skyux/compare/15.2.0...15.2.1) (2026-10-12)
+
+### Bug Fixes
+
+* **components/tiles:** allow tiles to be dropped below the last tile in a shorter dashboard column ([#4889](https://github.com/blackbaud/skyux/issues/4889)) ([#4891](https://github.com/blackbaud/skyux/issues/4891)) ([d27b73f](https://github.com/blackbaud/skyux/commit/d27b73f4ba1029ca9aec4f5476b79c5c89be6a40))
+
 ## [15.2.0](https://github.com/blackbaud/skyux/compare/15.1.0...15.2.0) (2026-10-09)
 
 ### Features
