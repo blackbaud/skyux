@@ -1,0 +1,46 @@
+@for (outerGutterSize of gutterSizes; track outerGutterSize) {
+  <h2>Outer grid: {{ outerGutterSize }} gutter</h2>
+  <sky-fluid-grid [gutterSize]="outerGutterSize">
+    <sky-row>
+      <sky-column>
+        @for (innerGutterSize of gutterSizes; track innerGutterSize) {
+          <sky-fluid-grid
+            class="app-inner-grid sky-margin-stacked-md"
+            [gutterSize]="innerGutterSize"
+          >
+            <sky-row>
+              <sky-column [screenXSmall]="6">
+                <div class="app-content sky-theme-color-classify-1-soft">
+                  Inner grid: {{ innerGutterSize }} gutter
+                </div>
+              </sky-column>
+              <sky-column [screenXSmall]="6">
+                <div class="app-content sky-theme-color-classify-1-soft">
+                  Inner grid: {{ innerGutterSize }} gutter
+                </div>
+              </sky-column>
+            </sky-row>
+          </sky-fluid-grid>
+        }
+        <sky-fluid-grid
+          class="app-inner-grid sky-margin-stacked-md"
+          gutterSize="small"
+          inset
+        >
+          <sky-row>
+            <sky-column [screenXSmall]="6">
+              <div class="app-content sky-theme-color-classify-1-soft">
+                Inner grid: small gutter, inset
+              </div>
+            </sky-column>
+            <sky-column [screenXSmall]="6">
+              <div class="app-content sky-theme-color-classify-1-soft">
+                Inner grid: small gutter, inset
+              </div>
+            </sky-column>
+          </sky-row>
+        </sky-fluid-grid>
+      </sky-column>
+    </sky-row>
+  </sky-fluid-grid>
+}
