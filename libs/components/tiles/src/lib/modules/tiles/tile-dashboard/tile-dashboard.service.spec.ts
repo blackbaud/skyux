@@ -813,6 +813,22 @@ describe('Tile dashboard service', () => {
     expect(getTileCount(singleColumnEl)).toBe(0);
   }));
 
+  it('should stretch the drop list of a shorter column to the height of the tallest column', fakeAsync(() => {
+    const fixture = createDashboardTestComponent();
+    fixture.detectChanges();
+    tick();
+    fixture.detectChanges();
+
+    const [tallColumnEl, shortColumnEl] =
+      fixture.nativeElement.querySelectorAll(
+        '.sky-tile-dashboard-layout-multi .sky-tile-dashboard-column',
+      );
+
+    expect(tallColumnEl.querySelectorAll('sky-tile').length).toBe(3);
+    expect(shortColumnEl.querySelectorAll('sky-tile').length).toBe(1);
+    expect(shortColumnEl.offsetHeight).toBe(tallColumnEl.offsetHeight);
+  }));
+
   it('should return the expected config regardless of which column mode is active', fakeAsync(() => {
     const fixture = createDashboardTestComponent();
 
