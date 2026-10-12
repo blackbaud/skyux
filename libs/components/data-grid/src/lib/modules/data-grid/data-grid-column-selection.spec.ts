@@ -7,7 +7,11 @@ import {
   SkyDataSortSource,
 } from '@skyux/lists';
 
-import { GridApi, getGridApi as getAgGridApi } from 'ag-grid-community';
+import {
+  GridApi,
+  SELECTION_COLUMN_ID,
+  getGridApi as getAgGridApi,
+} from 'ag-grid-community';
 
 import { SkyDataGrid } from './data-grid';
 import { ColumnSelectionTestComponent } from './fixtures/column-selection-test.component';
@@ -328,6 +332,16 @@ describe('SkyDataGrid data sources', () => {
     await detect();
 
     expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(400);
+  });
+
+  it('should not fit the columns to the container when a column flexes', async () => {
+    await detect();
+
+    const sizeColumnsToFitSpy = spyOn(getGridApi(), 'sizeColumnsToFit');
+    getColumnSource().setDisplayedColumnIds(['locked', 'name', 'age']);
+    await detect();
+
+    expect(sizeColumnsToFitSpy).not.toHaveBeenCalled();
   });
 
   it('should emit the new order when the user moves a column', async () => {
@@ -726,6 +740,85 @@ describe('SkyDataGrid data sources', () => {
       expect(getGridApi().getColumn('age')?.getActualWidth()).toBe(100);
     });
 
+    it('should return a column the grid sizes to the width the grid gave it', async () => {
+      await detect();
+
+      const gridSizedWidth = getGridApi()
+        .getColumn('locked')
+        ?.getActualWidth() as number;
+      getGrid().setColumnWidths({ locked: gridSizedWidth + 100 });
+      await detect();
+
+      expect(getGridApi().getColumn('locked')?.getActualWidth()).toBe(
+        gridSizedWidth + 100,
+      );
+
+      getGrid().setColumnWidths({});
+      await detect();
+
+      expect(getGridApi().getColumn('locked')?.getActualWidth()).toBe(
+        gridSizedWidth,
+      );
+    });
+
+    it('should return a column that does not flex to the width the grid gave it', async () => {
+      fixture.componentRef.setInput('nameFlexWidth', 0);
+      await detect();
+
+      const gridSizedWidth = getGridApi()
+        .getColumn('name')
+        ?.getActualWidth() as number;
+      getGrid().setColumnWidths({ name: gridSizedWidth + 100 });
+      await detect();
+      getGrid().setColumnWidths({});
+      await detect();
+
+      expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(
+        gridSizedWidth,
+      );
+    });
+
+    it('should return a column the user resized to the width the grid gave it', async () => {
+      getGrid().setColumnWidths({});
+      await detect();
+
+      const gridSizedWidth = getGridApi()
+        .getColumn('locked')
+        ?.getActualWidth() as number;
+      await resizeColumn('locked', gridSizedWidth + 100);
+
+      expect(getGrid().columnWidths()).toEqual({
+        locked: gridSizedWidth + 100,
+      });
+
+      getGrid().setColumnWidths({});
+      await detect();
+
+      expect(getGridApi().getColumn('locked')?.getActualWidth()).toBe(
+        gridSizedWidth,
+      );
+    });
+
+    it('should return a column declared after the grid is ready to the width the grid gave it', async () => {
+      fixture.componentRef.setInput('showExtra', false);
+      await detect();
+
+      fixture.componentRef.setInput('showExtra', true);
+      await detect();
+
+      const gridSizedWidth = getGridApi()
+        .getColumn('extra')
+        ?.getActualWidth() as number;
+      getGrid().setColumnWidths({ extra: gridSizedWidth + 100 });
+      await detect();
+      getGrid().setColumnWidths({});
+      await detect();
+
+      expect(getGridApi().getColumn('extra')?.getActualWidth()).toBe(
+        gridSizedWidth,
+      );
+    });
+
     it('should not apply column widths that match the widths', async () => {
       getGrid().setColumnWidths({ age: 150 });
       await detect();
@@ -823,6 +916,157 @@ describe('SkyDataGrid data sources', () => {
 
         expect(getGrid().columnWidths()).toEqual({
           name: getGridApi().getColumn('name')?.getActualWidth() as number,
+        });
+      });
+
+      it('should return a column to the width the grid sized it to when its width is cleared', async () => {
+        const initialContentSizing = waitForContentSizing();
+        await detect();
+        await initialContentSizing;
+        await detect();
+
+        const contentWidth = getGridApi()
+          .getColumn('name')
+          ?.getActualWidth() as number;
+        getGrid().setColumnWidths({ name: contentWidth + 100 });
+        await detect();
+
+        expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(
+          contentWidth + 100,
+        );
+
+        getGrid().setColumnWidths({});
+        await detect();
+
+        expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(
+          contentWidth,
+        );
+      });
+
+      describe('when the displayed columns change', () => {
+        function getDisplayedWidth(): number {
+          return getGridApi()
+            .getAllDisplayedColumns()
+            .reduce((total, column) => total + column.getActualWidth(), 0);
+        }
+
+        function getContainerWidth(): number {
+          return (
+            (fixture.nativeElement as HTMLElement).querySelector(
+              '.ag-body-viewport',
+            ) as HTMLElement
+          ).clientWidth;
+        }
+
+        async function detectAfterContentSizing(): Promise<void> {
+          const contentSizing = waitForContentSizing();
+          await detect();
+          await contentSizing;
+          await detect();
+        }
+
+        it('should fit the columns to the container when a column is hidden', async () => {
+          await detectAfterContentSizing();
+
+          expect(getDisplayedWidth()).toBe(getContainerWidth());
+
+          getColumnSource().setDisplayedColumnIds(['locked', 'name', 'age']);
+          await detect();
+
+          expect(getGridApi().getAllDisplayedColumns().length).toBe(3);
+          expect(getDisplayedWidth()).toBe(getContainerWidth());
+        });
+
+        it('should fit the columns to the container when a column is shown', async () => {
+          fixture.componentInstance.selectedColumnIds.set([
+            'locked',
+            'name',
+            'age',
+          ]);
+          await detectAfterContentSizing();
+
+          getColumnSource().setDisplayedColumnIds([
+            'locked',
+            'name',
+            'age',
+            'extra',
+          ]);
+          await detect();
+
+          expect(getGridApi().getAllDisplayedColumns().length).toBe(4);
+          expect(getDisplayedWidth()).toBe(getContainerWidth());
+        });
+
+        it('should keep the width of the multiselect column', async () => {
+          fixture.componentRef.setInput('multiselect', true);
+          await detectAfterContentSizing();
+
+          const selectionWidth = getGridApi()
+            .getColumn(SELECTION_COLUMN_ID)
+            ?.getActualWidth();
+          getColumnSource().setDisplayedColumnIds(['locked', 'name', 'age']);
+          await detect();
+
+          expect(
+            getGridApi().getColumn(SELECTION_COLUMN_ID)?.getActualWidth(),
+          ).toBe(selectionWidth);
+          expect(getDisplayedWidth()).toBe(getContainerWidth());
+        });
+
+        it('should keep the widths of columns with a declared or user-set width', async () => {
+          getGrid().setColumnWidths({ name: 300 });
+          await detectAfterContentSizing();
+
+          getColumnSource().setDisplayedColumnIds(['locked', 'name', 'age']);
+          await detect();
+
+          expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(300);
+          expect(getGridApi().getColumn('age')?.getActualWidth()).toBe(100);
+          expect(getDisplayedWidth()).toBe(getContainerWidth());
+        });
+
+        it('should keep the width a user gave a column when columns only move', async () => {
+          fixture.componentInstance.selectedColumnIds.set([
+            'locked',
+            'name',
+            'age',
+            'extra',
+          ]);
+          await detectAfterContentSizing();
+
+          await new Promise((resolve) => setTimeout(resolve));
+          getGridApi().setColumnWidths(
+            [{ key: 'name', newWidth: 150 }],
+            true,
+            'uiColumnResized',
+          );
+          getColumnSource().setDisplayedColumnIds([
+            'locked',
+            'age',
+            'name',
+            'extra',
+          ]);
+          await detect();
+
+          expect(
+            getGridApi()
+              .getAllDisplayedColumns()
+              .map((column) => column.getColId()),
+          ).toEqual(['locked', 'age', 'name', 'extra']);
+          expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(150);
+        });
+
+        it('should not fit the columns to the container when the grid fits to content', async () => {
+          fixture.componentRef.setInput('columnFit', 'content');
+          await detectAfterContentSizing();
+
+          const nameWidth = getGridApi().getColumn('name')?.getActualWidth();
+          getColumnSource().setDisplayedColumnIds(['locked', 'name', 'age']);
+          await detect();
+
+          expect(getGridApi().getColumn('name')?.getActualWidth()).toBe(
+            nameWidth,
+          );
         });
       });
     });

@@ -453,6 +453,8 @@ export class SkyDataGrid
             this.#awaitingInitialAutoSize
           ) {
             this.#awaitingInitialAutoSize = false;
+            this.#gridSizedWidths.clear();
+            this.#rememberGridSizedWidths(event.api);
             this.#reapplyColumnWidths(event.api);
           } else if (
             (event.source === 'uiColumnResized' && event.finished) ||
@@ -472,6 +474,8 @@ export class SkyDataGrid
           this.#applyDisplayedColumns(args.api, this.displayedColumnIds());
           this.#awaitingInitialAutoSize =
             !!args.api.getGridOption('autoSizeStrategy');
+          this.#gridSizedWidths.clear();
+          this.#rememberGridSizedWidths(args.api);
           this.#reapplyColumnWidths(args.api);
           this.gridApi.set(args.api);
           this.gridReady.set(true);
@@ -542,6 +546,11 @@ export class SkyDataGrid
   readonly #columnWidths = signal<Record<string, number> | undefined>(
     undefined,
   );
+  /**
+   * The widths the grid gave the columns that have neither a flex nor a
+   * width, from before a column width replaced them.
+   */
+  readonly #gridSizedWidths = new Map<string, number>();
   readonly #selectionPruningDisabled = signal(false);
   readonly #viewkeeperDisabled = signal(false);
   #awaitingInitialAutoSize = false;
@@ -571,6 +580,15 @@ export class SkyDataGrid
     return [...displayedColDefs, ...hiddenColDefs];
   });
   readonly #hasColumnDefs = computed(() => this.#columnDefs().length > 0);
+
+  /**
+   * The IDs of the columns that display, in a fixed order, so that moving a
+   * column does not change it.
+   */
+  readonly #displayedColumnIdSet = computed(
+    () => arraySorted(this.displayedColumnIds()),
+    { equal: arraysEqual },
+  );
 
   /**
    * The declared columns that have a usable ID, in declaration order. Columns
@@ -669,8 +687,11 @@ export class SkyDataGrid
       const columnDefs = this.#columnDefs();
       if (api) {
         api.setGridOption('columnDefs', columnDefs);
-        // New column definitions make columns users resized flex again.
-        untracked(() => this.#reapplyColumnWidths(api));
+        untracked(() => {
+          this.#rememberGridSizedWidths(api);
+          // New column definitions make columns users resized flex again.
+          this.#reapplyColumnWidths(api);
+        });
       }
     });
     effect(() => {
@@ -773,6 +794,22 @@ export class SkyDataGrid
       const api = untracked(() => this.gridApi());
       if (api) {
         this.#applyDisplayedColumns(api, displayedIds);
+      }
+    });
+    // A grid that fits its columns to the container, and has no flex columns
+    // to take up the space, does not otherwise resize them when a column is
+    // hidden or shown. Moving a column leaves the displayed set alone, so it
+    // does not discard the widths a user set in a grid that is not tracking
+    // them.
+    effect(() => {
+      this.#displayedColumnIdSet();
+      const api = untracked(() => this.gridApi());
+      if (
+        api &&
+        untracked(this.columnFit) === 'container' &&
+        !untracked(() => this.#hasFlexColumns())
+      ) {
+        this.#fitColumnsToContainer(api);
       }
     });
     effect(() => {
@@ -923,7 +960,8 @@ export class SkyDataGrid
   /**
    * Sets the widths in pixels of columns, keyed by column ID, and starts
    * tracking the widths users give columns. Columns that are not included
-   * return to the widths they are declared with. Called by data manager
+   * return to the widths they are declared with or, when declared without
+   * one, the widths the grid gave them. Called by data manager
    * integrations through `SkyDataColumnSource`.
    * @internal
    */
@@ -1137,12 +1175,58 @@ export class SkyDataGrid
           return width === undefined
             ? {
                 colId: colId as string,
-                flex: flex ?? null,
-                width: initialWidth,
+                flex: flex || null,
+                width:
+                  initialWidth ?? this.#gridSizedWidths.get(colId as string),
               }
             : { colId: colId as string, flex: null, width };
         },
       ),
+    });
+  }
+
+  /**
+   * Remembers the widths of columns that have neither a flex nor a width, so
+   * they can return to them. AG Grid ignores a column state without a width,
+   * so it leaves a column at the width a user gave it.
+   */
+  #rememberGridSizedWidths(api: GridApi): void {
+    const gridSizedColumnIds = untracked(this.#columnDefs)
+      .filter(({ flex, initialWidth }) => !flex && initialWidth === undefined)
+      .map(({ colId }) => colId);
+
+    for (const column of api.getAllGridColumns()) {
+      const colId = column.getColId();
+      if (
+        gridSizedColumnIds.includes(colId) &&
+        !this.#gridSizedWidths.has(colId)
+      ) {
+        this.#gridSizedWidths.set(colId, column.getActualWidth());
+      }
+    }
+  }
+
+  /**
+   * Fits the columns to the container, the way the grid does when it
+   * initializes: the columns the grid does not size to their content, such as
+   * those with a declared width and the multiselect column, and the columns
+   * with a width a data manager integration tracks, keep their widths.
+   */
+  #fitColumnsToContainer(api: GridApi): void {
+    const columnWidths = untracked(this.columnWidths);
+    api.sizeColumnsToFit({
+      columnLimits: api
+        .getAllDisplayedColumns()
+        .filter(
+          (column) =>
+            column.getColDef().suppressAutoSize ||
+            columnWidths[column.getColId()] !== undefined,
+        )
+        .map((column) => ({
+          key: column.getColId(),
+          minWidth: column.getActualWidth(),
+          maxWidth: column.getActualWidth(),
+        })),
     });
   }
 

@@ -7,6 +7,7 @@ import { SkyDataGridColumn } from '../data-grid-column';
 @Component({
   selector: 'app-column-selection-test',
   template: `<sky-data-grid
+    [columnFit]="columnFit()"
     [data]="data()"
     [multiselect]="multiselect()"
     [(selectedColumnIds)]="selectedColumnIds"
@@ -56,6 +57,7 @@ export class ColumnSelectionTestComponent {
   public readonly selectedColumnIds = model<string[] | undefined>();
   public readonly selectedRowIds = model<string[]>([]);
   public readonly sort = model<SkyDataGridSort | undefined>();
+  public readonly columnFit = input<'container' | 'content'>('container');
   public readonly extraHidden = input<boolean>(false);
   public readonly lockedDescription = input<string | undefined>(undefined);
   public readonly multiselect = input<boolean>(false);
