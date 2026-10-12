@@ -22,7 +22,7 @@
 sky-icon:has(+ span) {
   margin-right: var(
     --sky-override-button-icon-margin-right,
-    --sky-space-gap-icon-s
+    var(--sky-space-gap-icon-s)
   );
 }
 
