@@ -1,5 +1,4 @@
 export interface DataManagerDemoRow {
-  selected?: boolean;
   id: string;
   name: string;
   description: string;

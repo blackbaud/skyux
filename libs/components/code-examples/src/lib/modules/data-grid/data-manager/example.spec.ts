@@ -55,4 +55,31 @@ describe('Data grid data manager example', () => {
       'quantity',
     ]);
   });
+
+  it('should filter the rows using the search', async () => {
+    const { dataManagerHarness, gridHarness } = await setupTest();
+
+    const toolbarHarness = await dataManagerHarness.getToolbar();
+    const searchHarness = await toolbarHarness.getSearch();
+    if (!searchHarness) {
+      throw new Error('Expected the toolbar to display a search.');
+    }
+
+    await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(7);
+
+    await searchHarness.enterText('purple');
+    await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(2);
+
+    await searchHarness.enterText('DRUPE');
+    await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(2);
+
+    await searchHarness.enterText('fig');
+    await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(1);
+
+    await searchHarness.enterText('kiwi');
+    await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(0);
+
+    await searchHarness.clear();
+    await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(7);
+  });
 });

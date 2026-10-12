@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 import {
   SkyDataManagerModule,
@@ -6,10 +12,12 @@ import {
   SkyDataManagerState,
 } from '@skyux/data-manager';
 
+import { map } from 'rxjs';
+
 import { DATA_GRID_DEMO_DATA } from './data';
 
 /**
- * @title Data grid with a data manager column picker
+ * @title Data grid with a data manager column picker and search
  */
 @Component({
   selector: 'app-data-grid-data-manager-example',
@@ -19,22 +27,37 @@ import { DATA_GRID_DEMO_DATA } from './data';
   providers: [SkyDataManagerService],
 })
 export class DataGridDataManagerExample {
-  protected readonly data = DATA_GRID_DEMO_DATA;
   protected readonly viewId = 'gridView';
 
-  constructor() {
-    const dataManagerSvc = inject(SkyDataManagerService);
+  readonly #dataManagerSvc = inject(SkyDataManagerService);
+  readonly #searchText = toSignal(
+    this.#dataManagerSvc
+      .getDataStateUpdates(this.viewId)
+      .pipe(map((state) => state.searchText ?? '')),
+    { initialValue: '' },
+  );
 
-    dataManagerSvc.initDataManager({
+  protected readonly data = computed(() => {
+    const searchText = this.#searchText().toLowerCase();
+    return DATA_GRID_DEMO_DATA.filter(({ name, type, color }) =>
+      [name, type, color].some((value) =>
+        value.toLowerCase().includes(searchText),
+      ),
+    );
+  });
+
+  constructor() {
+    this.#dataManagerSvc.initDataManager({
       activeViewId: this.viewId,
       dataManagerConfig: {},
       defaultDataState: new SkyDataManagerState({}),
     });
 
-    dataManagerSvc.initDataView({
+    this.#dataManagerSvc.initDataView({
       id: this.viewId,
       name: 'Grid View',
       columnPickerEnabled: true,
+      searchEnabled: true,
     });
   }
 }
