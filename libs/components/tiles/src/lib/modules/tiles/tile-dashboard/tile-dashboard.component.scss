@@ -69,7 +69,9 @@
   margin-bottom: 0;
 
   .sky-tile-dashboard-layout-multi {
-    display: block;
+    // Use the column's own flex display so its drop list stretches to the
+    // tallest column, letting tiles be dropped below a shorter column's last tile.
+    display: flex;
   }
 
   .sky-tile-dashboard-layout-single {
