@@ -5,6 +5,7 @@
 
 ### Bug Fixes
 
+* **components/layout:** resolve nested fluid grid gutters against the nearest grid ([#4888](https://github.com/blackbaud/skyux/issues/4888)) ([4a58176](https://github.com/blackbaud/skyux/commit/4a58176fe91da3fce788e7d72baf6fed4f0b474e))
 * **components/tiles:** allow tiles to be dropped below the last tile in a shorter dashboard column ([#4889](https://github.com/blackbaud/skyux/issues/4889)) ([#4891](https://github.com/blackbaud/skyux/issues/4891)) ([d27b73f](https://github.com/blackbaud/skyux/commit/d27b73f4ba1029ca9aec4f5476b79c5c89be6a40))
 
 ## [15.2.0](https://github.com/blackbaud/skyux/compare/15.1.0...15.2.0) (2026-10-09)
