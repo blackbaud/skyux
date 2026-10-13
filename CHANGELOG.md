@@ -1,7 +1,13 @@
 # Changelog
 
 
-## [14.23.1](https://github.com/blackbaud/skyux/compare/14.23.0...14.23.1) (2026-10-13)
+## [14.24.0](https://github.com/blackbaud/skyux/compare/14.23.0...14.24.0) (2026-10-13)
+
+
+### Features
+
+* **components/data-grid:** integrate with the data manager view controller ([#4880](https://github.com/blackbaud/skyux/issues/4880)) ([fc6b69f](https://github.com/blackbaud/skyux/commit/fc6b69f45a2c8b3561fa2733df33ae0573e2a9a8)), closes [AB#4144434](https://dev.azure.com/blackbaud/Products/_workitems/edit/4144434) [#4879](https://github.com/blackbaud/skyux/issues/4879)
+* **components/data-manager:** add view controller for column, sort, selection, and sizing sync ([#4879](https://github.com/blackbaud/skyux/issues/4879)) ([d9fba17](https://github.com/blackbaud/skyux/commit/d9fba178236eaea4213a62d59015179d6ec92cc4)), closes [AB#4144432](https://dev.azure.com/blackbaud/Products/_workitems/edit/4144432) [#4880](https://github.com/blackbaud/skyux/issues/4880) [#4880](https://github.com/blackbaud/skyux/issues/4880)
 
 
 ### Bug Fixes
