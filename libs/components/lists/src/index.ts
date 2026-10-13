@@ -11,6 +11,12 @@ export { SkyRepeaterExpandModeType } from './lib/modules/repeater/repeater-expan
 export { SkyRepeaterSelectionModeType } from './lib/modules/repeater/repeater-selection-mode-type';
 export { SkyRepeaterModule } from './lib/modules/repeater/repeater.module';
 
+export { SkyDataColumnOption } from './lib/modules/shared/data-column-source/data-column-option';
+export { SkyDataColumnSource } from './lib/modules/shared/data-column-source/data-column-source';
+export { SkyDataSelectionSource } from './lib/modules/shared/data-selection-source/data-selection-source';
+export { SkyDataSort } from './lib/modules/shared/data-sort-source/data-sort';
+export { SkyDataSortSource } from './lib/modules/shared/data-sort-source/data-sort-source';
+
 export { SkyFilterState } from './lib/modules/shared/filter-state-service/filter-state';
 export { SkyFilterStateFilterItem } from './lib/modules/shared/filter-state-service/filter-state-filter-item';
 export { SkyFilterStateFilterValue } from './lib/modules/shared/filter-state-service/filter-state-filter-value';
