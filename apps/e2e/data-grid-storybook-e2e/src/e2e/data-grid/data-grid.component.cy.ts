@@ -44,6 +44,18 @@ describe('data-grid', () => {
           .should('be.enabled');
         cy.skyVisualTest(`data-grid-${theme}`);
       });
+
+      it(`should show an inline delete for a row`, () => {
+        cy.visit(
+          `/iframe.html?globals=theme:${theme}&id=data-gridcomponent--data-grid-row-delete`,
+        );
+        cy.skyReady();
+        cy.get('app-data-grid').should('exist').should('be.visible');
+        cy.get('#row-delete-ref-2 .sky-inline-delete-button')
+          .should('exist')
+          .should('be.visible');
+        cy.skyVisualTest(`data-grid-row-delete-${theme}`);
+      });
     });
   });
 });

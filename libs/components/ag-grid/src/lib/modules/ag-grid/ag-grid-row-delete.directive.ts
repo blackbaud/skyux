@@ -207,6 +207,16 @@ export class SkyAgGridRowDeleteDirective {
           useValue: this.#rowDeleteSvc,
         },
       ]);
+      // The overlay renders outside the grid, so tag it with the grid's ID to
+      // let the grid's test harness tell its inline deletes apart from those
+      // of another grid with the same row IDs.
+      const gridId =
+        this.#elementRef.nativeElement.querySelector('div.sky-ag-grid')?.id;
+      if (gridId) {
+        (
+          this.#overlay.componentRef.location.nativeElement as HTMLElement
+        ).setAttribute('data-sky-ag-grid-id', gridId);
+      }
       this.#zIndex
         .pipe(
           takeUntilDestroyed(this.#destroyRef),

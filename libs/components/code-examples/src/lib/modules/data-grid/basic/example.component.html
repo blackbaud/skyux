@@ -13,7 +13,9 @@
   data-sky-id="example-data-grid"
   multiselect
   [data]="gridData()"
+  [(rowDeleteIds)]="rowDeleteIds"
   [(selectedRowIds)]="selectedRowIds"
+  (rowDeleteConfirm)="onRowDeleteConfirm($event)"
 >
   <sky-data-grid-column
     columnId="context"
@@ -75,6 +77,15 @@
           (click)="actionClicked(row, 'More info')"
         >
           More info
+        </button>
+      </sky-dropdown-item>
+      <sky-dropdown-item>
+        <button
+          type="button"
+          [attr.aria-label]="`Delete ${row?.name}`"
+          (click)="deleteRow(row)"
+        >
+          Delete
         </button>
       </sky-dropdown-item>
     </sky-dropdown-menu>
