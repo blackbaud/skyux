@@ -819,6 +819,39 @@ describe('SkyDataManagerService', () => {
       );
     });
 
+    it('should keep the column IDs of an existing view state when the view config has no column options', () => {
+      let currentDataState: SkyDataManagerState | undefined;
+
+      subscription.add(
+        dataManagerService
+          .getDataStateUpdates(sourceId)
+          .subscribe((state) => (currentDataState = state)),
+      );
+      dataManagerService.updateDataState(
+        new SkyDataManagerState({
+          views: [
+            {
+              viewId: 'newView',
+              columnIds: ['1', '2'],
+              displayedColumnIds: ['2'],
+            },
+          ],
+        }),
+        'test',
+      );
+
+      dataManagerService.initDataView({ id: 'newView', name: 'newView' });
+
+      expect(currentDataState?.getViewStateById('newView')).toEqual(
+        new SkyDataViewState({
+          viewId: 'newView',
+          columnIds: ['1', '2'],
+          displayedColumnIds: ['2'],
+          additionalData: undefined,
+        }),
+      );
+    });
+
     it(`should update available but not displayed column IDs on an existing view state if available
      columns weren't previously given`, async () => {
       let currentDataState: SkyDataManagerState | undefined;
