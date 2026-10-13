@@ -1,7 +1,11 @@
 # Changelog
 
 
-## [15.2.1](https://github.com/blackbaud/skyux/compare/15.2.0...15.2.1) (2026-10-13)
+## [15.3.0](https://github.com/blackbaud/skyux/compare/15.2.0...15.3.0) (2026-10-13)
+
+### Features
+
+* add `data-grid` row delete confirmation support and `ag-grid-wrapper` row delete test harness support ([#4886](https://github.com/blackbaud/skyux/issues/4886)) ([8de7082](https://github.com/blackbaud/skyux/commit/8de70821d2870b56316cc2ad777af9039f553013))
 
 ### Bug Fixes
 
