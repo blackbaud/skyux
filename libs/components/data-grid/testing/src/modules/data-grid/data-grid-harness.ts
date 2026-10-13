@@ -7,6 +7,7 @@ import {
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyWaitHarness } from '@skyux/indicators/testing';
+import { SkyInlineDeleteHarness } from '@skyux/layout/testing';
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
 import { SkyDataGridHarnessFilters } from './data-grid-harness.filters';
@@ -146,6 +147,17 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
    */
   public async getPagingOrNull(): Promise<SkyPagingHarness | null> {
     return await this.queryHarnessOrNull(SkyPagingHarness);
+  }
+
+  /**
+   * Gets the inline delete confirmation shown for a row whose ID is in the
+   * data grid's `rowDeleteIds`, or `null` if the row is not showing one.
+   * @param rowId The ID of the row.
+   */
+  public async getRowInlineDelete(
+    rowId: string,
+  ): Promise<SkyInlineDeleteHarness | null> {
+    return await (await this.#getGridWrapper()).getRowInlineDelete(rowId);
   }
 
   /**

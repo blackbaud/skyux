@@ -56,6 +56,54 @@
   <p>Selected rows: {{ selectedRowIds | json }}</p>
 </div>
 
+<h1>Grid with row delete</h1>
+
+<div id="screenshot-grid-row-delete">
+  <sky-data-grid
+    [data]="dataForRowDeleteGrid"
+    [(rowDeleteIds)]="rowDeleteIds"
+    (rowDeleteCancel)="cancelRowDelete($event)"
+    (rowDeleteConfirm)="confirmRowDelete($event)"
+  >
+    <sky-data-grid-column
+      columnId="context"
+      headingHidden
+      headingText="Context menu"
+      resizable="false"
+      sortable="false"
+      width="60"
+      [template]="rowDeleteContextMenu"
+    />
+    <sky-data-grid-column field="column1" headingText="Column1" />
+    <sky-data-grid-column field="column2" headingText="Column2" />
+    @if (!hideCol3()) {
+      <sky-data-grid-column field="column3" headingText="Column3" />
+    }
+  </sky-data-grid>
+
+  <p>Row delete IDs: {{ rowDeleteIds | json }}</p>
+  <p>Events: {{ rowDeleteEvents | json }}</p>
+
+  <ng-template #rowDeleteContextMenu let-row="row">
+    <sky-dropdown
+      buttonType="context-menu"
+      [label]="'Context menu for ' + row?.column2 + ' ' + row?.column1"
+    >
+      <sky-dropdown-menu>
+        <sky-dropdown-item>
+          <button
+            type="button"
+            [attr.aria-label]="'Delete ' + row?.column2 + ' ' + row?.column1"
+            (click)="deleteRow(row.id)"
+          >
+            Delete
+          </button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </ng-template>
+</div>
+
 <h1>Grid with inline help</h1>
 
 <div id="screenshot-grid-inline-help">

@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   input,
+  model,
 } from '@angular/core';
 import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 import { SkyDropdownModule } from '@skyux/popovers';
@@ -21,6 +22,7 @@ import { DATA_GRID_DEMO_DATA, DataGridDemoRow } from './data';
 export class DataGridComponent {
   public readonly sizingVariant = input<'fixed' | 'flex' | 'auto'>('fixed');
   public readonly columnFit = input<'content' | 'container'>('content');
+  public readonly rowDeleteIds = model<string[]>([]);
 
   protected readonly fixedSizes = computed<
     Record<
