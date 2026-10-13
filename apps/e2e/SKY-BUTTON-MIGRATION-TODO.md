@@ -2,9 +2,9 @@
 
 The `migrate-sky-btn-to-sky-button` skill
 ([.github/skills/migrate-sky-btn-to-sky-button/SKILL.md](../../.github/skills/migrate-sky-btn-to-sky-button/SKILL.md))
-was run over `apps/e2e`. It migrated 93 buttons and left the ones below as
-native `<button class="sky-btn ...">` elements. Each needs a decision or a
-library change before it can move.
+was run over `apps/e2e`. The buttons below remain as native
+`<button class="sky-btn ...">` elements. Each needs a decision or a library
+change before it can move, or is intentionally left as-is.
 
 Re-run `grep -rn "sky-btn" apps/e2e --include="*.html" --include="*.ts"` to
 check what is left. Delete an entry here when its buttons are migrated.
@@ -43,15 +43,6 @@ second icon in a `<div>`. `sky-button` supports one icon and a label only.
 Confirm and delete this entry. Cypress targets `.custom-trigger` in
 `popovers-storybook-e2e`.
 
-### Pages shared links (1 button)
-
-`pages-storybook/src/app/shared/links/links.component.html` uses
-`class="sky-btn-link-inline"` **without** `sky-btn`. It is a bare inline link
-style, and `sky-button` always adds `sky-btn`, which changes the styling.
-
-**To do:** check how this button looks next to `<sky-button buttonStyle="link-inline">`.
-Migrate if the two match, otherwise leave it.
-
 ## Intentionally not migrated
 
 ### Theme buttons story (about 56 `sky-btn` occurrences)
@@ -65,16 +56,3 @@ styles are snapshotted directly.
 **To do:** keep as-is while the classes are public. Consider adding a separate
 story for `<sky-button>` instead. The `forms-storybook` button story already
 exists.
-
-## Also verify after migration
-
-Not a leftover, but these rely on the migration and can only be confirmed by
-running the e2e suites (nothing was run when the migration was done):
-
-- Cypress selectors that now match the `<sky-button>` host instead of the inner
-  button: `.open-wizard-btn`, `.open-*-modal-btn`, `.open-ok-confirm-btn`,
-  `.open-custom-confirm-btn`, `#custom-trigger`, `#show-tabs-button`,
-  `#open-*-modal-button`.
-- Percy snapshots for the migrated stories, in particular toolbar (the icon
-  margin workaround was removed from "Button 0"), inline delete, repeater and
-  inline form (labels were invented as "Delete" and "Edit").
