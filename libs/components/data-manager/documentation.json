@@ -12,6 +12,7 @@
           "SkyDataManagerToolbarPrimaryItemComponent",
           "SkyDataManagerToolbarLeftItemComponent",
           "SkyDataManagerToolbarRightItemComponent",
+          "SkyDataManagerViewControllerDirective",
           "SkyDataManagerFilterControllerDirective",
           "SkyDataViewComponent",
           "SkyDataViewConfig",
