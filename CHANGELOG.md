@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [14.24.0](https://github.com/blackbaud/skyux/compare/14.23.0...14.24.0) (2026-10-13)
+
+
+### Features
+
+* **components/data-grid:** integrate with the data manager view controller ([#4880](https://github.com/blackbaud/skyux/issues/4880)) ([fc6b69f](https://github.com/blackbaud/skyux/commit/fc6b69f45a2c8b3561fa2733df33ae0573e2a9a8)), closes [AB#4144434](https://dev.azure.com/blackbaud/Products/_workitems/edit/4144434) [#4879](https://github.com/blackbaud/skyux/issues/4879)
+* **components/data-manager:** add view controller for column, sort, selection, and sizing sync ([#4879](https://github.com/blackbaud/skyux/issues/4879)) ([d9fba17](https://github.com/blackbaud/skyux/commit/d9fba178236eaea4213a62d59015179d6ec92cc4)), closes [AB#4144432](https://dev.azure.com/blackbaud/Products/_workitems/edit/4144432) [#4880](https://github.com/blackbaud/skyux/issues/4880) [#4880](https://github.com/blackbaud/skyux/issues/4880)
+
+
+### Bug Fixes
+
+* **components/layout:** resolve nested fluid grid gutters against the nearest grid ([#4888](https://github.com/blackbaud/skyux/issues/4888)) ([#4894](https://github.com/blackbaud/skyux/issues/4894)) ([0c4fd09](https://github.com/blackbaud/skyux/commit/0c4fd09353612f3f2febe4109cb83611be7b22c3)), closes [AB#4151438](https://dev.azure.com/blackbaud/Products/_workitems/edit/4151438)
+* **components/tiles:** allow tiles to be dropped below the last tile in a shorter dashboard column ([#4889](https://github.com/blackbaud/skyux/issues/4889)) ([dd1f30a](https://github.com/blackbaud/skyux/commit/dd1f30ae6b17a1610753df3e367c1488db365129)), closes [AB#4151740](https://dev.azure.com/blackbaud/Products/_workitems/edit/4151740) [#4225](https://github.com/blackbaud/skyux/issues/4225)
+
 ## [15.2.0](https://github.com/blackbaud/skyux/compare/15.1.0...15.2.0) (2026-10-09)
 
 ### Features
