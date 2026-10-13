@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 
+import { FluidGridNestedTestComponent } from './fixtures/fluid-grid-nested.component.fixture';
 import { FluidGridTestComponent } from './fixtures/fluid-grid.component.fixture';
 import { FluidGridTestModule } from './fixtures/fluid-grid.module.fixture';
 import { SkyFluidGridGutterSizeType } from './types/fluid-grid-gutter-size-type';
@@ -93,5 +94,63 @@ describe('SkyFluidGridComponent', () => {
     fixture.detectChanges();
 
     expect(fluidGrid).toHaveCssClass('sky-fluid-grid-no-margin');
+  });
+
+  describe('nested', () => {
+    const gutterSizes: SkyFluidGridGutterSizeType[] = [
+      'small',
+      'medium',
+      'large',
+    ];
+
+    let nestedFixture: ComponentFixture<FluidGridNestedTestComponent>;
+
+    function getInnerElements(): {
+      grid: HTMLElement;
+      column: HTMLElement;
+      content: HTMLElement;
+    } {
+      const inner = nestedFixture.nativeElement.querySelector(
+        '.inner-fluid-grid',
+      ) as HTMLElement;
+
+      return {
+        grid: inner.querySelector('.sky-fluid-grid') as HTMLElement,
+        column: inner.querySelector('sky-column') as HTMLElement,
+        content: inner.querySelector('.inner-content') as HTMLElement,
+      };
+    }
+
+    beforeEach(() => {
+      nestedFixture = TestBed.createComponent(FluidGridNestedTestComponent);
+    });
+
+    for (const outerGutterSize of gutterSizes) {
+      for (const innerGutterSize of gutterSizes) {
+        describe(`with a ${innerGutterSize} grid inside a ${outerGutterSize} grid`, () => {
+          beforeEach(() => {
+            nestedFixture.componentRef.setInput(
+              'outerGutterSize',
+              outerGutterSize,
+            );
+            nestedFixture.componentRef.setInput(
+              'innerGutterSize',
+              innerGutterSize,
+            );
+          });
+
+          it('should pad columns using the inner grid gutter', async () => {
+            await nestedFixture.whenStable();
+
+            const { grid, column } = getInnerElements();
+            const columnStyle = getComputedStyle(column);
+            const gridStyle = getComputedStyle(grid);
+
+            expect(columnStyle.paddingLeft).toBe(gridStyle.paddingLeft);
+            expect(columnStyle.paddingRight).toBe(gridStyle.paddingRight);
+          });
+        });
+      }
+    }
   });
 });
