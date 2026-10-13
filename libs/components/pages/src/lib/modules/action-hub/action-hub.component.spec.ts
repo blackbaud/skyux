@@ -5,6 +5,8 @@ import {
   tick,
 } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
+import { SkyHelpService } from '@skyux/core';
+import { SkyHelpTestingModule } from '@skyux/core/testing';
 import {
   SkyRecentlyAccessedLinkList,
   SkyRecentlyAccessedService,
@@ -299,10 +301,28 @@ describe('Action hub component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [SkyActionHubFixtureModule],
+        imports: [SkyActionHubFixtureModule, SkyHelpTestingModule],
         providers: [provideRouter([])],
       });
       fixture = TestBed.createComponent(ActionHubInputsFixtureComponent);
+    });
+
+    it('should notify the help service when the help key is set', () => {
+      const helpService = TestBed.inject(SkyHelpService);
+      const updateHelpSpy = spyOn(helpService, 'updateHelp').and.stub();
+
+      fixture.componentRef.setInput('helpKey', 'test-help');
+      fixture.detectChanges();
+
+      expect(updateHelpSpy).toHaveBeenCalledWith({
+        pageDefaultHelpKey: 'test-help',
+      });
+
+      fixture.destroy();
+
+      expect(updateHelpSpy).toHaveBeenCalledWith({
+        pageDefaultHelpKey: undefined,
+      });
     });
 
     it('should load with separate inputs', fakeAsync(() => {

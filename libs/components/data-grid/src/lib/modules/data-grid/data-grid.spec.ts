@@ -13,6 +13,11 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, provideRouter, Router } from '@angular/router';
 import { expectAsync, SkyAppTestUtility } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import {
+  SkyHelpTestingController,
+  SkyHelpTestingModule,
+} from '@skyux/core/testing';
 import { SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
@@ -135,6 +140,7 @@ describe('SkyDataGrid', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
+        imports: [SkyHelpTestingModule],
         providers: [provideRouter([]), provideLocationMocks()],
       });
       fixture = TestBed.createComponent(DataGridTestComponent);
@@ -1302,6 +1308,20 @@ describe('SkyDataGrid', () => {
         '[data-sky-id="inline-help-grid"] sky-help-inline',
       );
       expect(helpInlineButtons.length).toBeGreaterThan(0);
+    });
+
+    it('should open global help from the header when helpKey is set', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const helpController = TestBed.inject(SkyHelpTestingController);
+
+      fixture.nativeElement
+        .querySelector(
+          '[data-sky-id="inline-help-grid"] [col-id="column2"] .sky-help-inline',
+        )
+        .click();
+
+      helpController.expectCurrentHelpKey('column2.html');
     });
 
     it('should be accessible', async () => {

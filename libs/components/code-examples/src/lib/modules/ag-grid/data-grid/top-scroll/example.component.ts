@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import {
   SkyAgGridModule,
   SkyAgGridService,
@@ -12,9 +17,8 @@ import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
   ColDef,
-  GridApi,
   GridOptions,
-  GridReadyEvent,
+  ModelUpdatedEvent,
   ModuleRegistry,
   ValueFormatterParams,
 } from 'ag-grid-community';
@@ -37,7 +41,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 export class AgGridDataGridTopScrollExampleComponent {
   protected gridData = AG_GRID_DEMO_DATA;
   protected gridOptions: GridOptions;
-  protected searchText = '';
+  protected readonly searchText = signal('');
   protected noRowsTemplate = `<div class="sky-theme-font-body-deemphasized-m">No results found.</div>`;
 
   #columnDefs: ColDef[] = [
@@ -90,17 +94,12 @@ export class AgGridDataGridTopScrollExampleComponent {
     },
   ];
 
-  #gridApi: GridApi | undefined;
-
   readonly #agGridSvc = inject(SkyAgGridService);
 
   constructor() {
     this.gridOptions = this.#agGridSvc.getGridOptions({
       gridOptions: {
         columnDefs: this.#columnDefs,
-        onGridReady: (gridReadyEvent): void => {
-          this.onGridReady(gridReadyEvent);
-        },
         context: {
           enableTopScroll: true,
         },
@@ -108,21 +107,15 @@ export class AgGridDataGridTopScrollExampleComponent {
     });
   }
 
-  public onGridReady(gridReadyEvent: GridReadyEvent): void {
-    this.#gridApi = gridReadyEvent.api;
+  protected searchApplied(searchText: string | void): void {
+    this.searchText.set(searchText ?? '');
   }
 
-  protected searchApplied(searchText: string | void): void {
-    this.searchText = searchText ?? '';
-
-    if (this.#gridApi) {
-      this.#gridApi.updateGridOptions({ quickFilterText: this.searchText });
-      const displayedRowCount = this.#gridApi.getDisplayedRowCount();
-      if (displayedRowCount > 0) {
-        this.#gridApi.hideOverlay();
-      } else {
-        this.#gridApi.showNoRowsOverlay();
-      }
+  protected showOverlayWhenEmpty({ api }: ModelUpdatedEvent): void {
+    if (api.getDisplayedRowCount() > 0) {
+      api.hideOverlay();
+    } else {
+      api.showNoRowsOverlay();
     }
   }
 

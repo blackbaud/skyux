@@ -1,8 +1,9 @@
 <sky-toolbar>
   <sky-toolbar-item>
     <sky-search
+      data-sky-id="inline-help-search"
       [debounceTime]="250"
-      [searchText]="searchText"
+      [searchText]="searchText()"
       (searchApply)="searchApplied($event)"
       (searchChange)="searchApplied($event)"
       (searchClear)="searchApplied($event)"
@@ -10,10 +11,12 @@
   </sky-toolbar-item>
 </sky-toolbar>
 
-<sky-ag-grid-wrapper>
+<sky-ag-grid-wrapper data-sky-id="inline-help-grid">
   <ag-grid-angular
     [gridOptions]="gridOptions"
     [overlayNoRowsTemplate]="noRowsTemplate"
+    [quickFilterText]="searchText()"
     [rowData]="gridData"
+    (modelUpdated)="showOverlayWhenEmpty($event)"
   />
 </sky-ag-grid-wrapper>

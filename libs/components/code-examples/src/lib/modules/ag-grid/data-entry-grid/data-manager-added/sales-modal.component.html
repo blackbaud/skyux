@@ -1,17 +1,23 @@
 <sky-modal [headingText]="modalLabel">
   <sky-modal-content>
-    <sky-checkbox labelText="Hide Sales employees" [(ngModel)]="hideSales" />
+    <sky-checkbox
+      data-sky-id="hide-sales-checkbox"
+      labelText="Hide Sales employees"
+      [(ngModel)]="hideSales"
+    />
   </sky-modal-content>
   <sky-modal-footer>
-    <button
-      class="sky-btn sky-btn-primary"
-      type="button"
-      (click)="applyFilters()"
-    >
-      Apply
-    </button>
-    <button class="sky-btn sky-btn-link" type="button" (click)="cancel()">
-      Cancel
-    </button>
+    <sky-button
+      buttonStyle="primary"
+      data-sky-id="apply-button"
+      labelText="Apply"
+      (buttonClick)="applyFilters()"
+    />
+    <sky-button
+      buttonStyle="link"
+      data-sky-id="cancel-button"
+      labelText="Cancel"
+      (buttonClick)="cancel()"
+    />
   </sky-modal-footer>
 </sky-modal>

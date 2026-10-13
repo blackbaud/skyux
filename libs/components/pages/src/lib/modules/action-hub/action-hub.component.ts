@@ -24,6 +24,11 @@ import { SkyRecentLinksInput } from './types/recent-links-input';
 })
 export class SkyActionHubComponent {
   /**
+   * A help key that identifies the page's default [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help) content to display.
+   */
+  public readonly helpKey = input<string | undefined>();
+
+  /**
    * The list of actions that users must perform based on business requirements or best practices, or `"loading"` to display a wait indicator.
    */
   public readonly needsAttention = input<

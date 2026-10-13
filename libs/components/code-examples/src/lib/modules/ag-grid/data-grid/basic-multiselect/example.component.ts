@@ -31,7 +31,8 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [AgGridAngular, SkyAgGridModule],
 })
 export class AgGridDataGridBasicMultiselectExampleComponent {
-  protected gridData = AG_GRID_DEMO_DATA;
+  // Copy the rows because the row selector writes the `selected` field back to each row.
+  protected gridData = AG_GRID_DEMO_DATA.map((row) => ({ ...row }));
   protected gridOptions: GridOptions;
 
   #columnDefs: ColDef[] = [

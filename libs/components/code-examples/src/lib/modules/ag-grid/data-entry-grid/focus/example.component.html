@@ -1,4 +1,5 @@
 <sky-input-box
+  data-sky-id="focus-start-input"
   labelText="Start here"
   helpPopoverContent="Then tab to the grid"
   stacked
@@ -6,11 +7,12 @@
   <input type="text" />
 </sky-input-box>
 <div class="sky-theme-margin-bottom-m">
-  <sky-ag-grid-wrapper>
+  <sky-ag-grid-wrapper data-sky-id="focus-grid">
     <ag-grid-angular class="sky-ag-grid-editable" [gridOptions]="gridOptions" />
   </sky-ag-grid-wrapper>
 </div>
 <sky-input-box
+  data-sky-id="focus-end-input"
   labelText="Or start here"
   helpPopoverContent="Then tab backwards to the grid"
   stacked

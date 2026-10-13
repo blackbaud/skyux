@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -11,6 +10,7 @@ import {
   SkyCellType,
   defineSkyAgGridColDef,
 } from '@skyux/ag-grid';
+import { SkyButton } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkySearchModule } from '@skyux/lookup';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
@@ -18,7 +18,6 @@ import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 import { AgGridAngular } from 'ag-grid-angular';
 import {
   AllCommunityModule,
-  GridApi,
   GridOptions,
   ModuleRegistry,
   ValueFormatterParams,
@@ -40,7 +39,13 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   selector: 'app-ag-grid-data-entry-grid-inline-help-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AgGridAngular, SkyAgGridModule, SkySearchModule, SkyToolbarModule],
+  imports: [
+    AgGridAngular,
+    SkyButton,
+    SkyAgGridModule,
+    SkySearchModule,
+    SkyToolbarModule,
+  ],
 })
 export class AgGridDataEntryGridInlineHelpExampleComponent {
   protected readonly gridData = signal<AgGridDemoRow[]>(AG_GRID_DEMO_DATA);
@@ -157,24 +162,12 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
           },
         }),
       ],
-      onGridReady: (gridReadyEvent): void => {
-        this.#gridApi.set(gridReadyEvent.api);
-      },
-      onGridPreDestroyed: (): void => {
-        this.#gridApi.set(undefined);
-      },
     },
   });
 
-  readonly #gridApi = signal<GridApi | undefined>(undefined);
-  readonly #modalSvc = inject(SkyModalService);
+  protected readonly searchText = signal('');
 
-  constructor() {
-    effect(() => {
-      const rowData = this.gridData();
-      this.#gridApi()?.setGridOption('rowData', rowData);
-    });
-  }
+  readonly #modalSvc = inject(SkyModalService);
 
   protected openModal(): void {
     const context = new EditModalContext();
@@ -202,7 +195,7 @@ export class AgGridDataEntryGridInlineHelpExampleComponent {
   }
 
   protected searchApplied(searchText: string | void): void {
-    this.#gridApi()?.setGridOption('quickFilterText', searchText ?? '');
+    this.searchText.set(searchText ?? '');
   }
 
   #endDateFormatter(params: ValueFormatterParams<AgGridDemoRow, Date>): string {

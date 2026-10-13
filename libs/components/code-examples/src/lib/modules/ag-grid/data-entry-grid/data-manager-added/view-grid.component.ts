@@ -248,7 +248,7 @@ export class ViewGridComponent {
         : [];
 
       filteredItems = items.filter((item: AgGridDemoRow) => {
-        if (hideSales && item.department.name === 'Sales') {
+        if (hideSales && item.department?.name === 'Sales') {
           return false;
         }
         return !(

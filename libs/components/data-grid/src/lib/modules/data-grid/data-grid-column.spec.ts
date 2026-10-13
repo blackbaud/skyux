@@ -65,6 +65,7 @@ describe('SkyDataGridColumn', () => {
     expect(component.headingHidden()).toBeFalse();
     expect(component.helpPopoverTitle()).toBeUndefined();
     expect(component.helpPopoverContent()).toBeUndefined();
+    expect(component.helpKey()).toBeUndefined();
     expect(component.columnHidden()).toBeFalse();
     expect(component.resizable()).toBeTrue();
     expect(component.sortable()).toBeTrue();

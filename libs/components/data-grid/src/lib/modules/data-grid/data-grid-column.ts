@@ -96,6 +96,13 @@ export class SkyDataGridColumn implements OnInit {
   public readonly helpPopoverContent = input<string | TemplateRef<unknown>>();
 
   /**
+   * A help key that identifies the global help content to display. When specified, a [help inline](https://developer.blackbaud.com/skyux/components/help-inline)
+   * button is added to the column header. Clicking the button invokes [global help](https://developer.blackbaud.com/skyux/learn/develop/global-help)
+   * as configured by the application.
+   */
+  public readonly helpKey = input<string>();
+
+  /**
    * Whether the column is locked. The intent is to display locked columns first
    * on the left side of the grid. If set to `true`, then users cannot drag the column
    * to another position or drag other columns before it.
