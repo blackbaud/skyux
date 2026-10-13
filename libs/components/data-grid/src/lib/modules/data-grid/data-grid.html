@@ -1,6 +1,11 @@
 <sky-wait [isWaiting]="!gridReady()" />
 @if (gridOptions(); as gridOptions) {
-  <sky-ag-grid-wrapper [compact]="compact()" [minHeight]="minHeight()">
+  <!-- The grid keeps its column headers visible itself, below. -->
+  <sky-ag-grid-wrapper
+    viewkeeperDisabled
+    [compact]="compact()"
+    [minHeight]="minHeight()"
+  >
     <ag-grid-angular
       skyViewkeeperOmitShadow=".ag-body-horizontal-scroll"
       [skyViewkeeper]="skyViewkeeper()"

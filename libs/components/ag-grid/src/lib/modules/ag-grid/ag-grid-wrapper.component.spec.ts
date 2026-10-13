@@ -155,6 +155,25 @@ describe('SkyAgGridWrapperComponent', () => {
     ).not.toEqual(-1);
   });
 
+  it('should not add viewkeeper classes when viewkeeperDisabled is set', () => {
+    agGrid.gridOptions = { domLayout: 'autoHeight' };
+
+    const autoHeightGridWrapperFixture = TestBed.createComponent(
+      SkyAgGridWrapperComponent,
+    );
+    const autoHeightGridWrapperComponent =
+      autoHeightGridWrapperFixture.componentInstance;
+    autoHeightGridWrapperComponent.agGrid = agGrid;
+    autoHeightGridWrapperFixture.componentRef.setInput(
+      'viewkeeperDisabled',
+      true,
+    );
+
+    autoHeightGridWrapperFixture.detectChanges();
+
+    expect(autoHeightGridWrapperComponent.viewkeeperClasses()).toEqual([]);
+  });
+
   it('should add sky-ag-grid-layout-normal class when the domLayout is set to normal', () => {
     agGrid.gridOptions = { domLayout: 'normal' };
 
