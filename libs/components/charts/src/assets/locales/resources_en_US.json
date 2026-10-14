@@ -14,6 +14,12 @@
     "_description": "The label for the 'View data table' chart menu item",
     "message": "View data table"
   },
+  "skyux_charts.chart.line.accessible_summary": {
+    "_description": "The accessible summary announced for a line chart figure, describing its shape and noting that a data table alternative is available",
+    "message": "Line chart. Number of series: {0}. Number of categories: {1}. A data table is available from the chart's context menu.",
+    "_0": "The number of series",
+    "_1": "The number of categories"
+  },
   "skyux_charts.data_table_modal.close_button": {
     "_description": "The label for the close button",
     "message": "Close"

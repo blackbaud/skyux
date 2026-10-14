@@ -16,7 +16,10 @@ import {
   type ChartType,
   Legend,
   LinearScale,
+  LineController,
+  LineElement,
   LogarithmicScale,
+  PointElement,
   Tooltip,
 } from 'chart.js';
 
@@ -25,7 +28,10 @@ Chart.register(
   BarElement,
   CategoryScale,
   LinearScale,
+  LineController,
+  LineElement,
   LogarithmicScale,
+  PointElement,
   Legend,
   Tooltip,
 );
