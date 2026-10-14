@@ -1,35 +1,22 @@
 import {
-  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
-  contentChild,
   contentChildren,
-  inject,
   input,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyLogService } from '@skyux/core';
-import { SkyThemeService } from '@skyux/theme';
 import { type ChartDataset } from 'chart.js';
-import { EMPTY, map } from 'rxjs';
 
-import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
-import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import {
   buildCartesianScales,
-  buildCartesianTable,
   buildValueTooltipLabel,
   CATEGORY_AXIS_ID,
   isValueRange,
-  resolveCartesianData,
   VALUE_AXIS_ID,
 } from '../chart-js/cartesian-utils';
 import { SkyChartJs, type SkyChartJsConfig } from '../chart-js/chart-js';
 import { extendBaseChartJsConfig } from '../chart-js/chart-js-config-utils';
-import { SkyChartPlot } from '../chart-plot/chart-plot';
-import { SkyChartTable } from '../chart-table/chart-table';
-import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
+import { SkyChartCartesianPlot } from '../chart-plot/chart-cartesian-plot';
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
 import { SkyChartBarSeries } from './chart-bar-series';
@@ -47,14 +34,7 @@ import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
   selector: 'sky-chart-bar',
   templateUrl: './chart-bar.html',
 })
-export class SkyChartBar extends SkyChartPlot {
-  readonly #themeSettings = toSignal(
-    inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
-      map((change) => change.currentSettings),
-    ) ?? EMPTY,
-    { initialValue: undefined },
-  );
-
+export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
   /**
    * The orientation of the bars.
    * @default 'vertical'
@@ -72,39 +52,10 @@ export class SkyChartBar extends SkyChartPlot {
    */
   public readonly seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
 
-  protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
-  protected readonly valueAxis = contentChild(SkyChartAxisValue);
-  protected readonly series = contentChildren(SkyChartBarSeries);
-
-  constructor() {
-    super();
-
-    const logger = inject(SkyLogService);
-
-    // Values align to categories by index, so a length mismatch silently
-    // misaligns or drops data. Warn about the one alignment mistake that is
-    // mechanically detectable.
-    afterRenderEffect(() => {
-      const categoryCount = this.categoryAxis()?.categories().length;
-
-      if (categoryCount === undefined) {
-        return;
-      }
-
-      for (const chartSeries of this.series()) {
-        const valueCount = chartSeries.values().length;
-
-        if (valueCount !== categoryCount) {
-          logger.warn(
-            `The <sky-chart-bar-series> labeled "${chartSeries.labelText()}" ` +
-              `has ${valueCount} values, but the category axis has ` +
-              `${categoryCount} categories. Values align to categories by ` +
-              'index, so each series must provide one value per category.',
-          );
-        }
-      }
-    });
-  }
+  protected override readonly series = contentChildren(SkyChartBarSeries);
+  protected override readonly seriesSelector = 'sky-chart-bar-series';
+  protected override readonly accessibleSummaryResourceKey =
+    'skyux_charts.chart.bar.accessible_summary';
 
   protected readonly chartJsConfig = computed(() => this.#getChartJsConfig());
 
@@ -116,49 +67,8 @@ export class SkyChartBar extends SkyChartPlot {
    */
   protected readonly chartHeight = computed(() => this.#getChartHeight());
 
-  protected override getChartTable(): SkyChartTable | undefined {
-    const data = resolveCartesianData(
-      this.categoryAxis(),
-      this.valueAxis(),
-      this.series(),
-    );
-
-    if (!data) {
-      return undefined;
-    }
-
-    return buildCartesianTable(
-      data.categoryAxis,
-      data.series,
-      data.valueAxis.formatValue(),
-    );
-  }
-
-  protected override getAccessibleSummary():
-    | SkyChartAccessibleSummary
-    | undefined {
-    const data = resolveCartesianData(
-      this.categoryAxis(),
-      this.valueAxis(),
-      this.series(),
-    );
-
-    if (!data) {
-      return undefined;
-    }
-
-    return {
-      resourceKey: 'skyux_charts.chart.bar.accessible_summary',
-      args: [data.series.length, data.categoryAxis.categories().length],
-    };
-  }
-
   #getChartJsConfig(): SkyChartJsConfig<'bar'> | undefined {
-    const data = resolveCartesianData(
-      this.categoryAxis(),
-      this.valueAxis(),
-      this.series(),
-    );
+    const data = this.getCartesianData();
 
     if (!data) {
       return undefined;
@@ -168,7 +78,7 @@ export class SkyChartBar extends SkyChartPlot {
 
     // Read the theme signal so the config rebuilds when the theme changes,
     // then resolve the themed CSS custom properties to concrete values.
-    this.#themeSettings();
+    this.themeSettings();
 
     const themeStyles = this.getThemeStyles();
     const categorical = themeStyles.series.categoricalPalette;
@@ -292,7 +202,7 @@ export class SkyChartBar extends SkyChartPlot {
    */
   #getChartHeight(): string {
     // Read the theme signal so the height recomputes when the theme changes.
-    this.#themeSettings();
+    this.themeSettings();
 
     const themeStyles = this.getThemeStyles();
 
