@@ -8,12 +8,14 @@ import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolba
 import { SkyDataManagerToolbarRightItemComponent } from './data-manager-toolbar/data-manager-toolbar-right-item.component';
 import { SkyDataManagerToolbarSectionComponent } from './data-manager-toolbar/data-manager-toolbar-section.component';
 import { SkyDataManagerToolbarComponent } from './data-manager-toolbar/data-manager-toolbar.component';
+import { SkyDataManagerViewControllerDirective } from './data-manager-view-controller/data-manager-view-controller.directive';
 import { SkyDataManagerComponent } from './data-manager.component';
 import { SkyDataViewComponent } from './data-view.component';
 
 @NgModule({
   imports: [
     SkyDataManagerComponent,
+    SkyDataManagerViewControllerDirective,
     SkyDataManagerFilterControllerDirective,
     SkyDataManagerSortOptionComponent,
     SkyDataManagerToolbarComponent,
@@ -25,6 +27,7 @@ import { SkyDataViewComponent } from './data-view.component';
   ],
   exports: [
     SkyDataManagerComponent,
+    SkyDataManagerViewControllerDirective,
     SkyDataManagerFilterControllerDirective,
     SkyDataManagerSortOptionComponent,
     SkyDataManagerToolbarComponent,

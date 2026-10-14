@@ -331,6 +331,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'DataGridDataManagerExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ DataGridDataManagerExample: c }) => c,
+      ),
+  },
+  {
     path: 'DataGridLoadingExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(

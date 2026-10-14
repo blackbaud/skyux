@@ -8,59 +8,75 @@
   --sky-override-fluid-grid-top-bottom: 0;
 }
 
-.sky-fluid-grid-gutter-size-small {
-  padding: var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-top-s)
-    )
-    var(
-      --sky-override-fluid-grid-gutter-size-small,
-      var(--sky-space-inset-horizontal-right-s)
-    )
-    var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-bottom-s)
-    )
-    var(
-      --sky-override-fluid-grid-gutter-size-small,
-      var(--sky-space-inset-horizontal-left-s)
-    );
-}
+// Rows and columns read the gutter from these custom properties rather than
+// from ancestor class selectors so that, when grids are nested, inheritance
+// resolves them against the nearest grid instead of an arbitrary ancestor.
+@each $size, $token in (small: s, medium: m, large: xl) {
+  .sky-fluid-grid-gutter-size-#{$size} {
+    --sky-fluid-grid-gutter: var(
+        --sky-override-fluid-grid-top-bottom,
+        var(--sky-space-inset-horizontal-top-#{$token})
+      )
+      var(
+        --sky-override-fluid-grid-gutter-size-#{$size},
+        var(--sky-space-inset-horizontal-right-#{$token})
+      )
+      var(
+        --sky-override-fluid-grid-top-bottom,
+        var(--sky-space-inset-horizontal-bottom-#{$token})
+      )
+      var(
+        --sky-override-fluid-grid-gutter-size-#{$size},
+        var(--sky-space-inset-horizontal-left-#{$token})
+      );
+    --sky-fluid-grid-row-margin: var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-top-#{$token}) * -1)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-#{$size},
+            var(--sky-space-inset-horizontal-right-#{$token})
+          ) *
+          -1
+      )
+      var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-bottom-#{$token}) * -1)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-#{$size},
+            var(--sky-space-inset-horizontal-left-#{$token})
+          ) *
+          -1
+      );
 
-.sky-fluid-grid-gutter-size-medium {
-  padding: var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-top-m)
-    )
-    var(
-      --sky-override-fluid-grid-gutter-size-medium,
-      var(--sky-space-inset-horizontal-right-m)
-    )
-    var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-bottom-m)
-    )
-    var(
-      --sky-override-fluid-grid-gutter-size-medium,
-      var(--sky-space-inset-horizontal-left-m)
-    );
-}
+    padding: var(--sky-fluid-grid-gutter);
+  }
 
-.sky-fluid-grid-gutter-size-large {
-  padding: var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-top-xl)
-    )
-    var(
-      --sky-override-fluid-grid-gutter-size-large,
-      var(--sky-space-inset-horizontal-right-xl)
-    )
-    var(
-      --sky-override-fluid-grid-top-bottom,
-      var(--sky-space-inset-horizontal-bottom-xl)
-    )
-    var(
-      --sky-override-fluid-grid-gutter-size-large,
-      var(--sky-space-inset-horizontal-left-xl)
-    );
+  .sky-fluid-grid-gutter-size-#{$size}.sky-fluid-grid-no-margin {
+    --sky-fluid-grid-row-margin: var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-top-#{$token}) * -2)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-#{$size},
+            var(--sky-space-inset-horizontal-right-#{$token})
+          ) *
+          -2
+      )
+      var(
+        --sky-override-fluid-grid-top-bottom,
+        calc(var(--sky-space-inset-horizontal-bottom-#{$token}) * -2)
+      )
+      calc(
+        var(
+            --sky-override-fluid-grid-gutter-size-#{$size},
+            var(--sky-space-inset-horizontal-left-#{$token})
+          ) *
+          -2
+      );
+  }
 }

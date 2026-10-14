@@ -75,6 +75,16 @@ export class SkyAgGridWrapperComponent
     transform: numberAttribute,
   });
 
+  /**
+   * Whether to stop keeping the column headers visible while the page scrolls,
+   * for a host that keeps them visible itself. This is applied when the grid
+   * initializes.
+   * @internal
+   */
+  public readonly viewkeeperDisabled = input(false, {
+    transform: booleanAttribute,
+  });
+
   public afterAnchorId: string;
   public beforeAnchorId: string;
   public gridId: string;
@@ -172,7 +182,7 @@ export class SkyAgGridWrapperComponent
   public ngAfterContentInit(): void {
     if (this.agGrid) {
       const domLayout = this.agGrid.gridOptions?.domLayout;
-      if (domLayout === 'autoHeight') {
+      if (domLayout === 'autoHeight' && !this.viewkeeperDisabled()) {
         if (this.agGrid.gridOptions?.context?.enableTopScroll) {
           this.viewkeeperClasses.update((prev) => [
             ...prev,
