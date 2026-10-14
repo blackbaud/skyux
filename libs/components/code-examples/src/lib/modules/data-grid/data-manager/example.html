@@ -1,0 +1,26 @@
+<sky-data-manager>
+  <sky-data-manager-toolbar />
+  <sky-data-view [viewId]="viewId">
+    <sky-data-grid
+      skyDataManagerViewController
+      labelText="Fruit"
+      [data]="data()"
+    >
+      <sky-data-grid-column field="name" flexWidth="2" headingText="Name" />
+      <sky-data-grid-column
+        description="The botanical classification of the fruit."
+        field="type"
+        flexWidth="4"
+        headingText="Type"
+      />
+      <sky-data-grid-column field="color" flexWidth="4" headingText="Color" />
+      <sky-data-grid-column
+        columnHidden
+        dataType="number"
+        field="quantity"
+        flexWidth="1"
+        headingText="Quantity"
+      />
+    </sky-data-grid>
+  </sky-data-view>
+</sky-data-manager>
