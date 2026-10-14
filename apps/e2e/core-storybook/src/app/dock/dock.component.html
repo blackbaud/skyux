@@ -7,11 +7,9 @@
     type="number"
     [(ngModel)]="stackOrder"
   />
-  <button
-    class="sky-btn sky-btn-primary"
-    type="button"
-    (click)="onAddItemClick()"
-  >
-    Add item
-  </button>
+  <sky-button
+    buttonStyle="primary"
+    labelText="Add item"
+    (buttonClick)="onAddItemClick()"
+  />
 </div>

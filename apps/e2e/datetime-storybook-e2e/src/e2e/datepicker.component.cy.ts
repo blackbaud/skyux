@@ -81,7 +81,7 @@ describe('Date picker', () => {
             cy.window().scrollTo(0, $datepicker.position().top);
           });
 
-        cy.get('#set-value-button').click();
+        cy.get('#set-value-button button').click();
 
         cy.get('#screenshot-datepicker .sky-datepicker button').click();
 
@@ -117,8 +117,8 @@ describe('Date picker', () => {
       });
 
       it('should show datepicker input when invalid', () => {
-        cy.get('#button-set-invalid-value').scrollIntoView();
-        cy.get('#button-set-invalid-value').click();
+        cy.get('#button-set-invalid-value button').scrollIntoView();
+        cy.get('#button-set-invalid-value button').click();
 
         cy.get('#screenshot-datepicker').scrollIntoView();
         cy.get('#screenshot-datepicker').skyVisualTest(
@@ -131,7 +131,7 @@ describe('Date picker', () => {
       });
 
       it('should show datepicker input', () => {
-        cy.get('#toggle-disabled-btn').scrollIntoView();
+        cy.get('#toggle-disabled-btn button').scrollIntoView();
 
         cy.get('#screenshot-datepicker-input-box').skyVisualTest(
           `datepicker-input-box-${theme}`,
@@ -143,8 +143,8 @@ describe('Date picker', () => {
       });
 
       it('should show datepicker input when disabled', () => {
-        cy.get('#toggle-disabled-btn').scrollIntoView();
-        cy.get('#toggle-disabled-btn').click();
+        cy.get('#toggle-disabled-btn button').scrollIntoView();
+        cy.get('#toggle-disabled-btn button').click();
 
         cy.get(
           '#screenshot-datepicker-input-box input.sky-form-control',
@@ -160,10 +160,10 @@ describe('Date picker', () => {
       });
 
       it('should show datepicker input with custom dates', () => {
-        cy.get('#button-set-custom-dates').scrollIntoView();
-        cy.get('#button-set-custom-dates').click();
+        cy.get('#button-set-custom-dates button').scrollIntoView();
+        cy.get('#button-set-custom-dates button').click();
 
-        cy.get('#set-value-button').click();
+        cy.get('#set-value-button button').click();
 
         cy.get('#sky-datepicker-button-2').click();
 

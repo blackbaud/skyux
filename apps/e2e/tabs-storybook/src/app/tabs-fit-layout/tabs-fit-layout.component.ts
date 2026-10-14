@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyButton } from '@skyux/forms';
 import { SkyPageModule } from '@skyux/pages';
 import { SkyTabsModule } from '@skyux/tabs';
 
 @Component({
-  imports: [SkyIconModule, SkyPageModule, SkyTabsModule],
+  imports: [SkyButton, SkyPageModule, SkyTabsModule],
   selector: 'app-tabs-fit-layout',
   templateUrl: './tabs-fit-layout.component.html',
   styleUrls: ['./tabs-fit-layout.component.scss'],

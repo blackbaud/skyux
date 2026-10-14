@@ -10,7 +10,7 @@ describe(`tabs-storybook`, () => {
       );
       it('should render the component on a large screen', () => {
         cy.skyReady('app-wizard')
-          .get('.open-wizard-btn')
+          .get('.open-wizard-btn button')
           .should('exist')
           .should('be.visible')
           .click();
@@ -29,7 +29,7 @@ describe(`tabs-storybook`, () => {
       it('should render the component on a small screen', () => {
         cy.viewport(375, 812)
           .skyReady('app-wizard')
-          .get('.open-wizard-btn')
+          .get('.open-wizard-btn button')
           .should('exist')
           .should('be.visible')
           .click();

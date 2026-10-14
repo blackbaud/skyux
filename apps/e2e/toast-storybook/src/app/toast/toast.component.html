@@ -1,19 +1,14 @@
-<button
+<sky-button
+  buttonStyle="primary"
+  class="sky-theme-margin-right-s"
   id="default-trigger"
-  class="sky-btn sky-btn-primary sky-theme-margin-right-s"
-  type="button"
-  (click)="openToasts()"
->
-  Open toasts
-</button>
-<button
+  labelText="Open toasts"
+  (buttonClick)="openToasts()"
+/>
+<sky-button
+  class="sky-theme-margin-right-s"
   id="custom-trigger"
-  class="sky-btn sky-btn-default sky-theme-margin-right-s"
-  type="button"
-  (click)="openComponents()"
->
-  Open custom toasts
-</button>
-<button class="sky-btn sky-btn-default" type="button" (click)="closeAll()">
-  Close all
-</button>
+  labelText="Open custom toasts"
+  (buttonClick)="openComponents()"
+/>
+<sky-button labelText="Close all" (buttonClick)="closeAll()" />

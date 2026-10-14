@@ -10,13 +10,13 @@
         {{ firstName }}
       </td>
       <td>
-        <button
-          class="sky-btn sky-btn-icon-borderless"
-          type="button"
-          (click)="onInlineFormOpen()"
-        >
-          <sky-icon iconName="edit" />
-        </button>
+        <sky-button
+          buttonStyle="icon-borderless"
+          iconName="edit"
+          labelHidden
+          labelText="Edit"
+          (buttonClick)="onInlineFormOpen()"
+        />
       </td>
     </tr>
   </table>

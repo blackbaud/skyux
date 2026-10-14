@@ -1,8 +1,8 @@
 <sky-page layout="tabs">
   <sky-page-header pageTitle="Tabs page">
     <sky-page-header-actions>
-      <button class="sky-btn sky-btn-default" type="button">Action one</button>
-      <button class="sky-btn sky-btn-default" type="button">Action two</button>
+      <sky-button labelText="Action one" />
+      <sky-button labelText="Action two" />
     </sky-page-header-actions>
   </sky-page-header>
   <sky-page-content>
@@ -10,9 +10,7 @@
       <sky-tab tabHeading="Tab 1" layout="list">
         <sky-toolbar>
           <sky-toolbar-item>
-            <button type="button" class="sky-btn sky-btn-primary">
-              Toolbar button
-            </button>
+            <sky-button buttonStyle="primary" labelText="Toolbar button" />
           </sky-toolbar-item>
         </sky-toolbar>
         <p>Tab 1 Content</p></sky-tab

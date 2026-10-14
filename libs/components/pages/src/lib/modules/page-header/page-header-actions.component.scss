@@ -35,7 +35,7 @@ sky-page-header-actions {
 
   // Only style direct descendants to prevent adding additional margin to the button
   // inside the dropdown.
-  > :is(.sky-btn, sky-dropdown) {
+  > :is(.sky-btn, sky-button, sky-dropdown) {
     // Vertical space between rows of buttons that have wrapped.
     margin-bottom: var(
       --sky-override-page-header-actions-button-space-bottom,
