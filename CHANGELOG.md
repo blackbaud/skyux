@@ -6,6 +6,7 @@
 ### Features
 
 * add `data-grid` row delete confirmation support and `ag-grid-wrapper` row delete test harness support ([#4886](https://github.com/blackbaud/skyux/issues/4886)) ([8de7082](https://github.com/blackbaud/skyux/commit/8de70821d2870b56316cc2ad777af9039f553013))
+* **components/data-grid:** integrate with the data manager view controller ([#4880](https://github.com/blackbaud/skyux/issues/4880)) ([#4896](https://github.com/blackbaud/skyux/issues/4896)) ([8e5f786](https://github.com/blackbaud/skyux/commit/8e5f7867ea15a3238bff27a339cf49ef35dd90ec)), references [#4879](https://github.com/blackbaud/skyux/issues/4879)
 * **components/data-manager:** add view controller for column, sort, selection, and sizing sync ([#4879](https://github.com/blackbaud/skyux/issues/4879)) ([#4895](https://github.com/blackbaud/skyux/issues/4895)) ([9bf9b4f](https://github.com/blackbaud/skyux/commit/9bf9b4f1935eabbfc4b141c217348286d3976376))
 * **components/forms:** add default theme and page header actions compatibility to button component ([#4890](https://github.com/blackbaud/skyux/issues/4890)) ([e2ef9cd](https://github.com/blackbaud/skyux/commit/e2ef9cd7893b49e55afad1051129816b565420cf))
 
