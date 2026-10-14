@@ -1,10 +1,6 @@
 <div class="sky-data-manager-toolbar">
   @if (hasToolbarContent) {
-    <sky-toolbar
-      [listDescriptor]="
-        dataManagerConfig?.listDescriptor || dataManager?.labelText()
-      "
-    >
+    <sky-toolbar [listDescriptor]="dataManagerConfig?.listDescriptor">
       <sky-toolbar-section>
         <ng-content select="sky-data-manager-toolbar-primary-item" />
 
@@ -69,14 +65,11 @@
 
         <ng-content select="sky-data-manager-toolbar-left-item" />
 
-        @if (activeView?.searchEnabled || dataManager?.searchEnabled()) {
+        @if (activeView?.searchEnabled) {
           <sky-toolbar-item class="sky-data-manager-search">
             <sky-search
               [expandMode]="activeView?.searchExpandMode"
-              [placeholderText]="
-                activeView?.searchPlaceholderText ||
-                dataManager?.searchPlaceholderText()
-              "
+              [placeholderText]="activeView?.searchPlaceholderText"
               [searchText]="dataState?.searchText"
               (searchApply)="searchApplied($event)"
             />
@@ -111,53 +104,39 @@
   <ng-content select="sky-filter-bar" />
   <ng-content select="sky-list-summary" />
 
-  @if (
-    activeView?.multiselectToolbarEnabled || dataManager?.multiselectEnabled()
-  ) {
+  @if (activeView?.multiselectToolbarEnabled) {
     <sky-toolbar class="sky-data-manager-multiselect-toolbar">
       <sky-toolbar-section>
-        @if (
-          activeView?.multiselectToolbarEnabled || activeView?.onSelectAllClick
-        ) {
-          <sky-toolbar-item>
-            <button
-              class="sky-btn sky-btn-link sky-data-manager-select-all-btn"
-              type="button"
-              [attr.aria-label]="
-                dataManagerConfig?.listDescriptor
-                  ? ('skyux_data_manager_select_all_button_aria_label'
-                    | skyLibResources: dataManagerConfig?.listDescriptor)
-                  : undefined
-              "
-              (click)="selectAll()"
-            >
-              {{
-                'skyux_data_manager_select_all_button_title' | skyLibResources
-              }}
-            </button>
-          </sky-toolbar-item>
-        }
-        @if (
-          activeView?.multiselectToolbarEnabled || activeView?.onClearAllClick
-        ) {
-          <sky-toolbar-item>
-            <button
-              class="sky-btn sky-btn-link sky-data-manager-clear-all-btn"
-              type="button"
-              [attr.aria-label]="
-                dataManagerConfig?.listDescriptor
-                  ? ('skyux_data_manager_clear_all_button_aria_label'
-                    | skyLibResources: dataManagerConfig?.listDescriptor)
-                  : undefined
-              "
-              (click)="clearAll()"
-            >
-              {{
-                'skyux_data_manager_clear_all_button_title' | skyLibResources
-              }}
-            </button>
-          </sky-toolbar-item>
-        }
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-link sky-data-manager-select-all-btn"
+            type="button"
+            [attr.aria-label]="
+              dataManagerConfig?.listDescriptor
+                ? ('skyux_data_manager_select_all_button_aria_label'
+                  | skyLibResources: dataManagerConfig?.listDescriptor)
+                : undefined
+            "
+            (click)="selectAll()"
+          >
+            {{ 'skyux_data_manager_select_all_button_title' | skyLibResources }}
+          </button>
+        </sky-toolbar-item>
+        <sky-toolbar-item>
+          <button
+            class="sky-btn sky-btn-link sky-data-manager-clear-all-btn"
+            type="button"
+            [attr.aria-label]="
+              dataManagerConfig?.listDescriptor
+                ? ('skyux_data_manager_clear_all_button_aria_label'
+                  | skyLibResources: dataManagerConfig?.listDescriptor)
+                : undefined
+            "
+            (click)="clearAll()"
+          >
+            {{ 'skyux_data_manager_clear_all_button_title' | skyLibResources }}
+          </button>
+        </sky-toolbar-item>
         <sky-toolbar-view-actions class="sky-data-manager-only-show-selected">
           <sky-checkbox
             [checked]="onlyShowSelected"

@@ -15,7 +15,7 @@ import { SkyFilterState, SkyFilterStateService } from '@skyux/lists';
 import { SkySortHarness } from '@skyux/lists/testing';
 import { SkySearchHarness } from '@skyux/lookup/testing';
 
-import { throwError } from 'rxjs';
+import { firstValueFrom, map, throwError } from 'rxjs';
 
 import { SkyDataManagerComponent } from './data-manager.component';
 import { SkyDataManagerModule } from './data-manager.module';
@@ -356,9 +356,6 @@ describe('SkyDataManagerComponent', () => {
   template: `
     <sky-data-manager
       [labelText]="labelText"
-      [multiselectEnabled]="multiselectEnabled"
-      [searchEnabled]="searchEnabled"
-      [searchPlaceholderText]="searchPlaceholderText"
       [settingsKey]="settingsKey"
       [totalCount]="totalCount"
       [(filters)]="filters"
@@ -381,7 +378,16 @@ describe('SkyDataManagerComponent', () => {
         />
       </sky-data-manager-toolbar>
       <div skyDataManagerFilterController></div>
-      <p class="template-api-content">Content</p>
+      <sky-data-view
+        viewId="view1"
+        [multiselectEnabled]="multiselectEnabled"
+        [searchEnabled]="searchEnabled"
+        [searchPlaceholderText]="searchPlaceholderText"
+        (clearAll)="selectedIds = []"
+        (selectAll)="selectedIds = ['1', '2']"
+      >
+        <p class="template-api-content">Content</p>
+      </sky-data-view>
     </sky-data-manager>
   `,
   imports: [SkyDataManagerModule],
@@ -438,7 +444,7 @@ describe('SkyDataManagerComponent template API', () => {
       await fixture.whenStable();
 
       expect(getContent()).toExist();
-      expect(fixture.componentInstance.states.length).toBe(1);
+      expect(fixture.componentInstance.states.length).toBeGreaterThan(0);
       expect(lastState()?.searchText).toBe('');
       expect(lastState()?.selectedIds).toEqual([]);
     });
@@ -559,11 +565,83 @@ describe('SkyDataManagerComponent template API', () => {
       ).toExist();
       expect(
         fixture.nativeElement.querySelector('.sky-data-manager-select-all-btn'),
-      ).toBeNull();
+      ).toExist();
       expect(
         fixture.nativeElement.querySelector('.sky-data-manager-clear-all-btn'),
-      ).toBeNull();
+      ).toExist();
+
+      const view = getService().getViewById('view1');
+      expect(view?.multiselectToolbarEnabled).toBeTrue();
+      view?.onSelectAllClick?.();
+      fixture.detectChanges();
+      expect(getService().state().selectedIds).toEqual(['1', '2']);
+      view?.onClearAllClick?.();
+      fixture.detectChanges();
+      expect(getService().state().selectedIds).toEqual([]);
+      expect(getService().getCurrentDataManagerConfig().listDescriptor).toBe(
+        'fruit',
+      );
       await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should update the data manager and view configs when the inputs change', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(
+        fixture.nativeElement.querySelector('.sky-data-manager-search'),
+      ).not.toExist();
+
+      fixture.componentInstance.labelText = 'vegetables';
+      fixture.componentInstance.searchEnabled = true;
+      fixture.componentInstance.searchPlaceholderText = 'Search vegetables';
+      fixture.componentInstance.multiselectEnabled = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const views = await firstValueFrom(getService().getDataViewsUpdates());
+
+      expect(getService().getCurrentDataManagerConfig().listDescriptor).toBe(
+        'vegetables',
+      );
+      expect(views).toEqual([
+        jasmine.objectContaining({
+          multiselectToolbarEnabled: true,
+          searchEnabled: true,
+          searchPlaceholderText: 'Search vegetables',
+        }),
+      ]);
+      expect(
+        fixture.nativeElement.querySelector('.sky-data-manager-search'),
+      ).toExist();
+      expect(
+        fixture.nativeElement.querySelector(
+          '.sky-data-manager-multiselect-toolbar',
+        ),
+      ).toExist();
+    });
+
+    it('should preserve controller-supplied config when view inputs change', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      getService().updateViewConfig({
+        ...getService().getViewById('view1'),
+        id: 'view1',
+        name: 'View 1',
+        columnOptions: [{ id: 'name', label: 'Name' }],
+        additionalOptions: { custom: true },
+      });
+      fixture.componentInstance.searchEnabled = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(getService().getViewById('view1')?.columnOptions).toEqual([
+        { id: 'name', label: 'Name' },
+      ]);
+      expect(getService().getViewById('view1')?.additionalOptions).toEqual({
+        custom: true,
+      });
     });
 
     it('should announce the data summary when totalCount changes', async () => {
@@ -693,6 +771,9 @@ describe('SkyDataManagerComponent template API', () => {
         spyOn(console, 'warn');
         fixture.detectChanges();
 
+        fixture.componentInstance.searchText = 'plum';
+        fixture.detectChanges();
+
         expect(console.warn).toHaveBeenCalledWith(
           'Could not save data manager settings.',
         );
@@ -747,6 +828,140 @@ describe('SkyDataManagerComponent template API', () => {
 
       expect(service.state().searchText).toBe('kiwi');
       expect(service.state().selectedIds).toEqual(['3']);
+    });
+
+    it('should not apply the toolbar inputs to the configs', () => {
+      fixture.detectChanges();
+      service.initDataManager({
+        activeViewId: 'view1',
+        dataManagerConfig: { listDescriptor: 'fruit' },
+        defaultDataState: new SkyDataManagerState({}),
+      });
+      service.initDataView({ id: 'view1', name: 'View 1' });
+      fixture.detectChanges();
+
+      fixture.componentInstance.labelText = 'ignored';
+      fixture.componentInstance.searchEnabled = true;
+      fixture.detectChanges();
+
+      expect(service.getCurrentDataManagerConfig().listDescriptor).toBe(
+        'fruit',
+      );
+      expect(service.getViewById('view1')?.searchEnabled).toBeUndefined();
+    });
+  });
+});
+
+@Component({
+  selector: 'sky-data-manager-template-api-views-fixture',
+  template: `
+    <sky-data-manager>
+      @if (showViews) {
+        <sky-data-view viewId="first">
+          <p class="first-view-content">First</p>
+        </sky-data-view>
+        <sky-data-view viewId="second">
+          <p class="second-view-content">Second</p>
+        </sky-data-view>
+      }
+    </sky-data-manager>
+  `,
+  imports: [SkyDataManagerModule],
+})
+class TemplateApiViewsFixtureComponent {
+  public showViews = true;
+}
+
+describe('SkyDataManagerComponent template API views', () => {
+  let fixture: ComponentFixture<TemplateApiViewsFixtureComponent>;
+
+  function getService(): SkyDataManagerService {
+    return fixture.debugElement
+      .query(By.directive(SkyDataManagerComponent))
+      .injector.get(SkyDataManagerService);
+  }
+
+  function getViewIds(): Promise<string[]> {
+    return firstValueFrom(
+      getService()
+        .getDataViewsUpdates()
+        .pipe(map((views) => views.map((view) => view.id))),
+    );
+  }
+
+  function getActiveViewId(): Promise<string> {
+    return firstValueFrom(getService().getActiveViewIdUpdates());
+  }
+
+  function getViewContent(view: 'first' | 'second'): HTMLElement | null {
+    return fixture.nativeElement.querySelector(`.${view}-view-content`);
+  }
+
+  describe('when the data manager provides its own service', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [TemplateApiViewsFixtureComponent],
+      });
+
+      fixture = TestBed.createComponent(TemplateApiViewsFixtureComponent);
+    });
+
+    it('should register each data view and make the first one active', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      await expectAsync(getViewIds()).toBeResolvedTo(['first', 'second']);
+      await expectAsync(getActiveViewId()).toBeResolvedTo('first');
+      expect(getViewContent('first')).toExist();
+      expect(getViewContent('second')).not.toExist();
+      expect(getService().state().getViewStateById('first')).toBeDefined();
+    });
+
+    it('should register an active stand-in view when it contains no data view', async () => {
+      fixture.componentInstance.showViews = false;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const viewIds = await getViewIds();
+
+      expect(viewIds.length).toBe(1);
+      await expectAsync(getActiveViewId()).toBeResolvedTo(viewIds[0]);
+    });
+
+    it('should replace the stand-in view when data views are created later', async () => {
+      fixture.componentInstance.showViews = false;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      fixture.componentInstance.showViews = true;
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      await expectAsync(getViewIds()).toBeResolvedTo(['first', 'second']);
+      await expectAsync(getActiveViewId()).toBeResolvedTo('first');
+      expect(getViewContent('first')).toExist();
+    });
+  });
+
+  describe('when an ancestor provides the service', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [TemplateApiViewsFixtureComponent],
+        providers: [SkyDataManagerService],
+      });
+
+      fixture = TestBed.createComponent(TemplateApiViewsFixtureComponent);
+    });
+
+    it('should not register data views or a stand-in view', async () => {
+      const service = TestBed.inject(SkyDataManagerService);
+      const initDataViewSpy = spyOn(service, 'initDataView').and.callThrough();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(initDataViewSpy).not.toHaveBeenCalled();
+      await expectAsync(getViewIds()).toBeResolvedTo([]);
     });
   });
 });

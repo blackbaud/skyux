@@ -414,6 +414,14 @@ export class SkyDataManagerService implements OnDestroy {
   }
 
   /**
+   * Removes a registered view's config without removing its stored state.
+   * @internal
+   */
+  public removeDataView(viewId: string): void {
+    this.#views.next(this.#views.value.filter((view) => view.id !== viewId));
+  }
+
+  /**
    * Updates the given view config. The registered view with the same ID is updated to the
    * provided config, so include all properties regardless of whether they changed. If the
    * view was not initialized already, no update happens.

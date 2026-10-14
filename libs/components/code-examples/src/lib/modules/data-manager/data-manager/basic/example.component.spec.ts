@@ -51,6 +51,11 @@ describe('Data manager basic example', () => {
       await expectAsync(item.isSelected()).toBeResolvedTo(true);
     }
 
+    await toolbarHarness.clickClearAll();
+    for (const item of repeaterItems) {
+      await expectAsync(item.isSelected()).toBeResolvedTo(false);
+    }
+
     const viewActionsHarness = await toolbarHarness.getViewActions();
     expect(viewActionsHarness).not.toBeNull();
 

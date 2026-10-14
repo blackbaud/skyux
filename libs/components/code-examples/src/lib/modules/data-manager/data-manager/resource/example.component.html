@@ -1,6 +1,5 @@
 <sky-data-manager
   labelText="fruit"
-  searchEnabled
   [totalCount]="totalCount()"
   [(searchText)]="searchText"
   [(sort)]="sort"
@@ -18,12 +17,13 @@
       [descending]="true"
     />
   </sky-data-manager-toolbar>
-
-  <ul>
-    @for (item of data.value()?.items; track item.id) {
-      <li>{{ item.name }}</li>
-    } @empty {
-      <li>No fruit found.</li>
-    }
-  </ul>
+  <sky-data-view viewId="list" viewName="List" searchEnabled>
+    <ul>
+      @for (item of items(); track item.id) {
+        <li>{{ item.name }}</li>
+      } @empty {
+        <li>No fruit found.</li>
+      }
+    </ul>
+  </sky-data-view>
 </sky-data-manager>

@@ -1,4 +1,5 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -6,7 +7,6 @@ import {
   OnDestroy,
   OnInit,
   Signal,
-  booleanAttribute,
   computed,
   effect,
   inject,
@@ -31,25 +31,30 @@ import {
 import { SkyFilterState } from '@skyux/lists';
 
 import { Subject } from 'rxjs';
-import { switchMap, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { SkyDataManagerService } from './data-manager.service';
 import { SkyDataManagerSortOption } from './models/data-manager-sort-option';
 import { SkyDataManagerState } from './models/data-manager-state';
 import { SkyDataManagerStateOptions } from './models/data-manager-state-options';
 import { SkyDataManagerSummary } from './models/data-manager-summary';
+import { SkyDataViewConfig } from './models/data-view-config';
 import { SkyDataManagerDockType } from './types/data-manager-dock-type';
 
 const VIEWKEEPER_CLASSES_DEFAULT = ['.sky-data-manager-toolbar'];
 const DEFAULT_DOCK_TYPE: SkyDataManagerDockType = 'none';
+// Registered when the data manager configures itself from the template but contains
+// no `sky-data-view`, so active view concepts still apply to its content.
+const IMPLICIT_VIEW_ID = 'skyDataManagerView';
 
 /**
  * The top-level data manager component. Providing `SkyDataManagerService` at this level is
  * optional --- this component self-provides an instance if no ancestor already provides one.
  * When it self-provides the service, its inputs and models configure the data manager from
- * the template, so `initDataManager()` is not needed. When an ancestor provides the service,
- * configure the data manager with `initDataManager()`; the models then only reflect and push
- * subsequent state changes.
+ * the template, so `initDataManager()` and `initDataView()` are not needed: each `sky-data-view`
+ * registers itself, and the first one registered becomes the active view. When an ancestor
+ * provides the service, configure the data manager with `initDataManager()`; the models then
+ * only reflect and push subsequent state changes.
  */
 @Component({
   selector: 'sky-data-manager',
@@ -69,7 +74,9 @@ const DEFAULT_DOCK_TYPE: SkyDataManagerDockType = 'none';
     },
   ],
 })
-export class SkyDataManagerComponent implements OnDestroy, OnInit {
+export class SkyDataManagerComponent
+  implements AfterContentInit, OnDestroy, OnInit
+{
   public get currentViewkeeperClasses(): string[] {
     return this.#_currentViewkeeperClasses;
   }
@@ -110,29 +117,9 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   public readonly settingsKey = input<string>();
 
   /**
-   * Whether to display the search box in `sky-data-manager-toolbar`.
-   * @preview
-   */
-  public readonly searchEnabled = input<boolean, unknown>(false, {
-    transform: booleanAttribute,
-  });
-
-  /**
-   * Placeholder text for the search box in `sky-data-manager-toolbar`.
-   * @preview
-   */
-  public readonly searchPlaceholderText = input<string>();
-
-  /**
-   * Whether to display the multiselect toolbar in `sky-data-manager-toolbar`.
-   * @preview
-   */
-  public readonly multiselectEnabled = input<boolean, unknown>(false, {
-    transform: booleanAttribute,
-  });
-
-  /**
    * The label for the list descriptor in `sky-data-manager-toolbar`.
+   * Ignored when an ancestor provides `SkyDataManagerService`; set `listDescriptor`
+   * on the `SkyDataManagerConfig` passed to `initDataManager()` instead.
    * @preview
    */
   public readonly labelText = input<string>();
@@ -194,6 +181,7 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   // so this component's own state and summary subscriptions still receive them.
   #templateSourceId = 'dataManagerTemplate';
   #dataState: SkyDataManagerState | undefined;
+  #hasRegisteredView = false;
 
   #_isInitialized = false;
   #_currentViewkeeperClasses = VIEWKEEPER_CLASSES_DEFAULT;
@@ -202,11 +190,10 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   readonly #dataManagerService = inject(SkyDataManagerService);
   readonly #liveAnnouncer = inject(SkyLiveAnnouncerService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
-  readonly #uiConfigService = inject(SkyUIConfigService);
 
   // An ancestor that provides the service also owns its initialization through
-  // `initDataManager()`, possibly asynchronously, so seeding state from this
-  // component's inputs would render the data manager before it is configured.
+  // `initDataManager()` and `initDataView()`, possibly asynchronously, so
+  // initializing from this component's inputs would conflict with it.
   readonly #ownsService = !inject(SkyDataManagerService, {
     skipSelf: true,
     optional: true,
@@ -218,6 +205,14 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   readonly #incomingState = signal<SkyDataManagerState | undefined>(undefined);
 
   constructor() {
+    this.#pushOnChange(this.labelText, (listDescriptor) => {
+      if (this.#ownsService) {
+        this.#dataManagerService.updateDataManagerConfig({
+          ...this.#dataManagerService.getCurrentDataManagerConfig(),
+          listDescriptor,
+        });
+      }
+    });
     this.#pushOnChange(this.searchText, (value) =>
       this.#pushStateField('searchText', value),
     );
@@ -310,8 +305,56 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
       });
 
     if (this.#ownsService) {
-      this.#seedState();
+      this.#dataManagerService.initDataManager({
+        activeViewId: IMPLICIT_VIEW_ID,
+        dataManagerConfig: { listDescriptor: this.labelText() },
+        defaultDataState: new SkyDataManagerState({
+          searchText: this.searchText(),
+          activeSortOption: this.sort(),
+          filterData: this.#toFilterData(this.filters()),
+          selectedIds: this.selectedIds(),
+        }),
+        settingsKey: this.settingsKey(),
+      });
     }
+  }
+
+  public ngAfterContentInit(): void {
+    if (this.#ownsService && !this.#hasRegisteredView) {
+      this.#dataManagerService.initDataView({
+        id: IMPLICIT_VIEW_ID,
+        name: IMPLICIT_VIEW_ID,
+      });
+    }
+  }
+
+  /**
+   * Registers a `sky-data-view` with the service this component self-provides. The
+   * first view registered becomes the active view. Does nothing when an ancestor
+   * provides the service, since its views are registered with `initDataView()`.
+   * @returns Whether this data manager owns the view's template configuration.
+   * @internal
+   */
+  public registerView(viewConfig: SkyDataViewConfig): boolean {
+    if (!this.#ownsService) {
+      return false;
+    }
+
+    if (
+      !this.#hasRegisteredView &&
+      this.#dataManagerService.getViewById(IMPLICIT_VIEW_ID)
+    ) {
+      this.#dataManagerService.removeDataView(IMPLICIT_VIEW_ID);
+    }
+
+    this.#dataManagerService.initDataView(viewConfig);
+
+    if (!this.#hasRegisteredView) {
+      this.#hasRegisteredView = true;
+      this.#dataManagerService.updateActiveViewId(viewConfig.id);
+    }
+
+    return true;
   }
 
   public ngOnDestroy(): void {
@@ -324,8 +367,8 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
 
   /**
    * Registers an effect that calls `onChange` for every change to `source` after
-   * its initial value. The initial values are pushed by `#seedState()`, and an
-   * ancestor-provided service is configured by `initDataManager()` instead.
+   * its initial value. The initial values are applied when the data manager and
+   * its views are initialized, whether by this component or by an ancestor.
    * `onChange` runs untracked because it reads the current data state; tracking
    * that state would re-run the effect on every state change and push the model's
    * value before `#applyStateToModels()` has caught the model up, overwriting the
@@ -410,43 +453,6 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
     return filters
       ? { filtersApplied: !!filters.appliedFilters?.length, filters }
       : undefined;
-  }
-
-  #seedState(): void {
-    const settingsKey = this.settingsKey();
-    const initialState: SkyDataManagerStateOptions = {
-      searchText: this.searchText(),
-      activeSortOption: this.sort(),
-      filterData: this.#toFilterData(this.filters()),
-      selectedIds: this.selectedIds(),
-    };
-
-    if (!settingsKey) {
-      this.#dataManagerService.updateState(initialState);
-      return;
-    }
-
-    this.#uiConfigService
-      .getConfig(settingsKey, initialState)
-      .pipe(take(1))
-      .subscribe((config) => {
-        this.#dataManagerService.updateState(config);
-      });
-
-    this.#dataManagerService
-      .getDataStateUpdates(this.#sourceId)
-      .pipe(
-        takeUntil(this.#ngUnsubscribe),
-        switchMap((state) =>
-          this.#uiConfigService.setConfig(settingsKey, state.getStateOptions()),
-        ),
-      )
-      .subscribe({
-        error: (err) => {
-          console.warn('Could not save data manager settings.');
-          console.warn(err);
-        },
-      });
   }
 
   #announceState(

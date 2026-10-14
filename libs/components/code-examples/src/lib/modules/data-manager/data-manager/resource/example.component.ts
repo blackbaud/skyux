@@ -45,6 +45,7 @@ export class DataManagerResourceExampleComponent {
     },
   });
 
+  protected readonly items = computed(() => this.data.value()?.items ?? []);
   protected readonly totalCount = computed(
     () => this.data.value()?.totalCount ?? 0,
   );

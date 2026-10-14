@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
+import { SkyDataManagerHarness } from '@skyux/data-manager/testing';
 import { SkySortHarness } from '@skyux/lists/testing';
 import { SkySearchHarness } from '@skyux/lookup/testing';
 
@@ -24,6 +25,20 @@ async function setupTest(): Promise<{
 }
 
 describe('DataManagerResourceExampleComponent', () => {
+  it('registers a single list view from the template', async () => {
+    const { fixture, loader } = await setupTest();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const manager = await loader.getHarness(SkyDataManagerHarness);
+    expect((await manager.getViews()).length).toBe(1);
+    await expectAsync(manager.getView({ viewId: 'list' })).toBeResolved();
+
+    const toolbar = await manager.getToolbar();
+    expect(await toolbar.getSearch()).not.toBeNull();
+    expect(await toolbar.getViewActions()).toBeNull();
+  });
+
   it('creates the component and renders all results', async () => {
     const { fixture } = await setupTest();
     fixture.detectChanges();
