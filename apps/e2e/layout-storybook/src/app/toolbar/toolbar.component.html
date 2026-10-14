@@ -1,28 +1,15 @@
 <sky-toolbar>
   <sky-toolbar-item>
-    <button type="button" class="sky-btn sky-btn-primary">
-      <!-- The margin style here is to properly space the icon and button text in modern theme. This is not possible in the toolbar item with pure css today because you can't distinguish pure text nodes in css. -->
-      <sky-icon
-        iconName="add"
-        [ngClass]="{
-          'sky-theme-margin-right-xs': theme === 'modern'
-        }"
-      />
-      Button 0
-    </button>
+    <sky-button buttonStyle="primary" iconName="add" labelText="Button 0" />
   </sky-toolbar-item>
   <sky-toolbar-item>
-    <button type="button" class="sky-btn sky-btn-default">Button 1</button>
+    <sky-button labelText="Button 1" />
   </sky-toolbar-item>
   <sky-toolbar-item>
-    <button type="button" class="sky-btn sky-btn-primary" disabled>
-      Disabled (primary)
-    </button>
+    <sky-button buttonStyle="primary" disabled labelText="Disabled (primary)" />
   </sky-toolbar-item>
   <sky-toolbar-item>
-    <button type="button" class="sky-btn sky-btn-default" disabled>
-      Disabled (default)
-    </button>
+    <sky-button disabled labelText="Disabled (default)" />
   </sky-toolbar-item>
   <sky-toolbar-item>
     <sky-filter-button [showButtonText]="true" />
@@ -40,90 +27,82 @@
       <sky-radio iconName="location" label="Map" value="map" />
     </sky-radio-group>
 
-    <button
-      class="sky-btn sky-btn-default sky-btn-icon"
-      title="Sort descending"
-      type="button"
-    >
-      <sky-icon iconName="chevron-double-down" />
-    </button>
-    <button
-      class="sky-btn sky-btn-default sky-btn-icon"
-      title="Sort ascending"
-      type="button"
-    >
-      <sky-icon iconName="chevron-double-up" />
-    </button>
+    <sky-button
+      iconName="chevron-double-down"
+      labelHidden
+      labelText="Sort descending"
+    />
+    <sky-button
+      iconName="chevron-double-up"
+      labelHidden
+      labelText="Sort ascending"
+    />
   </sky-toolbar-view-actions>
 </sky-toolbar>
 
 <sky-toolbar class="sky-padding-even-md">
   <sky-toolbar-section>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 1</button>
+      <sky-button labelText="Button 1" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 2</button>
+      <button class="sky-btn sky-btn-default" type="button">Button 2</button>
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 3</button>
+      <sky-button labelText="Button 3" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 4</button>
+      <sky-button labelText="Button 4" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 5</button>
+      <button class="sky-btn sky-btn-default" type="button">Button 5</button>
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 6</button>
+      <button class="sky-btn sky-btn-default" type="button">Button 6</button>
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 7</button>
+      <sky-button labelText="Button 7" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 8</button>
+      <sky-button labelText="Button 8" />
     </sky-toolbar-item>
     <sky-toolbar-view-actions>
-      <button
-        class="sky-btn sky-btn-default sky-btn-icon"
-        title="Sort descending"
-        type="button"
-      >
-        <sky-icon iconName="chevron-double-down" />
-      </button>
-      <button
-        class="sky-btn sky-btn-default sky-btn-icon"
-        title="Sort ascending"
-        type="button"
-      >
-        <sky-icon iconName="chevron-double-up" />
-      </button>
+      <sky-button
+        iconName="chevron-double-down"
+        labelHidden
+        labelText="Sort descending"
+      />
+      <sky-button
+        iconName="chevron-double-up"
+        labelHidden
+        labelText="Sort ascending"
+      />
     </sky-toolbar-view-actions>
   </sky-toolbar-section>
   <sky-toolbar-section>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 1</button>
+      <sky-button labelText="Button 1" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 2</button>
+      <sky-button labelText="Button 2" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 3</button>
+      <sky-button labelText="Button 3" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 4</button>
+      <sky-button labelText="Button 4" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 5</button>
+      <sky-button labelText="Button 5" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 6</button>
+      <sky-button labelText="Button 6" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 7</button>
+      <sky-button labelText="Button 7" />
     </sky-toolbar-item>
     <sky-toolbar-item>
-      <button type="button" class="sky-btn sky-btn-default">Button 8</button>
+      <sky-button labelText="Button 8" />
     </sky-toolbar-item>
   </sky-toolbar-section>
 </sky-toolbar>
@@ -136,10 +115,10 @@
     </p>
     <sky-toolbar>
       <sky-toolbar-item>
-        <button type="button" class="sky-btn sky-btn-primary">New</button>
+        <sky-button buttonStyle="primary" labelText="New" />
       </sky-toolbar-item>
       <sky-toolbar-item>
-        <button type="button" class="sky-btn sky-btn-default">Edit</button>
+        <sky-button labelText="Edit" />
       </sky-toolbar-item>
     </sky-toolbar>
     <p class="app-reference-text">

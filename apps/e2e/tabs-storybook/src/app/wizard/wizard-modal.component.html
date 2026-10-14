@@ -38,13 +38,11 @@
           [tabset]="wizardDemo"
           [disabled]="saveDisabled"
         />
-        <button
-          class="sky-btn sky-btn-link"
-          type="button"
-          (click)="onCancelClick()"
-        >
-          Cancel
-        </button>
+        <sky-button
+          buttonStyle="link"
+          labelText="Cancel"
+          (buttonClick)="onCancelClick()"
+        />
       </sky-modal-footer>
     </sky-modal>
   </form>

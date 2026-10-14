@@ -7,12 +7,11 @@
 >
   <sky-action-hub-buttons>
     @for (button of buttons; track button) {
-      <a
-        class="sky-btn sky-btn-default sky-margin-inline-sm"
-        [href]="button.permalink.url"
-      >
-        {{ button.label }}
-      </a>
+      <sky-button
+        class="sky-margin-inline-sm"
+        [labelText]="button.label"
+        [permalink]="{ url: button.permalink.url }"
+      />
     }
   </sky-action-hub-buttons>
 

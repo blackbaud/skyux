@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { SkyColorpickerModule } from '@skyux/colorpicker';
 import { SkyIdModule } from '@skyux/core';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyButton, SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalModule } from '@skyux/modals';
 import { SkyActionHubModule } from '@skyux/pages';
 
@@ -15,6 +15,7 @@ const routes: Routes = [{ path: '', component: ActionHubComponent }];
 @NgModule({
   declarations: [ActionHubComponent, SettingsModalComponent],
   imports: [
+    SkyButton,
     CommonModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),

@@ -1,9 +1,12 @@
 <div class="sky-theme-padding-inset-balanced-s">
   <p>Triggered inline delete:</p>
   <div class="screenshot-inline-delete">
-    <button class="sky-btn sky-btn-danger" type="button">
-      <sky-icon iconName="delete" />
-    </button>
+    <sky-button
+      buttonStyle="danger"
+      iconName="delete"
+      labelHidden
+      labelText="Delete"
+    />
     <sky-inline-delete [pending]="false" />
   </div>
 </div>
@@ -11,9 +14,12 @@
 <div class="sky-theme-padding-inset-balanced-s">
   <p>Triggered inline delete, pending:</p>
   <div class="screenshot-inline-delete">
-    <button class="sky-btn sky-btn-danger" type="button">
-      <sky-icon iconName="delete" />
-    </button>
+    <sky-button
+      buttonStyle="danger"
+      iconName="delete"
+      labelHidden
+      labelText="Delete"
+    />
     <sky-inline-delete [pending]="true" />
   </div>
 </div>

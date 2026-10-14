@@ -1,15 +1,11 @@
-<button
-  type="button"
-  class="sky-btn sky-btn-default open-ok-confirm-btn"
-  (click)="openOkConfirm()"
->
-  Open OK Confirm
-</button>
+<sky-button
+  class="open-ok-confirm-btn"
+  labelText="Open OK Confirm"
+  (buttonClick)="openOkConfirm()"
+/>
 
-<button
-  type="button"
-  class="sky-btn sky-btn-default open-custom-confirm-btn"
-  (click)="openCustomConfirm()"
->
-  Open Custom Confirm
-</button>
+<sky-button
+  class="open-custom-confirm-btn"
+  labelText="Open Custom Confirm"
+  (buttonClick)="openCustomConfirm()"
+/>

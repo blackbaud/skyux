@@ -13,10 +13,10 @@ describe('sectioned form', () => {
         it(`should show in ${size} modal`, () => {
           cy.skyReady('app-sectioned-form')
             .end()
-            .get(`#open-${size}-modal-button`)
+            .get(`#open-${size}-modal-button button`)
             .click();
 
-          cy.get(`#show-tabs-button`)
+          cy.get(`#show-tabs-button button`)
             .should('exist')
             .should('be.visible')
             .end()
@@ -25,7 +25,7 @@ describe('sectioned form', () => {
           cy.window().percySnapshot(`sectioned-form-${size}-${theme}-section`, {
             widths: E2eVariations.DISPLAY_WIDTHS,
           });
-          cy.get(`#show-tabs-button`).click();
+          cy.get(`#show-tabs-button button`).click();
 
           cy.window().screenshot(`sectioned-form-${size}-${theme}-tab`);
           cy.window().percySnapshot(`sectioned-form-${size}-${theme}-tab`, {
@@ -38,7 +38,7 @@ describe('sectioned form', () => {
         const size = 'large';
         cy.skyReady('app-sectioned-form')
           .end()
-          .get(`#open-${size}-modal-button`)
+          .get(`#open-${size}-modal-button button`)
           .click();
 
         cy.get(`sky-sectioned-form-section[heading="Basic information"] a`)

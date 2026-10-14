@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyButton, SkyCheckboxModule } from '@skyux/forms';
 import { SkyHelpInlineModule } from '@skyux/help-inline';
 import { SkyFluidGridModule } from '@skyux/layout';
 
@@ -13,6 +13,7 @@ const routes: Routes = [{ path: '', component: CheckboxComponent }];
 @NgModule({
   declarations: [CheckboxComponent],
   imports: [
+    SkyButton,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
