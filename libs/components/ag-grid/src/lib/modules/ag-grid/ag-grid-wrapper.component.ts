@@ -95,12 +95,17 @@ export class SkyAgGridWrapperComponent
   protected readonly gridId = 'sky-ag-grid-' + this.#idIndex;
 
   /**
-   * Set by SkyAgGridDataManagerAdapterDirective to hand sticky-header duty
-   * to the data manager's own viewkeeper. Survives grid recreation, unlike
-   * a direct write to `viewkeeperClasses`.
+   * Whether to stop keeping the column headers visible while the page scrolls,
+   * for a host that keeps them visible itself. This is applied when the grid
+   * initializes.
    * @internal
    */
-  public readonly viewkeeperSuppressed = signal(false);
+  public readonly viewkeeperDisabled = input(false, {
+    transform: booleanAttribute,
+  });
+  public readonly viewkeeperSuppressed = linkedSignal(() =>
+    this.viewkeeperDisabled(),
+  );
 
   /**
    * @internal
