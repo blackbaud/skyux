@@ -27,7 +27,7 @@ describe('modals-storybook', () => {
       ]) {
         it(`should render the ${modalType} modal on desktop`, () => {
           cy.skyReady('app-modal');
-          cy.get(`.open-${modalType}-modal-btn`)
+          cy.get(`.open-${modalType}-modal-btn button`)
             .should('exist')
             .should('be.visible')
             .click();
@@ -64,9 +64,7 @@ describe('modals-storybook', () => {
               },
             );
           }
-          cy.get(
-            'button[data-sky-id="close-button"], [data-sky-id="close-button"] button',
-          )
+          cy.get('[data-sky-id="close-button"] button')
             .should('exist')
             .should('be.visible')
             .click();
@@ -75,7 +73,7 @@ describe('modals-storybook', () => {
         it(`should render the ${modalType} modal on mobile`, () => {
           cy.viewport('iphone-x', 'portrait');
           cy.skyReady('app-modal');
-          cy.get(`.open-${modalType}-modal-btn`)
+          cy.get(`.open-${modalType}-modal-btn button`)
             .should('exist')
             .should('be.visible')
             .click();
@@ -97,9 +95,7 @@ describe('modals-storybook', () => {
               widths: E2eVariations.MOBILE_WIDTHS,
             },
           );
-          cy.get(
-            'button[data-sky-id="close-button"], [data-sky-id="close-button"] button',
-          )
+          cy.get('[data-sky-id="close-button"] button')
             .should('exist')
             .should('be.visible')
             .click();

@@ -27,28 +27,17 @@
     </form>
   </sky-modal-content>
   <sky-modal-footer>
-    <button
+    <sky-button
       *ngIf="tabsHidden()"
       id="show-tabs-button"
-      type="button"
-      class="sky-btn sky-btn-default"
-      (click)="showTabs()"
-    >
-      Show tabs
-    </button>
-    <button
-      type="button"
-      class="sky-btn sky-btn-primary"
-      (click)="modal.close('save')"
-    >
-      Save
-    </button>
-    <button
-      type="button"
-      class="sky-btn sky-btn-default"
-      (click)="modal.close('cancel')"
-    >
-      Cancel
-    </button>
+      labelText="Show tabs"
+      (buttonClick)="showTabs()"
+    />
+    <sky-button
+      buttonStyle="primary"
+      labelText="Save"
+      (buttonClick)="modal.close('save')"
+    />
+    <sky-button labelText="Cancel" (buttonClick)="modal.close('cancel')" />
   </sky-modal-footer>
 </sky-modal>

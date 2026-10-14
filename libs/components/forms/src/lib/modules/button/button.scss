@@ -1,3 +1,11 @@
+@use 'libs/components/theme/src/lib/styles/mixins' as mixins;
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('sky-icon:has(+ span)') {
+  /* Simulate a space between the icon and text */
+  --sky-override-button-icon-margin-right: 4px;
+}
+
 :host {
   display: inline-block;
 
@@ -12,13 +20,18 @@
 
 /* Icon with text */
 sky-icon:has(+ span) {
-  margin-right: var(--sky-space-gap-icon-s);
+  margin-right: var(
+    --sky-override-button-icon-margin-right,
+    var(--sky-space-gap-icon-s)
+  );
 }
 
-/* Icon only */
-.sky-btn:has(sky-icon:only-child) {
-  padding: var(--sky-comp-button-icon-space-inset-top)
-    var(--sky-comp-button-icon-space-inset-right)
-    var(--sky-comp-button-icon-space-inset-bottom)
-    var(--sky-comp-button-icon-space-inset-left);
+@include mixins.sky-theme-modern {
+  /* Icon only */
+  .sky-btn:not(.sky-btn-icon-borderless):has(sky-icon:only-child) {
+    padding: var(--sky-comp-button-icon-space-inset-top)
+      var(--sky-comp-button-icon-space-inset-right)
+      var(--sky-comp-button-icon-space-inset-bottom)
+      var(--sky-comp-button-icon-space-inset-left);
+  }
 }

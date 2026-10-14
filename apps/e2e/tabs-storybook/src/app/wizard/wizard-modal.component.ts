@@ -5,7 +5,7 @@ import {
   UntypedFormGroup,
 } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
+import { SkyButton, SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 
@@ -13,6 +13,7 @@ import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
   selector: 'app-wizard-demo-modal',
   templateUrl: './wizard-modal.component.html',
   imports: [
+    SkyButton,
     SkyCheckboxModule,
     SkyIdModule,
     SkyInputBoxModule,

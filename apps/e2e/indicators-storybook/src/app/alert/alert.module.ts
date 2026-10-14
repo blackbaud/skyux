@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SkyButton } from '@skyux/forms';
 import { SkyAlertModule } from '@skyux/indicators';
 import {
   SkyHref,
@@ -16,6 +17,7 @@ const routes: Routes = [{ path: '', component: AlertComponent }];
   declarations: [AlertComponent],
   exports: [AlertComponent],
   imports: [
+    SkyButton,
     CommonModule,
     RouterModule.forChild(routes),
     SkyAlertModule,

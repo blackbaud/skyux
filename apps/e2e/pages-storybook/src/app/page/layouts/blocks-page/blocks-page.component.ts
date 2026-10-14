@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyAvatarModule } from '@skyux/avatar';
 import { SkyDatePipeModule } from '@skyux/datetime';
+import { SkyButton } from '@skyux/forms';
 import { SkyAlertModule, SkyLabelModule } from '@skyux/indicators';
 import {
   SkyBoxModule,
@@ -16,6 +17,7 @@ import { LinksComponent } from '../../../shared/links/links.component';
   selector: 'app-blocks-page',
   imports: [
     SkyAlertModule,
+    SkyButton,
     SkyAvatarModule,
     SkyBoxModule,
     SkyDescriptionListModule,

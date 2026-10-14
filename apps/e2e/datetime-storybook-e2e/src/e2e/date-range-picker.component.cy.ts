@@ -19,11 +19,13 @@ describe('Date range picker', () => {
         cy.get('#form-group-rangeInvalid input').eq(1).clear();
         cy.get('#form-group-rangeInvalid input').eq(1).type('invalid');
 
-        cy.get('#screenshot-date-range-picker > div:nth-child(9) > button')
+        cy.get(
+          '#screenshot-date-range-picker > div:nth-child(9) > sky-button > button',
+        )
           .should('contain.text', 'Submit')
           .click();
         cy.get(
-          '#screenshot-date-range-picker > div:nth-child(9) > button',
+          '#screenshot-date-range-picker > div:nth-child(9) > sky-button > button',
         ).blur();
 
         cy.get('app-date-range-picker').skyVisualTest(
@@ -44,11 +46,13 @@ describe('Date range picker', () => {
         cy.get('#form-group-rangeInvalid input').eq(1).clear();
         cy.get('#form-group-rangeInvalid input').eq(1).type('invalid');
 
-        cy.get('#screenshot-date-range-picker > div:nth-child(9) > button')
+        cy.get(
+          '#screenshot-date-range-picker > div:nth-child(9) > sky-button > button',
+        )
           .should('contain.text', 'Submit')
           .click();
         cy.get(
-          '#screenshot-date-range-picker > div:nth-child(9) > button',
+          '#screenshot-date-range-picker > div:nth-child(9) > sky-button > button',
         ).blur();
 
         cy.get('app-date-range-picker').skyVisualTest(
