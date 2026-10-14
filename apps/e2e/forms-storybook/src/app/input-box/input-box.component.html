@@ -601,3 +601,67 @@ No label</textarea>
     <input type="text" [formControl]="errorField" />
   </sky-input-box>
 </div>
+
+<h2 class="sky-padding-even-md">With button component</h2>
+
+<div class="sky-padding-even-md" id="input-box-button-comp-single">
+  <sky-input-box labelText="Input with one button component" stacked="true">
+    <input type="text" />
+    <sky-input-box-button iconName="calendar-ltr" labelText="Select a date" />
+  </sky-input-box>
+</div>
+
+<div class="sky-padding-even-md" id="input-box-button-comp-multiple">
+  <sky-input-box
+    labelText="Input with multiple button components"
+    stacked="true"
+  >
+    <input type="text" />
+    <sky-input-box-button iconName="calendar-ltr" labelText="Select a date" />
+    <sky-input-box-button iconName="clock" labelText="Select a time" />
+  </sky-input-box>
+</div>
+
+<div class="sky-padding-even-md" id="input-box-button-comp-single-no-label">
+  <sky-input-box stacked="true">
+    <input type="text" value="No label with one button" />
+    <sky-input-box-button iconName="calendar-ltr" labelText="Select a date" />
+  </sky-input-box>
+</div>
+
+<div class="sky-padding-even-md" id="input-box-button-comp-single-left">
+  <sky-input-box labelText="Input with left button component" stacked="true">
+    <sky-input-box-button
+      iconName="calendar-ltr"
+      labelText="Select a date"
+      position="left"
+    />
+    <input type="text" />
+  </sky-input-box>
+</div>
+
+<div class="sky-padding-even-md" id="input-box-button-comp-inset">
+  <sky-input-box labelText="Input with inset button component" stacked="true">
+    <input type="text" />
+    <sky-input-box-button
+      buttonStyle="inset"
+      iconName="search"
+      labelText="Select a date"
+    />
+  </sky-input-box>
+</div>
+
+<div class="sky-padding-even-md" id="input-box-button-comp-disabled">
+  <sky-input-box
+    labelText="Input with one button disabled"
+    stacked="true"
+    [disabled]="true"
+  >
+    <input disabled type="text" />
+    <sky-input-box-button
+      disabled
+      iconName="calendar-ltr"
+      labelText="Select a date"
+    />
+  </sky-input-box>
+</div>
