@@ -214,22 +214,35 @@ describe('resolveChartThemeStyles', () => {
     // token renames: every themed string and number must resolve to a
     // concrete value when the real modern theme styles (loaded by Karma) are
     // applied. Resolves against a real `sky-chart` host, matching the
-    // production invariant that plots render inside `sky-chart`.
+    // production invariant that plots render inside `sky-chart`. The theme
+    // classes go on the body, not the host: the default-theme overrides in
+    // `chart.scss` only switch off for elements inside `.sky-theme-modern`,
+    // and the resolver prefers an override over the modern token.
     it('should resolve every modern-theme token to a concrete value', async () => {
-      await TestBed.configureTestingModule({
-        imports: [SkyChart],
-      }).compileComponents();
+      const themeClasses = [
+        'sky-theme-modern',
+        'sky-theme-brand-base',
+        'sky-theme-mode-light',
+      ];
+      document.body.classList.add(...themeClasses);
 
-      const fixture = TestBed.createComponent(SkyChart);
-      fixture.componentRef.setInput('headingText', 'Test chart');
+      try {
+        await TestBed.configureTestingModule({
+          imports: [SkyChart],
+        }).compileComponents();
 
-      const host = fixture.nativeElement as HTMLElement;
-      host.classList.add('sky-theme-modern', 'sky-theme-brand-base');
-      fixture.detectChanges();
+        const fixture = TestBed.createComponent(SkyChart);
+        fixture.componentRef.setInput('headingText', 'Test chart');
+        fixture.detectChanges();
 
-      const themeStyles = resolveChartThemeStyles(host);
+        const themeStyles = resolveChartThemeStyles(
+          fixture.nativeElement as HTMLElement,
+        );
 
-      expectEveryValueConcrete(themeStyles);
+        expectEveryValueConcrete(themeStyles);
+      } finally {
+        document.body.classList.remove(...themeClasses);
+      }
     });
 
     // Guards the default theme's `sky-default-overrides` block in `chart.scss`:
