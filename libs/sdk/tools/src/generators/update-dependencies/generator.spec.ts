@@ -1,5 +1,5 @@
 import { version as ANGULAR_VERSION } from '@angular/core/package.json';
-import { libraryGenerator } from '@nx/angular/generators';
+import { UnitTestRunner, libraryGenerator } from '@nx/angular/generators';
 import {
   Tree,
   readJson,
@@ -39,6 +39,7 @@ describe('update dependencies generator', () => {
 
   it('should run successfully', async () => {
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'test',
       buildable: true,
       publishable: true,
@@ -62,6 +63,7 @@ describe('update dependencies generator', () => {
 
   it('should update peer dependencies', async () => {
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'test',
       buildable: true,
       publishable: true,
@@ -110,6 +112,7 @@ describe('update dependencies generator', () => {
 
   it('should update ng-update package group', async () => {
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'test',
       buildable: true,
       publishable: true,
@@ -121,6 +124,7 @@ describe('update dependencies generator', () => {
       tags: 'npm',
     });
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'packages',
       buildable: true,
       publishable: true,
@@ -173,6 +177,7 @@ describe('update dependencies generator', () => {
 
   it('should ignore specific packages', async () => {
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'eslint-config',
       buildable: true,
       publishable: true,
@@ -184,6 +189,7 @@ describe('update dependencies generator', () => {
       tags: 'npm',
     });
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'allowed-package',
       buildable: true,
       publishable: true,
@@ -195,6 +201,7 @@ describe('update dependencies generator', () => {
       tags: 'npm',
     });
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'packages',
       buildable: true,
       publishable: true,
@@ -245,6 +252,7 @@ describe('update dependencies generator', () => {
 
   it('should throw error on unmet dependencies', async () => {
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'test',
       buildable: true,
       publishable: true,
@@ -279,6 +287,7 @@ describe('update dependencies generator', () => {
 
   it('should capture testing dependencies', async () => {
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'test',
       buildable: true,
       publishable: true,
@@ -289,6 +298,7 @@ describe('update dependencies generator', () => {
       skipTests: true,
     });
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'aaa',
       buildable: true,
       publishable: true,
@@ -299,6 +309,7 @@ describe('update dependencies generator', () => {
       skipTests: true,
     });
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'aaa-testing',
       buildable: true,
       publishable: false,
@@ -309,6 +320,7 @@ describe('update dependencies generator', () => {
       skipTests: true,
     });
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'bbb',
       buildable: true,
       publishable: true,
@@ -319,6 +331,7 @@ describe('update dependencies generator', () => {
       skipTests: true,
     });
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'bbb-testing',
       buildable: true,
       publishable: false,
@@ -362,6 +375,7 @@ describe('update dependencies generator', () => {
   it('should update manifest build target dependencies', async () => {
     // Create manifest project
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'manifest',
       buildable: true,
       publishable: false,
@@ -374,6 +388,7 @@ describe('update dependencies generator', () => {
 
     // Create component projects with documentation.json
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'component-one',
       buildable: true,
       publishable: true,
@@ -390,6 +405,7 @@ describe('update dependencies generator', () => {
     );
 
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'component-two',
       buildable: true,
       publishable: true,
@@ -407,6 +423,7 @@ describe('update dependencies generator', () => {
 
     // Create a non-component project (should be excluded)
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'non-component',
       buildable: true,
       publishable: true,
@@ -472,6 +489,7 @@ describe('update dependencies generator', () => {
   it('should handle missing manifest project gracefully', async () => {
     // Create component projects without a manifest project
     await libraryGenerator(appTree, {
+      unitTestRunner: UnitTestRunner.None,
       name: 'component-one',
       buildable: true,
       publishable: true,
