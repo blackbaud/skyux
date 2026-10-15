@@ -17,6 +17,11 @@ export function skyE2ePreset(
       'downloads',
     ),
     video: false,
+    // Plain screenshots exist for local development; skip them in CI, where
+    // only the ones sent to Percy are needed.
+    expose: {
+      skyLocalScreenshots: !process.env['CI'],
+    },
     defaultCommandTimeout: 60000,
     retries: {
       runMode: 2,
