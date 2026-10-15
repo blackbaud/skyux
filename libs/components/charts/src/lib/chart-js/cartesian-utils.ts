@@ -6,7 +6,6 @@ import {
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
-import { type SkyChartBarSeriesValue } from '../chart-bar/chart-bar-series-value';
 import type { SkyChartTable } from '../chart-table/chart-table';
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 
@@ -88,14 +87,19 @@ export function isValueRange(
 }
 
 /**
+ * A value any cartesian series can plot: a number, a floating `[start, end]`
+ * range, or `null` for a gap. Each series type accepts a subset of this union.
+ */
+export type SkyChartCartesianValue = number | readonly [number, number] | null;
+
+/**
  * The shape shared by every cartesian series component (for example,
  * `sky-chart-bar-series` and `sky-chart-line-series`): a label and the values
- * plotted against the category axis. Bar series values may include floating
- * `[start, end]` ranges; other series types plot a subset of that value union.
+ * plotted against the category axis.
  */
 export interface SkyChartCartesianSeries {
   labelText: Signal<string>;
-  values: Signal<readonly SkyChartBarSeriesValue[]>;
+  values: Signal<readonly SkyChartCartesianValue[]>;
 }
 
 /**
@@ -159,7 +163,7 @@ export function buildCartesianTable(
  * formats as an empty string.
  */
 function formatCartesianValue(
-  value: SkyChartBarSeriesValue,
+  value: SkyChartCartesianValue,
   formatValue: (value: number) => string,
 ): string {
   if (value === null) {
