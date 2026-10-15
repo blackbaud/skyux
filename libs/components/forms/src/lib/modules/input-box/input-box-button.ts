@@ -19,7 +19,9 @@ import { SkyInputBoxButtonStyle } from './input-box-button-style';
 })
 export class SkyInputBoxButton {
   /**
-   * The display style of the button.
+   * The display style of the button. Display style must be set statically;
+   * binding its value to a dynamic value will fall back to the default
+   * button style.
    * @default "default"
    */
   public readonly buttonStyle = input<SkyInputBoxButtonStyle>('default');
@@ -45,7 +47,10 @@ export class SkyInputBoxButton {
   public readonly labelText = input.required<string>();
 
   /**
-   * The position in the input box to display the button.
+   * The position in the input box to display the button. Position must be set
+   * statically; binding its value to a dynamic value will fall back to
+   * the default position.
+   * @default "right"
    */
   public readonly position = input<'left' | 'right'>('right');
 

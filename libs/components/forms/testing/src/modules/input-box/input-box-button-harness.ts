@@ -72,6 +72,15 @@ export class SkyInputBoxButtonHarness extends SkyComponentHarness {
   }
 
   /**
+   * Gets the button's position in the input box.
+   */
+  public async getPosition(): Promise<'left' | 'right'> {
+    return (await (await this.host()).getAttribute('position')) === 'left'
+      ? 'left'
+      : 'right';
+  }
+
+  /**
    * Whether the button is disabled.
    */
   public async isDisabled(): Promise<boolean> {

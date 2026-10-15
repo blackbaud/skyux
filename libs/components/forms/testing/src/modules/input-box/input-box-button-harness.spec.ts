@@ -22,6 +22,12 @@ import { SkyInputBoxButtonHarness } from './input-box-button-harness';
         [disabled]="disabled()"
         (buttonClick)="clickCount = clickCount + 1"
       />
+      <sky-input-box-button
+        data-sky-id="test-button-left"
+        iconName="calendar-ltr"
+        labelText="Select a date"
+        position="left"
+      />
     </sky-input-box>
   `,
 })
@@ -65,6 +71,18 @@ describe('Input box button harness', () => {
     fixture.componentRef.setInput('buttonStyle', 'inset');
 
     await expectAsync(harness.getButtonStyle()).toBeResolvedTo('inset');
+  });
+
+  it('should get the position', async () => {
+    const { fixture, harness } = await setupTest();
+    const leftHarness = await TestbedHarnessEnvironment.loader(
+      fixture,
+    ).getHarness(
+      SkyInputBoxButtonHarness.with({ dataSkyId: 'test-button-left' }),
+    );
+
+    await expectAsync(harness.getPosition()).toBeResolvedTo('right');
+    await expectAsync(leftHarness.getPosition()).toBeResolvedTo('left');
   });
 
   it('should get the disabled state', async () => {
