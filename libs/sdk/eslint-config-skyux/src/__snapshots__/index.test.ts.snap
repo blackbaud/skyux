@@ -10995,14 +10995,15 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
         "rules": Object {
           "component-class-suffix": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "suffixes": Array [
-                  "Component",
-                ],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "suffixes": Array [
+                    "Component",
+                  ],
+                },
+              ],
               "docs": Object {
                 "description": "Classes decorated with @Component must have suffix \\"Component\\" (or custom) in their name. Note: As of v20, this is no longer recommended by the Angular Team.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/component-class-suffix.md",
@@ -11030,14 +11031,15 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "component-max-inline-declarations": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "animations": 15,
-                "styles": 3,
-                "template": 3,
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "animations": 15,
+                  "styles": 3,
+                  "template": 3,
+                },
+              ],
               "docs": Object {
                 "description": "Enforces a maximum number of lines in inline template, styles and animations.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/component-max-inline-declarations.md",
@@ -11103,6 +11105,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
                               "type": "string",
                             },
                             Object {
+                              "items": Object {
+                                "type": "string",
+                              },
                               "type": "array",
                             },
                           ],
@@ -11148,6 +11153,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
                                 "type": "string",
                               },
                               Object {
+                                "items": Object {
+                                  "type": "string",
+                                },
                                 "type": "array",
                               },
                             ],
@@ -11186,8 +11194,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "computed-must-return": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that computed() returns a value. Omitting the value is likely a mistake.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/computed-must-return.md",
@@ -11202,10 +11211,11 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "consistent-component-styles": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              "string",
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                "string",
+              ],
               "docs": Object {
                 "description": "Ensures consistent usage of \`styles\`/\`styleUrls\`/\`styleUrl\` within Component metadata",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/consistent-component-styles.md",
@@ -11232,8 +11242,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "contextual-decorator": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that classes use contextual decorators in their body",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/contextual-decorator.md",
@@ -11248,8 +11259,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "contextual-lifecycle": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that lifecycle methods are used in a correct context",
                 "recommended": "recommended",
@@ -11265,14 +11277,15 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "directive-class-suffix": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "suffixes": Array [
-                  "Directive",
-                ],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "suffixes": Array [
+                    "Directive",
+                  ],
+                },
+              ],
               "docs": Object {
                 "description": "Classes decorated with @Directive must have suffix \\"Directive\\" (or custom) in their name. Note: As of v20, this is no longer recommended by the Angular Team.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/directive-class-suffix.md",
@@ -11330,6 +11343,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
                               "type": "string",
                             },
                             Object {
+                              "items": Object {
+                                "type": "string",
+                              },
                               "type": "array",
                             },
                           ],
@@ -11375,6 +11391,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
                                 "type": "string",
                               },
                               Object {
+                                "items": Object {
+                                  "type": "string",
+                                },
                                 "type": "array",
                               },
                             ],
@@ -11413,24 +11432,45 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "inject-at-top": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "additionalInjectFunctions": Array [],
+                },
+              ],
               "docs": Object {
                 "description": "Requires inject() calls to be declared at the top of the class, before any other member",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/inject-at-top.md",
               },
               "messages": Object {
-                "injectAtTop": "Move this inject() to the top of the class. Class fields are initialized in the order they are written, so anything declared above this line cannot safely use the service yet.",
+                "injectAtTop": "Move this {{functionName}}() to the top of the class. Class fields are initialized in the order they are written, so anything declared above this line cannot safely use the service yet.",
               },
-              "schema": Array [],
+              "schema": Array [
+                Object {
+                  "additionalProperties": false,
+                  "properties": Object {
+                    "additionalInjectFunctions": Object {
+                      "description": "A list of additional functions which perform injection, such as your own \`injectTranslations()\` helper. Each entry is a regular expression which must match the whole function name, so plain names such as \`injectTranslations\` work as well as patterns such as \`inject[A-Z].*\`.",
+                      "items": Object {
+                        "type": "string",
+                      },
+                      "type": "array",
+                      "uniqueItems": true,
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
               "type": "problem",
             },
             "name": "inject-at-top",
           },
           "no-async-lifecycle-method": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Angular Lifecycle methods should not be async. Angular does not wait for async lifecycle but the code incorrectly suggests it does.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-async-lifecycle-method.md",
@@ -11445,8 +11485,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-attribute-decorator": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "The @Attribute decorator is used to obtain a single value for an attribute. This is a much less common use case than getting a stream of values (using @Input), so the @Attribute decorator is often mistakenly used when @Input is intended. This rule disallows the usage of @Attribute decorator entirely to prevent these mistakes.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-attribute-decorator.md",
@@ -11461,8 +11502,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-developer-preview": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallow using code which is marked as developer preview",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-developer-preview.md",
@@ -11477,8 +11519,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-duplicates-in-metadata-arrays": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that metadata arrays do not contain duplicate entries.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-duplicates-in-metadata-arrays.md",
@@ -11493,8 +11536,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-empty-lifecycle-method": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallows declaring empty lifecycle methods",
                 "recommended": "recommended",
@@ -11512,8 +11556,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-experimental": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallow using code which is marked as experimental",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-experimental.md",
@@ -11528,8 +11573,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-forward-ref": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallows usage of \`forwardRef\` references for DI",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-forward-ref.md",
@@ -11544,8 +11590,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-implicit-take-until-destroyed": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that \`takeUntilDestroyed()\` is called with an explicit \`DestroyRef\` when used outside of an injection context",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-implicit-take-until-destroyed.md",
@@ -11560,12 +11607,13 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-input-prefix": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "prefixes": Array [],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "prefixes": Array [],
+                },
+              ],
               "docs": Object {
                 "description": "Ensures that input bindings, including aliases, are not named or prefixed by the configured disallowed prefixes",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-input-prefix.md",
@@ -11593,12 +11641,13 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-input-rename": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "allowedNames": Array [],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowedNames": Array [],
+                },
+              ],
               "docs": Object {
                 "description": "Ensures that input bindings are not aliased",
                 "recommended": "recommended",
@@ -11633,8 +11682,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-inputs-metadata-property": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallows usage of the \`inputs\` metadata property",
                 "recommended": "recommended",
@@ -11650,8 +11700,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-lifecycle-call": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallows explicit calls to lifecycle methods",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-lifecycle-call.md",
@@ -11666,8 +11717,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-output-native": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that output bindings, including aliases, are not named as standard DOM events",
                 "recommended": "recommended",
@@ -11683,8 +11735,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-output-on-prefix": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that output bindings, including aliases, are not named \\"on\\", nor prefixed with it. See more at https://angular.dev/guide/components/outputs#choosing-event-names",
                 "recommended": "recommended",
@@ -11700,8 +11753,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-output-rename": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that output bindings are not aliased",
                 "recommended": "recommended",
@@ -11721,8 +11775,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-outputs-metadata-property": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallows usage of the \`outputs\` metadata property",
                 "recommended": "recommended",
@@ -11738,8 +11793,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-pipe-impure": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallows the declaration of impure pipes",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-pipe-impure.md",
@@ -11756,8 +11812,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-queries-metadata-property": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallows usage of the \`queries\` metadata property.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-queries-metadata-property.md",
@@ -11772,8 +11829,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-uncalled-signals": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Warns user about unintentionally doing logic on the signal, rather than the signal's value",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/no-uncalled-signals.md",
@@ -11790,12 +11848,13 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "pipe-prefix": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "prefixes": Array [],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "prefixes": Array [],
+                },
+              ],
               "docs": Object {
                 "description": "Enforce consistent prefix for pipes.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/pipe-prefix.md",
@@ -11825,8 +11884,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "prefer-host-metadata-property": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Use \`host\` metadata property instead of \`@HostBinding\` and \`HostListener\`",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-host-metadata-property.md",
@@ -11842,8 +11902,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "prefer-inject": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Prefer using the inject() function over constructor parameter injection",
                 "recommended": "recommended",
@@ -11859,27 +11920,47 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "prefer-on-push-component-change-detection": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowExplicitOnPush": true,
+                },
+              ],
               "docs": Object {
                 "description": "Ensures components do not opt out of the default \`ChangeDetectionStrategy.OnPush\` change detection strategy",
                 "recommended": "recommended",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-on-push-component-change-detection.md",
               },
+              "fixable": "code",
               "hasSuggestions": true,
               "messages": Object {
                 "preferOnPushComponentChangeDetection": "Components should not opt out of the default \`ChangeDetectionStrategy.OnPush\` change detection strategy",
+                "redundantOnPushComponentChangeDetection": "\`changeDetection: ChangeDetectionStrategy.OnPush\` is redundant because \`ChangeDetectionStrategy.OnPush\` is the default change detection strategy",
                 "suggestRemoveChangeDetection": "Remove \`changeDetection\` to use the default (\`ChangeDetectionStrategy.OnPush\`)",
               },
-              "schema": Array [],
+              "schema": Array [
+                Object {
+                  "additionalProperties": false,
+                  "properties": Object {
+                    "allowExplicitOnPush": Object {
+                      "default": true,
+                      "description": "Whether to allow a component to set \`changeDetection: ChangeDetectionStrategy.OnPush\` explicitly even though it is now the default.",
+                      "type": "boolean",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
               "type": "suggestion",
             },
             "name": "prefer-on-push-component-change-detection",
           },
           "prefer-output-emitter-ref": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Use \`OutputEmitterRef\` instead of \`@Output()\`",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-output-emitter-ref.md",
@@ -11894,8 +11975,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "prefer-output-readonly": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Prefer to declare \`@Output\`, \`OutputEmitterRef\` and \`OutputRef\` as \`readonly\` since they are not supposed to be reassigned",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-output-readonly.md",
@@ -11912,8 +11994,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "prefer-service-decorator": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Prefer the \`@Service()\` decorator over \`@Injectable({ providedIn: 'root' })\`",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-service-decorator.md",
@@ -11929,8 +12012,13 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "prefer-signal-model": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "useTypeChecking": false,
+                },
+              ],
               "docs": Object {
                 "description": "Use \`model\` instead of \`input\` and \`output\` for two-way bindings",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-signal-model.md",
@@ -11939,23 +12027,35 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
               "messages": Object {
                 "preferSignalModel": "Use \`model\` for two-way bindings instead of \`input()\` and \`output()\`",
               },
-              "schema": Array [],
+              "schema": Array [
+                Object {
+                  "additionalProperties": false,
+                  "properties": Object {
+                    "useTypeChecking": Object {
+                      "default": false,
+                      "type": "boolean",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
               "type": "suggestion",
             },
             "name": "prefer-signal-model",
           },
           "prefer-signals": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "additionalSignalCreationFunctions": Array [],
-                "preferInputSignals": true,
-                "preferQuerySignals": true,
-                "preferReadonlySignalProperties": true,
-                "useTypeChecking": false,
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "additionalSignalCreationFunctions": Array [],
+                  "preferInputSignals": true,
+                  "preferQuerySignals": true,
+                  "preferReadonlySignalProperties": true,
+                  "useTypeChecking": false,
+                },
+              ],
               "docs": Object {
                 "description": "Use readonly signals instead of \`@Input()\`, \`@ViewChild()\` and other legacy decorators",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-signals.md",
@@ -12003,27 +12103,78 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "prefer-standalone": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowExplicitStandalone": true,
+                },
+              ],
               "docs": Object {
                 "description": "Ensures Components, Directives and Pipes do not opt out of standalone.",
                 "recommended": "recommended",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/prefer-standalone.md",
               },
+              "fixable": "code",
               "hasSuggestions": true,
               "messages": Object {
                 "preferStandalone": "Components, Directives and Pipes should not opt out of standalone. Following this guide is highly recommended: https://angular.dev/reference/migrations/standalone",
+                "redundantStandalone": "\`standalone: true\` is redundant because \`standalone: true\` is the default",
                 "removeStandaloneFalse": "Quickly remove 'standalone: false'. NOTE - Following this guide is highly recommended: https://angular.dev/reference/migrations/standalone",
               },
-              "schema": Array [],
+              "schema": Array [
+                Object {
+                  "additionalProperties": false,
+                  "properties": Object {
+                    "allowExplicitStandalone": Object {
+                      "default": true,
+                      "description": "Whether to allow a Component, Directive or Pipe to set \`standalone: true\` explicitly even though it is now the default.",
+                      "type": "boolean",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
               "type": "suggestion",
             },
             "name": "prefer-standalone",
           },
+          "reactive-context-must-read-signal": Object {
+            "create": [Function],
+            "defaultOptions": Array [
+              Object {
+                "checkResources": false,
+              },
+            ],
+            "meta": Object {
+              "docs": Object {
+                "description": "Ensures that reactive contexts such as computed(), linkedSignal() and effect() read at least one reactive value (a signal). A reactive context with no reactive dependencies never re-runs, which is almost always a mistake.",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/reactive-context-must-read-signal.md",
+              },
+              "messages": Object {
+                "mustReadSignal": "{{primitive}}() must read at least one signal, otherwise it will never re-run when state changes.",
+              },
+              "schema": Array [
+                Object {
+                  "additionalProperties": false,
+                  "properties": Object {
+                    "checkResources": Object {
+                      "description": "Also check that the \`params\` function of \`resource()\` and \`rxResource()\` reads a signal.",
+                      "type": "boolean",
+                    },
+                  },
+                  "type": "object",
+                },
+              ],
+              "type": "problem",
+            },
+            "name": "reactive-context-must-read-signal",
+          },
           "relative-url-prefix": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "The ./ and ../ prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/relative-url-prefix.md",
@@ -12038,8 +12189,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "require-lifecycle-on-prototype": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that lifecycle methods are defined on the object's prototype instead of on an instance.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/require-lifecycle-on-prototype.md",
@@ -12054,14 +12206,15 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "require-localize-metadata": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "requireCustomId": false,
-                "requireDescription": false,
-                "requireMeaning": false,
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "requireCustomId": false,
+                  "requireDescription": false,
+                  "requireMeaning": false,
+                },
+              ],
               "docs": Object {
                 "description": "Ensures that $localize tagged messages contain helpful metadata to aid with translations.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/require-localize-metadata.md",
@@ -12104,8 +12257,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "runtime-localize": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that $localize tagged messages can use runtime-loaded translations.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/runtime-localize.md",
@@ -12120,71 +12274,82 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "sort-keys-in-type-decorator": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "Component": Array [
-                  "selector",
-                  "imports",
-                  "standalone",
-                  "templateUrl",
-                  "template",
-                  "styleUrl",
-                  "styleUrls",
-                  "styles",
-                  "providers",
-                  "changeDetection",
-                  "encapsulation",
-                  "viewProviders",
-                  "host",
-                  "hostDirectives",
-                  "inputs",
-                  "outputs",
-                  "animations",
-                  "schemas",
-                  "exportAs",
-                  "queries",
-                  "preserveWhitespaces",
-                  "jit",
-                  "moduleId",
-                  "interpolation",
-                ],
-                "Directive": Array [
-                  "selector",
-                  "standalone",
-                  "providers",
-                  "host",
-                  "hostDirectives",
-                  "inputs",
-                  "outputs",
-                  "exportAs",
-                  "queries",
-                  "jit",
-                ],
-                "NgModule": Array [
-                  "id",
-                  "imports",
-                  "declarations",
-                  "providers",
-                  "exports",
-                  "bootstrap",
-                  "schemas",
-                  "jit",
-                ],
-                "Pipe": Array [
-                  "name",
-                  "standalone",
-                  "pure",
-                ],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "Component": Array [
+                    "selector",
+                    "imports",
+                    "standalone",
+                    "templateUrl",
+                    "template",
+                    "styleUrl",
+                    "styleUrls",
+                    "styles",
+                    "providers",
+                    "changeDetection",
+                    "encapsulation",
+                    "viewProviders",
+                    "host",
+                    "hostDirectives",
+                    "inputs",
+                    "outputs",
+                    "animations",
+                    "schemas",
+                    "exportAs",
+                    "queries",
+                    "preserveWhitespaces",
+                    "jit",
+                    "moduleId",
+                    "interpolation",
+                  ],
+                  "Directive": Array [
+                    "selector",
+                    "standalone",
+                    "providers",
+                    "host",
+                    "hostDirectives",
+                    "inputs",
+                    "outputs",
+                    "exportAs",
+                    "queries",
+                    "jit",
+                  ],
+                  "Injectable": Array [
+                    "providedIn",
+                    "useClass",
+                    "useExisting",
+                    "useFactory",
+                    "useValue",
+                    "deps",
+                  ],
+                  "NgModule": Array [
+                    "id",
+                    "imports",
+                    "declarations",
+                    "providers",
+                    "exports",
+                    "bootstrap",
+                    "schemas",
+                    "jit",
+                  ],
+                  "Pipe": Array [
+                    "name",
+                    "standalone",
+                    "pure",
+                  ],
+                  "allowUnconfiguredProperties": true,
+                },
+              ],
               "docs": Object {
-                "description": "Ensures that keys in type decorators (Component, Directive, NgModule, Pipe) are sorted in a consistent order",
+                "description": "Ensures that keys in type decorators (Component, Directive, Injectable, NgModule, Pipe) are sorted in a consistent order",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/sort-keys-in-type-decorator.md",
               },
               "fixable": "code",
               "messages": Object {
                 "incorrectOrder": "Keys in @{{decorator}} decorator should be ordered: {{expectedOrder}}",
+                "unconfiguredProperty": "Property \\"{{property}}\\" is not in the configured key order for @{{decorator}}.",
               },
               "schema": Array [
                 Object {
@@ -12202,6 +12367,12 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
                       },
                       "type": "array",
                     },
+                    "Injectable": Object {
+                      "items": Object {
+                        "type": "string",
+                      },
+                      "type": "array",
+                    },
                     "NgModule": Object {
                       "items": Object {
                         "type": "string",
@@ -12214,6 +12385,10 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
                       },
                       "type": "array",
                     },
+                    "allowUnconfiguredProperties": Object {
+                      "default": true,
+                      "type": "boolean",
+                    },
                   },
                   "type": "object",
                 },
@@ -12224,8 +12399,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "sort-lifecycle-methods": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that lifecycle methods are declared in order of execution",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/sort-lifecycle-methods.md",
@@ -12240,8 +12416,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "use-component-selector": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Component selector must be declared",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/use-component-selector.md",
@@ -12256,8 +12433,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "use-component-view-encapsulation": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallows using \`ViewEncapsulation.None\`",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/use-component-view-encapsulation.md",
@@ -12274,10 +12452,13 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "use-injectable-provided-in": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {},
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowProvidedInNull": false,
+                },
+              ],
               "docs": Object {
                 "description": "Using the \`providedIn\` property makes \`Injectables\` tree-shakable",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/use-injectable-provided-in.md",
@@ -12291,6 +12472,10 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
                 Object {
                   "additionalProperties": false,
                   "properties": Object {
+                    "allowProvidedInNull": Object {
+                      "default": false,
+                      "type": "boolean",
+                    },
                     "ignoreClassNamePattern": Object {
                       "type": "string",
                     },
@@ -12304,8 +12489,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "use-lifecycle-interface": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that classes implement lifecycle interfaces corresponding to the declared lifecycle methods. See more at https://angular.dev/style-guide#use-lifecycle-hook-interfaces",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin/docs/rules/use-lifecycle-interface.md",
@@ -12321,8 +12507,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "use-pipe-transform-interface": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that \`Pipes\` implement \`PipeTransform\` interface",
                 "recommended": "recommended",
@@ -12461,7 +12648,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
       "parser": Object {
         "meta": Object {
           "name": "angular-eslint/template-parser",
-          "version": "22.1.0",
+          "version": "22.6.0",
         },
         "parseForESLint": [Function],
       },
@@ -12482,8 +12669,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
         "rules": Object {
           "alt-text": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "[Accessibility] Enforces alternate text for elements which require the alt, aria-label, aria-labelledby attributes.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/alt-text.md",
@@ -12498,20 +12686,21 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "attributes-order": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "alphabetical": false,
-                "order": Array [
-                  "STRUCTURAL_DIRECTIVE",
-                  "TEMPLATE_REFERENCE",
-                  "ATTRIBUTE_BINDING",
-                  "INPUT_BINDING",
-                  "TWO_WAY_BINDING",
-                  "OUTPUT_BINDING",
-                ],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "alphabetical": false,
+                  "order": Array [
+                    "STRUCTURAL_DIRECTIVE",
+                    "TEMPLATE_REFERENCE",
+                    "ATTRIBUTE_BINDING",
+                    "INPUT_BINDING",
+                    "TWO_WAY_BINDING",
+                    "OUTPUT_BINDING",
+                  ],
+                },
+              ],
               "docs": Object {
                 "description": "Ensures that HTML attributes and Angular bindings are sorted based on an expected order",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/attributes-order.md",
@@ -12562,8 +12751,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "banana-in-box": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that the two-way data binding syntax is correct",
                 "recommended": "recommended",
@@ -12580,10 +12770,11 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "button-has-type": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {},
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {},
+              ],
               "docs": Object {
                 "description": "Ensures that a button has a valid type specified",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/button-has-type.md",
@@ -12598,6 +12789,7 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
                   "properties": Object {
                     "ignoreWithDirectives": Object {
                       "default": Array [],
+                      "description": "Directive names that, when present on the element, cause it to be ignored. Entries wrapped in slashes, e.g. \`/^tui/\`, are treated as regular expressions.",
                       "items": Object {
                         "type": "string",
                       },
@@ -12614,30 +12806,50 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "click-events-have-key-events": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "ignoreWithDirectives": Array [],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowedKeyCodes": Array [],
+                  "ignoreWithDirectives": Array [],
+                  "requireKeyCode": false,
+                },
+              ],
               "docs": Object {
                 "description": "[Accessibility] Ensures that the click event is accompanied with at least one key event keyup, keydown or keypress.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/click-events-have-key-events.md",
               },
               "messages": Object {
+                "clickEventsHaveAllowedKeyCode": "click must be accompanied by a keyup, keydown or keypress event for one of the allowed keys ({{allowedKeyCodes}}) for accessibility.",
+                "clickEventsHaveKeyCode": "click must be accompanied by a keyup, keydown or keypress event that specifies a key (e.g. \`(keydown.enter)\`) for accessibility.",
                 "clickEventsHaveKeyEvents": "click must be accompanied by either keyup, keydown or keypress event for accessibility.",
               },
               "schema": Array [
                 Object {
                   "additionalProperties": false,
                   "properties": Object {
-                    "ignoreWithDirectives": Object {
+                    "allowedKeyCodes": Object {
                       "default": Array [],
+                      "description": "Only key events whose key (the last segment of the pseudo-event, e.g. \`enter\` in \`(keydown.shift.enter)\`) is in this list satisfy the rule. Implies \`requireKeyCode\`.",
                       "items": Object {
                         "type": "string",
                       },
                       "type": "array",
                       "uniqueItems": true,
+                    },
+                    "ignoreWithDirectives": Object {
+                      "default": Array [],
+                      "description": "Directive names that, when present on the element, cause it to be ignored. Entries wrapped in slashes, e.g. \`/^tui/\`, are treated as regular expressions.",
+                      "items": Object {
+                        "type": "string",
+                      },
+                      "type": "array",
+                      "uniqueItems": true,
+                    },
+                    "requireKeyCode": Object {
+                      "default": false,
+                      "description": "Require key events to specify a key via a pseudo-event, e.g. \`(keydown.enter)\`. A bare \`(keydown)\` will not satisfy the rule.",
+                      "type": "boolean",
                     },
                   },
                   "type": "object",
@@ -12649,12 +12861,13 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "conditional-complexity": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "maxComplexity": 5,
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "maxComplexity": 5,
+                },
+              ],
               "docs": Object {
                 "description": "The conditional complexity should not exceed a rational limit",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/conditional-complexity.md",
@@ -12680,13 +12893,14 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "cyclomatic-complexity": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "maxComplexity": 5,
-                "variant": "classic",
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "maxComplexity": 5,
+                  "variant": "classic",
+                },
+              ],
               "docs": Object {
                 "description": "Checks cyclomatic complexity against a specified limit. It is a quantitative measure of the number of linearly independent paths through a program's source code",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/cyclomatic-complexity.md",
@@ -12719,20 +12933,21 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "elements-content": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "allowList": Array [
-                  "aria-label",
-                  "innerHtml",
-                  "innerHTML",
-                  "innerText",
-                  "outerHTML",
-                  "textContent",
-                  "title",
-                ],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowList": Array [
+                    "aria-label",
+                    "innerHtml",
+                    "innerHTML",
+                    "innerText",
+                    "outerHTML",
+                    "textContent",
+                    "title",
+                  ],
+                },
+              ],
               "docs": Object {
                 "description": "[Accessibility] Ensures that the heading, anchor and button elements have content in them",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/elements-content.md",
@@ -12761,12 +12976,13 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "eqeqeq": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "allowNullOrUndefined": false,
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowNullOrUndefined": false,
+                },
+              ],
               "docs": Object {
                 "description": "Requires \`===\` and \`!==\` in place of \`==\` and \`!=\`",
                 "recommended": "recommended",
@@ -12796,52 +13012,53 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "i18n": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "allowMarkupInContent": true,
-                "checkAttributes": true,
-                "checkDuplicateId": true,
-                "checkId": true,
-                "checkText": true,
-                "ignoreAttributes": Array [
-                  "autocomplete",
-                  "charset",
-                  "class",
-                  "color",
-                  "colspan",
-                  "dir",
-                  "fill",
-                  "for",
-                  "formArrayName",
-                  "formControlName",
-                  "formGroupName",
-                  "height",
-                  "href",
-                  "id",
-                  "lang",
-                  "list",
-                  "name",
-                  "ngClass",
-                  "ngProjectAs",
-                  "role",
-                  "routerLink",
-                  "routerLinkActive",
-                  "src",
-                  "stroke",
-                  "stroke-width",
-                  "style",
-                  "svgIcon",
-                  "tabindex",
-                  "target",
-                  "type",
-                  "value",
-                  "viewBox",
-                  "width",
-                  "xmlns",
-                ],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowMarkupInContent": true,
+                  "checkAttributes": true,
+                  "checkDuplicateId": true,
+                  "checkId": true,
+                  "checkText": true,
+                  "ignoreAttributes": Array [
+                    "autocomplete",
+                    "charset",
+                    "class",
+                    "color",
+                    "colspan",
+                    "dir",
+                    "fill",
+                    "for",
+                    "formArrayName",
+                    "formControlName",
+                    "formGroupName",
+                    "height",
+                    "href",
+                    "id",
+                    "lang",
+                    "list",
+                    "name",
+                    "ngClass",
+                    "ngProjectAs",
+                    "role",
+                    "routerLink",
+                    "routerLinkActive",
+                    "src",
+                    "stroke",
+                    "stroke-width",
+                    "style",
+                    "svgIcon",
+                    "tabindex",
+                    "target",
+                    "type",
+                    "value",
+                    "viewBox",
+                    "width",
+                    "xmlns",
+                  ],
+                },
+              ],
               "docs": Object {
                 "description": "Ensures following best practices for i18n. Checks for missing i18n attributes on elements and attributes containing texts. Can also check for texts without i18n attribute, elements that do not use custom ID (@@) feature and duplicate custom IDs",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/i18n.md",
@@ -12952,14 +13169,15 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "interactive-supports-focus": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "allowList": Array [
-                  "form",
-                ],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowList": Array [
+                    "form",
+                  ],
+                },
+              ],
               "docs": Object {
                 "description": "[Accessibility] Ensures that elements with interactive handlers like \`(click)\` are focusable.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/interactive-supports-focus.md",
@@ -12988,29 +13206,30 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "label-has-associated-control": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "checkIds": false,
-                "controlComponents": Array [
-                  "input",
-                  "meter",
-                  "output",
-                  "progress",
-                  "select",
-                  "textarea",
-                ],
-                "labelComponents": Array [
-                  Object {
-                    "inputs": Array [
-                      "for",
-                      "htmlFor",
-                    ],
-                    "selector": "label",
-                  },
-                ],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "checkIds": false,
+                  "controlComponents": Array [
+                    "input",
+                    "meter",
+                    "output",
+                    "progress",
+                    "select",
+                    "textarea",
+                  ],
+                  "labelComponents": Array [
+                    Object {
+                      "inputs": Array [
+                        "for",
+                        "htmlFor",
+                      ],
+                      "selector": "label",
+                    },
+                  ],
+                },
+              ],
               "docs": Object {
                 "description": "[Accessibility] Ensures that a label element/component is associated with a form element",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/label-has-associated-control.md",
@@ -13065,8 +13284,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "mouse-events-have-key-events": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "[Accessibility] Ensures that the mouse events \`mouseout\` and \`mouseover\` are accompanied by \`focus\` and \`blur\` events respectively. Coding for the keyboard is important for users with physical disabilities who cannot use a mouse, AT compatibility, and screenreader users. See more at https://www.w3.org/WAI/WCAG21/Understanding/keyboard",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/mouse-events-have-key-events.md",
@@ -13081,8 +13301,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-any": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "The use of \\"$any\\" nullifies the compile-time benefits of Angular's type system",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-any.md",
@@ -13099,8 +13320,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-autofocus": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "[Accessibility] Ensures that the \`autofocus\` attribute is not used",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-autofocus.md",
@@ -13116,14 +13338,15 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-call-expression": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "allowList": Array [],
-                "allowPrefix": undefined,
-                "allowSuffix": undefined,
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowList": Array [],
+                  "allowPrefix": undefined,
+                  "allowSuffix": undefined,
+                },
+              ],
               "docs": Object {
                 "description": "Disallows calling expressions in templates, except for output handlers",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-call-expression.md",
@@ -13158,8 +13381,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-distracting-elements": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "[Accessibility] Enforces that no distracting elements are used",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-distracting-elements.md",
@@ -13175,14 +13399,15 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-duplicate-attributes": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "allowStylePrecedenceDuplicates": false,
-                "allowTwoWayDataBinding": true,
-                "ignore": Array [],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowStylePrecedenceDuplicates": false,
+                  "allowTwoWayDataBinding": true,
+                  "ignore": Array [],
+                },
+              ],
               "docs": Object {
                 "description": "Ensures that there are no duplicate input properties or output event listeners",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-duplicate-attributes.md",
@@ -13225,8 +13450,9 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-empty-control-flow": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that control flow blocks are not empty. Empty control flow blocks usually occur due to refactoring that wasn't completed. They can cause confusion when reading code.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-empty-control-flow.md",
@@ -13241,13 +13467,14 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-inline-styles": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "allowBindToStyle": false,
-                "allowNgStyle": false,
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowBindToStyle": false,
+                  "allowNgStyle": false,
+                },
+              ],
               "docs": Object {
                 "description": "Disallows the use of inline styles in HTML templates",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-inline-styles.md",
@@ -13261,11 +13488,33 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
                   "properties": Object {
                     "allowBindToStyle": Object {
                       "default": false,
-                      "type": "boolean",
+                      "description": "Whether \`[style]\`, \`[style.property]\` and \`style=\\"{{ }}\\"\` bindings are allowed. \`true\` allows them unconditionally. \`\\"dynamic\\"\` allows them only when the bound value is not a constant (e.g. \`[style.width.px]=\\"column.width\\"\` is allowed, but \`[style.color]=\\"'red'\\"\` is reported because it could be a class).",
+                      "oneOf": Array [
+                        Object {
+                          "type": "boolean",
+                        },
+                        Object {
+                          "enum": Array [
+                            "dynamic",
+                          ],
+                          "type": "string",
+                        },
+                      ],
                     },
                     "allowNgStyle": Object {
                       "default": false,
-                      "type": "boolean",
+                      "description": "Whether \`[ngStyle]\` bindings are allowed. \`true\` allows them unconditionally. \`\\"dynamic\\"\` allows them only when the bound value is not a constant (e.g. \`{ color: textColor }\` is allowed, but \`{ color: 'red' }\` is reported because it could be a class).",
+                      "oneOf": Array [
+                        Object {
+                          "type": "boolean",
+                        },
+                        Object {
+                          "enum": Array [
+                            "dynamic",
+                          ],
+                          "type": "string",
+                        },
+                      ],
                     },
                   },
                   "type": "object",
@@ -13277,12 +13526,13 @@ If a function does not access \`this\`, it can be annotated with \`this: void\`.
           },
           "no-interpolation-in-attributes": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "allowSubstringInterpolation": false,
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowSubstringInterpolation": false,
+                },
+              ],
               "docs": Object {
                 "description": "Ensures that property-binding is used instead of interpolation in attributes.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-interpolation-in-attributes.md",
@@ -13316,8 +13566,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "no-negated-async": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that async pipe results, as well as values used with the async pipe, are not negated",
                 "recommended": "recommended",
@@ -13339,8 +13590,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "no-nested-tags": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Denies nesting of \`<p>\` and \`<a>\` tags.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-nested-tags.md",
@@ -13355,8 +13607,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "no-non-null-assertion": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallows the non-null assertion operator (!) in templates",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-non-null-assertion.md",
@@ -13371,8 +13624,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "no-outerhtml": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Disallows using \`outerHTML\` on elements, which breaks change detection and detaches the element from the Angular view",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-outerhtml.md",
@@ -13387,8 +13641,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "no-positive-tabindex": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that the \`tabindex\` attribute is not positive",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/no-positive-tabindex.md",
@@ -13405,8 +13660,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "prefer-at-else": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Prefer using \`@else\` instead of a second \`@if\` with the opposite condition to reduce code and make it easier to read.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-at-else.md",
@@ -13422,8 +13678,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "prefer-at-empty": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Prefer using \`@empty\` with \`@for\` loops instead of a separate \`@if\` or \`@else\` block to reduce code and make it easier to read.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-at-empty.md",
@@ -13439,18 +13696,19 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "prefer-built-in-pipes": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "allowInOutputHandlers": true,
-                "disallowList": Array [
-                  "toLowerCase",
-                  "toUpperCase",
-                  "toLocaleLowerCase",
-                  "toLocaleUpperCase",
-                ],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowInOutputHandlers": true,
+                  "disallowList": Array [
+                    "toLowerCase",
+                    "toUpperCase",
+                    "toLocaleLowerCase",
+                    "toLocaleUpperCase",
+                  ],
+                },
+              ],
               "docs": Object {
                 "description": "Encourages the use of Angular built-in pipes (e.g. lowercase, uppercase, titlecase) instead of certain JavaScript methods in Angular templates.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-built-in-pipes.md",
@@ -13484,8 +13742,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "prefer-class-binding": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Suggests using [class] bindings over ngClass where applicable",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-class-binding.md",
@@ -13500,19 +13759,20 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "prefer-contextual-for-variables": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "allowedAliases": Object {
-                  "$count": Array [],
-                  "$even": Array [],
-                  "$first": Array [],
-                  "$index": Array [],
-                  "$last": Array [],
-                  "$odd": Array [],
-                },
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "allowedAliases": Object {
+                    "$count": Array [],
+                    "$even": Array [],
+                    "$first": Array [],
+                    "$index": Array [],
+                    "$last": Array [],
+                    "$odd": Array [],
+                  },
+                },
+              ],
               "docs": Object {
                 "description": "Ensures that contextual variables are used in @for blocks where possible instead of aliasing them.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-contextual-for-variables.md",
@@ -13588,8 +13848,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "prefer-control-flow": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that the built-in control flow is used.",
                 "recommended": "recommended",
@@ -13605,8 +13866,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "prefer-ngsrc": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures ngSrc is used instead of src for img elements",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-ngsrc.md",
@@ -13625,8 +13887,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "prefer-self-closing-tags": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensures that self-closing tags are used for elements with a closing tag but no content.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-self-closing-tags.md",
@@ -13642,10 +13905,11 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "prefer-static-string-properties": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {},
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {},
+              ],
               "docs": Object {
                 "description": "Ensures that static string values use property assignment instead of property binding.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-static-string-properties.md",
@@ -13674,10 +13938,28 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             },
             "name": "prefer-static-string-properties",
           },
+          "prefer-style-binding": Object {
+            "create": [Function],
+            "defaultOptions": undefined,
+            "meta": Object {
+              "defaultOptions": Array [],
+              "docs": Object {
+                "description": "Suggests using [style] bindings over ngStyle where applicable",
+                "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-style-binding.md",
+              },
+              "messages": Object {
+                "preferStyleBinding": "Consider using [style] or [style.property] bindings instead of [ngStyle] where applicable.",
+              },
+              "schema": Array [],
+              "type": "suggestion",
+            },
+            "name": "prefer-style-binding",
+          },
           "prefer-template-literal": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Ensure that template literals are used instead of concatenating strings or expressions.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/prefer-template-literal.md",
@@ -13693,8 +13975,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "require-switch-default": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "Requires a \`@default\` block on every \`@switch\` to ensure all cases are handled. This is the template equivalent of the \`@typescript-eslint/switch-exhaustiveness-check\` rule.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/require-switch-default.md",
@@ -13709,8 +13992,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "role-has-required-aria": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "[Accessibility] Ensures elements with ARIA roles have all required properties for that role.",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/role-has-required-aria.md",
@@ -13727,8 +14011,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "table-scope": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "[Accessibility] Ensures that the \`scope\` attribute is only used on the \`<th>\` element",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/table-scope.md",
@@ -13744,12 +14029,13 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "use-track-by-function": Object {
             "create": [Function],
-            "defaultOptions": Array [
-              Object {
-                "alias": Array [],
-              },
-            ],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [
+                Object {
+                  "alias": Array [],
+                },
+              ],
               "docs": Object {
                 "description": "Ensures trackBy function is used",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/use-track-by-function.md",
@@ -13777,8 +14063,9 @@ For example, when set to \`true\` the following code will not fail for the \`alt
           },
           "valid-aria": Object {
             "create": [Function],
-            "defaultOptions": Array [],
+            "defaultOptions": undefined,
             "meta": Object {
+              "defaultOptions": Array [],
               "docs": Object {
                 "description": "[Accessibility] Ensures that correct ARIA attributes and respective values are used",
                 "url": "https://github.com/angular-eslint/angular-eslint/blob/main/packages/eslint-plugin-template/docs/rules/valid-aria.md",

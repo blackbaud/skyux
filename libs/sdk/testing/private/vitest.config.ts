@@ -12,6 +12,7 @@ export default defineConfig({
     },
   },
   test: {
+    fsModuleCachePath: '../../../../node_modules/.vitest-cache',
     environment: 'jsdom',
     globals: true,
     include: ['src/**/*.spec.ts'],
