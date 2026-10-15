@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.4.0](https://github.com/blackbaud/skyux/compare/15.3.0...15.4.0) (2026-10-15)
+
+### Features
+
+* support Angular 22.2 and vitest 5 ([#4900](https://github.com/blackbaud/skyux/issues/4900)) ([6ff552d](https://github.com/blackbaud/skyux/commit/6ff552da1703591859fdf5cb666931c5e9f1705b)), references [#4649](https://github.com/blackbaud/skyux/issues/4649) [blackbaud/skyux-dev-infra#275](https://github.com/blackbaud/skyux-dev-infra/issues/275)
+
 ## [15.3.0](https://github.com/blackbaud/skyux/compare/15.2.0...15.3.0) (2026-10-14)
 
 ### Features
