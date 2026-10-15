@@ -1,6 +1,13 @@
-import { booleanAttribute, Component, input, output } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyInputBoxButtonStyle } from './input-box-button-style';
+import { SkyInputBoxHostService } from './input-box-host.service';
 
 /**
  * Specifies a button to display next to the input in an input box.
@@ -58,4 +65,12 @@ export class SkyInputBoxButton {
    * Fires when the button is clicked.
    */
   public readonly buttonClick = output<PointerEvent>();
+
+  constructor() {
+    if (!inject(SkyInputBoxHostService, { optional: true })) {
+      throw new Error(
+        'The `sky-input-box-button` component must be placed inside a `sky-input-box` component.',
+      );
+    }
+  }
 }

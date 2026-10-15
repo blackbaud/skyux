@@ -12,9 +12,22 @@ import {
 
 import { BehaviorSubject } from 'rxjs';
 
+import { InputBoxButtonOutsideInputBoxFixture } from './fixtures/input-box-button-outside-input-box.fixture';
 import { InputBoxButtonFixtureComponent } from './fixtures/input-box-button.component.fixture';
 
 describe('Input box button component', () => {
+  it('should throw an error when not placed inside an input box', () => {
+    TestBed.configureTestingModule({
+      imports: [InputBoxButtonOutsideInputBoxFixture],
+    });
+
+    expect(() =>
+      TestBed.createComponent(InputBoxButtonOutsideInputBoxFixture),
+    ).toThrowError(
+      'The `sky-input-box-button` component must be placed inside a `sky-input-box` component.',
+    );
+  });
+
   for (const themeName of ['default', 'modern'] as const) {
     describe(`in ${themeName} theme`, () => {
       const groupSelector =
