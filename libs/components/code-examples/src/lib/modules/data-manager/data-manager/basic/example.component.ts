@@ -86,12 +86,6 @@ export class DataManagerBasicExampleComponent {
             ],
           },
         },
-        views: [
-          {
-            viewId: 'gridView',
-            displayedColumnIds: ['selected', 'name', 'description'],
-          },
-        ],
       }),
     });
   }

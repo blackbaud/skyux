@@ -1,6 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyDataGridHarness } from '@skyux/data-grid/testing';
 import { SkyDataManagerHarness } from '@skyux/data-manager/testing';
 import { SkyRepeaterHarness } from '@skyux/lists/testing';
 
@@ -64,5 +65,36 @@ describe('Data manager basic example', () => {
     const columnPicker = await toolbarHarness.openColumnPicker();
     const columns = await columnPicker.getColumns();
     expect(columns.length).toBe(2);
+  });
+
+  it('should remember a column that is deselected in the column picker', async () => {
+    const { dataManagerHarness, fixture } = await setupTest();
+
+    const toolbarHarness = await dataManagerHarness.getToolbar();
+    const viewActionsHarness = await toolbarHarness.getViewActions();
+    const views = await viewActionsHarness?.getRadioButtons();
+    await views?.[1].check();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const gridView = await dataManagerHarness.getView({ viewId: 'gridView' });
+    const gridHarness = await gridView.queryHarness(SkyDataGridHarness);
+    await expectAsync(gridHarness.isGridReady()).toBeResolvedTo(true);
+
+    const columnPicker = await toolbarHarness.openColumnPicker();
+    await (
+      await columnPicker.getColumn({ titleText: 'Description' })
+    ).deselect();
+    await columnPicker.saveAndClose();
+
+    const updatedColumnPicker = await toolbarHarness.openColumnPicker();
+    const nameColumn = await updatedColumnPicker.getColumn({
+      titleText: 'Fruit name',
+    });
+    const descriptionColumn = await updatedColumnPicker.getColumn({
+      titleText: 'Description',
+    });
+    await expectAsync(nameColumn.isSelected()).toBeResolvedTo(true);
+    await expectAsync(descriptionColumn.isSelected()).toBeResolvedTo(false);
   });
 });
