@@ -569,6 +569,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'FormsInputBoxWithCustomButtonExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ FormsInputBoxWithCustomButtonExample: c }) => c,
+      ),
+  },
+  {
     path: 'FormsInputBoxWithCustomFormErrorsExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(

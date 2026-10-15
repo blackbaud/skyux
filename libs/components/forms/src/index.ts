@@ -78,3 +78,4 @@ export { SkyButtonStyle } from './lib/modules/button/button-style';
 export { SkyButtonType } from './lib/modules/button/button-type';
 
 export { SkyInputBoxButton } from './lib/modules/input-box/input-box-button';
+export { SkyInputBoxButtonStyle } from './lib/modules/input-box/input-box-button-style';
