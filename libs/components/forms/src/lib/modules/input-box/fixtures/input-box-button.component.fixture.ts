@@ -1,9 +1,5 @@
 import { Component, input } from '@angular/core';
-import {
-  ReactiveFormsModule,
-  UntypedFormControl,
-  Validators,
-} from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { SkyInputBoxButton } from '../input-box-button';
 import { SkyInputBoxModule } from '../input-box.module';
@@ -22,7 +18,7 @@ export class InputBoxButtonFixtureComponent {
 
   public readonly normalButtonLabels = input<string[]>(['Normal button']);
 
-  public readonly control = new UntypedFormControl('', Validators.required);
+  public readonly control = new FormControl('', Validators.required);
 
   public readonly clickedLabels: string[] = [];
 }
