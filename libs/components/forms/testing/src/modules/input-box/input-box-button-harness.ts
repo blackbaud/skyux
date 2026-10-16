@@ -52,7 +52,7 @@ export class SkyInputBoxButtonHarness extends SkyComponentHarness {
    * Gets the button's display style.
    */
   public async getButtonStyle(): Promise<SkyInputBoxButtonStyle> {
-    return (await (await this.host()).hasClass('sky-input-box-btn-inset'))
+    return (await (await this.host()).getAttribute('buttonStyle')) === 'inset'
       ? 'inset'
       : 'default';
   }

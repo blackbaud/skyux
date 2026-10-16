@@ -1,5 +1,6 @@
 import {
   booleanAttribute,
+  ChangeDetectionStrategy,
   Component,
   inject,
   input,
@@ -23,6 +24,7 @@ import { SkyInputBoxHostService } from './input-box-host.service';
     class: 'sky-input-group-btn',
     '[class.sky-input-box-btn-inset]': 'buttonStyle() === "inset"',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyInputBoxButton {
   /**
