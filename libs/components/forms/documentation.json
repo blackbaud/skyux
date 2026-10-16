@@ -140,12 +140,16 @@
         "docsIds": [
           "SkyInputBoxModule",
           "SkyInputBoxComponent",
-          "SkyFormErrorComponent"
+          "SkyFormErrorComponent",
+          "SkyInputBoxButton",
+          "SkyInputBoxButtonStyle"
         ],
         "primaryDocsId": "SkyInputBoxModule"
       },
       "testing": {
         "docsIds": [
+          "SkyInputBoxButtonHarness",
+          "SkyInputBoxButtonHarnessFilters",
           "SkyInputBoxHarness",
           "SkyInputBoxHarnessFilters",
           "SkyFormErrorHarness",
@@ -156,6 +160,7 @@
         "docsIds": [
           "FormsInputBoxBasicExampleComponent",
           "FormsInputBoxCharacterLimitExample",
+          "FormsInputBoxWithCustomButtonExample",
           "FormsInputBoxWithCustomFormErrorsExampleComponent",
           "LookupCountryFieldBasicExampleComponent",
           "DatetimeDatepickerBasicExampleComponent",

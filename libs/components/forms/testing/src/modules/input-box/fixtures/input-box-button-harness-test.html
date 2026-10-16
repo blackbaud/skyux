@@ -1,0 +1,26 @@
+<sky-input-box>
+  <input type="text" />
+  <sky-input-box-button
+    data-sky-id="test-button"
+    iconName="calendar-ltr"
+    labelText="Select a date"
+    [disabled]="disabled()"
+    (buttonClick)="clickCount = clickCount + 1"
+  />
+  <sky-input-box-button
+    data-sky-id="test-button-left"
+    iconName="calendar-ltr"
+    labelText="Select a date"
+    position="left"
+  />
+</sky-input-box>
+
+<sky-input-box>
+  <input type="text" />
+  <sky-input-box-button
+    data-sky-id="test-button-inset"
+    iconName="calendar-ltr"
+    labelText="Select a date"
+    buttonStyle="inset"
+  />
+</sky-input-box>

@@ -23,6 +23,7 @@ export const multipleChildrenMessageId = 'multipleInputBoxChildren';
 const ALLOWED_NON_CONTROL_SKY_COMPONENTS = new Set([
   'sky-character-counter-indicator',
   'sky-form-error',
+  'sky-input-box-button',
   'sky-status-indicator',
 ]);
 
