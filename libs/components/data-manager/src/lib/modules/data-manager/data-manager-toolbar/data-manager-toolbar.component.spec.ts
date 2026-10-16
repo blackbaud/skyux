@@ -368,6 +368,25 @@ describe('SkyDataManagerToolbarComponent', () => {
     expect(multiselectToolbar).toBeNull();
   });
 
+  it('should show select all and clear all buttons by default when the multiselect toolbar is enabled', () => {
+    spyOn(dataManagerService, 'getViewById').and.returnValue({
+      ...(dataManagerToolbarComponent.activeView as SkyDataViewConfig),
+      multiselectToolbarEnabled: true,
+    });
+    dataManagerToolbarFixture.detectChanges();
+
+    expect(
+      dataManagerToolbarNativeElement.querySelector(
+        '.sky-data-manager-select-all-btn',
+      ),
+    ).not.toBeNull();
+    expect(
+      dataManagerToolbarNativeElement.querySelector(
+        '.sky-data-manager-clear-all-btn',
+      ),
+    ).not.toBeNull();
+  });
+
   it("should call the active view's onSelectAllClick function when select all is clicked", () => {
     const selectAllSpy = jasmine.createSpy();
 

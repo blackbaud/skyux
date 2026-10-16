@@ -1,14 +1,16 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, Signal, signal } from '@angular/core';
 import { SkyLogService, SkyUIConfigService } from '@skyux/core';
 
 import {
   BehaviorSubject,
+  EMPTY,
   Observable,
   ReplaySubject,
   Subject,
   switchMap,
 } from 'rxjs';
 import {
+  catchError,
   distinctUntilChanged,
   filter,
   map,
@@ -34,7 +36,9 @@ import { SkyDataViewState } from './models/data-view-state';
  *
  * Provide this service at the component level for each instance of a data manager. Do not
  * provide it at the module level or in `app-extras`. This allows multiple data
- * managers to be used and self-contained.
+ * managers to be used and self-contained. `SkyDataManagerComponent` self-provides an
+ * instance if none is provided by an ancestor, so a data manager configured through
+ * `SkyDataManagerComponent`'s inputs and models does not need this service.
  */
 @Injectable()
 export class SkyDataManagerService implements OnDestroy {
@@ -52,13 +56,22 @@ export class SkyDataManagerService implements OnDestroy {
   #isInitialized: boolean | undefined;
   #ngUnsubscribe = new Subject<void>();
   #initSource = 'dataManagerServiceInit';
+  #stateUpdateSource = 'dataManagerServiceUpdateState';
   #uiConfigService: SkyUIConfigService;
+  #state = signal<SkyDataManagerState>(new SkyDataManagerState({}));
   #logger: SkyLogService | undefined;
   #incomparableStateCount = 0;
 
   // eslint-disable-next-line @angular-eslint/prefer-inject -- constructor injection is required to maintain the public API for consumers who may instantiate this service directly (e.g. `new SkyDataManagerService(...)`).
   constructor(uiConfigService: SkyUIConfigService, logger?: SkyLogService) {
     this.#uiConfigService = uiConfigService;
+
+    // Manual subscription (not `toSignal()`) because this service supports being
+    // constructed manually outside of Angular DI (see the constructor above),
+    // where `toSignal()`'s injection-context requirement would throw.
+    this.#dataStateChange
+      .pipe(takeUntil(this.#ngUnsubscribe))
+      .subscribe((change) => this.#state.set(change.dataState));
     this.#logger = logger;
   }
 
@@ -69,6 +82,29 @@ export class SkyDataManagerService implements OnDestroy {
     this.#dataStateChange.complete();
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
+  }
+
+  /**
+   * The current data state from any source, including `initDataManager()`,
+   * `updateDataState()`, and `updateState()`.
+   * @internal
+   */
+  public readonly state: Signal<SkyDataManagerState> = this.#state.asReadonly();
+
+  /**
+   * Merges `partial` into the current data state and emits the result to entities
+   * subscribed to data state changes (`getDataStateUpdates()`, `state`). Unlike
+   * `updateDataState()`, callers do not need to invent or track a `sourceId`.
+   * @param partial The properties to merge into the current `SkyDataManagerState`.
+   * @internal
+   */
+  public updateState(partial: Partial<SkyDataManagerStateOptions>): void {
+    const merged = new SkyDataManagerState({
+      ...this.state().getStateOptions(),
+      ...partial,
+    });
+
+    this.updateDataState(merged, this.#stateUpdateSource);
   }
 
   /**
@@ -111,18 +147,19 @@ export class SkyDataManagerService implements OnDestroy {
         .pipe(
           takeUntil(this.#ngUnsubscribe),
           switchMap((state: SkyDataManagerState) =>
-            this.#uiConfigService.setConfig(
-              settingsKey,
-              state.getStateOptions(),
-            ),
+            this.#uiConfigService
+              .setConfig(settingsKey, state.getStateOptions())
+              .pipe(
+                // Swallowing the error keeps later state changes persisting.
+                catchError((err) => {
+                  console.warn('Could not save data manager settings.');
+                  console.warn(err);
+                  return EMPTY;
+                }),
+              ),
           ),
         )
-        .subscribe({
-          error: (err) => {
-            console.warn('Could not save data manager settings.');
-            console.warn(err);
-          },
-        });
+        .subscribe();
     }
   }
 
@@ -380,6 +417,14 @@ export class SkyDataManagerService implements OnDestroy {
   }
 
   /**
+   * Removes a registered view's config without removing its stored state.
+   * @internal
+   */
+  public removeDataView(viewId: string): void {
+    this.#views.next(this.#views.value.filter((view) => view.id !== viewId));
+  }
+
+  /**
    * Updates the given view config. The registered view with the same ID is updated to the
    * provided config, so include all properties regardless of whether they changed. If the
    * view was not initialized already, no update happens.
@@ -400,7 +445,12 @@ export class SkyDataManagerService implements OnDestroy {
   }
 
   /**
-   * @internal
+   * Registers CSS selectors for a view's elements that should stick to the top of
+   * the page alongside the data manager toolbar (for example, a grid's header row).
+   * `SkyDataManagerComponent` combines these with its own toolbar selector when
+   * setting up `SkyViewkeeperModule`.
+   * @param viewId The ID of the view contributing the selectors.
+   * @param classes The CSS selectors for the view's elements to stick.
    */
   public setViewkeeperClasses(viewId: string, classes: string[]): void {
     const viewkeeperClasses = this.viewkeeperClasses.value;
