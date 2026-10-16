@@ -15,6 +15,7 @@ vi.mock('../utility/style-public-api.js', () => ({
     '--sky-theme-replacement',
     '--sky-theme-replacement-2',
     '--sky-theme-valid-prop',
+    '--sky-theme-valid-on_status',
   ]),
 }));
 
@@ -40,6 +41,11 @@ describe(ruleName, () => {
       {
         code: 'a { margin-top: var(--sky-theme-replacement); }',
         description: 'the replacement target is itself a valid custom property',
+      },
+      {
+        code: 'a { margin-top: var(--sky-theme-valid-on_status); }',
+        description:
+          'valid --sky-theme- custom properties with underscores are allowed',
       },
     ],
     reject: [
@@ -85,6 +91,30 @@ describe(ruleName, () => {
           {
             message:
               '"--sky-private-internal" is a private SKY UX custom property and should not be used directly. To find an alternative, check the style API documentation: https://developer.blackbaud.com/skyux/design/styles',
+          },
+        ],
+      },
+      {
+        code: 'a { margin-top: var(--sky-deprecated-prop_suffix); }',
+        description:
+          'unknown custom property that begins with a deprecated name followed by an underscore should be reported by its full name',
+        unfixable: true,
+        warnings: [
+          {
+            message:
+              '"--sky-deprecated-prop_suffix" is a private SKY UX custom property and should not be used directly. To find an alternative, check the style API documentation: https://developer.blackbaud.com/skyux/design/styles',
+          },
+        ],
+      },
+      {
+        code: 'a { margin-top: var(--sky-theme-valid-propSuffix); }',
+        description:
+          'unknown custom property that begins with a valid name followed by an uppercase letter should be reported by its full name',
+        unfixable: true,
+        warnings: [
+          {
+            message:
+              '"--sky-theme-valid-propSuffix" is not a known --sky-theme- custom property. See the style API documentation for valid custom properties: https://developer.blackbaud.com/skyux/design/styles',
           },
         ],
       },

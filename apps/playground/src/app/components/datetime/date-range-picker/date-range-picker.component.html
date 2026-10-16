@@ -1,3 +1,17 @@
+<sky-input-box
+  labelText="Mock current date"
+  hintText="Overrides what the browser reports as the current date. Cleared when you leave this page."
+  stacked
+>
+  <sky-datepicker>
+    <input
+      skyDatepickerInput
+      type="text"
+      [formControl]="mockCurrentDateControl"
+    />
+  </sky-datepicker>
+</sky-input-box>
+
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <sky-date-range-picker
     formControlName="lastDonation"

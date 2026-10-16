@@ -1,3 +1,4 @@
+import { SkyThemeMode } from './theme-mode';
 import { SkyThemeBrandData } from './theme-serialization-types';
 
 /**
@@ -50,6 +51,7 @@ export class SkyThemeBrand {
     public readonly title?: string,
     public readonly faviconUrl?: string,
     public readonly maskIcon?: SkyThemeBrandMaskIcon,
+    public readonly supportedModes?: SkyThemeMode[],
   ) {
     this.hostClass = hostClass;
 
@@ -97,6 +99,12 @@ export class SkyThemeBrand {
       result.maskIcon = this.maskIcon;
     }
 
+    if (this.supportedModes) {
+      result.supportedModes = this.supportedModes.map((mode) =>
+        mode.serialize(),
+      );
+    }
+
     return result;
   }
 
@@ -114,6 +122,9 @@ export class SkyThemeBrand {
       data.title,
       data.faviconUrl,
       data.maskIcon,
+      data.supportedModes?.map((modeData) =>
+        SkyThemeMode.deserialize(modeData),
+      ),
     );
   }
 

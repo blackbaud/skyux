@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
+import { SkyDataGridSort } from '../../types/data-grid-sort';
 import { SkyDataGrid } from '../data-grid';
 import { SkyDataGridColumn } from '../data-grid-column';
 
@@ -6,7 +7,7 @@ import { SkyDataGridColumn } from '../data-grid-column';
   selector: 'sky-flex-width-test',
   imports: [SkyDataGrid, SkyDataGridColumn],
   template: `
-    <sky-data-grid [data]="data">
+    <sky-data-grid [data]="data" [(sort)]="sort">
       <sky-data-grid-column
         field="column1"
         flexWidth="0"
@@ -19,9 +20,17 @@ import { SkyDataGridColumn } from '../data-grid-column';
         width="120"
         headingText="Column3"
       />
+      <sky-data-grid-column
+        field="column4"
+        columnHidden
+        headingText="Column4"
+      />
     </sky-data-grid>
   `,
 })
 export class FlexWidthTestComponent {
-  public data = [{ id: '1', column1: 'A', column2: 'B', column3: 'C' }];
+  public data = [
+    { id: '1', column1: 'A', column2: 'B', column3: 'C', column4: 'D' },
+  ];
+  public readonly sort = model<SkyDataGridSort | undefined>(undefined);
 }

@@ -92,6 +92,16 @@ describe('Date range relative values', function () {
       new Date('1/1/2000'),
       new Date('1/31/2000'),
     );
+
+    // The end date should not overflow into the following month when today
+    // is the 31st and the following month has fewer than 31 days.
+    mockDate(new Date('8/31/2000'));
+
+    verifyRange(
+      SkyDateRangeRelativeValue.thisMonth,
+      new Date('8/1/2000'),
+      new Date('8/31/2000'),
+    );
   });
 
   it('should return next month', function () {

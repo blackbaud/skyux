@@ -44,6 +44,49 @@ describe('SkyDataGrid', () => {
       expect(component).toBeTruthy();
     });
 
+    it('should register every AG Grid module its features require', async () => {
+      // AG Grid reports a missing module (error #200) and an unavailable API
+      // function through the console, prefixed with "AG Grid:".
+      const errorSpy = spyOn(console, 'error').and.callThrough();
+      const warnSpy = spyOn(console, 'warn').and.callThrough();
+
+      fixture.componentRef.setInput('pageSize', 2);
+      fixture.componentRef.setInput('sort', {
+        field: 'column1',
+        direction: 'asc',
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      component.page.set(2);
+      component.selectAll();
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      // The wrapper checks for in-progress edits on Tab and stops editing on
+      // Escape, which requires the grid's editing API.
+      const gridDivs: HTMLElement[] = Array.from(
+        fixture.nativeElement.querySelectorAll('.sky-ag-grid'),
+      );
+      expect(gridDivs).toHaveSize(3);
+      for (const gridDiv of gridDivs) {
+        SkyAppTestUtility.fireDomEvent(gridDiv, 'keydown', {
+          keyboardEventInit: { key: 'Tab' },
+        });
+        SkyAppTestUtility.fireDomEvent(gridDiv, 'keyup', {
+          keyboardEventInit: { key: 'Escape' },
+        });
+      }
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const agGridMessages = [
+        ...errorSpy.calls.allArgs(),
+        ...warnSpy.calls.allArgs(),
+      ].filter((args) => String(args[0]).includes('AG Grid'));
+      expect(agGridMessages).toEqual([]);
+    });
+
     it('should set the aria-label property', async () => {
       fixture.componentRef.setInput('labelText', 'My test grid');
       fixture.detectChanges();
@@ -977,6 +1020,25 @@ describe('SkyDataGrid', () => {
       expect(colDef?.initialFlex).toBe(2);
       // `width` set alongside `flexWidth` acts as the column's minimum width.
       expect(colDef?.minWidth).toBe(120);
+    });
+
+    it('should keep flex sizing and hidden columns when an initial sort is set before the grid renders', async () => {
+      const flexFixture = TestBed.createComponent(FlexWidthTestComponent);
+      flexFixture.componentRef.setInput('sort', {
+        field: 'column3',
+        direction: 'desc',
+      });
+      flexFixture.detectChanges();
+      await flexFixture.whenStable();
+      const api = getGridApi(
+        flexFixture.nativeElement.querySelector('ag-grid-angular'),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getColumn('column3')?.getFlex()).toBe(2);
+      expect(api?.getColumn('column4')?.isVisible()).toBeFalse();
+      expect(api?.getState()?.sort?.sortModel).toEqual([
+        { colId: 'column3', sort: 'desc', type: 'default' },
+      ]);
     });
 
     it('should apply min and max width when a column is not resizable', async () => {

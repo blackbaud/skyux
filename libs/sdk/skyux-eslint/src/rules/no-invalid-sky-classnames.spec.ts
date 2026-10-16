@@ -64,6 +64,17 @@ ruleTester.run(RULE_NAME, rule, {
     `const component = { template: '<div class="sky-deprecated-class"></div>' };`,
     // Private sky- classes are not flagged in TS files (too many false positives).
     `element.classList.add('sky-private-class');`,
+    // CSS custom property names are not class names.
+    `getComputedStyle(el).getPropertyValue('--sky-theme-color-text-default');`,
+    `const style = 'var(--sky-deprecated-class)';`,
+    // ID selectors and fragment references are not class names.
+    `element.querySelector('#sky-theme-color-text-default');`,
+    `const href = 'url(#sky-deprecated-class)';`,
+    // Sass variables and placeholder selectors are not class names.
+    `const scss = '$sky-theme-color-text-default: red;';`,
+    `const scss = '%sky-deprecated-class { color: red; }';`,
+    // A `sky-` substring inside a larger hyphenated identifier is not a class name.
+    `element.setAttribute('data-sky-theme-color-text-default', 'foo');`,
   ],
   invalid: [
     {
