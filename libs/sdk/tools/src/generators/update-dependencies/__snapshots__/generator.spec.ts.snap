@@ -53,18 +53,9 @@ Object {
         "{workspaceRoot}/dist/{projectRoot}",
       ],
     },
-    "lint": Object {
-      "executor": "@nx/eslint:lint",
-    },
     "nx-release-publish": Object {
       "options": Object {
         "packageRoot": "dist/{projectRoot}",
-      },
-    },
-    "test": Object {
-      "executor": "@nx/angular:unit-test",
-      "options": Object {
-        "watch": false,
       },
     },
   },

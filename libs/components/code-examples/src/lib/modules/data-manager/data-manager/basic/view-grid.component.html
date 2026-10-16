@@ -1,5 +1,15 @@
-<sky-data-view skyAgGridDataManagerAdapter [viewId]="viewId">
-  <sky-ag-grid-wrapper>
-    <ag-grid-angular [gridOptions]="gridOptions" />
-  </sky-ag-grid-wrapper>
+<sky-data-view [viewId]="viewId">
+  <sky-data-grid
+    skyDataManagerViewController
+    labelText="Fruit"
+    multiselect
+    [data]="displayedItems()"
+  >
+    <sky-data-grid-column field="name" headingText="Fruit name" width="150" />
+    <sky-data-grid-column
+      field="description"
+      headingText="Description"
+      flexWidth="1"
+    />
+  </sky-data-grid>
 </sky-data-view>

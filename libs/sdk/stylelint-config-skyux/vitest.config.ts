@@ -3,6 +3,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   cacheDir: '../../../node_modules/.vite',
   test: {
+    fsModuleCachePath: '../../../node_modules/.vitest-cache',
     reporters: ['default'],
     passWithNoTests: true,
     coverage: {

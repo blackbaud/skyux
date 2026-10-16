@@ -123,6 +123,5 @@ export class ViewRepeaterComponent {
         return ids;
       });
     }
-    item.selected = isSelected;
   }
 }
