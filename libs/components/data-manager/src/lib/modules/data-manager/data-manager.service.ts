@@ -3,12 +3,14 @@ import { SkyLogService, SkyUIConfigService } from '@skyux/core';
 
 import {
   BehaviorSubject,
+  EMPTY,
   Observable,
   ReplaySubject,
   Subject,
   switchMap,
 } from 'rxjs';
 import {
+  catchError,
   distinctUntilChanged,
   filter,
   map,
@@ -145,18 +147,19 @@ export class SkyDataManagerService implements OnDestroy {
         .pipe(
           takeUntil(this.#ngUnsubscribe),
           switchMap((state: SkyDataManagerState) =>
-            this.#uiConfigService.setConfig(
-              settingsKey,
-              state.getStateOptions(),
-            ),
+            this.#uiConfigService
+              .setConfig(settingsKey, state.getStateOptions())
+              .pipe(
+                // Swallowing the error keeps later state changes persisting.
+                catchError((err) => {
+                  console.warn('Could not save data manager settings.');
+                  console.warn(err);
+                  return EMPTY;
+                }),
+              ),
           ),
         )
-        .subscribe({
-          error: (err) => {
-            console.warn('Could not save data manager settings.');
-            console.warn(err);
-          },
-        });
+        .subscribe();
     }
   }
 

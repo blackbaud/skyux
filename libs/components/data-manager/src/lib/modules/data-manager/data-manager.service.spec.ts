@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { SkyUIConfigService } from '@skyux/core';
 
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription, throwError } from 'rxjs';
 
 import { SkyDataManagerService } from './data-manager.service';
 import { DataViewCardFixtureComponent } from './fixtures/data-manager-card-view.component.fixture';
@@ -169,6 +169,35 @@ describe('SkyDataManagerService', () => {
         uiConfigServiceSetObservable.error(errorMessage);
         expect(uiConfigService.setConfig).toHaveBeenCalled();
         expect(console.warn).toHaveBeenCalledWith(errorMessage);
+      });
+
+      it('should keep saving state changes after the ui config service fails to save', async () => {
+        spyOn(uiConfigService, 'getConfig').and.returnValue(
+          uiConfigServiceGetObservable,
+        );
+
+        initTestComponent(key);
+
+        await dataManagerFixture.whenStable();
+        const setConfigSpy = spyOn(
+          uiConfigService,
+          'setConfig',
+        ).and.returnValue(throwError(() => 'something went wrong'));
+        spyOn(console, 'warn');
+
+        dataManagerService.updateDataState(
+          new SkyDataManagerState({ searchText: 'first' }),
+          sourceId,
+        );
+        dataManagerService.updateDataState(
+          new SkyDataManagerState({ searchText: 'second' }),
+          sourceId,
+        );
+
+        expect(setConfigSpy).toHaveBeenCalledTimes(2);
+        expect(setConfigSpy.calls.mostRecent().args[1]).toEqual(
+          jasmine.objectContaining({ searchText: 'second' }),
+        );
       });
     });
   });
