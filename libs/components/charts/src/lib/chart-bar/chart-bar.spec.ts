@@ -178,7 +178,11 @@ describe('Chart bar component', () => {
   beforeEach(() => {
     // Karma loads the real modern theme stylesheet; applying the theme
     // classes resolves the chart's themed tokens to concrete values.
-    document.body.classList.add('sky-theme-modern', 'sky-theme-brand-base');
+    document.body.classList.add(
+      'sky-theme-modern',
+      'sky-theme-brand-base',
+      'sky-theme-mode-light',
+    );
 
     TestBed.configureTestingModule({
       imports: [TestComponent],
@@ -189,7 +193,11 @@ describe('Chart bar component', () => {
   });
 
   afterEach(() => {
-    document.body.classList.remove('sky-theme-modern', 'sky-theme-brand-base');
+    document.body.classList.remove(
+      'sky-theme-modern',
+      'sky-theme-brand-base',
+      'sky-theme-mode-light',
+    );
 
     if (!destroyed) {
       fixture.destroy();
@@ -394,6 +402,7 @@ describe('Chart bar component', () => {
 
     const dataset = requireChart().data.datasets[0];
     expect(typeof dataset.backgroundColor).toBe('string');
+    expect(dataset.backgroundColor).not.toBe('');
   });
 
   it('should hide the legend when there is a single series', () => {
