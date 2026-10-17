@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { SkyPercentPipe } from '@skyux/core';
 import {
   SkyDataGrid,
@@ -14,7 +13,7 @@ import {
   data,
 } from '../../../shared/data-manager/baseball-players-data';
 import { LipsumComponent } from '../../../shared/lipsum/lipsum.component';
-import { DockedInModalButtonComponent } from '../docked-in-modal/docked-in-modal-button.component';
+import { DockedMenuComponent } from '../docked-menu';
 
 @Component({
   selector: 'app-docked-tabs',
@@ -27,9 +26,8 @@ import { DockedInModalButtonComponent } from '../docked-in-modal/docked-in-modal
     SkyPageHeaderModule,
     SkyPageModule,
     SkyTabsModule,
-    RouterLink,
     SkyPercentPipe,
-    DockedInModalButtonComponent,
+    DockedMenuComponent,
   ],
   styleUrl: './docked-tabs.component.css',
   templateUrl: './docked-tabs.component.html',

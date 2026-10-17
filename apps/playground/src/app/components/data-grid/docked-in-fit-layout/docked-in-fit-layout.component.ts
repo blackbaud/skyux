@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { SkyPercentPipe } from '@skyux/core';
 import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 import { SkyPageModule } from '@skyux/pages';
@@ -7,7 +6,7 @@ import {
   columnDefinitions,
   data,
 } from '../../../shared/data-manager/baseball-players-data';
-import { DockedInModalButtonComponent } from '../docked-in-modal/docked-in-modal-button.component';
+import { DockedMenuComponent } from '../docked-menu';
 
 @Component({
   selector: 'app-docked-in-fit-layout',
@@ -15,9 +14,8 @@ import { DockedInModalButtonComponent } from '../docked-in-modal/docked-in-modal
     SkyDataGridColumn,
     SkyDataGrid,
     SkyPageModule,
-    RouterLink,
     SkyPercentPipe,
-    DockedInModalButtonComponent,
+    DockedMenuComponent,
   ],
   templateUrl: './docked-in-fit-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
