@@ -50,6 +50,22 @@ describe('Button component', () => {
     return getAnchorOrButton()?.getAttribute('aria-label');
   }
 
+  function getAriaLabelledBy(): string | null | undefined {
+    return getAnchorOrButton()?.getAttribute('aria-labelledby');
+  }
+
+  function getHiddenLabel(): HTMLElement | null {
+    const ariaLabelledBy = getAriaLabelledBy();
+
+    if (ariaLabelledBy) {
+      return (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+        `#${ariaLabelledBy}`,
+      );
+    }
+
+    return null;
+  }
+
   function getIcon(): HTMLElement | null | undefined {
     return getAnchorOrButton()?.querySelector('sky-icon');
   }
@@ -100,13 +116,17 @@ describe('Button component', () => {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
-    it('should set aria-label when label is hidden', async () => {
+    it('should label the button with a hidden element when label is hidden', async () => {
       fixture.componentRef.setInput('labelHidden', true);
       fixture.componentRef.setInput('labelText', 'Test button');
       fixture.detectChanges();
 
+      const hiddenLabel = getHiddenLabel();
+
       expect(getButtonText()).toBe('');
-      expect(getAriaLabel()).toBe('Test button');
+      expect(getAriaLabel()).toBeNull();
+      expect(hiddenLabel?.textContent?.trim()).toBe('Test button');
+      expect(getAnchorOrButton()?.contains(hiddenLabel)).toBeFalse();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
@@ -118,6 +138,8 @@ describe('Button component', () => {
 
       expect(getButtonText()).toBe('Test button');
       expect(getAriaLabel()).toBe('ARIA label for test button');
+      expect(getAriaLabelledBy()).toBeNull();
+      expect(getHiddenLabel()).toBeNull();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
@@ -130,6 +152,8 @@ describe('Button component', () => {
 
       expect(getButtonText()).toBe('');
       expect(getAriaLabel()).toBe('ARIA label for test button');
+      expect(getAriaLabelledBy()).toBeNull();
+      expect(getHiddenLabel()).toBeNull();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });

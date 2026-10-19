@@ -3,9 +3,11 @@ import {
   booleanAttribute,
   Component,
   computed,
+  inject,
   input,
   output,
 } from '@angular/core';
+import { SkyIdService } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyButtonPermalink } from './button-permalink';
@@ -65,7 +67,7 @@ export class SkyButton {
 
   /**
    * Whether to hide the button's label. When the label is hidden, `labelText` is used as the
-   * button's ARIA label unless `ariaLabel` is also specified, in which case `ariaLabel` is used.
+   * button's accessible label unless `ariaLabel` is also specified.
    * @default false
    */
   public readonly labelHidden = input(false, {
@@ -96,19 +98,11 @@ export class SkyButton {
    */
   public readonly buttonClick = output<PointerEvent>();
 
-  protected readonly ariaLabelComputed = computed(() => {
-    const ariaLabel = this.ariaLabel();
+  protected readonly hiddenLabelId = inject(SkyIdService).generateId();
 
-    if (ariaLabel) {
-      return ariaLabel;
-    }
-
-    if (this.labelHidden()) {
-      return this.labelText();
-    }
-
-    return null;
-  });
+  protected readonly ariaLabelledBy = computed(() =>
+    this.labelHidden() && !this.ariaLabel() ? this.hiddenLabelId : undefined,
+  );
 
   protected readonly buttonClass = computed(() => {
     let buttonClass = `sky-btn sky-btn-${this.buttonStyle()}`;
