@@ -9,6 +9,7 @@ import {
 @Component({
   template: `<sky-button
     data-sky-id="test-button"
+    [ariaLabel]="ariaLabel()"
     [block]="block()"
     [buttonStyle]="buttonStyle()"
     [buttonType]="buttonType()"
@@ -23,6 +24,8 @@ import {
   imports: [SkyButton],
 })
 export class ButtonTest {
+  public readonly ariaLabel = input<string>();
+
   /**
    * Whether the button is displayed as a block element that fills the horizontal space of its container.
    * @default false
