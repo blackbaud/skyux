@@ -111,6 +111,29 @@ describe('Button component', () => {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
+    it('should set aria-label to ariaLabel when specified', async () => {
+      fixture.componentRef.setInput('ariaLabel', 'ARIA label for test button');
+      fixture.componentRef.setInput('labelText', 'Test button');
+      fixture.detectChanges();
+
+      expect(getButtonText()).toBe('Test button');
+      expect(getAriaLabel()).toBe('ARIA label for test button');
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should set aria-label to ariaLabel when label text is hidden', async () => {
+      fixture.componentRef.setInput('ariaLabel', 'ARIA label for test button');
+      fixture.componentRef.setInput('labelHidden', true);
+      fixture.componentRef.setInput('labelText', 'Test button');
+      fixture.detectChanges();
+
+      expect(getButtonText()).toBe('');
+      expect(getAriaLabel()).toBe('ARIA label for test button');
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
     it('should default to "default" style when no button style is specified', async () => {
       await validateButtonStyle();
     });

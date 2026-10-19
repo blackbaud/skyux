@@ -2,7 +2,7 @@
   @if (permalink.route?.commands) {
     <a
       href=""
-      [aria-label]="ariaLabel()"
+      [aria-label]="ariaLabelComputed()"
       [class]="buttonClass()"
       [fragment]="permalink.route.extras?.fragment"
       [queryParams]="permalink.route.extras?.queryParams"
@@ -15,7 +15,7 @@
   } @else if (permalink.url) {
     <a
       href=""
-      [aria-label]="ariaLabel()"
+      [aria-label]="ariaLabelComputed()"
       [class]="buttonClass()"
       [skyHref]="permalink.url"
       (click)="buttonClick.emit($event)"
@@ -25,7 +25,7 @@
   }
 } @else {
   <button
-    [aria-label]="ariaLabel()"
+    [aria-label]="ariaLabelComputed()"
     [class]="buttonClass()"
     [disabled]="disabled()"
     [type]="buttonType()"

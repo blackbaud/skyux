@@ -24,6 +24,13 @@ import { SkyButtonType } from './button-type';
 })
 export class SkyButton {
   /**
+   * The accessible label for the button. Only specify this when the accessible label differs from
+   * the text specified for `labelText`. To specify an accessible label when no text is visible,
+   * use `labelText`, and set `labelHidden` to `true`.
+   */
+  public readonly ariaLabel = input<string>();
+
+  /**
    * Whether the button is displayed as a block element that fills the horizontal space of its container.
    * @default false
    */
@@ -57,7 +64,8 @@ export class SkyButton {
   public readonly iconName = input<string>();
 
   /**
-   * Whether to hide the button's label. When the label is hidden, `labelText` is used as the button's ARIA label.
+   * Whether to hide the button's label. When the label is hidden, `labelText` is used as the
+   * button's ARIA label unless `ariaLabel` is also specified, in which case `ariaLabel` is used.
    * @default false
    */
   public readonly labelHidden = input(false, {
@@ -88,9 +96,19 @@ export class SkyButton {
    */
   public readonly buttonClick = output<PointerEvent>();
 
-  protected readonly ariaLabel = computed(() =>
-    this.labelHidden() ? this.labelText() : null,
-  );
+  protected readonly ariaLabelComputed = computed(() => {
+    const ariaLabel = this.ariaLabel();
+
+    if (ariaLabel) {
+      return ariaLabel;
+    }
+
+    if (this.labelHidden()) {
+      return this.labelText();
+    }
+
+    return null;
+  });
 
   protected readonly buttonClass = computed(() => {
     let buttonClass = `sky-btn sky-btn-${this.buttonStyle()}`;
