@@ -3,9 +3,11 @@ import {
   booleanAttribute,
   Component,
   computed,
+  inject,
   input,
   output,
 } from '@angular/core';
+import { SkyIdService } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
 import { SkyButtonPermalink } from './button-permalink';
@@ -23,6 +25,13 @@ import { SkyButtonType } from './button-type';
   imports: [SkyIconModule, NgTemplateOutlet, SkyAppLinkModule, SkyHrefModule],
 })
 export class SkyButton {
+  /**
+   * The accessible label for the button. Only specify this when the accessible label differs from
+   * the text specified for `labelText`. To specify an accessible label when no text is visible,
+   * use `labelText`, and set `labelHidden` to `true`.
+   */
+  public readonly ariaLabel = input<string>();
+
   /**
    * Whether the button is displayed as a block element that fills the horizontal space of its container.
    * @default false
@@ -57,7 +66,8 @@ export class SkyButton {
   public readonly iconName = input<string>();
 
   /**
-   * Whether to hide the button's label. When the label is hidden, `labelText` is used as the button's ARIA label.
+   * Whether to hide the button's label. When the label is hidden, `labelText` is used as the
+   * button's accessible label unless `ariaLabel` is also specified.
    * @default false
    */
   public readonly labelHidden = input(false, {
@@ -88,8 +98,10 @@ export class SkyButton {
    */
   public readonly buttonClick = output<PointerEvent>();
 
-  protected readonly ariaLabel = computed(() =>
-    this.labelHidden() ? this.labelText() : null,
+  protected readonly hiddenLabelId = inject(SkyIdService).generateId();
+
+  protected readonly ariaLabelledBy = computed(() =>
+    this.labelHidden() && !this.ariaLabel() ? this.hiddenLabelId : undefined,
   );
 
   protected readonly buttonClass = computed(() => {

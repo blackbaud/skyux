@@ -1,8 +1,13 @@
+@if (labelHidden()) {
+  <span hidden [id]="hiddenLabelId">{{ labelText() }}</span>
+}
+
 @if (!disabled() && permalink(); as permalink) {
   @if (permalink.route?.commands) {
     <a
       href=""
       [aria-label]="ariaLabel()"
+      [aria-labelledby]="ariaLabelledBy()"
       [class]="buttonClass()"
       [fragment]="permalink.route.extras?.fragment"
       [queryParams]="permalink.route.extras?.queryParams"
@@ -16,6 +21,7 @@
     <a
       href=""
       [aria-label]="ariaLabel()"
+      [aria-labelledby]="ariaLabelledBy()"
       [class]="buttonClass()"
       [skyHref]="permalink.url"
       (click)="buttonClick.emit($event)"
@@ -26,6 +32,7 @@
 } @else {
   <button
     [aria-label]="ariaLabel()"
+    [aria-labelledby]="ariaLabelledBy()"
     [class]="buttonClass()"
     [disabled]="disabled()"
     [type]="buttonType()"

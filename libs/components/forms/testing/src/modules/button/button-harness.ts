@@ -18,7 +18,8 @@ export class SkyButtonHarness extends SkyComponentHarness {
   #getIcon = this.locatorForOptional(SkyIconHarness);
   #getAnchorOrButton = this.locatorFor('button, a');
 
-  #getLabelTextLabel = this.locatorForOptional('span');
+  #getVisibleLabel = this.locatorForOptional('button > span, a > span');
+  #getLabel = this.locatorFor('button > span, a > span, span[hidden]');
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
@@ -90,21 +91,21 @@ export class SkyButtonHarness extends SkyComponentHarness {
    * the text will still be returned.
    */
   public async getLabelText(): Promise<string> {
-    const labelTextLabel = await this.#getLabelTextLabel();
+    return await (await this.#getLabel()).text();
+  }
 
-    if (labelTextLabel) {
-      return await labelTextLabel.text();
-    }
-
-    return (await this.#getAriaLabel()) as string;
+  /**
+   * Gets the button's ARIA label, or `null` if `ariaLabel` is not specified.
+   */
+  public async getAriaLabel(): Promise<string | null> {
+    return await (await this.#getAnchorOrButton()).getAttribute('aria-label');
   }
 
   /**
    * Whether the label is hidden. Only supported when using the `labelText` input to set the label.
    */
   public async getLabelHidden(): Promise<boolean> {
-    const labelTextLabel = await this.#getLabelTextLabel();
-    return !(await labelTextLabel?.text());
+    return !(await this.#getVisibleLabel());
   }
 
   /**
@@ -158,9 +159,5 @@ export class SkyButtonHarness extends SkyComponentHarness {
     const anchor = await this.#getAnchor();
 
     return (await anchor?.getAttribute('href')) ?? undefined;
-  }
-
-  async #getAriaLabel(): Promise<string | null> {
-    return await (await this.#getAnchorOrButton()).getAttribute('aria-label');
   }
 }
