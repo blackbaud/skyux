@@ -97,7 +97,7 @@ describe('forms-storybook - input box', () => {
         );
       });
 
-      it('should properly focus a input box with buttons', () => {
+      it('should properly focus an input box with buttons', () => {
         cy.skyReady('app-input-box', [], ['#input-box-button-multiple'])
           .get('#input-box-button-multiple input')
           .click();
@@ -113,7 +113,55 @@ describe('forms-storybook - input box', () => {
         );
       });
 
-      it('should properly focus a input box with an error', () => {
+      it('should properly focus an input box with button components', () => {
+        cy.skyReady('app-input-box', [], ['#input-box-button-comp-multiple'])
+          .get('#input-box-button-comp-multiple input')
+          .click();
+        cy.get('#input-box-button-comp-multiple').screenshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-multiple-button-components-focus`,
+        );
+        cy.get('#input-box-button-comp-multiple').percySnapshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-multiple-button-components-focus`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+            scope: '#input-box-button-comp-multiple',
+          },
+        );
+      });
+
+      it('should properly focus an input box with a left button component', () => {
+        cy.skyReady('app-input-box', [], ['#input-box-button-comp-single-left'])
+          .get('#input-box-button-comp-single-left input')
+          .click();
+        cy.get('#input-box-button-comp-single-left').screenshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-left-button-component-focus`,
+        );
+        cy.get('#input-box-button-comp-single-left').percySnapshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-left-button-component-focus`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+            scope: '#input-box-button-comp-single-left',
+          },
+        );
+      });
+
+      it('should properly focus an input box with an inset button component', () => {
+        cy.skyReady('app-input-box', [], ['#input-box-button-comp-inset'])
+          .get('#input-box-button-comp-inset input')
+          .click();
+        cy.get('#input-box-button-comp-inset').screenshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-inset-button-component-focus`,
+        );
+        cy.get('#input-box-button-comp-inset').percySnapshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-inset-button-component-focus`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+            scope: '#input-box-button-comp-inset',
+          },
+        );
+      });
+
+      it('should properly focus an input box with an error', () => {
         cy.skyReady('app-input-box', [], ['#input-box-form-control-error'])
           .get('#input-box-form-control-error input')
           .click();
@@ -129,7 +177,7 @@ describe('forms-storybook - input box', () => {
         );
       });
 
-      it('should properly focus a input box with a left button', () => {
+      it('should properly focus an input box with a left button', () => {
         cy.skyReady('app-input-box', [], ['#input-box-button-single-left'])
           .get('#input-box-button-single-left input')
           .click();
@@ -145,7 +193,7 @@ describe('forms-storybook - input box', () => {
         );
       });
 
-      it('should properly focus a input box with an inset button', () => {
+      it('should properly focus an input box with an inset button', () => {
         cy.skyReady('app-input-box', [], ['#input-box-button-inset'])
           .get('#input-box-button-inset input')
           .click();
@@ -161,7 +209,7 @@ describe('forms-storybook - input box', () => {
         );
       });
 
-      it('should properly focus a input box with an inset icon', () => {
+      it('should properly focus an input box with an inset icon', () => {
         cy.skyReady('app-input-box', [], ['#input-box-icon-inset'])
           .get('#input-box-icon-inset input')
           .click();
@@ -177,7 +225,7 @@ describe('forms-storybook - input box', () => {
         );
       });
 
-      it('should properly focus a input box with an inset icon on left', () => {
+      it('should properly focus an input box with an inset icon on left', () => {
         cy.skyReady('app-input-box', [], ['#input-box-icon-inset-left'])
           .get('#input-box-icon-inset-left input')
           .click();
