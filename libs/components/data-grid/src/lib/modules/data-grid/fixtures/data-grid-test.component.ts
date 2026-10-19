@@ -69,8 +69,8 @@ export class DataGridTestComponent {
   public readonly rowCount = input<number>();
   public readonly stacked = input<boolean>(false);
 
-  public page = model(1);
-  public pageQueryParam = input('');
+  public readonly page = model(1);
+  public readonly pageQueryParam = input('');
 
   protected readonly showAllColumns = input<boolean>(true);
   protected readonly showAllGrids = input<boolean>(true);
