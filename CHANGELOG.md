@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.5.0](https://github.com/blackbaud/skyux/compare/15.4.0...15.5.0) (2026-10-19)
+
+### Features
+
+* **components/forms:** add `ariaLabel` to button component ([#4903](https://github.com/blackbaud/skyux/issues/4903)) ([51da0d8](https://github.com/blackbaud/skyux/commit/51da0d809b0bf18bf36eadff4320c007ad4388e1))
+
 ## [15.4.0](https://github.com/blackbaud/skyux/compare/15.3.0...15.4.0) (2026-10-15)
 
 ### Features
