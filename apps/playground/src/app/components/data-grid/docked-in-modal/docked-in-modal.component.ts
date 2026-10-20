@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyPercentPipe } from '@skyux/core';
 import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
@@ -9,6 +9,7 @@ import {
 
 @Component({
   selector: 'app-docked-in-modal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyModalModule, SkyDataGrid, SkyDataGridColumn, SkyPercentPipe],
   templateUrl: './docked-in-modal.component.html',
 })

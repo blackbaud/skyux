@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { isActive, Router, RouterLink } from '@angular/router';
 import { DockedInModalButtonComponent } from './docked-in-modal/docked-in-modal-button.component';
 
 @Component({
   selector: 'app-docked-menu',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @for (item of menuItems; track item.label) {
       @if (!item.active()) {

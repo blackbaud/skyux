@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyModalService } from '@skyux/modals';
 import { DockedInModalComponent } from './docked-in-modal.component';
 
 @Component({
   selector: 'app-docked-in-modal-button',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<button
     type="button"
     class="sky-btn sky-btn-default"

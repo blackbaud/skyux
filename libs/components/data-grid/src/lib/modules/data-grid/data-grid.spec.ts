@@ -49,10 +49,10 @@ import { TemplateColumnTestComponent } from './fixtures/template-column-test.com
  * `ag-grid-angular`'s first child and `getGridApi()` locates the grid by
  * walking up from the queried element's first element child.
  *
- * Synchronous on purpose: used directly only by the `fakeAsync` "columnFit"
- * tests below, which don't opt into `provideSkyAgGridTesting()` and so don't
- * need (and, inside `fakeAsync`, can't easily use) the real-macrotask flush
- * that `getGridApi()` performs.
+ * Synchronous on purpose: used directly by the `fakeAsync` "columnFit" tests
+ * below, which don't opt into `provideSkyAgGridTesting()` and so don't need
+ * (and, inside `fakeAsync`, can't easily use) the real-macrotask flush that
+ * `getGridApi()` performs, and by tests that only read grid options.
  */
 function getGridApiSync(agGridAngularElement: Element | null) {
   return getAgGridApi(
@@ -261,7 +261,7 @@ describe('SkyDataGrid', () => {
       ) as HTMLElement;
       expect(gridHost.classList).toContain('sky-data-grid-dock-fill');
 
-      const api = getGridApi(
+      const api = getGridApiSync(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
@@ -284,7 +284,7 @@ describe('SkyDataGrid', () => {
       ) as HTMLElement;
       expect(gridHost.classList).not.toContain('sky-data-grid-dock-fill');
 
-      const api = getGridApi(
+      const api = getGridApiSync(
         fixture.nativeElement.querySelector(
           '[data-sky-id="grid"] ag-grid-angular',
         ),
