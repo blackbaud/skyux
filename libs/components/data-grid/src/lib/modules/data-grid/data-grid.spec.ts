@@ -1152,6 +1152,17 @@ describe('SkyDataGrid', () => {
       expect(gridHost.classList).toContain('sky-margin-stacked-lg');
     });
 
+    it('should not add the stacked margin class to the host when dock is "fill"', async () => {
+      fixture.componentRef.setInput('stacked', true);
+      fixture.componentRef.setInput('dock', 'fill');
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const gridHost = fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"]',
+      ) as HTMLElement;
+      expect(gridHost.classList).not.toContain('sky-margin-stacked-lg');
+    });
+
     it('should enable the top scroll context option when topScrollEnabled is set', async () => {
       fixture.detectChanges();
       await fixture.whenStable();

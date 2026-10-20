@@ -77,6 +77,20 @@ describe('data-grid-harness', () => {
     });
   });
 
+  it('should get the dock type', async () => {
+    fixture.detectChanges();
+
+    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
+      SkyDataGridHarness.with({ dataSkyId: 'grid' }),
+    );
+    await expectAsync(harness.getDockType()).toBeResolvedTo('none');
+
+    fixture.componentRef.setInput('dock', 'fill');
+    fixture.detectChanges();
+
+    await expectAsync(harness.getDockType()).toBeResolvedTo('fill');
+  });
+
   it('should get displayed row count', async () => {
     fixture.detectChanges();
 

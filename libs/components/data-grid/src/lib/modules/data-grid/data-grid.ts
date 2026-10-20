@@ -151,7 +151,7 @@ interface SkyDataGridColumnInternal {
   styleUrl: './data-grid.css',
   host: {
     '[class.sky-data-grid-dock-fill]': 'useFillDock()',
-    '[class.sky-margin-stacked-lg]': 'stacked()',
+    '[class.sky-margin-stacked-lg]': 'useStacked()',
   },
   providers: [
     { provide: SkyDataColumnSource, useExisting: SkyDataGrid },
@@ -240,7 +240,7 @@ export class SkyDataGrid
   });
 
   /**
-   * The minimum height of the grid in pixels.
+   * The minimum height of the grid in pixels. This property does not apply when `dock` is set to `fill`.
    * @default 50
    */
   public readonly minHeight = input<number, unknown>(50, {
@@ -289,7 +289,7 @@ export class SkyDataGrid
 
   /**
    * Whether the data grid is stacked with another element below it. When specified, the appropriate
-   * vertical spacing is automatically added to the data grid.
+   * vertical spacing is automatically added to the data grid. This property does not apply when `dock` is set to `fill`.
    * @default false
    */
   public readonly stacked = input<boolean, unknown>(false, {
@@ -558,6 +558,9 @@ export class SkyDataGrid
   });
 
   protected readonly useFillDock = computed(() => this.dock() === 'fill');
+  protected readonly useStacked = computed(
+    () => this.stacked() && this.dock() !== 'fill',
+  );
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });
   /**
