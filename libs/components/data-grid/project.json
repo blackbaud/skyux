@@ -13,7 +13,14 @@
       "dependsOn": [
         "^build",
         {
-          "projects": ["ag-grid", "core", "indicators", "layout", "lists"],
+          "projects": [
+            "ag-grid",
+            "core",
+            "help-inline",
+            "indicators",
+            "layout",
+            "lists"
+          ],
           "target": "build"
         }
       ],

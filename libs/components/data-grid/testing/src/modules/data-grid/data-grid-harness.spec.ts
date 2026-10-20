@@ -135,6 +135,37 @@ describe('data-grid-harness', () => {
     });
   });
 
+  it('should get column help popover content and title', async () => {
+    fixture.detectChanges();
+
+    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
+      SkyDataGridHarness.with({ dataSkyId: 'inline-help-grid' }),
+    );
+
+    await harness.clickColumnHelpInline('column1');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    await expectAsync(
+      harness.getColumnHelpPopoverContent('column1'),
+    ).toBeResolvedTo('This is a numeric column. Click here to learn more.');
+    await expectAsync(
+      harness.getColumnHelpPopoverTitle('column1'),
+    ).toBeResolvedTo('Column1 help');
+  });
+
+  it('should throw an error when a column has no help inline', async () => {
+    fixture.detectChanges();
+
+    const harness = await TestbedHarnessEnvironment.loader(fixture).getHarness(
+      SkyDataGridHarness.with({ dataSkyId: 'grid' }),
+    );
+
+    await expectAsync(
+      harness.clickColumnHelpInline('column1'),
+    ).toBeRejectedWithError('No help inline found for column "column1".');
+  });
+
   it('should get displayed row count', async () => {
     fixture.detectChanges();
 
