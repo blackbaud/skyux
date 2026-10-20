@@ -9,6 +9,7 @@ import {
 import {
   SkyDataGrid,
   SkyDataGridColumn,
+  SkyDataGridDockType,
   SkyDataGridSort,
 } from '@skyux/data-grid';
 import { SkyDropdownModule, SkyPopoverModule } from '@skyux/popovers';
@@ -59,6 +60,7 @@ export class DataGridTestComponent {
 
   public readonly selectedRowIds = model<string[]>([]);
 
+  public readonly dock = input<SkyDataGridDockType>('none');
   public page = 1;
   public readonly pageSize = input(0);
   public pageQueryParam = '';

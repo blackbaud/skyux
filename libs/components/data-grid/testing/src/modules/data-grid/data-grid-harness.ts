@@ -1,6 +1,7 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
+import { SkyDataGridDockType } from '@skyux/data-grid';
 import { SkyWaitHarness } from '@skyux/indicators/testing';
 import { SkyPagingHarness } from '@skyux/lists/testing';
 
@@ -43,6 +44,15 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
     return await Promise.all(
       waits.map(async (wait): Promise<boolean> => await wait.isWaiting()),
     ).then((loadingStates) => loadingStates.some((isLoading) => isLoading));
+  }
+
+  /**
+   * Gets the type of dock style on the data grid.
+   */
+  public async getDockType(): Promise<SkyDataGridDockType> {
+    return (await (await this.host()).hasClass('sky-data-grid-dock-fill'))
+      ? 'fill'
+      : 'none';
   }
 
   /**

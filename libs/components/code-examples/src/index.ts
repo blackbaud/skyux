@@ -159,6 +159,7 @@ export { ModalsModalBasicWithBannerExampleComponent } from './lib/modules/modals
 export { ModalsModalWithErrorExampleComponent } from './lib/modules/modals/modal/with-error/example.component';
 export { NavbarExampleComponent } from './lib/modules/navbar/navbar/example.component';
 export { PagesActionHubExampleComponent } from './lib/modules/pages/action-hub/example.component';
+export { PagesPageDataManagerDataGridFitLayoutExample } from './lib/modules/pages/page/data-manager-data-grid-fit-layout/example';
 export { PagesPageDataManagerSplitViewFitLayoutExampleComponent } from './lib/modules/pages/page/data-manager-split-view-fit-layout/example.component';
 export { PagesPageHomePageBlocksLayoutExampleComponent } from './lib/modules/pages/page/home-page-blocks-layout-demo/example.component';
 export { PagesPageListPageListLayoutExampleComponent } from './lib/modules/pages/page/list-page-list-layout-demo/example.component';
