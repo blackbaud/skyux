@@ -6,8 +6,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { SkyInputBoxModule } from '@skyux/forms';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyButton, SkyInputBoxModule } from '@skyux/forms';
 import {
   SkyInlineFormButtonLayout,
   SkyInlineFormCloseArgs,
@@ -29,7 +28,7 @@ interface DemoForm {
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    SkyIconModule,
+    SkyButton,
     SkyInlineFormModule,
     SkyInputBoxModule,
   ],

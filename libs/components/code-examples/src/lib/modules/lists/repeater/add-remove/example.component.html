@@ -44,20 +44,16 @@
   </sky-repeater>
 </div>
 
-<button
+<sky-button
+  class="sky-theme-margin-right-s"
   data-sky-id="add-button"
-  class="sky-btn sky-btn-default sky-theme-margin-right-s"
-  type="button"
-  (click)="addItem()"
->
-  Add item
-</button>
+  labelText="Add item"
+  (buttonClick)="addItem()"
+/>
 
-<button
+<sky-button
+  class="sky-theme-margin-right-s"
   data-sky-id="remove-button"
-  class="sky-btn sky-btn-default sky-theme-margin-right-s"
-  type="button"
-  (click)="removeItems()"
->
-  Remove selected items
-</button>
+  labelText="Remove selected items"
+  (buttonClick)="removeItems()"
+/>

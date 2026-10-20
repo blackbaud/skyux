@@ -6,7 +6,7 @@ import {
   provideSkyAgGridTesting,
 } from '@skyux/ag-grid/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
-import { SkyCheckboxHarness } from '@skyux/forms/testing';
+import { SkyButtonHarness, SkyCheckboxHarness } from '@skyux/forms/testing';
 import {
   SkyAutocompleteHarness,
   SkySearchHarness,
@@ -178,11 +178,17 @@ describe('AG Grid data entry grid basic example', () => {
     });
 
     it('should log when a row is marked inactive', async () => {
-      const { docLoader, fixture } = await setupTest();
+      const { docLoader } = await setupTest();
       const consoleSpy = spyOn(console, 'error');
       await openEditModal(docLoader);
 
-      await clickElement(fixture, '[aria-label="Mark Billy Bob inactive"]');
+      const [markInactiveButton] = await docLoader.getAllHarnesses(
+        SkyButtonHarness.with({ dataSkyId: 'mark-inactive-button' }),
+      );
+      await expectAsync(markInactiveButton.getAriaLabel()).toBeResolvedTo(
+        'Mark Billy Bob inactive',
+      );
+      await markInactiveButton.click();
 
       expect(consoleSpy).toHaveBeenCalledWith(
         'Mark inactive action clicked for Billy Bob',

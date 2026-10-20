@@ -3,13 +3,12 @@
     <sky-column [screenSmall]="4" [screenXSmall]="12">
       <sky-box class="sky-theme-margin-bottom-xl" headingText="Details">
         <sky-box-controls>
-          <button
-            aria-label="Edit button for details"
-            class="sky-btn sky-btn-icon-borderless"
-            type="button"
-          >
-            <sky-icon iconName="edit" />
-          </button>
+          <sky-button
+            buttonStyle="icon-borderless"
+            iconName="edit"
+            labelHidden
+            labelText="Edit button for details"
+          />
         </sky-box-controls>
         <sky-box-content>
           <sky-description-list mode="vertical">

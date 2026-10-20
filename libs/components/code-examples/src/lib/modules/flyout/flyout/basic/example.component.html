@@ -1,23 +1,16 @@
-<button
-  class="sky-btn sky-btn-default sky-theme-margin-right-s"
-  type="button"
-  (click)="openSimpleFlyout()"
->
-  Open flyout
-</button>
+<sky-button
+  class="sky-theme-margin-right-s"
+  labelText="Open flyout"
+  (buttonClick)="openSimpleFlyout()"
+/>
 
-<button
-  class="sky-btn sky-btn-default sky-theme-margin-right-s"
-  type="button"
-  (click)="openFlyoutWithCustomWidth()"
->
-  Open flyout with custom width
-</button>
+<sky-button
+  class="sky-theme-margin-right-s"
+  labelText="Open flyout with custom width"
+  (buttonClick)="openFlyoutWithCustomWidth()"
+/>
 
-<button
-  class="sky-btn sky-btn-default"
-  type="button"
-  (click)="closeAndRemoveFlyout()"
->
-  Close flyout programmatically
-</button>
+<sky-button
+  labelText="Close flyout programmatically"
+  (buttonClick)="closeAndRemoveFlyout()"
+/>

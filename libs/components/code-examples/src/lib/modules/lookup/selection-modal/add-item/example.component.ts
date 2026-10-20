@@ -4,6 +4,7 @@ import {
   OnDestroy,
   inject,
 } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import {
   SkySelectionModalAddClickEventArgs,
   SkySelectionModalCloseArgs,
@@ -26,6 +27,7 @@ import { Person } from './person';
   selector: 'app-lookup-selection-modal-add-item-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
+  imports: [SkyButton],
 })
 export class LookupSelectionModalAddItemExampleComponent implements OnDestroy {
   protected selectedPeople: Person[] | undefined;

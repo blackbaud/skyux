@@ -42,12 +42,6 @@ button as-is** and report it in your summary when any of these apply:
   `sky-btn-borderless`, `sky-btn-borderless-inline`,
   `sky-btn-icon-borderless-on_prominent`, `sky-btn-tab*`,
   `sky-btn-colorpicker-*`, or any one-off class used for bespoke styling.
-- It has both inner text and an `aria-label` whose values differ (for example
-  `<button aria-label="Delete Jane">Delete</button>`). `<sky-button>` has one
-  label, so it cannot reproduce a different accessible name. Flag it in your
-  summary with the file, the inner text, and the `aria-label`. If either value is
-  bound (`[aria-label]`, `{{ }}`) and you cannot tell that they are equal, treat
-  them as differing.
 - It has projected content other than a label and one icon (for example a badge,
   a second icon, or markup inside the label).
 - A directive or attribute must sit on the inner `<button>` itself rather than on
@@ -89,6 +83,8 @@ The `sky-btn` class itself is dropped. The component adds it.
 | `<sky-icon iconName="add" />` child                   | `iconName="add"`                              |
 | `aria-label="..."` and no inner text                  | `labelText="..."` with `labelHidden`          |
 | `aria-label="x"` and the same inner text `x`          | `labelText="x"` (no `labelHidden`)            |
+| `aria-label="y"` and different inner text `x`         | `labelText="x"` with `ariaLabel="y"`          |
+| `[attr.aria-label]="expr"` and inner text `x`         | `labelText="x"` with `[ariaLabel]="expr"`     |
 | `title="..."` on an icon-only button, no `aria-label` | `labelText="..."` with `labelHidden`          |
 | `<a class="sky-btn ..." [href]="url">`                | `[permalink]="{ url }"`                       |
 | `<a class="sky-btn ..." [routerLink]="cmds">`         | `[permalink]="{ route: { commands: cmds } }"` |
@@ -105,6 +101,11 @@ Notes:
 - `labelText` is required. Every migrated button needs a label, so an old icon-only
   button with no `aria-label` or `title` needs one invented. Derive it from the
   icon's meaning and the surrounding context, and mention it in your summary.
+- Use `ariaLabel` only when the button shows visible text and the accessible
+  name must differ from it. For an icon-only button, put the old `aria-label`
+  in `labelText` and set `labelHidden`; do not also set `ariaLabel`, because
+  `labelText` is already the accessible name. When both values are the same,
+  drop the `aria-label`.
 - Any other attribute on the old button (`title`, other `aria-*`, `id`, `name`, `form`,
   `autofocus`, `tabindex`, ...) has no input. If an attribute is purely
   descriptive (`title` that duplicates the label), drop it. If it carries

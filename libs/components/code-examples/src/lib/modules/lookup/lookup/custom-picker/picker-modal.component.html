@@ -33,12 +33,11 @@
     }
   </sky-modal-content>
   <sky-modal-footer>
-    <button
-      class="sky-btn sky-btn-primary lookup-custom-picker-save-button"
-      type="button"
-      (click)="save()"
-    >
-      Save
-    </button>
+    <sky-button
+      buttonStyle="primary"
+      data-sky-id="custom-picker-save-button"
+      labelText="Save"
+      (buttonClick)="save()"
+    />
   </sky-modal-footer>
 </sky-modal>

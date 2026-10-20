@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 import { SkyWaitHarness } from '@skyux/indicators/testing';
 
 import { IndicatorsWaitElementExampleComponent } from './example.component';
@@ -7,7 +8,7 @@ import { IndicatorsWaitElementExampleComponent } from './example.component';
 describe('Basic wait', () => {
   async function setupTest(): Promise<{
     waitHarness: SkyWaitHarness;
-    fixture: ComponentFixture<IndicatorsWaitElementExampleComponent>;
+    toggleButtonHarness: SkyButtonHarness;
   }> {
     const fixture = TestBed.createComponent(
       IndicatorsWaitElementExampleComponent,
@@ -16,8 +17,11 @@ describe('Basic wait', () => {
     const waitHarness = await loader.getHarness(
       SkyWaitHarness.with({ dataSkyId: 'wait-example' }),
     );
+    const toggleButtonHarness = await loader.getHarness(
+      SkyButtonHarness.with({ dataSkyId: 'toggle-wait-button' }),
+    );
 
-    return { waitHarness, fixture };
+    return { waitHarness, toggleButtonHarness };
   }
 
   beforeEach(() => {
@@ -27,13 +31,9 @@ describe('Basic wait', () => {
   });
 
   it('should show the wait component when the user performs an action', async () => {
-    const { waitHarness, fixture } = await setupTest();
+    const { waitHarness, toggleButtonHarness } = await setupTest();
 
-    (fixture.nativeElement as HTMLElement)
-      .querySelector<HTMLButtonElement>('.sky-btn')
-      ?.click();
-
-    fixture.detectChanges();
+    await toggleButtonHarness.click();
 
     await expectAsync(waitHarness.isWaiting()).toBeResolvedTo(true);
     await expectAsync(waitHarness.isFullPage()).toBeResolvedTo(false);

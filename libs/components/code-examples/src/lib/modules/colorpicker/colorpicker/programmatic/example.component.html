@@ -21,26 +21,20 @@
   </sky-colorpicker>
 </form>
 
-<button
-  class="sky-btn sky-btn-default sky-theme-margin-right-s"
-  type="button"
-  (click)="openColorpicker()"
->
-  Open colorpicker
-</button>
+<sky-button
+  class="sky-theme-margin-right-s"
+  labelText="Open colorpicker"
+  (buttonClick)="openColorpicker()"
+/>
 
-<button
-  class="sky-btn sky-btn-default sky-theme-margin-right-s"
-  type="button"
-  (click)="resetColorpicker()"
->
-  Reset colorpicker
-</button>
+<sky-button
+  class="sky-theme-margin-right-s"
+  labelText="Reset colorpicker"
+  (buttonClick)="resetColorpicker()"
+/>
 
-<button
-  class="sky-btn sky-btn-default sky-theme-margin-right-s"
-  type="button"
-  (click)="toggleResetButton()"
->
-  Toggle reset button
-</button>
+<sky-button
+  class="sky-theme-margin-right-s"
+  labelText="Toggle reset button"
+  (buttonClick)="toggleResetButton()"
+/>

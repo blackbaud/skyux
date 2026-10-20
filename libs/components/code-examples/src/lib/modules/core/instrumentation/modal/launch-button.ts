@@ -1,15 +1,19 @@
 import { Component, Injector, inject } from '@angular/core';
 import { provideSkyInstrumentationContextFrom } from '@skyux/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyModalService } from '@skyux/modals';
 
 import { CoreInstrumentationModalContent } from './modal';
 
 @Component({
   selector: 'app-core-instrumentation-modal-launch-button',
+  imports: [SkyButton],
   template: `
-    <button class="sky-btn sky-btn-default" type="button" (click)="openModal()">
-      Edit gift
-    </button>
+    <sky-button
+      data-sky-id="edit-gift-button"
+      labelText="Edit gift"
+      (buttonClick)="openModal()"
+    />
   `,
 })
 export class CoreInstrumentationModalLaunchButton {

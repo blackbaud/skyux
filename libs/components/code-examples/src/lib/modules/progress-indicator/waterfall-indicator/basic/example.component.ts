@@ -4,6 +4,7 @@ import {
   Component,
   inject,
 } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 import {
   SkyProgressIndicatorChange,
@@ -25,7 +26,7 @@ import { ModalComponent } from './modal.component';
   selector: 'app-progress-indicator-waterfall-indicator-basic-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyProgressIndicatorModule],
+  imports: [SkyButton, SkyProgressIndicatorModule],
 })
 export class ProgressIndicatorWaterfallIndicatorBasicExampleComponent {
   protected activeIndex: number | undefined = 0;

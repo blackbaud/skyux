@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyFlyoutInstance, SkyFlyoutService } from '@skyux/flyout';
+import { SkyButton } from '@skyux/forms';
 
 import { FlyoutComponent } from './flyout.component';
 
@@ -10,6 +11,7 @@ import { FlyoutComponent } from './flyout.component';
   selector: 'app-flyout-basic-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
+  imports: [SkyButton],
 })
 export class FlyoutBasicExampleComponent {
   #flyout: SkyFlyoutInstance<FlyoutComponent> | undefined;
