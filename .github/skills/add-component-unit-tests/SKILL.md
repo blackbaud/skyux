@@ -61,7 +61,7 @@ library for exact style; do not invent new patterns.
 4. **Verify.** Run the library's specs headless, then lint and format:
 
    ```bash
-   npx nx test <library> --browsers=ChromeHeadless
+   npx nx test <library> --configuration=ci
    npm run lint:affected
    nx format --files=<changed-file-paths>
    ```

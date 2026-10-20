@@ -8,4 +8,4 @@ Run `nx lint storybook` to execute the lint via [ESLint](https://eslint.org/).
 
 ## Running unit tests
 
-Run `nx test storybook` to execute the unit tests.
+Run `nx test storybook --configuration=ci` to execute the unit tests.

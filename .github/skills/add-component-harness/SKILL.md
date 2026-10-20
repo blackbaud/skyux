@@ -70,7 +70,7 @@ to copy its structure or naming.
 6. **Verify.** Run the testing project's specs headless, then lint and format:
 
    ```bash
-   npx nx test <library>-testing --browsers=ChromeHeadless
+   npx nx test <library>-testing --configuration=ci
    npm run lint:affected
    nx format --files=<changed-file-paths>
    ```

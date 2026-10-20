@@ -83,7 +83,7 @@ wiring), not to copy its structure.
 7. **Verify.** Run the code-examples specs headless, then lint and format:
 
    ```bash
-   npx nx test code-examples --browsers=ChromeHeadless
+   npx nx test code-examples --configuration=ci
    npm run lint:affected
    nx format --files=<changed-file-paths>
    ```

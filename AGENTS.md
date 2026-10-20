@@ -29,7 +29,7 @@ Common Nx tasks (prefer `:affected` variants during development):
 
 | Task   | All projects                 | Affected only            | Single project                                                 |
 | ------ | ---------------------------- | ------------------------ | -------------------------------------------------------------- |
-| Test   | `npm test`                   | `npm run test:affected`  | `npx nx test <project>`                                        |
+| Test   | `npm test`                   | `npm run test:affected`  | `npx nx test <project> --configuration=ci`                     |
 | Lint   | `npm run lint`               | `npm run lint:affected`  | `npx nx lint <project>`                                        |
 | Build  | `npm run build`              | `npm run build:affected` | `npx nx build <project>` then `npx nx run <project>:postbuild` |
 | Format | `npm run format` (write all) | —                        | `nx format --files=<paths>`                                    |
@@ -37,8 +37,7 @@ Common Nx tasks (prefer `:affected` variants during development):
 - `<project>` is the directory name, not the package name (e.g. `core`,
   `forms`, `ag-grid`, `tools`).
 - Watch a project's tests: `npx nx test <project> --watch`.
-- Run a single Karma project headless: `npx nx test <project> --browsers=ChromeHeadless`
-  (the all-projects `npm test` uses `ChromeHeadlessNoSandbox`).
+- Always pass `--configuration=ci` (or `-c ci`) when running tests non-interactively. It runs headless, turns off watch mode, and enforces coverage. Projects without a ci configuration fall back to their default.
 - Serve for manual testing: `npx nx serve playground`.
 
 ## Task-Specific Instructions
