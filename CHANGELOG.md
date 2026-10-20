@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [15.5.0](https://github.com/blackbaud/skyux/compare/15.4.0...15.5.0) (2026-10-19)
+## [15.5.0](https://github.com/blackbaud/skyux/compare/15.4.0...15.5.0) (2026-10-20)
 
 ### Features
 
