@@ -77,5 +77,5 @@ library for exact style; do not invent new patterns.
 - The spec lives beside its subject and mirrors a sibling spec's structure.
 - Every input/output, public method, branch, and error path is exercised, and
   an `a11y` block asserts accessibility in each meaningful state.
-- `npx nx test <library>` passes at the project's coverage threshold, lint is
-  clean, and changed files are formatted.
+- `npx nx test <library> --configuration=ci` passes at the project's coverage
+  threshold, lint is clean, and changed files are formatted.

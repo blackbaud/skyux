@@ -101,5 +101,5 @@ wiring), not to copy its structure.
 - The example is exported from `code-examples/src/index.ts`, the routes file
   has been regenerated via `code-examples:prebuild`, and the class is listed
   in the library's `documentation.json` `codeExamples.docsIds`.
-- `npx nx test code-examples` passes at the project's coverage threshold, lint
-  is clean, and changed files are formatted.
+- `npx nx test code-examples --configuration=ci` passes at the project's
+  coverage threshold, lint is clean, and changed files are formatted.

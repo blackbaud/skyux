@@ -124,7 +124,7 @@ Unit tests should follow the [Angular guidelines](https://angular.io/styleguide#
 
 ### Run tests
 
-To run unit tests from the command line, use the `npm run test:affected --configuration=ci` command. To run unit tests and watch the file system for changes, use the command `npx nx test <library> --watch`. SKY UX styles are loaded when running unit tests, so CSS rules defined in SKY UX take effect during tests. This allows you to check the expected computed style of elements with properties, such as the HTML `hidden` property, that only take effect when SKY UX styles are loaded.
+To run unit tests from the command line, use the `npm run test:affected` command. To run unit tests and watch the file system for changes, use the command `npx nx test <library> --watch`. SKY UX styles are loaded when running unit tests, so CSS rules defined in SKY UX take effect during tests. This allows you to check the expected computed style of elements with properties, such as the HTML `hidden` property, that only take effect when SKY UX styles are loaded.
 
 ## Accessibility tests
 
@@ -158,20 +158,16 @@ npm run dev:commit
 
 #### Run tests for a specific project
 
+Run tests one time in a headless browser:
+
 ```
-npx nx test my-project
+npx nx test my-project --configuration=ci
 ```
 
 Run tests in watch mode:
 
 ```
 npx nx test my-project --watch
-```
-
-Run tests one time in a headless browser:
-
-```
-npx nx test my-project --configuration=ci
 ```
 
 #### Test only the projects affected by your changes
