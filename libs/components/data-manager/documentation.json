@@ -59,7 +59,8 @@
         "docsIds": [
           "DataManagerBasicExampleComponent",
           "PagesPageListPageListLayoutExampleComponent",
-          "PagesPageDataManagerSplitViewFitLayoutExampleComponent"
+          "PagesPageDataManagerSplitViewFitLayoutExampleComponent",
+          "PagesPageDataManagerDataGridFitLayoutExample"
         ]
       }
     }
