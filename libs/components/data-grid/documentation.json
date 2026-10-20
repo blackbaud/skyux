@@ -20,7 +20,8 @@
           "DataGridDataManagerExample",
           "DataGridLoadingExampleComponent",
           "DataGridPagingExampleComponent",
-          "DataGridSortingExampleComponent"
+          "DataGridSortingExampleComponent",
+          "PagesPageDataManagerDataGridFitLayoutExample"
         ]
       }
     }
