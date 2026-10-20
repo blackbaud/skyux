@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.25.0](https://github.com/blackbaud/skyux/compare/14.24.0...14.25.0) (2026-10-20)
+
+
+### Features
+
+* **components/data-grid:** add a dock layout option ([#4498](https://github.com/blackbaud/skyux/issues/4498)) ([51a941d](https://github.com/blackbaud/skyux/commit/51a941dce3d59f7a87283e648deebaeefcb18d6e)), closes [AB#3965849](https://dev.azure.com/blackbaud/Products/_workitems/edit/3965849) [AB#3898164](https://dev.azure.com/blackbaud/Products/_workitems/edit/3898164)
+
 ## [14.24.0](https://github.com/blackbaud/skyux/compare/14.23.0...14.24.0) (2026-10-13)
 
 
