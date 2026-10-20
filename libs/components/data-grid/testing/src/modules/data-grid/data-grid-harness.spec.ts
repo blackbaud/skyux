@@ -143,8 +143,6 @@ describe('data-grid-harness', () => {
     );
 
     await harness.clickColumnHelpInline('column1');
-    fixture.detectChanges();
-    await fixture.whenStable();
 
     await expectAsync(
       harness.getColumnHelpPopoverContent('column1'),
