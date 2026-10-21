@@ -26,6 +26,7 @@ const STORY_WRAPPER_SELECTOR = '#storybook-root sky-preview-wrapper';
 let testStart = Date.now();
 let entries: DiagnosticEntry[] = [];
 let serializedExcerpts: string[] = [];
+let visits = 0;
 
 const wrappedChannels = new WeakSet<object>();
 
@@ -160,21 +161,34 @@ Cypress.on('window:load', (win) => {
   );
 });
 
+// Specs may visit more than once per test, so only page loads beyond the
+// visits count as reloads.
+Cypress.on('command:start', (command) => {
+  if (
+    (command as unknown as { get(key: string): unknown }).get('name') ===
+    'visit'
+  ) {
+    visits++;
+  }
+});
+
 beforeEach(() => {
   testStart = Date.now();
   entries = [];
   serializedExcerpts = [];
+  visits = 0;
 });
 
 afterEach(() => {
   const loads = entries.filter((entry) => entry.kind === 'load').length;
   const clears = entries.filter((entry) => entry.kind === 'clear-root').length;
 
-  if (loads > 1 || clears > loads || serializedExcerpts.length > 0) {
+  if (loads > visits || clears > loads || serializedExcerpts.length > 0) {
     cy.task(
       'skyStorybookDiagnostics',
       {
         test: Cypress.currentTest.titlePath.join(' > '),
+        visits,
         loads,
         clears,
         entries,
