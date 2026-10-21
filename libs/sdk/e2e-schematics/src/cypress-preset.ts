@@ -28,6 +28,13 @@ export function skyE2ePreset(
         await options.setupNodeEvents(on, config);
       }
 
+      on('task', {
+        skyStorybookDiagnostics(report: unknown): null {
+          console.log(`[storybook-remount] ${JSON.stringify(report)}`);
+          return null;
+        },
+      });
+
       on('before:browser:launch', (browser, launchOptions) => {
         if (browser.name === 'chrome' && browser.isHeadless) {
           launchOptions.args.push('--window-size=1280,1280');
