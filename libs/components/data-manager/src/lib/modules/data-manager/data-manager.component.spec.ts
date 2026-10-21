@@ -856,6 +856,7 @@ describe('SkyDataManagerComponent template API', () => {
   selector: 'sky-data-manager-template-api-views-fixture',
   template: `
     <sky-data-manager>
+      <p class="viewless-content">Viewless</p>
       @if (showViews) {
         <sky-data-view viewId="first">
           <p class="first-view-content">First</p>
@@ -917,18 +918,19 @@ describe('SkyDataManagerComponent template API views', () => {
       expect(getService().state().getViewStateById('first')).toBeDefined();
     });
 
-    it('should register an active stand-in view when it contains no data view', async () => {
+    it('should render without an active view when it contains no data view', async () => {
       fixture.componentInstance.showViews = false;
       fixture.detectChanges();
       await fixture.whenStable();
 
-      const viewIds = await getViewIds();
-
-      expect(viewIds.length).toBe(1);
-      await expectAsync(getActiveViewId()).toBeResolvedTo(viewIds[0]);
+      await expectAsync(getViewIds()).toBeResolvedTo([]);
+      await expectAsync(getActiveViewId()).toBeResolvedTo('');
+      expect(
+        fixture.nativeElement.querySelector('.viewless-content'),
+      ).toExist();
     });
 
-    it('should replace the stand-in view when data views are created later', async () => {
+    it('should make the first data view created later active', async () => {
       fixture.componentInstance.showViews = false;
       fixture.detectChanges();
       await fixture.whenStable();
@@ -953,7 +955,7 @@ describe('SkyDataManagerComponent template API views', () => {
       fixture = TestBed.createComponent(TemplateApiViewsFixtureComponent);
     });
 
-    it('should not register data views or a stand-in view', async () => {
+    it('should not register data views', async () => {
       const service = TestBed.inject(SkyDataManagerService);
       const initDataViewSpy = spyOn(service, 'initDataView').and.callThrough();
 

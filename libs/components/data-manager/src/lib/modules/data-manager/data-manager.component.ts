@@ -1,5 +1,4 @@
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -43,9 +42,6 @@ import { SkyDataManagerDockType } from './types/data-manager-dock-type';
 
 const VIEWKEEPER_CLASSES_DEFAULT = ['.sky-data-manager-toolbar'];
 const DEFAULT_DOCK_TYPE: SkyDataManagerDockType = 'none';
-// Registered when the data manager configures itself from the template but contains
-// no `sky-data-view`, so active view concepts still apply to its content.
-const IMPLICIT_VIEW_ID = 'skyDataManagerView';
 
 /**
  * The top-level data manager component. Providing `SkyDataManagerService` at this level is
@@ -74,9 +70,7 @@ const IMPLICIT_VIEW_ID = 'skyDataManagerView';
     },
   ],
 })
-export class SkyDataManagerComponent
-  implements AfterContentInit, OnDestroy, OnInit
-{
+export class SkyDataManagerComponent implements OnDestroy, OnInit {
   public get currentViewkeeperClasses(): string[] {
     return this.#_currentViewkeeperClasses;
   }
@@ -306,7 +300,8 @@ export class SkyDataManagerComponent
 
     if (this.#ownsService) {
       this.#dataManagerService.initDataManager({
-        activeViewId: IMPLICIT_VIEW_ID,
+        // No view is active until the first `sky-data-view` registers itself.
+        activeViewId: '',
         dataManagerConfig: { listDescriptor: this.labelText() },
         defaultDataState: new SkyDataManagerState({
           searchText: this.searchText(),
@@ -315,15 +310,6 @@ export class SkyDataManagerComponent
           selectedIds: this.selectedIds(),
         }),
         settingsKey: this.settingsKey(),
-      });
-    }
-  }
-
-  public ngAfterContentInit(): void {
-    if (this.#ownsService && !this.#hasRegisteredView) {
-      this.#dataManagerService.initDataView({
-        id: IMPLICIT_VIEW_ID,
-        name: IMPLICIT_VIEW_ID,
       });
     }
   }
@@ -338,13 +324,6 @@ export class SkyDataManagerComponent
   public registerView(viewConfig: SkyDataViewConfig): boolean {
     if (!this.#ownsService) {
       return false;
-    }
-
-    if (
-      !this.#hasRegisteredView &&
-      this.#dataManagerService.getViewById(IMPLICIT_VIEW_ID)
-    ) {
-      this.#dataManagerService.removeDataView(IMPLICIT_VIEW_ID);
     }
 
     this.#dataManagerService.initDataView(viewConfig);
