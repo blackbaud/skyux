@@ -271,12 +271,12 @@ group's `testing` section:
 The testing project name is `<library>-testing` (not the library name):
 
 ```bash
-npx nx test <library>-testing --browsers=ChromeHeadless
+npx nx test <library>-testing --configuration=ci
 ```
 
 Examples:
 
-- `npx nx test colorpicker-testing --browsers=ChromeHeadless`
-- `npx nx test forms-testing --browsers=ChromeHeadless`
+- `npx nx test colorpicker-testing --configuration=ci`
+- `npx nx test forms-testing --configuration=ci`
 
 Then format any changed files: `nx format --files=<changed-file-paths>`.

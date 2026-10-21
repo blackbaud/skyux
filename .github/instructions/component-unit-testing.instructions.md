@@ -182,7 +182,7 @@ input/output, branch, and error path.
 ## Running the tests
 
 ```bash
-npx nx test <library> --browsers=ChromeHeadless
+npx nx test <library> --configuration=ci
 ```
 
 `<library>` is the directory name (e.g. `forms`, `indicators`), not the package
