@@ -14,6 +14,35 @@ const routes: ComponentRouteInfo[] = [
     },
   },
   {
+    path: 'docked-in-fit-layout',
+    loadComponent: () =>
+      import('./docked-in-fit-layout/docked-in-fit-layout.component'),
+    data: {
+      name: 'Data Grid docked in a fit layout page',
+      icon: 'table',
+      library: 'data-grid',
+    },
+  },
+  {
+    path: 'docked-with-data-manager',
+    loadComponent: () =>
+      import('./docked-with-data-manager/docked-with-data-manager.component'),
+    data: {
+      name: 'Data Grid docked with Data Manager',
+      icon: 'table',
+      library: 'data-grid',
+    },
+  },
+  {
+    path: 'docked-tabs',
+    loadComponent: () => import('./docked-tabs/docked-tabs.component'),
+    data: {
+      name: 'Data grid docked in a tabs page',
+      icon: 'table',
+      library: 'data-grid',
+    },
+  },
+  {
     path: 'paging',
     loadComponent: () => import('./paging/grid-paging.component'),
     data: {
