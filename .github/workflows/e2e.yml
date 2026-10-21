@@ -238,7 +238,7 @@ jobs:
         # These choose the repo the token writes to and where artifacts are extracted.
         run: |
           case "$GH_PAGES_REPO" in skyux-pr-preview|skyux-storybook) ;; *) echo "::error::Unexpected ghPagesRepo."; exit 1 ;; esac
-          [[ "$STORYBOOKS_PATH" =~ ^storybooks/([0-9a-z.-]+/)?$ ]] || { echo "::error::Unexpected storybooksPath."; exit 1; }
+          [[ "$STORYBOOKS_PATH" =~ ^storybooks/([0-9a-z][0-9a-z.-]*/)?$ ]] || { echo "::error::Unexpected storybooksPath."; exit 1; }
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
