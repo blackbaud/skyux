@@ -63,6 +63,19 @@ describe('Button harness', () => {
       await expectAsync(buttonHarness.getLabelText()).toBeResolvedTo(
         BUTTON_LABEL,
       );
+      await expectAsync(buttonHarness.getAriaLabel()).toBeResolvedTo(null);
+    });
+
+    it('should return the ARIA label when specified', async () => {
+      fixture.componentRef.setInput('labelHidden', true);
+      fixture.componentRef.setInput('ariaLabel', 'ARIA label');
+
+      await expectAsync(buttonHarness.getAriaLabel()).toBeResolvedTo(
+        'ARIA label',
+      );
+      await expectAsync(buttonHarness.getLabelText()).toBeResolvedTo(
+        BUTTON_LABEL,
+      );
     });
 
     it('should return the icon name', async () => {

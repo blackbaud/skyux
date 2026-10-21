@@ -131,7 +131,9 @@
 </ng-template>
 
 <ng-template #buttonsLeftTemplate>
-  <ng-content select=".sky-input-group-btn.sky-input-box-btn-left" />
+  <ng-content
+    select=".sky-input-group-btn.sky-input-box-btn-left, sky-input-box-button[position='left']"
+  />
   @if (hostButtonsLeftTemplate) {
     <ng-container [ngTemplateOutlet]="hostButtonsLeftTemplate" />
   }
@@ -139,7 +141,7 @@
 
 <ng-template #buttonsTemplate>
   <ng-content
-    select=".sky-input-group-btn:not(.sky-input-box-btn-left):not(.sky-input-box-btn-inset)"
+    select=".sky-input-group-btn:not(.sky-input-box-btn-left):not(.sky-input-box-btn-inset), sky-input-box-button:not([position='left']):not([buttonStyle='inset'])"
   />
   @if (hostButtonsTemplate) {
     <ng-container [ngTemplateOutlet]="hostButtonsTemplate" />
@@ -147,7 +149,9 @@
 </ng-template>
 
 <ng-template #buttonsInsetTemplate>
-  <ng-content select=".sky-input-group-btn.sky-input-box-btn-inset" />
+  <ng-content
+    select=".sky-input-group-btn.sky-input-box-btn-inset, sky-input-box-button[buttonStyle='inset']"
+  />
   @if (hostButtonsInsetTemplate) {
     <ng-container [ngTemplateOutlet]="hostButtonsInsetTemplate" />
   }
