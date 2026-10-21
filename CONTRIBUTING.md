@@ -158,8 +158,10 @@ npm run dev:commit
 
 #### Run tests for a specific project
 
+Run tests one time in a headless browser:
+
 ```
-npx nx test my-project
+npx nx test my-project --configuration=ci
 ```
 
 Run tests in watch mode:
@@ -168,22 +170,16 @@ Run tests in watch mode:
 npx nx test my-project --watch
 ```
 
-Run tests in a headless browser:
-
-```
-npx nx test my-project --browsers=ChromeHeadless
-```
-
 #### Test only the projects affected by your changes
 
 ```
-npx nx affected --target=test my-project
+npx nx affected --target=test --configuration=ci
 ```
 
 Run multiple tests in parallel:
 
 ```
-npx nx affected --target=test my-project --parallel --maxParallel=5
+npx nx affected --target=test --configuration=ci --parallel --maxParallel=5
 ```
 
 #### Serve the "playground" application for manual testing
@@ -202,7 +198,7 @@ npx nx run my-project:postbuild
 #### Build all publishable libraries
 
 ```
-npm run ci:create-packages-dist
+npm run dev:create-packages-dist
 ```
 
 #### Regenerate resources modules for all libraries

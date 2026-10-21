@@ -1,0 +1,9 @@
+<button
+  class="sky-btn sky-btn-default"
+  type="button"
+  [ariaLabel]="labelText()"
+  [disabled]="disabled()"
+  (click)="buttonClick.emit($event)"
+>
+  <sky-icon iconSize="l" [iconName]="iconName()" />
+</button>

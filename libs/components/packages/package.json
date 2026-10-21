@@ -100,8 +100,8 @@
     }
   },
   "peerDependencies": {
-    "@angular/cli": "^22.1.4",
-    "@angular/core": "^22.1.2",
+    "@angular/cli": "^22.2.2",
+    "@angular/core": "^22.2.3",
     "typescript": "^6.0.3"
   },
   "dependencies": {

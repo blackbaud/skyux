@@ -1,0 +1,51 @@
+<sky-page layout="fit">
+  <sky-page-header pageTitle="Transactions">
+    <sky-page-header-details>
+      All 1,000 transactions load at once. The grid fills the page and renders
+      only the rows in view, so no paging is needed.
+    </sky-page-header-details>
+  </sky-page-header>
+  <sky-page-content>
+    <sky-data-manager dock="fill">
+      <sky-data-manager-toolbar />
+      <sky-data-view [viewId]="viewId">
+        <sky-data-grid
+          data-sky-id="transactions-grid"
+          dock="fill"
+          skyDataManagerViewController
+          labelText="Transactions"
+          [data]="data()"
+        >
+          <sky-data-grid-column
+            dataType="date"
+            field="date"
+            flexWidth="1"
+            headingText="Date"
+          />
+          <sky-data-grid-column
+            field="vendor"
+            flexWidth="2"
+            headingText="Vendor"
+          />
+          <sky-data-grid-column
+            field="category"
+            flexWidth="1"
+            headingText="Category"
+          />
+          <sky-data-grid-column
+            dataType="number"
+            field="amount"
+            flexWidth="1"
+            headingText="Amount"
+          />
+          <sky-data-grid-column
+            columnHidden
+            field="reference"
+            flexWidth="1"
+            headingText="Reference"
+          />
+        </sky-data-grid>
+      </sky-data-view>
+    </sky-data-manager>
+  </sky-page-content>
+</sky-page>

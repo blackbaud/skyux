@@ -41,6 +41,7 @@ ruleTester.run(RULE_NAME, rule, {
     `<sky-input-box><input /><sky-character-counter-indicator></sky-character-counter-indicator></sky-input-box>`,
     `<sky-input-box><input /><sky-status-indicator></sky-status-indicator></sky-input-box>`,
     `<sky-input-box><input /><sky-form-error></sky-form-error></sky-input-box>`,
+    `<sky-input-box><input /><sky-input-box-button></sky-input-box-button></sky-input-box>`,
 
     // Dynamically bound input type inside sky-input-box is allowed
     `<sky-input-box><input [attr.type]="boundVariable" /></sky-input-box>`,

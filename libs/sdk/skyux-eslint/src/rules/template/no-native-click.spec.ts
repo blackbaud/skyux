@@ -11,6 +11,7 @@ ruleTester.run(RULE_NAME, rule, {
     `<sky-button (buttonClick)="save()">Save</sky-button>`,
     `<sky-action-button (actionClick)="onAction()"></sky-action-button>`,
     `<sky-filter-button (filterButtonClick)="onFilter()"></sky-filter-button>`,
+    `<sky-input-box-button (buttonClick)="onClick()"></sky-input-box-button>`,
     `<sky-progress-indicator-nav-button (actionClick)="onNav()"></sky-progress-indicator-nav-button>`,
     `<sky-progress-indicator-reset-button (resetClick)="onReset()"></sky-progress-indicator-reset-button>`,
     `<sky-summary-action-bar-primary-action (actionClick)="onAction()"></sky-summary-action-bar-primary-action>`,
@@ -98,6 +99,22 @@ ruleTester.run(RULE_NAME, rule, {
       data: {
         selector: 'sky-filter-button',
         alternativeOutput: 'filterButtonClick',
+      },
+    }),
+    convertAnnotatedSourceToFailureCase({
+      description: 'sky-input-box-button - should fail and autofix',
+      annotatedSource: `
+      <sky-input-box-button (click)="onClick()"></sky-input-box-button>
+                            ~~~~~~~~~~~~~~~~~~~
+      `,
+      annotatedOutput: `
+      <sky-input-box-button (buttonClick)="onClick()"></sky-input-box-button>
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~
+      `,
+      messageId,
+      data: {
+        selector: 'sky-input-box-button',
+        alternativeOutput: 'buttonClick',
       },
     }),
     convertAnnotatedSourceToFailureCase({
