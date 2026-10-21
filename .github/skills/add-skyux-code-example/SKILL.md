@@ -83,7 +83,7 @@ wiring), not to copy its structure.
 7. **Verify.** Run the code-examples specs headless, then lint and format:
 
    ```bash
-   npx nx test code-examples --browsers=ChromeHeadless
+   npx nx test code-examples --configuration=ci
    npm run lint:affected
    nx format --files=<changed-file-paths>
    ```
@@ -101,5 +101,5 @@ wiring), not to copy its structure.
 - The example is exported from `code-examples/src/index.ts`, the routes file
   has been regenerated via `code-examples:prebuild`, and the class is listed
   in the library's `documentation.json` `codeExamples.docsIds`.
-- `npx nx test code-examples` passes at the project's coverage threshold, lint
-  is clean, and changed files are formatted.
+- `npx nx test code-examples --configuration=ci` passes at the project's
+  coverage threshold, lint is clean, and changed files are formatted.

@@ -49,10 +49,10 @@ import { TemplateColumnTestComponent } from './fixtures/template-column-test.com
  * `ag-grid-angular`'s first child and `getGridApi()` locates the grid by
  * walking up from the queried element's first element child.
  *
- * Synchronous on purpose: used directly only by the `fakeAsync` "columnFit"
- * tests below, which don't opt into `provideSkyAgGridTesting()` and so don't
- * need (and, inside `fakeAsync`, can't easily use) the real-macrotask flush
- * that `getGridApi()` performs.
+ * Synchronous on purpose: used directly by the `fakeAsync` "columnFit" tests
+ * below, which don't opt into `provideSkyAgGridTesting()` and so don't need
+ * (and, inside `fakeAsync`, can't easily use) the real-macrotask flush that
+ * `getGridApi()` performs, and by tests that only read grid options.
  */
 function getGridApiSync(agGridAngularElement: Element | null) {
   return getAgGridApi(
@@ -249,6 +249,48 @@ describe('SkyDataGrid', () => {
       expect(
         skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-min-height'),
       ).toBe('50px');
+    });
+
+    it('should use a normal domLayout and skip header pinning when dock is "fill"', async () => {
+      fixture.componentRef.setInput('dock', 'fill');
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const gridHost = fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"]',
+      ) as HTMLElement;
+      expect(gridHost.classList).toContain('sky-data-grid-dock-fill');
+
+      const api = getGridApiSync(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getGridOption('domLayout')).toBe('normal');
+
+      const grid = fixture.debugElement.query(By.directive(SkyDataGrid))
+        .componentInstance as unknown as { skyViewkeeper: () => string[] };
+      expect(grid.skyViewkeeper()).toEqual([]);
+    });
+
+    it('should default to an autoHeight domLayout when dock is unset', async () => {
+      fixture.componentRef.setInput('dock', undefined);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const gridHost = fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"]',
+      ) as HTMLElement;
+      expect(gridHost.classList).not.toContain('sky-data-grid-dock-fill');
+
+      const api = getGridApiSync(
+        fixture.nativeElement.querySelector(
+          '[data-sky-id="grid"] ag-grid-angular',
+        ),
+      );
+      expect(api).toBeTruthy();
+      expect(api?.getGridOption('domLayout')).toBe('autoHeight');
     });
 
     it('should destroy and recreate grid', async () => {
@@ -1276,6 +1318,17 @@ describe('SkyDataGrid', () => {
       fixture.detectChanges();
       await fixture.whenStable();
       expect(gridHost.classList).toContain('sky-margin-stacked-lg');
+    });
+
+    it('should not add the stacked margin class to the host when dock is "fill"', async () => {
+      fixture.componentRef.setInput('stacked', true);
+      fixture.componentRef.setInput('dock', 'fill');
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const gridHost = fixture.nativeElement.querySelector(
+        '[data-sky-id="grid"]',
+      ) as HTMLElement;
+      expect(gridHost.classList).not.toContain('sky-margin-stacked-lg');
     });
 
     it('should enable the top scroll context option when topScrollEnabled is set', async () => {

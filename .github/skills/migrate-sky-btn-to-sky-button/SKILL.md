@@ -265,8 +265,8 @@ If the migrated button lives in a code example under
 
 ## Verify
 
-1. `npx nx test <project>` for each affected project, then
-   `npm run test:affected`.
+1. `npx nx test <project> --configuration=ci` for each affected project, then
+   `npm run test:affected --configuration=ci`.
 2. `npm run lint:affected`. Pay attention to unused imports and template
    lint errors.
 3. Visual check where practical: `npx nx serve playground`, or the project's

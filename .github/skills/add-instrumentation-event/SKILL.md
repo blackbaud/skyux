@@ -119,7 +119,7 @@ Add a row for every event you add.
 6. **Verify.**
 
    ```bash
-   npx nx test <library> --browsers=ChromeHeadlessNoSandbox
+   npx nx test <library> --configuration=ci
    npm run lint:affected
    npx nx format --files=<changed-file-paths>
    ```
