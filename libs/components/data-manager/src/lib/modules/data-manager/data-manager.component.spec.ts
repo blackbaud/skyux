@@ -291,11 +291,11 @@ describe('SkyDataManagerComponent', () => {
       expect(componentInjectedInstance).toBe(ancestorInstance);
     });
 
-    it('self-provides SkyDataManagerService when no ancestor provides it', async () => {
+    it('self-provides SkyDataManagerService when labelText is set', async () => {
       @Component({
         selector: 'sky-data-manager-no-provider-fixture',
-        template: `<sky-data-manager />`,
-        imports: [SkyDataManagerComponent],
+        template: `<sky-data-manager labelText="fruit" />`,
+        imports: [SkyDataManagerModule],
       })
       class NoProviderFixtureComponent {}
 
@@ -318,8 +318,8 @@ describe('SkyDataManagerComponent', () => {
     it('passes SkyLogService to the service it self-provides', async () => {
       @Component({
         selector: 'sky-data-manager-no-provider-logger-fixture',
-        template: `<sky-data-manager />`,
-        imports: [SkyDataManagerComponent],
+        template: `<sky-data-manager labelText="fruit" />`,
+        imports: [SkyDataManagerModule],
       })
       class NoProviderLoggerFixtureComponent {}
 
@@ -347,6 +347,54 @@ describe('SkyDataManagerComponent', () => {
       service.updateDataState(new SkyDataManagerState({}), 'test-b');
 
       expect(warnSpy).toHaveBeenCalled();
+    });
+
+    it('self-provides SkyDataManagerService when labelText is set and an ancestor provides another instance', async () => {
+      @Component({
+        selector: 'sky-data-manager-nested-fixture',
+        template: `
+          <sky-data-manager>
+            <sky-data-manager class="inner" [labelText]="labelText">
+              <sky-data-view viewId="inner-view">
+                <p class="inner-content">Inner</p>
+              </sky-data-view>
+            </sky-data-manager>
+          </sky-data-manager>
+        `,
+        imports: [SkyDataManagerModule],
+        providers: [SkyDataManagerService],
+      })
+      class NestedFixtureComponent {
+        public labelText = 'fruit';
+      }
+
+      TestBed.resetTestingModule();
+      await TestBed.configureTestingModule({
+        imports: [NestedFixtureComponent],
+      }).compileComponents();
+
+      const fixture = TestBed.createComponent(NestedFixtureComponent);
+      const outerService = fixture.debugElement.injector.get(
+        SkyDataManagerService,
+      );
+      outerService.initDataManager({
+        activeViewId: 'outer-view',
+        dataManagerConfig: {},
+        defaultDataState: new SkyDataManagerState({}),
+      });
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const innerService = fixture.debugElement
+        .query(By.css('.inner'))
+        .injector.get(SkyDataManagerService);
+
+      expect(innerService).not.toBe(outerService);
+      expect(innerService.getCurrentDataManagerConfig().listDescriptor).toBe(
+        'fruit',
+      );
+      expect(innerService.getViewById('inner-view')).toBeDefined();
+      expect(outerService.getViewById('inner-view')).toBeUndefined();
     });
   });
 });
@@ -781,72 +829,111 @@ describe('SkyDataManagerComponent template API', () => {
     });
   });
 
-  describe('when an ancestor provides the service', () => {
+  describe('when labelText is not set and the consumer provides the service', () => {
+    @Component({
+      selector: 'sky-data-manager-consumer-configured-fixture',
+      template: `
+        <sky-data-manager
+          [(searchText)]="searchText"
+          [(selectedIds)]="selectedIds"
+          (stateChange)="states.push($event)"
+        >
+          <sky-data-view viewId="view1" [searchEnabled]="searchEnabled">
+            <p class="template-api-content">Content</p>
+          </sky-data-view>
+        </sky-data-manager>
+      `,
+      imports: [SkyDataManagerModule],
+    })
+    class ConsumerConfiguredFixtureComponent {
+      public searchEnabled = false;
+      public searchText = '';
+      public selectedIds: string[] = [];
+      public states: SkyDataManagerState[] = [];
+    }
+
+    let consumerFixture: ComponentFixture<ConsumerConfiguredFixtureComponent>;
     let service: SkyDataManagerService;
+
+    function getConsumerContent(): HTMLElement | null {
+      return consumerFixture.nativeElement.querySelector(
+        '.template-api-content',
+      );
+    }
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [TemplateApiFixtureComponent],
+        imports: [ConsumerConfiguredFixtureComponent],
         providers: [SkyDataManagerService],
       });
 
       service = TestBed.inject(SkyDataManagerService);
-      fixture = TestBed.createComponent(TemplateApiFixtureComponent);
+      consumerFixture = TestBed.createComponent(
+        ConsumerConfiguredFixtureComponent,
+      );
+    });
+
+    it('should use the consumer-provided service', () => {
+      consumerFixture.detectChanges();
+
+      expect(
+        consumerFixture.debugElement
+          .query(By.directive(SkyDataManagerComponent))
+          .injector.get(SkyDataManagerService),
+      ).toBe(service);
     });
 
     it('should wait for initDataManager() instead of seeding the state', () => {
-      fixture.componentInstance.searchText = 'ignored';
-      fixture.detectChanges();
+      consumerFixture.componentInstance.searchText = 'ignored';
+      consumerFixture.detectChanges();
 
-      expect(getContent()).not.toExist();
-      expect(fixture.componentInstance.states).toEqual([]);
+      expect(getConsumerContent()).not.toExist();
+      expect(consumerFixture.componentInstance.states).toEqual([]);
 
       service.initDataManager({
         activeViewId: 'view1',
         dataManagerConfig: {},
         defaultDataState: new SkyDataManagerState({ searchText: 'apple' }),
       });
-      fixture.detectChanges();
+      consumerFixture.detectChanges();
 
-      expect(getContent()).toExist();
-      expect(fixture.componentInstance.searchText).toBe('apple');
-      expect(lastState()?.searchText).toBe('apple');
+      expect(getConsumerContent()).toExist();
+      expect(consumerFixture.componentInstance.searchText).toBe('apple');
+      expect(consumerFixture.componentInstance.states.at(-1)?.searchText).toBe(
+        'apple',
+      );
     });
 
     it('should push model changes after initDataManager()', () => {
-      fixture.detectChanges();
+      consumerFixture.detectChanges();
       service.initDataManager({
         activeViewId: 'view1',
         dataManagerConfig: {},
         defaultDataState: new SkyDataManagerState({}),
       });
-      fixture.detectChanges();
+      consumerFixture.detectChanges();
 
-      fixture.componentInstance.searchText = 'kiwi';
-      fixture.componentInstance.selectedIds = ['3'];
-      fixture.detectChanges();
+      consumerFixture.componentInstance.searchText = 'kiwi';
+      consumerFixture.componentInstance.selectedIds = ['3'];
+      consumerFixture.detectChanges();
 
       expect(service.state().searchText).toBe('kiwi');
       expect(service.state().selectedIds).toEqual(['3']);
     });
 
-    it('should not apply the toolbar inputs to the configs', () => {
-      fixture.detectChanges();
+    it('should not apply the view inputs to the view config', () => {
+      consumerFixture.detectChanges();
       service.initDataManager({
         activeViewId: 'view1',
-        dataManagerConfig: { listDescriptor: 'fruit' },
+        dataManagerConfig: {},
         defaultDataState: new SkyDataManagerState({}),
       });
       service.initDataView({ id: 'view1', name: 'View 1' });
-      fixture.detectChanges();
+      consumerFixture.detectChanges();
 
-      fixture.componentInstance.labelText = 'ignored';
-      fixture.componentInstance.searchEnabled = true;
-      fixture.detectChanges();
+      consumerFixture.componentInstance.searchEnabled = true;
+      consumerFixture.detectChanges();
 
-      expect(service.getCurrentDataManagerConfig().listDescriptor).toBe(
-        'fruit',
-      );
       expect(service.getViewById('view1')?.searchEnabled).toBeUndefined();
     });
   });
@@ -855,7 +942,7 @@ describe('SkyDataManagerComponent template API', () => {
 @Component({
   selector: 'sky-data-manager-template-api-views-fixture',
   template: `
-    <sky-data-manager>
+    <sky-data-manager labelText="fruit">
       <p class="viewless-content">Viewless</p>
       @if (showViews) {
         <sky-data-view viewId="first">
@@ -955,15 +1042,19 @@ describe('SkyDataManagerComponent template API views', () => {
       fixture = TestBed.createComponent(TemplateApiViewsFixtureComponent);
     });
 
-    it('should not register data views', async () => {
-      const service = TestBed.inject(SkyDataManagerService);
-      const initDataViewSpy = spyOn(service, 'initDataView').and.callThrough();
+    it('should register data views with its own service', async () => {
+      const ancestorService = TestBed.inject(SkyDataManagerService);
+      const initDataViewSpy = spyOn(
+        ancestorService,
+        'initDataView',
+      ).and.callThrough();
 
       fixture.detectChanges();
       await fixture.whenStable();
 
+      expect(getService()).not.toBe(ancestorService);
       expect(initDataViewSpy).not.toHaveBeenCalled();
-      await expectAsync(getViewIds()).toBeResolvedTo([]);
+      await expectAsync(getViewIds()).toBeResolvedTo(['first', 'second']);
     });
   });
 });

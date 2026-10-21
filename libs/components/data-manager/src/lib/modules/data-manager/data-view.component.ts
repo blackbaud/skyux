@@ -53,7 +53,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
 
   /**
    * Whether to display the column picker button for this view.
-   * Ignored when an ancestor provides `SkyDataManagerService`; set `columnPickerEnabled` on
+   * Ignored unless the data manager sets `labelText`; otherwise, set `columnPickerEnabled` on
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */
@@ -65,7 +65,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
    * The strategy used to sort the options in the column picker. Use `none` to apply
    * no sorting, or `selectedThenAlphabetical` to display the selected columns before
    * the unselected columns and sort the unselected columns alphabetically.
-   * Ignored when an ancestor provides `SkyDataManagerService`; set `columnPickerSortStrategy` on
+   * Ignored unless the data manager sets `labelText`; otherwise, set `columnPickerSortStrategy` on
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @default "none"
    * @preview
@@ -77,7 +77,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   /**
    * The name of the Blackbaud SVG icon to display for this view in the view switcher.
    * Required if the data manager has more than one view.
-   * Ignored when an ancestor provides `SkyDataManagerService`; set `iconName` on
+   * Ignored unless the data manager sets `labelText`; otherwise, set `iconName` on
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */
@@ -86,7 +86,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   /**
    * The name of the view. This is used in the ARIA label for the view switcher.
    * Defaults to `viewId` when not set.
-   * Ignored when an ancestor provides `SkyDataManagerService`; set `name` on
+   * Ignored unless the data manager sets `labelText`; otherwise, set `name` on
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */
@@ -95,7 +95,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   /**
    * The `expandMode` of the search box in `sky-data-manager-toolbar`.
    * See the [search component](https://developer.blackbaud.com/skyux/components/search) for valid options.
-   * Ignored when an ancestor provides `SkyDataManagerService`; set `searchExpandMode` on
+   * Ignored unless the data manager sets `labelText`; otherwise, set `searchExpandMode` on
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @default "responsive"
    * @preview
@@ -106,7 +106,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
 
   /**
    * Whether to display the search box in `sky-data-manager-toolbar`.
-   * Ignored when an ancestor provides `SkyDataManagerService`; set `searchEnabled` on
+   * Ignored unless the data manager sets `labelText`; otherwise, set `searchEnabled` on
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */
@@ -116,7 +116,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
 
   /**
    * Placeholder text for the search box in `sky-data-manager-toolbar`.
-   * Ignored when an ancestor provides `SkyDataManagerService`; set `searchPlaceholderText` on
+   * Ignored unless the data manager sets `labelText`; otherwise, set `searchPlaceholderText` on
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */
@@ -124,7 +124,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
 
   /**
    * Whether to display the multiselect toolbar in `sky-data-manager-toolbar`.
-   * Ignored when an ancestor provides `SkyDataManagerService`; set `multiselectToolbarEnabled` on
+   * Ignored unless the data manager sets `labelText`; otherwise, set `multiselectToolbarEnabled` on
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */
@@ -134,7 +134,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
 
   /**
    * Whether to highlight text that matches the search text using the text highlight directive.
-   * Ignored when an ancestor provides `SkyDataManagerService`; set `searchHighlightEnabled` on
+   * Ignored unless the data manager sets `labelText`; otherwise, set `searchHighlightEnabled` on
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */
@@ -144,7 +144,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
 
   /**
    * Whether to include the "Sort" text on the sort button in `sky-data-manager-toolbar`.
-   * Ignored when an ancestor provides `SkyDataManagerService`; set `showSortButtonText` on
+   * Ignored unless the data manager sets `labelText`; otherwise, set `showSortButtonText` on
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */
@@ -155,7 +155,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   /**
    * Fires when a user selects the "Clear all" button on the multiselect toolbar.
    * Update your displayed data to indicate it is not selected.
-   * Does not fire when an ancestor provides `SkyDataManagerService`; set `onClearAllClick`
+   * Does not fire unless the data manager sets `labelText`; otherwise, set `onClearAllClick`
    * on the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */
@@ -164,7 +164,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
   /**
    * Fires when a user selects the "Select all" button on the multiselect toolbar.
    * Update your displayed data to indicate it is selected.
-   * Does not fire when an ancestor provides `SkyDataManagerService`; set `onSelectAllClick`
+   * Does not fire unless the data manager sets `labelText`; otherwise, set `onSelectAllClick`
    * on the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */

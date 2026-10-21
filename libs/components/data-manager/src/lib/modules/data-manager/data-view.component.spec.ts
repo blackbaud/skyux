@@ -97,7 +97,7 @@ describe('SkyDataViewComponent', () => {
 @Component({
   imports: [SkyDataManagerModule],
   template: `
-    <sky-data-manager>
+    <sky-data-manager labelText="Items">
       <sky-data-view
         viewId="list"
         viewName="List"

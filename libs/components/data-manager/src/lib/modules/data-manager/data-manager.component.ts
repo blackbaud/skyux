@@ -15,12 +15,7 @@ import {
   signal,
   untracked,
 } from '@angular/core';
-import {
-  SkyLiveAnnouncerService,
-  SkyLogService,
-  SkyUIConfigService,
-  SkyViewkeeperModule,
-} from '@skyux/core';
+import { SkyLiveAnnouncerService, SkyViewkeeperModule } from '@skyux/core';
 import { SkyLibResourcesService } from '@skyux/i18n';
 import {
   SkyBackToTopMessage,
@@ -32,6 +27,7 @@ import { SkyFilterState } from '@skyux/lists';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
+import { SkyDataManagerTemplateConfigDirective } from './data-manager-template-config.directive';
 import { SkyDataManagerService } from './data-manager.service';
 import { SkyDataManagerSortOption } from './models/data-manager-sort-option';
 import { SkyDataManagerState } from './models/data-manager-state';
@@ -44,13 +40,12 @@ const VIEWKEEPER_CLASSES_DEFAULT = ['.sky-data-manager-toolbar'];
 const DEFAULT_DOCK_TYPE: SkyDataManagerDockType = 'none';
 
 /**
- * The top-level data manager component. Providing `SkyDataManagerService` at this level is
- * optional --- this component self-provides an instance if no ancestor already provides one.
- * When it self-provides the service, its inputs and models configure the data manager from
- * the template, so `initDataManager()` and `initDataView()` are not needed: each `sky-data-view`
- * registers itself, and the first one registered becomes the active view. When an ancestor
- * provides the service, configure the data manager with `initDataManager()`; the models then
- * only reflect and push subsequent state changes.
+ * The top-level data manager component. When `labelText` is set, the data manager provides
+ * its own `SkyDataManagerService` and configures itself from its inputs and models, so
+ * `initDataManager()` and `initDataView()` are not needed: each `sky-data-view` registers
+ * itself, and the first one registered becomes the active view. Otherwise, provide
+ * `SkyDataManagerService` at this level and configure the data manager with
+ * `initDataManager()`; the models then only reflect and push subsequent state changes.
  */
 @Component({
   selector: 'sky-data-manager',
@@ -58,17 +53,6 @@ const DEFAULT_DOCK_TYPE: SkyDataManagerDockType = 'none';
   styleUrl: './data-manager.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyBackToTopModule, SkyViewkeeperModule],
-  providers: [
-    {
-      provide: SkyDataManagerService,
-      useFactory: (): SkyDataManagerService =>
-        inject(SkyDataManagerService, { skipSelf: true, optional: true }) ??
-        new SkyDataManagerService(
-          inject(SkyUIConfigService),
-          inject(SkyLogService),
-        ),
-    },
-  ],
 })
 export class SkyDataManagerComponent implements OnDestroy, OnInit {
   public get currentViewkeeperClasses(): string[] {
@@ -104,16 +88,17 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
 
   /**
    * The key to use for storing and retrieving the data state from `SkyUIConfigService`.
-   * Ignored when an ancestor provides `SkyDataManagerService`; configure persistence
-   * through `SkyDataManagerConfig` in `initDataManager()` instead.
+   * Ignored unless `labelText` is set; otherwise, pass `settingsKey` to
+   * `initDataManager()` instead.
    * @preview
    */
   public readonly settingsKey = input<string>();
 
   /**
-   * The label for the list descriptor in `sky-data-manager-toolbar`.
-   * Ignored when an ancestor provides `SkyDataManagerService`; set `listDescriptor`
-   * on the `SkyDataManagerConfig` passed to `initDataManager()` instead.
+   * The label for the list descriptor in `sky-data-manager-toolbar`. Setting it makes the
+   * data manager provide its own `SkyDataManagerService` and configure itself from its
+   * template, so do not also call `initDataManager()`. To configure the data manager
+   * with `initDataManager()`, set `listDescriptor` on its `SkyDataManagerConfig` instead.
    * @preview
    */
   public readonly labelText = input<string>();
@@ -185,11 +170,11 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   readonly #liveAnnouncer = inject(SkyLiveAnnouncerService);
   readonly #resourceSvc = inject(SkyLibResourcesService);
 
-  // An ancestor that provides the service also owns its initialization through
-  // `initDataManager()` and `initDataView()`, possibly asynchronously, so
-  // initializing from this component's inputs would conflict with it.
-  readonly #ownsService = !inject(SkyDataManagerService, {
-    skipSelf: true,
+  // Without `labelText`, the service comes from the consumer, who owns its
+  // initialization through `initDataManager()` and `initDataView()`, possibly
+  // asynchronously, so initializing from this component's inputs would conflict with it.
+  readonly #ownsService = !!inject(SkyDataManagerTemplateConfigDirective, {
+    self: true,
     optional: true,
   });
 
@@ -315,9 +300,9 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   }
 
   /**
-   * Registers a `sky-data-view` with the service this component self-provides. The
-   * first view registered becomes the active view. Does nothing when an ancestor
-   * provides the service, since its views are registered with `initDataView()`.
+   * Registers a `sky-data-view` with the service this component provides when `labelText`
+   * is set. The first view registered becomes the active view. Does nothing otherwise,
+   * since the consumer registers views with `initDataView()`.
    * @returns Whether this data manager owns the view's template configuration.
    * @internal
    */
@@ -347,7 +332,7 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   /**
    * Registers an effect that calls `onChange` for every change to `source` after
    * its initial value. The initial values are applied when the data manager and
-   * its views are initialized, whether by this component or by an ancestor.
+   * its views are initialized, whether by this component or by the consumer.
    * `onChange` runs untracked because it reads the current data state; tracking
    * that state would re-run the effect on every state change and push the model's
    * value before `#applyStateToModels()` has caught the model up, overwriting the

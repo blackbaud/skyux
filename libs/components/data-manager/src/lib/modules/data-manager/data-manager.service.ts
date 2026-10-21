@@ -36,9 +36,9 @@ import { SkyDataViewState } from './models/data-view-state';
  *
  * Provide this service at the component level for each instance of a data manager. Do not
  * provide it at the module level or in `app-extras`. This allows multiple data
- * managers to be used and self-contained. `SkyDataManagerComponent` self-provides an
- * instance if none is provided by an ancestor, so a data manager configured through
- * `SkyDataManagerComponent`'s inputs and models does not need this service.
+ * managers to be used and self-contained. A `SkyDataManagerComponent` that sets `labelText`
+ * provides its own instance and configures itself from its inputs and models, so it does
+ * not need this service.
  */
 @Injectable()
 export class SkyDataManagerService implements OnDestroy {
