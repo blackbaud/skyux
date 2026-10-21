@@ -83,8 +83,13 @@ function inspectSerialized(html: string, dom: Document | undefined): void {
   );
 
   if (captured === 0 || captured < live / 2) {
+    // The body starts with the icon sprite, so excerpt the story root instead.
     serializedExcerpts.push(
-      (serialized.body?.outerHTML ?? html).substring(0, MAX_EXCERPT_LENGTH),
+      (
+        serialized.getElementById('storybook-root')?.outerHTML ??
+        serialized.body?.outerHTML ??
+        html
+      ).substring(0, MAX_EXCERPT_LENGTH),
     );
   }
 }
