@@ -91,7 +91,8 @@
           "PagesPageRecordPageBlocksLayoutExampleComponent",
           "PagesPageRecordPageTabsLayoutExampleComponent",
           "PagesPageSplitViewPageFitLayoutExampleComponent",
-          "PagesPageDataManagerSplitViewFitLayoutExampleComponent"
+          "PagesPageDataManagerSplitViewFitLayoutExampleComponent",
+          "PagesPageDataManagerDataGridFitLayoutExample"
         ]
       }
     }
