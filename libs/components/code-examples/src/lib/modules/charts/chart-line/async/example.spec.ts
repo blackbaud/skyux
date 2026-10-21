@@ -3,6 +3,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyChartHarness, SkyChartLineHarness } from '@skyux/charts/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 
 import { ChartsChartLineAsyncExample } from './example';
 
@@ -65,6 +66,36 @@ describe('Async line chart example', () => {
       fixture.detectChanges();
 
       await expectAsync(harness.isLoading()).toBeResolvedTo(false);
+    });
+  });
+
+  it('should reload the data when the reload button is clicked', async () => {
+    const { fixture, harness } = await setupTest();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const reloadButton = await loader.getHarness(
+      SkyButtonHarness.with({ dataSkyId: 'reload-button' }),
+    );
+
+    await expectAsync(reloadButton.getLabelText()).toBeResolvedTo(
+      'Reload data',
+    );
+    await expectAsync(reloadButton.isDisabled()).toBeResolvedTo(false);
+
+    // Drive change detection manually so the CDK does not auto-stabilize the
+    // fixture, which would resolve the reload before the loading state can be
+    // observed.
+    await manualChangeDetection(async () => {
+      await reloadButton.click();
+      fixture.detectChanges();
+
+      await expectAsync(harness.isLoading()).toBeResolvedTo(true);
+      await expectAsync(reloadButton.isDisabled()).toBeResolvedTo(true);
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      await expectAsync(harness.isLoading()).toBeResolvedTo(false);
+      await expectAsync(reloadButton.isDisabled()).toBeResolvedTo(false);
     });
   });
 

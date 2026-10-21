@@ -11,6 +11,7 @@ import {
   SkyChartLine,
   SkyChartLineSeries,
 } from '@skyux/charts';
+import { SkyButton } from '@skyux/forms';
 
 interface ChartLineAsyncData {
   categories: string[];
@@ -25,6 +26,7 @@ interface ChartLineAsyncData {
   selector: 'app-chart-line-async-example',
   templateUrl: './example.html',
   imports: [
+    SkyButton,
     SkyChart,
     SkyChartAxisCategory,
     SkyChartAxisValue,
