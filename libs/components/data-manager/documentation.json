@@ -61,7 +61,8 @@
           "DataManagerBasicExampleComponent",
           "DataManagerResourceExampleComponent",
           "PagesPageListPageListLayoutExampleComponent",
-          "PagesPageDataManagerSplitViewFitLayoutExampleComponent"
+          "PagesPageDataManagerSplitViewFitLayoutExampleComponent",
+          "PagesPageDataManagerDataGridFitLayoutExample"
         ]
       }
     }

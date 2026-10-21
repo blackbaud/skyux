@@ -1141,6 +1141,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'PagesPageDataManagerDataGridFitLayoutExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ PagesPageDataManagerDataGridFitLayoutExample: c }) => c,
+      ),
+  },
+  {
     path: 'PagesPageDataManagerSplitViewFitLayoutExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
