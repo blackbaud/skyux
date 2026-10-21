@@ -22,4 +22,4 @@ on the SKY UX developer center for the full API reference, demos, and code examp
 
 ## Running unit tests
 
-Run `nx test data-grid` to execute the unit tests.
+Run `nx test data-grid --configuration=ci` to execute the unit tests.

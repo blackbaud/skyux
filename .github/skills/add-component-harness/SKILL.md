@@ -70,7 +70,7 @@ to copy its structure or naming.
 6. **Verify.** Run the testing project's specs headless, then lint and format:
 
    ```bash
-   npx nx test <library>-testing --browsers=ChromeHeadless
+   npx nx test <library>-testing --configuration=ci
    npm run lint:affected
    nx format --files=<changed-file-paths>
    ```
@@ -89,5 +89,5 @@ to copy its structure or naming.
 - Harness and filters are exported (with the `sky`/`Sky` prefix) from
   `testing/src/public-api.ts` and listed in `documentation.json`'s
   `testing.docsIds`.
-- `npx nx test <library>-testing` passes at the project's coverage threshold,
-  lint is clean, and changed files are formatted.
+- `npx nx test <library>-testing --configuration=ci` passes at the project's
+  coverage threshold, lint is clean, and changed files are formatted.
