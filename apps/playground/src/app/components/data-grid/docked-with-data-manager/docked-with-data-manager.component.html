@@ -1,0 +1,31 @@
+<ng-template #pct let-value="value">
+  {{ value | skyPercent }}
+</ng-template>
+<sky-page layout="fit">
+  <sky-page-header pageTitle="Data grid docked with data manager">
+    <sky-page-header-actions>
+      <app-docked-menu />
+    </sky-page-header-actions>
+  </sky-page-header>
+
+  <sky-page-content>
+    <sky-data-manager dock="fill">
+      <sky-data-manager-toolbar />
+      <sky-data-view viewId="grid-view">
+        <sky-data-grid dock="fill" skyDataManagerViewController [data]="data()">
+          @for (column of columns; track column.field) {
+            <sky-data-grid-column
+              [columnHidden]="column.columnHidden"
+              [dataType]="column.dataType"
+              [field]="column.field"
+              [headingText]="column.headingText"
+              [sortable]="column.sortable"
+              [template]="column.field.endsWith('%') ? pct : undefined"
+              [width]="column.width"
+            />
+          }
+        </sky-data-grid>
+      </sky-data-view>
+    </sky-data-manager>
+  </sky-page-content>
+</sky-page>
