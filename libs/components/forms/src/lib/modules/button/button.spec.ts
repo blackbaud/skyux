@@ -206,10 +206,14 @@ describe('Button component', () => {
 
       expect(getAriaExpanded()).toBe('true');
 
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
       fixture.componentRef.setInput('ariaExpanded', false);
       fixture.detectChanges();
 
       expect(getAriaExpanded()).toBe('false');
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
 
       fixture.componentRef.setInput('ariaExpanded', undefined);
       fixture.detectChanges();
