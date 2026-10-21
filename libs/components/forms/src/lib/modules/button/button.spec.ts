@@ -50,6 +50,18 @@ describe('Button component', () => {
     return getAnchorOrButton()?.getAttribute('aria-label');
   }
 
+  function getAriaHasPopup(): string | null | undefined {
+    return getAnchorOrButton()?.getAttribute('aria-haspopup');
+  }
+
+  function getAriaControls(): string | null | undefined {
+    return getAnchorOrButton()?.getAttribute('aria-controls');
+  }
+
+  function getAriaExpanded(): string | null | undefined {
+    return getAnchorOrButton()?.getAttribute('aria-expanded');
+  }
+
   function getAriaLabelledBy(): string | null | undefined {
     return getAnchorOrButton()?.getAttribute('aria-labelledby');
   }
@@ -154,6 +166,55 @@ describe('Button component', () => {
       expect(getAriaLabel()).toBe('ARIA label for test button');
       expect(getAriaLabelledBy()).toBeNull();
       expect(getHiddenLabel()).toBeNull();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should set aria-haspopup to ariaHasPopup when specified', async () => {
+      expect(getAriaHasPopup()).toBeNull();
+
+      fixture.componentRef.setInput('ariaHasPopup', 'dialog');
+      fixture.detectChanges();
+
+      expect(getAriaHasPopup()).toBe('dialog');
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should set aria-controls to ariaControls when specified', async () => {
+      expect(getAriaControls()).toBeNull();
+
+      const controlledEl = document.createElement('div');
+      controlledEl.id = 'controlled-element';
+      document.body.appendChild(controlledEl);
+
+      fixture.componentRef.setInput('ariaControls', 'controlled-element');
+      fixture.detectChanges();
+
+      expect(getAriaControls()).toBe('controlled-element');
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+
+      controlledEl.remove();
+    });
+
+    it('should set aria-expanded to ariaExpanded when specified', async () => {
+      expect(getAriaExpanded()).toBeNull();
+
+      fixture.componentRef.setInput('ariaExpanded', true);
+      fixture.detectChanges();
+
+      expect(getAriaExpanded()).toBe('true');
+
+      fixture.componentRef.setInput('ariaExpanded', false);
+      fixture.detectChanges();
+
+      expect(getAriaExpanded()).toBe('false');
+
+      fixture.componentRef.setInput('ariaExpanded', undefined);
+      fixture.detectChanges();
+
+      expect(getAriaExpanded()).toBeNull();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
