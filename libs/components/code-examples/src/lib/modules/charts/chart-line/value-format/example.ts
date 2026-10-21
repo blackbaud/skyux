@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   SkyChart,
   SkyChartAxisCategory,
@@ -11,7 +11,6 @@ import {
  * @title Line chart value formats (number, currency, and percent)
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-chart-line-value-format-example',
   templateUrl: './example.html',
   imports: [

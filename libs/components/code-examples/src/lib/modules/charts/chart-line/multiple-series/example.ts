@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   SkyChart,
   SkyChartAxisCategory,
@@ -11,7 +11,6 @@ import {
  * @title Line chart with multiple series
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-chart-line-multiple-series-example',
   templateUrl: './example.html',
   imports: [

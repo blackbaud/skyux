@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   SkyChart,
   SkyChartAxisCategory,
@@ -12,7 +12,6 @@ import {
  * @title Line chart with gaps for missing values
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-chart-line-gaps-example',
   templateUrl: './example.html',
   imports: [

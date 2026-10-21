@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  resource,
-} from '@angular/core';
+import { Component, input, resource } from '@angular/core';
 import {
   SkyChart,
   SkyChartAxisCategory,
@@ -22,7 +17,6 @@ interface ChartLineAsyncData {
  * @title Line chart with asynchronously loaded data
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-chart-line-async-example',
   templateUrl: './example.html',
   imports: [
