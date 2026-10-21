@@ -411,10 +411,10 @@ export class SkyAgGridWrapperComponent
             const scrollbar = root.querySelector(
               '.ag-body-horizontal-scroll',
             ) as HTMLElement | null;
-            const pinnedTopRows = root.querySelector(
-              '.ag-grid-pinned-top-rows',
+            const gridViewport = root.querySelector(
+              '.ag-grid-viewport',
             ) as HTMLElement | null;
-            return { header, scrollbar, pinnedTopRows };
+            return { header, scrollbar, gridViewport };
           }),
           filter(
             (
@@ -422,8 +422,8 @@ export class SkyAgGridWrapperComponent
             ): els is {
               header: HTMLElement;
               scrollbar: HTMLElement;
-              pinnedTopRows: HTMLElement;
-            } => !!els.header && !!els.scrollbar && !!els.pinnedTopRows,
+              gridViewport: HTMLElement;
+            } => !!els.header && !!els.scrollbar && !!els.gridViewport,
           ),
         ),
       ),
@@ -484,7 +484,7 @@ export class SkyAgGridWrapperComponent
         takeUntilDestroyed(this.#destroyRef),
       )
       .subscribe(
-        ([{ header, pinnedTopRows }, headerRowsHeight, scrollbarHeight]) => {
+        ([{ header, gridViewport }, headerRowsHeight, scrollbarHeight]) => {
           // The theme's headerRowBorder width includes this variable, which
           // reserves room below the header inside AG Grid's own geometry
           // (pinned/sticky row offsets, body viewport height, fake scrollbar
@@ -519,8 +519,8 @@ export class SkyAgGridWrapperComponent
           // whichever writes last the result is identical. (`.ag-header`'s own
           // inline height is left to AG Grid: writing it here would freeze the
           // resize observer above.)
-          pinnedTopRows.style.setProperty(
-            '--ag-header-rows-height',
+          gridViewport.style.setProperty(
+            '--ag-internal-header-rows-height',
             `${headerRowsHeightWithBorder}px`,
           );
 

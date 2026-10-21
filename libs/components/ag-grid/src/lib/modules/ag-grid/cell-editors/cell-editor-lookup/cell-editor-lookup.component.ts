@@ -91,11 +91,12 @@ export class SkyAgGridCellEditorLookupComponent implements ICellEditorAngularCom
 
     this.#triggerType = SkyAgGridCellEditorUtils.getEditorInitialAction(params);
     const control = this.editorForm.get('selection');
+    const headerTooltip = params.colDef.headerTooltip;
     this.labelText = params.skyComponentProperties?.ariaLabelledBy
       ? undefined
       : params.skyComponentProperties?.ariaLabel ||
         params.colDef.headerName ||
-        params.colDef.headerTooltip ||
+        (typeof headerTooltip === 'string' ? headerTooltip : undefined) ||
         params.colDef.field ||
         params.colDef.colId;
 
