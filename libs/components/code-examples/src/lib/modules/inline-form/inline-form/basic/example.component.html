@@ -12,14 +12,14 @@
         {{ firstName }}
       </td>
       <td>
-        <button
-          aria-label="Edit"
-          class="sky-btn sky-btn-icon-borderless"
-          type="button"
-          (click)="onInlineFormOpen()"
-        >
-          <sky-icon iconName="edit" />
-        </button>
+        <sky-button
+          buttonStyle="icon-borderless"
+          data-sky-id="edit-button"
+          iconName="edit"
+          labelHidden
+          labelText="Edit"
+          (buttonClick)="onInlineFormOpen()"
+        />
       </td>
     </tr>
   </table>

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyButton } from '@skyux/forms';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyRepeaterModule, SkySortModule } from '@skyux/lists';
@@ -11,8 +11,8 @@ import { SkyDropdownModule } from '@skyux/popovers';
   templateUrl: './record-page-notes-tab.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
+    SkyButton,
     SkyDropdownModule,
-    SkyIconModule,
     SkyKeyInfoModule,
     SkyRepeaterModule,
     SkySearchModule,

@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyColorpickerModule } from '@skyux/colorpicker';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyButton, SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { MODAL_TITLE } from './modal-title-token';
@@ -19,6 +19,7 @@ import { MODAL_TITLE } from './modal-title-token';
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    SkyButton,
     SkyColorpickerModule,
     SkyInputBoxModule,
     SkyModalModule,

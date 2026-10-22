@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyFlyoutInstance, SkyFlyoutService } from '@skyux/flyout';
+import { SkyButton } from '@skyux/forms';
 
 import { FlyoutComponent } from './flyout.component';
 
@@ -10,6 +11,7 @@ import { FlyoutComponent } from './flyout.component';
   selector: 'app-flyout-custom-headers-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
+  imports: [SkyButton],
 })
 export class FlyoutCustomHeadersExampleComponent {
   public recordNumber = 0;
@@ -24,7 +26,6 @@ export class FlyoutCustomHeadersExampleComponent {
   public openFlyoutWithIterators(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
-      ariaRole: 'dialog',
       showIterator: true,
       iteratorNextButtonDisabled: this.#nextButtonDisabled(),
       iteratorPreviousButtonDisabled: this.#previousButtonDisabled(),
@@ -54,7 +55,6 @@ export class FlyoutCustomHeadersExampleComponent {
   public openFlyoutWithPrimaryAction(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
-      ariaRole: 'dialog',
       primaryAction: {
         label: 'Save',
         callback: () => {
@@ -67,7 +67,6 @@ export class FlyoutCustomHeadersExampleComponent {
   public openFlyoutWithRoutePermalink(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
-      ariaRole: 'dialog',
       permalink: {
         label: 'Go to Components page',
         route: {
@@ -90,7 +89,6 @@ export class FlyoutCustomHeadersExampleComponent {
   public openFlyoutWithUrlPermalink(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
-      ariaRole: 'dialog',
       permalink: {
         label: `Visit blackbaud.com`,
         url: 'http://www.blackbaud.com',

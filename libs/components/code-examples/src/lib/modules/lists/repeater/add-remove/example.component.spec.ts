@@ -1,14 +1,15 @@
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 import { SkyRepeaterHarness } from '@skyux/lists/testing';
 
 import { ListsRepeaterAddRemoveExampleComponent } from './example.component';
 
 describe('Repeater add remove example', () => {
   async function setupTest(): Promise<{
-    el: HTMLElement;
-    fixture: ComponentFixture<ListsRepeaterAddRemoveExampleComponent>;
+    loader: HarnessLoader;
     repeaterHarness: SkyRepeaterHarness;
   }> {
     const fixture = TestBed.createComponent(
@@ -20,9 +21,7 @@ describe('Repeater add remove example', () => {
       SkyRepeaterHarness.with({ dataSkyId: 'repeater-example' }),
     );
 
-    const el = fixture.nativeElement as HTMLElement;
-
-    return { el, fixture, repeaterHarness };
+    return { loader, repeaterHarness };
   }
 
   beforeEach(() => {
@@ -99,7 +98,7 @@ describe('Repeater add remove example', () => {
   });
 
   it('should allow items to be added and removed', async () => {
-    const { repeaterHarness, el, fixture } = await setupTest();
+    const { repeaterHarness, loader } = await setupTest();
 
     let repeaterItems = await repeaterHarness.getRepeaterItems();
 
@@ -110,16 +109,15 @@ describe('Repeater add remove example', () => {
       await expectAsync(item.isSelectable()).toBeResolvedTo(true);
     }
 
-    const addButton = el.querySelector<HTMLButtonElement>(
-      '[data-sky-id="add-button"]',
+    const addButton = await loader.getHarness(
+      SkyButtonHarness.with({ dataSkyId: 'add-button' }),
     );
 
-    const removeButton = el.querySelector<HTMLButtonElement>(
-      '[data-sky-id="remove-button"]',
+    const removeButton = await loader.getHarness(
+      SkyButtonHarness.with({ dataSkyId: 'remove-button' }),
     );
 
-    addButton?.click();
-    fixture.detectChanges();
+    await addButton.click();
 
     repeaterItems = await repeaterHarness.getRepeaterItems();
     expect(repeaterItems).toBeDefined();
@@ -134,8 +132,7 @@ describe('Repeater add remove example', () => {
     await repeaterItems[1].select();
     await expectAsync(repeaterItems[1].isSelected()).toBeResolvedTo(true);
 
-    removeButton?.click();
-    fixture.detectChanges();
+    await removeButton.click();
 
     repeaterItems = await repeaterHarness.getRepeaterItems();
     expect(repeaterItems).toBeDefined();

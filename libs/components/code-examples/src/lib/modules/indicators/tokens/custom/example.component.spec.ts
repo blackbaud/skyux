@@ -1,5 +1,7 @@
+import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 import { SkyTokensHarness } from '@skyux/indicators/testing';
 
 import { IndicatorsTokensCustomExampleComponent } from './example.component';
@@ -9,6 +11,7 @@ describe('Tokens basic example', () => {
 
   async function setupTest(): Promise<{
     tokensHarness: SkyTokensHarness;
+    loader: HarnessLoader;
     fixture: ComponentFixture<IndicatorsTokensCustomExampleComponent>;
   }> {
     const fixture = TestBed.createComponent(
@@ -20,18 +23,20 @@ describe('Tokens basic example', () => {
       SkyTokensHarness.with({ dataSkyId: 'example-tokens' }),
     );
 
-    return { tokensHarness, fixture };
+    return { tokensHarness, loader, fixture };
   }
 
-  function clickButton(
-    fixture: ComponentFixture<IndicatorsTokensCustomExampleComponent>,
+  async function clickButton(
+    loader: HarnessLoader,
     buttonName: 'change' | 'destroy' | 'focus-last' | 'reset',
-  ): void {
-    const btn = (
-      fixture.nativeElement as HTMLElement
-    ).querySelector<HTMLButtonElement>(`.tokens-example-${buttonName}-btn`);
+  ): Promise<void> {
+    const buttonHarness = await loader.getHarness(
+      SkyButtonHarness.with({
+        dataSkyId: `tokens-example-${buttonName}-button`,
+      }),
+    );
 
-    btn?.click();
+    await buttonHarness.click();
   }
 
   beforeEach(() => {
@@ -69,9 +74,9 @@ describe('Tokens basic example', () => {
   });
 
   it('should change tokens when the user clicks the "Change tokens" button', async () => {
-    const { tokensHarness, fixture } = await setupTest();
+    const { tokensHarness, loader } = await setupTest();
 
-    clickButton(fixture, 'change');
+    await clickButton(loader, 'change');
 
     await expectAsync(tokensHarness.getTokensText()).toBeResolvedTo([
       'Paid',
@@ -81,15 +86,15 @@ describe('Tokens basic example', () => {
   });
 
   it('should reset tokens when the user clicks the "Reset tokens" button', async () => {
-    const { tokensHarness, fixture } = await setupTest();
+    const { tokensHarness, loader } = await setupTest();
 
-    clickButton(fixture, 'change');
+    await clickButton(loader, 'change');
 
     await expectAsync(tokensHarness.getTokensText()).not.toBeResolvedTo(
       initialTokenLabels,
     );
 
-    clickButton(fixture, 'reset');
+    await clickButton(loader, 'reset');
 
     await expectAsync(tokensHarness.getTokensText()).toBeResolvedTo(
       initialTokenLabels,
@@ -97,22 +102,22 @@ describe('Tokens basic example', () => {
   });
 
   it('should destroy tokens when the user clicks the "Destroy tokens" button', async () => {
-    const { tokensHarness, fixture } = await setupTest();
+    const { tokensHarness, loader } = await setupTest();
 
-    clickButton(fixture, 'destroy');
+    await clickButton(loader, 'destroy');
 
     await expectAsync(tokensHarness.getTokens()).toBeResolvedTo([]);
   });
 
   it('should focus the last token when the user clicks the "Focus last token" button', async () => {
-    const { tokensHarness, fixture } = await setupTest();
+    const { tokensHarness, loader } = await setupTest();
 
     const tokens = await tokensHarness.getTokens();
     const lastToken = tokens[tokens.length - 1];
 
     await expectAsync(lastToken.isFocused()).toBeResolvedTo(false);
 
-    clickButton(fixture, 'focus-last');
+    await clickButton(loader, 'focus-last');
 
     await expectAsync(lastToken.isFocused()).toBeResolvedTo(true);
   });

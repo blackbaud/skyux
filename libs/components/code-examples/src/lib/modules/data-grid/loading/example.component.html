@@ -1,28 +1,22 @@
 <div class="sky-theme-margin-bottom-l">
-  <button
-    class="sky-btn sky-btn-default sky-theme-margin-right-s"
-    type="button"
+  <sky-button
+    class="sky-theme-margin-right-s"
     data-sky-id="show-data-button"
-    (click)="showData()"
-  >
-    Show data
-  </button>
-  <button
-    class="sky-btn sky-btn-default sky-theme-margin-right-s"
-    type="button"
+    labelText="Show data"
+    (buttonClick)="showData()"
+  />
+  <sky-button
+    class="sky-theme-margin-right-s"
     data-sky-id="show-empty-button"
-    (click)="showEmpty()"
-  >
-    Show empty state
-  </button>
-  <button
-    class="sky-btn sky-btn-default sky-theme-margin-right-s"
-    type="button"
+    labelText="Show empty state"
+    (buttonClick)="showEmpty()"
+  />
+  <sky-button
+    class="sky-theme-margin-right-s"
     data-sky-id="show-loading-button"
-    (click)="showLoading()"
-  >
-    Show loading state
-  </button>
+    labelText="Show loading state"
+    (buttonClick)="showLoading()"
+  />
 </div>
 
 <sky-data-grid

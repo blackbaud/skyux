@@ -4,13 +4,11 @@
   [skyPopoverMessageStream]="popoverController"
 />
 
-<button
-  class="sky-btn sky-btn-default sky-theme-margin-right-s"
-  type="button"
-  (click)="openPopover()"
->
-  Open popover with message stream
-</button>
+<sky-button
+  class="sky-theme-margin-right-s"
+  labelText="Open popover with message stream"
+  (buttonClick)="openPopover()"
+/>
 
 <sky-popover
   #myPopover

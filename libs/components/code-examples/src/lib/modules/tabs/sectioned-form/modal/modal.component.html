@@ -24,28 +24,21 @@
   </sky-modal-content>
   <sky-modal-footer>
     @if (tabsHidden) {
-      <button
-        class="sky-btn sky-btn-default"
-        type="button"
-        (click)="showTabs()"
-      >
-        <sky-icon iconName="chevron-left" />
-        Show sections
-      </button>
+      <sky-button
+        iconName="chevron-left"
+        labelText="Show sections"
+        (buttonClick)="showTabs()"
+      />
     }
-    <button
-      class="sky-btn sky-btn-primary"
-      type="button"
-      (click)="modalInstance.save()"
-    >
-      Save
-    </button>
-    <button
-      class="sky-btn sky-btn-link"
-      type="button"
-      (click)="modalInstance.cancel()"
-    >
-      Cancel
-    </button>
+    <sky-button
+      buttonStyle="primary"
+      labelText="Save"
+      (buttonClick)="modalInstance.save()"
+    />
+    <sky-button
+      buttonStyle="link"
+      labelText="Cancel"
+      (buttonClick)="modalInstance.cancel()"
+    />
   </sky-modal-footer>
 </sky-modal>

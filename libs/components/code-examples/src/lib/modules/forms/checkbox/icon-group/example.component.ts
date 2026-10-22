@@ -6,7 +6,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyButton, SkyCheckboxModule } from '@skyux/forms';
 
 /**
  * @title Icon checkbox group
@@ -15,7 +15,7 @@ import { SkyCheckboxModule } from '@skyux/forms';
   selector: 'app-forms-checkbox-icon-group-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
+  imports: [FormsModule, ReactiveFormsModule, SkyButton, SkyCheckboxModule],
 })
 export class FormsCheckboxIconGroupExampleComponent {
   protected formGroup: FormGroup;

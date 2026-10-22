@@ -1,6 +1,10 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
-import { SkyRadioGroupHarness, SkyRadioHarness } from '@skyux/forms/testing';
+import {
+  SkyButtonHarness,
+  SkyRadioGroupHarness,
+  SkyRadioHarness,
+} from '@skyux/forms/testing';
 
 /**
  * Custom harness for interacting with the filter modal component in tests.
@@ -8,8 +12,12 @@ import { SkyRadioGroupHarness, SkyRadioHarness } from '@skyux/forms/testing';
 export class FilterModalHarness extends SkyComponentHarness {
   public static hostSelector = '.filter-modal-demo-form';
 
-  #getSaveButton = this.locatorFor('button.sky-btn-primary');
-  #getCancelButton = this.locatorFor('button.sky-btn-link');
+  #getSaveButton = this.locatorFor(
+    SkyButtonHarness.with({ dataSkyId: 'save-button' }),
+  );
+  #getCancelButton = this.locatorFor(
+    SkyButtonHarness.with({ dataSkyId: 'cancel-button' }),
+  );
   #getRadioGroup = this.locatorFor(SkyRadioGroupHarness);
 
   public static with(): HarnessPredicate<FilterModalHarness> {

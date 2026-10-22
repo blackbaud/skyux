@@ -4,6 +4,7 @@ import {
   OnDestroy,
   inject,
 } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
 
@@ -22,6 +23,7 @@ import { ModalComponent } from './modal.component';
   selector: 'app-modals-modal-with-error-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
+  imports: [SkyButton],
 })
 export class ModalsModalWithErrorExampleComponent implements OnDestroy {
   protected modalSize = 'medium';

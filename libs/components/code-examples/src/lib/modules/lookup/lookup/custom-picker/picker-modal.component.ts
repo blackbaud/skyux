@@ -12,7 +12,11 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { SkyCheckboxModule, SkySelectionBoxModule } from '@skyux/forms';
+import {
+  SkyButton,
+  SkyCheckboxModule,
+  SkySelectionBoxModule,
+} from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyWaitModule } from '@skyux/indicators';
 import { SkyLookupShowMoreCustomPickerContext } from '@skyux/lookup';
@@ -31,6 +35,7 @@ import { Person } from './person';
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    SkyButton,
     SkyCheckboxModule,
     SkyIconModule,
     SkyModalModule,

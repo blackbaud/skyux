@@ -13,7 +13,7 @@ import {
   SkyColorpickerModule,
   SkyColorpickerOutput,
 } from '@skyux/colorpicker';
-import { SkyFormErrorModule } from '@skyux/forms';
+import { SkyButton, SkyFormErrorModule } from '@skyux/forms';
 
 import { Subject } from 'rxjs';
 
@@ -35,6 +35,7 @@ function isColorpickerOutput(value: unknown): value is SkyColorpickerOutput {
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    SkyButton,
     SkyColorpickerModule,
     SkyFormErrorModule,
   ],

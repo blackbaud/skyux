@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 import { SkyInlineFormHarness } from '@skyux/inline-form/testing';
 import { SkyRepeaterHarness } from '@skyux/lists/testing';
 
@@ -33,8 +34,10 @@ describe('Inline form with repeater demo', () => {
     const { inlineFormHarness } = await setupTest({
       itemId: 1,
     });
-    const editButton = await inlineFormHarness?.querySelector('button.sky-btn');
-    await editButton?.click();
+    const editButton = await inlineFormHarness.queryHarness(
+      SkyButtonHarness.with({ dataSkyId: 'edit-button' }),
+    );
+    await editButton.click();
     await expectAsync(inlineFormHarness?.isFormExpanded()).toBeResolvedTo(true);
 
     // You can query inline form buttons when the form is open.

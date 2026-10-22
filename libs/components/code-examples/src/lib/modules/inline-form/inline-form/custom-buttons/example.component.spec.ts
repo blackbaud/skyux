@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 import { SkyInlineFormHarness } from '@skyux/inline-form/testing';
 
 import { InlineFormCustomButtonsExampleComponent } from './example.component';
@@ -31,7 +32,9 @@ describe('Inline form custom button demo', () => {
     });
 
     // You can query components inside the inline form when closed.
-    const editButton = await harness.querySelector('button.sky-btn');
+    const editButton = await harness.queryHarness(
+      SkyButtonHarness.with({ dataSkyId: 'edit-button' }),
+    );
     await editButton.click();
 
     await expectAsync(harness.isFormExpanded()).toBeResolvedTo(true);

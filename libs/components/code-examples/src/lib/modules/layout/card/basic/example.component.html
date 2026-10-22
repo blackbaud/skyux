@@ -13,13 +13,7 @@
   }
   @if (showAction) {
     <sky-card-actions>
-      <button
-        class="sky-btn sky-btn-default"
-        type="button"
-        (click)="triggerAlert()"
-      >
-        Action
-      </button>
+      <sky-button labelText="Action" (buttonClick)="triggerAlert()" />
     </sky-card-actions>
   }
 </sky-card>

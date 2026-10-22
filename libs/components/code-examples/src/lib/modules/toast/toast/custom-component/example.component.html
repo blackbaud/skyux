@@ -1,10 +1,7 @@
-<button
-  class="sky-btn sky-btn-primary sky-theme-margin-right-s"
-  type="button"
-  (click)="openToast()"
->
-  Open toast
-</button>
-<button class="sky-btn sky-btn-default" type="button" (click)="closeAll()">
-  Close all
-</button>
+<sky-button
+  buttonStyle="primary"
+  class="sky-theme-margin-right-s"
+  labelText="Open toast"
+  (buttonClick)="openToast()"
+/>
+<sky-button labelText="Close all" (buttonClick)="closeAll()" />

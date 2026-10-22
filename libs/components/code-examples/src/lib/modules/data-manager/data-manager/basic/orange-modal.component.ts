@@ -4,14 +4,14 @@ import {
   SkyFilterItemModal,
   SkyFilterItemModalInstance,
 } from '@skyux/filter-bar';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyButton, SkyCheckboxModule } from '@skyux/forms';
 import { SkyModalModule } from '@skyux/modals';
 
 @Component({
   selector: 'app-orange-modal',
   templateUrl: './orange-modal.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [ReactiveFormsModule, SkyCheckboxModule, SkyModalModule],
+  imports: [ReactiveFormsModule, SkyButton, SkyCheckboxModule, SkyModalModule],
 })
 export class OrangeModalComponent implements SkyFilterItemModal {
   public readonly modalInstance = inject(SkyFilterItemModalInstance);

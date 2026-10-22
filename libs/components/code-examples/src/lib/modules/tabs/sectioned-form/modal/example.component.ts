@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyModalCloseArgs, SkyModalService } from '@skyux/modals';
 
 import { ModalComponent } from './modal.component';
@@ -10,6 +11,7 @@ import { ModalComponent } from './modal.component';
   selector: 'app-tabs-sectioned-form-modal-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyButton],
 })
 export class TabsSectionedFormModalExampleComponent {
   readonly #modalSvc = inject(SkyModalService);

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import {
   SkySelectionModalSearchResult,
   SkySelectionModalService,
@@ -16,6 +17,7 @@ import { Person } from './person';
   selector: 'app-lookup-selection-modal-basic-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
+  imports: [SkyButton],
 })
 export class LookupSelectionModalBasicExampleComponent {
   protected selectedPeople: Person[] | undefined;

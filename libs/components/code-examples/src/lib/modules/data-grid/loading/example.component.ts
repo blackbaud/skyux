@@ -13,6 +13,7 @@ import {
   SkyDataGridColumn,
   SkyDataGridSort,
 } from '@skyux/data-grid';
+import { SkyButton } from '@skyux/forms';
 
 import { DATA_LOADER, DemoBehavior } from './data';
 
@@ -23,7 +24,7 @@ import { DATA_LOADER, DemoBehavior } from './data';
   selector: 'app-data-grid-loading-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyDataGrid, SkyDataGridColumn],
+  imports: [SkyButton, SkyDataGrid, SkyDataGridColumn],
 })
 export class DataGridLoadingExampleComponent {
   // Simulate network latency.
