@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [14.25.0](https://github.com/blackbaud/skyux/compare/14.24.0...14.25.0) (2026-10-20)
+## [14.25.0](https://github.com/blackbaud/skyux/compare/14.24.0...14.25.0) (2026-10-22)
 
 
 ### Features
