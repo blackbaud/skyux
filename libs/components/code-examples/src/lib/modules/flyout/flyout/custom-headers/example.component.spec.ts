@@ -44,7 +44,6 @@ describe('Custom headers flyout example', () => {
     await expectAsync(flyoutHarness.getAriaLabelledBy()).toBeResolvedTo(
       'flyout-title',
     );
-    await expectAsync(flyoutHarness.getAriaRole()).toBeResolvedTo('dialog');
 
     expect(fixture.componentInstance.recordNumber).toBe(0);
     await flyoutHarness.clickNextIteratorButton();

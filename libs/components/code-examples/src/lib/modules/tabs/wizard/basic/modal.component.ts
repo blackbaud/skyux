@@ -11,7 +11,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
+import { SkyButton, SkyCheckboxModule, SkyInputBoxModule } from '@skyux/forms';
 import { SkyFluidGridModule } from '@skyux/layout';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import { SkyPhoneFieldModule } from '@skyux/phone-field';
@@ -23,6 +23,7 @@ import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     ReactiveFormsModule,
+    SkyButton,
     SkyCheckboxModule,
     SkyFluidGridModule,
     SkyInputBoxModule,

@@ -7,6 +7,7 @@ import {
   SkyInstrumentationTestingController,
   provideSkyInstrumentationTesting,
 } from '@skyux/core/testing';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 import { SkyModalHarness } from '@skyux/modals/testing';
 
 import { CoreInstrumentationModalExample } from './example';
@@ -15,6 +16,7 @@ describe('Instrumentation context forwarded to a modal', () => {
   function setupTest(): {
     controller: SkyInstrumentationTestingController;
     fixture: ComponentFixture<CoreInstrumentationModalExample>;
+    loader: HarnessLoader;
     rootLoader: HarnessLoader;
   } {
     TestBed.configureTestingModule({
@@ -32,18 +34,19 @@ describe('Instrumentation context forwarded to a modal', () => {
     return {
       controller: TestBed.inject(SkyInstrumentationTestingController),
       fixture,
+      loader: TestbedHarnessEnvironment.loader(fixture),
       rootLoader: TestbedHarnessEnvironment.documentRootLoader(fixture),
     };
   }
 
   it('should track when a user requests help from the edit gift modal', async () => {
-    const { controller, fixture, rootLoader } = setupTest();
+    const { controller, fixture, loader, rootLoader } = setupTest();
 
-    const launchButton = (fixture.nativeElement as HTMLElement).querySelector(
-      'button',
+    const launchButton = await loader.getHarness(
+      SkyButtonHarness.with({ dataSkyId: 'edit-gift-button' }),
     );
 
-    launchButton?.click();
+    await launchButton.click();
 
     fixture.detectChanges();
     await fixture.whenStable();

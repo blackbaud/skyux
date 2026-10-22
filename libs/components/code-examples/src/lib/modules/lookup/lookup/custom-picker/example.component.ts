@@ -12,7 +12,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyButton, SkyInputBoxModule } from '@skyux/forms';
 import { SkyWaitService } from '@skyux/indicators';
 import {
   SkyAutocompleteSearchAsyncArgs,
@@ -40,6 +40,7 @@ import { PickerModalComponent } from './picker-modal.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SkyButton,
     SkyInputBoxModule,
     SkyLookupModule,
   ],

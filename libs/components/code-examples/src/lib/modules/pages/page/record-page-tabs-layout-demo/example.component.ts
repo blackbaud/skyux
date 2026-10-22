@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SkyAvatarModule } from '@skyux/avatar';
+import { SkyButton } from '@skyux/forms';
 import { SkyAlertModule, SkyLabelModule } from '@skyux/indicators';
 import { SkyPageModule } from '@skyux/pages';
 
@@ -17,6 +18,7 @@ import { RecordPageContentComponent } from './record-page-content.component';
     RecordPageContentComponent,
     SkyAlertModule,
     SkyAvatarModule,
+    SkyButton,
     SkyLabelModule,
     SkyPageModule,
   ],

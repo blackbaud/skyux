@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyActionHubModule, SkyPageModalLinksInput } from '@skyux/pages';
 
 import { MODAL_TITLE } from './modal-title-token';
@@ -18,7 +19,7 @@ const pastHours = Array.from(Array(5).keys()).map((i) => {
   selector: 'app-pages-action-hub-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SkyActionHubModule],
+  imports: [SkyActionHubModule, SkyButton],
 })
 export class PagesActionHubExampleComponent {
   public buttons = [

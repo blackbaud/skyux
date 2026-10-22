@@ -1,13 +1,15 @@
 <div class="inline-delete-container">
   <strong>Custom content</strong>
   <div>
-    <button
-      class="sky-btn sky-btn-danger inline-delete-trigger"
-      type="button"
-      (click)="deleteItem()"
-    >
-      <sky-icon iconName="delete" />
-    </button>
+    <sky-button
+      buttonStyle="danger"
+      block
+      class="inline-delete-trigger"
+      iconName="delete"
+      labelHidden
+      labelText="Delete"
+      (buttonClick)="deleteItem()"
+    />
   </div>
   @if (deleting) {
     <sky-inline-delete

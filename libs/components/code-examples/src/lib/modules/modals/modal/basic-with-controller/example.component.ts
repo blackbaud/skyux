@@ -5,6 +5,7 @@ import {
   inject,
 } from '@angular/core';
 import { SkyHelpService } from '@skyux/core';
+import { SkyButton } from '@skyux/forms';
 import {
   SkyModalError,
   SkyModalInstance,
@@ -21,13 +22,12 @@ import { ModalComponent } from './modal.component';
 @Component({
   selector: 'app-modals-modal-basic-with-controller-example',
   changeDetection: ChangeDetectionStrategy.Eager,
-  template: `<button
-    class="sky-btn sky-btn-default"
-    type="button"
-    (click)="openModal()"
-  >
-    Open modal
-  </button>`,
+  imports: [SkyButton],
+  template: `<sky-button
+    ariaHasPopup="dialog"
+    labelText="Open modal"
+    (buttonClick)="openModal()"
+  />`,
 })
 export class ModalsModalBasicWithControllerExampleComponent implements OnDestroy {
   public hasErrors = false;

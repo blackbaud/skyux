@@ -11,7 +11,7 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyButton } from '@skyux/forms';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -36,9 +36,9 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [
     AgGridAngular,
     SkyAgGridModule,
+    SkyButton,
     SkyDataManagerModule,
     SkyKeyInfoModule,
-    SkyIconModule,
   ],
 })
 export class RecordPageAttachmentsTabComponent implements OnInit {

@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 
 @Component({
   selector: 'app-mark-inactive',
   templateUrl: './mark-inactive.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [SkyButton],
 })
 export class MarkInactiveComponent {
   @Input()

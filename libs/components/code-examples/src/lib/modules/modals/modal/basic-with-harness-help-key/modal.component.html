@@ -11,10 +11,12 @@
       </sky-input-box>
     </sky-modal-content>
     <sky-modal-footer>
-      <button class="sky-btn sky-btn-primary" type="submit">Save</button>
-      <button class="sky-btn sky-btn-link" type="button" (click)="cancelForm()">
-        Cancel
-      </button>
+      <sky-button buttonStyle="primary" buttonType="submit" labelText="Save" />
+      <sky-button
+        buttonStyle="link"
+        labelText="Cancel"
+        (buttonClick)="cancelForm()"
+      />
     </sky-modal-footer>
   </sky-modal>
 </form>

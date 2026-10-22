@@ -8,13 +8,12 @@
 >
   <sky-action-hub-buttons>
     @for (button of buttons; track button) {
-      <a
-        class="sky-btn sky-btn-default sky-theme-margin-right-s"
-        [attr.aria-label]="button.ariaLabel"
-        [href]="button.permalink.url"
-      >
-        {{ button.label }}
-      </a>
+      <sky-button
+        class="sky-theme-margin-right-s"
+        [ariaLabel]="button.ariaLabel"
+        [labelText]="button.label"
+        [permalink]="{ url: button.permalink.url }"
+      />
     }
   </sky-action-hub-buttons>
 

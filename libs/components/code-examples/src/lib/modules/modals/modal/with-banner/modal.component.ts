@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 @Component({
-  imports: [SkyIconModule, SkyModalModule],
+  imports: [SkyButton, SkyIconModule, SkyModalModule],
   changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <sky-modal
@@ -23,13 +24,11 @@ import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
         </div>
       </sky-modal-content>
       <sky-modal-footer>
-        <button
-          class="sky-btn sky-btn-primary"
-          type="button"
-          (click)="closeForm()"
-        >
-          Close
-        </button>
+        <sky-button
+          buttonStyle="primary"
+          labelText="Close"
+          (buttonClick)="closeForm()"
+        />
       </sky-modal-footer>
     </sky-modal>
   `,

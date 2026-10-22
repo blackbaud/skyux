@@ -1,60 +1,49 @@
 <sky-toolbar data-sky-id="sectioned-toolbar">
   <sky-toolbar-section data-sky-id="top-section">
     <sky-toolbar-item data-sky-id="toolbar-item-1">
-      <button
-        class="sky-btn sky-btn-primary"
-        type="button"
-        (click)="onButtonClicked('Button 1')"
-      >
-        Button 1
-      </button>
+      <sky-button
+        buttonStyle="primary"
+        data-sky-id="toolbar-button-1"
+        labelText="Button 1"
+        (buttonClick)="onButtonClicked('Button 1')"
+      />
     </sky-toolbar-item>
     <sky-toolbar-item data-sky-id="toolbar-item-2">
-      <button
-        class="sky-btn sky-btn-default"
-        type="button"
-        (click)="onButtonClicked('Button 2')"
-      >
-        Button 2
-      </button>
+      <sky-button
+        labelText="Button 2"
+        (buttonClick)="onButtonClicked('Button 2')"
+      />
     </sky-toolbar-item>
     <sky-toolbar-view-actions>
-      <button
-        class="sky-btn sky-btn-default sky-btn-icon"
-        title="Sort descending"
-        type="button"
-        (click)="onButtonClicked('Expand')"
-      >
-        <sky-icon iconName="chevron-double-down" />
-      </button>
-      <button
-        class="sky-btn sky-btn-default sky-btn-icon"
-        title="Sort ascending"
-        type="button"
-        (click)="onButtonClicked('Collapse')"
-      >
-        <sky-icon iconName="chevron-double-up" />
-      </button>
+      <sky-button
+        data-sky-id="expand-button"
+        iconName="chevron-double-down"
+        labelHidden
+        labelText="Sort descending"
+        (buttonClick)="onButtonClicked('Expand')"
+      />
+      <sky-button
+        iconName="chevron-double-up"
+        labelHidden
+        labelText="Sort ascending"
+        (buttonClick)="onButtonClicked('Collapse')"
+      />
     </sky-toolbar-view-actions>
   </sky-toolbar-section>
   <sky-toolbar-section data-sky-id="bottom-section">
     <sky-toolbar-item data-sky-id="sort-button">
-      <button
-        class="sky-btn sky-btn-default"
-        type="button"
-        (click)="onButtonClicked('Sort')"
-      >
-        <sky-icon iconName="arrow-sort" /> Sort
-      </button>
+      <sky-button
+        iconName="arrow-sort"
+        labelText="Sort"
+        (buttonClick)="onButtonClicked('Sort')"
+      />
     </sky-toolbar-item>
     <sky-toolbar-item data-sky-id="filter-button">
-      <button
-        class="sky-btn sky-btn-default"
-        type="button"
-        (click)="onButtonClicked('Filter')"
-      >
-        <sky-icon iconName="filter" /> Filter
-      </button>
+      <sky-button
+        iconName="filter"
+        labelText="Filter"
+        (buttonClick)="onButtonClicked('Filter')"
+      />
     </sky-toolbar-item>
   </sky-toolbar-section>
 </sky-toolbar>

@@ -1,11 +1,9 @@
-<button
-  class="sky-btn sky-btn-default sky-theme-margin-bottom-s"
-  type="button"
+<sky-button
+  class="sky-theme-margin-bottom-s"
+  labelText="Reload data"
   [disabled]="donations.isLoading()"
-  (click)="donations.reload()"
->
-  Reload data
-</button>
+  (buttonClick)="donations.reload()"
+/>
 <sky-chart
   data-sky-id="donations-by-quarter"
   headingText="Donations by quarter"

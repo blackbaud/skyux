@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 import { SkyToolbarHarness } from '@skyux/layout/testing';
 
 import { LayoutToolbarBasicExampleComponent } from './example.component';
@@ -37,12 +38,14 @@ describe('Basic toolbar example', () => {
     const toolbarItem1 = await toolbarHarness.getItem({
       dataSkyId: 'toolbar-item-1',
     });
-    const toolbarButton = await toolbarItem1.querySelector('button');
+    const toolbarButton = await toolbarItem1.queryHarness(
+      SkyButtonHarness.with({ dataSkyId: 'toolbar-button-1' }),
+    );
 
     const viewActionsHarness = await toolbarHarness.getViewActions();
-    const expandButton = (
-      await viewActionsHarness.querySelectorAll('button')
-    )[0];
+    const expandButton = await viewActionsHarness.queryHarness(
+      SkyButtonHarness.with({ dataSkyId: 'expand-button' }),
+    );
 
     const clickSpy = spyOn(fixture.componentInstance, 'onButtonClicked');
     await toolbarButton.click();
