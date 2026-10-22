@@ -58,7 +58,12 @@ runs:
             }
           };
 
-          // Find commits that ran through the e2e workflow on the PR branch.
+          // Find commits that ran through the e2e workflow on the PR branch. Only
+          // commits still in the branch's history count; a build for a commit that
+          // was force-pushed away says nothing about the current head.
+          const isAncestorOfHead = (sha) =>
+            exec.exec('git', ['merge-base', '--is-ancestor', sha, head], { ignoreReturnCode: true, silent: true })
+              .then((code) => code === 0);
           const prBranchCommitsBuilt = await github.rest.actions.listWorkflowRuns({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -67,6 +72,15 @@ runs:
             status: 'completed',
           })
             .then(({data}) => data.workflow_runs.map(run => run.head_sha).filter(Boolean))
+            .then(async (shas) => {
+              const kept = [];
+              for (const sha of shas) {
+                if (await isAncestorOfHead(sha)) {
+                  kept.push(sha);
+                }
+              }
+              return kept;
+            })
             .catch(() => []);
 
           // Getting 500 commits to the base branch, looking for one where this e2e test was affected and run.
@@ -97,11 +111,16 @@ runs:
             process.exit(0);
           }
 
-          if (lastGoodCommit === head) {
-            const fs = require('fs');
-            fs.writeFileSync(`${{ runner.temp }}/percy-build-${project}.txt`, String(buildId));
-            core.info(`The build for ${lastGoodCommit.substring(0, 7)} already passed.`);
+          // Whenever an earlier build is reused, record which one so the E2E
+          // Visual Review job can confirm it really covers this change.
+          const reuseBuild = () => {
+            require('fs').writeFileSync(`${{ runner.temp }}/percy-build-${project}.txt`, String(buildId));
             core.setOutput('affected', 'false');
+          };
+
+          if (lastGoodCommit === head) {
+            core.info(`The build for ${lastGoodCommit.substring(0, 7)} already passed.`);
+            reuseBuild();
             process.exit(0);
           }
 
@@ -121,5 +140,5 @@ runs:
             core.setOutput('affected', 'true');
           } else {
             core.info(`No e2e tests affected since ${lastGoodCommit.substring(0, 7)}`);
-            core.setOutput('affected', 'false');
+            reuseBuild();
           }
