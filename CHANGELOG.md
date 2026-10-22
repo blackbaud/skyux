@@ -7,6 +7,7 @@
 
 * **components/data-grid:** add a dock layout option ([#4498](https://github.com/blackbaud/skyux/issues/4498)) ([#4906](https://github.com/blackbaud/skyux/issues/4906)) ([6c4ec91](https://github.com/blackbaud/skyux/commit/6c4ec9142a0fc0e770300ca85c53d29a097007fd))
 * **components/data-grid:** add column help inline methods to data grid harness ([#4907](https://github.com/blackbaud/skyux/issues/4907)) ([e866f1e](https://github.com/blackbaud/skyux/commit/e866f1ec2090e3374893446a157652812516643f))
+* **components/forms:** add `ariaControls`, `ariaExpanded`, and `ariaHasPopup` to button component ([#4910](https://github.com/blackbaud/skyux/issues/4910)) ([375a0d9](https://github.com/blackbaud/skyux/commit/375a0d975f4367362a371d6d23e72d72588471a6))
 * **components/forms:** add `ariaLabel` to button component ([#4903](https://github.com/blackbaud/skyux/issues/4903)) ([51da0d8](https://github.com/blackbaud/skyux/commit/51da0d809b0bf18bf36eadff4320c007ad4388e1))
 * **components/forms:** add input box button component ([#4902](https://github.com/blackbaud/skyux/issues/4902)) ([1240ae6](https://github.com/blackbaud/skyux/commit/1240ae605841e3513e78a520ce0580d04f21f275))
 
