@@ -1,21 +1,24 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 import { SkyConfirmHarness } from '@skyux/modals/testing';
 
 import { ModalsConfirmBasicWithHarnessExampleComponent } from './example.component';
 
 describe('Testing with SkyConfirmHarness', () => {
-  async function setupTest(confirmBtnClass: string): Promise<{
+  async function setupTest(openButtonDataSkyId: string): Promise<{
     confirmHarness: SkyConfirmHarness;
     fixture: ComponentFixture<ModalsConfirmBasicWithHarnessExampleComponent>;
   }> {
     const fixture = TestBed.createComponent(
       ModalsConfirmBasicWithHarnessExampleComponent,
     );
-    const el = fixture.nativeElement as HTMLElement;
-    const openBtn = el.querySelector<HTMLButtonElement>(confirmBtnClass);
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const openButton = await loader.getHarness(
+      SkyButtonHarness.with({ dataSkyId: openButtonDataSkyId }),
+    );
 
-    openBtn?.click();
+    await openButton.click();
 
     const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     const confirmHarness = await rootLoader.getHarness(SkyConfirmHarness);
@@ -41,7 +44,7 @@ describe('Testing with SkyConfirmHarness', () => {
   });
 
   it('should show the correct text when OK is clicked on an OK confirm', async () => {
-    const { confirmHarness, fixture } = await setupTest('.ok-confirm-btn');
+    const { confirmHarness, fixture } = await setupTest('ok-confirm-button');
 
     await confirmHarness.clickOkButton();
 
@@ -54,7 +57,7 @@ describe('Testing with SkyConfirmHarness', () => {
 
   it('should show the correct text when "Finalize" is clicked on a custom confirm', async () => {
     const { confirmHarness, fixture } = await setupTest(
-      '.two-action-confirm-btn',
+      'two-action-confirm-button',
     );
 
     await confirmHarness.clickCustomButton({ text: 'Finalize' });

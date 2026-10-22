@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyAlertModule } from '@skyux/indicators';
 import { SkyPageModule } from '@skyux/pages';
 
@@ -12,6 +13,11 @@ import { SplitViewPageContentComponent } from './split-view-page-content.compone
   selector: 'app-pages-page-split-view-page-fit-layout-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SkyAlertModule, SkyPageModule, SplitViewPageContentComponent],
+  imports: [
+    SkyAlertModule,
+    SkyButton,
+    SkyPageModule,
+    SplitViewPageContentComponent,
+  ],
 })
 export class PagesPageSplitViewPageFitLayoutExampleComponent {}

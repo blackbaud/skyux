@@ -5,6 +5,7 @@ import {
   provideSkyDataGridTesting,
   SkyDataGridHarness,
 } from '@skyux/data-grid/testing';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 
 import { DataGridSortingExampleComponent } from './example.component';
 
@@ -45,10 +46,11 @@ describe('Data grid sorting example', () => {
   });
 
   it('should update the bound sort when the button is clicked', async () => {
-    const { fixture } = await setupTest();
-    (fixture.nativeElement as HTMLElement)
-      .querySelector<HTMLButtonElement>('[data-sky-id="sort-by-age-button"]')
-      ?.click();
+    const { fixture, loader } = await setupTest();
+    const sortByAgeButton = await loader.getHarness(
+      SkyButtonHarness.with({ dataSkyId: 'sort-by-age-button' }),
+    );
+    await sortByAgeButton.click();
     await fixture.whenStable();
     fixture.detectChanges();
     expect(getSortText(fixture)).toContain('age (descending)');
@@ -70,12 +72,13 @@ describe('Data grid sorting example', () => {
   });
 
   it('should clear the bound sort when the clear button is clicked', async () => {
-    const { fixture } = await setupTest();
+    const { fixture, loader } = await setupTest();
     expect(getSortText(fixture)).toContain('name (ascending)');
 
-    (fixture.nativeElement as HTMLElement)
-      .querySelector<HTMLButtonElement>('[data-sky-id="clear-sort-button"]')
-      ?.click();
+    const clearSortButton = await loader.getHarness(
+      SkyButtonHarness.with({ dataSkyId: 'clear-sort-button' }),
+    );
+    await clearSortButton.click();
     await fixture.whenStable();
     fixture.detectChanges();
     expect(getSortText(fixture)).toContain('no sort applied');

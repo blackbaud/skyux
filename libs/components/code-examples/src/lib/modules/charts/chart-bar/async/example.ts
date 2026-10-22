@@ -11,6 +11,7 @@ import {
   SkyChartBar,
   SkyChartBarSeries,
 } from '@skyux/charts';
+import { SkyButton } from '@skyux/forms';
 
 interface ChartBarAsyncData {
   categories: string[];
@@ -25,6 +26,7 @@ interface ChartBarAsyncData {
   selector: 'app-chart-bar-async-example',
   templateUrl: './example.html',
   imports: [
+    SkyButton,
     SkyChart,
     SkyChartAxisCategory,
     SkyChartAxisValue,

@@ -14,7 +14,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyButton, SkyInputBoxModule } from '@skyux/forms';
 import { SkyWaitService } from '@skyux/indicators';
 import {
   SkyAutocompleteSearchAsyncArgs,
@@ -42,6 +42,7 @@ import { Person } from './person';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SkyButton,
     SkyIdModule,
     SkyInputBoxModule,
     SkyLookupModule,

@@ -1,11 +1,10 @@
 <div class="sky-theme-margin-bottom-xl">
-  <button
-    class="sky-btn sky-btn-default selection-modal-example-show-btn"
-    type="button"
-    (click)="showSelectionModal()"
-  >
-    Select a value
-  </button>
+  <sky-button
+    ariaHasPopup="dialog"
+    data-sky-id="show-selection-modal-button"
+    labelText="Select a value"
+    (buttonClick)="showSelectionModal()"
+  />
 </div>
 
 @if (selectedPeople?.length) {

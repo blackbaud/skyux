@@ -8,16 +8,18 @@
       </sky-radio-group>
     </sky-modal-content>
     <sky-modal-footer>
-      <button class="sky-btn sky-btn-primary" type="button" (click)="save()">
-        Save
-      </button>
-      <button
-        class="sky-btn sky-btn-link"
-        type="button"
-        (click)="modalInstance.cancel()"
-      >
-        Cancel
-      </button>
+      <sky-button
+        buttonStyle="primary"
+        data-sky-id="save-button"
+        labelText="Save"
+        (buttonClick)="save()"
+      />
+      <sky-button
+        buttonStyle="link"
+        data-sky-id="cancel-button"
+        labelText="Cancel"
+        (buttonClick)="modalInstance.cancel()"
+      />
     </sky-modal-footer>
   </sky-modal>
 </form>

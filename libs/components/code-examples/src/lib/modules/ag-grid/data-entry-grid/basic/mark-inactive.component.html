@@ -1,8 +1,7 @@
-<button
-  type="button"
-  class="sky-btn sky-btn-link-inline"
-  [attr.aria-label]="markInactiveAriaLabel"
-  (click)="markInactive()"
->
-  Mark inactive
-</button>
+<sky-button
+  buttonStyle="link-inline"
+  data-sky-id="mark-inactive-button"
+  labelText="Mark inactive"
+  [ariaLabel]="markInactiveAriaLabel"
+  (buttonClick)="markInactive()"
+/>

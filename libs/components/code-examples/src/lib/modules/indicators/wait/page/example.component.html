@@ -1,15 +1,13 @@
-<button
-  class="sky-btn sky-btn-default sky-theme-margin-right-s"
-  type="button"
-  (click)="togglePageWait(true)"
->
-  Show page wait
-</button>
+<sky-button
+  class="sky-theme-margin-right-s"
+  data-sky-id="show-page-wait-button"
+  labelText="Show page wait"
+  (buttonClick)="togglePageWait(true)"
+/>
 
-<button
-  class="sky-btn sky-btn-default sky-theme-margin-right-s"
-  type="button"
-  (click)="togglePageWait(false)"
->
-  Show non-blocking page wait
-</button>
+<sky-button
+  class="sky-theme-margin-right-s"
+  data-sky-id="show-non-blocking-page-wait-button"
+  labelText="Show non-blocking page wait"
+  (buttonClick)="togglePageWait(false)"
+/>

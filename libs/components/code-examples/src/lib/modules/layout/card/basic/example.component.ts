@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyButton, SkyCheckboxModule } from '@skyux/forms';
 import { SkyCardModule } from '@skyux/layout';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -11,7 +11,13 @@ import { SkyDropdownModule } from '@skyux/popovers';
   selector: 'app-layout-card-basic-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [FormsModule, SkyCardModule, SkyCheckboxModule, SkyDropdownModule],
+  imports: [
+    FormsModule,
+    SkyButton,
+    SkyCardModule,
+    SkyCheckboxModule,
+    SkyDropdownModule,
+  ],
 })
 export class LayoutCardBasicExampleComponent {
   protected showAction = true;

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyButton } from '@skyux/forms';
 import { SkyKeyInfoModule } from '@skyux/indicators';
 import {
   SkyBoxModule,
@@ -19,9 +19,9 @@ import { Detail } from './detail';
   imports: [
     CommonModule,
     SkyBoxModule,
+    SkyButton,
     SkyDescriptionListModule,
     SkyFluidGridModule,
-    SkyIconModule,
     SkyKeyInfoModule,
     SkyRepeaterModule,
   ],

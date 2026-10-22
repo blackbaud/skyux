@@ -1,6 +1,7 @@
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 import { SkyModalHarness } from '@skyux/modals/testing';
 import { SkyActionHubHarness } from '@skyux/pages/testing';
 
@@ -51,13 +52,13 @@ describe('SettingsModalComponent', () => {
     );
     expect(await modalHarness.getHeadingText()).toBe('Color');
     const consoleSpy = spyOn(console, 'log').and.stub();
-    const modalElement = TestbedHarnessEnvironment.getNativeElement(
-      await modalHarness.host(),
+    const submit = await rootLoader.getHarness(
+      SkyButtonHarness.with({
+        dataSkyId: 'settings-save-button',
+      }),
     );
-    const submit = modalElement.querySelector('button[type="submit"]');
-    expect(submit).toBeTruthy();
-    expect(submit?.textContent?.trim()).toBe('Save');
-    (submit as HTMLButtonElement).click();
+    await expectAsync(submit.getLabelText()).toBeResolvedTo('Save');
+    await submit.click();
     expect(consoleSpy).toHaveBeenCalledWith({
       'Color 1': '',
       'Color 2': '',

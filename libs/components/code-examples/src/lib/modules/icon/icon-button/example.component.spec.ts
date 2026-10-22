@@ -1,23 +1,23 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyIconHarness } from '@skyux/icon/testing';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 
 import { IconIconButtonExampleComponent } from './example.component';
 
 describe('Icon button', () => {
   async function setupTest(options: { dataSkyId?: string }): Promise<{
-    iconHarness: SkyIconHarness;
+    buttonHarness: SkyButtonHarness;
     fixture: ComponentFixture<IconIconButtonExampleComponent>;
   }> {
     const fixture = TestBed.createComponent(IconIconButtonExampleComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
-    const iconHarness = await loader.getHarness(
-      SkyIconHarness.with({
+    const buttonHarness = await loader.getHarness(
+      SkyButtonHarness.with({
         dataSkyId: options?.dataSkyId,
       }),
     );
 
-    return { iconHarness, fixture };
+    return { buttonHarness, fixture };
   }
 
   beforeEach(() => {
@@ -27,22 +27,24 @@ describe('Icon button', () => {
   });
 
   it('should display the icon in the text icon button', async () => {
-    const { iconHarness, fixture } = await setupTest({
-      dataSkyId: 'text-button-icon',
+    const { buttonHarness, fixture } = await setupTest({
+      dataSkyId: 'text-button',
     });
 
     fixture.detectChanges();
 
-    await expectAsync(iconHarness.getIconName()).toBeResolvedTo('save');
+    await expectAsync(buttonHarness.getIconName()).toBeResolvedTo('save');
   });
 
   it('should display the icon in the icon only button', async () => {
-    const { iconHarness, fixture } = await setupTest({
-      dataSkyId: 'button-icon',
+    const { buttonHarness, fixture } = await setupTest({
+      dataSkyId: 'icon-only-button',
     });
 
     fixture.detectChanges();
 
-    await expectAsync(iconHarness.getIconName()).toBeResolvedTo('edit');
+    await expectAsync(buttonHarness.getIconName()).toBeResolvedTo('edit');
+    await expectAsync(buttonHarness.getLabelText()).toBeResolvedTo('Edit');
+    await expectAsync(buttonHarness.getLabelHidden()).toBeResolvedTo(true);
   });
 });

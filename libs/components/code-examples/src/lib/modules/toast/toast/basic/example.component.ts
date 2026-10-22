@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyToastService, SkyToastType } from '@skyux/toast';
 
 /**
@@ -8,6 +9,7 @@ import { SkyToastService, SkyToastType } from '@skyux/toast';
   selector: 'app-toast-basic-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
+  imports: [SkyButton],
 })
 export class ToastBasicExampleComponent {
   readonly #toastSvc = inject(SkyToastService);

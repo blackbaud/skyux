@@ -9,6 +9,7 @@ import {
   SkyDataGridColumn,
   SkyDataGridSort,
 } from '@skyux/data-grid';
+import { SkyButton } from '@skyux/forms';
 import { SkyBoxModule } from '@skyux/layout';
 
 import { DATA_GRID_DEMO_DATA, DataGridSortingRow } from './data';
@@ -20,7 +21,7 @@ import { DATA_GRID_DEMO_DATA, DataGridSortingRow } from './data';
   selector: 'app-data-grid-sorting-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SkyBoxModule, SkyDataGrid, SkyDataGridColumn],
+  imports: [SkyBoxModule, SkyButton, SkyDataGrid, SkyDataGridColumn],
 })
 export class DataGridSortingExampleComponent {
   protected readonly data: DataGridSortingRow[] = DATA_GRID_DEMO_DATA;

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import {
   SkyConfirmButtonConfig,
   SkyConfirmInstance,
@@ -13,6 +14,7 @@ import {
   selector: 'app-modals-confirm-basic-with-harness-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
+  imports: [SkyButton],
 })
 export class ModalsConfirmBasicWithHarnessExampleComponent {
   protected selectedAction: string | undefined;
