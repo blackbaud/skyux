@@ -68,7 +68,7 @@ jobs:
                 // CLI call for github.rest.actions.listJobsForWorkflowRun
                 // https://docs.github.com/en/rest/actions/workflow-jobs?apiVersion=2022-11-28#list-jobs-for-a-workflow-run
                 console.log('')
-                console.log(`# gh api -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" \\`)
+                console.log(`# gh api --paginate -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" \\`)
                 console.log(`  "/repos/${context.repo.owner}/${context.repo.repo}/actions/runs/${run.id}/jobs?per_page=30&filter=latest"`)
                 console.log('')
 
