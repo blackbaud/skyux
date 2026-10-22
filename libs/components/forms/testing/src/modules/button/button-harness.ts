@@ -1,6 +1,10 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
-import { SkyButtonStyle, SkyButtonType } from '@skyux/forms';
+import {
+  SkyButtonAriaHasPopup,
+  SkyButtonStyle,
+  SkyButtonType,
+} from '@skyux/forms';
 import { SkyIconHarness } from '@skyux/icon/testing';
 import { SkyButtonHarnessFilters } from './button-harness-filters';
 
@@ -99,6 +103,35 @@ export class SkyButtonHarness extends SkyComponentHarness {
    */
   public async getAriaLabel(): Promise<string | null> {
     return await (await this.#getAnchorOrButton()).getAttribute('aria-label');
+  }
+
+  /**
+   * Gets the button's ARIA has-popup value, or `null` if `ariaHasPopup` is not specified.
+   */
+  public async getAriaHasPopup(): Promise<SkyButtonAriaHasPopup | null> {
+    return (await (
+      await this.#getAnchorOrButton()
+    ).getAttribute('aria-haspopup')) as SkyButtonAriaHasPopup | null;
+  }
+
+  /**
+   * Gets the ID of the element the button controls, or `null` if `ariaControls` is not specified.
+   */
+  public async getAriaControls(): Promise<string | null> {
+    return await (
+      await this.#getAnchorOrButton()
+    ).getAttribute('aria-controls');
+  }
+
+  /**
+   * Gets the button's ARIA expanded state, or `null` if `ariaExpanded` is not specified.
+   */
+  public async getAriaExpanded(): Promise<boolean | null> {
+    const ariaExpanded = await (
+      await this.#getAnchorOrButton()
+    ).getAttribute('aria-expanded');
+
+    return ariaExpanded === null ? null : ariaExpanded === 'true';
   }
 
   /**
