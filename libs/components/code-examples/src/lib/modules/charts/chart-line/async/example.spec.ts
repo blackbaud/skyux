@@ -1,0 +1,134 @@
+import { manualChangeDetection } from '@angular/cdk/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyChartHarness, SkyChartLineHarness } from '@skyux/charts/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
+import { SkyButtonHarness } from '@skyux/forms/testing';
+
+import { ChartsChartLineAsyncExample } from './example';
+
+describe('Async line chart example', () => {
+  // The harness loader waits for the fixture to stabilize, which resolves the
+  // example's simulated server call, so the chart is loaded by the time a
+  // harness is returned. The delay is set to 0 to keep the test fast.
+  async function setupTest(): Promise<{
+    fixture: ComponentFixture<ChartsChartLineAsyncExample>;
+    harness: SkyChartHarness;
+  }> {
+    TestBed.configureTestingModule({
+      providers: [provideNoopSkyAnimations()],
+    });
+
+    const fixture = TestBed.createComponent(ChartsChartLineAsyncExample);
+    fixture.componentRef.setInput('delay', 0);
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    fixture.detectChanges();
+    const harness = await loader.getHarness(
+      SkyChartHarness.with({ dataSkyId: 'donations-by-quarter' }),
+    );
+
+    return { fixture, harness };
+  }
+
+  it('should render the chart once the data resolves', async () => {
+    const { harness } = await setupTest();
+
+    await expectAsync(harness.getHeadingText()).toBeResolvedTo(
+      'Donations by quarter',
+    );
+    await expectAsync(harness.isLoading()).toBeResolvedTo(false);
+  });
+
+  it('should show the loading state until the request resolves', async () => {
+    TestBed.configureTestingModule({
+      providers: [provideNoopSkyAnimations()],
+    });
+
+    const fixture = TestBed.createComponent(ChartsChartLineAsyncExample);
+    fixture.componentRef.setInput('delay', 0);
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+
+    // Drive change detection manually so the CDK does not auto-stabilize the
+    // fixture, which would resolve the simulated request before the loading
+    // state can be observed.
+    await manualChangeDetection(async () => {
+      fixture.detectChanges();
+
+      const harness = await loader.getHarness(
+        SkyChartHarness.with({ dataSkyId: 'donations-by-quarter' }),
+      );
+
+      await expectAsync(harness.isLoading()).toBeResolvedTo(true);
+
+      // A pending timer keeps the zone unstable, so `whenStable` waits for the
+      // simulated request to resolve without a fixed wall-clock delay.
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      await expectAsync(harness.isLoading()).toBeResolvedTo(false);
+    });
+  });
+
+  it('should reload the data when the reload button is clicked', async () => {
+    const { fixture, harness } = await setupTest();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const reloadButton = await loader.getHarness(
+      SkyButtonHarness.with({ dataSkyId: 'reload-button' }),
+    );
+
+    await expectAsync(reloadButton.getLabelText()).toBeResolvedTo(
+      'Reload data',
+    );
+    await expectAsync(reloadButton.isDisabled()).toBeResolvedTo(false);
+
+    // Drive change detection manually so the CDK does not auto-stabilize the
+    // fixture, which would resolve the reload before the loading state can be
+    // observed.
+    await manualChangeDetection(async () => {
+      await reloadButton.click();
+      fixture.detectChanges();
+
+      await expectAsync(harness.isLoading()).toBeResolvedTo(true);
+      await expectAsync(reloadButton.isDisabled()).toBeResolvedTo(true);
+
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      await expectAsync(harness.isLoading()).toBeResolvedTo(false);
+      await expectAsync(reloadButton.isDisabled()).toBeResolvedTo(false);
+    });
+  });
+
+  it('should render the line chart plot', async () => {
+    const { harness } = await setupTest();
+
+    const lineHarness = await harness.queryHarness(SkyChartLineHarness);
+
+    await expectAsync(lineHarness.isChartRendered()).toBeResolvedTo(true);
+  });
+
+  it('should expose the loaded data through the data table modal', async () => {
+    const { harness } = await setupTest();
+
+    const dataTable = await harness.openDataTableModal();
+
+    await expectAsync(dataTable.getCategoryLabel()).toBeResolvedTo('Quarter');
+    await expectAsync(dataTable.getSeriesLabels()).toBeResolvedTo([
+      'Donations',
+    ]);
+    await expectAsync(dataTable.getCategories()).toBeResolvedTo([
+      'Q1',
+      'Q2',
+      'Q3',
+      'Q4',
+    ]);
+    await expectAsync(dataTable.getValues()).toBeResolvedTo([
+      ['$45.00'],
+      ['$72.00'],
+      ['$38.00'],
+      ['$90.00'],
+    ]);
+
+    await dataTable.close();
+  });
+});
