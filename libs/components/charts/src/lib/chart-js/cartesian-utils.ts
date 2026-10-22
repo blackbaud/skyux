@@ -1,3 +1,4 @@
+import { type Signal } from '@angular/core';
 import {
   type ChartConfiguration as ChartJsConfig,
   type TooltipItem as ChartJsTooltipItem,
@@ -5,8 +6,6 @@ import {
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
-import { SkyChartBarSeries } from '../chart-bar/chart-bar-series';
-import { type SkyChartBarSeriesValue } from '../chart-bar/chart-bar-series-value';
 import type { SkyChartTable } from '../chart-table/chart-table';
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 
@@ -88,24 +87,42 @@ export function isValueRange(
 }
 
 /**
+ * A value any cartesian series can plot: a number, a floating `[start, end]`
+ * range, or `null` for a gap. Each series type accepts a subset of this union.
+ */
+export type SkyChartCartesianValue = number | readonly [number, number] | null;
+
+/**
+ * The shape shared by every cartesian series component (for example,
+ * `sky-chart-bar-series` and `sky-chart-line-series`): a label and the values
+ * plotted against the category axis.
+ */
+export interface SkyChartCartesianSeries {
+  labelText: Signal<string>;
+  values: Signal<readonly SkyChartCartesianValue[]>;
+}
+
+/**
  * The axes and series a chart needs to render, present only when a category
  * axis, a value axis, and at least one series are all provided.
  */
-export interface SkyChartCartesianData {
+export interface SkyChartCartesianData<
+  TSeries extends SkyChartCartesianSeries,
+> {
   categoryAxis: SkyChartAxisCategory;
   valueAxis: SkyChartAxisValue;
-  series: readonly SkyChartBarSeries[];
+  series: readonly TSeries[];
 }
 
 /**
  * Resolves the axes and series into the data a chart needs to render, or
  * `undefined` when a required axis or series is missing.
  */
-export function resolveCartesianData(
+export function resolveCartesianData<TSeries extends SkyChartCartesianSeries>(
   categoryAxis: SkyChartAxisCategory | undefined,
   valueAxis: SkyChartAxisValue | undefined,
-  series: readonly SkyChartBarSeries[],
-): SkyChartCartesianData | undefined {
+  series: readonly TSeries[],
+): SkyChartCartesianData<TSeries> | undefined {
   if (
     categoryAxis === undefined ||
     valueAxis === undefined ||
@@ -125,7 +142,7 @@ export function resolveCartesianData(
  */
 export function buildCartesianTable(
   categoryAxis: SkyChartAxisCategory,
-  series: readonly SkyChartBarSeries[],
+  series: readonly SkyChartCartesianSeries[],
   formatValue: (value: number) => string,
 ): SkyChartTable {
   return {
@@ -146,10 +163,12 @@ export function buildCartesianTable(
  * formats as an empty string.
  */
 function formatCartesianValue(
-  value: SkyChartBarSeriesValue,
+  value: SkyChartCartesianValue,
   formatValue: (value: number) => string,
 ): string {
-  if (value === null) {
+  // Chart.js draws `undefined` as a gap too, and loosely typed consumer data
+  // can contain it despite the value types.
+  if (value === null || value === undefined) {
     return '';
   }
 
@@ -220,16 +239,20 @@ function keepDecadeLogTicks(axis: { ticks: { value: number }[] }): void {
 }
 
 /**
- * Builds the category and value axis scales for a cartesian chart. The category
- * axis draws no grid lines across the chart area, and the value axis draws them
- * to aid value comparison. When `stacked` is set, both the category and value
- * scales stack so that series accumulate into a single bar per category.
+ * Builds the category and value axis scales for a cartesian chart. The value
+ * axis always draws grid lines across the chart area to aid value comparison;
+ * the category axis draws them only when `showCategoryGridLines` is set. Bar
+ * charts omit them because lines running between the bars add clutter, while
+ * line charts show them so the full grid anchors free-floating points. When
+ * `isStacked` is set, both scales stack so that series accumulate into a
+ * single bar per category.
  */
 export function buildCartesianScales(options: {
   categoryAxis: SkyChartAxisCategory;
   valueAxis: SkyChartAxisValue;
   isHorizontal: boolean;
   isStacked?: boolean;
+  showCategoryGridLines?: boolean;
   themeStyles: SkyChartThemeStyles;
 }): ChartJsCartesianScales {
   const {
@@ -237,6 +260,7 @@ export function buildCartesianScales(options: {
     valueAxis,
     isHorizontal,
     isStacked = false,
+    showCategoryGridLines = false,
     themeStyles,
   } = options;
 
@@ -257,9 +281,7 @@ export function buildCartesianScales(options: {
       grid: {
         display: true,
         drawTicks: true,
-        // The category axis marks discrete groups, so grid lines running
-        // between the bars add clutter without aiding value comparison.
-        drawOnChartArea: false,
+        drawOnChartArea: showCategoryGridLines,
         ...base.grid,
       },
       border: {

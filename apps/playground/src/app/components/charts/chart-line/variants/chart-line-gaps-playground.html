@@ -1,0 +1,10 @@
+<sky-chart
+  headingText="Donations by month"
+  subheadingText="Null values render as gaps in the line."
+>
+  <sky-chart-line>
+    <sky-chart-axis-category labelText="Month" [categories]="months" />
+    <sky-chart-axis-value format="currency" labelText="Donations" />
+    <sky-chart-line-series labelText="Donations" [values]="donations" />
+  </sky-chart-line>
+</sky-chart>
