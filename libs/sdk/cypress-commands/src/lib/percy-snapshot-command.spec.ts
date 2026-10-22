@@ -18,16 +18,18 @@ type PercySnapshotOverwrite = (
 ) => unknown;
 
 describe('percySnapshot command', () => {
-  let overwrite: Mock;
+  let overwriteCalls: unknown[][];
   let percySnapshotOverwrite: PercySnapshotOverwrite;
 
   beforeAll(async () => {
-    overwrite = vi.fn();
+    const overwrite = vi.fn();
     vi.stubGlobal('Cypress', { Commands: { overwrite } });
 
     await import('./percy-snapshot-command');
 
-    percySnapshotOverwrite = overwrite.mock.calls[0][1];
+    // Vitest clears mock call history before each test, so capture it here.
+    overwriteCalls = [...overwrite.mock.calls];
+    percySnapshotOverwrite = overwriteCalls[0][1] as PercySnapshotOverwrite;
   });
 
   afterAll(() => {
@@ -35,10 +37,7 @@ describe('percySnapshot command', () => {
   });
 
   it('should overwrite the percySnapshot command', () => {
-    expect(overwrite).toHaveBeenCalledWith(
-      'percySnapshot',
-      expect.any(Function),
-    );
+    expect(overwriteCalls).toEqual([['percySnapshot', expect.any(Function)]]);
   });
 
   it('should prune the icon sprite from the snapshot', () => {

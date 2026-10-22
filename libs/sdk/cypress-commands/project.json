@@ -10,9 +10,9 @@
     },
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
+      "outputs": ["{workspaceRoot}/coverage/libs/sdk/cypress-commands"],
       "options": {
-        "reportsDirectory": "../../../coverage/libs/sdk/cypress-commands"
+        "config": "libs/sdk/cypress-commands/vitest.config.mts"
       }
     }
   }
