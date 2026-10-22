@@ -370,28 +370,28 @@ jobs:
           check_logs() {
             separator
             echo -n "Checking for finalized build: "
-            grep -E '^\[percy] Finalized build ' ${{ runner.temp }}/percy-${{ matrix.project }}.log || true
-            FINALIZED=$(grep -cE '^\[percy] Finalized build ' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
+            grep -E '^\[percy] Finalized build ' "$PERCY_LOG_PATH" || true
+            FINALIZED=$(grep -cE '^\[percy] Finalized build ' "$PERCY_LOG_PATH")
             echo -n "Checking exit code: "
-            grep -E ' exited with status: 0$' ${{ runner.temp }}/percy-${{ matrix.project }}.log || true
-            SUCCESS=$(grep -cE ' exited with status: 0$' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
+            grep -E ' exited with status: 0$' "$PERCY_LOG_PATH" || true
+            SUCCESS=$(grep -cE ' exited with status: 0$' "$PERCY_LOG_PATH")
             echo -n "Checking for snapshot errors: "
-            grep -E 'Encountered an error (taking|uploading) snapshot' ${{ runner.temp }}/percy-${{ matrix.project }}.log || true
-            SNAPSHOT_ERRORS=$(grep -cE 'Encountered an error (taking|uploading) snapshot' ${{ runner.temp }}/percy-${{ matrix.project }}.log || true)
+            grep -E 'Encountered an error (taking|uploading) snapshot' "$PERCY_LOG_PATH" || true
+            SNAPSHOT_ERRORS=$(grep -cE 'Encountered an error (taking|uploading) snapshot' "$PERCY_LOG_PATH" || true)
             separator
           }
 
           # Timing setting recommended by https://docs.percy.io/docs/cypress#missing-assets
-          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+          npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel 2>&1 | tee "$PERCY_LOG_PATH"
           RESULT=$?
           check_logs
           if [ $RESULT -ne 0 ] || [ $SUCCESS -eq 0 ] || [ $FINALIZED -eq 0 ]; then
-            RETRY=$(grep -cE '(This is likely a client error|Error: Can only finalize pending builds|Module loop: this module is already being loaded|Failed to connect to the bus: Could not parse server address: Unknown address type)' ${{ runner.temp }}/percy-${{ matrix.project }}.log)
+            RETRY=$(grep -cE '(This is likely a client error|Error: Can only finalize pending builds|Module loop: this module is already being loaded|Failed to connect to the bus: Could not parse server address: Unknown address type)' "$PERCY_LOG_PATH")
             if [ $RETRY -gt 0 ] || [ $FINALIZED -eq 0 ]; then
               echo "Retrying..."
               separator
               set -eo pipefail
-              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel 2>&1 | tee ${{ runner.temp }}/percy-${{ matrix.project }}.log
+              npx percy exec -t 350 -- nx e2e ${{ matrix.project }} -c ci --no-parallel 2>&1 | tee "$PERCY_LOG_PATH"
               check_logs
               if [ $SUCCESS -eq 0 ]; then
                 echo "Test failed."
@@ -412,8 +412,9 @@ jobs:
             exit 1
           fi
           # Extract the Percy build number from the log
-          node -e "const wf = require('./dist/libs/sdk/e2e-schematics/src/workflow/index.js'); console.log(wf.readPercyBuildNumberFromLogFile('${{ runner.temp }}/percy-${{ matrix.project }}.log') ?? '');" > ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
+          node -e "const wf = require('./dist/libs/sdk/e2e-schematics/src/workflow/index.js'); console.log(wf.readPercyBuildNumberFromLogFile(process.env.PERCY_LOG_PATH) ?? '');" > ${{ runner.temp }}/percy-build-${{ matrix.project }}.txt
         env:
+          PERCY_LOG_PATH: ${{ runner.temp }}/percy-${{ matrix.project }}.log
           PERCY_TARGET_BRANCH: ${{ needs.install-deps.outputs.base-branch }}
           PERCY_TARGET_COMMIT: ${{ steps.affected.outputs.percy_target_commit }}
           PERCY_BRANCH: ${{ github.head_ref || github.ref_name }}
