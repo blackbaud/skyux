@@ -29,7 +29,7 @@
                   [active]="dataState?.activeSortOption?.id === item.id()"
                   (itemSelect)="sortSelected(item.toSortOption())"
                 >
-                  {{ item.label() }}
+                  {{ item.labelText() }}
                 </sky-sort-item>
               }
             </sky-sort>

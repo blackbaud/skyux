@@ -184,14 +184,12 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   readonly #incomingState = signal<SkyDataManagerState | undefined>(undefined);
 
   constructor() {
-    this.#pushOnChange(this.labelText, (listDescriptor) => {
-      if (this.#ownsService) {
-        this.#dataManagerService.updateDataManagerConfig({
-          ...this.#dataManagerService.getCurrentDataManagerConfig(),
-          listDescriptor,
-        });
-      }
-    });
+    this.#pushOnChange(this.labelText, (listDescriptor) =>
+      this.#dataManagerService.updateDataManagerConfig({
+        ...this.#dataManagerService.getCurrentDataManagerConfig(),
+        listDescriptor,
+      }),
+    );
     this.#pushOnChange(this.searchText, (value) =>
       this.#pushStateField('searchText', value),
     );
@@ -324,9 +322,6 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
   public ngOnDestroy(): void {
     this.#ngUnsubscribe.next();
     this.#ngUnsubscribe.complete();
-    if (this.#ownsService) {
-      this.#dataManagerService.ngOnDestroy();
-    }
   }
 
   /**

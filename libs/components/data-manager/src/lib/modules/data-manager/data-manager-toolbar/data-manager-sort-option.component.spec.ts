@@ -9,7 +9,7 @@ import { SkyDataManagerSortOptionComponent } from './data-manager-sort-option.co
     <sky-data-manager-sort-option
       id="az"
       propertyName="name"
-      label="Name (A - Z)"
+      labelText="Name (A - Z)"
     />
   `,
   imports: [SkyDataManagerSortOptionComponent],
@@ -32,7 +32,7 @@ describe('SkyDataManagerSortOptionComponent', () => {
   it('exposes its inputs and defaults descending to false', () => {
     expect(sortOption.id()).toBe('az');
     expect(sortOption.propertyName()).toBe('name');
-    expect(sortOption.label()).toBe('Name (A - Z)');
+    expect(sortOption.labelText()).toBe('Name (A - Z)');
     expect(sortOption.descending()).toBeFalse();
   });
 

@@ -315,6 +315,36 @@ describe('SkyDataManagerComponent', () => {
       expect(TestBed.inject(SkyDataManagerService, null)).toBeNull();
     });
 
+    it('destroys the service it self-provides when the data manager is destroyed', async () => {
+      @Component({
+        selector: 'sky-data-manager-no-provider-destroy-fixture',
+        template: `<sky-data-manager labelText="fruit" />`,
+        imports: [SkyDataManagerModule],
+      })
+      class NoProviderDestroyFixtureComponent {}
+
+      TestBed.resetTestingModule();
+      await TestBed.configureTestingModule({
+        imports: [NoProviderDestroyFixtureComponent],
+      }).compileComponents();
+
+      const fixture = TestBed.createComponent(
+        NoProviderDestroyFixtureComponent,
+      );
+      fixture.detectChanges();
+
+      const completeSpy = jasmine.createSpy('complete');
+      fixture.debugElement
+        .query(By.directive(SkyDataManagerComponent))
+        .injector.get(SkyDataManagerService)
+        .getDataManagerConfigUpdates()
+        .subscribe({ complete: completeSpy });
+
+      fixture.destroy();
+
+      expect(completeSpy).toHaveBeenCalled();
+    });
+
     it('passes SkyLogService to the service it self-provides', async () => {
       @Component({
         selector: 'sky-data-manager-no-provider-logger-fixture',
@@ -415,12 +445,12 @@ describe('SkyDataManagerComponent', () => {
       <sky-data-manager-toolbar>
         <sky-data-manager-sort-option
           id="az"
-          label="Name (A - Z)"
+          labelText="Name (A - Z)"
           propertyName="name"
         />
         <sky-data-manager-sort-option
           id="za"
-          label="Name (Z - A)"
+          labelText="Name (Z - A)"
           propertyName="name"
           [descending]="true"
         />

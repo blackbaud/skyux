@@ -30,7 +30,7 @@ export class SkyDataManagerSortOptionComponent {
    * The label to display in the sort dropdown.
    * @preview
    */
-  public readonly label = input.required<string>();
+  public readonly labelText = input.required<string>();
 
   /**
    * Whether to apply the sort in descending order.
@@ -47,7 +47,7 @@ export class SkyDataManagerSortOptionComponent {
     return {
       id: this.id(),
       propertyName: this.propertyName(),
-      label: this.label(),
+      label: this.labelText(),
       descending: this.descending(),
     };
   }

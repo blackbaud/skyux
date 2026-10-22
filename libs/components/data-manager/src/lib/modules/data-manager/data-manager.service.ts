@@ -109,7 +109,9 @@ export class SkyDataManagerService implements OnDestroy {
 
   /**
    * Initializes the data manager with the given settings and sets `isInitialized` to `true`.
-   * This must be called for the data manager to render.
+   * This must be called for the data manager to render, unless the data manager sets
+   * `labelText`. A data manager that sets `labelText` initializes itself from its
+   * template, so do not call this method for it.
    * @param args The initial active view ID, data manager config, and state to use for the data manager.
    * If a settings key is provided, it checks for a saved data state in the SKY UI config service before using the default data state
    * and saves any state changes to the service.
@@ -164,7 +166,9 @@ export class SkyDataManagerService implements OnDestroy {
   }
 
   /**
-   * Initializes a view within the data manager. This must be called for each view for the views to appear within the data manager.
+   * Initializes a view within the data manager. This must be called for each view for the views to appear within the data manager,
+   * unless the data manager sets `labelText`. A data manager that sets `labelText` registers each `sky-data-view`
+   * from its inputs, so do not call this method for it.
    * @param viewConfig The SkyDataViewConfig settings for the view being registered.
    */
   public initDataView(viewConfig: SkyDataViewConfig): void {
@@ -437,12 +441,7 @@ export class SkyDataManagerService implements OnDestroy {
   }
 
   /**
-   * Registers CSS selectors for a view's elements that should stick to the top of
-   * the page alongside the data manager toolbar (for example, a grid's header row).
-   * `SkyDataManagerComponent` combines these with its own toolbar selector when
-   * setting up `SkyViewkeeperModule`.
-   * @param viewId The ID of the view contributing the selectors.
-   * @param classes The CSS selectors for the view's elements to stick.
+   * @internal
    */
   public setViewkeeperClasses(viewId: string, classes: string[]): void {
     const viewkeeperClasses = this.viewkeeperClasses.value;

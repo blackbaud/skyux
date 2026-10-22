@@ -110,7 +110,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */
-  public readonly searchEnabled = input<boolean, unknown>(false, {
+  public readonly searchEnabled = input(false, {
     transform: booleanAttribute,
   });
 
@@ -128,7 +128,7 @@ export class SkyDataViewComponent implements OnDestroy, OnInit {
    * the `SkyDataViewConfig` passed to `initDataView()` instead.
    * @preview
    */
-  public readonly multiselectEnabled = input<boolean, unknown>(false, {
+  public readonly multiselectEnabled = input(false, {
     transform: booleanAttribute,
   });
 

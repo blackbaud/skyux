@@ -33,15 +33,7 @@ export class DataManagerResourceExampleComponent {
       // Simulates an asynchronous server request.
       await Promise.resolve();
 
-      return getServerItems({
-        searchText: params.searchText,
-        sort: params.sort
-          ? {
-              propertyName: params.sort.propertyName,
-              descending: params.sort.descending,
-            }
-          : undefined,
-      });
+      return getServerItems(params);
     },
   });
 

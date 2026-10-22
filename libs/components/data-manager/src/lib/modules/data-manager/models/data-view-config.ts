@@ -3,7 +3,9 @@ import { SkyDataManagerColumnPickerSortStrategy } from './data-manager-column-pi
 
 /**
  * The data view config contains settings that apply to the specific view, such as
- * column picker options and the buttons to display in the toolbar.
+ * column picker options and the buttons to display in the toolbar. You do not need to
+ * provide a view config when the data manager sets `labelText`, because each `sky-data-view`
+ * builds its config from its inputs.
  */
 export interface SkyDataViewConfig {
   /**
