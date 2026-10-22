@@ -19,6 +19,25 @@
 Value</textarea>
   </sky-input-box>
 </div>
+<div class="sky-padding-even-md" id="input-box-textarea-scrollbar">
+  <sky-input-box stacked="true">
+    <label class="sky-control-label" [for]="inputBoxTextareaScrollbar.id">
+      Textarea with scrollbar
+    </label>
+    <textarea
+      #inputBoxTextareaScrollbar="skyId"
+      class="sky-form-control"
+      rows="2"
+      skyId
+    >
+Line 1
+Line 2
+Line 3
+Line 4
+Line 5
+Line 6</textarea>
+  </sky-input-box>
+</div>
 <div class="sky-padding-even-md" id="input-box-help-inline">
   <sky-input-box stacked="true">
     <sky-help-inline class="sky-control-help" />

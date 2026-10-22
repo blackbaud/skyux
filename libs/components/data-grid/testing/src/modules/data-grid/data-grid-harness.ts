@@ -7,6 +7,7 @@ import {
 import { SkyAgGridWrapperHarness } from '@skyux/ag-grid/testing';
 import { SkyQueryableComponentHarness } from '@skyux/core/testing';
 import { SkyDataGridDockType } from '@skyux/data-grid';
+import { SkyHelpInlineHarness } from '@skyux/help-inline/testing';
 import { SkyWaitHarness } from '@skyux/indicators/testing';
 import { SkyInlineDeleteHarness } from '@skyux/layout/testing';
 import { SkyPagingHarness } from '@skyux/lists/testing';
@@ -105,6 +106,7 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
    * Clicks the column header sort button and waits for the grid to re-render
    * the sorted rows, and for a consumer's own `[(sort)]` binding to reflect
    * the change, before resolving.
+   * @param column The column's `columnId`, or its `field` if no `columnId` is set.
    */
   public async clickColumnSortButton(column: string): Promise<void> {
     const grid = await this.#getGridWrapper();
@@ -137,6 +139,34 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
       api.removeEventListener('sortChanged', handler);
     }
     await this.forceStabilize();
+  }
+
+  /**
+   * Clicks the help inline button in a column header.
+   * @param column The column's `columnId`, or its `field` if no `columnId` is set.
+   */
+  public async clickColumnHelpInline(column: string): Promise<void> {
+    await (await this.#getColumnHelpInline(column)).click();
+  }
+
+  /**
+   * Gets the help popover content for a column header.
+   * @param column The column's `columnId`, or its `field` if no `columnId` is set.
+   */
+  public async getColumnHelpPopoverContent(
+    column: string,
+  ): Promise<string | undefined> {
+    return await (await this.#getColumnHelpInline(column)).getPopoverContent();
+  }
+
+  /**
+   * Gets the help popover title for a column header.
+   * @param column The column's `columnId`, or its `field` if no `columnId` is set.
+   */
+  public async getColumnHelpPopoverTitle(
+    column: string,
+  ): Promise<string | undefined> {
+    return await (await this.#getColumnHelpInline(column)).getPopoverTitle();
   }
 
   /**
@@ -239,6 +269,20 @@ export class SkyDataGridHarness extends SkyQueryableComponentHarness {
   ): Promise<TestElement[]> {
     await this.#waitForGridWrapperRendered();
     return await super.querySelectorAll(selector);
+  }
+
+  async #getColumnHelpInline(column: string): Promise<SkyHelpInlineHarness> {
+    const helpInline = await this.queryHarnessOrNull(
+      SkyHelpInlineHarness.with({
+        ancestor: `.ag-header-cell[col-id="${column}"]`,
+      }),
+    );
+
+    if (helpInline) {
+      return helpInline;
+    }
+
+    throw new Error(`No help inline found for column "${column}".`);
   }
 
   /**

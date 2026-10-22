@@ -6,6 +6,9 @@
   @if (permalink.route?.commands) {
     <a
       href=""
+      [aria-controls]="ariaControls()"
+      [aria-expanded]="ariaExpanded()"
+      [aria-haspopup]="ariaHasPopup()"
       [aria-label]="ariaLabel()"
       [aria-labelledby]="ariaLabelledBy()"
       [class]="buttonClass()"
@@ -20,6 +23,9 @@
   } @else if (permalink.url) {
     <a
       href=""
+      [aria-controls]="ariaControls()"
+      [aria-expanded]="ariaExpanded()"
+      [aria-haspopup]="ariaHasPopup()"
       [aria-label]="ariaLabel()"
       [aria-labelledby]="ariaLabelledBy()"
       [class]="buttonClass()"
@@ -31,6 +37,9 @@
   }
 } @else {
   <button
+    [aria-controls]="ariaControls()"
+    [aria-expanded]="ariaExpanded()"
+    [aria-haspopup]="ariaHasPopup()"
     [aria-label]="ariaLabel()"
     [aria-labelledby]="ariaLabelledBy()"
     [class]="buttonClass()"

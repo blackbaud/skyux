@@ -68,6 +68,22 @@ describe('forms-storybook - input box', () => {
         );
       });
 
+      it('should keep the textarea scrollbar inside the border', () => {
+        cy.skyReady('app-input-box', [], ['#input-box-textarea-scrollbar'])
+          .get('#input-box-textarea-scrollbar textarea')
+          .click();
+        cy.get('#input-box-textarea-scrollbar').screenshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-textarea-scrollbar`,
+        );
+        cy.get('#input-box-textarea-scrollbar').percySnapshot(
+          `inputboxcomponent-inputbox--input-box-${theme}-textarea-scrollbar`,
+          {
+            widths: E2eVariations.DISPLAY_WIDTHS,
+            scope: '#input-box-textarea-scrollbar',
+          },
+        );
+      });
+
       it('should properly focus a select input box', () => {
         cy.skyReady('app-input-box', [], ['#input-box-select'])
           .get('#input-box-select select')
