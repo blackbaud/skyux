@@ -61,6 +61,7 @@
     <sky-vertical-tabset #codeRef="skyId" skyId [hidden]="!isCodeVisible()">
       @for (obj of files() | keyvalue; track obj.key) {
         <sky-vertical-tab
+          layout="blocks"
           [active]="obj.key === primaryFile()"
           [tabHeading]="obj.key"
         >

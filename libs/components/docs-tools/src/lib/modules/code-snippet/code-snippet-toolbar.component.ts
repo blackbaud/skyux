@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyButton } from '@skyux/forms';
+import { SkyToolbarModule } from '@skyux/layout';
+import { SkyThemeModule } from '@skyux/theme';
 
 import { SkyDocsClipboardModule } from '../clipboard/clipboard.module';
 import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.module';
@@ -9,32 +11,45 @@ import { SkyDocsToolsResourcesModule } from '../shared/sky-docs-tools-resources.
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'sky-margin-stacked-lg',
-  },
-  imports: [SkyDocsClipboardModule, SkyIconModule, SkyDocsToolsResourcesModule],
+  imports: [
+    SkyDocsClipboardModule,
+    SkyDocsToolsResourcesModule,
+    SkyToolbarModule,
+    SkyButton,
+    SkyThemeModule,
+  ],
   selector: 'sky-docs-code-snippet-toolbar',
   styles: `
     :host {
       display: block;
     }
+
+    .copy-toolbar {
+      display: block;
+    }
   `,
   template: `
-    <button
-      class="sky-btn sky-btn-default"
-      type="button"
-      skyDocsClipboardButton
-      [clipboardTarget]="codeRef()"
-      [copySuccessMessage]="
-        'sky_docs_code_snippet_copy_to_clipboard_success_message'
-          | skyLibResources
-      "
+    <sky-toolbar
+      class="copy-toolbar"
+      [skyThemeClass]="{ 'sky-margin-stacked-lg': 'default' }"
     >
-      <sky-icon iconName="clipboard-multiple" />
-      {{
-        'sky_docs_code_snippet_copy_to_clipboard_button_label' | skyLibResources
-      }}
-    </button>
+      <sky-toolbar-item>
+        <sky-button
+          buttonStyle="default"
+          iconName="clipboard-multiple"
+          skyDocsClipboardButton
+          [labelText]="
+            'sky_docs_code_snippet_copy_to_clipboard_button_label'
+              | skyLibResources
+          "
+          [clipboardTarget]="codeRef()"
+          [copySuccessMessage]="
+            'sky_docs_code_snippet_copy_to_clipboard_success_message'
+              | skyLibResources
+          "
+        />
+      </sky-toolbar-item>
+    </sky-toolbar>
   `,
 })
 export class SkyDocsCodeSnippetToolbarComponent {
