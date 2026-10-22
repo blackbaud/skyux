@@ -182,7 +182,7 @@ describe('AG Grid data entry grid basic example', () => {
       const consoleSpy = spyOn(console, 'error');
       await openEditModal(docLoader);
 
-      const [markInactiveButton] = await docLoader.getAllHarnesses(
+      const markInactiveButton = await docLoader.getHarness(
         SkyButtonHarness.with({ dataSkyId: 'mark-inactive-button' }),
       );
       await expectAsync(markInactiveButton.getAriaLabel()).toBeResolvedTo(
