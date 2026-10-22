@@ -101,7 +101,9 @@ describe('code-snippet.component', () => {
 
     const button = (
       fixture.nativeElement as HTMLElement
-    ).querySelector<HTMLButtonElement>('button.sky-btn');
+    ).querySelector<HTMLButtonElement>('sky-button button.sky-btn');
+
+    expect(button?.textContent?.trim()).toBe('Copy');
 
     button?.click();
     fixture.detectChanges();
