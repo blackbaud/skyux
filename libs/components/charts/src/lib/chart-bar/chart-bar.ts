@@ -67,11 +67,7 @@ export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
 
     const { categoryAxis, valueAxis, series } = data;
 
-    // Read the theme signal so the config rebuilds when the theme changes,
-    // then resolve the themed CSS custom properties to concrete values.
-    this.themeSettings();
-
-    const themeStyles = this.getThemeStyles();
+    const themeStyles = this.themeStyles();
     const categorical = themeStyles.series.categoricalPalette;
 
     const isHorizontal = this.orientation() === 'horizontal';
@@ -192,10 +188,7 @@ export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
    * from the bar count and clamped to the minimum so small charts stay legible.
    */
   #getChartHeight(): string {
-    // Read the theme signal so the height recomputes when the theme changes.
-    this.themeSettings();
-
-    const themeStyles = this.getThemeStyles();
+    const themeStyles = this.themeStyles();
 
     if (this.orientation() !== 'horizontal') {
       return themeStyles.height.default;

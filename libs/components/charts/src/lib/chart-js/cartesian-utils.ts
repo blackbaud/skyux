@@ -166,7 +166,9 @@ function formatCartesianValue(
   value: SkyChartCartesianValue,
   formatValue: (value: number) => string,
 ): string {
-  if (value === null) {
+  // Chart.js draws `undefined` as a gap too, and loosely typed consumer data
+  // can contain it despite the value types.
+  if (value === null || value === undefined) {
     return '';
   }
 

@@ -26,6 +26,7 @@ import { type SkyChartLineSeriesValue } from './chart-line-series-value';
 type ScaleProbe = {
   type: string;
   position: string;
+  offset: boolean;
   grid: { drawOnChartArea: boolean };
   ticks: { callback: (value: number | string) => string };
 };
@@ -222,6 +223,17 @@ describe('Chart line component', () => {
     expect(tableSvc().table()?.series[0].values).toEqual(['10', '']);
   });
 
+  it('should render an undefined value as an empty data table cell', () => {
+    // Loosely typed consumer data can contain `undefined` despite the types.
+    fixture.componentRef.setInput('values', [
+      10,
+      undefined,
+    ] as unknown as SkyChartLineSeriesValue[]);
+    fixture.detectChanges();
+
+    expect(tableSvc().table()?.series[0].values).toEqual(['10', '']);
+  });
+
   it('should warn when a series length does not match the categories', () => {
     const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
 
@@ -289,8 +301,26 @@ describe('Chart line component', () => {
     // Line charts render the full background grid, so the category axis's
     // grid lines draw across the chart area.
     expect(category.grid.drawOnChartArea).toBe(true);
+    // Lines run edge to edge when there are multiple categories.
+    expect(category.offset).toBe(false);
     expect(value.position).toBe('left');
     expect(value.grid.drawOnChartArea).toBe(true);
+  });
+
+  it('should offset the category axis when there is a single category', () => {
+    fixture.componentRef.setInput('categories', ['2023']);
+    fixture.componentRef.setInput('values', [10]);
+    fixture.detectChanges();
+
+    expect(getScale(requireChart(), 'category').offset).toBe(true);
+  });
+
+  it('should highlight every series at the hovered category', () => {
+    fixture.detectChanges();
+
+    expect(requireChart().options.hover).toEqual(
+      jasmine.objectContaining({ mode: 'index', intersect: false }),
+    );
   });
 
   it('should copy the series values before handing them to Chart.js', () => {

@@ -34,12 +34,9 @@ export class SkyChartLine extends SkyChartCartesianPlot<SkyChartLineSeries> {
    * `maintainAspectRatio: false`, so its container must be given an explicit
    * height; line charts always use the themed default.
    */
-  protected readonly chartHeight = computed(() => {
-    // Read the theme signal so the height recomputes when the theme changes.
-    this.themeSettings();
-
-    return this.getThemeStyles().height.default;
-  });
+  protected readonly chartHeight = computed(
+    () => this.themeStyles().height.default,
+  );
 
   #getChartJsConfig(): SkyChartJsConfig<'line'> | undefined {
     const data = this.getCartesianData();
@@ -50,11 +47,7 @@ export class SkyChartLine extends SkyChartCartesianPlot<SkyChartLineSeries> {
 
     const { categoryAxis, valueAxis, series } = data;
 
-    // Read the theme signal so the config rebuilds when the theme changes,
-    // then resolve the themed CSS custom properties to concrete values.
-    this.themeSettings();
-
-    const themeStyles = this.getThemeStyles();
+    const themeStyles = this.themeStyles();
     const categorical = themeStyles.series.categoricalPalette;
     const formatValue = valueAxis.formatValue();
 
@@ -74,6 +67,23 @@ export class SkyChartLine extends SkyChartCartesianPlot<SkyChartLineSeries> {
       };
     });
 
+    const scales = buildCartesianScales({
+      categoryAxis,
+      valueAxis,
+      isHorizontal: false,
+      // Line charts render the full background grid: unlike bars, points
+      // float in open space, so category grid lines anchor them.
+      showCategoryGridLines: true,
+      themeStyles,
+    });
+
+    // Lines run edge to edge, but a lone category's point would draw on top
+    // of the value axis line, so offset the category axis to center it.
+    scales[CATEGORY_AXIS_ID] = {
+      ...scales[CATEGORY_AXIS_ID],
+      offset: categoryAxis.categories().length === 1,
+    };
+
     return extendBaseChartJsConfig<'line'>(themeStyles, {
       type: 'line',
       data: {
@@ -88,6 +98,9 @@ export class SkyChartLine extends SkyChartCartesianPlot<SkyChartLineSeries> {
           // direction, not a scale ID.
           axis: 'x',
         },
+        // Highlight every series' point at the hovered category, matching the
+        // tooltip, which lists every series' value at that category.
+        hover: { mode: 'index', intersect: false },
         elements: {
           line: {
             borderWidth: 2,
@@ -97,15 +110,7 @@ export class SkyChartLine extends SkyChartCartesianPlot<SkyChartLineSeries> {
             hoverRadius: 5,
           },
         },
-        scales: buildCartesianScales({
-          categoryAxis,
-          valueAxis,
-          isHorizontal: false,
-          // Line charts render the full background grid: unlike bars, points
-          // float in open space, so category grid lines anchor them.
-          showCategoryGridLines: true,
-          themeStyles,
-        }),
+        scales,
         plugins: {
           legend: {
             // Show the legend only when there are multiple series to

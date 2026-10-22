@@ -1,5 +1,6 @@
 import {
   afterRenderEffect,
+  computed,
   contentChild,
   Directive,
   inject,
@@ -35,16 +36,22 @@ import { SkyChartPlot } from './chart-plot';
 export abstract class SkyChartCartesianPlot<
   TSeries extends SkyChartCartesianSeries,
 > extends SkyChartPlot {
-  /**
-   * The active theme's settings. Read this in computed values that resolve
-   * themed styles so they recompute when the theme changes.
-   */
-  protected readonly themeSettings = toSignal(
+  readonly #themeSettings = toSignal(
     inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
       map((change) => change.currentSettings),
     ) ?? EMPTY,
     { initialValue: undefined },
   );
+
+  /**
+   * The active theme's resolved chart styling. Resolving forces a style
+   * recalculation, so it is computed once per theme change and shared.
+   */
+  protected readonly themeStyles = computed(() => {
+    this.#themeSettings();
+
+    return this.getThemeStyles();
+  });
 
   protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
   protected readonly valueAxis = contentChild(SkyChartAxisValue);
