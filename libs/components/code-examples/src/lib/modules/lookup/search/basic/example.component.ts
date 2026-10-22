@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkySearchModule } from '@skyux/lookup';
@@ -12,7 +13,7 @@ import { Item } from './item';
   selector: 'app-lookup-search-basic-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SkyRepeaterModule, SkySearchModule, SkyToolbarModule],
+  imports: [SkyButton, SkyRepeaterModule, SkySearchModule, SkyToolbarModule],
 })
 export class LookupSearchBasicExampleComponent {
   protected displayedItems: Item[];

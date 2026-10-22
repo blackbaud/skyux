@@ -4,7 +4,7 @@ import {
   Component,
   inject,
 } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyButton } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 import {
   SkySectionedFormMessage,
@@ -26,7 +26,7 @@ import { PhoneFormComponent } from './phone-form.component';
     AddressFormComponent,
     InformationFormComponent,
     PhoneFormComponent,
-    SkyIconModule,
+    SkyButton,
     SkyModalModule,
     SkySectionedFormModule,
   ],

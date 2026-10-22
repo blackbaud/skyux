@@ -6,7 +6,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyButton, SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 import { ModalContext } from './modal-context';
@@ -15,6 +15,7 @@ import { ModalContext } from './modal-context';
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    SkyButton,
     SkyInputBoxModule,
     SkyModalModule,
   ],
@@ -28,14 +29,16 @@ import { ModalContext } from './modal-context';
           </sky-input-box>
         </sky-modal-content>
         <sky-modal-footer>
-          <button class="sky-btn sky-btn-primary" type="submit">Save</button>
-          <button
-            class="sky-btn sky-btn-link"
-            type="button"
-            (click)="cancelForm()"
-          >
-            Cancel
-          </button>
+          <sky-button
+            buttonStyle="primary"
+            buttonType="submit"
+            labelText="Save"
+          />
+          <sky-button
+            buttonStyle="link"
+            labelText="Cancel"
+            (buttonClick)="cancelForm()"
+          />
         </sky-modal-footer>
       </sky-modal>
     </form>

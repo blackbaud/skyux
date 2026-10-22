@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyButton } from '@skyux/forms';
 
 /**
  * @title Icons in buttons
@@ -8,7 +8,7 @@ import { SkyIconModule } from '@skyux/icon';
   selector: 'app-icon-icon-button-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SkyIconModule],
+  imports: [SkyButton],
 })
 export class IconIconButtonExampleComponent {
   protected textButtonClick(): void {

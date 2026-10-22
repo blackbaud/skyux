@@ -1,10 +1,8 @@
-<button
-  class="sky-btn sky-btn-default"
-  type="button"
-  (click)="isWaiting = !isWaiting"
->
-  Toggle wait
-</button>
+<sky-button
+  data-sky-id="toggle-wait-button"
+  labelText="Toggle wait"
+  (buttonClick)="isWaiting = !isWaiting"
+/>
 
 <div class="wrapper">
   The <code>sky-wait</code> directive can apply to a large area.

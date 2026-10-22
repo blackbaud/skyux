@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyToastService, SkyToastType } from '@skyux/toast';
 
 import { CustomToastContext } from './custom-context';
@@ -11,6 +12,7 @@ import { CustomToastComponent } from './custom-toast.component';
   selector: 'app-toast-custom-component-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
+  imports: [SkyButton],
 })
 export class ToastCustomComponentExampleComponent {
   readonly #toastSvc = inject(SkyToastService);

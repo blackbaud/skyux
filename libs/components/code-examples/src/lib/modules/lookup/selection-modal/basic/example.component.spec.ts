@@ -1,5 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 import { SkySelectionModalHarness } from '@skyux/lookup/testing';
 
 import { of } from 'rxjs';
@@ -19,14 +20,14 @@ describe('Selection modal example', () => {
       LookupSelectionModalBasicExampleComponent,
     );
     const el = fixture.nativeElement as HTMLElement;
-    const openBtn = el.querySelector<HTMLButtonElement>(
-      '.selection-modal-example-show-btn',
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+
+    const openButtonHarness = await loader.getHarness(
+      SkyButtonHarness.with({ dataSkyId: 'show-selection-modal-button' }),
     );
 
-    openBtn?.click();
-    fixture.detectChanges();
-
-    const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+    await openButtonHarness.click();
 
     const harness = await rootLoader.getHarness(SkySelectionModalHarness);
     return { harness, el, fixture };

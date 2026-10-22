@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyModalService } from '@skyux/modals';
 
 import { ModalComponent } from './modal.component';
@@ -10,6 +11,7 @@ import { ModalComponent } from './modal.component';
   selector: 'app-tabs-wizard-basic-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
+  imports: [SkyButton],
 })
 export class TabsWizardBasicExampleComponent {
   readonly #modalSvc = inject(SkyModalService);

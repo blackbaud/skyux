@@ -7,7 +7,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { SkyColorpickerModule, SkyColorpickerOutput } from '@skyux/colorpicker';
-import { SkyFormErrorModule } from '@skyux/forms';
+import { SkyButton, SkyFormErrorModule } from '@skyux/forms';
 
 interface DemoForm {
   favoriteColor: FormControl<SkyColorpickerOutput | string>;
@@ -24,7 +24,12 @@ function isColorpickerOutput(value: unknown): value is SkyColorpickerOutput {
   selector: 'app-colorpicker-help-key-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [ReactiveFormsModule, SkyColorpickerModule, SkyFormErrorModule],
+  imports: [
+    ReactiveFormsModule,
+    SkyButton,
+    SkyColorpickerModule,
+    SkyFormErrorModule,
+  ],
 })
 export class ColorpickerHelpKeyExampleComponent {
   protected favoriteColor: FormControl<SkyColorpickerOutput | string>;

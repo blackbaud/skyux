@@ -12,14 +12,14 @@
         </div>
       </sky-repeater-item-title>
       <sky-repeater-item-context-menu>
-        <button
-          aria-label="Edit"
-          class="sky-btn sky-btn-icon-borderless"
-          type="button"
-          (click)="showInlineForm(item)"
-        >
-          <sky-icon iconName="edit" />
-        </button>
+        <sky-button
+          buttonStyle="icon-borderless"
+          data-sky-id="edit-button"
+          iconName="edit"
+          labelHidden
+          labelText="Edit"
+          (buttonClick)="showInlineForm(item)"
+        />
       </sky-repeater-item-context-menu>
 
       <sky-repeater-item-content>

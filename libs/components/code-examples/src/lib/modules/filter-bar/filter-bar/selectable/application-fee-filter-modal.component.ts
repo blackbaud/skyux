@@ -9,7 +9,7 @@ import {
   SkyFilterItemModal,
   SkyFilterItemModalInstance,
 } from '@skyux/filter-bar';
-import { SkyInputBoxModule, SkyRadioModule } from '@skyux/forms';
+import { SkyButton, SkyInputBoxModule, SkyRadioModule } from '@skyux/forms';
 import { SkyModalModule } from '@skyux/modals';
 
 @Component({
@@ -18,6 +18,7 @@ import { SkyModalModule } from '@skyux/modals';
   imports: [
     FormsModule,
     ReactiveFormsModule,
+    SkyButton,
     SkyInputBoxModule,
     SkyModalModule,
     SkyRadioModule,

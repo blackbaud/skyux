@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import {
   SkyToken,
   SkyTokenSelectedEventArgs,
@@ -20,7 +21,7 @@ interface TokenItem {
   selector: 'app-indicators-tokens-custom-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SkyTokensModule],
+  imports: [SkyButton, SkyTokensModule],
 })
 export class IndicatorsTokensCustomExampleComponent implements OnDestroy {
   protected myTokens: SkyToken<TokenItem>[] | undefined;

@@ -14,10 +14,8 @@
       </sky-input-box>
     </sky-modal-content>
     <sky-modal-footer>
-      <button class="sky-btn sky-btn-default" type="button" (click)="close()">
-        Cancel
-      </button>
-      <button class="sky-btn sky-btn-primary" type="submit">Add</button>
+      <sky-button labelText="Cancel" (buttonClick)="close()" />
+      <sky-button buttonStyle="primary" buttonType="submit" labelText="Add" />
     </sky-modal-footer>
   </sky-modal>
 </form>

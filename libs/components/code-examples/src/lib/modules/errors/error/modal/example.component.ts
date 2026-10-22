@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { SkyErrorModalService } from '@skyux/errors';
+import { SkyButton } from '@skyux/forms';
 
 /**
  * @title Show an error inside a modal
@@ -8,6 +9,7 @@ import { SkyErrorModalService } from '@skyux/errors';
   selector: 'app-errors-error-modal-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
+  imports: [SkyButton],
 })
 export class ErrorsErrorModalExampleComponent {
   readonly #errorSvc = inject(SkyErrorModalService);

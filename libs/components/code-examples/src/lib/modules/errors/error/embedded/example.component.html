@@ -1,32 +1,40 @@
 <sky-error errorType="broken">
   <sky-error-action>
-    <button class="sky-btn sky-btn-link" type="button" (click)="customAction()">
-      Try again
-    </button>
+    <sky-button
+      buttonStyle="link"
+      labelText="Try again"
+      (buttonClick)="customAction()"
+    />
   </sky-error-action>
 </sky-error>
 
 <sky-error errorType="notfound">
   <sky-error-action>
-    <button class="sky-btn sky-btn-link" type="button" (click)="customAction()">
-      Go back
-    </button>
+    <sky-button
+      buttonStyle="link"
+      labelText="Go back"
+      (buttonClick)="customAction()"
+    />
   </sky-error-action>
 </sky-error>
 
 <sky-error errorType="construction">
   <sky-error-action>
-    <button class="sky-btn sky-btn-link" type="button" (click)="customAction()">
-      Go back
-    </button>
+    <sky-button
+      buttonStyle="link"
+      labelText="Go back"
+      (buttonClick)="customAction()"
+    />
   </sky-error-action>
 </sky-error>
 
 <sky-error errorType="security">
   <sky-error-action>
-    <button class="sky-btn sky-btn-link" type="button" (click)="customAction()">
-      Go back
-    </button>
+    <sky-button
+      buttonStyle="link"
+      labelText="Go back"
+      (buttonClick)="customAction()"
+    />
   </sky-error-action>
 </sky-error>
 
@@ -41,9 +49,11 @@
   <sky-error-title> Custom error with a custom image. </sky-error-title>
   <sky-error-description> Custom description. </sky-error-description>
   <sky-error-action>
-    <button class="sky-btn sky-btn-link" type="button" (click)="customAction()">
-      Custom action
-    </button>
+    <sky-button
+      buttonStyle="link"
+      labelText="Custom action"
+      (buttonClick)="customAction()"
+    />
   </sky-error-action>
 </sky-error>
 
@@ -55,8 +65,10 @@
     Custom description.
   </sky-error-description>
   <sky-error-action>
-    <button class="sky-btn sky-btn-link" type="button" (click)="customAction()">
-      Custom action
-    </button>
+    <sky-button
+      buttonStyle="link"
+      labelText="Custom action"
+      (buttonClick)="customAction()"
+    />
   </sky-error-action>
 </sky-error>

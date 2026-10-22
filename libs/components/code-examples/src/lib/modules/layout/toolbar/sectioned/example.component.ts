@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyButton } from '@skyux/forms';
 import { SkyToolbarModule } from '@skyux/layout';
 
 /**
@@ -9,7 +9,7 @@ import { SkyToolbarModule } from '@skyux/layout';
   selector: 'app-layout-toolbar-sectioned-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SkyIconModule, SkyToolbarModule],
+  imports: [SkyButton, SkyToolbarModule],
 })
 export class LayoutToolbarSectionedExampleComponent {
   public onButtonClicked(buttonText: string): void {

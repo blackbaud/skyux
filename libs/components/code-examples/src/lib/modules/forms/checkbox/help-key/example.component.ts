@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyButton, SkyCheckboxModule } from '@skyux/forms';
 
 /**
  * @title Checkboxes with help key
@@ -17,7 +17,7 @@ import { SkyCheckboxModule } from '@skyux/forms';
   selector: 'app-forms-checkbox-help-key-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
+  imports: [FormsModule, ReactiveFormsModule, SkyButton, SkyCheckboxModule],
 })
 export class FormsCheckboxHelpKeyExampleComponent {
   #formBuilder: FormBuilder = inject(FormBuilder);
