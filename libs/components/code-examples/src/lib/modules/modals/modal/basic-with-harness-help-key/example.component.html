@@ -1,4 +1,8 @@
-<sky-button labelText="Open modal example" (buttonClick)="onOpenModalClick()" />
+<sky-button
+  ariaHasPopup="dialog"
+  labelText="Open modal example"
+  (buttonClick)="onOpenModalClick()"
+/>
 @if (exampleValue) {
   <div>The user entered {{ exampleValue }}</div>
 }

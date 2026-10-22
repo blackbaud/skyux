@@ -45,9 +45,10 @@ button as-is** and report it in your summary when any of these apply:
 - It has projected content other than a label and one icon (for example a badge,
   a second icon, or markup inside the label).
 - A directive or attribute must sit on the inner `<button>` itself rather than on
-  the host element. A directive that works from the host element (for example a
-  popover or dropdown trigger) can sit on `<sky-button>`, but verify that it
-  still behaves in a spec or story. If you cannot, leave the button alone.
+  the host element. A popover trigger (`[skyPopover]`) is not supported on
+  `<sky-button>`, so leave those buttons alone. Any other directive that works
+  from the host element can sit on `<sky-button>`, but verify that it still
+  behaves in a spec or story. If you cannot, leave the button alone.
 - The button is part of a library component's own template and the surrounding
   SCSS targets it with `.sky-btn` selectors (see "Layout and CSS selectors").
 - The element is not a `<button>` or an `<a>` (for example `<div class="sky-btn">`).
@@ -72,25 +73,28 @@ The `sky-btn` class itself is dropped. The component adds it.
 
 ### Attributes and content to inputs
 
-| Old                                                   | New                                           |
-| ----------------------------------------------------- | --------------------------------------------- |
-| Text content: `Save`                                  | `labelText="Save"`                            |
-| Interpolated text: `{{ label }}`                      | `[labelText]="label"`                         |
-| `type="button"`                                       | omit (the default)                            |
-| `type="submit"` / `type="reset"`                      | `buttonType="submit"` / `buttonType="reset"`  |
-| `disabled` / `[disabled]="x"`                         | `disabled` / `[disabled]="x"`                 |
-| `(click)="fn()"`                                      | `(buttonClick)="fn()"`                        |
-| `<sky-icon iconName="add" />` child                   | `iconName="add"`                              |
-| `aria-label="..."` and no inner text                  | `labelText="..."` with `labelHidden`          |
-| `aria-label="x"` and the same inner text `x`          | `labelText="x"` (no `labelHidden`)            |
-| `aria-label="y"` and different inner text `x`         | `labelText="x"` with `ariaLabel="y"`          |
-| `[attr.aria-label]="expr"` and inner text `x`         | `labelText="x"` with `[ariaLabel]="expr"`     |
-| `title="..."` on an icon-only button, no `aria-label` | `labelText="..."` with `labelHidden`          |
-| `<a class="sky-btn ..." [href]="url">`                | `[permalink]="{ url }"`                       |
-| `<a class="sky-btn ..." [routerLink]="cmds">`         | `[permalink]="{ route: { commands: cmds } }"` |
-| `class="sky-theme-margin-right-xs"` (layout)          | keep, on `<sky-button>`                       |
-| `data-sky-id="..."`                                   | keep, on `<sky-button>`                       |
-| `@if` / `@for` around the button                      | keep, around `<sky-button>`                   |
+| Old                                                   | New                                            |
+| ----------------------------------------------------- | ---------------------------------------------- |
+| Text content: `Save`                                  | `labelText="Save"`                             |
+| Interpolated text: `{{ label }}`                      | `[labelText]="label"`                          |
+| `type="button"`                                       | omit (the default)                             |
+| `type="submit"` / `type="reset"`                      | `buttonType="submit"` / `buttonType="reset"`   |
+| `disabled` / `[disabled]="x"`                         | `disabled` / `[disabled]="x"`                  |
+| `(click)="fn()"`                                      | `(buttonClick)="fn()"`                         |
+| `<sky-icon iconName="add" />` child                   | `iconName="add"`                               |
+| `aria-label="..."` and no inner text                  | `labelText="..."` with `labelHidden`           |
+| `aria-label="x"` and the same inner text `x`          | `labelText="x"` (no `labelHidden`)             |
+| `aria-label="y"` and different inner text `x`         | `labelText="x"` with `ariaLabel="y"`           |
+| `[attr.aria-label]="expr"` and inner text `x`         | `labelText="x"` with `[ariaLabel]="expr"`      |
+| `title="..."` on an icon-only button, no `aria-label` | `labelText="..."` with `labelHidden`           |
+| `aria-haspopup="dialog"` / `[attr.aria-haspopup]="x"` | `ariaHasPopup="dialog"` / `[ariaHasPopup]="x"` |
+| `aria-controls="id"` / `[attr.aria-controls]="x"`     | `ariaControls="id"` / `[ariaControls]="x"`     |
+| `[attr.aria-expanded]="x"`                            | `[ariaExpanded]="x"`                           |
+| `<a class="sky-btn ..." [href]="url">`                | `[permalink]="{ url }"`                        |
+| `<a class="sky-btn ..." [routerLink]="cmds">`         | `[permalink]="{ route: { commands: cmds } }"`  |
+| `class="sky-theme-margin-right-xs"` (layout)          | keep, on `<sky-button>`                        |
+| `data-sky-id="..."`                                   | keep, on `<sky-button>`                        |
+| `@if` / `@for` around the button                      | keep, around `<sky-button>`                    |
 
 Notes:
 
@@ -106,6 +110,8 @@ Notes:
   in `labelText` and set `labelHidden`; do not also set `ariaLabel`, because
   `labelText` is already the accessible name. When both values are the same,
   drop the `aria-label`.
+- `ariaHasPopup` accepts only `'dialog'`, `'grid'`, `'listbox'`, `'menu'`, or
+  `'tree'`. An old `aria-haspopup="true"` means `'menu'`.
 - Any other attribute on the old button (`title`, other `aria-*`, `id`, `name`, `form`,
   `autofocus`, `tabindex`, ...) has no input. If an attribute is purely
   descriptive (`title` that duplicates the label), drop it. If it carries

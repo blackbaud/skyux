@@ -31,6 +31,7 @@ describe('Basic button example', () => {
   it('should display the expected button', async () => {
     const { harness } = await setupTest('simple-button');
 
+    await expectAsync(harness.getAriaHasPopup()).toBeResolvedTo('dialog');
     await expectAsync(harness.getButtonStyle()).toBeResolvedTo('primary');
     await expectAsync(harness.getLabelText()).toBeResolvedTo('Simple button');
   });

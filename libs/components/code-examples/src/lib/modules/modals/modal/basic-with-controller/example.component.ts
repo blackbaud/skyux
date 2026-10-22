@@ -23,7 +23,11 @@ import { ModalComponent } from './modal.component';
   selector: 'app-modals-modal-basic-with-controller-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyButton],
-  template: `<sky-button labelText="Open modal" (buttonClick)="openModal()" />`,
+  template: `<sky-button
+    ariaHasPopup="dialog"
+    labelText="Open modal"
+    (buttonClick)="openModal()"
+  />`,
 })
 export class ModalsModalBasicWithControllerExampleComponent implements OnDestroy {
   public hasErrors = false;

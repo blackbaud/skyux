@@ -18,6 +18,7 @@
       @if (activeIndex === 0) {
         <sky-button
           buttonStyle="primary"
+          ariaHasPopup="dialog"
           labelText="Set up connection"
           (buttonClick)="configureConnection(true)"
         />
@@ -25,6 +26,7 @@
       @if (activeIndex && activeIndex > 0) {
         <sky-button
           buttonStyle="link"
+          ariaHasPopup="dialog"
           labelText="Edit connection"
           (buttonClick)="configureConnection(false)"
         />
@@ -42,12 +44,14 @@
         @if (activeIndex === 1) {
           <sky-button
             buttonStyle="primary"
+            ariaHasPopup="dialog"
             labelText="Select server"
             (buttonClick)="setServer(true)"
           />
         } @else {
           <sky-button
             buttonStyle="link"
+            ariaHasPopup="dialog"
             labelText="Change server"
             (buttonClick)="setServer(false)"
           />
@@ -65,12 +69,14 @@
         @if (activeIndex === 2) {
           <sky-button
             buttonStyle="primary"
+            ariaHasPopup="dialog"
             labelText="Test connection"
             (buttonClick)="testConnection(true)"
           />
         } @else {
           <sky-button
             buttonStyle="link"
+            ariaHasPopup="dialog"
             labelText="Retest connection"
             (buttonClick)="testConnection(false)"
           />

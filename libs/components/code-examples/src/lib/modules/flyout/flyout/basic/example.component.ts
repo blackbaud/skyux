@@ -29,7 +29,6 @@ export class FlyoutBasicExampleComponent {
   public openFlyoutWithCustomWidth(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
-      ariaRole: 'dialog',
       defaultWidth: 350,
       maxWidth: 500,
       minWidth: 200,
@@ -43,7 +42,6 @@ export class FlyoutBasicExampleComponent {
   protected openSimpleFlyout(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
-      ariaRole: 'dialog',
     });
 
     this.#flyout.closed.subscribe(() => {

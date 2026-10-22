@@ -26,7 +26,6 @@ export class FlyoutCustomHeadersExampleComponent {
   public openFlyoutWithIterators(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
-      ariaRole: 'dialog',
       showIterator: true,
       iteratorNextButtonDisabled: this.#nextButtonDisabled(),
       iteratorPreviousButtonDisabled: this.#previousButtonDisabled(),
@@ -56,7 +55,6 @@ export class FlyoutCustomHeadersExampleComponent {
   public openFlyoutWithPrimaryAction(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
-      ariaRole: 'dialog',
       primaryAction: {
         label: 'Save',
         callback: () => {
@@ -69,7 +67,6 @@ export class FlyoutCustomHeadersExampleComponent {
   public openFlyoutWithRoutePermalink(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
-      ariaRole: 'dialog',
       permalink: {
         label: 'Go to Components page',
         route: {
@@ -92,7 +89,6 @@ export class FlyoutCustomHeadersExampleComponent {
   public openFlyoutWithUrlPermalink(): void {
     this.#flyout = this.#flyoutSvc.open(FlyoutComponent, {
       ariaLabelledBy: 'flyout-title',
-      ariaRole: 'dialog',
       permalink: {
         label: `Visit blackbaud.com`,
         url: 'http://www.blackbaud.com',

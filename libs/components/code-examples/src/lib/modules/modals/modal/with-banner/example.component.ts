@@ -17,6 +17,7 @@ import { ModalComponent } from './modal.component';
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [SkyButton],
   template: `<sky-button
+    ariaHasPopup="dialog"
     labelText="Open modal example"
     (buttonClick)="openModal()"
   />`,

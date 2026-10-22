@@ -10,6 +10,7 @@ import { CoreInstrumentationModalContent } from './modal';
   imports: [SkyButton],
   template: `
     <sky-button
+      ariaHasPopup="dialog"
       data-sky-id="edit-gift-button"
       labelText="Edit gift"
       (buttonClick)="openModal()"
