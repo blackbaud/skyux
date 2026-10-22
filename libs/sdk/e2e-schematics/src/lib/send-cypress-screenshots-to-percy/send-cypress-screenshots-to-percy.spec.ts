@@ -120,9 +120,10 @@ describe('SendCypressScreenshotsToPercy', () => {
     const afterScreenshot = on.mock.calls[1][1];
     (readFileSync as jest.Mock).mockReturnValue('image data');
     await afterScreenshot(details);
-    expect(utils.postSnapshot).toHaveBeenCalledWith({
-      clientInfo: 'undefined/1.0.0',
-      domSnapshot: stripIndent`
+    expect(utils.postSnapshot).toHaveBeenCalledWith(
+      {
+        clientInfo: 'undefined/1.0.0',
+        domSnapshot: stripIndent`
         <!doctype html>
         <html lang="en">
           <head>
@@ -144,11 +145,13 @@ describe('SendCypressScreenshotsToPercy', () => {
             />
           </body>
         </html>`,
-      environmentInfo: 'cypress/undefined',
-      name: undefined,
-      scope: '#root',
-      url: '/example',
-    });
+        environmentInfo: 'cypress/undefined',
+        name: undefined,
+        scope: '#root',
+        url: '/example',
+      },
+      { async: true },
+    );
   });
 
   it('should not send a screenshot to percy without a url', async () => {

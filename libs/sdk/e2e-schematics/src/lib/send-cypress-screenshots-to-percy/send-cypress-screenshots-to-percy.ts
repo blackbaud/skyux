@@ -85,14 +85,19 @@ export function sendCypressScreenshotsToPercy(
               </body>
             </html>
             `;
-        await utils.postSnapshot({
-          name: details.name,
-          url,
-          domSnapshot,
-          clientInfo: `${sdkPkg.name}/${sdkPkg.version}`,
-          environmentInfo: `cypress/${config.version}`,
-          scope: '#root',
-        });
+        // Without `async`, the Percy CLI holds the request open until asset discovery finishes, which blocks the
+        // test. `percy exec` still waits for queued snapshots before finalizing the build.
+        await utils.postSnapshot(
+          {
+            name: details.name,
+            url,
+            domSnapshot,
+            clientInfo: `${sdkPkg.name}/${sdkPkg.version}`,
+            environmentInfo: `cypress/${config.version}`,
+            scope: '#root',
+          },
+          { async: true },
+        );
       }
       return {
         path: details.path,

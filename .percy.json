@@ -9,6 +9,9 @@
   "discovery": {
     "allowed-hostnames": ["maxcdn.bootstrapcdn.com", "sky.blackbaudcdn.net"],
     "disable-cache": false,
-    "concurrency": 15
+    "concurrency": 15,
+    "launch-options": {
+      "timeout": 90000
+    }
   }
 }
