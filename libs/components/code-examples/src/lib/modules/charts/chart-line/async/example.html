@@ -1,0 +1,23 @@
+<sky-button
+  class="sky-theme-margin-bottom-s"
+  data-sky-id="reload-button"
+  labelText="Reload data"
+  [disabled]="donations.isLoading()"
+  (buttonClick)="donations.reload()"
+/>
+<sky-chart
+  data-sky-id="donations-by-quarter"
+  headingText="Donations by quarter"
+  [loading]="donations.isLoading()"
+>
+  @if (donations.value(); as data) {
+    <sky-chart-line>
+      <sky-chart-axis-category
+        labelText="Quarter"
+        [categories]="data.categories"
+      />
+      <sky-chart-axis-value format="currency" labelText="Donations" />
+      <sky-chart-line-series labelText="Donations" [values]="data.values" />
+    </sky-chart-line>
+  }
+</sky-chart>

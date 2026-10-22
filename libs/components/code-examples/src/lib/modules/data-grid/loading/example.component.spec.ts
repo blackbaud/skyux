@@ -5,6 +5,7 @@ import {
   provideSkyDataGridTesting,
   SkyDataGridHarness,
 } from '@skyux/data-grid/testing';
+import { SkyButtonHarness } from '@skyux/forms/testing';
 
 import { Provider, ResourceLoader } from '@angular/core';
 import { DATA_LOADER, DataGridServerPage, DataGridServerParams } from './data';
@@ -49,11 +50,13 @@ describe('Data grid loading example', () => {
 
   async function clickButton(
     fixture: ComponentFixture<DataGridLoadingExampleComponent>,
+    loader: HarnessLoader,
     dataSkyId: string,
   ): Promise<void> {
-    (fixture.nativeElement as HTMLElement)
-      .querySelector<HTMLButtonElement>(`[data-sky-id="${dataSkyId}"]`)
-      ?.click();
+    const button = await loader.getHarness(
+      SkyButtonHarness.with({ dataSkyId }),
+    );
+    await button.click();
     await settle(fixture);
   }
 
@@ -81,8 +84,8 @@ describe('Data grid loading example', () => {
   });
 
   it('should clear rows and hide paging for the empty state', async () => {
-    const { fixture, gridHarness } = await setupTest();
-    await clickButton(fixture, 'show-empty-button');
+    const { fixture, loader, gridHarness } = await setupTest();
+    await clickButton(fixture, loader, 'show-empty-button');
     expect(await gridHarness.getDisplayedRowCount()).toBe(0);
     await expectAsync(gridHarness.getPagingOrNull()).toBeResolvedTo(null);
   });
@@ -102,7 +105,11 @@ describe('Data grid loading example', () => {
             })
           : Promise.resolve(emptyPage),
       );
-    const { fixture, gridHarness } = await setupTest({ dataLoader: loader });
+    const {
+      fixture,
+      gridHarness,
+      loader: harnessLoader,
+    } = await setupTest({ dataLoader: loader });
 
     // Confirm the grid's render-readiness handshake has already completed
     // before introducing a load that never resolves. The data grid also
@@ -115,6 +122,10 @@ describe('Data grid loading example', () => {
     const readyWait = await gridHarness.getWait();
     await expectAsync(readyWait.isWaiting()).toBeResolvedTo(false);
 
+    const showLoadingButton = await harnessLoader.getHarness(
+      SkyButtonHarness.with({ dataSkyId: 'show-loading-button' }),
+    );
+
     // The "loading" behavior's resource load never resolves, so it leaves
     // an Angular `PendingTasks` entry open indefinitely. `fixture.whenStable()`
     // - used by `clickButton`/`settle`, and internally by every CDK harness
@@ -123,9 +134,7 @@ describe('Data grid loading example', () => {
     // harness environment's automatic stabilization for its duration, so
     // change detection must be driven manually below.
     await manualChangeDetection(async () => {
-      (fixture.nativeElement as HTMLElement)
-        .querySelector<HTMLButtonElement>('[data-sky-id="show-loading-button"]')
-        ?.click();
+      await showLoadingButton.click();
       fixture.detectChanges();
 
       // AG Grid mounts its loading overlay component outside the Angular
@@ -153,11 +162,11 @@ describe('Data grid loading example', () => {
   });
 
   it('should restore rows when data is shown again', async () => {
-    const { fixture, gridHarness } = await setupTest();
-    await clickButton(fixture, 'show-empty-button');
+    const { fixture, loader, gridHarness } = await setupTest();
+    await clickButton(fixture, loader, 'show-empty-button');
     expect(await gridHarness.getDisplayedRowCount()).toBe(0);
 
-    await clickButton(fixture, 'show-data-button');
+    await clickButton(fixture, loader, 'show-data-button');
     expect(await gridHarness.getDisplayedRowCount()).toBe(5);
   });
 });

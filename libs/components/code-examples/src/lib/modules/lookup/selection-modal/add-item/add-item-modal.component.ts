@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { SkyInputBoxModule } from '@skyux/forms';
+import { SkyButton, SkyInputBoxModule } from '@skyux/forms';
 import { SkyModalInstance, SkyModalModule } from '@skyux/modals';
 
 let nextId = 21;
@@ -14,7 +14,7 @@ let nextId = 21;
   selector: 'app-add-item-modal',
   templateUrl: './add-item-modal.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [ReactiveFormsModule, SkyInputBoxModule, SkyModalModule],
+  imports: [ReactiveFormsModule, SkyButton, SkyInputBoxModule, SkyModalModule],
 })
 export class AddItemModalComponent {
   protected readonly formGroup: FormGroup;

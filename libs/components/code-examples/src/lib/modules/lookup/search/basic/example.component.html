@@ -1,12 +1,9 @@
 <sky-toolbar>
   <sky-toolbar-item>
-    <button
-      class="sky-btn sky-btn-default"
-      type="button"
-      (click)="searchApplied('Robert')"
-    >
-      Predefined search text
-    </button>
+    <sky-button
+      labelText="Predefined search text"
+      (buttonClick)="searchApplied('Robert')"
+    />
   </sky-toolbar-item>
   <sky-toolbar-item>
     <sky-search

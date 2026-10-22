@@ -1,16 +1,16 @@
-<button
-  class="sky-btn sky-btn-default"
-  type="button"
-  (click)="textButtonClick()"
->
-  <sky-icon data-sky-id="text-button-icon" iconName="save" />
-  Save
-</button>
+<sky-button
+  class="sky-theme-margin-right-s"
+  data-sky-id="text-button"
+  iconName="save"
+  labelText="Save"
+  (buttonClick)="textButtonClick()"
+/>
 
-<button
-  class="sky-btn sky-btn-icon-borderless"
-  type="button"
-  (click)="iconOnlyButtonClick()"
->
-  <sky-icon data-sky-id="button-icon" iconName="edit" />
-</button>
+<sky-button
+  buttonStyle="icon-borderless"
+  data-sky-id="icon-only-button"
+  iconName="edit"
+  labelHidden
+  labelText="Edit"
+  (buttonClick)="iconOnlyButtonClick()"
+/>

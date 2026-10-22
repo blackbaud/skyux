@@ -13,7 +13,7 @@ import {
   SkyDataManagerState,
   SkyDataViewConfig,
 } from '@skyux/data-manager';
-import { SkyIconModule } from '@skyux/icon';
+import { SkyButton } from '@skyux/forms';
 import { SkyListSummaryModule } from '@skyux/lists';
 
 import { AgGridAngular } from 'ag-grid-angular';
@@ -34,8 +34,8 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   imports: [
     AgGridAngular,
     SkyAgGridModule,
+    SkyButton,
     SkyDataManagerModule,
-    SkyIconModule,
     SkyListSummaryModule,
   ],
 })

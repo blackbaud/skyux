@@ -4,22 +4,17 @@
     <strong data-sky-id="current-sort" class="sky-theme-margin-right-s">{{
       sortDescription()
     }}</strong>
-    <button
-      class="sky-btn sky-btn-default sky-theme-margin-right-s"
-      type="button"
+    <sky-button
+      class="sky-theme-margin-right-s"
       data-sky-id="sort-by-age-button"
-      (click)="sortByAgeDescending()"
-    >
-      Sort by age (descending)
-    </button>
-    <button
-      class="sky-btn sky-btn-default"
-      type="button"
+      labelText="Sort by age (descending)"
+      (buttonClick)="sortByAgeDescending()"
+    />
+    <sky-button
       data-sky-id="clear-sort-button"
-      (click)="clearSort()"
-    >
-      Clear sort
-    </button>
+      labelText="Clear sort"
+      (buttonClick)="clearSort()"
+    />
   </sky-box-content>
 </sky-box>
 

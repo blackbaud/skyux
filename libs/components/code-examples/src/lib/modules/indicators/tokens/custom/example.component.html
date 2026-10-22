@@ -18,37 +18,33 @@
 </div>
 
 <div class="sky-theme-margin-bottom-xl">
-  <button
-    class="sky-btn sky-btn-default sky-theme-margin-right-s tokens-example-change-btn"
-    type="button"
-    (click)="changeTokens()"
-  >
-    Change tokens
-  </button>
+  <sky-button
+    class="sky-theme-margin-right-s"
+    data-sky-id="tokens-example-change-button"
+    labelText="Change tokens"
+    (buttonClick)="changeTokens()"
+  />
 
-  <button
-    class="sky-btn sky-btn-default sky-theme-margin-right-s tokens-example-reset-btn"
-    type="button"
-    (click)="resetTokens()"
-  >
-    Reset tokens
-  </button>
+  <sky-button
+    class="sky-theme-margin-right-s"
+    data-sky-id="tokens-example-reset-button"
+    labelText="Reset tokens"
+    (buttonClick)="resetTokens()"
+  />
 
-  <button
-    class="sky-btn sky-btn-default sky-theme-margin-right-s tokens-example-destroy-btn"
-    type="button"
-    (click)="destroyTokens()"
-  >
-    Destroy tokens
-  </button>
+  <sky-button
+    class="sky-theme-margin-right-s"
+    data-sky-id="tokens-example-destroy-button"
+    labelText="Destroy tokens"
+    (buttonClick)="destroyTokens()"
+  />
 
-  <button
-    class="sky-btn sky-btn-default sky-theme-margin-right-s tokens-example-focus-last-btn"
-    type="button"
-    (click)="focusLastToken()"
-  >
-    Focus last token
-  </button>
+  <sky-button
+    class="sky-theme-margin-right-s"
+    data-sky-id="tokens-example-focus-last-button"
+    labelText="Focus last token"
+    (buttonClick)="focusLastToken()"
+  />
 </div>
 
 <div>

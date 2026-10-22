@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyRepeaterModule } from '@skyux/lists';
 import { SkyDropdownModule } from '@skyux/popovers';
 
@@ -14,7 +15,7 @@ let nextId = 0;
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SkyDropdownModule, SkyRepeaterModule],
+  imports: [SkyButton, SkyDropdownModule, SkyRepeaterModule],
 })
 export class ListsRepeaterAddRemoveExampleComponent {
   protected items: Item[] = [

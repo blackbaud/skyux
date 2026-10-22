@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
-import { SkyCheckboxModule } from '@skyux/forms';
+import { SkyButton, SkyCheckboxModule } from '@skyux/forms';
 
 /**
  * @title Standard checkboxes
@@ -17,7 +17,7 @@ import { SkyCheckboxModule } from '@skyux/forms';
   selector: 'app-forms-checkbox-basic-example',
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [FormsModule, ReactiveFormsModule, SkyCheckboxModule],
+  imports: [FormsModule, ReactiveFormsModule, SkyButton, SkyCheckboxModule],
 })
 export class FormsCheckboxBasicExampleComponent {
   #formBuilder: FormBuilder = inject(FormBuilder);

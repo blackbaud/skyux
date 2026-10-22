@@ -4,8 +4,10 @@
     <br />
   </sky-modal-content>
   <sky-modal-footer>
-    <button class="sky-btn sky-btn-primary" type="button" (click)="submit()">
-      {{ context.buttonText }}
-    </button>
+    <sky-button
+      buttonStyle="primary"
+      [labelText]="context.buttonText"
+      (buttonClick)="submit()"
+    />
   </sky-modal-footer>
 </sky-modal>

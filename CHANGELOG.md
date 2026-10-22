@@ -1,6 +1,23 @@
 # Changelog
 
 
+## [15.5.0](https://github.com/blackbaud/skyux/compare/15.4.0...15.5.0) (2026-10-22)
+
+### Features
+
+* **components/charts:** add line chart component ([#4899](https://github.com/blackbaud/skyux/issues/4899)) ([9c39e20](https://github.com/blackbaud/skyux/commit/9c39e209515062575ce25d47b0217915cc88f91b))
+* **components/code-examples:** use button component in code examples ([#4916](https://github.com/blackbaud/skyux/issues/4916)) ([169c7ae](https://github.com/blackbaud/skyux/commit/169c7ae539e5e53facc3e1592d386c4754446757))
+* **components/data-grid:** add a dock layout option ([#4498](https://github.com/blackbaud/skyux/issues/4498)) ([#4906](https://github.com/blackbaud/skyux/issues/4906)) ([6c4ec91](https://github.com/blackbaud/skyux/commit/6c4ec9142a0fc0e770300ca85c53d29a097007fd))
+* **components/data-grid:** add column help inline methods to data grid harness ([#4907](https://github.com/blackbaud/skyux/issues/4907)) ([e866f1e](https://github.com/blackbaud/skyux/commit/e866f1ec2090e3374893446a157652812516643f))
+* **components/forms:** add `ariaControls`, `ariaExpanded`, and `ariaHasPopup` to button component ([#4910](https://github.com/blackbaud/skyux/issues/4910)) ([375a0d9](https://github.com/blackbaud/skyux/commit/375a0d975f4367362a371d6d23e72d72588471a6))
+* **components/forms:** add `ariaLabel` to button component ([#4903](https://github.com/blackbaud/skyux/issues/4903)) ([51da0d8](https://github.com/blackbaud/skyux/commit/51da0d809b0bf18bf36eadff4320c007ad4388e1))
+* **components/forms:** add input box button component ([#4902](https://github.com/blackbaud/skyux/issues/4902)) ([1240ae6](https://github.com/blackbaud/skyux/commit/1240ae605841e3513e78a520ce0580d04f21f275))
+
+### Bug Fixes
+
+* **components/forms:** input box textarea scrollbar no longer overlaps the border ([#4909](https://github.com/blackbaud/skyux/issues/4909)) ([476330a](https://github.com/blackbaud/skyux/commit/476330a6ac0b8628ac64af4f8068564b9a9cd566))
+* **docs-tools:** code example viewer has correct spacing around code content ([#4915](https://github.com/blackbaud/skyux/issues/4915)) ([7080d89](https://github.com/blackbaud/skyux/commit/7080d89ada1cf1038bc3832ec3af80107326a2b7))
+
 ## [15.4.0](https://github.com/blackbaud/skyux/compare/15.3.0...15.4.0) (2026-10-15)
 
 ### Features

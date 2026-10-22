@@ -4,6 +4,7 @@ import {
   OnDestroy,
   inject,
 } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyWaitService } from '@skyux/indicators';
 
 /**
@@ -13,6 +14,7 @@ import { SkyWaitService } from '@skyux/indicators';
   selector: 'app-indicators-wait-page-example',
   changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
+  imports: [SkyButton],
 })
 export class IndicatorsWaitPageExampleComponent implements OnDestroy {
   protected isWaiting = false;

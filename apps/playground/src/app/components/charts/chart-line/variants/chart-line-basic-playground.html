@@ -1,0 +1,10 @@
+<sky-chart headingText="Acquisitions by year">
+  <sky-chart-line>
+    <sky-chart-axis-category labelText="Year" [categories]="years" />
+    <sky-chart-axis-value labelText="Acquisitions" />
+    <sky-chart-line-series
+      labelText="Acquisitions by year"
+      [values]="acquisitions"
+    />
+  </sky-chart-line>
+</sky-chart>
