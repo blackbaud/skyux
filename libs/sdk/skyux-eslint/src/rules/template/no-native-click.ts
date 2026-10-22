@@ -26,6 +26,7 @@ const COMPONENTS_WITH_NATIVE_CLICK: {
   { selector: 'sky-button', alternativeOutput: 'buttonClick' },
   { selector: 'sky-action-button', alternativeOutput: 'actionClick' },
   { selector: 'sky-filter-button', alternativeOutput: 'filterButtonClick' },
+  { selector: 'sky-input-box-button', alternativeOutput: 'buttonClick' },
   {
     selector: 'sky-progress-indicator-nav-button',
     alternativeOutput: 'actionClick',

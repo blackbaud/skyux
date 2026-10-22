@@ -1,3 +1,5 @@
+export { SkyInputBoxButtonHarness } from './modules/input-box/input-box-button-harness';
+export { SkyInputBoxButtonHarnessFilters } from './modules/input-box/input-box-button-harness-filters';
 export { SkyInputBoxHarness } from './modules/input-box/input-box-harness';
 export { SkyInputBoxHarnessFilters } from './modules/input-box/input-box-harness-filters';
 

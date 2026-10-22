@@ -1,0 +1,9 @@
+<sky-input-box data-sky-id="number" labelText="Number">
+  <input type="text" [value]="randomNumber()" />
+  <sky-input-box-button
+    data-sky-id="number-generate"
+    iconName="arrow-sync"
+    labelText="Generate a random number"
+    (buttonClick)="regenerate()"
+  />
+</sky-input-box>

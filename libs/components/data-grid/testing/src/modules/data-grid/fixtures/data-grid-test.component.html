@@ -2,6 +2,7 @@
   <sky-data-grid
     data-sky-id="grid"
     [data]="dataForSimpleGrid"
+    [dock]="dock()"
     [page]="page"
     [pageQueryParam]="pageQueryParam"
     [pageSize]="pageSize()"
@@ -81,6 +82,7 @@
         dataType="number"
         field="column1"
         headingText="Column1"
+        helpPopoverTitle="Column1 help"
         [helpPopoverContent]="staticPopoverRef"
       />
       <sky-data-grid-column

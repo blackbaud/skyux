@@ -576,6 +576,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'FormsInputBoxWithCustomButtonExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ FormsInputBoxWithCustomButtonExample: c }) => c,
+      ),
+  },
+  {
     path: 'FormsInputBoxWithCustomFormErrorsExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
@@ -1152,6 +1159,13 @@ export const routes: Routes = [
     loadComponent: () =>
       import('@skyux/code-examples').then(
         ({ PagesActionHubExampleComponent: c }) => c,
+      ),
+  },
+  {
+    path: 'PagesPageDataManagerDataGridFitLayoutExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ PagesPageDataManagerDataGridFitLayoutExample: c }) => c,
       ),
   },
   {

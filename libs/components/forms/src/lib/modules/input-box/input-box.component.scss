@@ -586,6 +586,12 @@ sky-input-box {
         margin-top: var(--sky-input-box-margin-top);
         padding-top: 0;
         resize: vertical;
+        // The input box border is an inset box-shadow on .sky-form-group, which the
+        // textarea's scrollbar would otherwise paint over.
+        clip-path: inset(
+          var(--sky-input-box-input-border-width) round
+            var(--sky-border-radius-s)
+        );
         border-top: var(--sky-input-box-space-top) solid transparent;
 
         &:autofill,

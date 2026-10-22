@@ -4,4 +4,4 @@ This library was generated with [Nx](https://nx.dev).
 
 ## Running unit tests
 
-Run `nx test assets` to execute the unit tests.
+Run `nx test assets --configuration=ci` to execute the unit tests.

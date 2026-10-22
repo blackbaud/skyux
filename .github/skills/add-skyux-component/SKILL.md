@@ -86,9 +86,9 @@ for exact style; do not invent new patterns.
    sections) so the manifest picks them up.
 9. **Verify.** Run the affected tests, lint, and format before committing:
    ```bash
-   npx nx test <library> --browsers=ChromeHeadless
-   npx nx test <library>-testing --browsers=ChromeHeadless
-   npx nx test code-examples --browsers=ChromeHeadless
+   npx nx test <library> --configuration=ci
+   npx nx test <library>-testing --configuration=ci
+   npx nx test code-examples --configuration=ci
    npx nx build <library>-storybook
    npm run lint:affected
    nx format --files=<changed-file-paths>

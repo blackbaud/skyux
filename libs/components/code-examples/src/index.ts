@@ -79,6 +79,7 @@ export { FormsFileDropBasicExampleComponent } from './lib/modules/forms/file-dro
 export { FormsFileDropHelpKeyExampleComponent } from './lib/modules/forms/file-drop/help-key/example.component';
 export { FormsInputBoxBasicExampleComponent } from './lib/modules/forms/input-box/basic/example.component';
 export { FormsInputBoxCharacterLimitExample } from './lib/modules/forms/input-box/character-limit/example';
+export { FormsInputBoxWithCustomButtonExample } from './lib/modules/forms/input-box/custom-button/example';
 export { FormsInputBoxWithCustomFormErrorsExampleComponent } from './lib/modules/forms/input-box/custom-form-errors/example.component';
 export { FormsRadioHelpKeyExampleComponent } from './lib/modules/forms/radio/help-key/example.component';
 export { FormsRadioIconExampleComponent } from './lib/modules/forms/radio/icon/example.component';
@@ -162,6 +163,7 @@ export { ModalsModalBasicWithBannerExampleComponent } from './lib/modules/modals
 export { ModalsModalWithErrorExampleComponent } from './lib/modules/modals/modal/with-error/example.component';
 export { NavbarExampleComponent } from './lib/modules/navbar/navbar/example.component';
 export { PagesActionHubExampleComponent } from './lib/modules/pages/action-hub/example.component';
+export { PagesPageDataManagerDataGridFitLayoutExample } from './lib/modules/pages/page/data-manager-data-grid-fit-layout/example';
 export { PagesPageDataManagerSplitViewFitLayoutExampleComponent } from './lib/modules/pages/page/data-manager-split-view-fit-layout/example.component';
 export { PagesPageHomePageBlocksLayoutExampleComponent } from './lib/modules/pages/page/home-page-blocks-layout-demo/example.component';
 export { PagesPageListPageListLayoutExampleComponent } from './lib/modules/pages/page/list-page-list-layout-demo/example.component';

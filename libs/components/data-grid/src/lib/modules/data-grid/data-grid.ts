@@ -79,6 +79,7 @@ import { SkyDataGridRowData } from '../types/data-grid-row-data';
 import { SkyDataGridRowDeleteArgs } from '../types/data-grid-row-delete-args';
 import { SkyDataGridSort } from '../types/data-grid-sort';
 
+import { SkyDataGridDockType } from '../types/data-grid-dock-type';
 import { SkyDataGridColumn } from './data-grid-column';
 import { SkyDataGridColumnInlineHelp } from './data-grid-column-inline-help';
 import { fromGridEvent } from './data-grid-event-utils';
@@ -108,6 +109,8 @@ ModuleRegistry.registerModules([
 function arraySorted(arr: string[]): string[] {
   return arr.slice().sort((a, b) => a.localeCompare(b));
 }
+
+const DEFAULT_DOCK_TYPE: SkyDataGridDockType = 'none';
 
 function arraysEqual(a: readonly string[], b: readonly string[]): boolean {
   return a.length === b.length && a.every((value, i) => value === b[i]);
@@ -152,7 +155,8 @@ interface SkyDataGridColumnInternal {
   templateUrl: './data-grid.html',
   styleUrl: './data-grid.css',
   host: {
-    '[class.sky-margin-stacked-lg]': 'stacked()',
+    '[class.sky-data-grid-dock-fill]': 'useFillDock()',
+    '[class.sky-margin-stacked-lg]': 'useStacked()',
   },
   providers: [
     { provide: SkyDataColumnSource, useExisting: SkyDataGrid },
@@ -218,6 +222,15 @@ export class SkyDataGrid
   public readonly data = input<SkyDataGridRowData[] | null | undefined>();
 
   /**
+   * How the data grid docks to the page. Use `fill` to dock the data grid to the container's size where the container
+   * is a `sky-page` component with its `layout` set to `fit`, or where the container is another element with a
+   * relative or absolute position and a fixed size. This property is applied when the grid initializes; changes
+   * after initialization are not reflected.
+   * @default "none"
+   */
+  public readonly dock = input<SkyDataGridDockType>(DEFAULT_DOCK_TYPE);
+
+  /**
    * The text to read to screen readers to describe the grid. This sets the `aria-label` attribute on the grid container.
    */
   public readonly labelText = input<string>();
@@ -232,7 +245,7 @@ export class SkyDataGrid
   });
 
   /**
-   * The minimum height of the grid in pixels.
+   * The minimum height of the grid in pixels. This property does not apply when `dock` is set to `fill`.
    * @default 50
    */
   public readonly minHeight = input<number, unknown>(50, {
@@ -281,7 +294,7 @@ export class SkyDataGrid
 
   /**
    * Whether the data grid is stacked with another element below it. When specified, the appropriate
-   * vertical spacing is automatically added to the data grid.
+   * vertical spacing is automatically added to the data grid. This property does not apply when `dock` is set to `fill`.
    * @default false
    */
   public readonly stacked = input<boolean, unknown>(false, {
@@ -449,7 +462,9 @@ export class SkyDataGrid
         context: {
           enableTopScroll: untracked(() => this.topScrollEnabled()),
         },
-        domLayout: 'autoHeight',
+        domLayout: untracked(() =>
+          this.useFillDock() ? 'normal' : 'autoHeight',
+        ),
         initialState: sort
           ? {
               partialColumnState: true,
@@ -563,8 +578,18 @@ export class SkyDataGrid
     },
   });
 
-  protected readonly skyViewkeeper = computed(() =>
-    this.#viewkeeperDisabled() ? [] : this.viewkeeperClasses(),
+  protected readonly skyViewkeeper = computed(() => {
+    // Only used when not using SkyDataManagerService because data manager handles SkyViewkeeper.
+    // Not used in fill mode either: AG Grid keeps its own header in place in that layout.
+    if (this.useFillDock()) {
+      return [];
+    }
+    return this.#viewkeeperDisabled() ? [] : this.viewkeeperClasses();
+  });
+
+  protected readonly useFillDock = computed(() => this.dock() === 'fill');
+  protected readonly useStacked = computed(
+    () => this.stacked() && this.dock() !== 'fill',
   );
 
   readonly #activatedRoute = inject(ActivatedRoute, { optional: true });

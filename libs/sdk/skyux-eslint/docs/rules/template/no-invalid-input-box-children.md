@@ -53,6 +53,7 @@ The following SKY UX components are allowed inside `<sky-input-box>` alongside a
 
 - `<sky-character-counter-indicator>`
 - `<sky-form-error>`
+- `<sky-input-box-button>`
 - `<sky-status-indicator>`
 
 ### Multiple Controls

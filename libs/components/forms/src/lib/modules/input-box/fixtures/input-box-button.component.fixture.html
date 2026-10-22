@@ -1,0 +1,39 @@
+<sky-input-box labelText="Input box button">
+  @switch (inputType()) {
+    @case ('textarea') {
+      <textarea [formControl]="control"></textarea>
+    }
+    @case ('select') {
+      <select [formControl]="control">
+        <option value="1">One</option>
+      </select>
+    }
+    @default {
+      <input type="text" [formControl]="control" />
+    }
+  }
+  @if (leftButton()) {
+    <sky-input-box-button
+      iconName="calendar-ltr"
+      labelText="Left button"
+      position="left"
+      [disabled]="control.disabled"
+    />
+  }
+  @if (insetButton()) {
+    <sky-input-box-button
+      buttonStyle="inset"
+      iconName="search"
+      labelText="Inset button"
+      [disabled]="control.disabled"
+    />
+  }
+  @for (label of normalButtonLabels(); track label) {
+    <sky-input-box-button
+      iconName="clock"
+      [disabled]="control.disabled"
+      [labelText]="label"
+      (buttonClick)="clickedLabels.push(label)"
+    />
+  }
+</sky-input-box>

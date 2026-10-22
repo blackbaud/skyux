@@ -10,6 +10,7 @@ import {
 import { SkyIdService } from '@skyux/core';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyAppLinkModule, SkyHrefModule } from '@skyux/router';
+import { SkyButtonAriaHasPopup } from './button-aria-has-popup';
 import { SkyButtonPermalink } from './button-permalink';
 import { SkyButtonStyle } from './button-style';
 import { SkyButtonType } from './button-type';
@@ -31,6 +32,27 @@ export class SkyButton {
    * use `labelText`, and set `labelHidden` to `true`.
    */
   public readonly ariaLabel = input<string>();
+
+  /**
+   * The type of popup that the button opens. Use this when the button opens a menu, listbox,
+   * tree, grid, or dialog.
+   */
+  public readonly ariaHasPopup = input<SkyButtonAriaHasPopup>();
+
+  /**
+   * The ID of the element that the button controls, such as a popup or a collapsible region.
+   */
+  public readonly ariaControls = input<string>();
+
+  // ariaExpanded deliberately omits the booleanAttribute transform. This is to allow
+  // consumers to set the value to undefined in order to remove the underlying aria-expanded
+  // attribute.
+
+  /**
+   * Whether the popup that the button controls is expanded. Only specify this when the button
+   * shows and hides a popup or other element, and update it as the element expands and collapses.
+   */
+  public readonly ariaExpanded = input<boolean>();
 
   /**
    * Whether the button is displayed as a block element that fills the horizontal space of its container.
