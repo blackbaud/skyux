@@ -1,6 +1,7 @@
 import { booleanAttribute, Component, input, output } from '@angular/core';
 import {
   SkyButton,
+  SkyButtonAriaHasPopup,
   SkyButtonPermalink,
   SkyButtonStyle,
   SkyButtonType,
@@ -9,6 +10,9 @@ import {
 @Component({
   template: `<sky-button
     data-sky-id="test-button"
+    [ariaControls]="ariaControls()"
+    [ariaExpanded]="ariaExpanded()"
+    [ariaHasPopup]="ariaHasPopup()"
     [ariaLabel]="ariaLabel()"
     [block]="block()"
     [buttonStyle]="buttonStyle()"
@@ -24,6 +28,12 @@ import {
   imports: [SkyButton],
 })
 export class ButtonTest {
+  public readonly ariaControls = input<string>();
+
+  public readonly ariaExpanded = input<boolean>();
+
+  public readonly ariaHasPopup = input<SkyButtonAriaHasPopup>();
+
   public readonly ariaLabel = input<string>();
 
   /**

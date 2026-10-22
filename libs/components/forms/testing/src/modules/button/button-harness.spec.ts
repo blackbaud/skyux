@@ -78,6 +78,42 @@ describe('Button harness', () => {
       );
     });
 
+    it('should return the ARIA haspopup value when specified', async () => {
+      await expectAsync(buttonHarness.getAriaHasPopup()).toBeResolvedTo(null);
+
+      fixture.componentRef.setInput('ariaHasPopup', 'dialog');
+
+      await expectAsync(buttonHarness.getAriaHasPopup()).toBeResolvedTo(
+        'dialog',
+      );
+    });
+
+    it('should return the ARIA controls value when specified', async () => {
+      await expectAsync(buttonHarness.getAriaControls()).toBeResolvedTo(null);
+
+      fixture.componentRef.setInput('ariaControls', 'controlled-element');
+
+      await expectAsync(buttonHarness.getAriaControls()).toBeResolvedTo(
+        'controlled-element',
+      );
+    });
+
+    it('should return the ARIA expanded state when specified', async () => {
+      await expectAsync(buttonHarness.getAriaExpanded()).toBeResolvedTo(null);
+
+      fixture.componentRef.setInput('ariaExpanded', true);
+
+      await expectAsync(buttonHarness.getAriaExpanded()).toBeResolvedTo(true);
+
+      fixture.componentRef.setInput('ariaExpanded', false);
+
+      await expectAsync(buttonHarness.getAriaExpanded()).toBeResolvedTo(false);
+
+      fixture.componentRef.setInput('ariaExpanded', undefined);
+
+      await expectAsync(buttonHarness.getAriaExpanded()).toBeResolvedTo(null);
+    });
+
     it('should return the icon name', async () => {
       fixture.componentRef.setInput('iconName', 'add');
 
