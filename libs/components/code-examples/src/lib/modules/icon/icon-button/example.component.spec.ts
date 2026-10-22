@@ -44,5 +44,7 @@ describe('Icon button', () => {
     fixture.detectChanges();
 
     await expectAsync(buttonHarness.getIconName()).toBeResolvedTo('edit');
+    await expectAsync(buttonHarness.getLabelText()).toBeResolvedTo('Edit');
+    await expectAsync(buttonHarness.getLabelHidden()).toBeResolvedTo(true);
   });
 });
