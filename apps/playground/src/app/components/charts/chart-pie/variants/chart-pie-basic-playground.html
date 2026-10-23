@@ -1,0 +1,11 @@
+<sky-chart headingText="Sales by region">
+  <sky-chart-pie
+    categoryLabelText="Region"
+    valueLabelText="Sales"
+    [displayMode]="displayMode()"
+  >
+    @for (region of regions; track region.label) {
+      <sky-chart-pie-slice [labelText]="region.label" [value]="region.value" />
+    }
+  </sky-chart-pie>
+</sky-chart>
