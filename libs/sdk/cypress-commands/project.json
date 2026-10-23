@@ -7,6 +7,13 @@
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/libs/sdk/cypress-commands"],
+      "options": {
+        "config": "libs/sdk/cypress-commands/vitest.config.mts"
+      }
     }
   }
 }
