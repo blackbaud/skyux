@@ -5,6 +5,7 @@
 
 ### Features
 
+* **components/data-manager:** configure the data manager from the template and make SkyDataManagerService optional ([#4862](https://github.com/blackbaud/skyux/issues/4862)) ([#4921](https://github.com/blackbaud/skyux/issues/4921)) ([ed8b90f](https://github.com/blackbaud/skyux/commit/ed8b90fefa7fe799a5e112eda3b067c0b546d092))
 * support AG Grid 36.2.0 ([#4913](https://github.com/blackbaud/skyux/issues/4913)) ([b362ae8](https://github.com/blackbaud/skyux/commit/b362ae837bb280bc96b328930052a9bedbf73756))
 
 ## [14.26.0](https://github.com/blackbaud/skyux/compare/14.25.0...14.26.0) (2026-10-23)
