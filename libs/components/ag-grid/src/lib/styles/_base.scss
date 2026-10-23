@@ -352,6 +352,22 @@
         );
     }
   }
+
+  // While the viewkeeper holds the scrollbar fixed, it inserts a spacer as
+  // the scrollbar's next sibling and releases the scrollbar once the
+  // spacer scrolls back into view. AG Grid renders this scrollbar after the
+  // rows, so an in-flow spacer would land below the grid and the scrollbar
+  // would be released on the next scroll event. Place the spacer where the
+  // scrollbar sits instead.
+  .ag-body-horizontal-scroll + [id^='viewkeeper-'][id$='-spacer'] {
+    position: absolute;
+    top: calc(
+      var(--sky-ag-grid-header-rows-height, 0px) - var(
+          --sky-ag-grid-top-scroll-height,
+          0px
+        )
+    );
+  }
 }
 
 .sky-ag-grid {

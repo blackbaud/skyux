@@ -27,8 +27,8 @@
     "@skyux/indicators": "^0.0.0-PLACEHOLDER",
     "@skyux/layout": "^0.0.0-PLACEHOLDER",
     "@skyux/lists": "^0.0.0-PLACEHOLDER",
-    "ag-grid-angular": "^36.1.0",
-    "ag-grid-community": "^36.1.0"
+    "ag-grid-angular": "^36.2.0",
+    "ag-grid-community": "^36.2.0"
   },
   "sideEffects": false
 }

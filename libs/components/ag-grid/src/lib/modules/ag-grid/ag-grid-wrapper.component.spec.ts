@@ -282,8 +282,8 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     const scrollbar = gridWrapperNativeElement.querySelector(
       '.ag-body-horizontal-scroll',
     ) as HTMLElement;
-    const pinnedTop = gridWrapperNativeElement.querySelector(
-      '.ag-grid-pinned-top-rows',
+    const gridViewport = gridWrapperNativeElement.querySelector(
+      '.ag-grid-viewport',
     ) as HTMLElement;
     const skyAgGridDiv = gridWrapperNativeElement.querySelector(
       '.sky-ag-grid',
@@ -323,8 +323,31 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     expect(
       skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-header-rows-height'),
     ).toEqual(`${headerRowsHeight + separatorWidth + reserved}px`);
-    expect(pinnedTop.style.getPropertyValue('--ag-header-rows-height')).toEqual(
-      `${headerRowsHeight + separatorWidth + reserved}px`,
+    expect(
+      gridViewport.style.getPropertyValue('--ag-internal-header-rows-height'),
+    ).toEqual(`${headerRowsHeight + separatorWidth + reserved}px`);
+  });
+
+  it('should place a viewkeeper spacer where the top horizontal scroll sits', async () => {
+    TestBed.overrideProvider(EnableTopScroll, { useValue: true });
+    gridWrapperFixture = TestBed.createComponent(SkyAgGridFixtureComponent);
+    gridWrapperNativeElement = gridWrapperFixture.nativeElement;
+
+    gridWrapperFixture.detectChanges();
+    await gridWrapperFixture.whenStable();
+    await waitForResizePosition();
+    await waitForScrollVisibleServiceToSettle(gridWrapperFixture);
+
+    const scrollbar = gridWrapperNativeElement.querySelector(
+      '.ag-body-horizontal-scroll',
+    ) as HTMLElement;
+    const spacer = document.createElement('div');
+    spacer.id = 'viewkeeper-1-spacer';
+    scrollbar.after(spacer);
+
+    expect(getComputedStyle(spacer).position).toBe('absolute');
+    expect(spacer.getBoundingClientRect().top).toBe(
+      scrollbar.getBoundingClientRect().top,
     );
   });
 
@@ -384,8 +407,8 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     const scrollbar = gridWrapperNativeElement.querySelector(
       '.ag-body-horizontal-scroll',
     ) as HTMLElement;
-    const pinnedTop = gridWrapperNativeElement.querySelector(
-      '.ag-grid-pinned-top-rows',
+    const gridViewport = gridWrapperNativeElement.querySelector(
+      '.ag-grid-viewport',
     ) as HTMLElement;
     const skyAgGridDiv = gridWrapperNativeElement.querySelector(
       '.sky-ag-grid',
@@ -421,9 +444,9 @@ describe('SkyAgGridWrapperComponent via fixture', () => {
     expect(
       skyAgGridDiv.style.getPropertyValue('--sky-ag-grid-header-rows-height'),
     ).toEqual(`${headerRowsHeight + reserved}px`);
-    expect(pinnedTop.style.getPropertyValue('--ag-header-rows-height')).toEqual(
-      `${headerRowsHeight + reserved}px`,
-    );
+    expect(
+      gridViewport.style.getPropertyValue('--ag-internal-header-rows-height'),
+    ).toEqual(`${headerRowsHeight + reserved}px`);
   });
 
   it('should not touch the horizontal scroll position when enableTopScroll is false', async () => {

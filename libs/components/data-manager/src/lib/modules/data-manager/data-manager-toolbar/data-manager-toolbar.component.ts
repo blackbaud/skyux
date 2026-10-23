@@ -31,7 +31,6 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SkyDataManagerResourcesModule } from '../../shared/sky-data-manager-resources.module';
 import { SkyDataManagerColumnPickerContext } from '../data-manager-column-picker/data-manager-column-picker-context';
-import { SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS } from '../data-manager-column-picker/data-manager-column-picker-providers';
 import { SkyDataManagerColumnPickerService } from '../data-manager-column-picker/data-manager-column-picker.service';
 import { SkyDataManagerFilterModalContext } from '../data-manager-filter-context';
 import { SkyDataManagerService } from '../data-manager.service';
@@ -287,7 +286,14 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
         const options: SkyModalConfigurationInterface = {
           providers: [
-            SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS,
+            // The column picker renders its own toolbar, which injects this
+            // service. The existing instance is passed because importing the
+            // column picker providers here would form an import cycle with
+            // the column picker component.
+            {
+              provide: SkyDataManagerColumnPickerService,
+              useValue: this.#columnPickerService,
+            },
             {
               provide: SkyDataManagerColumnPickerContext,
               useValue: context,
