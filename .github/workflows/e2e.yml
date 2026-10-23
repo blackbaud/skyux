@@ -427,7 +427,7 @@ jobs:
         if: ${{ matrix.project != 'skip' && steps.affected.outputs.affected == 'true' && !cancelled() }}
         with:
           name: percy-log-${{ matrix.project }}.log
-          path: ${{ runner.temp }}/percy-log-${{ matrix.project }}.log
+          path: ${{ runner.temp }}/percy-${{ matrix.project }}.log
           retention-days: 4
       - name: Upload build number
         uses: actions/upload-artifact@v7
