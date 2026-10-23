@@ -1,5 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
@@ -433,9 +433,9 @@ describe('SkyDataManagerComponent', () => {
   selector: 'sky-data-manager-template-api-fixture',
   template: `
     <sky-data-manager
-      [labelText]="labelText"
-      [settingsKey]="settingsKey"
-      [totalCount]="totalCount"
+      [labelText]="labelText()"
+      [settingsKey]="settingsKey()"
+      [totalCount]="totalCount()"
       [(filters)]="filters"
       [(searchText)]="searchText"
       [(selectedIds)]="selectedIds"
@@ -458,11 +458,11 @@ describe('SkyDataManagerComponent', () => {
       <div skyDataManagerFilterController></div>
       <sky-data-view
         viewId="view1"
-        [multiselectEnabled]="multiselectEnabled"
-        [searchEnabled]="searchEnabled"
-        [searchPlaceholderText]="searchPlaceholderText"
-        (clearAll)="selectedIds = []"
-        (selectAll)="selectedIds = ['1', '2']"
+        [multiselectEnabled]="multiselectEnabled()"
+        [searchEnabled]="searchEnabled()"
+        [searchPlaceholderText]="searchPlaceholderText()"
+        (clearAll)="selectedIds.set([])"
+        (selectAll)="selectedIds.set(['1', '2'])"
       >
         <p class="template-api-content">Content</p>
       </sky-data-view>
@@ -471,17 +471,17 @@ describe('SkyDataManagerComponent', () => {
   imports: [SkyDataManagerModule],
 })
 class TemplateApiFixtureComponent {
-  public filters: SkyFilterState | undefined;
-  public labelText: string | undefined;
-  public multiselectEnabled = false;
-  public searchEnabled = false;
-  public searchPlaceholderText: string | undefined;
-  public searchText = '';
-  public selectedIds: string[] = [];
-  public settingsKey: string | undefined;
-  public sort: SkyDataManagerSortOption | undefined;
+  public readonly filters = model<SkyFilterState | undefined>(undefined);
+  public readonly labelText = input<string | undefined>(undefined);
+  public readonly multiselectEnabled = input(false);
+  public readonly searchEnabled = input(false);
+  public readonly searchPlaceholderText = input<string | undefined>(undefined);
+  public readonly searchText = model('');
+  public readonly selectedIds = model<string[]>([]);
+  public readonly settingsKey = input<string | undefined>(undefined);
+  public readonly sort = model<SkyDataManagerSortOption | undefined>(undefined);
   public states: SkyDataManagerState[] = [];
-  public totalCount = 0;
+  public readonly totalCount = input(0);
 }
 
 describe('SkyDataManagerComponent template API', () => {
@@ -528,9 +528,9 @@ describe('SkyDataManagerComponent template API', () => {
     });
 
     it('should seed the state from the models', () => {
-      fixture.componentInstance.searchText = 'mango';
-      fixture.componentInstance.selectedIds = ['1'];
-      fixture.componentInstance.sort = sortOption;
+      fixture.componentInstance.searchText.set('mango');
+      fixture.componentInstance.selectedIds.set(['1']);
+      fixture.componentInstance.sort.set(sortOption);
       fixture.detectChanges();
 
       expect(getService().state().searchText).toBe('mango');
@@ -542,9 +542,9 @@ describe('SkyDataManagerComponent template API', () => {
     it('should push model changes into the state and emit them', () => {
       fixture.detectChanges();
 
-      fixture.componentInstance.searchText = 'lime';
-      fixture.componentInstance.selectedIds = ['1', '2'];
-      fixture.componentInstance.sort = sortOption;
+      fixture.componentInstance.searchText.set('lime');
+      fixture.componentInstance.selectedIds.set(['1', '2']);
+      fixture.componentInstance.sort.set(sortOption);
       fixture.detectChanges();
       fixture.detectChanges();
 
@@ -561,14 +561,14 @@ describe('SkyDataManagerComponent template API', () => {
       getService().updateState({ searchText: 'banana', selectedIds: ['9'] });
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.searchText).toBe('banana');
-      expect(fixture.componentInstance.selectedIds).toEqual(['9']);
+      expect(fixture.componentInstance.searchText()).toBe('banana');
+      expect(fixture.componentInstance.selectedIds()).toEqual(['9']);
       expect(lastState()?.searchText).toBe('banana');
     });
 
     it('should apply a search from the toolbar', async () => {
-      fixture.componentInstance.searchEnabled = true;
-      fixture.componentInstance.searchPlaceholderText = 'Search fruit';
+      fixture.componentRef.setInput('searchEnabled', true);
+      fixture.componentRef.setInput('searchPlaceholderText', 'Search fruit');
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -585,7 +585,7 @@ describe('SkyDataManagerComponent template API', () => {
       await search.clickSubmitButton();
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.searchText).toBe('pear');
+      expect(fixture.componentInstance.searchText()).toBe('pear');
       expect(lastState()?.searchText).toBe('pear');
     });
 
@@ -602,7 +602,7 @@ describe('SkyDataManagerComponent template API', () => {
       await (await sort.getItem({ text: 'Name (A - Z)' })).click();
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.sort).toEqual(sortOption);
+      expect(fixture.componentInstance.sort()).toEqual(sortOption);
       expect(lastState()?.activeSortOption).toEqual(sortOption);
     });
 
@@ -625,14 +625,14 @@ describe('SkyDataManagerComponent template API', () => {
         fixture.detectChanges();
         await fixture.whenStable();
 
-        expect(fixture.componentInstance.sort?.id).toBe(id);
+        expect(fixture.componentInstance.sort()?.id).toBe(id);
         expect(getService().state().activeSortOption?.id).toBe(id);
       }
     });
 
     it('should configure the toolbar label and multiselect toolbar', async () => {
-      fixture.componentInstance.labelText = 'fruit';
-      fixture.componentInstance.multiselectEnabled = true;
+      fixture.componentRef.setInput('labelText', 'fruit');
+      fixture.componentRef.setInput('multiselectEnabled', true);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -670,10 +670,13 @@ describe('SkyDataManagerComponent template API', () => {
         fixture.nativeElement.querySelector('.sky-data-manager-search'),
       ).not.toExist();
 
-      fixture.componentInstance.labelText = 'vegetables';
-      fixture.componentInstance.searchEnabled = true;
-      fixture.componentInstance.searchPlaceholderText = 'Search vegetables';
-      fixture.componentInstance.multiselectEnabled = true;
+      fixture.componentRef.setInput('labelText', 'vegetables');
+      fixture.componentRef.setInput('searchEnabled', true);
+      fixture.componentRef.setInput(
+        'searchPlaceholderText',
+        'Search vegetables',
+      );
+      fixture.componentRef.setInput('multiselectEnabled', true);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -710,7 +713,7 @@ describe('SkyDataManagerComponent template API', () => {
         columnOptions: [{ id: 'name', label: 'Name' }],
         additionalOptions: { custom: true },
       });
-      fixture.componentInstance.searchEnabled = true;
+      fixture.componentRef.setInput('searchEnabled', true);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -729,7 +732,7 @@ describe('SkyDataManagerComponent template API', () => {
       );
       fixture.detectChanges();
 
-      fixture.componentInstance.totalCount = 5;
+      fixture.componentRef.setInput('totalCount', 5);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -737,16 +740,16 @@ describe('SkyDataManagerComponent template API', () => {
     });
 
     it('should seed filterData from the filters model', () => {
-      fixture.componentInstance.filters = {
+      fixture.componentInstance.filters.set({
         appliedFilters: [{ filterId: 'a', filterValue: { value: 'x' } }],
-      };
+      });
       fixture.detectChanges();
 
       expect(getService().state().filterData?.filtersApplied).toBeTrue();
     });
 
     it('should not mark filters as applied when none are applied', () => {
-      fixture.componentInstance.filters = { appliedFilters: [] };
+      fixture.componentInstance.filters.set({ appliedFilters: [] });
       fixture.detectChanges();
 
       expect(getService().state().filterData?.filtersApplied).toBeFalse();
@@ -755,7 +758,7 @@ describe('SkyDataManagerComponent template API', () => {
     it('should push filters model changes, including clearing them', () => {
       fixture.detectChanges();
 
-      fixture.componentInstance.filters = { selectedFilterIds: ['a'] };
+      fixture.componentInstance.filters.set({ selectedFilterIds: ['a'] });
       fixture.detectChanges();
 
       expect(getService().state().filterData).toEqual({
@@ -763,7 +766,7 @@ describe('SkyDataManagerComponent template API', () => {
         filters: { selectedFilterIds: ['a'] },
       });
 
-      fixture.componentInstance.filters = undefined;
+      fixture.componentInstance.filters.set(undefined);
       fixture.detectChanges();
 
       expect(getService().state().filterData).toBeUndefined();
@@ -778,7 +781,7 @@ describe('SkyDataManagerComponent template API', () => {
       fixture.detectChanges();
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.filters).toEqual({
+      expect(fixture.componentInstance.filters()).toEqual({
         legacy: true,
       } as SkyFilterState);
       expect(getService().state().filterData?.filtersApplied).toBeTrue();
@@ -796,7 +799,7 @@ describe('SkyDataManagerComponent template API', () => {
         );
       fixture.detectChanges();
 
-      expect(fixture.componentInstance.filters?.appliedFilters).toEqual([
+      expect(fixture.componentInstance.filters()?.appliedFilters).toEqual([
         { filterId: 'a', filterValue: { value: 'x' } },
       ]);
     });
@@ -806,7 +809,7 @@ describe('SkyDataManagerComponent template API', () => {
 
       beforeEach(() => {
         uiConfigService = TestBed.inject(SkyUIConfigService);
-        fixture.componentInstance.settingsKey = 'fruit-settings';
+        fixture.componentRef.setInput('settingsKey', 'fruit-settings');
       });
 
       it('should restore the state from SkyUIConfigService', () => {
@@ -849,7 +852,7 @@ describe('SkyDataManagerComponent template API', () => {
         spyOn(console, 'warn');
         fixture.detectChanges();
 
-        fixture.componentInstance.searchText = 'plum';
+        fixture.componentInstance.searchText.set('plum');
         fixture.detectChanges();
 
         expect(console.warn).toHaveBeenCalledWith(
@@ -868,7 +871,7 @@ describe('SkyDataManagerComponent template API', () => {
           [(selectedIds)]="selectedIds"
           (stateChange)="states.push($event)"
         >
-          <sky-data-view viewId="view1" [searchEnabled]="searchEnabled">
+          <sky-data-view viewId="view1" [searchEnabled]="searchEnabled()">
             <p class="template-api-content">Content</p>
           </sky-data-view>
         </sky-data-manager>
@@ -876,9 +879,9 @@ describe('SkyDataManagerComponent template API', () => {
       imports: [SkyDataManagerModule],
     })
     class ConsumerConfiguredFixtureComponent {
-      public searchEnabled = false;
-      public searchText = '';
-      public selectedIds: string[] = [];
+      public readonly searchEnabled = input(false);
+      public readonly searchText = model('');
+      public readonly selectedIds = model<string[]>([]);
       public states: SkyDataManagerState[] = [];
     }
 
@@ -914,7 +917,7 @@ describe('SkyDataManagerComponent template API', () => {
     });
 
     it('should wait for initDataManager() instead of seeding the state', () => {
-      consumerFixture.componentInstance.searchText = 'ignored';
+      consumerFixture.componentInstance.searchText.set('ignored');
       consumerFixture.detectChanges();
 
       expect(getConsumerContent()).not.toExist();
@@ -928,7 +931,7 @@ describe('SkyDataManagerComponent template API', () => {
       consumerFixture.detectChanges();
 
       expect(getConsumerContent()).toExist();
-      expect(consumerFixture.componentInstance.searchText).toBe('apple');
+      expect(consumerFixture.componentInstance.searchText()).toBe('apple');
       expect(consumerFixture.componentInstance.states.at(-1)?.searchText).toBe(
         'apple',
       );
@@ -943,8 +946,8 @@ describe('SkyDataManagerComponent template API', () => {
       });
       consumerFixture.detectChanges();
 
-      consumerFixture.componentInstance.searchText = 'kiwi';
-      consumerFixture.componentInstance.selectedIds = ['3'];
+      consumerFixture.componentInstance.searchText.set('kiwi');
+      consumerFixture.componentInstance.selectedIds.set(['3']);
       consumerFixture.detectChanges();
 
       expect(service.state().searchText).toBe('kiwi');
@@ -961,7 +964,7 @@ describe('SkyDataManagerComponent template API', () => {
       service.initDataView({ id: 'view1', name: 'View 1' });
       consumerFixture.detectChanges();
 
-      consumerFixture.componentInstance.searchEnabled = true;
+      consumerFixture.componentRef.setInput('searchEnabled', true);
       consumerFixture.detectChanges();
 
       expect(service.getViewById('view1')?.searchEnabled).toBeUndefined();
@@ -974,7 +977,7 @@ describe('SkyDataManagerComponent template API', () => {
   template: `
     <sky-data-manager labelText="fruit">
       <p class="viewless-content">Viewless</p>
-      @if (showViews) {
+      @if (showViews()) {
         <sky-data-view viewId="first">
           <p class="first-view-content">First</p>
         </sky-data-view>
@@ -987,7 +990,7 @@ describe('SkyDataManagerComponent template API', () => {
   imports: [SkyDataManagerModule],
 })
 class TemplateApiViewsFixtureComponent {
-  public showViews = true;
+  public readonly showViews = input(true);
 }
 
 describe('SkyDataManagerComponent template API views', () => {
@@ -1036,7 +1039,7 @@ describe('SkyDataManagerComponent template API views', () => {
     });
 
     it('should render without an active view when it contains no data view', async () => {
-      fixture.componentInstance.showViews = false;
+      fixture.componentRef.setInput('showViews', false);
       fixture.detectChanges();
       await fixture.whenStable();
 
@@ -1048,11 +1051,11 @@ describe('SkyDataManagerComponent template API views', () => {
     });
 
     it('should make the first data view created later active', async () => {
-      fixture.componentInstance.showViews = false;
+      fixture.componentRef.setInput('showViews', false);
       fixture.detectChanges();
       await fixture.whenStable();
 
-      fixture.componentInstance.showViews = true;
+      fixture.componentRef.setInput('showViews', true);
       fixture.detectChanges();
       await fixture.whenStable();
 

@@ -401,10 +401,10 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'DataManagerResourceExampleComponent',
+    path: 'DataManagerResourceExample',
     loadComponent: () =>
       import('@skyux/code-examples').then(
-        ({ DataManagerResourceExampleComponent: c }) => c,
+        ({ DataManagerResourceExample: c }) => c,
       ),
   },
   {

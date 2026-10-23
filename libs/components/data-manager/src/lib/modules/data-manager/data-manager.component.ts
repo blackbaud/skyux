@@ -223,8 +223,10 @@ export class SkyDataManagerComponent implements OnDestroy, OnInit {
       const state = this.#incomingState();
 
       if (state) {
-        this.#applyStateToModels(state);
-        this.stateChange.emit(state);
+        untracked(() => {
+          this.#applyStateToModels(state);
+          this.stateChange.emit(state);
+        });
       }
     });
   }

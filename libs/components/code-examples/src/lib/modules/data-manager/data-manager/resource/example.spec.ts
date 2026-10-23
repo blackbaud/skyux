@@ -7,24 +7,24 @@ import { SkySearchHarness } from '@skyux/lookup/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
-import { DataManagerResourceExampleComponent } from './example.component';
+import { DataManagerResourceExample } from './example';
 
 async function setupTest(): Promise<{
-  fixture: ComponentFixture<DataManagerResourceExampleComponent>;
+  fixture: ComponentFixture<DataManagerResourceExample>;
   loader: HarnessLoader;
 }> {
   await TestBed.configureTestingModule({
-    imports: [DataManagerResourceExampleComponent],
+    imports: [DataManagerResourceExample],
     providers: [provideNoopSkyAnimations()],
   }).compileComponents();
 
-  const fixture = TestBed.createComponent(DataManagerResourceExampleComponent);
+  const fixture = TestBed.createComponent(DataManagerResourceExample);
   const loader = TestbedHarnessEnvironment.loader(fixture);
 
   return { fixture, loader };
 }
 
-describe('DataManagerResourceExampleComponent', () => {
+describe('DataManagerResourceExample', () => {
   it('registers a single list view from the template', async () => {
     const { fixture, loader } = await setupTest();
     fixture.detectChanges();

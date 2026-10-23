@@ -17,11 +17,11 @@ import { getServerItems } from './data';
  */
 @Component({
   selector: 'app-data-manager-resource-example',
-  templateUrl: './example.component.html',
+  templateUrl: './example.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SkyDataManagerModule],
 })
-export class DataManagerResourceExampleComponent {
+export class DataManagerResourceExample {
   protected readonly searchText = signal('');
   protected readonly sort = signal<SkyDataManagerSortOption | undefined>(
     undefined,
