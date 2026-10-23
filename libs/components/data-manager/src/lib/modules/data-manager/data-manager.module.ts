@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 
 import { SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS } from './data-manager-column-picker/data-manager-column-picker-providers';
 import { SkyDataManagerFilterControllerDirective } from './data-manager-filters/data-manager-filter-controller.directive';
+import { SkyDataManagerTemplateConfigDirective } from './data-manager-template-config.directive';
+import { SkyDataManagerSortOptionComponent } from './data-manager-toolbar/data-manager-sort-option.component';
 import { SkyDataManagerToolbarLeftItemComponent } from './data-manager-toolbar/data-manager-toolbar-left-item.component';
 import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolbar/data-manager-toolbar-primary-item.component';
 import { SkyDataManagerToolbarRightItemComponent } from './data-manager-toolbar/data-manager-toolbar-right-item.component';
@@ -16,22 +18,26 @@ import { SkyDataViewComponent } from './data-view.component';
     SkyDataManagerComponent,
     SkyDataManagerViewControllerDirective,
     SkyDataManagerFilterControllerDirective,
+    SkyDataManagerSortOptionComponent,
     SkyDataManagerToolbarComponent,
     SkyDataManagerToolbarLeftItemComponent,
     SkyDataManagerToolbarPrimaryItemComponent,
     SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
+    SkyDataManagerTemplateConfigDirective,
     SkyDataViewComponent,
   ],
   exports: [
     SkyDataManagerComponent,
     SkyDataManagerViewControllerDirective,
     SkyDataManagerFilterControllerDirective,
+    SkyDataManagerSortOptionComponent,
     SkyDataManagerToolbarComponent,
     SkyDataManagerToolbarLeftItemComponent,
     SkyDataManagerToolbarPrimaryItemComponent,
     SkyDataManagerToolbarRightItemComponent,
     SkyDataManagerToolbarSectionComponent,
+    SkyDataManagerTemplateConfigDirective,
     SkyDataViewComponent,
   ],
   providers: [SKY_DATA_MANAGER_COLUMN_PICKER_PROVIDERS],

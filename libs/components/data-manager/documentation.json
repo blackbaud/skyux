@@ -9,6 +9,7 @@
           "SkyDataManagerService",
           "SkyDataManagerToolbarComponent",
           "SkyDataManagerToolbarSectionComponent",
+          "SkyDataManagerSortOptionComponent",
           "SkyDataManagerToolbarPrimaryItemComponent",
           "SkyDataManagerToolbarLeftItemComponent",
           "SkyDataManagerToolbarRightItemComponent",
@@ -58,6 +59,7 @@
       "codeExamples": {
         "docsIds": [
           "DataManagerBasicExampleComponent",
+          "DataManagerResourceExampleComponent",
           "PagesPageListPageListLayoutExampleComponent",
           "PagesPageDataManagerSplitViewFitLayoutExampleComponent",
           "PagesPageDataManagerDataGridFitLayoutExample"
