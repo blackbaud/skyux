@@ -163,6 +163,43 @@ describe('SkyAgGridCellEditorLookupComponent', () => {
       expect(component).toBeTruthy();
     });
 
+    it('should use a string headerTooltip as the label', () => {
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        colDef: { headerTooltip: 'Tooltip label', field: 'fieldName' },
+      });
+      fixture.detectChanges();
+      expect(
+        nativeElement
+          .querySelector('.sky-screen-reader-only')
+          ?.textContent?.trim(),
+      ).toBe('Tooltip label');
+    });
+
+    it('should ignore a non-string headerTooltip for the label', () => {
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        colDef: { headerTooltip: true, field: 'fieldName' },
+      });
+      fixture.detectChanges();
+      expect(
+        nativeElement
+          .querySelector('.sky-screen-reader-only')
+          ?.textContent?.trim(),
+      ).toBe('fieldName');
+
+      component.agInit({
+        ...(cellEditorParams as ICellEditorParams),
+        colDef: { headerTooltip: () => 'Callback label', field: 'fieldName' },
+      });
+      fixture.detectChanges();
+      expect(
+        nativeElement
+          .querySelector('.sky-screen-reader-only')
+          ?.textContent?.trim(),
+      ).toBe('fieldName');
+    });
+
     it('should initialize with disabled control', () => {
       component.agInit({
         ...(cellEditorParams as ICellEditorParams),
