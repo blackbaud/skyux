@@ -41,6 +41,7 @@ import { SkyDataManagerState } from '../models/data-manager-state';
 import { SkyDataViewConfig } from '../models/data-view-config';
 import { SkyDataViewState } from '../models/data-view-state';
 
+import { SkyDataManagerSortOptionComponent } from './data-manager-sort-option.component';
 import { SkyDataManagerToolbarLeftItemComponent } from './data-manager-toolbar-left-item.component';
 import { SkyDataManagerToolbarPrimaryItemComponent } from './data-manager-toolbar-primary-item.component';
 import { SkyDataManagerToolbarRightItemComponent } from './data-manager-toolbar-right-item.component';
@@ -49,7 +50,8 @@ import { SkyDataManagerToolbarSectionComponent } from './data-manager-toolbar-se
 /**
  * Renders a `sky-toolbar` with the contents specified by the active view's `SkyDataViewConfig`
  * and the `SkyDataManagerToolbarLeftItemComponent`, `SkyDataManagerToolbarRightItemComponent`,
- * and `SkyDataManagerToolbarSectionComponent` wrappers.
+ * and `SkyDataManagerToolbarSectionComponent` wrappers. Also renders the
+ * `sky-data-manager-sort-option` elements placed inside this toolbar.
  */
 @Component({
   selector: 'sky-data-manager-toolbar',
@@ -109,6 +111,10 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
 
   public onlyShowSelected: boolean | undefined;
 
+  protected readonly sortOptions = contentChildren(
+    SkyDataManagerSortOptionComponent,
+  );
+
   protected readonly primaryItems = contentChildren(
     SkyDataManagerToolbarPrimaryItemComponent,
   );
@@ -133,6 +139,7 @@ export class SkyDataManagerToolbarComponent implements OnDestroy, OnInit {
       !!this.activeView?.sortEnabled ||
       !!this.activeView?.columnPickerEnabled ||
       !!this.activeView?.searchEnabled ||
+      this.sortOptions().length > 0 ||
       (!!this.activeView && this.views.length > 1) ||
       this.primaryItems().length > 0 ||
       this.leftItems().length > 0 ||

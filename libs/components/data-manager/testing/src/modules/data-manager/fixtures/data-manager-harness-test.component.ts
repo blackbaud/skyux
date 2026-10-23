@@ -78,6 +78,8 @@ export class DataManagerHarnessTestComponent implements OnInit {
       columnPickerEnabled: true,
       sortEnabled: true,
       filterButtonEnabled: true,
+      onSelectAllClick: () => {},
+      onClearAllClick: () => {},
       columnOptions: [
         {
           id: 'selected',

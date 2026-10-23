@@ -401,6 +401,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'DataManagerResourceExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ DataManagerResourceExample: c }) => c,
+      ),
+  },
+  {
     path: 'DatetimeDatepickerBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
