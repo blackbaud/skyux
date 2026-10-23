@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  linkedSignal,
   resource,
   signal,
 } from '@angular/core';
@@ -10,7 +11,7 @@ import {
   SkyDataManagerSortOption,
 } from '@skyux/data-manager';
 
-import { getServerItems } from './data';
+import { FruitServerResult, getServerItems } from './data';
 
 /**
  * @title Data manager with a server-side resource data source
@@ -37,8 +38,18 @@ export class DataManagerResourceExample {
     },
   });
 
-  protected readonly items = computed(() => this.data.value()?.items ?? []);
+  // A resource clears its value while it loads new params, so keep the last
+  // result to avoid flashing an empty list and announcing a count of zero.
+  readonly #lastResult = linkedSignal<
+    FruitServerResult | undefined,
+    FruitServerResult | undefined
+  >({
+    source: this.data.value,
+    computation: (value, previous) => value ?? previous?.value,
+  });
+
+  protected readonly items = computed(() => this.#lastResult()?.items ?? []);
   protected readonly totalCount = computed(
-    () => this.data.value()?.totalCount ?? 0,
+    () => this.#lastResult()?.totalCount ?? 0,
   );
 }

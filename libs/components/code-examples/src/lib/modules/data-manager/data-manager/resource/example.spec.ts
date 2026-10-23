@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopSkyAnimations } from '@skyux/core';
+import { SkyLiveAnnouncerService, provideNoopSkyAnimations } from '@skyux/core';
 import { SkyDataManagerHarness } from '@skyux/data-manager/testing';
 import { SkySortHarness } from '@skyux/lists/testing';
 import { SkySearchHarness } from '@skyux/lookup/testing';
@@ -67,6 +67,24 @@ describe('DataManagerResourceExample', () => {
     const items = el.querySelectorAll('li');
     expect(items.length).toBe(1);
     expect(items[0].textContent).toContain('Lime');
+  });
+
+  it('keeps the previous results while a search loads', async () => {
+    const { fixture, loader } = await setupTest();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const announceSpy = spyOn(
+      TestBed.inject(SkyLiveAnnouncerService),
+      'announce',
+    );
+
+    const search = await loader.getHarness(SkySearchHarness);
+    await search.enterText('lime');
+
+    const announcements = announceSpy.calls.allArgs().map(([text]) => text);
+    expect(announcements).toContain('1 of 1 items meet criteria.');
+    expect(announcements).not.toContain('0 of 0 items meet criteria.');
   });
 
   it('sorts results using the sort harness', async () => {
