@@ -1,11 +1,12 @@
 # Changelog
 
 
-## [15.6.0](https://github.com/blackbaud/skyux/compare/15.5.0...15.6.0) (2026-10-23)
+## [14.26.0](https://github.com/blackbaud/skyux/compare/14.25.0...14.26.0) (2026-10-23)
+
 
 ### Features
 
-* support AG Grid 36.2.0 ([#4913](https://github.com/blackbaud/skyux/issues/4913)) ([b362ae8](https://github.com/blackbaud/skyux/commit/b362ae837bb280bc96b328930052a9bedbf73756))
+* **components/data-manager:** configure the data manager from the template and make SkyDataManagerService optional ([#4862](https://github.com/blackbaud/skyux/issues/4862)) ([bd3aa39](https://github.com/blackbaud/skyux/commit/bd3aa39e0170b6286589b30c6cb3c174801ee811)), closes [AB#4144399](https://dev.azure.com/blackbaud/Products/_workitems/edit/4144399)
 
 ## [14.25.0](https://github.com/blackbaud/skyux/compare/14.24.0...14.25.0) (2026-10-22)
 
