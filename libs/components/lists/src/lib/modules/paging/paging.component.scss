@@ -92,6 +92,7 @@
       var(--sky-color-background-action-tertiary-base)
     );
     color: var(--sky-override-paging-btn-color, var(--sky-color-text-default));
+    --sky-comp-override-icon-color: currentColor;
     float: var(--sky-override-paging-btn-float);
     margin-left: var(--sky-override-paging-btn-margin-left);
     margin-right: var(

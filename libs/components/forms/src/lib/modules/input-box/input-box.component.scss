@@ -312,6 +312,7 @@ sky-input-box {
       .sky-btn {
         border-radius: 0;
         color: var(--sky-color-icon-input-action);
+        --sky-comp-override-icon-color: currentColor;
         margin: 0;
         padding: 0;
         position: relative;

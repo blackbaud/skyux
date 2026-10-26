@@ -202,6 +202,7 @@
       --sky-override-selection-box-icon-color,
       var(--sky-color-icon-action)
     );
+    --sky-comp-override-icon-color: currentColor;
     margin: 0
       var(--sky-override-selection-box-icon-margin, var(--sky-space-inline-m)) 0
       0;

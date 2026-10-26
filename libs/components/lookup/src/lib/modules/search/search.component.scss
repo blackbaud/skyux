@@ -142,6 +142,7 @@ sky-search {
         --sky-override-search-applied-color,
         var(--sky-color-icon-action)
       );
+      --sky-comp-override-icon-color: currentColor;
     }
   }
 
