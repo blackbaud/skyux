@@ -121,7 +121,10 @@ symbol[id^='sky-i-']:not(.sky-i-branded) * {
   }
 
   &.sky-i-path-2 {
-    fill: var(--sky-icon-svg-path-2-color-input, #fff);
+    fill: var(
+      --sky-icon-svg-path-2-color-input,
+      var(--sky-ctx-override-icon-path-2-color, #fff)
+    );
   }
 }
 
