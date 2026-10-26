@@ -48,7 +48,10 @@
       --sky-override-tab-dropdown-color,
       var(--sky-color-text-selected)
     );
-    --sky-comp-override-icon-color: currentColor;
+    --sky-comp-override-icon-color: var(
+      --sky-override-tab-dropdown-color,
+      var(--sky-color-icon-selected)
+    );
     border-bottom: var(
       --sky-override-tab-border-bottom,
       var(--sky-border-width-selected-m) var(--sky-border-style-accent)
@@ -227,7 +230,7 @@
 :host-context(.sky-toolbar-container) {
   .sky-dropdown-button.sky-btn-link {
     color: $sky-text-color-default;
-    --sky-comp-override-icon-color: currentColor;
+    --sky-comp-override-icon-color: var(--sky-color-icon-default);
   }
 }
 

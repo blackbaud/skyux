@@ -744,6 +744,7 @@ sky-input-box {
         );
 
         color: var(--sky-color-text-default);
+        --sky-comp-override-icon-color: var(--sky-color-icon-default);
         z-index: 2;
       }
 
@@ -766,6 +767,7 @@ sky-input-box {
         );
 
         color: var(--sky-color-text-default);
+        --sky-comp-override-icon-color: var(--sky-color-icon-default);
         outline: none;
         z-index: 2;
       }
