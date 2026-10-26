@@ -187,7 +187,10 @@
         --sky-override-paging-btn-color-disabled,
         var(--sky-color-icon-deemphasized)
       );
-      --sky-comp-override-icon-color: currentColor;
+      --sky-comp-override-icon-color: var(
+        --sky-override-paging-btn-color-disabled,
+        var(--sky-color-icon-deemphasized)
+      );
       pointer-events: none;
     }
 

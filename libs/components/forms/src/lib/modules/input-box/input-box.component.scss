@@ -312,7 +312,7 @@ sky-input-box {
       .sky-btn {
         border-radius: 0;
         color: var(--sky-color-icon-input-action);
-        --sky-comp-override-icon-color: currentColor;
+        --sky-comp-override-icon-color: var(--sky-color-icon-input-action);
         margin: 0;
         padding: 0;
         position: relative;
@@ -800,6 +800,7 @@ sky-input-box {
     .sky-input-group-btn .sky-btn {
       border: none;
       color: var(--sky-color-icon-deemphasized);
+      --sky-comp-override-icon-color: var(--sky-color-icon-deemphasized);
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-disabled)
           var(--sky-color-border-action-input-disabled),
