@@ -67,12 +67,38 @@
         border: none;
         opacity: 1;
         color: var(--sky-color-text-deemphasized);
+        --sky-comp-icon-color: currentColor;
 
         &.sky-btn-link-inline {
           color: var(--sky-color-text-default);
         }
       }
     }
+  }
+
+  .sky-btn-default {
+    --sky-comp-icon-color: var(--sky-color-icon-default);
+  }
+
+  .sky-btn-primary,
+  .sky-btn-danger {
+    --sky-comp-icon-color: var(--sky-color-icon-inverse);
+  }
+
+  .sky-btn-link,
+  .sky-btn-link-inline {
+    --sky-comp-icon-color: var(--sky-color-icon-action);
+  }
+
+  .sky-btn-borderless,
+  .sky-btn-borderless-inline,
+  .sky-btn-icon-borderless,
+  .sky-btn-icon {
+    --sky-comp-icon-color: var(--sky-color-icon-deemphasized);
+  }
+
+  .sky-btn-icon-borderless-on_prominent {
+    --sky-comp-icon-color: var(--sky-color-icon-on_prominent-base);
   }
 
   .sky-btn-icon {

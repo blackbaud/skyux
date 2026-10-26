@@ -1,5 +1,6 @@
 :host {
   display: inline-flex;
+  color: var(--sky-comp-icon-color, currentColor);
 }
 
 i {
