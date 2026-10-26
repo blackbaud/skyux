@@ -76,6 +76,13 @@
     }
   }
 
+  .sky-btn-icon {
+    padding: var(--sky-comp-button-icon-space-inset-top)
+      var(--sky-comp-button-icon-space-inset-right)
+      var(--sky-comp-button-icon-space-inset-bottom)
+      var(--sky-comp-button-icon-space-inset-left);
+  }
+
   .sky-btn-default,
   .sky-btn-icon {
     background-color: var(--sky-color-background-action-secondary-base);
@@ -152,14 +159,6 @@
         }
       }
     }
-  }
-
-  .sky-btn-icon {
-    padding: var(--sky-comp-button-icon-space-inset-top)
-      var(--sky-comp-button-icon-space-inset-right)
-      var(--sky-comp-button-icon-space-inset-bottom)
-      var(--sky-comp-button-icon-space-inset-left);
-    --sky-comp-override-icon-color: var(--sky-color-icon-deemphasized);
   }
 
   .sky-btn-primary {

@@ -230,7 +230,7 @@
 :host-context(.sky-toolbar-container) {
   .sky-dropdown-button.sky-btn-link {
     color: $sky-text-color-default;
-    --sky-comp-override-icon-color: var(--sky-color-icon-default);
+    --sky-comp-override-icon-color: currentColor;
   }
 }
 
