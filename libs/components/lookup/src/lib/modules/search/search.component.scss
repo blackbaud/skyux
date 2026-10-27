@@ -138,7 +138,7 @@ sky-search {
             var(--sky-color-border-selected)
           )
       );
-      color: var(
+      --sky-comp-override-icon-color: var(
         --sky-override-search-applied-color,
         var(--sky-color-icon-action)
       );

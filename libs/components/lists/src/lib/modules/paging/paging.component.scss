@@ -92,6 +92,10 @@
       var(--sky-color-background-action-tertiary-base)
     );
     color: var(--sky-override-paging-btn-color, var(--sky-color-text-default));
+    --sky-comp-override-icon-color: var(
+      --sky-override-paging-btn-color,
+      var(--sky-color-icon-default)
+    );
     float: var(--sky-override-paging-btn-float);
     margin-left: var(--sky-override-paging-btn-margin-left);
     margin-right: var(
@@ -180,6 +184,10 @@
     &:disabled {
       box-shadow: none;
       color: var(
+        --sky-override-paging-btn-color-disabled,
+        var(--sky-color-icon-deemphasized)
+      );
+      --sky-comp-override-icon-color: var(
         --sky-override-paging-btn-color-disabled,
         var(--sky-color-icon-deemphasized)
       );

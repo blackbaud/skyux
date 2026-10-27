@@ -296,6 +296,86 @@
   <ng-container *ngTemplateOutlet="blockBtn; context: { disabled: true }" />
 </div>
 
+<h2>Buttons with icons</h2>
+
+<div
+  class="sky-buttons-demo-screenshot-wrapper"
+  id="screenshot-buttons-with-icons"
+>
+  <ng-container *ngTemplateOutlet="iconBtns; context: { disabled: false }" />
+  <ng-container *ngTemplateOutlet="iconBtns; context: { disabled: true }" />
+</div>
+
+<ng-template #iconBtns let-disabled="disabled">
+  <div class="sky-buttons-demo-screenshot-row">
+    <button
+      class="sky-btn sky-btn-default sky-theme-margin-right-xs"
+      type="button"
+      [disabled]="disabled"
+    >
+      <sky-icon iconName="add" /> Default
+    </button>
+
+    <button
+      class="sky-btn sky-btn-primary sky-theme-margin-right-xs"
+      type="button"
+      [disabled]="disabled"
+    >
+      <sky-icon iconName="add" /> Primary
+    </button>
+
+    <button
+      class="sky-btn sky-btn-danger sky-theme-margin-right-xs"
+      type="button"
+      [disabled]="disabled"
+    >
+      <sky-icon iconName="delete" /> Danger
+    </button>
+
+    <button
+      class="sky-btn sky-btn-link sky-theme-margin-right-xs"
+      type="button"
+      [disabled]="disabled"
+    >
+      <sky-icon iconName="add" /> Link button
+    </button>
+
+    <button
+      class="sky-btn sky-btn-borderless sky-theme-margin-right-xs"
+      type="button"
+      [disabled]="disabled"
+    >
+      <sky-icon iconName="add" /> Borderless button
+    </button>
+
+    <button
+      aria-label="Edit"
+      class="sky-btn sky-btn-icon-borderless sky-theme-margin-right-xs"
+      type="button"
+      [disabled]="disabled"
+    >
+      <sky-icon iconName="edit" />
+    </button>
+
+    Inline
+    <button
+      class="sky-btn sky-btn-link-inline sky-theme-margin-right-xs"
+      type="button"
+      [disabled]="disabled"
+    >
+      <sky-icon iconName="link" /> link button
+    </button>
+    and
+    <button
+      class="sky-btn sky-btn-borderless-inline"
+      type="button"
+      [disabled]="disabled"
+    >
+      <sky-icon iconName="info" /> borderless button
+    </button>
+  </div>
+</ng-template>
+
 <ng-template #blockBtn let-disabled="disabled">
   <div class="sky-buttons-demo-screenshot-block sky-padding-even-md">
     <sky-fluid-grid>

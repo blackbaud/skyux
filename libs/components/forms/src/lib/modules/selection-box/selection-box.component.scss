@@ -182,7 +182,7 @@
     }
 
     .sky-selection-box-icon {
-      color: var(
+      --sky-comp-override-icon-color: var(
         --sky-override-selection-box-icon-color-disabled,
         var(--sky-color-icon-deemphasized)
       );
@@ -198,7 +198,7 @@
       --sky-override-selection-box-icon-background,
       var(--sky-color-background-icon_matte-action-soft)
     );
-    color: var(
+    --sky-comp-override-icon-color: var(
       --sky-override-selection-box-icon-color,
       var(--sky-color-icon-action)
     );
