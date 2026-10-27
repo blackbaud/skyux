@@ -54,7 +54,10 @@ describe('Code component', () => {
     });
 
     afterEach(() => {
-      document.body.classList.remove('sky-theme-modern', 'sky-theme-brand-base');
+      document.body.classList.remove(
+        'sky-theme-modern',
+        'sky-theme-brand-base',
+      );
     });
 
     it('should show links in the code text color, always underlined', async () => {
