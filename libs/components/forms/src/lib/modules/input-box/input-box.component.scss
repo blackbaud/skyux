@@ -311,7 +311,6 @@ sky-input-box {
     .sky-input-group-btn {
       .sky-btn {
         border-radius: 0;
-        color: var(--sky-color-icon-input-action);
         --sky-comp-override-icon-color: var(--sky-color-icon-input-action);
         margin: 0;
         padding: 0;
@@ -743,7 +742,6 @@ sky-input-box {
           --sky-elevation-action-input-active
         );
 
-        color: var(--sky-color-text-default);
         --sky-comp-override-icon-color: var(--sky-color-icon-default);
         z-index: 2;
       }
@@ -766,7 +764,6 @@ sky-input-box {
           --sky-elevation-action-input-focus
         );
 
-        color: var(--sky-color-text-default);
         --sky-comp-override-icon-color: var(--sky-color-icon-default);
         outline: none;
         z-index: 2;
@@ -799,7 +796,6 @@ sky-input-box {
 
     .sky-input-group-btn .sky-btn {
       border: none;
-      color: var(--sky-color-icon-deemphasized);
       --sky-comp-override-icon-color: var(--sky-color-icon-deemphasized);
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-disabled)

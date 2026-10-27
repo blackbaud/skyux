@@ -182,10 +182,6 @@
     }
 
     .sky-selection-box-icon {
-      color: var(
-        --sky-override-selection-box-icon-color-disabled,
-        var(--sky-color-icon-deemphasized)
-      );
       --sky-comp-override-icon-color: var(
         --sky-override-selection-box-icon-color-disabled,
         var(--sky-color-icon-deemphasized)
@@ -201,10 +197,6 @@
     background: var(
       --sky-override-selection-box-icon-background,
       var(--sky-color-background-icon_matte-action-soft)
-    );
-    color: var(
-      --sky-override-selection-box-icon-color,
-      var(--sky-color-icon-action)
     );
     --sky-comp-override-icon-color: var(
       --sky-override-selection-box-icon-color,

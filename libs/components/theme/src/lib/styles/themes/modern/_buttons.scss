@@ -464,7 +464,6 @@
       inset 0 0 0 var(--sky-border-width-action-base)
         var(--sky-color-border-action-tertiary-on_prominent-base),
       var(--sky-elevation-action-tertiary-base);
-    color: var(--sky-color-icon-on_prominent-base);
     --sky-comp-override-icon-color: var(--sky-color-icon-on_prominent-base);
 
     &:hover {
@@ -475,7 +474,6 @@
         inset 0 0 0 var(--sky-border-width-action-hover)
           var(--sky-color-border-action-tertiary-on_prominent-hover),
         var(--sky-elevation-action-tertiary-hover);
-      color: var(--sky-color-icon-on_prominent-base);
     }
 
     &:active,
