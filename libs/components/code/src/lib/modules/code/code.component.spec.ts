@@ -12,10 +12,6 @@ describe('Code component', () => {
     );
   }
 
-  function getLink(skyId: string): HTMLAnchorElement {
-    return fixture.nativeElement.querySelector(`[data-sky-id="${skyId}"]`);
-  }
-
   beforeEach(() => {
     fixture = TestBed.createComponent(SkyCodeTestComponent);
   });
@@ -24,25 +20,6 @@ describe('Code component', () => {
     await fixture.whenStable();
 
     expect(getCodeElement('plain-code')).toHaveText('.npmrc');
-  });
-
-  it('should underline links inside the code element in the code text color', async () => {
-    await fixture.whenStable();
-
-    const linkStyle = getComputedStyle(getLink('inner-link'));
-
-    expect(linkStyle.textDecorationLine).toBe('underline');
-    expect(linkStyle.color).toBe(
-      getComputedStyle(getCodeElement('code-with-link')).color,
-    );
-  });
-
-  it('should underline the code element when it is inside a link', async () => {
-    await fixture.whenStable();
-
-    expect(
-      getComputedStyle(getCodeElement('code-in-link')).textDecorationLine,
-    ).toBe('underline');
   });
 
   describe('a11y', () => {

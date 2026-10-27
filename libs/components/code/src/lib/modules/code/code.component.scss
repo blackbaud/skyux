@@ -46,17 +46,4 @@
       var(--sky-comp-code-space-inset-bottom)
       var(--sky-comp-code-space-inset-left)
   );
-
-  ::ng-deep a {
-    color: inherit;
-    text-decoration-line: underline;
-
-    &:hover {
-      color: inherit;
-    }
-  }
-}
-
-:host-context(a) .sky-code {
-  text-decoration-line: underline;
 }
