@@ -67,6 +67,7 @@
         border: none;
         opacity: 1;
         color: var(--sky-color-text-deemphasized);
+        --sky-comp-override-icon-color: currentColor;
 
         &.sky-btn-link-inline {
           color: var(--sky-color-text-default);
@@ -86,6 +87,7 @@
   .sky-btn-icon {
     background-color: var(--sky-color-background-action-secondary-base);
     color: var(--sky-color-text-default);
+    --sky-comp-override-icon-color: var(--sky-color-icon-default);
     box-shadow:
       inset 0 0 0 var(--sky-border-width-action-base)
         var(--sky-color-border-action-secondary-base),
@@ -162,6 +164,7 @@
   .sky-btn-primary {
     background-color: var(--sky-color-background-action-primary-base);
     color: var(--sky-color-text-inverse);
+    --sky-comp-override-icon-color: var(--sky-color-icon-inverse);
     box-shadow:
       inset 0 0 0 var(--sky-border-width-action-base)
         var(--sky-color-border-action-primary-base),
@@ -238,6 +241,7 @@
   .sky-btn-danger {
     background-color: var(--sky-color-background-action-danger-base);
     color: var(--sky-color-text-inverse);
+    --sky-comp-override-icon-color: var(--sky-color-icon-inverse);
     box-shadow:
       inset 0 0 0 var(--sky-border-width-action-base)
         var(--sky-color-border-action-danger-base),
@@ -313,6 +317,7 @@
 
   .sky-btn-link {
     color: var(--sky-color-text-action);
+    --sky-comp-override-icon-color: var(--sky-color-icon-action);
     text-decoration-line: var(
       --sky-comp-override-link-text-decoration-line,
       var(--sky-font-text_decoration-action-tertiary-base)
@@ -360,6 +365,7 @@
   .sky-btn-borderless,
   .sky-btn-icon-borderless {
     color: var(--sky-color-icon-deemphasized);
+    --sky-comp-override-icon-color: var(--sky-color-icon-deemphasized);
   }
 
   .sky-btn-icon-borderless,
@@ -458,7 +464,7 @@
       inset 0 0 0 var(--sky-border-width-action-base)
         var(--sky-color-border-action-tertiary-on_prominent-base),
       var(--sky-elevation-action-tertiary-base);
-    color: var(--sky-color-icon-on_prominent-base);
+    --sky-comp-override-icon-color: var(--sky-color-icon-on_prominent-base);
 
     &:hover {
       background-color: var(
@@ -468,7 +474,6 @@
         inset 0 0 0 var(--sky-border-width-action-hover)
           var(--sky-color-border-action-tertiary-on_prominent-hover),
         var(--sky-elevation-action-tertiary-hover);
-      color: var(--sky-color-icon-on_prominent-base);
     }
 
     &:active,
@@ -519,6 +524,7 @@
     border-radius: var(--sky-border-radius-s);
     padding: var(--sky-space-inset-balanced-none);
     color: var(--sky-color-text-action);
+    --sky-comp-override-icon-color: var(--sky-color-icon-action);
     text-decoration-line: var(
       --sky-comp-override-inline-link-text-decoration-line,
       var(--sky-font-text_decoration-inline_link-base)
@@ -582,6 +588,7 @@
 
   .sky-btn-borderless-inline {
     color: var(--sky-color-text-deemphasized);
+    --sky-comp-override-icon-color: var(--sky-color-icon-deemphasized);
     padding: var(--sky-space-inset-balanced-none);
 
     &:focus-visible:not(:active) {
