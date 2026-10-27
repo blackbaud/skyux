@@ -12,6 +12,20 @@ describe('Code component', () => {
     );
   }
 
+  function verifyLinkStyles(): void {
+    const linkStyle = getComputedStyle(
+      fixture.nativeElement.querySelector('[data-sky-id="inner-link"]'),
+    );
+
+    expect(linkStyle.color).toBe(
+      getComputedStyle(getCodeElement('code-with-link')).color,
+    );
+    expect(linkStyle.textDecorationLine).toBe('underline');
+    expect(
+      getComputedStyle(getCodeElement('code-in-link')).textDecorationLine,
+    ).toBe('underline');
+  }
+
   beforeEach(() => {
     fixture = TestBed.createComponent(SkyCodeTestComponent);
   });
@@ -22,7 +36,33 @@ describe('Code component', () => {
     expect(getCodeElement('plain-code')).toHaveText('.npmrc');
   });
 
-  describe('a11y', () => {
+  it('should show links in the code text color, always underlined', async () => {
+    await fixture.whenStable();
+
+    verifyLinkStyles();
+  });
+
+  it('should be accessible', async () => {
+    await fixture.whenStable();
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+
+  describe('in modern theme', () => {
+    beforeEach(() => {
+      document.body.classList.add('sky-theme-modern', 'sky-theme-brand-base');
+    });
+
+    afterEach(() => {
+      document.body.classList.remove('sky-theme-modern', 'sky-theme-brand-base');
+    });
+
+    it('should show links in the code text color, always underlined', async () => {
+      await fixture.whenStable();
+
+      verifyLinkStyles();
+    });
+
     it('should be accessible', async () => {
       await fixture.whenStable();
 

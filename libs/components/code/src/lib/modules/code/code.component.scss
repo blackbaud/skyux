@@ -9,6 +9,7 @@
   --sky-override-code-font-family:
     'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
   --sky-override-code-font-size: 90%;
+  --sky-override-code-link-text-decoration-line: underline;
   --sky-override-code-padding: 0 4px;
   --sky-override-code-text-color: #{color.adjust(
       $sky-background-color-danger-dark,
@@ -16,7 +17,31 @@
     )};
 }
 
+// Projected links are styled by the global theme link rules, so links are
+// restyled through the variables those rules read rather than by targeting
+// projected content.
 .sky-code {
+  --sky-comp-override-inline-link-text-decoration-line: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+  --sky-comp-override-inline-link-text-decoration-line-hover: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+  --sky-comp-override-inline-link-text-decoration-line-active: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+  --sky-comp-override-inline-link-text-decoration-line-focus: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+  --sky-color-text-action: currentColor;
+  --sky-color-text-action_contrast: currentColor;
+  --sky-text-color-action-primary: currentColor;
+  --sky-text-color-action-primary-hover: currentColor;
+
   background-color: var(
     --sky-override-code-background-color,
     var(--sky-color-background-container-base)
@@ -45,5 +70,12 @@
     var(--sky-comp-code-space-inset-top) var(--sky-comp-code-space-inset-right)
       var(--sky-comp-code-space-inset-bottom)
       var(--sky-comp-code-space-inset-left)
+  );
+}
+
+:host-context(a) .sky-code {
+  text-decoration-line: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
   );
 }

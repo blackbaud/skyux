@@ -11,13 +11,13 @@ import { SkyCodeComponent } from '../code.component';
       may need to show hidden folder files.
     </p>
     <p>
-      <sky-code>
-        <a href="#">SkyCodeComponent</a>
+      <sky-code data-sky-id="code-with-link">
+        <a data-sky-id="inner-link" href="#">SkyCodeComponent</a>
       </sky-code>
     </p>
     <p>
       <a href="#">
-        <sky-code>SkyCodeComponent</sky-code>
+        <sky-code data-sky-id="code-in-link">SkyCodeComponent</sky-code>
       </a>
     </p>
   `,
