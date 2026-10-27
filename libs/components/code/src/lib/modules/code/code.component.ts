@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Displays an inline code token, such as a file name or property name, within
@@ -8,6 +8,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'sky-code',
   templateUrl: './code.component.html',
   styleUrl: './code.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkyCodeComponent {}

@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { SkyCodeComponent } from '../code.component';
 
 @Component({
   selector: 'sky-code-test',
   imports: [SkyCodeComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <p>
       To edit the <sky-code data-sky-id="plain-code">.npmrc</sky-code> file, you
