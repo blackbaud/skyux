@@ -1,4 +1,3 @@
-@use 'sass:color';
 @use 'mixins' as mixins;
 @use 'variables' as *;
 
@@ -263,32 +262,6 @@ a.sky-btn {
 
 .sky-btn-borderless:hover {
   border: none;
-}
-
-.sky-btn-borderless {
-  color: var(
-    --sky-ctx-override-tertiary-btn-text-color,
-    #{$sky-text-color-deemphasized}
-  );
-  --sky-comp-override-icon-color: var(
-    --sky-ctx-override-tertiary-btn-icon-color,
-    currentColor
-  );
-
-  &:hover {
-    color: var(
-      --sky-ctx-override-tertiary-btn-text-color,
-      #{color.adjust($sky-text-color-deemphasized, $lightness: -20%)}
-    );
-
-    &[disabled],
-    &.sky-btn-disabled {
-      color: var(
-        --sky-ctx-override-tertiary-btn-text-color,
-        #{$sky-text-color-deemphasized}
-      );
-    }
-  }
 }
 
 .sky-btn-borderless-inline {
