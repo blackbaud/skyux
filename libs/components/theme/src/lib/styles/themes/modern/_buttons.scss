@@ -831,22 +831,13 @@
   }
 
   .sky-btn-borderless-inline {
-    color: var(
-      --sky-ctx-override-tertiary-btn-text-color,
-      var(--sky-color-text-deemphasized)
-    );
-    --sky-comp-override-icon-color: var(
-      --sky-ctx-override-tertiary-btn-icon-color,
-      var(--sky-color-icon-deemphasized)
-    );
+    color: var(--sky-color-text-deemphasized);
+    --sky-comp-override-icon-color: var(--sky-color-icon-deemphasized);
     padding: var(--sky-space-inset-balanced-none);
 
     &:focus-visible:not(:active) {
       box-shadow: 0 0 0 var(--sky-border-width-action-focus)
-        var(
-          --sky-ctx-override-tertiary-btn-border-focus,
-          var(--sky-color-border-action-tertiary-focus)
-        );
+        var(--sky-color-border-action-tertiary-focus);
     }
 
     &.sky-btn-disabled,
