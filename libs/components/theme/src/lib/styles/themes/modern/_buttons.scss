@@ -85,91 +85,49 @@
 
   .sky-btn-default,
   .sky-btn-icon {
-    background-color: var(
-      --sky-ctx-override-btn-background,
-      var(--sky-color-background-action-secondary-base)
-    );
-    color: var(
-      --sky-ctx-override-btn-text-color,
-      var(--sky-color-text-default)
-    );
-    --sky-comp-override-icon-color: var(
-      --sky-ctx-override-btn-icon-color,
-      var(--sky-color-icon-default)
-    );
+    background-color: var(--sky-color-background-action-secondary-base);
+    color: var(--sky-color-text-default);
+    --sky-comp-override-icon-color: var(--sky-color-icon-default);
     box-shadow:
       inset 0 0 0 var(--sky-border-width-action-base)
-        var(
-          --sky-ctx-override-btn-border-base,
-          var(--sky-color-border-action-secondary-base)
-        ),
+        var(--sky-color-border-action-secondary-base),
       var(
         --sky-comp-override-toolbar-button-elevation-base,
-        var(
-          --sky-ctx-override-btn-elevation,
-          var(--sky-elevation-action-secondary-base)
-        )
+        var(--sky-elevation-action-secondary-base)
       );
 
     &:hover {
-      background-color: var(
-        --sky-ctx-override-btn-background,
-        var(--sky-color-background-action-secondary-hover)
-      );
+      background-color: var(--sky-color-background-action-secondary-hover);
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-hover)
-          var(
-            --sky-ctx-override-btn-border-hover,
-            var(--sky-color-border-action-secondary-hover)
-          ),
+          var(--sky-color-border-action-secondary-hover),
         var(
           --sky-comp-override-toolbar-button-elevation-hover,
-          var(
-            --sky-ctx-override-btn-elevation,
-            var(--sky-elevation-action-secondary-hover)
-          )
+          var(--sky-elevation-action-secondary-hover)
         );
     }
 
     &:active,
     &.sky-btn-active {
-      background-color: var(
-        --sky-ctx-override-btn-background,
-        var(--sky-color-background-action-secondary-active)
-      );
+      background-color: var(--sky-color-background-action-secondary-active);
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-active)
-          var(
-            --sky-ctx-override-btn-border-active,
-            var(--sky-color-border-action-secondary-active)
-          ),
+          var(--sky-color-border-action-secondary-active),
         var(
           --sky-comp-override-toolbar-button-elevation-active,
-          var(
-            --sky-ctx-override-btn-elevation,
-            var(--sky-elevation-action-secondary-active)
-          )
+          var(--sky-elevation-action-secondary-active)
         );
       transition: none;
     }
 
     &:focus-visible:not(:active) {
-      background-color: var(
-        --sky-ctx-override-btn-background,
-        var(--sky-color-background-action-secondary-focus)
-      );
+      background-color: var(--sky-color-background-action-secondary-focus);
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(
-            --sky-ctx-override-btn-border-focus,
-            var(--sky-color-border-action-secondary-focus)
-          ),
+          var(--sky-color-border-action-secondary-focus),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
-          var(
-            --sky-ctx-override-btn-elevation,
-            var(--sky-elevation-action-secondary-focus)
-          )
+          var(--sky-elevation-action-secondary-focus)
         );
     }
 
@@ -183,35 +141,20 @@
       &.sky-btn-active {
         box-shadow:
           inset 0 0 0 var(--sky-border-width-action-disabled)
-            var(
-              --sky-ctx-override-btn-border-disabled,
-              var(--sky-color-border-action-secondary-disabled)
-            ),
+            var(--sky-color-border-action-secondary-disabled),
           var(
             --sky-comp-override-toolbar-button-elevation-disabled,
-            var(
-              --sky-ctx-override-btn-elevation,
-              var(--sky-elevation-action-secondary-disabled)
-            )
+            var(--sky-elevation-action-secondary-disabled)
           );
-        background-color: var(
-          --sky-ctx-override-btn-background,
-          var(--sky-color-background-action-secondary-disabled)
-        );
+        background-color: var(--sky-color-background-action-secondary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
           box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
-              var(
-                --sky-ctx-override-btn-border-disabled,
-                var(--sky-color-border-action-secondary-disabled)
-              ),
+              var(--sky-color-border-action-secondary-disabled),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
-              var(
-                --sky-ctx-override-btn-elevation,
-                var(--sky-elevation-action-secondary-disabled)
-              )
+              var(--sky-elevation-action-secondary-disabled)
             );
         }
       }
@@ -219,91 +162,49 @@
   }
 
   .sky-btn-primary {
-    background-color: var(
-      --sky-ctx-override-btn-background,
-      var(--sky-color-background-action-primary-base)
-    );
-    color: var(
-      --sky-ctx-override-btn-text-color,
-      var(--sky-color-text-inverse)
-    );
-    --sky-comp-override-icon-color: var(
-      --sky-ctx-override-btn-icon-color,
-      var(--sky-color-icon-inverse)
-    );
+    background-color: var(--sky-color-background-action-primary-base);
+    color: var(--sky-color-text-inverse);
+    --sky-comp-override-icon-color: var(--sky-color-icon-inverse);
     box-shadow:
       inset 0 0 0 var(--sky-border-width-action-base)
-        var(
-          --sky-ctx-override-btn-border-base,
-          var(--sky-color-border-action-primary-base)
-        ),
+        var(--sky-color-border-action-primary-base),
       var(
         --sky-comp-override-toolbar-button-elevation-base,
-        var(
-          --sky-ctx-override-btn-elevation,
-          var(--sky-elevation-action-primary-base)
-        )
+        var(--sky-elevation-action-primary-base)
       );
 
     &:hover {
-      background-color: var(
-        --sky-ctx-override-btn-background,
-        var(--sky-color-background-action-primary-hover)
-      );
+      background-color: var(--sky-color-background-action-primary-hover);
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-hover)
-          var(
-            --sky-ctx-override-btn-border-hover,
-            var(--sky-color-border-action-primary-hover)
-          ),
+          var(--sky-color-border-action-primary-hover),
         var(
           --sky-comp-override-toolbar-button-elevation-hover,
-          var(
-            --sky-ctx-override-btn-elevation,
-            var(--sky-elevation-action-primary-hover)
-          )
+          var(--sky-elevation-action-primary-hover)
         );
     }
 
     &:active,
     &.sky-btn-active {
-      background-color: var(
-        --sky-ctx-override-btn-background,
-        var(--sky-color-background-action-primary-active)
-      );
+      background-color: var(--sky-color-background-action-primary-active);
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-active)
-          var(
-            --sky-ctx-override-btn-border-active,
-            var(--sky-color-border-action-primary-active)
-          ),
+          var(--sky-color-border-action-primary-active),
         var(
           --sky-comp-override-toolbar-button-elevation-active,
-          var(
-            --sky-ctx-override-btn-elevation,
-            var(--sky-elevation-action-primary-active)
-          )
+          var(--sky-elevation-action-primary-active)
         );
       transition: none;
     }
 
     &:focus-visible:not(:active) {
-      background-color: var(
-        --sky-ctx-override-btn-background,
-        var(--sky-color-background-action-primary-focus)
-      );
+      background-color: var(--sky-color-background-action-primary-focus);
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(
-            --sky-ctx-override-btn-border-focus,
-            var(--sky-color-border-action-primary-focus)
-          ),
+          var(--sky-color-border-action-primary-focus),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
-          var(
-            --sky-ctx-override-btn-elevation,
-            var(--sky-elevation-action-primary-focus)
-          )
+          var(--sky-elevation-action-primary-focus)
         );
     }
 
@@ -317,35 +218,20 @@
       &.sky-btn-active {
         box-shadow:
           inset 0 0 0 var(--sky-border-width-action-disabled)
-            var(
-              --sky-ctx-override-btn-border-disabled,
-              var(--sky-color-border-action-primary-disabled)
-            ),
+            var(--sky-color-border-action-primary-disabled),
           var(
             --sky-comp-override-toolbar-button-elevation-disabled,
-            var(
-              --sky-ctx-override-btn-elevation,
-              var(--sky-elevation-action-primary-disabled)
-            )
+            var(--sky-elevation-action-primary-disabled)
           );
-        background-color: var(
-          --sky-ctx-override-btn-background,
-          var(--sky-color-background-action-primary-disabled)
-        );
+        background-color: var(--sky-color-background-action-primary-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
           box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
-              var(
-                --sky-ctx-override-btn-border-disabled,
-                var(--sky-color-border-action-primary-disabled)
-              ),
+              var(--sky-color-border-action-primary-disabled),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
-              var(
-                --sky-ctx-override-btn-elevation,
-                var(--sky-elevation-action-primary-disabled)
-              )
+              var(--sky-elevation-action-primary-disabled)
             );
         }
       }
@@ -353,91 +239,49 @@
   }
 
   .sky-btn-danger {
-    background-color: var(
-      --sky-ctx-override-btn-background,
-      var(--sky-color-background-action-danger-base)
-    );
-    color: var(
-      --sky-ctx-override-btn-text-color,
-      var(--sky-color-text-inverse)
-    );
-    --sky-comp-override-icon-color: var(
-      --sky-ctx-override-btn-icon-color,
-      var(--sky-color-icon-inverse)
-    );
+    background-color: var(--sky-color-background-action-danger-base);
+    color: var(--sky-color-text-inverse);
+    --sky-comp-override-icon-color: var(--sky-color-icon-inverse);
     box-shadow:
       inset 0 0 0 var(--sky-border-width-action-base)
-        var(
-          --sky-ctx-override-btn-border-base,
-          var(--sky-color-border-action-danger-base)
-        ),
+        var(--sky-color-border-action-danger-base),
       var(
         --sky-comp-override-toolbar-button-elevation-base,
-        var(
-          --sky-ctx-override-btn-elevation,
-          var(--sky-elevation-action-danger-base)
-        )
+        var(--sky-elevation-action-danger-base)
       );
 
     &:hover {
-      background-color: var(
-        --sky-ctx-override-btn-background,
-        var(--sky-color-background-action-danger-hover)
-      );
+      background-color: var(--sky-color-background-action-danger-hover);
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-hover)
-          var(
-            --sky-ctx-override-btn-border-hover,
-            var(--sky-color-border-action-danger-hover)
-          ),
+          var(--sky-color-border-action-danger-hover),
         var(
           --sky-comp-override-toolbar-button-elevation-hover,
-          var(
-            --sky-ctx-override-btn-elevation,
-            var(--sky-elevation-action-danger-hover)
-          )
+          var(--sky-elevation-action-danger-hover)
         );
     }
 
     &:active,
     &.sky-btn-active {
-      background-color: var(
-        --sky-ctx-override-btn-background,
-        var(--sky-color-background-action-danger-active)
-      );
+      background-color: var(--sky-color-background-action-danger-active);
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-active)
-          var(
-            --sky-ctx-override-btn-border-active,
-            var(--sky-color-border-action-danger-active)
-          ),
+          var(--sky-color-border-action-danger-active),
         var(
           --sky-comp-override-toolbar-button-elevation-active,
-          var(
-            --sky-ctx-override-btn-elevation,
-            var(--sky-elevation-action-danger-active)
-          )
+          var(--sky-elevation-action-danger-active)
         );
       transition: none;
     }
 
     &:focus-visible:not(:active) {
-      background-color: var(
-        --sky-ctx-override-btn-background,
-        var(--sky-color-background-action-danger-focus)
-      );
+      background-color: var(--sky-color-background-action-danger-focus);
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(
-            --sky-ctx-override-btn-border-focus,
-            var(--sky-color-border-action-danger-focus)
-          ),
+          var(--sky-color-border-action-danger-focus),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
-          var(
-            --sky-ctx-override-btn-elevation,
-            var(--sky-elevation-action-danger-focus)
-          )
+          var(--sky-elevation-action-danger-focus)
         );
     }
 
@@ -451,35 +295,20 @@
       &.sky-btn-active {
         box-shadow:
           inset 0 0 0 var(--sky-border-width-action-disabled)
-            var(
-              --sky-ctx-override-btn-border-disabled,
-              var(--sky-color-border-action-danger-disabled)
-            ),
+            var(--sky-color-border-action-danger-disabled),
           var(
             --sky-comp-override-toolbar-button-elevation-disabled,
-            var(
-              --sky-ctx-override-btn-elevation,
-              var(--sky-elevation-action-danger-disabled)
-            )
+            var(--sky-elevation-action-danger-disabled)
           );
-        background-color: var(
-          --sky-ctx-override-btn-background,
-          var(--sky-color-background-action-danger-disabled)
-        );
+        background-color: var(--sky-color-background-action-danger-disabled);
 
         &:is(:focus-visible, .sky-btn-focus) {
           box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
-              var(
-                --sky-ctx-override-btn-border-disabled,
-                var(--sky-color-border-action-danger-disabled)
-              ),
+              var(--sky-color-border-action-danger-disabled),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
-              var(
-                --sky-ctx-override-btn-elevation,
-                var(--sky-elevation-action-danger-disabled)
-              )
+              var(--sky-elevation-action-danger-disabled)
             );
         }
       }
@@ -489,7 +318,7 @@
   .sky-btn-link {
     color: var(--sky-ctx-override-link-color, var(--sky-color-text-action));
     --sky-comp-override-icon-color: var(
-      --sky-ctx-override-btn-icon-color,
+      --sky-ctx-override-tertiary-btn-icon-color,
       var(--sky-color-icon-action)
     );
     text-decoration-line: var(
@@ -551,11 +380,11 @@
   .sky-btn-borderless,
   .sky-btn-icon-borderless {
     color: var(
-      --sky-ctx-override-btn-text-color,
+      --sky-ctx-override-tertiary-btn-text-color,
       var(--sky-color-icon-deemphasized)
     );
     --sky-comp-override-icon-color: var(
-      --sky-ctx-override-btn-icon-color,
+      --sky-ctx-override-tertiary-btn-icon-color,
       var(--sky-color-icon-deemphasized)
     );
   }
@@ -563,7 +392,10 @@
   .sky-btn-icon-borderless {
     --sky-comp-override-icon-color: var(
       --sky-ctx-override-icon-btn-icon-color,
-      var(--sky-ctx-override-btn-icon-color, var(--sky-color-icon-deemphasized))
+      var(
+        --sky-ctx-override-tertiary-btn-icon-color,
+        var(--sky-color-icon-deemphasized)
+      )
     );
 
     &.sky-btn-disabled,
@@ -599,7 +431,7 @@
     background-color: var(
       --sky-ctx-override-icon-btn-background-base,
       var(
-        --sky-ctx-override-btn-background,
+        --sky-ctx-override-tertiary-btn-background,
         var(--sky-color-background-action-tertiary-base)
       )
     );
@@ -608,14 +440,14 @@
         var(
           --sky-ctx-override-icon-btn-border-base,
           var(
-            --sky-ctx-override-btn-border-base,
+            --sky-ctx-override-tertiary-btn-border-base,
             var(--sky-color-border-action-tertiary-base)
           )
         ),
       var(
         --sky-comp-override-toolbar-button-elevation-base,
         var(
-          --sky-ctx-override-btn-elevation,
+          --sky-ctx-override-tertiary-btn-elevation,
           var(--sky-elevation-action-tertiary-base)
         )
       );
@@ -624,7 +456,7 @@
       background-color: var(
         --sky-ctx-override-icon-btn-background-hover,
         var(
-          --sky-ctx-override-btn-background,
+          --sky-ctx-override-tertiary-btn-background,
           var(--sky-color-background-action-tertiary-hover)
         )
       );
@@ -633,14 +465,14 @@
           var(
             --sky-ctx-override-icon-btn-border-hover,
             var(
-              --sky-ctx-override-btn-border-hover,
+              --sky-ctx-override-tertiary-btn-border-hover,
               var(--sky-color-border-action-tertiary-hover)
             )
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-hover,
           var(
-            --sky-ctx-override-btn-elevation,
+            --sky-ctx-override-tertiary-btn-elevation,
             var(--sky-elevation-action-tertiary-hover)
           )
         );
@@ -651,7 +483,7 @@
       background-color: var(
         --sky-ctx-override-icon-btn-background-active,
         var(
-          --sky-ctx-override-btn-background,
+          --sky-ctx-override-tertiary-btn-background,
           var(--sky-color-background-action-tertiary-active)
         )
       );
@@ -660,14 +492,14 @@
           var(
             --sky-ctx-override-icon-btn-border-active,
             var(
-              --sky-ctx-override-btn-border-active,
+              --sky-ctx-override-tertiary-btn-border-active,
               var(--sky-color-border-action-tertiary-active)
             )
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-active,
           var(
-            --sky-ctx-override-btn-elevation,
+            --sky-ctx-override-tertiary-btn-elevation,
             var(--sky-elevation-action-tertiary-active)
           )
         );
@@ -678,7 +510,7 @@
       background-color: var(
         --sky-ctx-override-icon-btn-background-focus,
         var(
-          --sky-ctx-override-btn-background,
+          --sky-ctx-override-tertiary-btn-background,
           var(--sky-color-background-action-tertiary-focus)
         )
       );
@@ -687,14 +519,14 @@
           var(
             --sky-ctx-override-icon-btn-border-focus,
             var(
-              --sky-ctx-override-btn-border-focus,
+              --sky-ctx-override-tertiary-btn-border-focus,
               var(--sky-color-border-action-tertiary-focus)
             )
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
           var(
-            --sky-ctx-override-btn-elevation,
+            --sky-ctx-override-tertiary-btn-elevation,
             var(--sky-elevation-action-tertiary-focus)
           )
         );
@@ -713,21 +545,21 @@
             var(
               --sky-ctx-override-icon-btn-border-disabled,
               var(
-                --sky-ctx-override-btn-border-disabled,
+                --sky-ctx-override-tertiary-btn-border-disabled,
                 var(--sky-color-border-action-tertiary-disabled)
               )
             ),
           var(
             --sky-comp-override-toolbar-button-elevation-disabled,
             var(
-              --sky-ctx-override-btn-elevation,
+              --sky-ctx-override-tertiary-btn-elevation,
               var(--sky-elevation-action-tertiary-disabled)
             )
           );
         background-color: var(
           --sky-ctx-override-icon-btn-background-disabled,
           var(
-            --sky-ctx-override-btn-background,
+            --sky-ctx-override-tertiary-btn-background,
             var(--sky-color-background-action-tertiary-disabled)
           )
         );
@@ -738,14 +570,14 @@
               var(
                 --sky-ctx-override-icon-btn-border-disabled,
                 var(
-                  --sky-ctx-override-btn-border-disabled,
+                  --sky-ctx-override-tertiary-btn-border-disabled,
                   var(--sky-color-border-action-tertiary-disabled)
                 )
               ),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
               var(
-                --sky-ctx-override-btn-elevation,
+                --sky-ctx-override-tertiary-btn-elevation,
                 var(--sky-elevation-action-tertiary-disabled)
               )
             );
@@ -762,7 +594,7 @@
       inset 0 0 0 var(--sky-border-width-action-base)
         var(--sky-color-border-action-tertiary-on_prominent-base),
       var(
-        --sky-ctx-override-btn-elevation,
+        --sky-ctx-override-tertiary-btn-elevation,
         var(--sky-elevation-action-tertiary-base)
       );
     --sky-comp-override-icon-color: var(--sky-color-icon-on_prominent-base);
@@ -775,7 +607,7 @@
         inset 0 0 0 var(--sky-border-width-action-hover)
           var(--sky-color-border-action-tertiary-on_prominent-hover),
         var(
-          --sky-ctx-override-btn-elevation,
+          --sky-ctx-override-tertiary-btn-elevation,
           var(--sky-elevation-action-tertiary-hover)
         );
     }
@@ -789,7 +621,7 @@
         inset 0 0 0 var(--sky-border-width-action-active)
           var(--sky-color-border-action-tertiary-on_prominent-active),
         var(
-          --sky-ctx-override-btn-elevation,
+          --sky-ctx-override-tertiary-btn-elevation,
           var(--sky-elevation-action-tertiary-active)
         );
       transition: none;
@@ -804,7 +636,7 @@
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-tertiary-on_prominent-focus),
         var(
-          --sky-ctx-override-btn-elevation,
+          --sky-ctx-override-tertiary-btn-elevation,
           var(--sky-elevation-action-tertiary-focus)
         );
     }
@@ -824,7 +656,7 @@
           inset 0 0 0 var(--sky-border-width-action-disabled)
             var(--sky-color-border-action-tertiary-on_prominent-disabled),
           var(
-            --sky-ctx-override-btn-elevation,
+            --sky-ctx-override-tertiary-btn-elevation,
             var(--sky-elevation-action-tertiary-disabled)
           );
         color: var(--sky-color-icon-on_prominent-disabled);
@@ -838,7 +670,7 @@
     padding: var(--sky-space-inset-balanced-none);
     color: var(--sky-ctx-override-link-color, var(--sky-color-text-action));
     --sky-comp-override-icon-color: var(
-      --sky-ctx-override-btn-icon-color,
+      --sky-ctx-override-tertiary-btn-icon-color,
       var(--sky-color-icon-action)
     );
     text-decoration-line: var(
@@ -922,11 +754,11 @@
 
   .sky-btn-borderless-inline {
     color: var(
-      --sky-ctx-override-btn-text-color,
+      --sky-ctx-override-tertiary-btn-text-color,
       var(--sky-color-text-deemphasized)
     );
     --sky-comp-override-icon-color: var(
-      --sky-ctx-override-btn-icon-color,
+      --sky-ctx-override-tertiary-btn-icon-color,
       var(--sky-color-icon-deemphasized)
     );
     padding: var(--sky-space-inset-balanced-none);
@@ -934,7 +766,7 @@
     &:focus-visible:not(:active) {
       box-shadow: 0 0 0 var(--sky-border-width-action-focus)
         var(
-          --sky-ctx-override-btn-border-focus,
+          --sky-ctx-override-tertiary-btn-border-focus,
           var(--sky-color-border-action-tertiary-focus)
         );
     }
