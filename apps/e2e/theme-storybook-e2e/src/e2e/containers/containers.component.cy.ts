@@ -1,7 +1,7 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
 describe('containers', () => {
-  (['modern-v2-light', 'modern-v2-dark'] as const).forEach((theme) => {
+  E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
       it('should render the component', () => {
         cy.viewport(E2eVariations.DISPLAY_WIDTHS[0], 800);
