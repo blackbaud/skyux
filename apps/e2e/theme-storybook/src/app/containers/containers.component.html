@@ -6,9 +6,7 @@
     <h3 class="sky-theme-font-heading-4">{{ container }}</h3>
     <p class="sky-theme-font-body-m">
       Body text with an <a href="#">inline link</a> and an
-      <button class="sky-btn sky-btn-link-inline" type="button">
-        inline link button</button
-      >.
+      <sky-button buttonStyle="link-inline" labelText="inline link button" />.
     </p>
     <div class="sky-theme-font-body-deemphasized-m">
       Deemphasized text
@@ -23,31 +21,33 @@
       }
     </div>
 
-    @for (state of ['', 'sky-btn-disabled']; track state) {
+    @for (disabled of [false, true]; track disabled) {
       <div class="sky-containers-demo-row">
-        <button class="sky-btn sky-btn-link {{ state }}" type="button">
-          Link button
-        </button>
-        <button
-          class="sky-btn sky-btn-icon-borderless {{ state }}"
-          aria-label="Edit"
-          type="button"
-        >
-          <sky-icon iconName="edit" />
-        </button>
-        <button class="sky-btn sky-btn-primary {{ state }}" type="button">
-          <sky-icon iconName="add" /> Primary
-        </button>
-        <button class="sky-btn sky-btn-default {{ state }}" type="button">
-          <sky-icon iconName="add" /> Default
-        </button>
-        <button
-          class="sky-btn sky-btn-default sky-btn-icon {{ state }}"
-          aria-label="Add"
-          type="button"
-        >
-          <sky-icon iconName="add" />
-        </button>
+        <sky-button
+          buttonStyle="link"
+          labelText="Link button"
+          [disabled]="disabled"
+        />
+        <sky-button
+          buttonStyle="icon-borderless"
+          iconName="edit"
+          labelText="Edit"
+          labelHidden
+          [disabled]="disabled"
+        />
+        <sky-button
+          buttonStyle="primary"
+          iconName="add"
+          labelText="Primary"
+          [disabled]="disabled"
+        />
+        <sky-button iconName="add" labelText="Default" [disabled]="disabled" />
+        <sky-button
+          iconName="add"
+          labelText="Add"
+          labelHidden
+          [disabled]="disabled"
+        />
       </div>
     }
 
@@ -58,13 +58,12 @@
     >
       <span class="sky-theme-font-body-m">Nested</span>
       <a href="#">link</a>
-      <button
-        aria-label="Edit"
-        class="sky-btn sky-btn-icon-borderless"
-        type="button"
-      >
-        <sky-icon iconName="edit" />
-      </button>
+      <sky-button
+        buttonStyle="icon-borderless"
+        iconName="edit"
+        labelText="Edit"
+        labelHidden
+      />
     </div>
   </div>
 }
@@ -85,14 +84,14 @@
     }
   </div>
   <div class="sky-containers-demo-row">
-    @for (state of ['', 'sky-btn-disabled']; track state) {
-      <button
-        class="sky-btn sky-btn-icon-borderless {{ state }}"
-        aria-label="More actions"
-        type="button"
-      >
-        <sky-icon iconName="more-actions" />
-      </button>
+    @for (disabled of [false, true]; track disabled) {
+      <sky-button
+        buttonStyle="icon-borderless"
+        iconName="more-actions"
+        labelText="More actions"
+        labelHidden
+        [disabled]="disabled"
+      />
     }
   </div>
 </div>

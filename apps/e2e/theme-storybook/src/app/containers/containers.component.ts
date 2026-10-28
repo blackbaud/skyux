@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { SkyButton } from '@skyux/forms';
 import { SkyIconModule } from '@skyux/icon';
 
 @Component({
-  imports: [SkyIconModule],
+  imports: [SkyButton, SkyIconModule],
   selector: 'app-containers',
   templateUrl: './containers.component.html',
   styleUrls: ['./containers.component.scss'],
