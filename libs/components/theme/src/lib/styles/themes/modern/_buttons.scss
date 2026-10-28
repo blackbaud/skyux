@@ -105,7 +105,10 @@
         ),
       var(
         --sky-comp-override-toolbar-button-elevation-base,
-        var(--sky-elevation-action-secondary-base)
+        var(
+          --sky-ctx-override-btn-elevation,
+          var(--sky-elevation-action-secondary-base)
+        )
       );
 
     &:hover {
@@ -121,7 +124,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-hover,
-          var(--sky-elevation-action-secondary-hover)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-secondary-hover)
+          )
         );
     }
 
@@ -139,7 +145,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-active,
-          var(--sky-elevation-action-secondary-active)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-secondary-active)
+          )
         );
       transition: none;
     }
@@ -157,7 +166,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
-          var(--sky-elevation-action-secondary-focus)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-secondary-focus)
+          )
         );
     }
 
@@ -177,7 +189,10 @@
             ),
           var(
             --sky-comp-override-toolbar-button-elevation-disabled,
-            var(--sky-elevation-action-secondary-disabled)
+            var(
+              --sky-ctx-override-btn-elevation,
+              var(--sky-elevation-action-secondary-disabled)
+            )
           );
         background-color: var(
           --sky-ctx-override-btn-background,
@@ -193,7 +208,10 @@
               ),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
-              var(--sky-elevation-action-secondary-disabled)
+              var(
+                --sky-ctx-override-btn-elevation,
+                var(--sky-elevation-action-secondary-disabled)
+              )
             );
         }
       }
@@ -221,7 +239,10 @@
         ),
       var(
         --sky-comp-override-toolbar-button-elevation-base,
-        var(--sky-elevation-action-primary-base)
+        var(
+          --sky-ctx-override-btn-elevation,
+          var(--sky-elevation-action-primary-base)
+        )
       );
 
     &:hover {
@@ -237,7 +258,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-hover,
-          var(--sky-elevation-action-primary-hover)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-primary-hover)
+          )
         );
     }
 
@@ -255,7 +279,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-active,
-          var(--sky-elevation-action-primary-active)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-primary-active)
+          )
         );
       transition: none;
     }
@@ -273,7 +300,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
-          var(--sky-elevation-action-primary-focus)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-primary-focus)
+          )
         );
     }
 
@@ -293,7 +323,10 @@
             ),
           var(
             --sky-comp-override-toolbar-button-elevation-disabled,
-            var(--sky-elevation-action-primary-disabled)
+            var(
+              --sky-ctx-override-btn-elevation,
+              var(--sky-elevation-action-primary-disabled)
+            )
           );
         background-color: var(
           --sky-ctx-override-btn-background,
@@ -309,7 +342,10 @@
               ),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
-              var(--sky-elevation-action-primary-disabled)
+              var(
+                --sky-ctx-override-btn-elevation,
+                var(--sky-elevation-action-primary-disabled)
+              )
             );
         }
       }
@@ -337,7 +373,10 @@
         ),
       var(
         --sky-comp-override-toolbar-button-elevation-base,
-        var(--sky-elevation-action-danger-base)
+        var(
+          --sky-ctx-override-btn-elevation,
+          var(--sky-elevation-action-danger-base)
+        )
       );
 
     &:hover {
@@ -353,7 +392,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-hover,
-          var(--sky-elevation-action-danger-hover)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-danger-hover)
+          )
         );
     }
 
@@ -371,7 +413,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-active,
-          var(--sky-elevation-action-danger-active)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-danger-active)
+          )
         );
       transition: none;
     }
@@ -389,7 +434,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
-          var(--sky-elevation-action-danger-focus)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-danger-focus)
+          )
         );
     }
 
@@ -409,7 +457,10 @@
             ),
           var(
             --sky-comp-override-toolbar-button-elevation-disabled,
-            var(--sky-elevation-action-danger-disabled)
+            var(
+              --sky-ctx-override-btn-elevation,
+              var(--sky-elevation-action-danger-disabled)
+            )
           );
         background-color: var(
           --sky-ctx-override-btn-background,
@@ -425,7 +476,10 @@
               ),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
-              var(--sky-elevation-action-danger-disabled)
+              var(
+                --sky-ctx-override-btn-elevation,
+                var(--sky-elevation-action-danger-disabled)
+              )
             );
         }
       }
@@ -560,7 +614,10 @@
         ),
       var(
         --sky-comp-override-toolbar-button-elevation-base,
-        var(--sky-elevation-action-tertiary-base)
+        var(
+          --sky-ctx-override-btn-elevation,
+          var(--sky-elevation-action-tertiary-base)
+        )
       );
 
     &:hover {
@@ -582,7 +639,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-hover,
-          var(--sky-elevation-action-tertiary-hover)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-tertiary-hover)
+          )
         );
     }
 
@@ -606,7 +666,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-active,
-          var(--sky-elevation-action-tertiary-active)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-tertiary-active)
+          )
         );
       transition: none;
     }
@@ -630,7 +693,10 @@
           ),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
-          var(--sky-elevation-action-tertiary-focus)
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-tertiary-focus)
+          )
         );
     }
 
@@ -653,7 +719,10 @@
             ),
           var(
             --sky-comp-override-toolbar-button-elevation-disabled,
-            var(--sky-elevation-action-tertiary-disabled)
+            var(
+              --sky-ctx-override-btn-elevation,
+              var(--sky-elevation-action-tertiary-disabled)
+            )
           );
         background-color: var(
           --sky-ctx-override-icon-btn-background-disabled,
@@ -675,7 +744,10 @@
               ),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
-              var(--sky-elevation-action-tertiary-disabled)
+              var(
+                --sky-ctx-override-btn-elevation,
+                var(--sky-elevation-action-tertiary-disabled)
+              )
             );
         }
       }
@@ -689,7 +761,10 @@
     box-shadow:
       inset 0 0 0 var(--sky-border-width-action-base)
         var(--sky-color-border-action-tertiary-on_prominent-base),
-      var(--sky-elevation-action-tertiary-base);
+      var(
+        --sky-ctx-override-btn-elevation,
+        var(--sky-elevation-action-tertiary-base)
+      );
     --sky-comp-override-icon-color: var(--sky-color-icon-on_prominent-base);
 
     &:hover {
@@ -699,7 +774,10 @@
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-hover)
           var(--sky-color-border-action-tertiary-on_prominent-hover),
-        var(--sky-elevation-action-tertiary-hover);
+        var(
+          --sky-ctx-override-btn-elevation,
+          var(--sky-elevation-action-tertiary-hover)
+        );
     }
 
     &:active,
@@ -710,7 +788,10 @@
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-active)
           var(--sky-color-border-action-tertiary-on_prominent-active),
-        var(--sky-elevation-action-tertiary-active);
+        var(
+          --sky-ctx-override-btn-elevation,
+          var(--sky-elevation-action-tertiary-active)
+        );
       transition: none;
     }
 
@@ -722,7 +803,10 @@
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-tertiary-on_prominent-focus),
-        var(--sky-elevation-action-tertiary-focus);
+        var(
+          --sky-ctx-override-btn-elevation,
+          var(--sky-elevation-action-tertiary-focus)
+        );
     }
 
     &.sky-btn-disabled,
@@ -739,7 +823,10 @@
         box-shadow:
           inset 0 0 0 var(--sky-border-width-action-disabled)
             var(--sky-color-border-action-tertiary-on_prominent-disabled),
-          var(--sky-elevation-action-tertiary-disabled);
+          var(
+            --sky-ctx-override-btn-elevation,
+            var(--sky-elevation-action-tertiary-disabled)
+          );
         color: var(--sky-color-icon-on_prominent-disabled);
       }
     }
