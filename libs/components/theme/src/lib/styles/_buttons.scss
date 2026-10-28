@@ -45,19 +45,32 @@ a.sky-btn {
   }
 }
 
-.sky-btn-default,
 .sky-btn-primary,
 .sky-btn-danger {
   --sky-comp-override-icon-color: currentColor;
 }
 
 .sky-btn-default {
+  --sky-comp-override-icon-color: var(
+    --sky-ctx-override-secondary-btn-icon-color,
+    currentColor
+  );
   @include mixins.sky-button-variant(
     $sky-text-color-default,
     $sky-color-white,
     $sky-border-color-neutral-medium,
     $sky-background-color-neutral-light
   );
+
+  &,
+  &:hover,
+  &:active,
+  &.sky-btn-active {
+    color: var(
+      --sky-ctx-override-secondary-btn-text-color,
+      #{$sky-text-color-default}
+    );
+  }
 }
 
 .sky-btn-primary {
