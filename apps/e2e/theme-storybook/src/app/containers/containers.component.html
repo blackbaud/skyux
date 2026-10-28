@@ -20,6 +20,12 @@
       <sky-icon iconName="info" variant="solid" />
       <sky-icon iconName="success" variant="solid" />
     </p>
+    <div class="sky-containers-demo-row">
+      @for (icon of icons; track icon) {
+        <sky-icon [iconName]="icon" />
+        <sky-icon variant="solid" [iconName]="icon" />
+      }
+    </div>
 
     @for (state of ['', 'sky-btn-active', 'sky-btn-disabled']; track state) {
       <div class="sky-containers-demo-row">
@@ -72,6 +78,12 @@
     Body text <sky-icon iconName="info" />
     <sky-icon iconName="info" variant="solid" />
   </p>
+  <div class="sky-containers-demo-row">
+    @for (icon of icons; track icon) {
+      <sky-icon [iconName]="icon" />
+      <sky-icon variant="solid" [iconName]="icon" />
+    }
+  </div>
   <div class="sky-containers-demo-row">
     @for (state of ['', 'sky-btn-active', 'sky-btn-disabled']; track state) {
       <button

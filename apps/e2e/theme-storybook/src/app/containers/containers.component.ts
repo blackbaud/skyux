@@ -18,4 +18,6 @@ export class ContainersComponent {
     'success',
     'warning',
   ];
+
+  protected readonly icons = ['info', 'success', 'warning', 'edit'];
 }
