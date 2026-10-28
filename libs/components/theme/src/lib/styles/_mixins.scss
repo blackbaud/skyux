@@ -43,20 +43,32 @@
   $border,
   $hoverbackground: darken($background, 10%)
 ) {
-  color: $color;
-  background-color: $background;
-  border-color: $border;
+  color: var(--sky-ctx-override-btn-text-color, #{$color});
+  background-color: var(--sky-ctx-override-btn-background, #{$background});
+  border-color: var(--sky-ctx-override-btn-border-base, #{$border});
 
   &:hover,
   &:active,
   &.sky-btn-active {
-    color: $color;
-    background-color: $hoverbackground;
-    border-color: darken($border, 10%);
+    color: var(--sky-ctx-override-btn-text-color, #{$color});
+    background-color: var(
+      --sky-ctx-override-btn-background,
+      #{$hoverbackground}
+    );
+  }
+  &:hover {
+    border-color: var(
+      --sky-ctx-override-btn-border-hover,
+      #{darken($border, 10%)}
+    );
   }
   &:active,
   &.sky-btn-active {
     background-image: none;
+    border-color: var(
+      --sky-ctx-override-btn-border-active,
+      #{darken($border, 10%)}
+    );
   }
   // TODO: Consider removing in a future change after visual tests are in place as these styles appear to have no effect.
   &.sky-btn-disabled,
@@ -68,8 +80,8 @@
     &.sky-btn-focus,
     &:active,
     &.sky-btn-active {
-      background-color: $background;
-      border-color: $border;
+      background-color: var(--sky-ctx-override-btn-background, #{$background});
+      border-color: var(--sky-ctx-override-btn-border-disabled, #{$border});
     }
   }
 }
