@@ -21,6 +21,8 @@ export class IconContainersComponent {
   ];
 
   protected readonly icons = ['info', 'success', 'warning', 'edit', 'search'];
+
+  protected readonly variants = ['line', 'solid'] as const;
 }
 
 export default IconContainersComponent;
