@@ -49,12 +49,18 @@ h6 {
 }
 
 a {
-  color: var(--sky-text-color-action-primary);
-  text-decoration-line: none;
+  color: var(
+    --sky-ctx-override-link-color,
+    var(--sky-text-color-action-primary)
+  );
+  text-decoration-line: var(--sky-ctx-override-link-text-decoration, none);
 
   &:hover,
   &:active {
-    color: var(--sky-text-color-action-primary-hover);
+    color: var(
+      --sky-ctx-override-link-color,
+      var(--sky-text-color-action-primary-hover)
+    );
     text-decoration-line: underline;
   }
 
@@ -123,7 +129,10 @@ symbol[id^='sky-i-']:not(.sky-i-branded) * {
   &.sky-i-path-2 {
     fill: var(
       --sky-icon-svg-path-2-color-input,
-      var(--sky-ctx-override-icon-path-2-color, #fff)
+      var(
+        --sky-ctx-override-icon-path-2-color,
+        var(--sky-color-icon-inverse, #fff)
+      )
     );
   }
 }

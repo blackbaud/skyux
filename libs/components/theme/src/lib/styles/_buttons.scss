@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use 'mixins' as mixins;
 @use 'variables' as *;
 
@@ -44,6 +45,12 @@ a.sky-btn {
   }
 }
 
+.sky-btn-default,
+.sky-btn-primary,
+.sky-btn-danger {
+  --sky-comp-override-icon-color: currentColor;
+}
+
 .sky-btn-default {
   @include mixins.sky-button-variant(
     $sky-text-color-default,
@@ -70,13 +77,24 @@ a.sky-btn {
 }
 
 .sky-btn-link {
-  color: var(--sky-text-color-action-primary);
+  color: var(
+    --sky-ctx-override-link-color,
+    var(--sky-text-color-action-primary)
+  );
   background-color: transparent;
   border-color: transparent;
+  text-decoration-line: var(--sky-ctx-override-link-text-decoration, none);
+  --sky-comp-override-icon-color: var(
+    --sky-ctx-override-tertiary-btn-icon-color,
+    currentColor
+  );
 }
 
 .sky-btn-link:hover {
-  color: var(--sky-text-color-action-primary-hover);
+  color: var(
+    --sky-ctx-override-link-color,
+    var(--sky-text-color-action-primary-hover)
+  );
   background-color: transparent;
   border-color: transparent;
   text-decoration: underline;
@@ -84,8 +102,11 @@ a.sky-btn {
 
   &.sky-btn-disabled,
   &[disabled] {
-    color: var(--sky-text-color-action-primary);
-    text-decoration-line: none;
+    color: var(
+      --sky-ctx-override-link-color,
+      var(--sky-text-color-action-primary)
+    );
+    text-decoration-line: var(--sky-ctx-override-link-text-decoration, none);
   }
 }
 
@@ -231,6 +252,24 @@ a.sky-btn {
   border: none;
 }
 
+.sky-btn-borderless {
+  color: var(
+    --sky-ctx-override-tertiary-btn-text-color,
+    #{$sky-text-color-deemphasized}
+  );
+  --sky-comp-override-icon-color: var(
+    --sky-ctx-override-tertiary-btn-icon-color,
+    currentColor
+  );
+
+  &:hover {
+    color: var(
+      --sky-ctx-override-tertiary-btn-text-color,
+      #{color.adjust($sky-text-color-deemphasized, $lightness: -20%)}
+    );
+  }
+}
+
 .sky-btn-borderless-inline {
   @extend .sky-btn-borderless;
   font-size: inherit;
@@ -249,6 +288,10 @@ a.sky-btn {
   width: 26px;
   border: none;
   padding: 0;
+  --sky-comp-override-icon-color: var(
+    --sky-ctx-override-icon-btn-icon-color,
+    var(--sky-ctx-override-tertiary-btn-icon-color, currentColor)
+  );
 }
 
 .sky-btn-icon-borderless-on_prominent {
