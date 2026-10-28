@@ -2,6 +2,85 @@
 @use '../../variables' as *;
 @use '../../compat-tokens-mixins' as compatMixins;
 
+@function _elevation($state, $prefix, $elevation) {
+  $token: var(--sky-elevation-action-tertiary-#{$state});
+
+  @if $elevation {
+    @return var(--sky-ctx-override-#{$prefix}-elevation, #{$token});
+  }
+
+  @return $token;
+}
+
+@function _background-override($state, $prefix, $shared-background) {
+  @if $shared-background {
+    @return '--sky-ctx-override-#{$prefix}-background';
+  }
+
+  @return '--sky-ctx-override-#{$prefix}-background-#{$state}';
+}
+
+@mixin _tertiary-box-shadow($state, $prefix, $elevation) {
+  box-shadow:
+    inset 0 0 0 var(--sky-border-width-action-#{$state})
+      var(
+        --sky-ctx-override-#{$prefix}-border-#{$state},
+        var(--sky-color-border-action-tertiary-#{$state})
+      ),
+    var(
+      --sky-comp-override-toolbar-button-elevation-#{$state},
+      #{_elevation($state, $prefix, $elevation)}
+    );
+}
+
+@mixin _tertiary-state($state, $prefix, $shared-background, $elevation) {
+  background-color: var(
+    #{_background-override($state, $prefix, $shared-background)},
+    var(--sky-color-background-action-tertiary-#{$state})
+  );
+  @include _tertiary-box-shadow($state, $prefix, $elevation);
+}
+
+// Tertiary button states that read the context overrides with the given prefix.
+@mixin _tertiary-states($prefix, $shared-background: false, $elevation: false) {
+  @include _tertiary-state(base, $prefix, $shared-background, $elevation);
+
+  &:hover {
+    @include _tertiary-state(hover, $prefix, $shared-background, $elevation);
+  }
+
+  &:active,
+  &.sky-btn-active {
+    @include _tertiary-state(active, $prefix, $shared-background, $elevation);
+    transition: none;
+  }
+
+  &:focus-visible:not(:active) {
+    @include _tertiary-state(focus, $prefix, $shared-background, $elevation);
+  }
+
+  &.sky-btn-disabled,
+  &[disabled] {
+    &,
+    &:hover,
+    &:focus-visible,
+    &.sky-btn-focus,
+    &:active,
+    &.sky-btn-active {
+      @include _tertiary-state(
+        disabled,
+        $prefix,
+        $shared-background,
+        $elevation
+      );
+
+      &:is(:focus-visible, .sky-btn-focus) {
+        @include _tertiary-box-shadow(disabled, $prefix, $elevation);
+      }
+    }
+  }
+}
+
 .sky-theme-modern {
   .sky-btn {
     border: none;
@@ -432,164 +511,16 @@
   }
 
   .sky-btn-link,
-  .sky-btn-borderless,
-  .sky-btn-icon-borderless {
-    background-color: var(
-      --sky-ctx-override-icon-btn-background-base,
-      var(
-        --sky-ctx-override-tertiary-btn-background,
-        var(--sky-color-background-action-tertiary-base)
-      )
+  .sky-btn-borderless {
+    @include _tertiary-states(
+      tertiary-btn,
+      $shared-background: true,
+      $elevation: true
     );
-    box-shadow:
-      inset 0 0 0 var(--sky-border-width-action-base)
-        var(
-          --sky-ctx-override-icon-btn-border-base,
-          var(
-            --sky-ctx-override-tertiary-btn-border-base,
-            var(--sky-color-border-action-tertiary-base)
-          )
-        ),
-      var(
-        --sky-comp-override-toolbar-button-elevation-base,
-        var(
-          --sky-ctx-override-tertiary-btn-elevation,
-          var(--sky-elevation-action-tertiary-base)
-        )
-      );
+  }
 
-    &:hover {
-      background-color: var(
-        --sky-ctx-override-icon-btn-background-hover,
-        var(
-          --sky-ctx-override-tertiary-btn-background,
-          var(--sky-color-background-action-tertiary-hover)
-        )
-      );
-      box-shadow:
-        inset 0 0 0 var(--sky-border-width-action-hover)
-          var(
-            --sky-ctx-override-icon-btn-border-hover,
-            var(
-              --sky-ctx-override-tertiary-btn-border-hover,
-              var(--sky-color-border-action-tertiary-hover)
-            )
-          ),
-        var(
-          --sky-comp-override-toolbar-button-elevation-hover,
-          var(
-            --sky-ctx-override-tertiary-btn-elevation,
-            var(--sky-elevation-action-tertiary-hover)
-          )
-        );
-    }
-
-    &:active,
-    &.sky-btn-active {
-      background-color: var(
-        --sky-ctx-override-icon-btn-background-active,
-        var(
-          --sky-ctx-override-tertiary-btn-background,
-          var(--sky-color-background-action-tertiary-active)
-        )
-      );
-      box-shadow:
-        inset 0 0 0 var(--sky-border-width-action-active)
-          var(
-            --sky-ctx-override-icon-btn-border-active,
-            var(
-              --sky-ctx-override-tertiary-btn-border-active,
-              var(--sky-color-border-action-tertiary-active)
-            )
-          ),
-        var(
-          --sky-comp-override-toolbar-button-elevation-active,
-          var(
-            --sky-ctx-override-tertiary-btn-elevation,
-            var(--sky-elevation-action-tertiary-active)
-          )
-        );
-      transition: none;
-    }
-
-    &:focus-visible:not(:active) {
-      background-color: var(
-        --sky-ctx-override-icon-btn-background-focus,
-        var(
-          --sky-ctx-override-tertiary-btn-background,
-          var(--sky-color-background-action-tertiary-focus)
-        )
-      );
-      box-shadow:
-        inset 0 0 0 var(--sky-border-width-action-focus)
-          var(
-            --sky-ctx-override-icon-btn-border-focus,
-            var(
-              --sky-ctx-override-tertiary-btn-border-focus,
-              var(--sky-color-border-action-tertiary-focus)
-            )
-          ),
-        var(
-          --sky-comp-override-toolbar-button-elevation-focus,
-          var(
-            --sky-ctx-override-tertiary-btn-elevation,
-            var(--sky-elevation-action-tertiary-focus)
-          )
-        );
-    }
-
-    &.sky-btn-disabled,
-    &[disabled] {
-      &,
-      &:hover,
-      &:focus-visible,
-      &.sky-btn-focus,
-      &:active,
-      &.sky-btn-active {
-        box-shadow:
-          inset 0 0 0 var(--sky-border-width-action-disabled)
-            var(
-              --sky-ctx-override-icon-btn-border-disabled,
-              var(
-                --sky-ctx-override-tertiary-btn-border-disabled,
-                var(--sky-color-border-action-tertiary-disabled)
-              )
-            ),
-          var(
-            --sky-comp-override-toolbar-button-elevation-disabled,
-            var(
-              --sky-ctx-override-tertiary-btn-elevation,
-              var(--sky-elevation-action-tertiary-disabled)
-            )
-          );
-        background-color: var(
-          --sky-ctx-override-icon-btn-background-disabled,
-          var(
-            --sky-ctx-override-tertiary-btn-background,
-            var(--sky-color-background-action-tertiary-disabled)
-          )
-        );
-
-        &:is(:focus-visible, .sky-btn-focus) {
-          box-shadow:
-            inset 0 0 0 var(--sky-border-width-action-disabled)
-              var(
-                --sky-ctx-override-icon-btn-border-disabled,
-                var(
-                  --sky-ctx-override-tertiary-btn-border-disabled,
-                  var(--sky-color-border-action-tertiary-disabled)
-                )
-              ),
-            var(
-              --sky-comp-override-toolbar-button-elevation-disabled,
-              var(
-                --sky-ctx-override-tertiary-btn-elevation,
-                var(--sky-elevation-action-tertiary-disabled)
-              )
-            );
-        }
-      }
-    }
+  .sky-btn-icon-borderless {
+    @include _tertiary-states(icon-btn);
   }
 
   .sky-btn-icon-borderless-on_prominent {
