@@ -31,7 +31,10 @@ body.sky-theme-modern {
 
 .sky-theme-modern {
   a {
-    color: var(--sky-ctx-override-link-color, var(--sky-color-text-action));
+    color: var(
+      --sky-comp-override-inline-link-color,
+      var(--sky-ctx-override-link-color, var(--sky-color-text-action))
+    );
     border-radius: var(--sky-border-radius-s);
     text-decoration-line: var(
       --sky-comp-override-inline-link-text-decoration-line,
@@ -69,15 +72,21 @@ body.sky-theme-modern {
     // state via their own rules; this rule is only for genuine inline links.
     &:hover:not(.sky-btn) {
       color: var(
-        --sky-ctx-override-link-color,
-        var(--sky-color-text-action_contrast)
+        --sky-comp-override-inline-link-color,
+        var(
+          --sky-ctx-override-link-color,
+          var(--sky-color-text-action_contrast)
+        )
       );
     }
 
     &:active:not(.sky-btn) {
       color: var(
-        --sky-ctx-override-link-color,
-        var(--sky-color-text-action_contrast)
+        --sky-comp-override-inline-link-color,
+        var(
+          --sky-ctx-override-link-color,
+          var(--sky-color-text-action_contrast)
+        )
       );
     }
 

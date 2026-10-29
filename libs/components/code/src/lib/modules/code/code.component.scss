@@ -18,11 +18,23 @@
 }
 
 // Projected links are styled by the global theme link rules, so links are
-// restyled through the context variables those rules read rather than by
-// targeting projected content.
+// restyled through the component override variables those rules read rather
+// than by targeting projected content.
 .sky-code {
-  --sky-ctx-override-link-color: currentColor;
-  --sky-ctx-override-link-text-decoration: var(
+  --sky-comp-override-inline-link-color: currentColor;
+  --sky-comp-override-inline-link-text-decoration-line: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+  --sky-comp-override-inline-link-text-decoration-line-hover: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+  --sky-comp-override-inline-link-text-decoration-line-active: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+  --sky-comp-override-inline-link-text-decoration-line-focus: var(
     --sky-override-code-link-text-decoration-line,
     var(--sky-font-text_decoration-visible_link)
   );
