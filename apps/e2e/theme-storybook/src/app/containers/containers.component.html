@@ -1,0 +1,97 @@
+@for (container of containers; track container) {
+  <div
+    class="sky-containers-demo-container sky-theme-container-{{ container }}"
+    [id]="'screenshot-container-' + container"
+  >
+    <h3 class="sky-theme-font-heading-4">{{ container }}</h3>
+    <p class="sky-theme-font-body-m">
+      Body text with an <a href="#">inline link</a> and an
+      <sky-button buttonStyle="link-inline" labelText="inline link button" />.
+    </p>
+    <div class="sky-theme-font-body-deemphasized-m">
+      Deemphasized text
+      <sky-icon iconName="info" />
+      <sky-icon iconName="info" variant="solid" />
+      <sky-icon iconName="success" variant="solid" />
+    </div>
+    <div class="sky-containers-demo-row">
+      @for (icon of icons; track icon) {
+        <sky-icon [iconName]="icon" />
+        <sky-icon variant="solid" [iconName]="icon" />
+      }
+    </div>
+
+    @for (disabled of [false, true]; track disabled) {
+      <div class="sky-containers-demo-row">
+        <sky-button
+          buttonStyle="link"
+          labelText="Link button"
+          [disabled]="disabled"
+        />
+        <sky-button
+          buttonStyle="icon-borderless"
+          iconName="edit"
+          labelText="Edit"
+          labelHidden
+          [disabled]="disabled"
+        />
+        <sky-button
+          buttonStyle="primary"
+          iconName="add"
+          labelText="Primary"
+          [disabled]="disabled"
+        />
+        <sky-button iconName="add" labelText="Default" [disabled]="disabled" />
+        <sky-button
+          iconName="add"
+          labelText="Add"
+          labelHidden
+          [disabled]="disabled"
+        />
+      </div>
+    }
+
+    <div
+      class="sky-containers-demo-nested sky-theme-container-{{
+        container === 'default' ? 'backdrop' : 'default'
+      }}"
+    >
+      <span class="sky-theme-font-body-m">Nested</span>
+      <a href="#">link</a>
+      <sky-button
+        buttonStyle="icon-borderless"
+        iconName="edit"
+        labelText="Edit"
+        labelHidden
+      />
+    </div>
+  </div>
+}
+
+<div
+  class="sky-containers-demo-container sky-theme-container-header-prominent"
+  id="screenshot-container-header-prominent"
+>
+  <h3 class="sky-theme-font-heading-4">header-prominent</h3>
+  <div class="sky-theme-font-body-m">
+    Body text <sky-icon iconName="info" />
+    <sky-icon iconName="info" variant="solid" />
+  </div>
+  <div class="sky-containers-demo-row">
+    @for (icon of icons; track icon) {
+      <sky-icon [iconName]="icon" />
+      <sky-icon variant="solid" [iconName]="icon" />
+    }
+  </div>
+  <div class="sky-containers-demo-row">
+    @for (disabled of [false, true]; track disabled) {
+      <sky-button
+        buttonStyle="icon-borderless"
+        iconName="more-actions"
+        labelText="More actions"
+        labelHidden
+        [disabled]="disabled"
+      />
+    }
+  </div>
+</div>

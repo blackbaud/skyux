@@ -49,29 +49,19 @@ h6 {
 }
 
 a {
-  color: var(--sky-text-color-action-primary);
-  text-decoration-line: var(
-    --sky-comp-override-inline-link-text-decoration-line,
-    none
+  color: var(
+    --sky-ctx-override-link-color,
+    var(--sky-text-color-action-primary)
   );
+  text-decoration-line: var(--sky-ctx-override-link-text-decoration, none);
 
   &:hover,
   &:active {
-    color: var(--sky-text-color-action-primary-hover);
-  }
-
-  &:hover {
-    text-decoration-line: var(
-      --sky-comp-override-inline-link-text-decoration-line-hover,
-      underline
+    color: var(
+      --sky-ctx-override-link-color,
+      var(--sky-text-color-action-primary-hover)
     );
-  }
-
-  &:active {
-    text-decoration-line: var(
-      --sky-comp-override-inline-link-text-decoration-line-active,
-      underline
-    );
+    text-decoration-line: underline;
   }
 
   &.sky-href[href=''],
@@ -137,7 +127,13 @@ symbol[id^='sky-i-']:not(.sky-i-branded) * {
   }
 
   &.sky-i-path-2 {
-    fill: var(--sky-icon-svg-path-2-color-input, #fff);
+    fill: var(
+      --sky-icon-svg-path-2-color-input,
+      var(
+        --sky-ctx-override-icon-path-2-color,
+        var(--sky-color-icon-inverse, #fff)
+      )
+    );
   }
 }
 

@@ -1,6 +1,16 @@
 # Changelog
 
 
+## [15.7.0](https://github.com/blackbaud/skyux/compare/15.6.0...15.7.0) (2026-10-29)
+
+### Features
+
+* read container context overrides in buttons, links, and icons ([#4927](https://github.com/blackbaud/skyux/issues/4927)) ([1ace390](https://github.com/blackbaud/skyux/commit/1ace390f3d2dff268d9ba75463c9ba81ae819e5f))
+
+### Bug Fixes
+
+* use icon color tokens for icons in buttons ([#4924](https://github.com/blackbaud/skyux/issues/4924)) ([cbae863](https://github.com/blackbaud/skyux/commit/cbae863aeee723f02d7ca60115b5de1ff24d0ee6))
+
 ## [15.6.0](https://github.com/blackbaud/skyux/compare/15.5.0...15.6.0) (2026-10-23)
 
 ### Features

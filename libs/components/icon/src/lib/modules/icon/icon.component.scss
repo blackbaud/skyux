@@ -1,6 +1,9 @@
 :host {
   display: inline-flex;
-  color: var(--sky-comp-override-icon-color, currentColor);
+  color: var(
+    --sky-comp-override-icon-color,
+    var(--sky-ctx-override-icon-color, currentColor)
+  );
 }
 
 i {
