@@ -1,7 +1,11 @@
 # Changelog
 
 
-## [15.6.1](https://github.com/blackbaud/skyux/compare/15.6.0...15.6.1) (2026-10-29)
+## [15.7.0](https://github.com/blackbaud/skyux/compare/15.6.0...15.7.0) (2026-10-29)
+
+### Features
+
+* read container context overrides in buttons, links, and icons ([#4927](https://github.com/blackbaud/skyux/issues/4927)) ([1ace390](https://github.com/blackbaud/skyux/commit/1ace390f3d2dff268d9ba75463c9ba81ae819e5f))
 
 ### Bug Fixes
 
