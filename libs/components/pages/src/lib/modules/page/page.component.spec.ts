@@ -96,4 +96,36 @@ describe('Page component', () => {
     });
     expect(updateHelpSpy).toHaveBeenCalledTimes(2);
   });
+
+  it(`should not notify the help service when the 'helpKey' input is initially undefined`, () => {
+    const helpService = TestBed.inject(SkyHelpService);
+    const updateHelpSpy = spyOn(helpService, 'updateHelp').and.stub();
+
+    const fixture = TestBed.createComponent(SkyPageComponent);
+    fixture.componentInstance.helpKey = undefined;
+    fixture.detectChanges();
+
+    expect(updateHelpSpy).not.toHaveBeenCalled();
+
+    fixture.destroy();
+  });
+
+  it(`should notify the help service when the 'helpKey' input changes back to undefined`, () => {
+    const helpService = TestBed.inject(SkyHelpService);
+    const updateHelpSpy = spyOn(helpService, 'updateHelp').and.stub();
+
+    const fixture = TestBed.createComponent(SkyPageComponent);
+    fixture.componentInstance.helpKey = 'test-help';
+    fixture.detectChanges();
+
+    fixture.componentInstance.helpKey = undefined;
+    fixture.detectChanges();
+
+    expect(updateHelpSpy.calls.allArgs()).toEqual([
+      [{ pageDefaultHelpKey: 'test-help' }],
+      [{ pageDefaultHelpKey: undefined }],
+    ]);
+
+    fixture.destroy();
+  });
 });
