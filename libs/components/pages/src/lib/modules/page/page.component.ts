@@ -73,6 +73,9 @@ export class SkyPageComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.#themeAdapter.removeTheme();
-    this.#helpSvc?.updateHelp({ pageDefaultHelpKey: undefined });
+
+    if (this.#helpKey !== undefined) {
+      this.#helpSvc?.updateHelp({ pageDefaultHelpKey: undefined });
+    }
   }
 }

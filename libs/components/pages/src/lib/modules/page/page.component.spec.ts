@@ -97,7 +97,7 @@ describe('Page component', () => {
     expect(updateHelpSpy).toHaveBeenCalledTimes(2);
   });
 
-  it(`should not notify the help service when the 'helpKey' input is initially undefined`, () => {
+  it(`should not notify the help service when the 'helpKey' input is never set to a value`, () => {
     const helpService = TestBed.inject(SkyHelpService);
     const updateHelpSpy = spyOn(helpService, 'updateHelp').and.stub();
 
@@ -105,9 +105,9 @@ describe('Page component', () => {
     fixture.componentInstance.helpKey = undefined;
     fixture.detectChanges();
 
-    expect(updateHelpSpy).not.toHaveBeenCalled();
-
     fixture.destroy();
+
+    expect(updateHelpSpy).not.toHaveBeenCalled();
   });
 
   it(`should notify the help service when the 'helpKey' input changes back to undefined`, () => {
