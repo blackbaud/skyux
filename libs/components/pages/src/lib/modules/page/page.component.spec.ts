@@ -97,35 +97,41 @@ describe('Page component', () => {
     expect(updateHelpSpy).toHaveBeenCalledTimes(2);
   });
 
-  it(`should not notify the help service when the 'helpKey' input is never set to a value`, () => {
-    const helpService = TestBed.inject(SkyHelpService);
-    const updateHelpSpy = spyOn(helpService, 'updateHelp').and.stub();
+  describe('help key', () => {
+    let fixture: ComponentFixture<SkyPageComponent>;
+    let updateHelpSpy: jasmine.Spy;
 
-    const fixture = TestBed.createComponent(SkyPageComponent);
-    fixture.componentInstance.helpKey = undefined;
-    fixture.detectChanges();
+    beforeEach(() => {
+      updateHelpSpy = spyOn(
+        TestBed.inject(SkyHelpService),
+        'updateHelp',
+      ).and.stub();
 
-    fixture.destroy();
+      fixture = TestBed.createComponent(SkyPageComponent);
+    });
 
-    expect(updateHelpSpy).not.toHaveBeenCalled();
-  });
+    it(`should not notify the help service when the 'helpKey' input is never set to a value`, () => {
+      fixture.componentInstance.helpKey = undefined;
+      fixture.detectChanges();
 
-  it(`should notify the help service when the 'helpKey' input changes back to undefined`, () => {
-    const helpService = TestBed.inject(SkyHelpService);
-    const updateHelpSpy = spyOn(helpService, 'updateHelp').and.stub();
+      fixture.destroy();
 
-    const fixture = TestBed.createComponent(SkyPageComponent);
-    fixture.componentInstance.helpKey = 'test-help';
-    fixture.detectChanges();
+      expect(updateHelpSpy).not.toHaveBeenCalled();
+    });
 
-    fixture.componentInstance.helpKey = undefined;
-    fixture.detectChanges();
+    it(`should notify the help service when the 'helpKey' input changes back to undefined`, () => {
+      fixture.componentInstance.helpKey = 'test-help';
+      fixture.detectChanges();
 
-    expect(updateHelpSpy.calls.allArgs()).toEqual([
-      [{ pageDefaultHelpKey: 'test-help' }],
-      [{ pageDefaultHelpKey: undefined }],
-    ]);
+      fixture.componentInstance.helpKey = undefined;
+      fixture.detectChanges();
 
-    fixture.destroy();
+      expect(updateHelpSpy.calls.allArgs()).toEqual([
+        [{ pageDefaultHelpKey: 'test-help' }],
+        [{ pageDefaultHelpKey: undefined }],
+      ]);
+
+      fixture.destroy();
+    });
   });
 });
