@@ -86,8 +86,14 @@
   .sky-btn-default,
   .sky-btn-icon {
     background-color: var(--sky-color-background-action-secondary-base);
-    color: var(--sky-color-text-default);
-    --sky-comp-override-icon-color: var(--sky-color-icon-default);
+    color: var(
+      --sky-ctx-override-secondary-btn-text-color,
+      var(--sky-color-text-default)
+    );
+    --sky-comp-override-icon-color: var(
+      --sky-ctx-override-secondary-btn-icon-color,
+      var(--sky-color-icon-default)
+    );
     box-shadow:
       inset 0 0 0 var(--sky-border-width-action-base)
         var(--sky-color-border-action-secondary-base),
@@ -316,11 +322,17 @@
   }
 
   .sky-btn-link {
-    color: var(--sky-color-text-action);
-    --sky-comp-override-icon-color: var(--sky-color-icon-action);
+    color: var(--sky-ctx-override-link-color, var(--sky-color-text-action));
+    --sky-comp-override-icon-color: var(
+      --sky-ctx-override-tertiary-btn-icon-color,
+      var(--sky-color-icon-action)
+    );
     text-decoration-line: var(
       --sky-comp-override-link-text-decoration-line,
-      var(--sky-font-text_decoration-action-tertiary-base)
+      var(
+        --sky-ctx-override-link-text-decoration,
+        var(--sky-font-text_decoration-action-tertiary-base)
+      )
     );
     text-underline-offset: var(--sky-size-text_underline-offset);
     text-decoration-thickness: var(--sky-size-text_underline-thickness);
@@ -328,21 +340,30 @@
     &:hover {
       text-decoration-line: var(
         --sky-comp-override-link-text-decoration-line-hover,
-        var(--sky-font-text_decoration-action-tertiary-hover)
+        var(
+          --sky-ctx-override-link-text-decoration,
+          var(--sky-font-text_decoration-action-tertiary-hover)
+        )
       );
     }
 
     &:active {
       text-decoration-line: var(
         --sky-comp-override-link-text-decoration-line-active,
-        var(--sky-font-text_decoration-action-tertiary-active)
+        var(
+          --sky-ctx-override-link-text-decoration,
+          var(--sky-font-text_decoration-action-tertiary-active)
+        )
       );
     }
 
     &:focus-visible {
       text-decoration-line: var(
         --sky-comp-override-link-text-decoration-line-focus,
-        var(--sky-font-text_decoration-action-tertiary-focus)
+        var(
+          --sky-ctx-override-link-text-decoration,
+          var(--sky-font-text_decoration-action-tertiary-focus)
+        )
       );
     }
 
@@ -364,8 +385,14 @@
 
   .sky-btn-borderless,
   .sky-btn-icon-borderless {
-    color: var(--sky-color-icon-deemphasized);
-    --sky-comp-override-icon-color: var(--sky-color-icon-deemphasized);
+    color: var(
+      --sky-ctx-override-tertiary-btn-text-color,
+      var(--sky-color-icon-deemphasized)
+    );
+    --sky-comp-override-icon-color: var(
+      --sky-ctx-override-tertiary-btn-icon-color,
+      var(--sky-color-icon-deemphasized)
+    );
   }
 
   .sky-btn-icon-borderless,
@@ -380,22 +407,182 @@
   }
 
   .sky-btn-link,
-  .sky-btn-borderless,
-  .sky-btn-icon-borderless {
-    background-color: var(--sky-color-background-action-tertiary-base);
+  .sky-btn-borderless {
+    background-color: var(
+      --sky-ctx-override-tertiary-btn-background,
+      var(--sky-color-background-action-tertiary-base)
+    );
     box-shadow:
       inset 0 0 0 var(--sky-border-width-action-base)
-        var(--sky-color-border-action-tertiary-base),
+        var(
+          --sky-ctx-override-tertiary-btn-border-base,
+          var(--sky-color-border-action-tertiary-base)
+        ),
+      var(
+        --sky-comp-override-toolbar-button-elevation-base,
+        var(
+          --sky-ctx-override-tertiary-btn-elevation,
+          var(--sky-elevation-action-tertiary-base)
+        )
+      );
+
+    &:hover {
+      background-color: var(
+        --sky-ctx-override-tertiary-btn-background,
+        var(--sky-color-background-action-tertiary-hover)
+      );
+      box-shadow:
+        inset 0 0 0 var(--sky-border-width-action-hover)
+          var(
+            --sky-ctx-override-tertiary-btn-border-hover,
+            var(--sky-color-border-action-tertiary-hover)
+          ),
+        var(
+          --sky-comp-override-toolbar-button-elevation-hover,
+          var(
+            --sky-ctx-override-tertiary-btn-elevation,
+            var(--sky-elevation-action-tertiary-hover)
+          )
+        );
+    }
+
+    &:active,
+    &.sky-btn-active {
+      background-color: var(
+        --sky-ctx-override-tertiary-btn-background,
+        var(--sky-color-background-action-tertiary-active)
+      );
+      box-shadow:
+        inset 0 0 0 var(--sky-border-width-action-active)
+          var(
+            --sky-ctx-override-tertiary-btn-border-active,
+            var(--sky-color-border-action-tertiary-active)
+          ),
+        var(
+          --sky-comp-override-toolbar-button-elevation-active,
+          var(
+            --sky-ctx-override-tertiary-btn-elevation,
+            var(--sky-elevation-action-tertiary-active)
+          )
+        );
+      transition: none;
+    }
+
+    &:focus-visible:not(:active) {
+      background-color: var(
+        --sky-ctx-override-tertiary-btn-background,
+        var(--sky-color-background-action-tertiary-focus)
+      );
+      box-shadow:
+        inset 0 0 0 var(--sky-border-width-action-focus)
+          var(
+            --sky-ctx-override-tertiary-btn-border-focus,
+            var(--sky-color-border-action-tertiary-focus)
+          ),
+        var(
+          --sky-comp-override-toolbar-button-elevation-focus,
+          var(
+            --sky-ctx-override-tertiary-btn-elevation,
+            var(--sky-elevation-action-tertiary-focus)
+          )
+        );
+    }
+
+    &.sky-btn-disabled,
+    &[disabled] {
+      &,
+      &:hover,
+      &:focus-visible,
+      &.sky-btn-focus,
+      &:active,
+      &.sky-btn-active {
+        box-shadow:
+          inset 0 0 0 var(--sky-border-width-action-disabled)
+            var(
+              --sky-ctx-override-tertiary-btn-border-disabled,
+              var(--sky-color-border-action-tertiary-disabled)
+            ),
+          var(
+            --sky-comp-override-toolbar-button-elevation-disabled,
+            var(
+              --sky-ctx-override-tertiary-btn-elevation,
+              var(--sky-elevation-action-tertiary-disabled)
+            )
+          );
+        background-color: var(
+          --sky-ctx-override-tertiary-btn-background,
+          var(--sky-color-background-action-tertiary-disabled)
+        );
+
+        &:is(:focus-visible, .sky-btn-focus) {
+          box-shadow:
+            inset 0 0 0 var(--sky-border-width-action-disabled)
+              var(
+                --sky-ctx-override-tertiary-btn-border-disabled,
+                var(--sky-color-border-action-tertiary-disabled)
+              ),
+            var(
+              --sky-comp-override-toolbar-button-elevation-disabled,
+              var(
+                --sky-ctx-override-tertiary-btn-elevation,
+                var(--sky-elevation-action-tertiary-disabled)
+              )
+            );
+        }
+      }
+    }
+  }
+
+  .sky-btn-icon-borderless {
+    --sky-comp-override-icon-color: var(
+      --sky-ctx-override-icon-btn-icon-color,
+      var(
+        --sky-ctx-override-tertiary-btn-icon-color,
+        var(--sky-color-icon-deemphasized)
+      )
+    );
+
+    &.sky-btn-disabled,
+    &[disabled] {
+      &,
+      &:hover,
+      &:focus-visible,
+      &.sky-btn-focus,
+      &:active,
+      &.sky-btn-active {
+        --sky-comp-override-icon-color: var(
+          --sky-ctx-override-icon-btn-icon-color-disabled,
+          currentColor
+        );
+      }
+    }
+
+    background-color: var(
+      --sky-ctx-override-icon-btn-background-base,
+      var(--sky-color-background-action-tertiary-base)
+    );
+    box-shadow:
+      inset 0 0 0 var(--sky-border-width-action-base)
+        var(
+          --sky-ctx-override-icon-btn-border-base,
+          var(--sky-color-border-action-tertiary-base)
+        ),
       var(
         --sky-comp-override-toolbar-button-elevation-base,
         var(--sky-elevation-action-tertiary-base)
       );
 
     &:hover {
-      background-color: var(--sky-color-background-action-tertiary-hover);
+      background-color: var(
+        --sky-ctx-override-icon-btn-background-hover,
+        var(--sky-color-background-action-tertiary-hover)
+      );
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-hover)
-          var(--sky-color-border-action-tertiary-hover),
+          var(
+            --sky-ctx-override-icon-btn-border-hover,
+            var(--sky-color-border-action-tertiary-hover)
+          ),
         var(
           --sky-comp-override-toolbar-button-elevation-hover,
           var(--sky-elevation-action-tertiary-hover)
@@ -404,10 +591,16 @@
 
     &:active,
     &.sky-btn-active {
-      background-color: var(--sky-color-background-action-tertiary-active);
+      background-color: var(
+        --sky-ctx-override-icon-btn-background-active,
+        var(--sky-color-background-action-tertiary-active)
+      );
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-active)
-          var(--sky-color-border-action-tertiary-active),
+          var(
+            --sky-ctx-override-icon-btn-border-active,
+            var(--sky-color-border-action-tertiary-active)
+          ),
         var(
           --sky-comp-override-toolbar-button-elevation-active,
           var(--sky-elevation-action-tertiary-active)
@@ -416,10 +609,16 @@
     }
 
     &:focus-visible:not(:active) {
-      background-color: var(--sky-color-background-action-tertiary-focus);
+      background-color: var(
+        --sky-ctx-override-icon-btn-background-focus,
+        var(--sky-color-background-action-tertiary-focus)
+      );
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
-          var(--sky-color-border-action-tertiary-focus),
+          var(
+            --sky-ctx-override-icon-btn-border-focus,
+            var(--sky-color-border-action-tertiary-focus)
+          ),
         var(
           --sky-comp-override-toolbar-button-elevation-focus,
           var(--sky-elevation-action-tertiary-focus)
@@ -436,17 +635,26 @@
       &.sky-btn-active {
         box-shadow:
           inset 0 0 0 var(--sky-border-width-action-disabled)
-            var(--sky-color-border-action-tertiary-disabled),
+            var(
+              --sky-ctx-override-icon-btn-border-disabled,
+              var(--sky-color-border-action-tertiary-disabled)
+            ),
           var(
             --sky-comp-override-toolbar-button-elevation-disabled,
             var(--sky-elevation-action-tertiary-disabled)
           );
-        background-color: var(--sky-color-background-action-tertiary-disabled);
+        background-color: var(
+          --sky-ctx-override-icon-btn-background-disabled,
+          var(--sky-color-background-action-tertiary-disabled)
+        );
 
         &:is(:focus-visible, .sky-btn-focus) {
           box-shadow:
             inset 0 0 0 var(--sky-border-width-action-disabled)
-              var(--sky-color-border-action-tertiary-disabled),
+              var(
+                --sky-ctx-override-icon-btn-border-disabled,
+                var(--sky-color-border-action-tertiary-disabled)
+              ),
             var(
               --sky-comp-override-toolbar-button-elevation-disabled,
               var(--sky-elevation-action-tertiary-disabled)
@@ -463,7 +671,10 @@
     box-shadow:
       inset 0 0 0 var(--sky-border-width-action-base)
         var(--sky-color-border-action-tertiary-on_prominent-base),
-      var(--sky-elevation-action-tertiary-base);
+      var(
+        --sky-ctx-override-tertiary-btn-elevation,
+        var(--sky-elevation-action-tertiary-base)
+      );
     --sky-comp-override-icon-color: var(--sky-color-icon-on_prominent-base);
 
     &:hover {
@@ -473,7 +684,10 @@
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-hover)
           var(--sky-color-border-action-tertiary-on_prominent-hover),
-        var(--sky-elevation-action-tertiary-hover);
+        var(
+          --sky-ctx-override-tertiary-btn-elevation,
+          var(--sky-elevation-action-tertiary-hover)
+        );
     }
 
     &:active,
@@ -484,7 +698,10 @@
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-active)
           var(--sky-color-border-action-tertiary-on_prominent-active),
-        var(--sky-elevation-action-tertiary-active);
+        var(
+          --sky-ctx-override-tertiary-btn-elevation,
+          var(--sky-elevation-action-tertiary-active)
+        );
       transition: none;
     }
 
@@ -496,7 +713,10 @@
       box-shadow:
         inset 0 0 0 var(--sky-border-width-action-focus)
           var(--sky-color-border-action-tertiary-on_prominent-focus),
-        var(--sky-elevation-action-tertiary-focus);
+        var(
+          --sky-ctx-override-tertiary-btn-elevation,
+          var(--sky-elevation-action-tertiary-focus)
+        );
     }
 
     &.sky-btn-disabled,
@@ -513,7 +733,10 @@
         box-shadow:
           inset 0 0 0 var(--sky-border-width-action-disabled)
             var(--sky-color-border-action-tertiary-on_prominent-disabled),
-          var(--sky-elevation-action-tertiary-disabled);
+          var(
+            --sky-ctx-override-tertiary-btn-elevation,
+            var(--sky-elevation-action-tertiary-disabled)
+          );
         color: var(--sky-color-icon-on_prominent-disabled);
       }
     }
@@ -523,11 +746,17 @@
     background-color: transparent;
     border-radius: var(--sky-border-radius-s);
     padding: var(--sky-space-inset-balanced-none);
-    color: var(--sky-color-text-action);
-    --sky-comp-override-icon-color: var(--sky-color-icon-action);
+    color: var(--sky-ctx-override-link-color, var(--sky-color-text-action));
+    --sky-comp-override-icon-color: var(
+      --sky-ctx-override-tertiary-btn-icon-color,
+      var(--sky-color-icon-action)
+    );
     text-decoration-line: var(
       --sky-comp-override-inline-link-text-decoration-line,
-      var(--sky-font-text_decoration-inline_link-base)
+      var(
+        --sky-ctx-override-link-text-decoration,
+        var(--sky-font-text_decoration-inline_link-base)
+      )
     );
     text-underline-offset: var(--sky-size-text_underline-offset);
     text-decoration-thickness: var(--sky-size-text_underline-thickness);
@@ -535,10 +764,16 @@
     &:focus-visible:not(:active) {
       background-color: transparent;
       box-shadow: 0 0 0 var(--sky-border-width-action-focus)
-        var(--sky-color-border-action-tertiary-focus);
+        var(
+          --sky-ctx-override-link-focus-color,
+          var(--sky-color-border-action-tertiary-focus)
+        );
       text-decoration-line: var(
         --sky-comp-override-inline-link-text-decoration-line-focus,
-        var(--sky-font-text_decoration-inline_link-focus)
+        var(
+          --sky-ctx-override-link-text-decoration,
+          var(--sky-font-text_decoration-inline_link-focus)
+        )
       );
     }
 
@@ -546,7 +781,10 @@
       background-color: transparent;
       text-decoration-line: var(
         --sky-comp-override-inline-link-text-decoration-line-active,
-        var(--sky-font-text_decoration-inline_link-active)
+        var(
+          --sky-ctx-override-link-text-decoration,
+          var(--sky-font-text_decoration-inline_link-active)
+        )
       );
     }
 
@@ -554,13 +792,19 @@
       background-color: transparent;
       text-decoration-line: var(
         --sky-comp-override-inline-link-text-decoration-line-hover,
-        var(--sky-font-text_decoration-inline_link-hover)
+        var(
+          --sky-ctx-override-link-text-decoration,
+          var(--sky-font-text_decoration-inline_link-hover)
+        )
       );
     }
 
     &:hover,
     &:active {
-      color: var(--sky-color-text-action_contrast);
+      color: var(
+        --sky-ctx-override-link-color,
+        var(--sky-color-text-action_contrast)
+      );
     }
 
     &.sky-btn-disabled,
