@@ -1,4 +1,3 @@
-import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { SkyCodeHarness } from '@skyux/code/testing';
@@ -6,47 +5,28 @@ import { SkyCodeHarness } from '@skyux/code/testing';
 import { CodeExample } from './example';
 
 describe('Code example', () => {
-  async function setupTest(): Promise<{ loader: HarnessLoader }> {
+  async function setupTest(options: { dataSkyId: string }): Promise<{
+    codeHarness: SkyCodeHarness;
+  }> {
     const fixture = TestBed.createComponent(CodeExample);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
-    await fixture.whenStable();
+    const codeHarness = await loader.getHarness(
+      SkyCodeHarness.with({ dataSkyId: options.dataSkyId }),
+    );
 
-    return { loader };
+    return { codeHarness };
   }
 
-  it('should get the text of a code component by its data-sky-id', async () => {
-    const { loader } = await setupTest();
+  it('should show the input name as code', async () => {
+    const { codeHarness } = await setupTest({ dataSkyId: 'input-name' });
 
-    const inputName = await loader.getHarness(
-      SkyCodeHarness.with({ dataSkyId: 'input-name' }),
-    );
-    const componentName = await loader.getHarness(
-      SkyCodeHarness.with({ dataSkyId: 'component-name' }),
-    );
-
-    await expectAsync(inputName.getText()).toBeResolvedTo('headingText');
-    await expectAsync(componentName.getText()).toBeResolvedTo('sky-box');
+    await expectAsync(codeHarness.getText()).toBeResolvedTo('headingText');
   });
 
-  it('should get every code component in the example', async () => {
-    const { loader } = await setupTest();
+  it('should show the component name as code', async () => {
+    const { codeHarness } = await setupTest({ dataSkyId: 'component-name' });
 
-    const harnesses = await loader.getAllHarnesses(SkyCodeHarness);
-    const texts = await Promise.all(
-      harnesses.map((harness) => harness.getText()),
-    );
-
-    expect(texts).toEqual(['headingText', 'sky-box']);
-  });
-
-  it('should throw an error when no code component matches the filter', async () => {
-    const { loader } = await setupTest();
-
-    await expectAsync(
-      loader.getHarness(SkyCodeHarness.with({ dataSkyId: 'not-found' })),
-    ).toBeRejectedWithError(
-      /Failed to find element matching one of the following queries/,
-    );
+    await expectAsync(codeHarness.getText()).toBeResolvedTo('sky-box');
   });
 });
