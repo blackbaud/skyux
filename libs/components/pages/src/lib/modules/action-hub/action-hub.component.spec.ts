@@ -325,6 +325,15 @@ describe('Action hub component', () => {
       });
     });
 
+    it('should not clear the page default help key when the help key is not set', () => {
+      const helpService = TestBed.inject(SkyHelpService);
+      const updateHelpSpy = spyOn(helpService, 'updateHelp').and.stub();
+
+      fixture.detectChanges();
+
+      expect(updateHelpSpy).not.toHaveBeenCalled();
+    });
+
     it('should load with separate inputs', fakeAsync(() => {
       fixture.componentRef.setInput('needsAttention', 'loading');
       fixture.componentRef.setInput('relatedLinks', 'loading');

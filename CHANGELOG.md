@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.7.1](https://github.com/blackbaud/skyux/compare/15.7.0...15.7.1) (2026-10-30)
+
+### Bug Fixes
+
+* **components/pages:** preserve page help key when action hub help key is unset ([#4928](https://github.com/blackbaud/skyux/issues/4928)) ([32999b9](https://github.com/blackbaud/skyux/commit/32999b9e4bc9899b976d92fcbf32ebec0a8e6038))
+
 ## [15.7.0](https://github.com/blackbaud/skyux/compare/15.6.0...15.7.0) (2026-10-29)
 
 ### Features

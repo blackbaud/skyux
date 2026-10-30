@@ -54,8 +54,15 @@ export class SkyPageComponent implements OnInit, OnDestroy {
    */
   @Input()
   public set helpKey(value: string | undefined) {
-    this.#helpSvc?.updateHelp({ pageDefaultHelpKey: value });
+    // Skip unchanged values so an unset input doesn't clear a page default
+    // help key set by other means.
+    if (value !== this.#helpKey) {
+      this.#helpKey = value;
+      this.#helpSvc?.updateHelp({ pageDefaultHelpKey: value });
+    }
   }
+
+  #helpKey: string | undefined;
 
   readonly #themeAdapter = inject(SkyPageThemeAdapterService);
   readonly #helpSvc = inject(SkyHelpService, { optional: true });
