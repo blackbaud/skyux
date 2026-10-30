@@ -55,7 +55,7 @@ export class SkyPageComponent implements OnInit, OnDestroy {
   @Input()
   public set helpKey(value: string | undefined) {
     // Skip unchanged values so an unset input doesn't clear a page default
-    // help key set by other means, such as the `bb-help-key` directive.
+    // help key set by other means.
     if (value !== this.#helpKey) {
       this.#helpKey = value;
       this.#helpSvc?.updateHelp({ pageDefaultHelpKey: value });
@@ -73,9 +73,6 @@ export class SkyPageComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.#themeAdapter.removeTheme();
-
-    if (this.#helpKey !== undefined) {
-      this.#helpSvc?.updateHelp({ pageDefaultHelpKey: undefined });
-    }
+    this.#helpSvc?.updateHelp({ pageDefaultHelpKey: undefined });
   }
 }

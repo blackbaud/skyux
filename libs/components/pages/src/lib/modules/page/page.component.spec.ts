@@ -110,13 +110,13 @@ describe('Page component', () => {
       fixture = TestBed.createComponent(SkyPageComponent);
     });
 
-    it(`should not notify the help service when the 'helpKey' input is never set to a value`, () => {
+    it(`should not notify the help service when the 'helpKey' input is initially undefined`, () => {
       fixture.componentInstance.helpKey = undefined;
       fixture.detectChanges();
 
-      fixture.destroy();
-
       expect(updateHelpSpy).not.toHaveBeenCalled();
+
+      fixture.destroy();
     });
 
     it(`should notify the help service when the 'helpKey' input changes back to undefined`, () => {

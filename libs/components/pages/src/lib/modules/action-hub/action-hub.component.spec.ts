@@ -330,7 +330,6 @@ describe('Action hub component', () => {
       const updateHelpSpy = spyOn(helpService, 'updateHelp').and.stub();
 
       fixture.detectChanges();
-      fixture.destroy();
 
       expect(updateHelpSpy).not.toHaveBeenCalled();
     });
