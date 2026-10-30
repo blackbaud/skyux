@@ -96,4 +96,42 @@ describe('Page component', () => {
     });
     expect(updateHelpSpy).toHaveBeenCalledTimes(2);
   });
+
+  describe('help key', () => {
+    let fixture: ComponentFixture<SkyPageComponent>;
+    let updateHelpSpy: jasmine.Spy;
+
+    beforeEach(() => {
+      updateHelpSpy = spyOn(
+        TestBed.inject(SkyHelpService),
+        'updateHelp',
+      ).and.stub();
+
+      fixture = TestBed.createComponent(SkyPageComponent);
+    });
+
+    it(`should not notify the help service when the 'helpKey' input is initially undefined`, () => {
+      fixture.componentInstance.helpKey = undefined;
+      fixture.detectChanges();
+
+      expect(updateHelpSpy).not.toHaveBeenCalled();
+
+      fixture.destroy();
+    });
+
+    it(`should notify the help service when the 'helpKey' input changes back to undefined`, () => {
+      fixture.componentInstance.helpKey = 'test-help';
+      fixture.detectChanges();
+
+      fixture.componentInstance.helpKey = undefined;
+      fixture.detectChanges();
+
+      expect(updateHelpSpy.calls.allArgs()).toEqual([
+        [{ pageDefaultHelpKey: 'test-help' }],
+        [{ pageDefaultHelpKey: undefined }],
+      ]);
+
+      fixture.destroy();
+    });
+  });
 });
