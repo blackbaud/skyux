@@ -9,11 +9,12 @@ describe('Code', () => {
 
       it('should render the component', () => {
         cy.skyReady('app-code');
-        cy.get('app-code')
+        cy.get('#screenshot-wrapper')
           .should('exist')
           .should('be.visible')
           .screenshot(`code-${theme}`);
         cy.percySnapshot(`code-${theme}`, {
+          scope: '#screenshot-wrapper',
           widths: E2eVariations.DISPLAY_WIDTHS,
         });
       });
