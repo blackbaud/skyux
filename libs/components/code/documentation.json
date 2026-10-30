@@ -7,7 +7,7 @@
         "primaryDocsId": "SkyCodeComponent"
       },
       "testing": {
-        "docsIds": []
+        "docsIds": ["SkyCodeHarness", "SkyCodeHarnessFilters"]
       },
       "codeExamples": {
         "docsIds": []

@@ -62,6 +62,7 @@
         "libs/components/charts/testing/src/public-api.ts"
       ],
       "@skyux/code": ["libs/components/code/src/index.ts"],
+      "@skyux/code/testing": ["libs/components/code/testing/src/public-api.ts"],
       "@skyux/code-examples": ["libs/components/code-examples/src/index.ts"],
       "@skyux/code-examples/routes": [
         "libs/components/code-examples/routes/src/index.ts"
