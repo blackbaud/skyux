@@ -8,5 +8,9 @@ export default {
   component: CodeComponent,
 } as Meta<CodeComponent>;
 type Story = StoryObj<CodeComponent>;
-export const Code: Story = {};
-Code.args = {};
+export const Code: Story = {
+  render: (args) => ({
+    props: args,
+  }),
+  args: {},
+};
