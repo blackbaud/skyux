@@ -4,7 +4,7 @@
   "projectType": "library",
   "sourceRoot": "libs/components/code/src",
   "prefix": "sky",
-  "tags": [],
+  "tags": ["component", "npm"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
