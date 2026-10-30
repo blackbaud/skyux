@@ -1,0 +1,17 @@
+{
+  "$schema": "../manifest-generator/documentation-schema.json",
+  "groups": {
+    "code": {
+      "development": {
+        "docsIds": ["SkyCodeComponent"],
+        "primaryDocsId": "SkyCodeComponent"
+      },
+      "testing": {
+        "docsIds": ["SkyCodeHarness", "SkyCodeHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["CodeExample"]
+      }
+    }
+  }
+}

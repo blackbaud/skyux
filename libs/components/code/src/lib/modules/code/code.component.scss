@@ -1,0 +1,78 @@
+@use 'sass:color';
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+@include compatMixins.sky-default-overrides('.sky-code') {
+  --sky-override-code-background-color: #{$sky-background-color-selected};
+  --sky-override-code-border-color: #{$sky-border-color-neutral-medium};
+  --sky-override-code-border-width: 1px;
+  --sky-override-code-font-family:
+    'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+  --sky-override-code-font-size: 90%;
+  --sky-override-code-link-text-decoration-line: underline;
+  --sky-override-code-padding: 0 4px;
+  --sky-override-code-text-color: #{color.adjust(
+      $sky-background-color-danger-dark,
+      $lightness: -5%
+    )};
+}
+
+// Projected links are styled by the global theme link rules, so links are
+// restyled through the component override variables those rules read rather
+// than by targeting projected content.
+.sky-code {
+  --sky-comp-override-inline-link-color: currentColor;
+  --sky-comp-override-inline-link-text-decoration-line: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+  --sky-comp-override-inline-link-text-decoration-line-hover: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+  --sky-comp-override-inline-link-text-decoration-line-active: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+  --sky-comp-override-inline-link-text-decoration-line-focus: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+
+  background-color: var(
+    --sky-override-code-background-color,
+    var(--sky-color-background-container-base)
+  );
+  border: var(
+      --sky-override-code-border-width,
+      var(--sky-border-width-container-base)
+    )
+    solid
+    var(
+      --sky-override-code-border-color,
+      var(--sky-color-border-container-base)
+    );
+  border-radius: var(--sky-border-radius-0);
+  color: var(--sky-override-code-text-color, var(--sky-color-text-danger));
+  font-family: var(
+    --sky-override-code-font-family,
+    var(--sky-font-family-monospaced)
+  );
+  font-size: var(--sky-override-code-font-size, var(--sky-font-size-body-s));
+  font-weight: var(--sky-font-style-body-s);
+  line-height: var(--sky-font-line_height-body-s);
+  overflow-wrap: break-word;
+  padding: var(
+    --sky-override-code-padding,
+    var(--sky-comp-code-space-inset-top) var(--sky-comp-code-space-inset-right)
+      var(--sky-comp-code-space-inset-bottom)
+      var(--sky-comp-code-space-inset-left)
+  );
+}
+
+:host-context(a) .sky-code {
+  text-decoration-line: var(
+    --sky-override-code-link-text-decoration-line,
+    var(--sky-font-text_decoration-visible_link)
+  );
+}

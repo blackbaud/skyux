@@ -39,6 +39,7 @@ export { ChartsChartLineBasicExample } from './lib/modules/charts/chart-line/bas
 export { ChartsChartLineGapsExample } from './lib/modules/charts/chart-line/gaps/example';
 export { ChartsChartLineMultipleSeriesExample } from './lib/modules/charts/chart-line/multiple-series/example';
 export { ChartsChartLineValueFormatExample } from './lib/modules/charts/chart-line/value-format/example';
+export { CodeExample } from './lib/modules/code/code/example';
 export { ColorpickerBasicExampleComponent } from './lib/modules/colorpicker/colorpicker/basic/example.component';
 export { ColorpickerHelpKeyExampleComponent } from './lib/modules/colorpicker/colorpicker/help-key/example.component';
 export { ColorpickerProgrammaticExampleComponent } from './lib/modules/colorpicker/colorpicker/programmatic/example.component';
