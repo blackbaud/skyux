@@ -1,3 +1,15 @@
+/* Match `sky-code`; the default theme doesn't define the monospaced token. */
+code {
+  font-family: var(
+    --sky-font-family-monospaced,
+    'Menlo',
+    'Monaco',
+    'Consolas',
+    'Courier New',
+    monospace
+  );
+}
+
 :not(h1, h2, h3, h4, h5, h6, pre) > code {
   font-size: 90%;
 }
