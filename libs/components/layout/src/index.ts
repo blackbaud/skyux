@@ -8,6 +8,8 @@ export { SkyBackToTopMessage } from './lib/modules/back-to-top/models/back-to-to
 export { SkyBackToTopMessageType } from './lib/modules/back-to-top/models/back-to-top-message-type';
 export { SkyBackToTopOptions } from './lib/modules/back-to-top/models/back-to-top-options';
 
+export { SkyBlockquote } from './lib/modules/blockquote/blockquote';
+
 export { SkyBoxHeadingLevel } from './lib/modules/box/box-heading-level';
 export { SkyBoxHeadingStyle } from './lib/modules/box/box-heading-style';
 export { SkyBoxModule } from './lib/modules/box/box.module';

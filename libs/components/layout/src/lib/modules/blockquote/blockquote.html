@@ -1,0 +1,25 @@
+<div class="sky-blockquote">
+  <sky-icon
+    class="sky-blockquote-icon"
+    iconName="text-quote-opening"
+    iconSize="l"
+    variant="solid"
+  />
+  <blockquote class="sky-blockquote-content">
+    <div class="sky-blockquote-text">
+      <ng-content />
+    </div>
+    @if (author() || quoteSource()) {
+      <div class="sky-blockquote-attribution">
+        &mdash;
+        @if (quoteSource(); as quoteSource) {
+          <a class="sky-blockquote-source-link" [href]="quoteSource">{{
+            author() || ('skyux_blockquote_source' | skyLibResources)
+          }}</a>
+        } @else {
+          <span>{{ author() }}</span>
+        }
+      </div>
+    }
+  </blockquote>
+</div>

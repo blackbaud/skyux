@@ -1,0 +1,90 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+@include compatMixins.sky-default-overrides('.sky-blockquote') {
+  --sky-override-blockquote-attribution-font-size: 15px;
+  --sky-override-blockquote-attribution-font-weight: 300;
+  --sky-override-blockquote-attribution-gap: 10px;
+  --sky-override-blockquote-attribution-line-height: 1.428571429;
+  --sky-override-blockquote-border-color: var(--sky-highlight-color-info);
+  --sky-override-blockquote-border-width: 4px;
+  --sky-override-blockquote-display: inline-flex;
+  --sky-override-blockquote-font-size: 16.8px;
+  --sky-override-blockquote-font-weight: 400;
+  --sky-override-blockquote-gap: 10px;
+  --sky-override-blockquote-icon-color: var(--sky-text-color-deemphasized);
+  --sky-override-blockquote-line-height: 1.428571429;
+  --sky-override-blockquote-margin: 0 0 10px;
+  --sky-override-blockquote-padding: 15px 20px 20px;
+  --sky-override-blockquote-text-color: var(--sky-text-color-deemphasized);
+}
+
+.sky-blockquote {
+  border-left: var(
+      --sky-override-blockquote-border-width,
+      var(--sky-border-width-callout)
+    )
+    solid
+    var(--sky-override-blockquote-border-color, var(--sky-color-border-callout));
+  color: var(
+    --sky-override-blockquote-text-color,
+    var(--sky-color-text-default)
+  );
+  display: var(--sky-override-blockquote-display, flex);
+  font-size: var(
+    --sky-override-blockquote-font-size,
+    var(--sky-font-size-body-l)
+  );
+  font-weight: var(
+    --sky-override-blockquote-font-weight,
+    var(--sky-font-style-body-l)
+  );
+  gap: var(--sky-override-blockquote-gap, var(--sky-space-gap-icon-m));
+  line-height: var(
+    --sky-override-blockquote-line-height,
+    var(--sky-font-line_height-body-l)
+  );
+  margin: var(
+    --sky-override-blockquote-margin,
+    var(--sky-comp-blockquote-space-offset-top)
+      var(--sky-comp-blockquote-space-offset-right)
+      var(--sky-comp-blockquote-space-offset-bottom)
+      var(--sky-comp-blockquote-space-offset-left)
+  );
+  padding: var(
+    --sky-override-blockquote-padding,
+    var(--sky-comp-blockquote-space-inset-top)
+      var(--sky-comp-blockquote-space-inset-right)
+      var(--sky-comp-blockquote-space-inset-bottom)
+      var(--sky-comp-blockquote-space-inset-left)
+  );
+}
+
+.sky-blockquote-icon {
+  color: var(
+    --sky-override-blockquote-icon-color,
+    var(--sky-color-icon-deemphasized)
+  );
+}
+
+.sky-blockquote-content {
+  margin: 0;
+}
+
+.sky-blockquote-attribution {
+  font-size: var(
+    --sky-override-blockquote-attribution-font-size,
+    var(--sky-font-size-body-m)
+  );
+  font-weight: var(
+    --sky-override-blockquote-attribution-font-weight,
+    var(--sky-font-style-body-m)
+  );
+  line-height: var(
+    --sky-override-blockquote-attribution-line-height,
+    var(--sky-font-line_height-body-m)
+  );
+  margin-top: var(
+    --sky-override-blockquote-attribution-gap,
+    var(--sky-space-gap-stacked_supplemental-s)
+  );
+}

@@ -51,6 +51,12 @@
         ]
       }
     },
+    "blockquote": {
+      "development": {
+        "docsIds": ["SkyBlockquote"],
+        "primaryDocsId": "SkyBlockquote"
+      }
+    },
     "box": {
       "development": {
         "docsIds": [
