@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
-import { SkyCodeComponent } from '../code.component';
+import { SkyCode } from '../code';
 
 @Component({
   selector: 'sky-code-test',
-  imports: [SkyCodeComponent],
+  imports: [SkyCode],
   template: `
     <p>
       To edit the <sky-code data-sky-id="plain-code">.npmrc</sky-code> file, you
@@ -12,12 +12,12 @@ import { SkyCodeComponent } from '../code.component';
     </p>
     <p>
       <sky-code data-sky-id="code-with-link">
-        <a data-sky-id="inner-link" href="#">SkyCodeComponent</a>
+        <a data-sky-id="inner-link" href="#">SkyCode</a>
       </sky-code>
     </p>
     <p>
       <a href="#">
-        <sky-code data-sky-id="code-in-link">SkyCodeComponent</sky-code>
+        <sky-code data-sky-id="code-in-link">SkyCode</sky-code>
       </a>
     </p>
   `,

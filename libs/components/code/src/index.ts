@@ -1,1 +1,1 @@
-export { SkyCodeComponent } from './lib/modules/code/code.component';
+export { SkyCode } from './lib/modules/code/code';

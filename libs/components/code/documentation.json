@@ -3,14 +3,14 @@
   "groups": {
     "code": {
       "development": {
-        "docsIds": ["SkyCodeComponent"],
-        "primaryDocsId": "SkyCodeComponent"
+        "docsIds": ["SkyCode"],
+        "primaryDocsId": "SkyCode"
       },
       "testing": {
         "docsIds": ["SkyCodeHarness", "SkyCodeHarnessFilters"]
       },
       "codeExamples": {
-        "docsIds": ["CodeExample"]
+        "docsIds": ["CodeInlineTextExample"]
       }
     }
   }

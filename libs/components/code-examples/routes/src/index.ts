@@ -298,9 +298,9 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'CodeExample',
+    path: 'CodeInlineTextExample',
     loadComponent: () =>
-      import('@skyux/code-examples').then(({ CodeExample: c }) => c),
+      import('@skyux/code-examples').then(({ CodeInlineTextExample: c }) => c),
   },
   {
     path: 'ColorpickerBasicExampleComponent',

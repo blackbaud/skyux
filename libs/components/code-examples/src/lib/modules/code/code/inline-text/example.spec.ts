@@ -2,13 +2,13 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { SkyCodeHarness } from '@skyux/code/testing';
 
-import { CodeExample } from './example';
+import { CodeInlineTextExample } from './example';
 
-describe('Code example', () => {
+describe('Inline code within body text example', () => {
   async function setupTest(options: { dataSkyId: string }): Promise<{
     codeHarness: SkyCodeHarness;
   }> {
-    const fixture = TestBed.createComponent(CodeExample);
+    const fixture = TestBed.createComponent(CodeInlineTextExample);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const codeHarness = await loader.getHarness(
