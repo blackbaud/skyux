@@ -30,6 +30,10 @@ import {
   RULE_NAME as noNativeClickRuleName,
 } from '../rules/template/no-native-click';
 import {
+  rule as noNestedHelpInline,
+  RULE_NAME as noNestedHelpInlineRuleName,
+} from '../rules/template/no-nested-help-inline';
+import {
   rule as noRadioGroupWithNestedList,
   RULE_NAME as noRadioGroupWithNestedListRuleName,
 } from '../rules/template/no-radio-group-with-nested-list';
@@ -71,6 +75,7 @@ export default {
     [noInvalidInputTypesRuleName]: noInvalidInputTypes,
     [noLegacyIconsRuleName]: noLegacyIcons,
     [noNativeClickRuleName]: noNativeClick,
+    [noNestedHelpInlineRuleName]: noNestedHelpInline,
     [noRadioGroupWithNestedListRuleName]: noRadioGroupWithNestedList,
     [noUnboundIdRuleName]: noUnboundId,
     [preferDisabledAttrRuleName]: preferDisabledAttr,

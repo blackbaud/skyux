@@ -14238,6 +14238,25 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             },
             "name": "no-native-click",
           },
+          "no-nested-help-inline": Object {
+            "create": [Function],
+            "defaultOptions": Array [],
+            "meta": Object {
+              "docs": Object {
+                "description": "Disallow nesting sky-help-inline within SKY UX components that do not support it; place it after the component instead.",
+                "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-nested-help-inline.md",
+              },
+              "fixable": "code",
+              "hasSuggestions": true,
+              "messages": Object {
+                "moveHelpInlineAfterWrapper": "Move sky-help-inline after {{element}}.",
+                "noNestedHelpInline": "Do not nest sky-help-inline within {{element}}. Place it after the {{element}} element instead.",
+              },
+              "schema": Array [],
+              "type": "problem",
+            },
+            "name": "no-nested-help-inline",
+          },
           "no-radio-group-with-nested-list": Object {
             "create": [Function],
             "defaultOptions": Array [],
