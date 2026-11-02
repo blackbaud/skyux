@@ -104,6 +104,16 @@ describe('Blockquote component', () => {
     await expectAsync(iconHarness.getIconSize()).toBeResolvedTo('l');
   });
 
+  it('should display as a block so consecutive blockquotes stack', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(
+      getComputedStyle(fixture.nativeElement.querySelector('sky-blockquote'))
+        .display,
+    ).toBe('block');
+  });
+
   it("should use the default theme's info color for the border", async () => {
     fixture.detectChanges();
     await fixture.whenStable();

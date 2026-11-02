@@ -1,5 +1,9 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 
+:host {
+  display: block;
+}
+
 @include compatMixins.sky-default-overrides('.sky-blockquote') {
   --sky-override-blockquote-attribution-font-size: 15px;
   --sky-override-blockquote-attribution-font-weight: 300;
