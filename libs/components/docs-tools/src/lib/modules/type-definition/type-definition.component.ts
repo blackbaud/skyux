@@ -6,6 +6,7 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { SkyCodeComponent } from '@skyux/code';
 import {
   SkyManifestChildDefinitionKind,
   SkyManifestClassMethodDefinition,
@@ -50,6 +51,7 @@ import { PropertyDefinition } from './property-definition';
     '[class.sky-margin-stacked-xxl]': 'stacked()',
   },
   imports: [
+    SkyCodeComponent,
     SkyDocsCategoryTagModule,
     SkyDocsCodeHighlightPipe,
     SkyDocsCodeSnippetModule,
