@@ -15,10 +15,6 @@ code:where(:not(sky-code *)) {
   );
 }
 
-:not(h1, h2, h3, h4, h5, h6, pre) > code:where(:not(sky-code *)) {
-  font-size: 90%;
-}
-
 a.sky-docs-codespan-anchor:where(:not(sky-code *)) {
   color: currentColor;
   text-decoration: underline;
