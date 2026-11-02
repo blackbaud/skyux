@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
+import { SkyDocsMarkdownHtmlDirective } from './markdown-html.directive';
 import { SkyDocsEscapeHtmlPipe } from './pipes/escape-html.pipe';
 import { SkyDocsMarkdownPipe } from './pipes/markdown.pipe';
 import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
-import { upgradeMarkdownInlineCode } from './upgrade-markdown-inline-code';
 
 /**
  * @internal
@@ -13,6 +13,7 @@ import { upgradeMarkdownInlineCode } from './upgrade-markdown-inline-code';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SkyDocsEscapeHtmlPipe,
+    SkyDocsMarkdownHtmlDirective,
     SkyDocsMarkdownPipe,
     SkyStatusIndicatorModule,
     SkyTypeAnchorLinksPipe,
@@ -25,7 +26,7 @@ import { upgradeMarkdownInlineCode } from './upgrade-markdown-inline-code';
   `,
   template: `
     <div
-      [innerHTML]="
+      [skyDocsMarkdownHtml]="
         description()
           | skyDocsEscapeHtml
           | skyDocsMarkdown: 'block'
@@ -37,8 +38,4 @@ import { upgradeMarkdownInlineCode } from './upgrade-markdown-inline-code';
 export class SkyDocsTypeDefinitionDescriptionComponent {
   public readonly definitionName = input.required<string>();
   public readonly description = input.required<string>();
-
-  constructor() {
-    upgradeMarkdownInlineCode();
-  }
 }

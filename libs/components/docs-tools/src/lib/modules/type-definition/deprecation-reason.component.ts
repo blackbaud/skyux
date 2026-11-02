@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
+import { SkyDocsMarkdownHtmlDirective } from './markdown-html.directive';
 import { SkyDocsMarkdownPipe } from './pipes/markdown.pipe';
 import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
-import { upgradeMarkdownInlineCode } from './upgrade-markdown-inline-code';
 
 /**
  * @internal
@@ -11,6 +11,7 @@ import { upgradeMarkdownInlineCode } from './upgrade-markdown-inline-code';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    SkyDocsMarkdownHtmlDirective,
     SkyDocsMarkdownPipe,
     SkyStatusIndicatorModule,
     SkyTypeAnchorLinksPipe,
@@ -26,7 +27,9 @@ import { upgradeMarkdownInlineCode } from './upgrade-markdown-inline-code';
       <sky-status-indicator descriptionType="warning" indicatorType="warning">
         <strong class="sky-font-emphasized">Deprecated. </strong
         ><span
-          [innerHTML]="message() | skyDocsMarkdown | skyTypeAnchorLinks"
+          [skyDocsMarkdownHtml]="
+            message() | skyDocsMarkdown | skyTypeAnchorLinks
+          "
         ></span>
       </sky-status-indicator>
     </p>
@@ -34,8 +37,4 @@ import { upgradeMarkdownInlineCode } from './upgrade-markdown-inline-code';
 })
 export class SkyDocsDeprecationReasonComponent {
   public readonly message = input.required<string>();
-
-  constructor() {
-    upgradeMarkdownInlineCode();
-  }
 }
