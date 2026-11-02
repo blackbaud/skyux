@@ -4,6 +4,7 @@ import { SkyStatusIndicatorModule } from '@skyux/indicators';
 import { SkyDocsEscapeHtmlPipe } from './pipes/escape-html.pipe';
 import { SkyDocsMarkdownPipe } from './pipes/markdown.pipe';
 import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
+import { upgradeMarkdownInlineCode } from './upgrade-markdown-inline-code';
 
 /**
  * @internal
@@ -36,4 +37,8 @@ import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
 export class SkyDocsTypeDefinitionDescriptionComponent {
   public readonly definitionName = input.required<string>();
   public readonly description = input.required<string>();
+
+  constructor() {
+    upgradeMarkdownInlineCode();
+  }
 }
