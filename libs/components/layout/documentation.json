@@ -55,6 +55,9 @@
       "development": {
         "docsIds": ["SkyBlockquote"],
         "primaryDocsId": "SkyBlockquote"
+      },
+      "testing": {
+        "docsIds": ["SkyBlockquoteHarness", "SkyBlockquoteHarnessFilters"]
       }
     },
     "box": {
