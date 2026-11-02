@@ -58,6 +58,9 @@
       },
       "testing": {
         "docsIds": ["SkyBlockquoteHarness", "SkyBlockquoteHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["LayoutBlockquoteCustomerTestimonialExample"]
       }
     },
     "box": {
