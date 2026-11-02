@@ -118,7 +118,19 @@ describe('Markdown HTML directive', () => {
   });
 
   describe('a11y', () => {
-    it('should be accessible', async () => {
+    it('should be accessible when empty', async () => {
+      await render('');
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible with inline code', async () => {
+      await render('<p>Set <code class="sky-docs-codespan">foo</code>.</p>');
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible with a link in inline code', async () => {
       await render(
         '<p>Set <code class="sky-docs-codespan">foo</code> to a <code class="sky-docs-codespan"><a href="#bar">SkyBar</a></code>.</p>',
       );
