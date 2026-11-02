@@ -1,0 +1,76 @@
+{
+  "name": "code",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/components/code/src",
+  "prefix": "sky",
+  "tags": ["component", "npm"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/libs/components/code"],
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "projects": ["core"],
+          "target": "build"
+        }
+      ],
+      "inputs": [
+        "buildInputs",
+        "^buildInputs",
+        "{workspaceRoot}/libs/components/code/testing/src/**/*",
+        "!{workspaceRoot}/libs/components/code/testing/src/**/*.spec.ts",
+        "!{workspaceRoot}/libs/components/code/testing/src/**/fixtures/**/*"
+      ],
+      "options": {
+        "project": "libs/components/code/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/components/code/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/components/code/tsconfig.lib.json"
+        }
+      }
+    },
+    "test": {
+      "executor": "@angular/build:karma",
+      "options": {
+        "tsConfig": "libs/components/code/tsconfig.spec.json",
+        "karmaConfig": "libs/components/code/karma.conf.js",
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss"
+        ],
+        "codeCoverage": true,
+        "codeCoverageExclude": ["**/fixtures/**"],
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true,
+          "progress": false,
+          "sourceMap": true,
+          "watch": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "{projectRoot}/src/**/*.ts",
+          "{projectRoot}/src/**/*.html"
+        ]
+      }
+    }
+  }
+}

@@ -50,6 +50,7 @@ jobs:
             components/autonumeric
             components/avatar
             components/charts
+            components/code
             components/code-examples
             components/colorpicker
             components/config

@@ -1,0 +1,37 @@
+{
+  "name": "code-storybook-e2e",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/e2e/code-storybook-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/e2e/code-storybook-e2e/cypress.config.ts",
+        "devServerTarget": "code-storybook:storybook",
+        "testingType": "e2e",
+        "browser": "chrome",
+        "baseUrl": "http://localhost:4400"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "code-storybook:static-storybook:ci",
+          "browser": "chrome",
+          "baseUrl": "http://localhost:4200"
+        },
+        "prebuilt": {
+          "devServerTarget": "code-storybook:static-storybook:prebuilt",
+          "baseUrl": ""
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["code-storybook"]
+}
