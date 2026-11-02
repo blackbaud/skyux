@@ -1,5 +1,10 @@
+/*
+`sky-code` styles its own content, so these rules skip anything inside it.
+`:where()` keeps each rule's specificity unchanged.
+*/
+
 /* Match `sky-code`; the default theme doesn't define the monospaced token. */
-code {
+code:where(:not(sky-code *)) {
   font-family: var(
     --sky-font-family-monospaced,
     'Menlo',
@@ -10,11 +15,11 @@ code {
   );
 }
 
-:not(h1, h2, h3, h4, h5, h6, pre) > code {
+:not(h1, h2, h3, h4, h5, h6, pre) > code:where(:not(sky-code *)) {
   font-size: 90%;
 }
 
-a.sky-docs-codespan-anchor {
+a.sky-docs-codespan-anchor:where(:not(sky-code *)) {
   color: currentColor;
   text-decoration: underline;
 }
