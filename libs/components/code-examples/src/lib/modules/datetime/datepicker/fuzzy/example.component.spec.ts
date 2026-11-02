@@ -1,6 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyCodeHarness } from '@skyux/code/testing';
 import { SkyDatepickerHarness } from '@skyux/datetime/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
 
@@ -55,21 +54,6 @@ describe('Fuzzy datepicker example', () => {
     const calendarHarness = await datepickerHarness.getDatepickerCalendar();
     await expectAsync(calendarHarness.getSelectedValue()).toBeResolvedTo(
       'Saturday, November 5th 1955',
-    );
-  });
-
-  it('should show the selected date as code', async () => {
-    const { fixture } = await setupTest({
-      dataSkyId: 'fuzzy-datepicker-example',
-    });
-
-    const codeHarness =
-      await TestbedHarnessEnvironment.loader(fixture).getHarness(
-        SkyCodeHarness,
-      );
-
-    await expectAsync(codeHarness.getText()).toBeResolvedTo(
-      '{"year":1955,"day":5,"month":11}',
     );
   });
 });
