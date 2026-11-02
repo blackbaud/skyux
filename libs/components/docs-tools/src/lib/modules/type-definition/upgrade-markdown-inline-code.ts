@@ -8,7 +8,7 @@ import {
   createComponent,
   inject,
 } from '@angular/core';
-import { SkyCodeComponent } from '@skyux/code';
+import { SkyCode } from '@skyux/code';
 
 /**
  * Markdown is rendered through `innerHTML`, which can't instantiate components,
@@ -21,7 +21,7 @@ export function upgradeMarkdownInlineCode(): void {
   const environmentInjector = inject(EnvironmentInjector);
   const hostEl = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
 
-  let codeRefs: ComponentRef<SkyCodeComponent>[] = [];
+  let codeRefs: ComponentRef<SkyCode>[] = [];
 
   afterEveryRender(() => {
     // Re-rendered markdown replaces the DOM of previously upgraded inline code.
@@ -40,7 +40,7 @@ export function upgradeMarkdownInlineCode(): void {
       const hostElement = doc.createElement('sky-code');
 
       codeRefs.push(
-        createComponent(SkyCodeComponent, {
+        createComponent(SkyCode, {
           environmentInjector,
           hostElement,
           projectableNodes: [Array.from(inlineCode.childNodes)],

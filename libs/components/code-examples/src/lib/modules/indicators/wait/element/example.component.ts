@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SkyCodeComponent } from '@skyux/code';
+import { SkyCode } from '@skyux/code';
 import { SkyButton } from '@skyux/forms';
 import { SkyWaitModule } from '@skyux/indicators';
 
@@ -17,7 +17,7 @@ import { SkyWaitModule } from '@skyux/indicators';
   `,
   templateUrl: './example.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SkyButton, SkyCodeComponent, SkyWaitModule],
+  imports: [SkyButton, SkyCode, SkyWaitModule],
 })
 export class IndicatorsWaitElementExampleComponent {
   protected isWaiting = false;

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { SkyCodeComponent } from '@skyux/code';
+import { SkyCode } from '@skyux/code';
 
 @Component({
-  imports: [SkyCodeComponent],
+  imports: [SkyCode],
   selector: 'app-code',
   templateUrl: './code.component.html',
   styleUrls: ['./code.component.scss'],

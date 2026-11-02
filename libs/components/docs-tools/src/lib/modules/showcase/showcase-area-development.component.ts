@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { SkyCodeComponent } from '@skyux/code';
+import { SkyCode } from '@skyux/code';
 import { SkyIconModule } from '@skyux/icon';
 import { SkyDescriptionListModule } from '@skyux/layout';
 
@@ -19,7 +19,7 @@ import { SkyDocsShowcaseHostService } from './showcase-host.service';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    SkyCodeComponent,
+    SkyCode,
     SkyDescriptionListModule,
     SkyDocsClipboardModule,
     SkyDocsHeadingAnchorModule,

@@ -1,15 +1,15 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { SkyCodeComponent } from '@skyux/code';
+import { SkyCode } from '@skyux/code';
 
 import { SkyCodeHarness } from './code-harness';
 
 @Component({
-  imports: [SkyCodeComponent],
+  imports: [SkyCode],
   template: `
     <sky-code>.npmrc</sky-code>
-    <sky-code data-sky-id="test-code">SkyCodeComponent</sky-code>
+    <sky-code data-sky-id="test-code">SkyCode</sky-code>
   `,
 })
 class TestComponent {}
@@ -38,7 +38,7 @@ describe('Code harness', () => {
   it('should get a code component by its data-sky-id', async () => {
     const { harness } = await setupTest({ dataSkyId: 'test-code' });
 
-    await expectAsync(harness.getText()).toBeResolvedTo('SkyCodeComponent');
+    await expectAsync(harness.getText()).toBeResolvedTo('SkyCode');
   });
 
   it('should throw when no code component matches the data-sky-id', async () => {

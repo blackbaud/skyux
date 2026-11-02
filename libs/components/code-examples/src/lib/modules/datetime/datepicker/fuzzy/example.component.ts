@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { SkyCodeComponent } from '@skyux/code';
+import { SkyCode } from '@skyux/code';
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 
@@ -21,7 +21,7 @@ import { SkyInputBoxModule } from '@skyux/forms';
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    SkyCodeComponent,
+    SkyCode,
     SkyDatepickerModule,
     SkyInputBoxModule,
   ],

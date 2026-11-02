@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { SkyCodeComponent } from '@skyux/code';
+import { SkyCode } from '@skyux/code';
 import { SkyIdModule } from '@skyux/core';
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
@@ -15,7 +15,7 @@ import { DatepickerComponent } from './datepicker.component';
     DatepickerRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SkyCodeComponent,
+    SkyCode,
     SkyDatepickerModule,
     SkyIdModule,
     SkyInputBoxModule,

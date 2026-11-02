@@ -5,6 +5,7 @@ import { SkyCodeHarnessFilters } from './code-harness-filters';
 
 /**
  * Harness for interacting with a code component in tests.
+ * @preview
  */
 export class SkyCodeHarness extends SkyComponentHarness {
   /**

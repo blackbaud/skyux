@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SkyCodeComponent } from '@skyux/code';
+import { SkyCode } from '@skyux/code';
 import { SkyDatePipeModule, SkyDatepickerModule } from '@skyux/datetime';
 
 import { DatePipeComponent } from './basic/date-pipe.component';
@@ -13,7 +13,7 @@ import { DatePipeProviderComponent } from './provider/date-pipe-provider.compone
     DatePipeRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    SkyCodeComponent,
+    SkyCode,
     SkyDatepickerModule,
     SkyDatePipeModule,
   ],

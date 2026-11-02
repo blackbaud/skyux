@@ -16,7 +16,7 @@ import {
   SkyAutonumericModule,
   SkyAutonumericOptions,
 } from '@skyux/autonumeric';
-import { SkyCodeComponent } from '@skyux/code';
+import { SkyCode } from '@skyux/code';
 import { SkyInputBoxModule } from '@skyux/forms';
 import { SkyAlertModule } from '@skyux/indicators';
 
@@ -31,7 +31,7 @@ import { SkyAlertModule } from '@skyux/indicators';
     ReactiveFormsModule,
     SkyAlertModule,
     SkyAutonumericModule,
-    SkyCodeComponent,
+    SkyCode,
     SkyInputBoxModule,
   ],
 })
