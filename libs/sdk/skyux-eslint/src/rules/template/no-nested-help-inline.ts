@@ -100,14 +100,20 @@ export const rule = createESLintTemplateRule({
         const wrapper = ancestors[wrapperIndex] as TmplAstElement;
         const data = { element: wrapper.name };
 
-        // A structural directive or control-flow block on the wrapper, around
-        // the help inline, or on the help inline itself would be lost or
-        // broken by moving the element.
+        // A structural directive, control-flow block, or `hidden` attribute on
+        // the wrapper, around the help inline, or on the help inline itself
+        // would be lost or broken by moving the element.
         const canMove =
           !(ancestors[wrapperIndex - 1] instanceof TmplAstTemplate) &&
           ancestors
             .slice(wrapperIndex)
-            .every((ancestor) => ancestor instanceof TmplAstElement);
+            .every(
+              (ancestor) =>
+                ancestor instanceof TmplAstElement &&
+                ![...ancestor.attributes, ...ancestor.inputs].some(
+                  (attr) => attr.name === 'hidden',
+                ),
+            );
 
         const moveAfterWrapper = (fixer: RuleFixer): RuleFix[] => [
           fixer.removeRange([

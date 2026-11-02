@@ -120,6 +120,18 @@ ruleTester.run(RULE_NAME, rule, {
       errors: [errorWithoutSuggestion('sky-label')],
     },
     {
+      code: `<sky-label hidden>Foo <sky-help-inline helpKey="foo" /></sky-label>`,
+      errors: [errorWithoutSuggestion('sky-label')],
+    },
+    {
+      code: `<sky-alert [hidden]="isHidden">Foo <sky-help-inline helpKey="foo" /></sky-alert>`,
+      errors: [errorWithoutSuggestion('sky-alert')],
+    },
+    {
+      code: `<sky-token><span [hidden]="isHidden">Foo <sky-help-inline helpKey="foo" /></span></sky-token>`,
+      errors: [errorWithoutSuggestion('sky-token')],
+    },
+    {
       code: `<sky-token *ngFor="let t of items">{{ t }} <sky-help-inline [helpKey]="t.key" /></sky-token>`,
       errors: [errorWithoutSuggestion('sky-token')],
     },
