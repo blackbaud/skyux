@@ -1,28 +1,8 @@
 import { createTemplateRuleTester } from '../testing/create-template-rule-tester';
 
-import {
-  RULE_NAME,
-  messageId,
-  rule,
-  suggestMessageId,
-} from './no-nested-help-inline';
+import { RULE_NAME, messageId, rule } from './no-nested-help-inline';
 
 const ruleTester = createTemplateRuleTester();
-
-function errorWithSuggestion(
-  element: string,
-  output: string,
-): Record<string, unknown> {
-  return {
-    messageId,
-    data: { element },
-    suggestions: [{ messageId: suggestMessageId, data: { element }, output }],
-  };
-}
-
-function errorWithoutSuggestion(element: string): Record<string, unknown> {
-  return { messageId, data: { element }, suggestions: [] };
-}
 
 ruleTester.run(RULE_NAME, rule, {
   valid: [
@@ -50,10 +30,10 @@ ruleTester.run(RULE_NAME, rule, {
   invalid: [
     {
       code: `<sky-label>Foo <sky-help-inline helpKey="foo" /></sky-label>`,
-      output: `<sky-label>Foo </sky-label><sky-help-inline helpKey="foo" />`,
       errors: [
         {
-          ...errorWithoutSuggestion('sky-label'),
+          messageId,
+          data: { element: 'sky-label' },
           line: 1,
           column: 16,
           endColumn: 49,
@@ -62,78 +42,23 @@ ruleTester.run(RULE_NAME, rule, {
     },
     {
       code: `<sky-alert alertType="info">Foo <sky-help-inline helpKey="foo"></sky-help-inline></sky-alert>`,
-      output: `<sky-alert alertType="info">Foo </sky-alert><sky-help-inline helpKey="foo"></sky-help-inline>`,
-      errors: [errorWithoutSuggestion('sky-alert')],
-    },
-    {
-      code: `<sky-alert [closeable]="false">Foo <sky-help-inline helpKey="foo" /></sky-alert>`,
-      output: `<sky-alert [closeable]="false">Foo </sky-alert><sky-help-inline helpKey="foo" />`,
-      errors: [errorWithoutSuggestion('sky-alert')],
-    },
-    {
-      code: `<sky-alert [closeable]="isCloseable">Foo <sky-help-inline helpKey="foo" /></sky-alert>`,
-      errors: [
-        errorWithSuggestion(
-          'sky-alert',
-          `<sky-alert [closeable]="isCloseable">Foo </sky-alert><sky-help-inline helpKey="foo" />`,
-        ),
-      ],
-    },
-    {
-      code: `<sky-alert closeable="false">Foo <sky-help-inline helpKey="foo" /></sky-alert>`,
-      errors: [
-        errorWithSuggestion(
-          'sky-alert',
-          `<sky-alert closeable="false">Foo </sky-alert><sky-help-inline helpKey="foo" />`,
-        ),
-      ],
+      errors: [{ messageId, data: { element: 'sky-alert' } }],
     },
     {
       code: `<sky-tokens><sky-token><span>Foo <sky-help-inline helpKey="foo" /></span></sky-token></sky-tokens>`,
-      errors: [
-        errorWithSuggestion(
-          'sky-token',
-          `<sky-tokens><sky-token><span>Foo </span></sky-token><sky-help-inline helpKey="foo" /></sky-tokens>`,
-        ),
-      ],
+      errors: [{ messageId, data: { element: 'sky-token' } }],
     },
     {
       code: `<sky-alert><sky-label>Foo <sky-help-inline helpKey="foo" /></sky-label></sky-alert>`,
-      output: `<sky-alert><sky-label>Foo </sky-label></sky-alert><sky-help-inline helpKey="foo" />`,
-      errors: [errorWithoutSuggestion('sky-alert')],
-    },
-    {
-      code: `@if (show) { <sky-label>Foo <sky-help-inline helpKey="foo" /></sky-label> }`,
-      output: `@if (show) { <sky-label>Foo </sky-label><sky-help-inline helpKey="foo" /> }`,
-      errors: [errorWithoutSuggestion('sky-label')],
+      errors: [{ messageId, data: { element: 'sky-alert' } }],
     },
     {
       code: `<sky-label>Foo @if (showHelp) { <sky-help-inline helpKey="foo" /> }</sky-label>`,
-      errors: [errorWithoutSuggestion('sky-label')],
-    },
-    {
-      code: `<sky-label>Foo <sky-help-inline *ngIf="showHelp" helpKey="foo" /></sky-label>`,
-      errors: [errorWithoutSuggestion('sky-label')],
+      errors: [{ messageId, data: { element: 'sky-label' } }],
     },
     {
       code: `<sky-label *ngIf="show">Foo <sky-help-inline helpKey="foo" /></sky-label>`,
-      errors: [errorWithoutSuggestion('sky-label')],
-    },
-    {
-      code: `<sky-label hidden>Foo <sky-help-inline helpKey="foo" /></sky-label>`,
-      errors: [errorWithoutSuggestion('sky-label')],
-    },
-    {
-      code: `<sky-alert [hidden]="isHidden">Foo <sky-help-inline helpKey="foo" /></sky-alert>`,
-      errors: [errorWithoutSuggestion('sky-alert')],
-    },
-    {
-      code: `<sky-token><span [hidden]="isHidden">Foo <sky-help-inline helpKey="foo" /></span></sky-token>`,
-      errors: [errorWithoutSuggestion('sky-token')],
-    },
-    {
-      code: `<sky-token *ngFor="let t of items">{{ t }} <sky-help-inline [helpKey]="t.key" /></sky-token>`,
-      errors: [errorWithoutSuggestion('sky-token')],
+      errors: [{ messageId, data: { element: 'sky-label' } }],
     },
   ],
 });

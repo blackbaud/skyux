@@ -14243,14 +14243,11 @@ For example, when set to \`true\` the following code will not fail for the \`alt
             "defaultOptions": Array [],
             "meta": Object {
               "docs": Object {
-                "description": "Disallow nesting sky-help-inline within SKY UX components that do not support it; place it after the component instead.",
+                "description": "Disallow nesting sky-help-inline within SKY UX components that do not support it.",
                 "url": "https://github.com/blackbaud/skyux/blob/main/libs/sdk/skyux-eslint/docs/rules/template/no-nested-help-inline.md",
               },
-              "fixable": "code",
-              "hasSuggestions": true,
               "messages": Object {
-                "moveHelpInlineAfterWrapper": "Move sky-help-inline after {{element}}.",
-                "noNestedHelpInline": "Do not nest sky-help-inline within {{element}}. Place it after the {{element}} element instead.",
+                "noNestedHelpInline": "Do not nest sky-help-inline within {{element}}, which does not support it.",
               },
               "schema": Array [],
               "type": "problem",
