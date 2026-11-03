@@ -2,6 +2,7 @@
   "$schema": "../../components/manifest-generator/documentation-schema.json",
   "groups": {
     "jasmine-matchers": {
+      "summary": "Jasmine matchers extend Karma and Jasmine unit tests with assertions for accessibility, visibility, and resource strings.",
       "development": {
         "docsIds": [
           "expectSdkTesting",

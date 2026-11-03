@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "rich-text-display": {
+      "summary": "The rich text display sanitizes HTML strings before displaying them.",
       "development": {
         "docsIds": ["SkyRichTextDisplayModule", "SkyRichTextDisplayComponent"],
         "primaryDocsId": "SkyRichTextDisplayModule"
@@ -14,6 +15,7 @@
       }
     },
     "text-editor": {
+      "summary": "The text editor component lets users format and manipulate text.",
       "development": {
         "docsIds": [
           "SkyTextEditorModule",

@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "data-grid-component": {
+      "summary": "Data grids provide straightforward grids driven by inputs and column declarations with common features, such as sorting, paging, and selection.",
       "development": {
         "docsIds": [
           "SkyDataGrid",

@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "dropdown": {
+      "summary": "The dropdown component renders a button to display related actions or context menus in grids or lists.",
       "development": {
         "docsIds": [
           "SkyDropdownModule",
@@ -30,6 +31,7 @@
       }
     },
     "popover": {
+      "summary": "The popover module displays small chunks of contextual content in an HTML-formatted popover on pages or modals.",
       "development": {
         "docsIds": [
           "SkyPopoverModule",

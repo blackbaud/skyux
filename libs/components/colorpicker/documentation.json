@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "colorpicker": {
+      "summary": "The colorpicker module provides an input for users to select colors.",
       "development": {
         "docsIds": [
           "SkyColorpickerModule",
