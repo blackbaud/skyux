@@ -62,12 +62,12 @@ describe('Blockquote harness', () => {
     await expectAsync(harness.getAuthor()).toBeResolvedTo('Happy Customer');
   });
 
-  it('should get "Source" as the author when only quoteSource is set', async () => {
+  it('should return undefined for the author when only quoteSource is set', async () => {
     const { harness } = await setupTest({
       quoteSource: 'https://example.com/',
     });
 
-    await expectAsync(harness.getAuthor()).toBeResolvedTo('Source');
+    await expectAsync(harness.getAuthor()).toBeResolvedTo(undefined);
   });
 
   it('should return undefined for the author when there is no attribution', async () => {

@@ -13,11 +13,15 @@
       <p class="sky-blockquote-attribution">
         &mdash;
         @if (quoteSource(); as quoteSource) {
-          <a class="sky-blockquote-source-link" [href]="quoteSource">{{
-            author() || ('skyux_blockquote_source' | skyLibResources)
-          }}</a>
+          <a class="sky-blockquote-source-link" [href]="quoteSource">
+            @if (author(); as author) {
+              <span class="sky-blockquote-author">{{ author }}</span>
+            } @else {
+              <span>{{ 'skyux_blockquote_source' | skyLibResources }}</span>
+            }
+          </a>
         } @else {
-          <span>{{ author() }}</span>
+          <span class="sky-blockquote-author">{{ author() }}</span>
         }
       </p>
     }

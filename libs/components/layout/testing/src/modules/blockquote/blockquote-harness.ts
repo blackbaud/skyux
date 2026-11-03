@@ -13,9 +13,7 @@ export class SkyBlockquoteHarness extends SkyComponentHarness {
    */
   public static hostSelector = 'sky-blockquote';
 
-  #getAuthor = this.locatorForOptional(
-    '.sky-blockquote-attribution a.sky-blockquote-source-link, .sky-blockquote-attribution span',
-  );
+  #getAuthor = this.locatorForOptional('.sky-blockquote-author');
   #getSourceLink = this.locatorForOptional(
     '.sky-blockquote-attribution a.sky-blockquote-source-link',
   );
@@ -32,8 +30,8 @@ export class SkyBlockquoteHarness extends SkyComponentHarness {
   }
 
   /**
-   * Gets the name the quotation is attributed to, or `undefined` when no
-   * attribution is shown. Returns "Source" when only a quote source is set.
+   * Gets the name the quotation is attributed to, or `undefined` when `author`
+   * isn't set.
    */
   public async getAuthor(): Promise<string | undefined> {
     return (await (await this.#getAuthor())?.text())?.trim();

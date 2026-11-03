@@ -83,7 +83,8 @@ describe('Blockquote component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(getSourceLinkElement()).toHaveText('Source');
+    // Exact text, so stray template whitespace isn't underlined with the link.
+    expect(getSourceLinkElement()?.textContent).toBe('Source');
   });
 
   it('should update the attribution when inputs change', async () => {
