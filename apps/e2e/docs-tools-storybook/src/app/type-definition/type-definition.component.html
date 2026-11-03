@@ -1,0 +1,9 @@
+<div id="screenshot-wrapper" class="sky-padding-even-md">
+  @for (
+    definition of definitions();
+    track definition.docsId;
+    let last = $last
+  ) {
+    <sky-docs-type-definition [definition]="definition" [stacked]="!last" />
+  }
+</div>

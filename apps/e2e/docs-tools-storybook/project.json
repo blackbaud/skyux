@@ -1,0 +1,160 @@
+{
+  "name": "docs-tools-storybook",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/e2e/docs-tools-storybook/src",
+  "prefix": "app",
+  "tags": ["component-e2e"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath.base}"],
+      "options": {
+        "outputPath": {
+          "base": "dist/apps/e2e/docs-tools-storybook"
+        },
+        "index": "apps/e2e/docs-tools-storybook/src/index.html",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/e2e/docs-tools-storybook/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["{workspaceRoot}"]
+        },
+        "styles": [
+          "apps/e2e/docs-tools-storybook/src/styles.scss",
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+          "libs/components/docs-tools/css/styles.css"
+        ],
+        "scripts": [],
+        "browser": "apps/e2e/docs-tools-storybook/src/main.ts"
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production",
+      "dependsOn": [
+        "^build",
+        {
+          "target": "postbuild",
+          "projects": "manifest"
+        }
+      ]
+    },
+    "serve": {
+      "executor": "@angular/build:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "docs-tools-storybook:build:production"
+        },
+        "development": {
+          "buildTarget": "docs-tools-storybook:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "continuous": true
+    },
+    "extract-i18n": {
+      "executor": "@angular/build:extract-i18n",
+      "options": {
+        "buildTarget": "docs-tools-storybook:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["{projectRoot}/**/*.ts", "{projectRoot}/**/*.html"]
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/e2e/docs-tools-storybook/.storybook",
+        "browserTarget": "docs-tools-storybook:build",
+        "compodoc": false,
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+          "libs/components/docs-tools/css/styles.css"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true,
+          "ci": true
+        }
+      },
+      "dependsOn": [
+        {
+          "target": "postbuild",
+          "projects": "manifest"
+        }
+      ]
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/docs-tools-storybook",
+        "configDir": "apps/e2e/docs-tools-storybook/.storybook",
+        "browserTarget": "docs-tools-storybook:build",
+        "compodoc": false,
+        "styles": [
+          "libs/components/theme/src/lib/styles/sky.scss",
+          "libs/components/theme/src/lib/styles/themes/modern/styles.scss",
+          "libs/components/docs-tools/css/styles.css"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      },
+      "dependsOn": [
+        {
+          "target": "postbuild",
+          "projects": "manifest"
+        }
+      ]
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "docs-tools-storybook:build-storybook",
+        "staticFilePath": "dist/storybook/docs-tools-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "docs-tools-storybook:build-storybook:ci"
+        },
+        "prebuilt": {
+          "buildTarget": "docs-tools-storybook:noop"
+        }
+      }
+    },
+    "noop": {
+      "executor": "nx:noop"
+    }
+  }
+}
