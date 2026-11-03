@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [15.8.0](https://github.com/blackbaud/skyux/compare/15.7.1...15.8.0) (2026-11-02)
+## [15.8.0](https://github.com/blackbaud/skyux/compare/15.7.1...15.8.0) (2026-11-03)
 
 ### Features
 
