@@ -81,8 +81,19 @@ describe('Blockquote component', () => {
     await fixture.whenStable();
 
     expect(getAttributionText()).toBe('— Happy Customer');
+    expect(getSourceLinkElement()).toBeNull();
+
+    fixture.componentRef.setInput('quoteSource', 'https://example.com/');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(getSourceLinkElement()?.getAttribute('href')).toBe(
+      'https://example.com/',
+    );
+    expect(getSourceLinkElement()).toHaveText('Happy Customer');
 
     fixture.componentRef.setInput('author', undefined);
+    fixture.componentRef.setInput('quoteSource', undefined);
     fixture.detectChanges();
     await fixture.whenStable();
 
