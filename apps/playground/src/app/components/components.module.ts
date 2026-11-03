@@ -49,6 +49,10 @@ export const componentRoutes: Routes = [
     loadChildren: () => import('./charts/charts.routes'),
   },
   {
+    path: 'code',
+    loadChildren: () => import('./code/code.routes'),
+  },
+  {
     path: 'colorpicker',
     loadChildren: () =>
       import('./colorpicker/colorpicker.module').then(

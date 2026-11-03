@@ -50,18 +50,37 @@ h6 {
 
 a {
   color: var(
-    --sky-ctx-override-link-color,
-    var(--sky-text-color-action-primary)
+    --sky-comp-override-inline-link-color,
+    var(--sky-ctx-override-link-color, var(--sky-text-color-action-primary))
   );
-  text-decoration-line: var(--sky-ctx-override-link-text-decoration, none);
+  text-decoration-line: var(
+    --sky-comp-override-inline-link-text-decoration-line,
+    var(--sky-ctx-override-link-text-decoration, none)
+  );
 
   &:hover,
   &:active {
     color: var(
-      --sky-ctx-override-link-color,
-      var(--sky-text-color-action-primary-hover)
+      --sky-comp-override-inline-link-color,
+      var(
+        --sky-ctx-override-link-color,
+        var(--sky-text-color-action-primary-hover)
+      )
     );
-    text-decoration-line: underline;
+  }
+
+  &:hover {
+    text-decoration-line: var(
+      --sky-comp-override-inline-link-text-decoration-line-hover,
+      underline
+    );
+  }
+
+  &:active {
+    text-decoration-line: var(
+      --sky-comp-override-inline-link-text-decoration-line-active,
+      underline
+    );
   }
 
   &.sky-href[href=''],

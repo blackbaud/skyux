@@ -298,6 +298,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'CodeInlineTextExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(({ CodeInlineTextExample: c }) => c),
+  },
+  {
     path: 'ColorpickerBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
