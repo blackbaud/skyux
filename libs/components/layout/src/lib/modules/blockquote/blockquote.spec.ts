@@ -43,6 +43,7 @@ describe('Blockquote component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
+    expect(getAttributionElement()?.tagName).toBe('P');
     expect(getAttributionElement()?.closest('blockquote')).toBeNull();
     expect(
       fixture.nativeElement.querySelector('blockquote')?.textContent,

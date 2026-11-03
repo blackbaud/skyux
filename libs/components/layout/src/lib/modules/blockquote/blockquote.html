@@ -10,7 +10,7 @@
       <ng-content />
     </blockquote>
     @if (author() || quoteSource()) {
-      <div class="sky-blockquote-attribution">
+      <p class="sky-blockquote-attribution">
         &mdash;
         @if (quoteSource(); as quoteSource) {
           <a class="sky-blockquote-source-link" [href]="quoteSource">{{
@@ -19,7 +19,7 @@
         } @else {
           <span>{{ author() }}</span>
         }
-      </div>
+      </p>
     }
   </div>
 </div>

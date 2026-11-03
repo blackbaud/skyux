@@ -87,8 +87,9 @@
     --sky-override-blockquote-attribution-line-height,
     var(--sky-font-line_height-body-m)
   );
-  margin-top: var(
-    --sky-override-blockquote-attribution-gap,
-    var(--sky-space-gap-stacked_supplemental-s)
-  );
+  margin: var(
+      --sky-override-blockquote-attribution-gap,
+      var(--sky-space-gap-stacked_supplemental-s)
+    )
+    0 0;
 }
