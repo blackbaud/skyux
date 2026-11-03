@@ -21,6 +21,7 @@ Object {
       "repoUrl": "https://repo.com/foo",
     },
   ],
+  "summary": "foo summary",
   "testing": Array [],
 }
 `;
@@ -58,6 +59,7 @@ Object {
       "repoUrl": "https://repo.com/foo",
     },
   ],
+  "summary": "foo summary",
   "testing": Array [
     Object {
       "docsId": "FooHarness",

@@ -53,6 +53,11 @@ export function validateDocumentationConfig(
       for (const areaName of DOCUMENTATION_AREAS) {
         const areaConfig = groupConfig[areaName];
 
+        // A missing area is already reported by schema validation.
+        if (!areaConfig) {
+          continue;
+        }
+
         for (const docsId of areaConfig.docsIds) {
           const definition = getDefinitionByDocsId(docsId, publicApi);
 
