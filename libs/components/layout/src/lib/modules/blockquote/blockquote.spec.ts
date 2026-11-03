@@ -158,6 +158,22 @@ describe('Blockquote component', () => {
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 
+    it('should be accessible with a plain-text author', async () => {
+      fixture.componentRef.setInput('author', 'Happy Customer');
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible with only a quote source', async () => {
+      fixture.componentRef.setInput('quoteSource', 'https://example.com/');
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
     describe('in modern theme', () => {
       beforeEach(() => {
         document.body.classList.add('sky-theme-modern', 'sky-theme-brand-base');
