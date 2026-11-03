@@ -26,6 +26,13 @@ ruleTester.run(RULE_NAME, rule, {
         <sky-help-inline class="sky-control-help" helpKey="foo" />
       </sky-status-indicator>
     </sky-alert>`,
+    `<sky-alert>
+      <sky-input-box>
+        <label class="sky-control-label" for="foo">Foo</label>
+        <input class="sky-form-control" id="foo" />
+        <sky-help-inline class="sky-control-help" helpKey="foo" />
+      </sky-input-box>
+    </sky-alert>`,
   ],
   invalid: [
     {
@@ -55,6 +62,14 @@ ruleTester.run(RULE_NAME, rule, {
     {
       code: `<sky-label>Foo @if (showHelp) { <sky-help-inline helpKey="foo" /> }</sky-label>`,
       errors: [{ messageId, data: { element: 'sky-label' } }],
+    },
+    {
+      code: `<sky-alert><sky-input-box><sky-help-inline helpKey="foo" /></sky-input-box></sky-alert>`,
+      errors: [{ messageId, data: { element: 'sky-alert' } }],
+    },
+    {
+      code: `<sky-alert><sky-key-info><sky-key-info-label>Foo <sky-help-inline class="sky-control-help" helpKey="foo" /></sky-key-info-label></sky-key-info></sky-alert>`,
+      errors: [{ messageId, data: { element: 'sky-alert' } }],
     },
     {
       code: `<sky-label *ngIf="show">Foo <sky-help-inline helpKey="foo" /></sky-label>`,

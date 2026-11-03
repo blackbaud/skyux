@@ -15,38 +15,27 @@ const WRAPPERS_WITHOUT_HELP_SUPPORT = new Set([
   'sky-token',
 ]);
 
-// These project a nested `sky-help-inline.sky-control-help` into a dedicated slot.
+// These project a direct `sky-help-inline.sky-control-help` child into a
+// dedicated help slot.
 const CONTAINERS_WITH_HELP_SUPPORT = new Set([
+  'sky-input-box',
   'sky-key-info',
   'sky-status-indicator',
 ]);
 
-/**
- * Returns the outermost wrapper that doesn't support a nested help inline,
- * ignoring wrappers outside the nearest container that does.
- */
-function findOutermostWrapper(
-  ancestors: unknown[],
-): TmplAstElement | undefined {
-  let wrapper: TmplAstElement | undefined;
-
-  for (let i = ancestors.length - 1; i >= 0; i--) {
-    const ancestor = ancestors[i];
-
-    if (!(ancestor instanceof TmplAstElement)) {
-      continue;
-    }
-
-    if (CONTAINERS_WITH_HELP_SUPPORT.has(ancestor.name)) {
-      break;
-    }
-
-    if (WRAPPERS_WITHOUT_HELP_SUPPORT.has(ancestor.name)) {
-      wrapper = ancestor;
-    }
-  }
-
-  return wrapper;
+function isInContainerHelpSlot(
+  element: TmplAstElement,
+  parent: TmplAstElement | undefined,
+): boolean {
+  return (
+    !!parent &&
+    CONTAINERS_WITH_HELP_SUPPORT.has(parent.name) &&
+    element.attributes.some(
+      (attr) =>
+        attr.name === 'class' &&
+        attr.value.split(/\s+/).includes('sky-control-help'),
+    )
+  );
 }
 
 export const rule = createESLintTemplateRule({
@@ -57,8 +46,16 @@ export const rule = createESLintTemplateRule({
 
     return {
       ['Element[name=sky-help-inline]'](element: TmplAstElement): void {
-        const wrapper = findOutermostWrapper(
-          context.sourceCode.getAncestors(element as never) as unknown[],
+        const ancestors = (
+          context.sourceCode.getAncestors(element as never) as unknown[]
+        ).filter((ancestor) => ancestor instanceof TmplAstElement);
+
+        if (isInContainerHelpSlot(element, ancestors.at(-1))) {
+          return;
+        }
+
+        const wrapper = ancestors.find((ancestor) =>
+          WRAPPERS_WITHOUT_HELP_SUPPORT.has(ancestor.name),
         );
 
         if (!wrapper) {
