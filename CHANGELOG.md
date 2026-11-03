@@ -7,6 +7,10 @@
 
 * add @skyux/code library with code component ([#4925](https://github.com/blackbaud/skyux/issues/4925)) ([5052ec3](https://github.com/blackbaud/skyux/commit/5052ec3420782917ebb50c682e13e01c052bcf5b))
 
+### Bug Fixes
+
+* **components/text-editor:** update dompurify dependency ([#4935](https://github.com/blackbaud/skyux/issues/4935)) ([8ff92a3](https://github.com/blackbaud/skyux/commit/8ff92a313bb2da72eebbdb91808b6cebd00c2693))
+
 ## [15.7.1](https://github.com/blackbaud/skyux/compare/15.7.0...15.7.1) (2026-10-30)
 
 ### Bug Fixes
