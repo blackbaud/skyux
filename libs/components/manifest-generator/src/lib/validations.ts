@@ -53,8 +53,8 @@ export function validateDocumentationConfig(
       for (const areaName of DOCUMENTATION_AREAS) {
         const areaConfig = groupConfig[areaName];
 
-        // A missing area is already reported by schema validation.
-        if (!areaConfig) {
+        // A malformed area is already reported by schema validation.
+        if (!Array.isArray(areaConfig?.docsIds)) {
           continue;
         }
 
