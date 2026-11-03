@@ -15,29 +15,6 @@ const WRAPPERS_WITHOUT_HELP_SUPPORT = new Set([
   'sky-token',
 ]);
 
-// These project a direct `sky-help-inline.sky-control-help` child into a
-// dedicated help slot.
-const CONTAINERS_WITH_HELP_SUPPORT = new Set([
-  'sky-input-box',
-  'sky-key-info',
-  'sky-status-indicator',
-]);
-
-function isInContainerHelpSlot(
-  element: TmplAstElement,
-  parent: TmplAstElement | undefined,
-): boolean {
-  return (
-    !!parent &&
-    CONTAINERS_WITH_HELP_SUPPORT.has(parent.name) &&
-    element.attributes.some(
-      (attr) =>
-        attr.name === 'class' &&
-        attr.value.split(/\s+/).includes('sky-control-help'),
-    )
-  );
-}
-
 export const rule = createESLintTemplateRule({
   create(context) {
     ensureTemplateParser(context);
@@ -49,10 +26,6 @@ export const rule = createESLintTemplateRule({
         const ancestors = (
           context.sourceCode.getAncestors(element as never) as unknown[]
         ).filter((ancestor) => ancestor instanceof TmplAstElement);
-
-        if (isInContainerHelpSlot(element, ancestors.at(-1))) {
-          return;
-        }
 
         const wrapper = ancestors.find((ancestor) =>
           WRAPPERS_WITHOUT_HELP_SUPPORT.has(ancestor.name),

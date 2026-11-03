@@ -20,19 +20,6 @@ ruleTester.run(RULE_NAME, rule, {
       Foo
       <sky-help-inline class="sky-control-help" helpKey="foo" />
     </sky-status-indicator>`,
-    `<sky-alert>
-      <sky-status-indicator descriptionType="none">
-        Foo
-        <sky-help-inline class="sky-control-help" helpKey="foo" />
-      </sky-status-indicator>
-    </sky-alert>`,
-    `<sky-alert>
-      <sky-input-box>
-        <label class="sky-control-label" for="foo">Foo</label>
-        <input class="sky-form-control" id="foo" />
-        <sky-help-inline class="sky-control-help" helpKey="foo" />
-      </sky-input-box>
-    </sky-alert>`,
   ],
   invalid: [
     {
@@ -65,6 +52,14 @@ ruleTester.run(RULE_NAME, rule, {
     },
     {
       code: `<sky-alert><sky-input-box><sky-help-inline helpKey="foo" /></sky-input-box></sky-alert>`,
+      errors: [{ messageId, data: { element: 'sky-alert' } }],
+    },
+    {
+      code: `<sky-alert><sky-status-indicator descriptionType="none">Foo <sky-help-inline class="sky-control-help" helpKey="foo" /></sky-status-indicator></sky-alert>`,
+      errors: [{ messageId, data: { element: 'sky-alert' } }],
+    },
+    {
+      code: `<sky-alert><sky-input-box><input class="sky-form-control" /><sky-help-inline class="sky-control-help" helpKey="foo" /></sky-input-box></sky-alert>`,
       errors: [{ messageId, data: { element: 'sky-alert' } }],
     },
     {
