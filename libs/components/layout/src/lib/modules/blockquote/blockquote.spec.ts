@@ -28,15 +28,25 @@ describe('Blockquote component', () => {
     fixture = TestBed.createComponent(SkyBlockquoteTestComponent);
   });
 
-  it('should render projected quote text', async () => {
+  it('should render projected quote text in a blockquote element', async () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
     expect(
-      fixture.nativeElement.querySelector(
-        'blockquote.sky-blockquote-content .sky-blockquote-text',
-      ),
+      fixture.nativeElement.querySelector('blockquote.sky-blockquote-text'),
     ).toHaveText('Sample testimonial');
+  });
+
+  it('should place the attribution outside the blockquote element', async () => {
+    fixture.componentRef.setInput('author', 'Happy Customer');
+    fixture.componentRef.setInput('quoteSource', 'https://example.com/');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(getAttributionElement()?.closest('blockquote')).toBeNull();
+    expect(
+      fixture.nativeElement.querySelector('blockquote')?.textContent,
+    ).not.toContain('Happy Customer');
   });
 
   it('should not render an attribution when author and quoteSource are not set', async () => {
