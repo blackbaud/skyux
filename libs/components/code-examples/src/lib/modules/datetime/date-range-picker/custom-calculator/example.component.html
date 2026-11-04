@@ -1,15 +1,14 @@
 <div class="sky-theme-padding-inset-balanced-l">
   <form [formGroup]="formGroup">
     <sky-date-range-picker
+      data-sky-id="last-donation"
       formControlName="lastDonation"
       [calculatorIds]="customCalculators"
       [helpPopoverContent]="inlineHelpPopover"
       [hintText]="hintText"
       [labelText]="labelText"
     >
-      @if (
-        lastDonation.errors?.['skyDateRange']?.errors?.['dateIsAfterToday']
-      ) {
+      @if (hasDateIsAfterTodayError()) {
         <sky-form-error
           errorName="dateIsAfterToday"
           errorText="Enter a date before today."
@@ -19,7 +18,7 @@
   </form>
   <p>
     Selected calculator:
-    {{ selectedCalculator()?.shortDescription$ | async }}
+    {{ selectedCalculatorDescription() }}
   </p>
 </div>
 
