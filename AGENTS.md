@@ -131,21 +131,25 @@ can state in a sentence.
 
 ### Mirror the nearest sibling
 
-This monorepo is highly repetitive by design. Before writing a component, spec,
-code example, or story, open the equivalent file in a sibling library that
-already does the same job and mirror its structure, naming, and file layout. Do
-not invent a new pattern when an established one exists, and do not import
-patterns from outside this repository. When a sibling predates the Angular style
-guide naming rule above (suffixed file names, `Component`/`Directive`/`Service`
-class suffixes, an `NgModule` wrapper), mirror its structure but follow the
-naming rule.
+This monorepo is highly repetitive by design. Before writing a component or
+story, open the equivalent file in a sibling library that already does the same
+job and mirror its structure, naming, and file layout. Do not invent a new
+pattern when an established one exists, and do not import patterns from outside
+this repository. When a sibling predates the Angular style guide naming rule
+above (suffixed file names, `Component`/`Directive`/`Service` class suffixes, an
+`NgModule` wrapper), mirror its structure but follow the naming rule.
 
-Harnesses are the exception:
-[component-harnesses.instructions.md](.github/instructions/component-harnesses.instructions.md)
-is canonical and takes precedence over a sibling. Open an existing harness only
-to look up facts — which sub-harness a child component exposes, or the CSS
-classes in a template — and do not inherit its structure or naming, which may
-predate the current conventions.
+Harnesses, unit tests, and code examples are the exceptions. Their scoped
+instruction files —
+[component-harnesses.instructions.md](.github/instructions/component-harnesses.instructions.md),
+[component-unit-testing.instructions.md](.github/instructions/component-unit-testing.instructions.md),
+and
+[component-code-examples.instructions.md](.github/instructions/component-code-examples.instructions.md)
+— are canonical and take precedence over a sibling. Open an existing harness,
+spec, or code example only to look up facts — which sub-harness a child
+component exposes, the CSS classes in a template, or which providers a
+component needs — and do not inherit its structure or naming, which may predate
+the current conventions.
 
 ### Changing existing code
 

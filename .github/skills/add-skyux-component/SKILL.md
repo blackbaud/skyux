@@ -1,6 +1,6 @@
 ---
 name: add-skyux-component
-description: 'End-to-end workflow for adding a new component (or directive/service) to an existing @skyux/* library in this Nx monorepo. Use when asked to "add a component", "create a new SKY UX component", scaffold a component with its harness, code example, tests, and docs, or wire a new component into a library''s public API. Covers file layout, the src/index.ts barrel and sky/Sky prefix rules, SCSS compat overrides, test harness, code-example unit tests, documentation.json, and the test/lint/format/commit gate.'
+description: 'End-to-end workflow for adding a new component to an existing @skyux/* library in this Nx monorepo. Use when asked to "add a component", "create a new SKY UX component", scaffold a component with its harness, code example, tests, and docs, or wire a new component into a library''s public API. Covers file layout, the src/index.ts barrel and sky/Sky prefix rules, SCSS compat overrides, test harness, code-example unit tests, documentation.json, and the test/lint/format/commit gate.'
 argument-hint: '<library> <ComponentName> (e.g. indicators MyThing)'
 ---
 
@@ -17,7 +17,7 @@ with the monorepo's conventions (Nx tasks, public API discipline, the
 
 ## When to Use
 
-- Adding a new component, directive, or service to an existing library under
+- Adding a new component to an existing library under
   `libs/components/<library>/`.
 - Wiring a new public type/component into a library's `src/index.ts` barrel.
 
@@ -33,9 +33,7 @@ tooling.
 - Component files follow the Angular style guide naming rule in
   [AGENTS.md](../../../AGENTS.md): `<name>.ts`, `<name>.html`, `<name>.scss`,
   and `<name>.spec.ts`, with a `Sky<Name>` class (e.g. `SkyCode` in
-  `libs/components/code/src/lib/modules/code/code.ts`). The same applies to
-  directives, services, and pipes: no `.directive.`, `.service.`, or `.pipe.`
-  file suffix and no `Directive`/`Service`/`Pipe` class suffix.
+  `libs/components/code/src/lib/modules/code/code.ts`).
 - Do NOT create an `NgModule` for a new component. Consumers import the
   standalone component directly.
 - Components are **standalone**; do NOT set `standalone: true` explicitly in
@@ -43,15 +41,14 @@ tooling.
   `changeDetection` in the decorator either. Use `input()`/`output()` and
   signals. Follow
   [angular.instructions.md](../../instructions/angular.instructions.md).
-- Many existing components, directives, and services still use suffixed file
-  names (`*.component.*`, `*.directive.ts`, `*.service.ts`), suffixed class
-  names, and an `NgModule` wrapper. That is a legacy pattern — do NOT copy it
-  into new code.
+- Many existing components still use `*.component.*` file names, a
+  `Component` class suffix, and an `NgModule` wrapper. That is a legacy
+  pattern — do NOT copy it into new components.
 - The public API is the `src/index.ts` barrel. Public exports MUST be
   prefixed with `sky`/`Sky` (e.g. `SkyThing`, `SkyThingHarness`). Export the
   component by its own name (e.g.
   `export { SkyThing } from './lib/modules/thing/thing';`). Some existing
-  libraries export older components/directives under obscured aliases (e.g.
+  libraries export older components under obscured aliases (e.g.
   `as λ1`); that is a legacy pattern — do NOT use it for new exports.
 
 ## Procedure
@@ -71,7 +68,7 @@ pattern described above.
    [angular.instructions.md](../../instructions/angular.instructions.md).
 3. **Export from the barrel.** Add the component and any public types to
    `libs/components/<library>/src/index.ts`, using the `sky`/`Sky` prefix.
-   Export a new component or directive by its own name (not an obscured
+   Export a new component by its own name (not an obscured
    `as λN` alias).
 4. **Write the component spec.** Add `<name>.spec.ts`. Most
    `libs/components/*` projects enforce 100% coverage and run on
