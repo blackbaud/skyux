@@ -54,6 +54,7 @@
       }
     },
     "blockquote": {
+      "summary": "The blockquote component sets a quotation, such as a customer testimonial, apart from the surrounding body text.",
       "development": {
         "docsIds": ["SkyBlockquote"],
         "primaryDocsId": "SkyBlockquote"
