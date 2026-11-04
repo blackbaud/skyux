@@ -1,15 +1,8 @@
-import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
-  FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
@@ -22,19 +15,15 @@ import {
   SkyDateRangeService,
 } from '@skyux/datetime';
 
+import { map, startWith, switchMap } from 'rxjs';
+
 /**
  * @title Date range picker with custom calculator
  */
 @Component({
   selector: 'app-datetime-date-range-picker-custom-calculator-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SkyDateRangePickerModule,
-  ],
+  imports: [ReactiveFormsModule, SkyDateRangePickerModule],
 })
 export class DatetimeDateRangePickerCustomCalculatorExampleComponent {
   readonly #dateRangeSvc = inject(SkyDateRangeService);
@@ -59,8 +48,29 @@ export class DatetimeDateRangePickerCustomCalculatorExampleComponent {
     lastDonation: this.lastDonation,
   });
 
-  protected selectedCalculator = signal<SkyDateRangeCalculator | undefined>(
-    this.#getCalculatorById(SkyDateRangeCalculatorId.AnyTime),
+  protected readonly selectedCalculatorDescription = toSignal(
+    this.lastDonation.valueChanges.pipe(
+      startWith(this.lastDonation.value),
+      switchMap(
+        (value) =>
+          this.#getCalculatorById(value.calculatorId).shortDescription$,
+      ),
+    ),
+  );
+
+  // The picker updates the control after a delay, so derive the error state
+  // from status changes to keep it in sync under OnPush change detection.
+  protected readonly hasDateIsAfterTodayError = toSignal(
+    this.lastDonation.statusChanges.pipe(
+      map(() => {
+        const dateRangeError = this.lastDonation.getError('skyDateRange') as {
+          errors?: ValidationErrors;
+        } | null;
+
+        return !!dateRangeError?.errors?.['dateIsAfterToday'];
+      }),
+    ),
+    { initialValue: false },
   );
 
   constructor() {
@@ -101,14 +111,6 @@ export class DatetimeDateRangePickerCustomCalculatorExampleComponent {
       dateBeforeToday.calculatorId,
       SkyDateRangeCalculatorId.AnyTime,
     ];
-
-    this.lastDonation.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe((value) => {
-        const selectedCalculator = this.#getCalculatorById(value?.calculatorId);
-
-        this.selectedCalculator.set(selectedCalculator);
-      });
   }
 
   #getCalculatorById(id: SkyDateRangeCalculatorId): SkyDateRangeCalculator {

@@ -1,14 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyButton, SkyInputBoxModule } from '@skyux/forms';
@@ -29,26 +24,31 @@ interface DemoForm {
 @Component({
   selector: 'app-inline-form-custom-buttons-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
-    FormsModule,
     ReactiveFormsModule,
     SkyButton,
     SkyInlineFormModule,
     SkyInputBoxModule,
   ],
 })
-export class InlineFormCustomButtonsExampleComponent implements OnInit {
-  protected firstName = 'Jane';
-  public formGroup: FormGroup<DemoForm>;
+export class InlineFormCustomButtonsExampleComponent {
+  protected readonly firstName = signal('Jane');
+  public formGroup: FormGroup<DemoForm> = inject(FormBuilder).group({
+    firstName: new FormControl<string>('', { nonNullable: true }),
+  });
 
-  protected inlineFormConfig: SkyInlineFormConfig = {
+  readonly #formStatus = toSignal(this.formGroup.statusChanges, {
+    initialValue: this.formGroup.status,
+  });
+
+  protected readonly inlineFormConfig = computed<SkyInlineFormConfig>(() => ({
     buttonLayout: SkyInlineFormButtonLayout.Custom,
     buttons: [
       {
         action: 'save',
         text: 'Save',
         styleType: 'primary',
+        disabled: this.#formStatus() === 'INVALID',
       },
       {
         action: 'clear',
@@ -66,33 +66,15 @@ export class InlineFormCustomButtonsExampleComponent implements OnInit {
         styleType: 'link',
       },
     ],
-  };
+  }));
 
-  protected showForm = false;
-
-  constructor() {
-    this.formGroup = inject(FormBuilder).group({
-      firstName: new FormControl<string>('', { nonNullable: true }),
-    });
-  }
-
-  public ngOnInit(): void {
-    this.formGroup.valueChanges.subscribe(() => {
-      if (
-        this.inlineFormConfig.buttons &&
-        this.inlineFormConfig.buttons[0].disabled !== this.formGroup.invalid
-      ) {
-        this.inlineFormConfig.buttons[0].disabled = this.formGroup.invalid;
-        this.inlineFormConfig = { ...{}, ...this.inlineFormConfig };
-      }
-    });
-  }
+  protected readonly showForm = signal(false);
 
   protected onInlineFormClose(args: SkyInlineFormCloseArgs): void {
     switch (args.reason) {
       case 'save':
-        this.firstName = this.formGroup.value.firstName ?? '';
-        this.showForm = false;
+        this.firstName.set(this.formGroup.value.firstName ?? '');
+        this.showForm.set(false);
         break;
 
       case 'clear':
@@ -100,19 +82,19 @@ export class InlineFormCustomButtonsExampleComponent implements OnInit {
         break;
 
       case 'reset':
-        this.formGroup.setValue({ firstName: this.firstName });
+        this.formGroup.setValue({ firstName: this.firstName() });
         break;
 
       default:
-        this.showForm = false;
+        this.showForm.set(false);
         break;
     }
   }
 
   protected onInlineFormOpen(): void {
-    this.showForm = true;
+    this.showForm.set(true);
     this.formGroup.patchValue({
-      firstName: this.firstName,
+      firstName: this.firstName(),
     });
   }
 }

@@ -1,7 +1,7 @@
 <sky-inline-form
   data-sky-id="first-name"
-  [config]="inlineFormConfig"
-  [showForm]="showForm"
+  [config]="inlineFormConfig()"
+  [showForm]="showForm()"
   [template]="inlineFormTemplate"
   (close)="onInlineFormClose($event)"
 >
@@ -9,7 +9,7 @@
     <tr>
       <th>First name:</th>
       <td>
-        {{ firstName }}
+        {{ firstName() }}
       </td>
       <td>
         <sky-button
