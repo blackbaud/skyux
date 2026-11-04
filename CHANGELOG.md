@@ -5,6 +5,7 @@
 
 ### Features
 
+* add a summary to each documentation group in the manifest ([#4937](https://github.com/blackbaud/skyux/issues/4937)) ([db41bac](https://github.com/blackbaud/skyux/commit/db41bac201f2bc61b38640ad9a817f3b56c8e760))
 * **sdk/skyux-eslint:** add no-nested-help-inline ESLint rule ([#4932](https://github.com/blackbaud/skyux/issues/4932)) ([102cb2c](https://github.com/blackbaud/skyux/commit/102cb2c1f22e8aa8c45b7f774ef8f5d49c6de5b7))
 
 ## [15.8.0](https://github.com/blackbaud/skyux/compare/15.7.1...15.8.0) (2026-11-03)
