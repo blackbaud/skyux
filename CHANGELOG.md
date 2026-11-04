@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.10.0](https://github.com/blackbaud/skyux/compare/15.9.0...15.10.0) (2026-11-04)
+
+### Features
+
+* use `sky-code` for inline code in docs-tools and code examples ([#4933](https://github.com/blackbaud/skyux/issues/4933)) ([7335a25](https://github.com/blackbaud/skyux/commit/7335a2541806373e4995821a4142a136a41bc5e4))
+
 ## [15.9.0](https://github.com/blackbaud/skyux/compare/15.8.0...15.9.0) (2026-11-04)
 
 ### Features
