@@ -1,15 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  inject,
-} from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyButton } from '@skyux/forms';
 import { SkyWaitService } from '@skyux/indicators';
 import { SkyModalConfigurationInterface, SkyModalService } from '@skyux/modals';
-
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 
 import { ModalDemoContext } from './context';
 import { ModalDemoData } from './data';
@@ -21,30 +14,25 @@ import { ModalComponent } from './modal.component';
  */
 @Component({
   selector: 'app-modals-modal-with-error-example',
-  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './example.component.html',
   imports: [SkyButton],
 })
-export class ModalsModalWithErrorExampleComponent implements OnDestroy {
+export class ModalsModalWithErrorExampleComponent {
   protected modalSize = 'medium';
-  protected exampleValue: string | null | undefined;
-
-  #ngUnsubscribe = new Subject<void>();
+  protected readonly exampleValue = signal<string | null | undefined>(
+    undefined,
+  );
 
   readonly #dataSvc = inject(ModalDemoDataService);
+  readonly #destroyRef = inject(DestroyRef);
   readonly #modalSvc = inject(SkyModalService);
   readonly #waitSvc = inject(SkyWaitService);
-
-  public ngOnDestroy(): void {
-    this.#ngUnsubscribe.next();
-    this.#ngUnsubscribe.complete();
-  }
 
   public onOpenModalClick(): void {
     // Display a blocking wait while data is loaded from the data service.
     this.#waitSvc
       .blockingWrap(this.#dataSvc.load())
-      .pipe(takeUntil(this.#ngUnsubscribe))
+      .pipe(takeUntilDestroyed(this.#destroyRef))
       .subscribe((data) => {
         const options: SkyModalConfigurationInterface = {
           providers: [
@@ -62,7 +50,7 @@ export class ModalsModalWithErrorExampleComponent implements OnDestroy {
         instance.closed.subscribe((result) => {
           if (result.reason === 'save') {
             // Display the updated value.
-            this.exampleValue = (result.data as ModalDemoData).value1;
+            this.exampleValue.set((result.data as ModalDemoData).value1);
           }
         });
       });

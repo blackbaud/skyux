@@ -1,7 +1,7 @@
 <form novalidate [formGroup]="formGroup" (ngSubmit)="save()">
   <sky-modal headingText="Add Item">
     <sky-modal-content>
-      <sky-input-box labelText="Name">
+      <sky-input-box data-sky-id="add-item-name-field" labelText="Name">
         <input
           type="text"
           autocapitalize="words"
@@ -11,7 +11,12 @@
       </sky-input-box>
     </sky-modal-content>
     <sky-modal-footer>
-      <sky-button buttonStyle="primary" buttonType="submit" labelText="Add" />
+      <sky-button
+        buttonStyle="primary"
+        buttonType="submit"
+        data-sky-id="add-item-button"
+        labelText="Add"
+      />
       <sky-button
         buttonStyle="link"
         labelText="Cancel"
