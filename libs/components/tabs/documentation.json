@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "sectioned-form": {
+      "summary": "The sectioned form component combines forms and lets users target specific areas.",
       "development": {
         "docsIds": [
           "SkySectionedFormModule",
@@ -28,6 +29,7 @@
       }
     },
     "tabs": {
+      "summary": "The tabs module renders tabs that divide large subsets of content on a page.",
       "development": {
         "docsIds": [
           "SkyTabsModule",
@@ -62,6 +64,7 @@
       }
     },
     "vertical-tabs": {
+      "summary": "The vertical tabs module displays large amounts of information within collapsible groups.",
       "development": {
         "docsIds": [
           "SkyVerticalTabsetModule",
@@ -94,6 +97,7 @@
       }
     },
     "tabs-wizard": {
+      "summary": "The wizard guides users through a set of pre-defined steps in a particular order.",
       "development": {
         "docsIds": [
           "SkyTabsModule",

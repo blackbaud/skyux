@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "tile": {
+      "summary": "The tile component creates a collapsible container that is a building block for pages and forms.",
       "development": {
         "docsIds": [
           "SkyTilesModule",

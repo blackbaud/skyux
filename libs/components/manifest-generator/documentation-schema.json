@@ -10,6 +10,11 @@
         "^.*$": {
           "type": "object",
           "properties": {
+            "summary": {
+              "description": "One sentence that tells developers what the component in this documentation group is for. Documentation sites and AI tools show it next to the component's name to help developers pick the right component.",
+              "type": "string",
+              "minLength": 1
+            },
             "development": {
               "type": "object",
               "properties": {
@@ -66,7 +71,7 @@
           },
           "additionalProperties": false,
           "nullable": false,
-          "required": ["development", "testing", "codeExamples"]
+          "required": ["summary", "development", "testing", "codeExamples"]
         }
       }
     }

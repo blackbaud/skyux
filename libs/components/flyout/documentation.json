@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "flyout": {
+      "summary": "The flyout service launches a container to display supplementary information related to a task.",
       "development": {
         "docsIds": [
           "SkyFlyoutService",

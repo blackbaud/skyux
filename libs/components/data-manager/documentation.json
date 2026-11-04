@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "data-manager": {
+      "summary": "Data managers enable the exploration of data sets across multiple SKY UX, third-party, or custom views.",
       "development": {
         "docsIds": [
           "SkyDataManagerModule",
