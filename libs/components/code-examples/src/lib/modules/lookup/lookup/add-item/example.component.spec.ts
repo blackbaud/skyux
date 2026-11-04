@@ -1,7 +1,9 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyInputBoxHarness } from '@skyux/forms/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
+import { SkyButtonHarness, SkyInputBoxHarness } from '@skyux/forms/testing';
 import { SkyLookupHarness } from '@skyux/lookup/testing';
+import { SkyModalHarness } from '@skyux/modals/testing';
 
 import { of } from 'rxjs';
 
@@ -30,7 +32,15 @@ describe('Lookup asynchronous search example', () => {
   beforeEach(() => {
     // Create a mock search service. In a real-world application, the search
     // service would make a web request which should be avoided in unit tests.
-    mockSvc = jasmine.createSpyObj<DemoService>('DemoService', ['search']);
+    mockSvc = jasmine.createSpyObj<DemoService>('DemoService', [
+      'addPerson',
+      'search',
+    ]);
+
+    mockSvc.search.and.returnValue(
+      of({ hasMore: false, people: [], totalCount: 0 }),
+    );
+    mockSvc.addPerson.and.callFake((person) => of([person]));
 
     TestBed.configureTestingModule({
       imports: [LookupAddItemExampleComponent],
@@ -39,6 +49,7 @@ describe('Lookup asynchronous search example', () => {
           provide: DemoService,
           useValue: mockSvc,
         },
+        provideNoopSkyAnimations(),
       ],
     });
   });
@@ -109,5 +120,70 @@ describe('Lookup asynchronous search example', () => {
     await expectAsync(picker.getSaveButtonAriaLabel()).toBeResolvedTo(
       'Select names',
     );
+  });
+
+  describe('add item modal', () => {
+    async function openAddItemModal(
+      fixture: ComponentFixture<LookupAddItemExampleComponent>,
+      lookupHarness: SkyLookupHarness,
+    ): Promise<{
+      modalHarness: SkyModalHarness;
+      nameInputBoxHarness: SkyInputBoxHarness;
+      addButtonHarness: SkyButtonHarness;
+    }> {
+      // The add button is displayed in the lookup's search results dropdown.
+      await lookupHarness.enterText('n');
+      await lookupHarness.clickAddButton();
+
+      const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+
+      return {
+        modalHarness: await rootLoader.getHarness(SkyModalHarness),
+        nameInputBoxHarness: await rootLoader.getHarness(
+          SkyInputBoxHarness.with({ dataSkyId: 'add-item-name-field' }),
+        ),
+        addButtonHarness: await rootLoader.getHarness(
+          SkyButtonHarness.with({ dataSkyId: 'add-item-button' }),
+        ),
+      };
+    }
+
+    it('should add a new name to the lookup', async () => {
+      const { lookupHarness, fixture } = await setupTest();
+      const { modalHarness, nameInputBoxHarness, addButtonHarness } =
+        await openAddItemModal(fixture, lookupHarness);
+
+      await expectAsync(modalHarness.getHeadingText()).toBeResolvedTo(
+        'Add Item',
+      );
+
+      await (
+        await nameInputBoxHarness.querySelector('input')
+      ).sendKeys('Newman');
+      await addButtonHarness.click();
+
+      expect(mockSvc.addPerson.calls.mostRecent().args[0]).toEqual(
+        jasmine.objectContaining({ name: 'Newman' }),
+      );
+      await expectAsync(lookupHarness.getSelectionsText()).toBeResolvedTo([
+        'Shirley',
+        'Newman',
+      ]);
+    });
+
+    it('should require a name before adding', async () => {
+      const { lookupHarness, fixture } = await setupTest();
+      const { nameInputBoxHarness, addButtonHarness } = await openAddItemModal(
+        fixture,
+        lookupHarness,
+      );
+
+      await addButtonHarness.click();
+
+      await expectAsync(nameInputBoxHarness.hasRequiredError()).toBeResolvedTo(
+        true,
+      );
+      expect(mockSvc.addPerson.calls.count()).toBe(0);
+    });
   });
 });

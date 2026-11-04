@@ -15,7 +15,7 @@ import {
   SkyDateRangeService,
 } from '@skyux/datetime';
 
-import { startWith, switchMap } from 'rxjs';
+import { map, startWith, switchMap } from 'rxjs';
 
 /**
  * @title Date range picker with custom calculator
@@ -57,6 +57,21 @@ export class DatetimeDateRangePickerCustomCalculatorExampleComponent {
           this.#getCalculatorById(value.calculatorId).shortDescription$,
       ),
     ),
+  );
+
+  // The picker updates the control after a delay, so derive the error state
+  // from status changes to keep it in sync under OnPush change detection.
+  protected readonly hasDateIsAfterTodayError = toSignal(
+    this.lastDonation.statusChanges.pipe(
+      map(() => {
+        const dateRangeError = this.lastDonation.getError('skyDateRange') as {
+          errors?: ValidationErrors;
+        } | null;
+
+        return !!dateRangeError?.errors?.['dateIsAfterToday'];
+      }),
+    ),
+    { initialValue: false },
   );
 
   constructor() {

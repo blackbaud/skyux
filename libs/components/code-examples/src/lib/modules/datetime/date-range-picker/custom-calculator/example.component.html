@@ -8,9 +8,7 @@
       [hintText]="hintText"
       [labelText]="labelText"
     >
-      @if (
-        lastDonation.errors?.['skyDateRange']?.errors?.['dateIsAfterToday']
-      ) {
+      @if (hasDateIsAfterTodayError()) {
         <sky-form-error
           errorName="dateIsAfterToday"
           errorText="Enter a date before today."

@@ -9,7 +9,7 @@ import { firstValueFrom } from 'rxjs';
 import { DatetimeDateRangePickerCustomCalculatorExampleComponent } from './example.component';
 
 describe('Date range picker with custom calculator example', () => {
-  async function setupTest(options: { dataSkyId: string }): Promise<{
+  async function setupTest(): Promise<{
     harness: SkyDateRangePickerHarness;
     fixture: ComponentFixture<DatetimeDateRangePickerCustomCalculatorExampleComponent>;
   }> {
@@ -19,7 +19,7 @@ describe('Date range picker with custom calculator example', () => {
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
     const harness = await loader.getHarness(
-      SkyDateRangePickerHarness.with({ dataSkyId: options.dataSkyId }),
+      SkyDateRangePickerHarness.with({ dataSkyId: 'last-donation' }),
     );
 
     fixture.detectChanges();
@@ -59,9 +59,7 @@ describe('Date range picker with custom calculator example', () => {
   });
 
   it('should set initial values', async () => {
-    const { harness, fixture } = await setupTest({
-      dataSkyId: 'last-donation',
-    });
+    const { harness, fixture } = await setupTest();
 
     await expectAsync(harness.getLabelText()).toBeResolvedTo('Last donation');
     await expectAsync(harness.getHintText()).toBeResolvedTo(
@@ -85,9 +83,7 @@ describe('Date range picker with custom calculator example', () => {
   });
 
   it('should display the selected calculator', async () => {
-    const { harness, fixture } = await setupTest({
-      dataSkyId: 'last-donation',
-    });
+    const { harness, fixture } = await setupTest();
 
     await harness.selectCalculator(SkyDateRangeCalculatorId.LastFiscalYear);
     fixture.detectChanges();
@@ -108,9 +104,7 @@ describe('Date range picker with custom calculator example', () => {
   });
 
   it('should show start and end dates for a specific range', async () => {
-    const { harness } = await setupTest({
-      dataSkyId: 'last-donation',
-    });
+    const { harness } = await setupTest();
 
     await harness.selectCalculator(SkyDateRangeCalculatorId.SpecificRange);
 
@@ -125,9 +119,7 @@ describe('Date range picker with custom calculator example', () => {
   });
 
   it('should show an error when the custom calculator receives a future date', async () => {
-    const { harness } = await setupTest({
-      dataSkyId: 'last-donation',
-    });
+    const { harness } = await setupTest();
 
     await harness.selectCalculator(
       await getCustomCalculatorId('Date before today'),

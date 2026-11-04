@@ -6,6 +6,7 @@ import {
   provideSkyMediaQueryTesting,
 } from '@skyux/core/testing';
 import { SkyInputBoxHarness } from '@skyux/forms/testing';
+import { SkyStatusIndicatorHarness } from '@skyux/indicators/testing';
 import { SkySectionedFormHarness } from '@skyux/tabs/testing';
 
 import { TabsSectionedFormModalExampleComponent } from './example.component';
@@ -74,5 +75,40 @@ describe('Sectioned form in a modal example', () => {
     )?.querySelector('input');
 
     await expectAsync(idField?.getProperty('value')).toBeResolvedTo('5324901');
+  });
+
+  it('should show an error when the ID is not numeric', async () => {
+    const { sectionedFormHarness } = await setupTest();
+
+    await (
+      await sectionedFormHarness.getSection({
+        sectionHeading: 'Basic information',
+      })
+    ).click();
+
+    const idInputBox = await (
+      await sectionedFormHarness.getActiveSectionContent()
+    )?.queryHarness(SkyInputBoxHarness.with({ dataSkyId: 'id-field' }));
+    const idField = await idInputBox?.querySelector('input');
+
+    await expectAsync(
+      idInputBox?.queryHarnesses(SkyStatusIndicatorHarness),
+    ).toBeResolvedTo([]);
+
+    await idField?.clear();
+    await idField?.sendKeys('abc');
+
+    const [errorIndicator] =
+      (await idInputBox?.queryHarnesses(SkyStatusIndicatorHarness)) ?? [];
+    await expectAsync(errorIndicator?.getText()).toBeResolvedTo(
+      'Enter a valid value.',
+    );
+
+    await idField?.clear();
+    await idField?.sendKeys('123');
+
+    await expectAsync(
+      idInputBox?.queryHarnesses(SkyStatusIndicatorHarness),
+    ).toBeResolvedTo([]);
   });
 });
