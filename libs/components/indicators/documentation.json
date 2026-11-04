@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "alert": {
+      "summary": "The alert component highlights critical information that users must see.",
       "development": {
         "docsIds": [
           "SkyAlertModule",
@@ -19,6 +20,7 @@
       }
     },
     "key-info": {
+      "summary": "The key info component highlights important information such as summary numbers.",
       "development": {
         "docsIds": [
           "SkyKeyInfoModule",
@@ -40,6 +42,7 @@
       }
     },
     "label": {
+      "summary": "The label component calls out important status information such as warnings.",
       "development": {
         "docsIds": [
           "SkyLabelModule",
@@ -57,6 +60,7 @@
       }
     },
     "illustration": {
+      "summary": "The spot illustration component displays an image to orient users and focus their attention across various experiences.",
       "development": {
         "docsIds": [
           "SkyIllustrationModule",
@@ -74,6 +78,7 @@
       }
     },
     "status-indicator": {
+      "summary": "The status indicator classes provide icons to draw attention to status information.",
       "development": {
         "docsIds": [
           "SkyStatusIndicatorModule",
@@ -97,6 +102,7 @@
       }
     },
     "text-highlight": {
+      "summary": "The highlight component highlights text within DOM elements.",
       "development": {
         "docsIds": ["SkyTextHighlightModule", "SkyTextHighlightDirective"],
         "primaryDocsId": "SkyTextHighlightModule"
@@ -109,6 +115,7 @@
       }
     },
     "tokens": {
+      "summary": "The tokens component displays a series of objects for users to interact with.",
       "development": {
         "docsIds": [
           "SkyTokensModule",
@@ -137,6 +144,7 @@
       }
     },
     "wait": {
+      "summary": "The wait directive and service display a wait indication on elements.",
       "development": {
         "docsIds": ["SkyWaitModule", "SkyWaitComponent", "SkyWaitService"],
         "primaryDocsId": "SkyWaitModule"

@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "button": {
+      "summary": "The button component creates buttons to trigger actions from within an interface.",
       "development": {
         "docsIds": [
           "SkyButton",
@@ -24,6 +25,7 @@
       }
     },
     "checkbox": {
+      "summary": "The checkbox component renders a SKY UX-themed checkbox.",
       "development": {
         "docsIds": [
           "SkyCheckboxModule",
@@ -53,6 +55,7 @@
       }
     },
     "field-group": {
+      "summary": "The field group component organizes related form inputs and controls on complex forms.",
       "development": {
         "docsIds": [
           "SkyFieldGroupModule",
@@ -73,6 +76,7 @@
       }
     },
     "file-attachment": {
+      "summary": "The file attachment component creates an input to attach a single local file.",
       "development": {
         "docsIds": [
           "SkyFileAttachmentModule",
@@ -103,6 +107,7 @@
       }
     },
     "file-drop": {
+      "summary": "The file drop module creates an element to attach multiple local or external files.",
       "development": {
         "docsIds": [
           "SkyFileDropModule",
@@ -136,6 +141,7 @@
       }
     },
     "input-box": {
+      "summary": "The input box provides styling for prompts to enter data in forms.",
       "development": {
         "docsIds": [
           "SkyInputBoxModule",
@@ -171,6 +177,7 @@
       }
     },
     "radio": {
+      "summary": "The radio button module creates a small set of selection inputs and allows users to select one option only.",
       "development": {
         "docsIds": [
           "SkyRadioModule",
@@ -204,6 +211,7 @@
       }
     },
     "selection-box": {
+      "summary": "Selection boxes present users with a choice to make or a question to answer before proceeding with a one-time process.",
       "development": {
         "docsIds": [
           "SkySelectionBoxModule",
@@ -230,6 +238,7 @@
       }
     },
     "toggle-switch": {
+      "summary": "The toggle switch component renders a SKY UX-themed switch for values that can either be \"on\" or \"off.\"",
       "development": {
         "docsIds": [
           "SkyToggleSwitchModule",

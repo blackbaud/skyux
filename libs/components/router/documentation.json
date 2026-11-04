@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "href": {
+      "summary": "The href directive creates links to other applications and hides the link or displays unlinked text when users cannot access the destination.",
       "development": {
         "docsIds": [
           "SkyHrefModule",

@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "error": {
+      "summary": "The error component provides a template for other components to display error messages.",
       "development": {
         "docsIds": [
           "SkyErrorModule",

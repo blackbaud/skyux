@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "code": {
+      "summary": "The code component displays an inline code token, such as a file name or property name, within a body of text.",
       "development": {
         "docsIds": ["SkyCode"],
         "primaryDocsId": "SkyCode"

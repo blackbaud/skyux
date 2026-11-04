@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "progress-indicator-passive": {
+      "summary": "The passive progress indicator represents sequential steps in processes outside of user control.",
       "development": {
         "docsIds": [
           "SkyProgressIndicatorModule",
@@ -34,6 +35,7 @@
       }
     },
     "progress-indicator-waterfall": {
+      "summary": "The waterfall progress indicator walks users through sequential steps in lengthy or complex tasks.",
       "development": {
         "docsIds": [
           "SkyProgressIndicatorModule",

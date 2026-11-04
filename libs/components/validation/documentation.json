@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "email-validation": {
+      "summary": "The email validation module ensures that user entries in an input element are valid email addresses.",
       "development": {
         "docsIds": [
           "SkyEmailValidationModule",
@@ -22,6 +23,7 @@
       }
     },
     "url-validation": {
+      "summary": "The URL validation module ensures that user entries in an input element are valid URLs.",
       "development": {
         "docsIds": [
           "SkyUrlValidationModule",
