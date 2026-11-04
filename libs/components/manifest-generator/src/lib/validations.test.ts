@@ -37,6 +37,7 @@ describe('validateCodeExamples', () => {
         '@skyux/foo': {
           groups: {
             'first-group': {
+              summary: 'first-group summary',
               development: {
                 docsIds: ['FooComponent'],
                 primaryDocsId: 'FooComponent',
@@ -99,6 +100,7 @@ describe('validateCodeExamples', () => {
         '@skyux/foo': {
           groups: {
             'first-group': {
+              summary: 'first-group summary',
               development: {
                 docsIds: ['FooComponent'],
                 primaryDocsId: 'FooComponent',
@@ -163,6 +165,7 @@ describe('validateCodeExamples', () => {
         '@skyux/foo': {
           groups: {
             'first-group': {
+              summary: 'first-group summary',
               development: {
                 docsIds: ['FooComponent'],
                 primaryDocsId: 'FooComponent',
@@ -211,6 +214,7 @@ describe('validateCodeExamples', () => {
         '@skyux/foo': {
           groups: {
             'first-group': {
+              summary: 'first-group summary',
               development: {
                 docsIds: ['FooComponent'],
                 primaryDocsId: 'FooComponent',
@@ -223,6 +227,7 @@ describe('validateCodeExamples', () => {
               },
             },
             'second-group': {
+              summary: 'second-group summary',
               development: {
                 docsIds: ['BarComponent'],
                 primaryDocsId: 'BarComponent',
@@ -260,6 +265,7 @@ describe('validateCodeExamples', () => {
         '@skyux/foo': {
           groups: {
             'first-group': {
+              summary: 'first-group summary',
               development: {
                 docsIds: ['FooComponent'],
                 primaryDocsId: 'FooComponent',

@@ -6,6 +6,9 @@ import {
 
 import { type PackagesMap } from './get-public-api.js';
 
+// The areas of a documentation group that list docsIds.
+const DOCUMENTATION_AREAS = ['development', 'testing', 'codeExamples'] as const;
+
 function getDefinitionByDocsId(
   docsId: string,
   publicApi: SkyManifestPublicApi,
@@ -47,7 +50,14 @@ export function validateDocumentationConfig(
 
   for (const configs of Object.values(config.packages)) {
     for (const [groupName, groupConfig] of Object.entries(configs.groups)) {
-      for (const [areaName, areaConfig] of Object.entries(groupConfig)) {
+      for (const areaName of DOCUMENTATION_AREAS) {
+        const areaConfig = groupConfig[areaName];
+
+        // A malformed area is already reported by schema validation.
+        if (!Array.isArray(areaConfig?.docsIds)) {
+          continue;
+        }
+
         for (const docsId of areaConfig.docsIds) {
           const definition = getDefinitionByDocsId(docsId, publicApi);
 
@@ -68,10 +78,12 @@ export function validateDocumentationConfig(
 
         if (
           areaName === 'development' &&
-          !areaConfig.docsIds.includes(areaConfig.primaryDocsId)
+          !groupConfig.development.docsIds.includes(
+            groupConfig.development.primaryDocsId,
+          )
         ) {
           errors.push(
-            `The value for primaryDocsId ("${areaConfig.primaryDocsId}") must be included in the docsIds array for group "${groupName}.${areaName}" (current: ${areaConfig.docsIds.join(', ')}).`,
+            `The value for primaryDocsId ("${groupConfig.development.primaryDocsId}") must be included in the docsIds array for group "${groupName}.${areaName}" (current: ${areaConfig.docsIds.join(', ')}).`,
           );
           continue;
         }

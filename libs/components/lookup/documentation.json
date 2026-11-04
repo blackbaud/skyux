@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "autocomplete": {
+      "summary": "The autocomplete component creates a text input that filters data based on user entries.",
       "development": {
         "docsIds": [
           "SkyAutocompleteModule",
@@ -39,6 +40,7 @@
       }
     },
     "country-field": {
+      "summary": "The country field component creates a text input for users to enter search criteria and select a country.",
       "development": {
         "docsIds": [
           "SkyCountryFieldModule",
@@ -63,6 +65,7 @@
       }
     },
     "lookup": {
+      "summary": "The lookup component provides a typeahead search input that lets users select multiple items.",
       "development": {
         "docsIds": [
           "SkyLookupModule",
@@ -110,6 +113,7 @@
       }
     },
     "search": {
+      "summary": "The search component creates a mobile-responsive input control for users to enter search criteria.",
       "development": {
         "docsIds": ["SkySearchModule", "SkySearchComponent"],
         "primaryDocsId": "SkySearchModule"
@@ -122,6 +126,7 @@
       }
     },
     "selection-modal": {
+      "summary": "Selection modals let users select from a list of options before taking immediate action on the selections.",
       "development": {
         "docsIds": [
           "SkySelectionModalService",

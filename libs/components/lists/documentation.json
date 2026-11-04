@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "filter": {
+      "summary": "The expandable inline filter module creates a button for users to expand and collapse filtering options.",
       "development": {
         "docsIds": [
           "SkyFilterModule",
@@ -32,6 +33,7 @@
       }
     },
     "infinite-scroll": {
+      "summary": "The infinite scroll component dynamically loads data as users scroll.",
       "development": {
         "docsIds": ["SkyInfiniteScrollModule", "SkyInfiniteScrollComponent"],
         "primaryDocsId": "SkyInfiniteScrollModule"
@@ -47,6 +49,7 @@
       }
     },
     "list-summary": {
+      "summary": "The list summary highlights important information about lists that users should know at a glance",
       "development": {
         "docsIds": [
           "SkyListSummaryModule",
@@ -68,6 +71,7 @@
       }
     },
     "paging": {
+      "summary": "The paging component displays a SKY UX-themed pagination control.",
       "development": {
         "docsIds": [
           "SkyPagingModule",
@@ -92,6 +96,7 @@
       }
     },
     "repeater": {
+      "summary": "The repeater component creates a container to display formatted information for a list of objects.",
       "development": {
         "docsIds": [
           "SkyRepeaterModule",
@@ -122,6 +127,7 @@
       }
     },
     "sort": {
+      "summary": "The sort component creates a button and dropdown to select sorting criteria.",
       "development": {
         "docsIds": [
           "SkySortModule",
