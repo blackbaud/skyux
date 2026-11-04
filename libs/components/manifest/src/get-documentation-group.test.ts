@@ -55,6 +55,7 @@ describe('get-documentation-group', () => {
           '@skyux/core': {
             groups: {
               foo: {
+                summary: 'foo summary',
                 development: {
                   docsIds: ['FooComponent', 'IndicatorComponent'],
                   primaryDocsId: 'FooComponent',
@@ -63,6 +64,7 @@ describe('get-documentation-group', () => {
                 codeExamples: { docsIds: ['FooCodeExample'] },
               },
               bar: {
+                summary: 'bar summary',
                 development: {
                   docsIds: ['BarComponent'],
                   primaryDocsId: 'BarComponent',
@@ -75,6 +77,7 @@ describe('get-documentation-group', () => {
           '@skyux/indicators': {
             groups: {
               indicators: {
+                summary: 'indicators summary',
                 development: {
                   docsIds: ['IndicatorComponent'],
                   primaryDocsId: 'IndicatorComponent',
@@ -199,6 +202,7 @@ describe('get-documentation-group', () => {
           '@skyux/core': {
             groups: {
               foo: {
+                summary: 'foo summary',
                 development: {
                   docsIds: ['invalid'],
                   primaryDocsId: 'invalid',
@@ -232,6 +236,7 @@ describe('get-documentation-group', () => {
           '@skyux/core': {
             groups: {
               foo: {
+                summary: 'foo summary',
                 development: {
                   docsIds: ['FooComponent', 'InternalComponent'],
                   primaryDocsId: 'FooComponent',

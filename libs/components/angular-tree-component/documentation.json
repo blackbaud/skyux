@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "angular-tree": {
+      "summary": "The tree view module provides a hierarchical list view with multiple modes for selecting items in the list.",
       "development": {
         "docsIds": [
           "SkyAngularTreeModule",

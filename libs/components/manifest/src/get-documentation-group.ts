@@ -82,6 +82,7 @@ function getPublicApiByDocsIds(
     codeExamples,
     packageInfo,
     publicApi,
+    summary: config.summary,
     testing,
   };
 

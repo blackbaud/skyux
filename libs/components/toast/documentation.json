@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "toast": {
+      "summary": "The toast service launches a container to display a message over a page's content.",
       "development": {
         "docsIds": [
           "SkyToastService",

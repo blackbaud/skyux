@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "avatar": {
+      "summary": "The avatar component displays an image to identify a record and allows users to change the image.",
       "development": {
         "docsIds": [
           "SkyAvatarModule",

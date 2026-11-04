@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "help-inline": {
+      "summary": "The help inline button component creates a small help button next to a field.",
       "development": {
         "docsIds": [
           "SkyHelpInlineModule",

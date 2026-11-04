@@ -2,6 +2,7 @@
   "$schema": "../../components/manifest-generator/documentation-schema.json",
   "groups": {
     "vitest-matchers": {
+      "summary": "Vitest matchers extend Vitest unit tests with assertions for accessibility, visibility, and resource strings.",
       "development": {
         "docsIds": [
           "SkyVitestMatchers",

@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "phone-field": {
+      "summary": "The phone field module creates a button, search input, and text input for entering and validating phone numbers.",
       "development": {
         "docsIds": [
           "SkyPhoneFieldModule",
