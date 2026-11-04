@@ -38,6 +38,7 @@ function buildBaseChartJsOptions(
       : false,
 
     plugins: {
+      legend: { display: false },
       tooltip: {
         enabled: true,
         position: 'average',

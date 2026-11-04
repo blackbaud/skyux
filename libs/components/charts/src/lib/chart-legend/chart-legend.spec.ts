@@ -133,10 +133,23 @@ describe('Chart legend component', () => {
     expect(toggleSpy).toHaveBeenCalledWith(1);
   });
 
-  it('should be accessible', async () => {
-    fixture.detectChanges();
-    await fixture.whenStable();
+  describe('a11y', () => {
+    it('should be accessible', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
 
-    await expectAsync(fixture.nativeElement).toBeAccessible();
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible with a hidden item', async () => {
+      const items = createItems(3);
+      items[1].hidden = true;
+      fixture.componentRef.setInput('items', items);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(getButtons()[1].getAttribute('aria-pressed')).toBe('false');
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });

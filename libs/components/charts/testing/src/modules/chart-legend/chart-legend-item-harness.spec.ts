@@ -36,32 +36,30 @@ import { SkyChartLegendItemHarness } from './chart-legend-item-harness';
 class TestComponent {}
 
 describe('Chart legend item harness', () => {
-  async function setupTest(options: {
-    labelText: string | RegExp;
-  }): Promise<{ harness: SkyChartLegendItemHarness }> {
+  async function setupTest(
+    labelText: string | RegExp,
+  ): Promise<{ harness: SkyChartLegendItemHarness }> {
     const fixture = TestBed.createComponent(TestComponent);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const harness = await loader.getHarness(
-      SkyChartLegendItemHarness.with({ labelText: options.labelText }),
+      SkyChartLegendItemHarness.with({ labelText }),
     );
 
     return { harness };
   }
 
   it('should throw when no legend item matches the filters', async () => {
-    await expectAsync(
-      setupTest({ labelText: 'no-such-series' }),
-    ).toBeRejected();
+    await expectAsync(setupTest('no-such-series')).toBeRejected();
   });
 
   it('should get the label text', async () => {
-    const { harness } = await setupTest({ labelText: /2026/ });
+    const { harness } = await setupTest(/2026/);
 
     await expectAsync(harness.getLabelText()).toBeResolvedTo('2026');
   });
 
   it('should toggle the series visibility when clicked', async () => {
-    const { harness } = await setupTest({ labelText: '2025' });
+    const { harness } = await setupTest('2025');
 
     await expectAsync(harness.isSeriesVisible()).toBeResolvedTo(true);
 

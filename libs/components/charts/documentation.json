@@ -25,6 +25,8 @@
           "SkyChartBarHarnessFilters",
           "SkyChartHarness",
           "SkyChartHarnessFilters",
+          "SkyChartLegendItemHarness",
+          "SkyChartLegendItemHarnessFilters",
           "SkyChartTableModalHarness"
         ]
       },
@@ -67,6 +69,8 @@
           "SkyChartLineHarnessFilters",
           "SkyChartHarness",
           "SkyChartHarnessFilters",
+          "SkyChartLegendItemHarness",
+          "SkyChartLegendItemHarnessFilters",
           "SkyChartTableModalHarness"
         ]
       },

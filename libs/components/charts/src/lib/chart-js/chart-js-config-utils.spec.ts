@@ -54,6 +54,7 @@ describe('extendBaseChartJsConfig', () => {
     // resize on destroy, and the stale timeout throws on destroyed charts.
     expect(config.options.resizeDelay).toBeUndefined();
     expect(config.options.interaction?.mode).toBe('nearest');
+    expect(config.options.plugins?.legend?.display).toBe(false);
   });
 
   it('should animate for the theme motion duration', () => {
