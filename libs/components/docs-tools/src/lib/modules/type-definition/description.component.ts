@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
+import { SkyDocsMarkdownHtmlDirective } from './markdown-html.directive';
 import { SkyDocsEscapeHtmlPipe } from './pipes/escape-html.pipe';
 import { SkyDocsMarkdownPipe } from './pipes/markdown.pipe';
 import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
@@ -12,6 +13,7 @@ import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     SkyDocsEscapeHtmlPipe,
+    SkyDocsMarkdownHtmlDirective,
     SkyDocsMarkdownPipe,
     SkyStatusIndicatorModule,
     SkyTypeAnchorLinksPipe,
@@ -24,7 +26,7 @@ import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
   `,
   template: `
     <div
-      [innerHTML]="
+      [skyDocsMarkdownHtml]="
         description()
           | skyDocsEscapeHtml
           | skyDocsMarkdown: 'block'
