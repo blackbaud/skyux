@@ -26,8 +26,8 @@ examples predate these conventions.
   Angular's revised naming guidelines — no `.component.` segment). Add other
   files only when the example needs them, named for the class they contain
   with no type suffix (e.g. `number-generator.ts`, not
-  `example.service.ts`). Always
-  use the `example.*` prefix — never `demo.*`. Many older examples still use the
+  `example.service.ts`). The `example.*` prefix applies only to the example
+  component's own files; never use `demo.*` for them. Many older examples still use the
   legacy `example.component.*` filenames; match the new naming for new work
   rather than copying the old files.
 

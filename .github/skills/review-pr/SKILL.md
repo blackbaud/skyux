@@ -37,19 +37,28 @@ review that inherits the author's conversation also inherits its assumptions.
 Judge the diff only against the files loaded in step 2, not against stored
 agent memories or earlier conversation.
 
-1. **Collect the change.**
+1. **Collect the change.** Every path below sets a `<base-commit>` and a
+   `<head-commit>`. Read all context (surrounding code, `package.json`) from
+   those, never from whatever happens to be checked out.
    - **PR number given:** run
-     `gh pr view <n> --json title,body,baseRefName,headRefName,files` and
-     `gh pr diff <n>`. The PR title and body are the task description.
+     `gh pr view <n> --json title,body,baseRefName,baseRefOid,headRefOid,files`.
+     The PR title and body are the task description. Run
+     `git fetch origin <baseRefName> pull/<n>/head` so both commits exist
+     locally without changing the working tree. `<base-commit>` is
+     `baseRefOid` and `<head-commit>` is `headRefOid`. Get the diff with
+     `gh pr diff <n>`, and read any other file with
+     `git --no-pager show <head-commit>:<path>`.
    - **No PR number:** run `gh pr view --json title,body,baseRefName` to find
      an open PR for the current branch. If there is none, use `main` as the
      base and treat the branch's commit subjects
      (`git --no-pager log --format=%s origin/<base>..HEAD`) as the task
-     description. Then run `git fetch origin <base>` and
-     `git --no-pager diff origin/<base>...HEAD`. Include uncommitted changes
-     (`git --no-pager diff HEAD`) and say in the report that you did.
-
-   Record the base branch name. Step 3 needs it.
+     description. Run `git fetch origin <base>`; `<base-commit>` is
+     `origin/<base>` and `<head-commit>` is the working tree. Get the diff with
+     `git --no-pager diff origin/<base>...HEAD`, plus uncommitted changes
+     (`git --no-pager diff HEAD`), plus untracked files
+     (`git ls-files --others --exclude-standard`). Review each untracked file
+     that belongs to the change as a new file, and say in the report that
+     uncommitted and untracked files were included.
 
 2. **Load the rules in scope.** Read [AGENTS.md](../../../AGENTS.md) in full.
    Then, for each `.github/instructions/*.instructions.md` file, read its
@@ -63,9 +72,9 @@ agent memories or earlier conversation.
    `instructions` literally to the diff, producing PASS or FAIL for each check
    by `name`. An entry with `mode: error` blocks the merge; `mode: warning`
    does not.
-   - For version comparisons, read the base branch value with
-     `git --no-pager show origin/<base>:package.json`. Never use the head's
-     value as the base.
+   - For version comparisons, read the base value with
+     `git --no-pager show <base-commit>:package.json` and the head value from
+     `<head-commit>`. Never use the head's value as the base.
    - When reviewing a local branch with no PR, a check that depends on the PR
      title or description (such as the `!` marker or a written justification)
      cannot pass on that evidence. Report it as FAIL and say exactly what the
@@ -73,8 +82,10 @@ agent memories or earlier conversation.
 
 4. **Do the judgment pass.** Review the diff against the "While writing code"
    defaults and the loaded instruction files, reporting violations in the
-   priority order under "While reviewing code" in AGENTS.md. Only flag lines
-   the diff adds or changes. Read surrounding code for context, but do not
+   priority order under "While reviewing code" in AGENTS.md. Review removed
+   lines as well as added ones: a deletion can drop a guard, cleanup, or test.
+   Cite a deletion finding at the nearest surviving line, or the old line
+   number if none survives. Read surrounding code for context, but do not
    review code the change doesn't touch. Skip anything lint, format, type
    checking, or CI already enforces.
 

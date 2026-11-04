@@ -11,7 +11,8 @@ Use this skill to write or backfill the unit test (`<name>.spec.ts`, or
 component or directive in a published `@skyux/*` library. The detailed
 conventions live in
 [component-unit-testing.instructions.md](../../instructions/component-unit-testing.instructions.md)
-(it auto-applies to `**/libs/components/*/src/lib/**/*.spec.ts`)
+(it auto-applies to `**/libs/components/*/src/lib/**/*.spec.ts`, excluding
+`libs/components/code-examples/**`)
 — read it before writing code rather than guessing.
 
 Read [AGENTS.md](../../../AGENTS.md) first if you are not already familiar with
