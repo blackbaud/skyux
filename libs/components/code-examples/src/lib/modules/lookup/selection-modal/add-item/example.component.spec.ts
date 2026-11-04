@@ -113,33 +113,16 @@ describe('Selection modal example', () => {
   });
 
   describe('add item modal', () => {
-    async function openAddItemModal(
-      fixture: ComponentFixture<LookupSelectionModalAddItemExampleComponent>,
-      harness: SkySelectionModalHarness,
-    ): Promise<{
-      nameInputBoxHarness: SkyInputBoxHarness;
-      addButtonHarness: SkyButtonHarness;
-    }> {
-      await expectAsync(harness.hasAddButton()).toBeResolvedTo(true);
+    it('should select a newly added person', async () => {
+      const { harness, el, fixture } = await setupTest();
       await harness.clickAddButton();
 
       const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
-
-      return {
-        nameInputBoxHarness: await rootLoader.getHarness(
-          SkyInputBoxHarness.with({ dataSkyId: 'add-item-name-field' }),
-        ),
-        addButtonHarness: await rootLoader.getHarness(
-          SkyButtonHarness.with({ dataSkyId: 'add-item-button' }),
-        ),
-      };
-    }
-
-    it('should select a newly added person', async () => {
-      const { harness, el, fixture } = await setupTest();
-      const { nameInputBoxHarness, addButtonHarness } = await openAddItemModal(
-        fixture,
-        harness,
+      const nameInputBoxHarness = await rootLoader.getHarness(
+        SkyInputBoxHarness.with({ dataSkyId: 'add-item-name-field' }),
+      );
+      const addButtonHarness = await rootLoader.getHarness(
+        SkyButtonHarness.with({ dataSkyId: 'add-item-button' }),
       );
 
       await (
@@ -163,9 +146,14 @@ describe('Selection modal example', () => {
 
     it('should require a name before adding', async () => {
       const { harness, fixture } = await setupTest();
-      const { nameInputBoxHarness, addButtonHarness } = await openAddItemModal(
-        fixture,
-        harness,
+      await harness.clickAddButton();
+
+      const rootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
+      const nameInputBoxHarness = await rootLoader.getHarness(
+        SkyInputBoxHarness.with({ dataSkyId: 'add-item-name-field' }),
+      );
+      const addButtonHarness = await rootLoader.getHarness(
+        SkyButtonHarness.with({ dataSkyId: 'add-item-button' }),
       );
 
       await addButtonHarness.click();
