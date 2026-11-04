@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "navbar": {
+      "summary": "The navbar component displays a list of top-level navigation items.",
       "development": {
         "docsIds": [
           "SkyNavbarModule",

@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "icon": {
+      "summary": "The icon component displays a glyph from the SKY UX icon library.",
       "development": {
         "docsIds": [
           "SkyIconModule",

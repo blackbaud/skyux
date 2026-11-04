@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "id": {
+      "summary": "The ID directive assigns a unique ID to an element that can be referenced by other elements.",
       "development": {
         "docsIds": ["SkyIdModule", "SkyIdDirective", "SkyIdService"],
         "primaryDocsId": "SkyIdModule"
@@ -14,6 +15,7 @@
       }
     },
     "instrumentation": {
+      "summary": "The instrumentation feature reports on user interactions with SKY UX components.",
       "development": {
         "docsIds": [
           "SkyInstrumentationContext",
@@ -39,6 +41,7 @@
       }
     },
     "media-query": {
+      "summary": "The media queries service allows users to subscribe to screen size changes at breakpoints.",
       "development": {
         "docsIds": [
           "SkyMediaQueryService",
@@ -62,6 +65,7 @@
       }
     },
     "numeric": {
+      "summary": "The numeric pipe shortens long numbers and can format as currency.",
       "development": {
         "docsIds": [
           "SkyNumericModule",
@@ -79,6 +83,7 @@
       }
     },
     "window": {
+      "summary": "The window service allows users to reference the global window object.",
       "development": {
         "docsIds": ["SkyAppWindowRef"],
         "primaryDocsId": "SkyAppWindowRef"

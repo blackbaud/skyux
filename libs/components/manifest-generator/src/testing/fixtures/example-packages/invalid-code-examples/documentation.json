@@ -2,6 +2,7 @@
   "$schema": "../../../../../documentation-schema.json",
   "groups": {
     "invalid": {
+      "summary": "The invalid component does a thing.",
       "development": {
         "docsIds": ["FooCodeExampleNoSelector"],
         "primaryDocsId": "FooCodeExampleNoSelector"

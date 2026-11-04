@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "autonumeric": {
+      "summary": "The autonumeric module formats currency and other numbers that users enter in form inputs.",
       "development": {
         "docsIds": [
           "SkyAutonumericModule",

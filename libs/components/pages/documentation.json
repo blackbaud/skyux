@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "action-hub": {
+      "summary": "The action hub module combines needs-attention items, recent links, and other actionable insights.",
       "development": {
         "docsIds": [
           "SkyActionHubModule",
@@ -44,6 +45,7 @@
       }
     },
     "page": {
+      "summary": "The page component provides consistent, responsive layouts for common page layouts.",
       "development": {
         "docsIds": [
           "SkyPageModule",

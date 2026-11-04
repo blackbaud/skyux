@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "split-view": {
+      "summary": "The split view component displays a list alongside a workspace where users can view details and take actions.",
       "development": {
         "docsIds": [
           "SkySplitViewModule",

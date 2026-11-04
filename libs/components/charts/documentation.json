@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "chart-bar": {
+      "summary": "Bar charts provide a simple, declarative way to visualize categorical data.",
       "development": {
         "docsIds": [
           "SkyChart",
@@ -46,6 +47,7 @@
       }
     },
     "chart-line": {
+      "summary": "Line charts provide a simple, declarative way to show how values change across ordered categories, such as time periods.",
       "development": {
         "docsIds": [
           "SkyChart",

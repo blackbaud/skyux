@@ -87,5 +87,9 @@ export interface SkyManifestDocumentationGroup {
   codeExamples: SkyManifestCodeExample[];
   packageInfo: SkyManifestDocumentationGroupPackageInfo;
   publicApi: SkyManifestDocumentationTypeDefinition[];
+  /**
+   * One sentence that tells developers what the component is for.
+   */
+  summary: string;
   testing: SkyManifestDocumentationTypeDefinition[];
 }

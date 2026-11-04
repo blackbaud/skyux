@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "inline-form": {
+      "summary": "The inline form component renders a form in the current view rather than in a modal.",
       "development": {
         "docsIds": [
           "SkyInlineFormModule",
