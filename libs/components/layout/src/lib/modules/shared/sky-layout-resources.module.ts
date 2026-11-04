@@ -16,6 +16,7 @@ import {
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_back_to_top: { message: 'Back to top' },
+    skyux_blockquote_source: { message: 'Source' },
     skyux_card_checkbox_label: { message: 'Select card' },
     skyux_definition_list_none_found: { message: 'None found.' },
     skyux_description_list_none_found: { message: 'None found.' },

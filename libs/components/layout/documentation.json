@@ -53,6 +53,19 @@
         ]
       }
     },
+    "blockquote": {
+      "summary": "The blockquote component sets a quotation, such as a customer testimonial, apart from the surrounding body text.",
+      "development": {
+        "docsIds": ["SkyBlockquote"],
+        "primaryDocsId": "SkyBlockquote"
+      },
+      "testing": {
+        "docsIds": ["SkyBlockquoteHarness", "SkyBlockquoteHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["LayoutBlockquoteCustomerTestimonialExample"]
+      }
+    },
     "box": {
       "summary": "The box module provides a container for related content and actions.",
       "development": {
