@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
@@ -30,7 +30,6 @@ import { PickerModalComponent } from './picker-modal.component';
 @Component({
   selector: 'app-lookup-custom-picker-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
     ReactiveFormsModule,

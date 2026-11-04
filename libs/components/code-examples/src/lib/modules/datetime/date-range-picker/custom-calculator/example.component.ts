@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
@@ -23,7 +23,6 @@ import { map, startWith, switchMap } from 'rxjs';
 @Component({
   selector: 'app-datetime-date-range-picker-custom-calculator-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, SkyDateRangePickerModule],
 })
 export class DatetimeDateRangePickerCustomCalculatorExampleComponent {

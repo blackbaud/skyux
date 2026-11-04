@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyDescriptionListModule } from '@skyux/layout';
 import {
@@ -18,7 +18,6 @@ import { DemoDataService } from './demo-data.service';
   selector: 'app-lists-paging-with-content-example',
   templateUrl: './example.component.html',
   imports: [SkyDescriptionListModule, SkyPagingModule, SkyRepeaterModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListsPagingWithContentExampleComponent {
   #demoDataSvc = inject(DemoDataService);

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
@@ -15,7 +15,6 @@ import { SkySectionedFormService } from '@skyux/tabs';
 @Component({
   selector: 'app-information-form',
   templateUrl: './information-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     SkyInputBoxModule,

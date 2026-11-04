@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyButton } from '@skyux/forms';
 import { SkyWaitService } from '@skyux/indicators';
@@ -20,7 +14,6 @@ import { ModalComponent } from './modal.component';
  */
 @Component({
   selector: 'app-modals-modal-basic-with-harness-help-key-example',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './example.component.html',
   imports: [SkyButton],
 })

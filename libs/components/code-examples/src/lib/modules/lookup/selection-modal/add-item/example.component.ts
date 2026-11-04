@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyButton } from '@skyux/forms';
 import {
@@ -26,7 +20,6 @@ import { Person } from './person';
  */
 @Component({
   selector: 'app-lookup-selection-modal-add-item-example',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './example.component.html',
   imports: [SkyButton],
 })

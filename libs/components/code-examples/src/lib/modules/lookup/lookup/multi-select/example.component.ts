@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -29,7 +29,6 @@ import { Person } from './person';
 @Component({
   selector: 'app-lookup-multi-select-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
     ReactiveFormsModule,

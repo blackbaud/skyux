@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SkyButton } from '@skyux/forms';
 import { SkyModalService } from '@skyux/modals';
 
@@ -9,7 +9,6 @@ import { ModalComponent } from './modal.component';
  */
 @Component({
   selector: 'app-tabs-wizard-basic-example',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './example.component.html',
   imports: [SkyButton],
 })

@@ -1,11 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  TemplateRef,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
@@ -33,7 +27,6 @@ import { Person } from './person';
 @Component({
   selector: 'app-lookup-result-templates-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
     ReactiveFormsModule,

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-} from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
@@ -20,7 +15,6 @@ import { SkyTabIndex, SkyTabsModule } from '@skyux/tabs';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     SkyButton,

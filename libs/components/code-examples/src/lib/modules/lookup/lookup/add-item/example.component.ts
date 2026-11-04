@@ -1,10 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  inject,
-} from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
@@ -35,7 +30,6 @@ import { Person } from './person';
 @Component({
   selector: 'app-lookup-add-item-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     JsonPipe,
     ReactiveFormsModule,
