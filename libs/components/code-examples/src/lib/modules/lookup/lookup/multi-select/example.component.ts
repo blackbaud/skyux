@@ -1,16 +1,11 @@
-import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
@@ -34,10 +29,9 @@ import { Person } from './person';
 @Component({
   selector: 'app-lookup-multi-select-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
-    FormsModule,
+    JsonPipe,
     ReactiveFormsModule,
     SkyButton,
     SkyFormErrorModule,
@@ -45,7 +39,7 @@ import { Person } from './person';
     SkyLookupModule,
   ],
 })
-export class LookupMultiSelectExampleComponent implements OnInit {
+export class LookupMultiSelectExampleComponent {
   public favoritesForm: FormGroup<{
     favoriteNames: FormControl<Person[] | null>;
   }>;
@@ -77,14 +71,14 @@ export class LookupMultiSelectExampleComponent implements OnInit {
     this.favoritesForm = inject(FormBuilder).group({
       favoriteNames: names,
     });
-  }
 
-  public ngOnInit(): void {
     // If you need to execute some logic after the lookup values change,
     // subscribe to Angular's built-in value changes observable.
-    this.favoritesForm.valueChanges.subscribe((changes) => {
-      console.log('Lookup value changes:', changes);
-    });
+    this.favoritesForm.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((changes) => {
+        console.log('Lookup value changes:', changes);
+      });
   }
 
   protected onSubmit(): void {

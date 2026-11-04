@@ -9,7 +9,7 @@ import { ModalComponent } from './modal.component';
  */
 @Component({
   selector: 'app-tabs-wizard-basic-example',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './example.component.html',
   imports: [SkyButton],
 })

@@ -1,9 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
+  DestroyRef,
   inject,
+  signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SkyButton } from '@skyux/forms';
 import {
   SkySelectionModalAddClickEventArgs,
@@ -13,7 +15,6 @@ import {
 } from '@skyux/lookup';
 import { SkyModalService } from '@skyux/modals';
 
-import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AddItemModalComponent } from './add-item-modal.component';
@@ -25,22 +26,17 @@ import { Person } from './person';
  */
 @Component({
   selector: 'app-lookup-selection-modal-add-item-example',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './example.component.html',
   imports: [SkyButton],
 })
-export class LookupSelectionModalAddItemExampleComponent implements OnDestroy {
-  protected selectedPeople: Person[] | undefined;
+export class LookupSelectionModalAddItemExampleComponent {
+  protected readonly selectedPeople = signal<Person[]>([]);
 
-  #subscriptions = new Subscription();
-
+  readonly #destroyRef = inject(DestroyRef);
   readonly #modalSvc = inject(SkyModalService);
   readonly #searchSvc = inject(ExampleService);
   readonly #selectionModalSvc = inject(SkySelectionModalService);
-
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
-  }
 
   protected showSelectionModal(): void {
     const instance = this.#selectionModalSvc.open({
@@ -60,24 +56,24 @@ export class LookupSelectionModalAddItemExampleComponent implements OnDestroy {
       addClick: (args: SkySelectionModalAddClickEventArgs) => {
         const modal = this.#modalSvc.open(AddItemModalComponent);
 
-        this.#subscriptions.add(
-          modal.closed.subscribe((close) => {
+        modal.closed
+          .pipe(takeUntilDestroyed(this.#destroyRef))
+          .subscribe((close) => {
             if (close.reason === 'save') {
               const person = close.data as Person;
               this.#searchSvc.addItem(person);
               args.itemAdded({ item: person });
             }
-          }),
-        );
+          });
       },
     });
 
-    this.#subscriptions.add(
-      instance.closed.subscribe((args: SkySelectionModalCloseArgs) => {
+    instance.closed
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((args: SkySelectionModalCloseArgs) => {
         if (args.reason === 'save') {
-          this.selectedPeople = args.selectedItems as Person[];
+          this.selectedPeople.set(args.selectedItems as Person[]);
         }
-      }),
-    );
+      });
   }
 }

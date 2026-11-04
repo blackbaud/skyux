@@ -1,6 +1,6 @@
 <sky-paging
   data-sky-id="my-paging-content"
-  [itemCount]="(pagedData | async)?.totalCount ?? 0"
+  [itemCount]="pagedData()?.totalCount ?? 0"
   [maxPages]="3"
   [pageSize]="pageSize"
   [(currentPage)]="currentPage"
@@ -8,7 +8,7 @@
 >
   <sky-paging-content>
     <sky-repeater>
-      @for (person of (pagedData | async)?.people; track person) {
+      @for (person of pagedData()?.people; track person) {
         <sky-repeater-item>
           <sky-repeater-item-title>
             {{ person.name }}

@@ -1,15 +1,8 @@
-import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
-  FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
 } from '@angular/forms';
@@ -22,19 +15,16 @@ import {
   SkyDateRangeService,
 } from '@skyux/datetime';
 
+import { startWith, switchMap } from 'rxjs';
+
 /**
  * @title Date range picker with custom calculator
  */
 @Component({
   selector: 'app-datetime-date-range-picker-custom-calculator-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SkyDateRangePickerModule,
-  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, SkyDateRangePickerModule],
 })
 export class DatetimeDateRangePickerCustomCalculatorExampleComponent {
   readonly #dateRangeSvc = inject(SkyDateRangeService);
@@ -59,8 +49,14 @@ export class DatetimeDateRangePickerCustomCalculatorExampleComponent {
     lastDonation: this.lastDonation,
   });
 
-  protected selectedCalculator = signal<SkyDateRangeCalculator | undefined>(
-    this.#getCalculatorById(SkyDateRangeCalculatorId.AnyTime),
+  protected readonly selectedCalculatorDescription = toSignal(
+    this.lastDonation.valueChanges.pipe(
+      startWith(this.lastDonation.value),
+      switchMap(
+        (value) =>
+          this.#getCalculatorById(value.calculatorId).shortDescription$,
+      ),
+    ),
   );
 
   constructor() {
@@ -101,14 +97,6 @@ export class DatetimeDateRangePickerCustomCalculatorExampleComponent {
       dateBeforeToday.calculatorId,
       SkyDateRangeCalculatorId.AnyTime,
     ];
-
-    this.lastDonation.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe((value) => {
-        const selectedCalculator = this.#getCalculatorById(value?.calculatorId);
-
-        this.selectedCalculator.set(selectedCalculator);
-      });
   }
 
   #getCalculatorById(id: SkyDateRangeCalculatorId): SkyDateRangeCalculator {

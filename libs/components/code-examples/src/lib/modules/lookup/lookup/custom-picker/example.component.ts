@@ -1,15 +1,10 @@
-import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyButton, SkyInputBoxModule } from '@skyux/forms';
@@ -35,17 +30,16 @@ import { PickerModalComponent } from './picker-modal.component';
 @Component({
   selector: 'app-lookup-custom-picker-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
-    FormsModule,
+    JsonPipe,
     ReactiveFormsModule,
     SkyButton,
     SkyInputBoxModule,
     SkyLookupModule,
   ],
 })
-export class LookupCustomPickerExampleComponent implements OnInit {
+export class LookupCustomPickerExampleComponent {
   public favoritesForm: FormGroup<{
     favoriteNames: FormControl<Person[] | null>;
   }>;
@@ -91,14 +85,14 @@ export class LookupCustomPickerExampleComponent implements OnInit {
         },
       },
     };
-  }
 
-  public ngOnInit(): void {
     // If you need to execute some logic after the lookup values change,
     // subscribe to Angular's built-in value changes observable.
-    this.favoritesForm.valueChanges.subscribe((changes) => {
-      console.log('Lookup value changes:', changes);
-    });
+    this.favoritesForm.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((changes) => {
+        console.log('Lookup value changes:', changes);
+      });
   }
 
   protected searchAsync(args: SkyAutocompleteSearchAsyncArgs): void {

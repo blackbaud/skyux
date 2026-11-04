@@ -65,4 +65,26 @@ describe('Inline form custom button demo', () => {
       'Janet',
     );
   });
+
+  it('should disable the save button when the first name is empty', async () => {
+    const { harness } = await setupTest({
+      dataSkyId: 'first-name',
+    });
+
+    await (
+      await harness.queryHarness(
+        SkyButtonHarness.with({ dataSkyId: 'edit-button' }),
+      )
+    ).click();
+
+    // You can get a specific inline form button by its text.
+    const saveButton = (await harness.getButtons({ text: 'Save' }))[0];
+    const clearButton = (await harness.getButtons({ text: 'Clear' }))[0];
+
+    await expectAsync(saveButton.isDisabled()).toBeResolvedTo(false);
+
+    await clearButton.click();
+
+    await expectAsync(saveButton.isDisabled()).toBeResolvedTo(true);
+  });
 });

@@ -1,10 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
@@ -28,7 +23,7 @@ import { SkySectionedFormService } from '@skyux/tabs';
     SkyStatusIndicatorModule,
   ],
 })
-export class InformationFormComponent implements OnInit {
+export class InformationFormComponent {
   protected id = '5324901';
   protected formGroup: FormGroup<{
     name: FormControl<string>;
@@ -39,7 +34,6 @@ export class InformationFormComponent implements OnInit {
   protected nameRequired = false;
 
   readonly #sectionedFormSvc = inject(SkySectionedFormService);
-  readonly #changeDetector = inject(ChangeDetectorRef);
 
   constructor() {
     this.formGroup = inject(FormBuilder).group({
@@ -50,17 +44,15 @@ export class InformationFormComponent implements OnInit {
         validators: [Validators.pattern('^[0-9]+$')],
       }),
     });
-  }
 
-  public ngOnInit(): void {
-    this.formGroup.valueChanges.subscribe((changes) => {
-      this.id = changes.id ?? '';
-      this.name = changes.name ?? '';
-      this.nameRequired = !!changes.nameRequired;
-      this.#checkValidity();
-    });
-
-    this.#changeDetector.markForCheck();
+    this.formGroup.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((changes) => {
+        this.id = changes.id ?? '';
+        this.name = changes.name ?? '';
+        this.nameRequired = !!changes.nameRequired;
+        this.#checkValidity();
+      });
   }
 
   #checkValidity(): void {

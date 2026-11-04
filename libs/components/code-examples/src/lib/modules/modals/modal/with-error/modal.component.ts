@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SkyButton, SkyInputBoxModule } from '@skyux/forms';
 import { SkyWaitService } from '@skyux/indicators';
@@ -10,7 +15,7 @@ import { ModalDemoDataService } from './data.service';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, SkyButton, SkyInputBoxModule, SkyModalModule],
 })
 export class ModalComponent {
@@ -23,7 +28,7 @@ export class ModalComponent {
   readonly #instance = inject(SkyModalInstance);
   readonly #waitSvc = inject(SkyWaitService);
 
-  public errors: SkyModalError[] = [];
+  protected readonly errors = signal<SkyModalError[]>([]);
 
   constructor() {
     this.exampleForm = new FormGroup({
@@ -48,7 +53,7 @@ export class ModalComponent {
     this.#waitSvc
       .blockingWrap(this.#dataSvc.save(this.exampleForm.value, true))
       .subscribe(() => {
-        this.errors = [{ message: 'There was an error saving the form.' }];
+        this.errors.set([{ message: 'There was an error saving the form.' }]);
       });
   }
 

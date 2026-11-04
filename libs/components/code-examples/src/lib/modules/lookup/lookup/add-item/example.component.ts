@@ -1,16 +1,15 @@
-import { CommonModule } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
-  OnInit,
+  DestroyRef,
   inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyIdModule } from '@skyux/core';
@@ -24,7 +23,6 @@ import {
 } from '@skyux/lookup';
 import { SkyModalService } from '@skyux/modals';
 
-import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AddItemModalComponent } from './add-item-modal.component';
@@ -37,10 +35,9 @@ import { Person } from './person';
 @Component({
   selector: 'app-lookup-add-item-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
-    FormsModule,
+    JsonPipe,
     ReactiveFormsModule,
     SkyButton,
     SkyIdModule,
@@ -48,7 +45,7 @@ import { Person } from './person';
     SkyLookupModule,
   ],
 })
-export class LookupAddItemExampleComponent implements OnInit, OnDestroy {
+export class LookupAddItemExampleComponent {
   public favoritesForm: FormGroup<{
     favoriteNames: FormControl<Person[] | null>;
   }>;
@@ -59,8 +56,7 @@ export class LookupAddItemExampleComponent implements OnInit, OnDestroy {
     },
   };
 
-  #subscriptions = new Subscription();
-
+  readonly #destroyRef = inject(DestroyRef);
   readonly #svc = inject(DemoService);
   readonly #modalSvc = inject(SkyModalService);
   readonly #waitSvc = inject(SkyWaitService);
@@ -71,18 +67,14 @@ export class LookupAddItemExampleComponent implements OnInit, OnDestroy {
     this.favoritesForm = inject(FormBuilder).group({
       favoriteNames: names,
     });
-  }
 
-  public ngOnInit(): void {
     // If you need to execute some logic after the lookup values change,
     // subscribe to Angular's built-in value changes observable.
-    this.favoritesForm.valueChanges.subscribe((changes) => {
-      console.log('Lookup value changes:', changes);
-    });
-  }
-
-  public ngOnDestroy(): void {
-    this.#subscriptions.unsubscribe();
+    this.favoritesForm.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((changes) => {
+        console.log('Lookup value changes:', changes);
+      });
   }
 
   public onSubmit(): void {
@@ -106,23 +98,22 @@ export class LookupAddItemExampleComponent implements OnInit, OnDestroy {
   public addClick(args: SkyLookupAddClickEventArgs): void {
     const modal = this.#modalSvc.open(AddItemModalComponent);
 
-    this.#subscriptions.add(
-      modal.closed.subscribe((close) => {
+    modal.closed
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((close) => {
         if (close.reason === 'save') {
           const person = close.data as Person;
 
-          this.#subscriptions.add(
-            this.#waitSvc
-              .blockingWrap(this.#svc.addPerson(person))
-              .subscribe((data) => {
-                args.itemAdded({
-                  item: person,
-                  data,
-                });
-              }),
-          );
+          this.#waitSvc
+            .blockingWrap(this.#svc.addPerson(person))
+            .pipe(takeUntilDestroyed(this.#destroyRef))
+            .subscribe((data) => {
+              args.itemAdded({
+                item: person,
+                data,
+              });
+            });
         }
-      }),
-    );
+      });
   }
 }

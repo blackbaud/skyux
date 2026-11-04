@@ -3,6 +3,6 @@
   labelText="Open modal example"
   (buttonClick)="onOpenModalClick()"
 />
-@if (exampleValue) {
-  <div>The user entered {{ exampleValue }}</div>
+@if (exampleValue()) {
+  <div>The user entered {{ exampleValue() }}</div>
 }

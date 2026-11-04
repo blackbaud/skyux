@@ -1,17 +1,16 @@
-import { CommonModule } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  OnInit,
   TemplateRef,
   ViewChild,
   inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { SkyButton, SkyInputBoxModule } from '@skyux/forms';
@@ -34,17 +33,16 @@ import { Person } from './person';
 @Component({
   selector: 'app-lookup-result-templates-example',
   templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    CommonModule,
-    FormsModule,
+    JsonPipe,
     ReactiveFormsModule,
     SkyButton,
     SkyInputBoxModule,
     SkyLookupModule,
   ],
 })
-export class LookupResultTemplatesExampleComponent implements OnInit {
+export class LookupResultTemplatesExampleComponent {
   public favoritesForm: FormGroup<{
     favoriteNames: FormControl<Person[] | null>;
   }>;
@@ -78,14 +76,14 @@ export class LookupResultTemplatesExampleComponent implements OnInit {
     this.favoritesForm = inject(FormBuilder).group({
       favoriteNames: names,
     });
-  }
 
-  public ngOnInit(): void {
     // If you need to execute some logic after the lookup values change,
     // subscribe to Angular's built-in value changes observable.
-    this.favoritesForm.valueChanges.subscribe((changes) => {
-      console.log('Lookup value changes:', changes);
-    });
+    this.favoritesForm.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((changes) => {
+        console.log('Lookup value changes:', changes);
+      });
   }
 
   protected searchAsync(args: SkyAutocompleteSearchAsyncArgs): void {

@@ -9,7 +9,6 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
 import {
@@ -31,9 +30,8 @@ import { Person } from './person';
   selector: 'app-picker-modal',
   templateUrl: './picker-modal.component.html',
   styleUrls: ['./picker-modal.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    FormsModule,
     ReactiveFormsModule,
     SkyButton,
     SkyCheckboxModule,

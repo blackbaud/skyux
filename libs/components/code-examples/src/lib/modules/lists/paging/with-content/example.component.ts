@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyDescriptionListModule } from '@skyux/layout';
 import {
   SkyPagingContentChangeArgs,
@@ -7,7 +7,7 @@ import {
   SkyRepeaterModule,
 } from '@skyux/lists';
 
-import { Subject, shareReplay, switchMap, tap } from 'rxjs';
+import { Subject, switchMap, tap } from 'rxjs';
 
 import { DemoDataService } from './demo-data.service';
 
@@ -17,12 +17,7 @@ import { DemoDataService } from './demo-data.service';
 @Component({
   selector: 'app-lists-paging-with-content-example',
   templateUrl: './example.component.html',
-  imports: [
-    CommonModule,
-    SkyDescriptionListModule,
-    SkyPagingModule,
-    SkyRepeaterModule,
-  ],
+  imports: [SkyDescriptionListModule, SkyPagingModule, SkyRepeaterModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListsPagingWithContentExampleComponent {
@@ -32,14 +27,15 @@ export class ListsPagingWithContentExampleComponent {
   protected pageSize = 5;
   protected contentChange = new Subject<SkyPagingContentChangeArgs>();
 
-  protected pagedData = this.contentChange.pipe(
-    switchMap((args) =>
-      this.#demoDataSvc.getPagedData(args.currentPage, this.pageSize).pipe(
-        tap(() => {
-          args.loadingComplete();
-        }),
+  protected readonly pagedData = toSignal(
+    this.contentChange.pipe(
+      switchMap((args) =>
+        this.#demoDataSvc.getPagedData(args.currentPage, this.pageSize).pipe(
+          tap(() => {
+            args.loadingComplete();
+          }),
+        ),
       ),
     ),
-    shareReplay(1),
   );
 }
