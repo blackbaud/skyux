@@ -854,6 +854,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'LayoutBlockquoteCustomerTestimonialExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ LayoutBlockquoteCustomerTestimonialExample: c }) => c,
+      ),
+  },
+  {
     path: 'LayoutBoxBasicExampleComponent',
     loadComponent: () =>
       import('@skyux/code-examples').then(
