@@ -1,3 +1,9 @@
 @if (chartJsConfig(); as config) {
   <sky-chart-js [config]="config" [style.height]="chartHeight()" />
+  @if (legendItems().length > 1) {
+    <sky-chart-legend
+      [items]="legendItems()"
+      (itemToggle)="toggleSeries($event)"
+    />
+  }
 }

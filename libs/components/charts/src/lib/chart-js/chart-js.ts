@@ -14,7 +14,6 @@ import {
   Chart,
   type ChartConfiguration,
   type ChartType,
-  Legend,
   LinearScale,
   LineController,
   LineElement,
@@ -32,7 +31,6 @@ Chart.register(
   LineElement,
   LogarithmicScale,
   PointElement,
-  Legend,
   Tooltip,
 );
 

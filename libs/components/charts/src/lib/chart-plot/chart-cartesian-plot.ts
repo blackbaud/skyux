@@ -5,6 +5,7 @@ import {
   Directive,
   inject,
   Signal,
+  signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
@@ -19,6 +20,7 @@ import {
   type SkyChartCartesianData,
   type SkyChartCartesianSeries,
 } from '../chart-js/cartesian-utils';
+import { type SkyChartLegendItem } from '../chart-legend/chart-legend';
 import { SkyChartTable } from '../chart-table/chart-table';
 import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
 import { SkyChartPlot } from './chart-plot';
@@ -74,6 +76,18 @@ export abstract class SkyChartCartesianPlot<
    */
   protected abstract readonly accessibleSummaryResourceKey: string;
 
+  readonly #hiddenSeries = signal<ReadonlySet<TSeries>>(new Set());
+
+  protected readonly legendItems = computed((): SkyChartLegendItem[] => {
+    const palette = this.themeStyles().series.categoricalPalette;
+
+    return this.series().map((chartSeries, index) => ({
+      labelText: chartSeries.labelText(),
+      color: palette[index % palette.length],
+      hidden: this.isSeriesHidden(chartSeries),
+    }));
+  });
+
   constructor() {
     super();
 
@@ -115,6 +129,26 @@ export abstract class SkyChartCartesianPlot<
       this.valueAxis(),
       this.series(),
     );
+  }
+
+  protected isSeriesHidden(chartSeries: TSeries): boolean {
+    // The legend only renders with multiple series, so a lone series must
+    // never stay hidden with no control left to show it again.
+    return this.series().length > 1 && this.#hiddenSeries().has(chartSeries);
+  }
+
+  protected toggleSeries(index: number): void {
+    const chartSeries = this.series()[index];
+
+    this.#hiddenSeries.update((hiddenSeries) => {
+      const next = new Set(hiddenSeries);
+
+      if (!next.delete(chartSeries)) {
+        next.add(chartSeries);
+      }
+
+      return next;
+    });
   }
 
   protected override getChartTable(): SkyChartTable | undefined {

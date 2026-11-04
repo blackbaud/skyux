@@ -1,6 +1,9 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
+import { SkyChartLegendItemHarness } from '../chart-legend/chart-legend-item-harness';
+import { SkyChartLegendItemHarnessFilters } from '../chart-legend/chart-legend-item-harness-filters';
+
 import { SkyChartBarHarnessFilters } from './chart-bar-harness-filters';
 
 /**
@@ -22,6 +25,28 @@ export class SkyChartBarHarness extends SkyComponentHarness {
     filters: SkyChartBarHarnessFilters,
   ): HarnessPredicate<SkyChartBarHarness> {
     return SkyChartBarHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Gets the harness for the legend item that meets the given criteria. The
+   * legend renders only when the chart has multiple series.
+   */
+  public async getLegendItem(
+    filters: SkyChartLegendItemHarnessFilters,
+  ): Promise<SkyChartLegendItemHarness> {
+    return await this.locatorFor(SkyChartLegendItemHarness.with(filters))();
+  }
+
+  /**
+   * Gets the harnesses for the legend items that meet the given criteria. The
+   * legend renders only when the chart has multiple series.
+   */
+  public async getLegendItems(
+    filters?: SkyChartLegendItemHarnessFilters,
+  ): Promise<SkyChartLegendItemHarness[]> {
+    return await this.locatorForAll(
+      SkyChartLegendItemHarness.with(filters ?? {}),
+    )();
   }
 
   /**

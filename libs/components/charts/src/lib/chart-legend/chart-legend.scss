@@ -1,0 +1,63 @@
+:host {
+  display: block;
+  margin-top: var(
+    --sky-override-chart-space-stacked-s,
+    var(--sky-space-stacked-s)
+  );
+}
+
+.sky-chart-legend-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(
+    --sky-override-chart-space-gap-action_group-m,
+    var(--sky-space-gap-action_group-m)
+  );
+}
+
+.sky-chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sky-override-chart-space-gap-icon-s, var(--sky-space-gap-icon-s));
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(
+    --sky-override-chart-font-family-primary,
+    var(--sky-font-family-primary)
+  );
+  font-size: var(
+    --sky-override-chart-font-size-body-s,
+    var(--sky-font-size-body-s)
+  );
+  font-weight: var(
+    --sky-override-chart-font-style-body-s,
+    var(--sky-font-style-body-s)
+  );
+  line-height: var(
+    --sky-override-chart-font-line_height-body-s,
+    var(--sky-font-line_height-body-s)
+  );
+  color: var(
+    --sky-override-chart-color-text-deemphasized,
+    var(--sky-color-text-deemphasized)
+  );
+
+  // Strike through hidden series so their state is not conveyed by color alone.
+  &[aria-pressed='false'] {
+    text-decoration: line-through;
+
+    .sky-chart-legend-swatch {
+      opacity: 0.4;
+    }
+  }
+}
+
+.sky-chart-legend-swatch {
+  flex-shrink: 0;
+  width: var(--sky-override-chart-size-icon-xs, var(--sky-size-icon-xs));
+  height: var(--sky-override-chart-size-icon-xs, var(--sky-size-icon-xs));
+  border-radius: 50%;
+}

@@ -9,6 +9,7 @@ import {
 } from '../chart-js/cartesian-utils';
 import { SkyChartJs, type SkyChartJsConfig } from '../chart-js/chart-js';
 import { extendBaseChartJsConfig } from '../chart-js/chart-js-config-utils';
+import { SkyChartLegend } from '../chart-legend/chart-legend';
 import { SkyChartCartesianPlot } from '../chart-plot/chart-cartesian-plot';
 import { SkyChartLineSeries } from './chart-line-series';
 
@@ -17,7 +18,7 @@ import { SkyChartLineSeries } from './chart-line-series';
  * series.
  */
 @Component({
-  imports: [SkyChartJs],
+  imports: [SkyChartJs, SkyChartLegend],
   selector: 'sky-chart-line',
   templateUrl: './chart-line.html',
 })
@@ -59,9 +60,10 @@ export class SkyChartLine extends SkyChartCartesianPlot<SkyChartLineSeries> {
         // Chart.js mutates the arrays it is given, so copy the readonly input.
         data: [...chartSeries.values()],
         borderColor: color,
-        // The background colors the points and the legend's swatch; the line
-        // itself is drawn from the border color.
+        // The background colors the points; the line itself is drawn from the
+        // border color.
         backgroundColor: color,
+        hidden: this.isSeriesHidden(chartSeries),
         xAxisID: CATEGORY_AXIS_ID,
         yAxisID: VALUE_AXIS_ID,
       };
@@ -112,11 +114,6 @@ export class SkyChartLine extends SkyChartCartesianPlot<SkyChartLineSeries> {
         },
         scales,
         plugins: {
-          legend: {
-            // Show the legend only when there are multiple series to
-            // distinguish; a single-series chart's legend is redundant.
-            display: datasets.length > 1,
-          },
           tooltip: {
             callbacks: {
               label: buildValueTooltipLabel<'line'>(formatValue, 'y'),
