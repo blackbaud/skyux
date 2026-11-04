@@ -5,6 +5,7 @@
 
 ### Features
 
+* **components/layout:** add blockquote component ([#4936](https://github.com/blackbaud/skyux/issues/4936)) ([0faae9e](https://github.com/blackbaud/skyux/commit/0faae9e9326e779e52d2a47ae0b198d1d0d18c5e))
 * use `sky-code` for inline code in docs-tools and code examples ([#4933](https://github.com/blackbaud/skyux/issues/4933)) ([7335a25](https://github.com/blackbaud/skyux/commit/7335a2541806373e4995821a4142a136a41bc5e4))
 
 ## [15.9.0](https://github.com/blackbaud/skyux/compare/15.8.0...15.9.0) (2026-11-04)
