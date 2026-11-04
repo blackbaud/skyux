@@ -23,8 +23,10 @@ examples predate these conventions.
 
 - **Base path**: `libs/components/code-examples/src/lib/modules/<library>/<component>/<example-name>/`
 - **Files**: `example.ts`, `example.html`, and `example.spec.ts` (following
-  Angular's revised naming guidelines — no `.component.` segment). Add
-  `example.service.ts` or other files only when the example needs them. Always
+  Angular's revised naming guidelines — no `.component.` segment). Add other
+  files only when the example needs them, named for the class they contain
+  with no type suffix (e.g. `number-generator.ts`, not
+  `example.service.ts`). Always
   use the `example.*` prefix — never `demo.*`. Many older examples still use the
   legacy `example.component.*` filenames; match the new naming for new work
   rather than copying the old files.

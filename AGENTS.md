@@ -67,9 +67,10 @@ corresponding file below, stop and read it first.
   visual-test stories for Percy snapshots.
 
 Multi-step workflows (adding a component, a library, a harness, a code example,
-an instrumentation event, unit tests, or visual tests) are documented as
-skills in [.github/skills/](.github/skills/), surfaced to Claude Code via
-`.claude/skills/`. Prefer an existing skill over improvising the steps.
+an instrumentation event, unit tests, or visual tests, and reviewing a change)
+are documented as skills in [.github/skills/](.github/skills/), surfaced to
+Claude Code via `.claude/skills/`. Prefer an existing skill over improvising the
+steps.
 
 ## Persona
 
@@ -117,6 +118,16 @@ can state in a sentence.
 - **Names carry weight.** No vague nouns — `data`, `info`, `manager`, `helper`,
   `util`, `handler` — unless further qualified. The name must match the
   behavior and must not leak implementation details.
+- **Follow the [Angular style guide](https://angular.dev/style-guide) for new
+  files.** Name the file after the class it contains, hyphen-separated, with no
+  type suffix in the file name or class name: `thing-list.ts` exporting
+  `SkyThingList`, not `thing-list.component.ts`, `.directive.ts`,
+  `.service.ts`, or `.pipe.ts` exporting `SkyThingListComponent`. A component's
+  template and styles share its file name (`thing-list.html`,
+  `thing-list.scss`), and its spec is `thing-list.spec.ts`. Do not add an
+  `NgModule` for a new component, directive, or pipe, and do not set
+  `changeDetection` (OnPush is the default). Existing suffixed files keep their
+  names; renaming an exported class is a breaking change.
 
 ### Mirror the nearest sibling
 
@@ -124,7 +135,10 @@ This monorepo is highly repetitive by design. Before writing a component, spec,
 code example, or story, open the equivalent file in a sibling library that
 already does the same job and mirror its structure, naming, and file layout. Do
 not invent a new pattern when an established one exists, and do not import
-patterns from outside this repository.
+patterns from outside this repository. When a sibling predates the Angular style
+guide naming rule above (suffixed file names, `Component`/`Directive`/`Service`
+class suffixes, an `NgModule` wrapper), mirror its structure but follow the
+naming rule.
 
 Harnesses are the exception:
 [component-harnesses.instructions.md](.github/instructions/component-harnesses.instructions.md)
