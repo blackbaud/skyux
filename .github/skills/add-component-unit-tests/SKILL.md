@@ -6,11 +6,13 @@ argument-hint: '<library> <ComponentOrDirective> (e.g. forms SkyCheckbox)'
 
 # Add Unit Tests for a Component or Directive
 
-Use this skill to write or backfill the unit test (`<name>.component.spec.ts` or
-`<name>.directive.spec.ts`) for a component or directive in a published
-`@skyux/*` library. The detailed conventions live in
+Use this skill to write or backfill the unit test (`<name>.spec.ts`, or
+`<name>.component.spec.ts` / `<name>.directive.spec.ts` for legacy files) for a
+component or directive in a published `@skyux/*` library. The detailed
+conventions live in
 [component-unit-testing.instructions.md](../../instructions/component-unit-testing.instructions.md)
-(it auto-applies to `**/libs/components/*/src/lib/**/*.{component,directive}.spec.ts`)
+(it auto-applies to `**/libs/components/*/src/lib/**/*.spec.ts`, excluding
+`libs/components/code-examples/**`)
 — read it before writing code rather than guessing.
 
 Read [AGENTS.md](../../../AGENTS.md) first if you are not already familiar with
