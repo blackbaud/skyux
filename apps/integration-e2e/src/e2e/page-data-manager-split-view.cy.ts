@@ -1,7 +1,9 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+import { forEachThemeAndBrand } from '../support/themes';
+
 describe('Page Data Manager Split View', () => {
-  E2eVariations.forEachTheme((theme) => {
+  forEachThemeAndBrand((theme) => {
     E2eVariations.DISPLAY_WIDTHS.concat(E2eVariations.MOBILE_WIDTHS).forEach(
       (width) => {
         it(`should render the page with split view inside data manager in ${theme} at ${width}px`, () => {

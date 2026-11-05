@@ -1,7 +1,7 @@
-import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+import { forEachThemeAndBrand } from '../support/themes';
 
 describe('vertical-tabset-back-to-top', () => {
-  E2eVariations.forEachTheme((theme) => {
+  forEachThemeAndBrand((theme) => {
     describe(`in ${theme} theme`, () => {
       (['ipad-2', 'iphone-6'] as ('ipad-2' | 'iphone-6')[]).forEach(
         (device) => {
