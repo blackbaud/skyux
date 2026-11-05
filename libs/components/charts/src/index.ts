@@ -11,5 +11,6 @@ export type { SkyChartLineSeriesValue } from './lib/chart-line/chart-line-series
 export { SkyChart } from './lib/chart/chart';
 export type { SkyChartHeadingLevel } from './lib/chart/chart-heading-level';
 export type { SkyChartHeadingStyle } from './lib/chart/chart-heading-style';
+export type { SkyChartDataPointClick } from './lib/shared/chart-data-point-click';
 export type { SkyChartValueFormat } from './lib/shared/value-format';
 export type { SkyChartValueScaleType } from './lib/shared/value-scale-type';

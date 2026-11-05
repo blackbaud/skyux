@@ -17,6 +17,7 @@ import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
+import { type SkyChartDataPointClick } from '../shared/chart-data-point-click';
 import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartBar } from './chart-bar';
@@ -47,6 +48,7 @@ type ScaleProbe = {
         <sky-chart-bar
           [orientation]="orientation()"
           [seriesLayout]="seriesLayout()"
+          (dataPointClick)="dataPointClick = $event"
         >
           @if (renderCategoryAxis()) {
             <sky-chart-axis-category
@@ -84,6 +86,8 @@ type ScaleProbe = {
 class TestComponent {
   @ViewChild(SkyChartBar)
   public chartBar!: SkyChartBar;
+
+  public dataPointClick: SkyChartDataPointClick | undefined;
 
   public categories = input<(string | number)[]>(['2023', '2024']);
   public currencyCode = input<string | undefined>(undefined);
@@ -153,6 +157,12 @@ describe('Chart bar component', () => {
   function getLegendButtons(): HTMLButtonElement[] {
     return Array.from(
       fixture.nativeElement.querySelectorAll('sky-chart-legend button'),
+    );
+  }
+
+  function getDataPoints(): HTMLElement[] {
+    return Array.from(
+      fixture.nativeElement.querySelectorAll('.sky-chart-js-data-point'),
     );
   }
 
@@ -439,6 +449,44 @@ describe('Chart bar component', () => {
         toRgb(datasets[index].backgroundColor as string),
       );
     });
+  });
+
+  it('should emit the clicked data point', async () => {
+    fixture.componentRef.setInput('renderSecondSeries', true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    getDataPoints()[3].click();
+
+    expect(fixture.componentInstance.dataPointClick).toEqual({
+      category: '2024',
+      categoryIndex: 1,
+      seriesIndex: 1,
+      seriesLabelText: 'Divestitures',
+      value: 20,
+    });
+  });
+
+  it('should emit a floating bar range as the clicked value', async () => {
+    fixture.componentRef.setInput('values', [[5, 15], null]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(getDataPoints().length).toBe(1);
+
+    getDataPoints()[0].click();
+
+    expect(fixture.componentInstance.dataPointClick?.value).toEqual([5, 15]);
+  });
+
+  it('should present data points as buttons when a click listener is bound', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(getDataPoints()[0].getAttribute('role')).toBe('button');
   });
 
   it('should toggle a series when its legend button is clicked', async () => {
@@ -955,6 +1003,7 @@ describe('Chart bar component in the default theme', () => {
 
     // Render, then re-render after the async library resources resolve so
     // the context menu button receives its accessible name.
+    fixture.detectChanges();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();

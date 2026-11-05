@@ -1,0 +1,65 @@
+// Chart.js detects size changes from the canvas's parent, not the canvas
+// itself, so the host must be a dedicated, relatively-positioned container
+// for the canvas. Without this, the chart fails to resize responsively and
+// can render blurry or continually shrink.
+// https://www.chartjs.org/docs/latest/configuration/responsive.html#important-note
+:host {
+  display: block;
+  position: relative;
+
+  // The data point rings are drawn on the canvas, which reads these resolved
+  // values. They match the legend buttons' interaction states.
+  --sky-chart-js-ring-radius: var(
+    --sky-override-chart-border-radius-s,
+    var(--sky-border-radius-s)
+  );
+  --sky-chart-js-ring-hover-border-width: var(
+    --sky-border-width-action-hover,
+    1px
+  );
+  --sky-chart-js-ring-hover-border-color: var(
+    --sky-color-border-action-tertiary-hover,
+    #0974a1
+  );
+  --sky-chart-js-ring-hover-background-color: var(
+    --sky-color-background-action-tertiary-hover,
+    #eeeeef
+  );
+  --sky-chart-js-ring-active-border-width: var(
+    --sky-border-width-action-active,
+    2px
+  );
+  --sky-chart-js-ring-active-border-color: var(
+    --sky-color-border-action-tertiary-active,
+    #0974a1
+  );
+  --sky-chart-js-ring-active-background-color: var(
+    --sky-color-background-action-tertiary-active,
+    transparent
+  );
+  --sky-chart-js-ring-focus-border-width: var(
+    --sky-border-width-action-focus,
+    2px
+  );
+  --sky-chart-js-ring-focus-border-color: var(
+    --sky-color-border-action-tertiary-focus,
+    #0974a1
+  );
+  --sky-chart-js-ring-focus-background-color: var(
+    --sky-color-background-action-tertiary-focus,
+    transparent
+  );
+}
+
+// Mouse interaction is handled by Chart.js on the canvas, so the stand-ins
+// must not intercept the pointer events that drive its hover and tooltips.
+.sky-chart-js-data-point {
+  position: absolute;
+  pointer-events: none;
+
+  &:focus-visible {
+    // Forced colors do not recolor the canvas, so fall back to an outline,
+    // which forced-colors mode paints in the system highlight color.
+    outline: 2px solid transparent;
+  }
+}

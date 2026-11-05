@@ -1,6 +1,8 @@
 import { HarnessPredicate } from '@angular/cdk/testing';
 import { SkyComponentHarness } from '@skyux/core/testing';
 
+import { SkyChartDataPointHarness } from '../chart-data-point/chart-data-point-harness';
+import { SkyChartDataPointHarnessFilters } from '../chart-data-point/chart-data-point-harness-filters';
 import { SkyChartLegendItemHarness } from '../chart-legend/chart-legend-item-harness';
 import { SkyChartLegendItemHarnessFilters } from '../chart-legend/chart-legend-item-harness-filters';
 
@@ -25,6 +27,27 @@ export class SkyChartBarHarness extends SkyComponentHarness {
     filters: SkyChartBarHarnessFilters,
   ): HarnessPredicate<SkyChartBarHarness> {
     return SkyChartBarHarness.getDataSkyIdPredicate(filters);
+  }
+
+  /**
+   * Gets the harness for the data point that meets the given criteria.
+   */
+  public async getDataPoint(
+    filters: SkyChartDataPointHarnessFilters,
+  ): Promise<SkyChartDataPointHarness> {
+    return await this.locatorFor(SkyChartDataPointHarness.with(filters))();
+  }
+
+  /**
+   * Gets the harnesses for the data points that meet the given criteria.
+   * Data points of hidden series are excluded.
+   */
+  public async getDataPoints(
+    filters?: SkyChartDataPointHarnessFilters,
+  ): Promise<SkyChartDataPointHarness[]> {
+    return await this.locatorForAll(
+      SkyChartDataPointHarness.with(filters ?? {}),
+    )();
   }
 
   /**

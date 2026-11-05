@@ -10,7 +10,7 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
-import { EMPTY, map } from 'rxjs';
+import { EMPTY, map, Subject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
@@ -20,9 +20,11 @@ import {
   type SkyChartCartesianData,
   type SkyChartCartesianSeries,
 } from '../chart-js/cartesian-utils';
+import { type SkyChartJsDataPointIndex } from '../chart-js/chart-js';
 import { type SkyChartLegendItem } from '../chart-legend/chart-legend';
 import { SkyChartTable } from '../chart-table/chart-table';
 import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
+import { type SkyChartDataPointClick } from '../shared/chart-data-point-click';
 import { SkyChartPlot } from './chart-plot';
 
 /**
@@ -75,6 +77,14 @@ export abstract class SkyChartCartesianPlot<
    * the series count and the category count as its arguments.
    */
   protected abstract readonly accessibleSummaryResourceKey: string;
+
+  /**
+   * The source of each subclass's `dataPointClick` output. Its `observed` flag
+   * tells whether a consumer listens, which decides whether data points
+   * present as clickable.
+   */
+  protected readonly dataPointClickSource =
+    new Subject<SkyChartDataPointClick>();
 
   readonly #hiddenSeries = signal<ReadonlySet<TSeries>>(new Set());
 
@@ -148,6 +158,24 @@ export abstract class SkyChartCartesianPlot<
       }
 
       return next;
+    });
+  }
+
+  protected onDataPointClick({
+    datasetIndex,
+    index,
+  }: SkyChartJsDataPointIndex): void {
+    // Data points render only once the chart has data, and gaps (null values)
+    // never render a data point.
+    const data = this.getCartesianData() as SkyChartCartesianData<TSeries>;
+    const chartSeries = data.series[datasetIndex];
+
+    this.dataPointClickSource.next({
+      category: data.categoryAxis.categories()[index],
+      categoryIndex: index,
+      seriesIndex: datasetIndex,
+      seriesLabelText: chartSeries.labelText(),
+      value: chartSeries.values()[index] as number | readonly [number, number],
     });
   }
 

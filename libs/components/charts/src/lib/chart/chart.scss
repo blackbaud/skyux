@@ -51,7 +51,15 @@
 }
 
 :host {
-  display: block;
+  display: grid;
+  grid-template-areas:
+    'header controls'
+    'content content';
+  grid-template-columns: 1fr auto;
+  column-gap: var(
+    --sky-override-chart-space-gap-text_action-m,
+    var(--sky-space-gap-text_action-m)
+  );
 
   // The chart's height bounds, authored once and shared by the loading
   // state's reserved height (below) and the plot heights resolved in
@@ -62,20 +70,22 @@
 }
 
 .sky-chart-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  column-gap: var(
-    --sky-override-chart-space-gap-text_action-m,
-    var(--sky-space-gap-text_action-m)
-  );
+  grid-area: header;
+  align-self: baseline;
   margin-bottom: var(
     --sky-override-chart-space-stacked-s,
     var(--sky-space-stacked-s)
   );
 }
 
+.sky-chart-controls {
+  grid-area: controls;
+  align-self: baseline;
+}
+
 figure.sky-chart-content {
+  grid-area: content;
+  min-width: 0;
   margin: 0;
 }
 

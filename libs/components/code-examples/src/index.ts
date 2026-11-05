@@ -24,6 +24,7 @@ export { AutonumericPresetExampleComponent } from './lib/modules/autonumeric/aut
 export { AvatarExampleComponent } from './lib/modules/avatar/avatar/example.component';
 export { ChartsChartBarAsyncExample } from './lib/modules/charts/chart-bar/async/example';
 export { ChartsChartBarBasicExample } from './lib/modules/charts/chart-bar/basic/example';
+export { ChartsChartBarDataPointClickExample } from './lib/modules/charts/chart-bar/data-point-click/example';
 export { ChartsChartBarFloatingMultipleSeriesExample } from './lib/modules/charts/chart-bar/floating-multiple-series/example';
 export { ChartsChartBarFloatingExample } from './lib/modules/charts/chart-bar/floating/example';
 export { ChartsChartBarGroupedStackedExample } from './lib/modules/charts/chart-bar/grouped-stacked/example';

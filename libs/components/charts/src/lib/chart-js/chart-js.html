@@ -1,0 +1,46 @@
+<canvas
+  #chartRef
+  aria-hidden="true"
+  (pointerdown)="onCanvasPointerDown()"
+  (pointerup)="onCanvasPointerUp()"
+></canvas>
+@for (chartSeries of series(); track chartSeries.datasetIndex) {
+  <!-- Like Highcharts, series are announced as regions only when there are
+  several to tell apart. -->
+  <div
+    [attr.aria-label]="
+      chartSeries.seriesCount > 1
+        ? ((chartSeries.valueCount === 1
+            ? seriesSummaryResourceKeys().singular
+            : seriesSummaryResourceKeys().plural
+          )
+          | skyLibResources
+            : chartSeries.labelText
+            : chartSeries.datasetIndex + 1
+            : chartSeries.seriesCount
+            : chartSeries.valueCount)
+        : null
+    "
+    [attr.role]="chartSeries.seriesCount > 1 ? 'region' : null"
+  >
+    @for (dataPoint of chartSeries.dataPoints; track dataPoint.key) {
+      <div
+        class="sky-chart-js-data-point"
+        [attr.aria-label]="dataPoint.accessibleName"
+        [attr.data-sky-chart-category]="dataPoint.category"
+        [attr.data-sky-chart-point]="dataPoint.key"
+        [attr.data-sky-chart-series]="dataPoint.seriesLabelText"
+        [attr.role]="dataPointsClickable() ? 'button' : 'img'"
+        [attr.tabindex]="dataPoint.key === activeKey() ? 0 : -1"
+        [style.height.px]="dataPoint.height"
+        [style.left.px]="dataPoint.left"
+        [style.top.px]="dataPoint.top"
+        [style.width.px]="dataPoint.width"
+        (blur)="onDataPointBlur($event)"
+        (click)="onDataPointClick(dataPoint)"
+        (focus)="onDataPointFocus(dataPoint)"
+        (keydown)="onDataPointKeydown($event, dataPoint)"
+      ></div>
+    }
+  </div>
+}

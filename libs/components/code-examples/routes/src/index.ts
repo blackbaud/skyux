@@ -193,6 +193,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ChartsChartBarDataPointClickExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartBarDataPointClickExample: c }) => c,
+      ),
+  },
+  {
     path: 'ChartsChartBarFloatingExample',
     loadComponent: () =>
       import('@skyux/code-examples').then(
