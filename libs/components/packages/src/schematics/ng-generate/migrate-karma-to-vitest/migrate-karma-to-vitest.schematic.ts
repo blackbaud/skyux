@@ -10,6 +10,7 @@ import {
   removePackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
+import ts from 'typescript';
 import { VERSION as SKYUX_VERSION } from '../../../version';
 import { isPackageUsed } from '../../utility/dependencies';
 import { combineImports } from '../../utility/typescript/combine-imports';
@@ -21,6 +22,32 @@ import { getSourceRoot } from '../../utility/workspace';
 
 const DEPRECATED_PACKAGE = '@skyux-sdk/testing';
 const SUPPORTED_PACKAGE = '@skyux-sdk/vitest';
+
+const JASMINE_ASYNC_MATCHERS = [
+  'toBePending',
+  'toBeRejected',
+  'toBeRejectedWith',
+  'toBeRejectedWithError',
+  'toBeResolved',
+  'toBeResolvedTo',
+];
+
+/**
+ * Returns the matcher called on an `expectAsync(...)` call, skipping `.not`.
+ */
+function getMatcherName(node: ts.Identifier): string {
+  let access = node.parent.parent;
+
+  if (
+    ts.isPropertyAccessExpression(access) &&
+    access.name.text === 'not' &&
+    ts.isPropertyAccessExpression(access.parent)
+  ) {
+    access = access.parent;
+  }
+
+  return ts.isPropertyAccessExpression(access) ? access.name.text : '';
+}
 
 /**
  * This schematic uninstalls our @skyux-sdk/testing jasmine matchers library and
@@ -95,11 +122,16 @@ function migrateSdkTestingImports(): Rule {
           },
           // Vitest has no `expectAsync`; its `expect` handles both. The import
           // itself is dropped later since `expect` is a Vitest global.
+          // Jasmine's built-in async matchers are left for Angular's
+          // `refactor-jasmine-vitest` schematic, which only converts them on
+          // `expectAsync` calls.
           {
             classNames: {
               expectAsync: 'expect',
             },
             moduleName: DEPRECATED_PACKAGE,
+            filter: (node): boolean =>
+              !JASMINE_ASYNC_MATCHERS.includes(getMatcherName(node)),
           },
         ],
       );
