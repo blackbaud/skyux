@@ -23,13 +23,16 @@ import { getSourceRoot } from '../../utility/workspace';
 const DEPRECATED_PACKAGE = '@skyux-sdk/testing';
 const SUPPORTED_PACKAGE = '@skyux-sdk/vitest';
 
-const JASMINE_ASYNC_MATCHERS = [
-  'toBePending',
-  'toBeRejected',
-  'toBeRejectedWith',
-  'toBeRejectedWithError',
-  'toBeResolved',
-  'toBeResolvedTo',
+// The async matchers `@skyux-sdk/testing` registers, which `@skyux-sdk/vitest`
+// supports on `expect`.
+const SKY_ASYNC_MATCHERS = [
+  'toBeAccessible',
+  'toEqualLibResourceText',
+  'toEqualResourceText',
+  'toHaveLibResourceText',
+  'toHaveResourceText',
+  'toMatchLibResourceTemplate',
+  'toMatchResourceTemplate',
 ];
 
 /**
@@ -122,16 +125,15 @@ function migrateSdkTestingImports(): Rule {
           },
           // Vitest has no `expectAsync`; its `expect` handles both. The import
           // itself is dropped later since `expect` is a Vitest global.
-          // Jasmine's built-in async matchers are left for Angular's
-          // `refactor-jasmine-vitest` schematic, which only converts them on
-          // `expectAsync` calls.
+          // Other matchers are left for Angular's `refactor-jasmine-vitest`
+          // schematic, which only converts or flags them on `expectAsync` calls.
           {
             classNames: {
               expectAsync: 'expect',
             },
             moduleName: DEPRECATED_PACKAGE,
             filter: (node): boolean =>
-              !JASMINE_ASYNC_MATCHERS.includes(getMatcherName(node)),
+              SKY_ASYNC_MATCHERS.includes(getMatcherName(node)),
           },
         ],
       );
