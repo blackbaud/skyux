@@ -24,6 +24,12 @@
     },
     "test": {
       "executor": "@angular/build:karma",
+      "dependsOn": [
+        {
+          "target": "build",
+          "projects": "manifest"
+        }
+      ],
       "options": {
         "tsConfig": "libs/components/docs-tools/tsconfig.spec.json",
         "karmaConfig": "libs/components/docs-tools/karma.conf.js",

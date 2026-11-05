@@ -56,17 +56,16 @@
   }
   @switch (def.kind) {
     @case ('function') {
-      <sky-docs-code-snippet
-        bordered
-        class="sky-margin-stacked-lg"
-        hideToolbar
-        language="ts"
-        [code]="
-          def
-            | skyDocsFunctionSignature
-            | skyTypeAnchorLinks: { ignore: [def.name] }
-        "
-      />
+      <sky-docs-code-snippet bordered hideToolbar stacked>
+        <code
+          [innerHTML]="
+            def
+              | skyDocsFunctionSignature
+              | skyDocsCodeHighlight: 'typescript'
+              | skyTypeAnchorLinks: { ignore: [def.name] }
+          "
+        ></code>
+      </sky-docs-code-snippet>
       @let parametersValue = parameters();
       @if (parametersValue && parametersValue.length > 0) {
         <h3>Parameters</h3>

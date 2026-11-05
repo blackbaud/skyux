@@ -101,6 +101,8 @@ export class SkyDocsTypeDefinitionComponent {
             if (a.name > b.name) {
               return 1;
             }
+            // Input names are unique, so two names never compare equal.
+            /* istanbul ignore next */
             return 0;
           })
           // List "required" inputs first.
@@ -144,6 +146,8 @@ export class SkyDocsTypeDefinitionComponent {
   >(() => {
     const def = this.definition();
 
+    // The template only reads parameters for function definitions.
+    /* istanbul ignore next */
     return isFunctionDefinition(def) ? def.parameters : undefined;
   });
 
