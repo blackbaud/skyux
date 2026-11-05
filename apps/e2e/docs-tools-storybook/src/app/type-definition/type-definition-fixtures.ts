@@ -134,19 +134,19 @@ const PIPE: SkyManifestPipeDefinition & SkyManifestDocumentationTypeDefinition =
 const FUNCTION: SkyManifestFunctionDefinition &
   SkyManifestDocumentationTypeDefinition = {
   ...PACKAGE_INFO,
-  anchorId: 'function_provide-sky-example',
-  docsId: 'provideSkyExample',
+  anchorId: 'function_open-sky-example',
+  docsId: 'openSkyExample',
   kind: 'function',
-  name: 'provideSkyExample',
-  type: 'Provider[]',
-  description: 'Provides the services that the `sky-example` element requires.',
+  name: 'openSkyExample',
+  type: 'SkyExampleInstance',
+  description:
+    'Opens an example without injecting `SkyExampleService`, and returns a `SkyExampleInstance`.',
   parameters: [
     {
-      name: 'defaultHeading',
-      type: 'string',
+      name: 'config',
+      type: 'SkyExampleConfig',
       isOptional: true,
-      description:
-        'The heading to apply to every `SkyExampleComponent` that does not set `heading`.',
+      description: 'The configuration for the example.',
     },
   ],
 };
