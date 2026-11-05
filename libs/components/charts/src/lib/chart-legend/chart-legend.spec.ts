@@ -92,6 +92,36 @@ describe('Chart legend component', () => {
     expect(document.activeElement).toBe(buttons[1]);
   });
 
+  it('should move focus to the next item with ArrowDown and the previous item with ArrowUp', () => {
+    fixture.detectChanges();
+    const buttons = getButtons();
+
+    buttons[0].focus();
+    expect(pressKey(buttons[0], 'ArrowDown').defaultPrevented).toBeTrue();
+    expect(document.activeElement).toBe(buttons[1]);
+
+    pressKey(buttons[1], 'ArrowUp');
+    pressKey(buttons[0], 'ArrowUp');
+    expect(document.activeElement).toBe(buttons[2]);
+  });
+
+  it('should reset the tab stop to the first item when focus leaves the legend', () => {
+    fixture.detectChanges();
+    const outside = document.createElement('button');
+    document.body.appendChild(outside);
+
+    getButtons()[2].focus();
+    getButtons()[1].focus();
+    fixture.detectChanges();
+    expect(getTabIndexes()).toEqual(['-1', '0', '-1']);
+
+    outside.focus();
+    fixture.detectChanges();
+    expect(getTabIndexes()).toEqual(['0', '-1', '-1']);
+
+    outside.remove();
+  });
+
   it('should move focus to the first and last items with Home and End', () => {
     fixture.detectChanges();
     const buttons = getButtons();
@@ -113,14 +143,14 @@ describe('Chart legend component', () => {
     expect(document.activeElement).toBe(buttons[0]);
   });
 
-  it('should keep a tab stop when the focused item is removed', () => {
+  it('should move the tab stop to the first item when the focused item is removed', () => {
     fixture.detectChanges();
 
     getButtons()[2].focus();
     fixture.componentRef.setInput('items', createItems(2));
     fixture.detectChanges();
 
-    expect(getTabIndexes()).toEqual(['-1', '0']);
+    expect(getTabIndexes()).toEqual(['0', '-1']);
   });
 
   it('should emit the index of the clicked item', () => {
