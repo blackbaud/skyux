@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.10.1](https://github.com/blackbaud/skyux/compare/15.10.0...15.10.1) (2026-11-05)
+
+### Bug Fixes
+
+* **components/docs-tools:** render type links in function signature snippets ([#4948](https://github.com/blackbaud/skyux/issues/4948)) ([ebdc12c](https://github.com/blackbaud/skyux/commit/ebdc12c2f66d81ddd30da581a69220efaba30c11))
+
 ## [15.10.0](https://github.com/blackbaud/skyux/compare/15.9.0...15.10.0) (2026-11-05)
 
 ### Features
