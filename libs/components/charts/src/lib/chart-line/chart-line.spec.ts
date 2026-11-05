@@ -15,9 +15,9 @@ import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
+import { type SkyChartDataPointClick } from '../chart-plot/chart-data-point-click';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
-import { type SkyChartDataPointClick } from '../shared/chart-data-point-click';
 import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartLine } from './chart-line';
@@ -364,7 +364,7 @@ describe('Chart line component', () => {
     fixture.detectChanges();
 
     const dataPoints: HTMLElement[] = Array.from(
-      fixture.nativeElement.querySelectorAll('.sky-chart-js-data-point'),
+      fixture.nativeElement.querySelectorAll('.sky-chart-data-point'),
     );
     dataPoints[1].click();
 

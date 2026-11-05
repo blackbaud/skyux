@@ -47,8 +47,7 @@ export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
 
   /**
    * Fires when the user clicks a data point, or presses Enter or Space while a
-   * data point has focus. When this output has a listener, data points show a
-   * pointer cursor and are announced as buttons.
+   * data point has focus.
    */
   public readonly dataPointClick = outputFromObservable(
     this.dataPointClickSource,
@@ -58,10 +57,6 @@ export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
   protected override readonly seriesSelector = 'sky-chart-bar-series';
   protected override readonly accessibleSummaryResourceKey =
     'skyux_charts.chart.bar.accessible_summary';
-  protected readonly seriesSummaryResourceKeys = {
-    singular: 'skyux_charts.chart.bar.series_summary_singular',
-    plural: 'skyux_charts.chart.bar.series_summary_plural',
-  };
 
   protected readonly chartJsConfig = computed(() => this.#getChartJsConfig());
 

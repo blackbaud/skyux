@@ -11,7 +11,7 @@ export class SkyChartDataPointHarness extends SkyComponentHarness {
   /**
    * @internal
    */
-  public static readonly hostSelector = '.sky-chart-js-data-point';
+  public static readonly hostSelector = '.sky-chart-data-point';
 
   /**
    * Gets a `HarnessPredicate` that can be used to search for a

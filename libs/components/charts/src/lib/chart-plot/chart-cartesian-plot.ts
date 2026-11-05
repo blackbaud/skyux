@@ -14,17 +14,17 @@ import { EMPTY, map, Subject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
+import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/data-point-geometry';
 import {
   buildCartesianTable,
   resolveCartesianData,
   type SkyChartCartesianData,
   type SkyChartCartesianSeries,
 } from '../chart-js/cartesian-utils';
-import { type SkyChartJsDataPointIndex } from '../chart-js/chart-js';
 import { type SkyChartLegendItem } from '../chart-legend/chart-legend';
 import { SkyChartTable } from '../chart-table/chart-table';
 import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
-import { type SkyChartDataPointClick } from '../shared/chart-data-point-click';
+import { type SkyChartDataPointClick } from './chart-data-point-click';
 import { SkyChartPlot } from './chart-plot';
 
 /**
@@ -78,11 +78,6 @@ export abstract class SkyChartCartesianPlot<
    */
   protected abstract readonly accessibleSummaryResourceKey: string;
 
-  /**
-   * The source of each subclass's `dataPointClick` output. Its `observed` flag
-   * tells whether a consumer listens, which decides whether data points
-   * present as clickable.
-   */
   protected readonly dataPointClickSource =
     new Subject<SkyChartDataPointClick>();
 

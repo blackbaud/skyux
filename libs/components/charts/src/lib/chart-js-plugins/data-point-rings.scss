@@ -1,0 +1,47 @@
+// The themed styles of the data point rings drawn by `data-point-plugin.ts`.
+// The canvas cannot read CSS variables, so the plugin resolves these custom
+// properties from the canvas's computed style. Include this mixin on an
+// ancestor of the canvas. The states match the legend buttons' interaction
+// states.
+@mixin custom-properties {
+  --sky-chart-data-point-ring-radius: var(
+    --sky-override-chart-border-radius-s,
+    var(--sky-border-radius-s)
+  );
+  --sky-chart-data-point-ring-hover-border-width: var(
+    --sky-border-width-action-hover,
+    1px
+  );
+  --sky-chart-data-point-ring-hover-border-color: var(
+    --sky-color-border-action-tertiary-hover,
+    #0974a1
+  );
+  --sky-chart-data-point-ring-hover-background-color: var(
+    --sky-color-background-action-tertiary-hover,
+    #eeeeef
+  );
+  --sky-chart-data-point-ring-active-border-width: var(
+    --sky-border-width-action-active,
+    2px
+  );
+  --sky-chart-data-point-ring-active-border-color: var(
+    --sky-color-border-action-tertiary-active,
+    #0974a1
+  );
+  --sky-chart-data-point-ring-active-background-color: var(
+    --sky-color-background-action-tertiary-active,
+    transparent
+  );
+  --sky-chart-data-point-ring-focus-border-width: var(
+    --sky-border-width-action-focus,
+    2px
+  );
+  --sky-chart-data-point-ring-focus-border-color: var(
+    --sky-color-border-action-tertiary-focus,
+    #0974a1
+  );
+  --sky-chart-data-point-ring-focus-background-color: var(
+    --sky-color-background-action-tertiary-focus,
+    transparent
+  );
+}

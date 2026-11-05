@@ -49,6 +49,7 @@ export function getAdjacentSeriesDataPoint<
   const datasetIndexes = [
     ...new Set(dataPoints.map((dataPoint) => dataPoint.datasetIndex)),
   ];
+
   const targetDatasetIndex =
     datasetIndexes[
       datasetIndexes.indexOf(current.datasetIndex) + (down ? -1 : 1)

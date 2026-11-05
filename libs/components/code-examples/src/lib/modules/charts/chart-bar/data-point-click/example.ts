@@ -30,11 +30,18 @@ export class ChartsChartBarDataPointClickExample {
   protected readonly online = [42000, 38500, 51200, 67800];
   protected readonly inPerson = [25300, 31000, 28400, 45100];
 
-  protected readonly selection = signal<SkyChartDataPointClick | undefined>(
-    undefined,
-  );
+  protected readonly selection = signal<
+    | { category: string | number; seriesLabelText: string; value: number }
+    | undefined
+  >(undefined);
 
   protected onDataPointClick(dataPoint: SkyChartDataPointClick): void {
-    this.selection.set(dataPoint);
+    const { category, seriesLabelText, value } = dataPoint;
+
+    // Floating bars report their value as a [start, end] range. This chart
+    // plots only single values, so ranges are ignored.
+    if (typeof value === 'number') {
+      this.selection.set({ category, seriesLabelText, value });
+    }
   }
 }

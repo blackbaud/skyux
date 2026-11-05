@@ -15,9 +15,9 @@ import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
+import { type SkyChartDataPointClick } from '../chart-plot/chart-data-point-click';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
-import { type SkyChartDataPointClick } from '../shared/chart-data-point-click';
 import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartBar } from './chart-bar';
@@ -162,7 +162,7 @@ describe('Chart bar component', () => {
 
   function getDataPoints(): HTMLElement[] {
     return Array.from(
-      fixture.nativeElement.querySelectorAll('.sky-chart-js-data-point'),
+      fixture.nativeElement.querySelectorAll('.sky-chart-data-point'),
     );
   }
 
@@ -479,6 +479,20 @@ describe('Chart bar component', () => {
     getDataPoints()[0].click();
 
     expect(fixture.componentInstance.dataPointClick?.value).toEqual([5, 15]);
+  });
+
+  it('should list every series in the tooltip of a focused data point, like a hover', async () => {
+    fixture.componentRef.setInput('renderSecondSeries', true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    getDataPoints()[1].focus();
+
+    expect(requireChart().tooltip?.getActiveElements()).toEqual([
+      jasmine.objectContaining({ datasetIndex: 0, index: 1 }),
+      jasmine.objectContaining({ datasetIndex: 1, index: 1 }),
+    ]);
   });
 
   it('should present data points as buttons when a click listener is bound', async () => {
