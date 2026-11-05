@@ -36,16 +36,14 @@ const SKY_ASYNC_MATCHERS = [
 ];
 
 /**
- * Returns the matcher called on an `expectAsync(...)` call, skipping `.not`.
+ * Returns the matcher called on an `expectAsync(...)` call, skipping `.not`,
+ * or an empty string when the call isn't followed by a matcher, e.g. when it
+ * is assigned to a variable.
  */
 function getMatcherName(node: ts.Identifier): string {
   let access = node.parent.parent;
 
-  if (
-    ts.isPropertyAccessExpression(access) &&
-    access.name.text === 'not' &&
-    ts.isPropertyAccessExpression(access.parent)
-  ) {
+  if (ts.isPropertyAccessExpression(access) && access.name.text === 'not') {
     access = access.parent;
   }
 
@@ -125,15 +123,19 @@ function migrateSdkTestingImports(): Rule {
           },
           // Vitest has no `expectAsync`; its `expect` handles both. The import
           // itself is dropped later since `expect` is a Vitest global.
-          // Other matchers are left for Angular's `refactor-jasmine-vitest`
-          // schematic, which only converts or flags them on `expectAsync` calls.
+          // Calls followed by any other matcher are left for Angular's
+          // `refactor-jasmine-vitest` schematic, which only converts or flags
+          // them on `expectAsync` calls.
           {
             classNames: {
               expectAsync: 'expect',
             },
             moduleName: DEPRECATED_PACKAGE,
-            filter: (node): boolean =>
-              SKY_ASYNC_MATCHERS.includes(getMatcherName(node)),
+            filter: (node): boolean => {
+              const matcherName = getMatcherName(node);
+
+              return !matcherName || SKY_ASYNC_MATCHERS.includes(matcherName);
+            },
           },
         ],
       );

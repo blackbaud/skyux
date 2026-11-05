@@ -156,7 +156,7 @@ describe('test', () => {
 `);
   });
 
-  it('should only rename `expectAsync` calls to SKY UX async matchers', async () => {
+  it("should leave `expectAsync` calls to other matchers for Angular's refactor", async () => {
     const tree = setupTree({
       '/src/app/test.spec.ts': `import { expectAsync } from '@skyux-sdk/testing';
 
@@ -169,6 +169,7 @@ describe('test', () => {
     await expectAsync(e).toBeRejectedWithMatching(f);
     await expectAsync(g).withContext('msg').toBeResolvedTo(2);
     const h = expectAsync(i);
+    await h.toBeAccessible();
     const j = expectAsync(k).not;
   });
 });
@@ -186,8 +187,9 @@ describe('test', () => {
     await expect(d).not.toEqualResourceText('foo');
     await expectAsync(e).toBeRejectedWithMatching(f);
     await expectAsync(g).withContext('msg').toBeResolvedTo(2);
-    const h = expectAsync(i);
-    const j = expectAsync(k).not;
+    const h = expect(i);
+    await h.toBeAccessible();
+    const j = expect(k).not;
   });
 });
 `);
