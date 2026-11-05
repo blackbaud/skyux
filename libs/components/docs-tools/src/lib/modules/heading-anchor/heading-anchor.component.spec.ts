@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 
 import { SkyDocsHeadingAnchorComponent } from './heading-anchor.component';
 
@@ -35,5 +35,19 @@ describe('Heading anchor component', () => {
     const el = await render(9);
 
     expect(el.querySelector('h2')).toExist();
+  });
+
+  describe('a11y', () => {
+    it('should be accessible at the specified heading level', async () => {
+      const el = await render('4');
+
+      await expectAsync(el).toBeAccessible();
+    });
+
+    it('should be accessible at the fallback heading level', async () => {
+      const el = await render(9);
+
+      await expectAsync(el).toBeAccessible();
+    });
   });
 });

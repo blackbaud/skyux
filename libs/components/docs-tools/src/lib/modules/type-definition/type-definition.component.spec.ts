@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Params, provideRouter } from '@angular/router';
-import { expect } from '@skyux-sdk/testing';
+import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
 import type {
   SkyManifestClassDefinition,
@@ -34,24 +34,24 @@ const ANCHOR_IDS: Record<string, string> = {
   SkyExampleInstance: 'class_sky-example-instance',
 };
 
-function createDefinition<T extends object>(
-  kind: SkyManifestParentDefinitionKind,
-  name: string,
-  overrides?: T,
-): SkyManifestDocumentationTypeDefinition & T {
-  return {
-    ...PACKAGE_INFO,
-    anchorId: `${kind}_${name}`,
-    docsId: name,
-    kind,
-    name,
-    ...(overrides as T),
-  };
-}
-
 describe('Type definition component', () => {
   let fixture: ComponentFixture<SkyDocsTypeDefinitionComponent>;
   let queryParams: BehaviorSubject<Params>;
+
+  function createDefinition<T extends object>(
+    kind: SkyManifestParentDefinitionKind,
+    name: string,
+    overrides?: T,
+  ): SkyManifestDocumentationTypeDefinition & T {
+    return {
+      ...PACKAGE_INFO,
+      anchorId: `${kind}_${name}`,
+      docsId: name,
+      kind,
+      name,
+      ...(overrides as T),
+    };
+  }
 
   function getElement(): HTMLElement {
     return fixture.nativeElement as HTMLElement;
@@ -556,5 +556,85 @@ describe('Type definition component', () => {
         history.replaceState(null, '', originalUrl);
       }
     });
+  });
+
+  describe('a11y', () => {
+    for (const definition of [
+      createDefinition<Partial<SkyManifestFunctionDefinition>>(
+        'function',
+        'openSkyExample',
+        {
+          type: 'SkyExampleInstance',
+          parameters: [
+            {
+              name: 'config',
+              type: 'SkyExampleConfig',
+              description: 'The configuration.',
+            },
+          ],
+        },
+      ),
+      createDefinition('function', 'loadSkyExample', { type: 'void' }),
+      createDefinition<Partial<SkyManifestDirectiveDefinition>>(
+        'component',
+        'SkyExampleComponent',
+        {
+          isPreview: true,
+          selector: 'sky-example',
+          children: [
+            {
+              kind: 'directive-input',
+              name: 'heading',
+              type: 'string',
+              isRequired: true,
+            },
+            {
+              kind: 'directive-input',
+              name: 'closeable',
+              type: 'boolean',
+              defaultValue: 'false',
+              isDeprecated: true,
+              deprecationReason: 'Use `closeButtonVisible` instead.',
+            },
+            {
+              kind: 'directive-output',
+              name: 'closeClick',
+              type: 'EventEmitter<SkyExampleConfig>',
+            },
+          ],
+        },
+      ),
+      createDefinition<Partial<SkyManifestClassDefinition>>(
+        'service',
+        'SkyExampleService',
+        {
+          description: 'Opens examples.',
+          children: [
+            { kind: 'class-property', name: 'isOpen', type: 'boolean' },
+            {
+              kind: 'class-method',
+              name: 'open',
+              type: 'SkyExampleInstance',
+              parameters: [{ name: 'config', type: 'SkyExampleConfig' }],
+            },
+          ],
+        },
+      ),
+      createDefinition<Partial<SkyManifestTypeAliasDefinition>>(
+        'type-alias',
+        'SkyExampleAppearance',
+        { type: "'info' | 'danger'" },
+      ),
+    ]) {
+      it(`should be accessible for the ${definition.name} ${definition.kind}`, async () => {
+        await render(definition);
+
+        // The code highlight theme and type link colors don't meet contrast
+        // requirements. Re-enable this rule when Code Block is migrated.
+        await expectAsync(fixture.nativeElement).toBeAccessible({
+          rules: { 'color-contrast': { enabled: false } },
+        });
+      });
+    }
   });
 });
