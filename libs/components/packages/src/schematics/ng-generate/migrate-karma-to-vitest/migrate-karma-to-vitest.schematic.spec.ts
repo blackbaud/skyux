@@ -138,7 +138,7 @@ import { expectAsync, SkyA11yAnalyzerConfig } from '@skyux-sdk/testing';
 describe('test', () => {
   const options: SkyToBeVisibleOptions = {};
   const config: SkyA11yAnalyzerConfig = {};
-  expectAsync(options).toBeResolved();
+  expectAsync(options).toBeAccessible();
 });
 `,
     });
@@ -151,7 +151,46 @@ describe('test', () => {
 describe('test', () => {
   const options: SkyToBeVisibleOptions = {};
   const config: SkyToBeAccessibleOptions = {};
-  expect(options).toBeResolved();
+  expect(options).toBeAccessible();
+});
+`);
+  });
+
+  it("should leave `expectAsync` calls to other matchers for Angular's refactor", async () => {
+    const tree = setupTree({
+      '/src/app/test.spec.ts': `import { expectAsync } from '@skyux-sdk/testing';
+
+describe('test', () => {
+  it('works', async () => {
+    await expectAsync(a).toBeResolvedTo(1);
+    await expectAsync(b).not.toBeRejected();
+    await expectAsync(c).toBeAccessible();
+    await expectAsync(d).not.toEqualResourceText('foo');
+    await expectAsync(e).toBeRejectedWithMatching(f);
+    await expectAsync(g).withContext('msg').toBeResolvedTo(2);
+    const h = expectAsync(i);
+    await h.toBeAccessible();
+    const j = expectAsync(k).not;
+  });
+});
+`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/src/app/test.spec.ts')).toBe(`
+describe('test', () => {
+  it('works', async () => {
+    await expectAsync(a).toBeResolvedTo(1);
+    await expectAsync(b).not.toBeRejected();
+    await expect(c).toBeAccessible();
+    await expect(d).not.toEqualResourceText('foo');
+    await expectAsync(e).toBeRejectedWithMatching(f);
+    await expectAsync(g).withContext('msg').toBeResolvedTo(2);
+    const h = expect(i);
+    await h.toBeAccessible();
+    const j = expect(k).not;
+  });
 });
 `);
   });
