@@ -1,7 +1,7 @@
-import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+import { forEachThemeAndBrand } from '../support/themes';
 
 describe('Modal Colorpicker', () => {
-  E2eVariations.forEachTheme((theme) => {
+  forEachThemeAndBrand((theme) => {
     [768, 500].forEach((height) => {
       it(`should fit colorpicker into the 900x${height} viewport and buttons should be clickable`, () => {
         cy.viewport(900, height)

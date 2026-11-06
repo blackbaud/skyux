@@ -1,7 +1,9 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+import { forEachThemeAndBrand } from '../support/themes';
+
 describe('repeater spacing', () => {
-  E2eVariations.forEachTheme((theme) => {
+  forEachThemeAndBrand((theme) => {
     describe(`in ${theme} theme`, () => {
       it('should adjust the vertical space above a repeater', () => {
         cy.viewport(E2eVariations.DISPLAY_WIDTHS[0], 1200)

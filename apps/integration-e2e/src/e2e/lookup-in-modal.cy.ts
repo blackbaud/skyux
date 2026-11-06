@@ -1,7 +1,9 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+import { forEachThemeAndBrand } from '../support/themes';
+
 describe('lookup in modal', () => {
-  E2eVariations.forEachTheme((theme) => {
+  forEachThemeAndBrand((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
         cy.viewport(E2eVariations.DISPLAY_WIDTHS[0], 1200)

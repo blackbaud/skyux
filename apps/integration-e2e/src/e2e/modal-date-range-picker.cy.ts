@@ -1,7 +1,7 @@
-import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+import { forEachThemeAndBrand } from '../support/themes';
 
 describe('Modal Date range picker', () => {
-  E2eVariations.forEachTheme((theme) => {
+  forEachThemeAndBrand((theme) => {
     it(`should render the date range picker component in a modal`, () => {
       cy.viewport(900, 768)
         .visit('/')
