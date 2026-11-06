@@ -23,6 +23,15 @@ function hoverDataPoint(category: string, series: string): void {
       parseFloat(top) + parseFloat(height) / 2,
     );
   });
+
+  // Chart.js handles pointer events on the next animation frame, so wait for
+  // it to register the hover before continuing.
+  cy.window().then(
+    (win) =>
+      new Cypress.Promise<void>((resolve) =>
+        win.requestAnimationFrame(() => resolve()),
+      ),
+  );
 }
 
 describe('ChartBar', () => {
