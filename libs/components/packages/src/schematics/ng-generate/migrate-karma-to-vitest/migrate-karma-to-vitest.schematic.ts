@@ -10,6 +10,7 @@ import {
   removePackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
+import ts from 'typescript';
 import { VERSION as SKYUX_VERSION } from '../../../version';
 import { isPackageUsed } from '../../utility/dependencies';
 import { combineImports } from '../../utility/typescript/combine-imports';
@@ -21,6 +22,33 @@ import { getSourceRoot } from '../../utility/workspace';
 
 const DEPRECATED_PACKAGE = '@skyux-sdk/testing';
 const SUPPORTED_PACKAGE = '@skyux-sdk/vitest';
+
+// The async matchers `@skyux-sdk/testing` registers, which `@skyux-sdk/vitest`
+// supports on `expect`.
+const SKY_ASYNC_MATCHERS = [
+  'toBeAccessible',
+  'toEqualLibResourceText',
+  'toEqualResourceText',
+  'toHaveLibResourceText',
+  'toHaveResourceText',
+  'toMatchLibResourceTemplate',
+  'toMatchResourceTemplate',
+];
+
+/**
+ * Returns the matcher called on an `expectAsync(...)` call, skipping `.not`,
+ * or an empty string when the call isn't followed by a matcher, e.g. when it
+ * is assigned to a variable.
+ */
+function getMatcherName(node: ts.Identifier): string {
+  let access = node.parent.parent;
+
+  if (ts.isPropertyAccessExpression(access) && access.name.text === 'not') {
+    access = access.parent;
+  }
+
+  return ts.isPropertyAccessExpression(access) ? access.name.text : '';
+}
 
 /**
  * This schematic uninstalls our @skyux-sdk/testing jasmine matchers library and
@@ -95,11 +123,19 @@ function migrateSdkTestingImports(): Rule {
           },
           // Vitest has no `expectAsync`; its `expect` handles both. The import
           // itself is dropped later since `expect` is a Vitest global.
+          // Calls followed by any other matcher are left for Angular's
+          // `refactor-jasmine-vitest` schematic, which only converts or flags
+          // them on `expectAsync` calls.
           {
             classNames: {
               expectAsync: 'expect',
             },
             moduleName: DEPRECATED_PACKAGE,
+            filter: (node): boolean => {
+              const matcherName = getMatcherName(node);
+
+              return !matcherName || SKY_ASYNC_MATCHERS.includes(matcherName);
+            },
           },
         ],
       );
