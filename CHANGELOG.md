@@ -1,7 +1,11 @@
 # Changelog
 
 
-## [15.10.1](https://github.com/blackbaud/skyux/compare/15.10.0...15.10.1) (2026-11-06)
+## [15.11.0](https://github.com/blackbaud/skyux/compare/15.10.0...15.11.0) (2026-11-06)
+
+### Features
+
+* **components/charts:** add keyboard-accessible legend ([#4941](https://github.com/blackbaud/skyux/issues/4941)) ([cbc4250](https://github.com/blackbaud/skyux/commit/cbc42509394a9384fa006f7991120dcb5224553e))
 
 ### Bug Fixes
 
