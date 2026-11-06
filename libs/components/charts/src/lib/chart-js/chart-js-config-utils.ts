@@ -5,7 +5,7 @@ import { type SkyChartJsConfig } from './chart-js';
 
 /**
  * Builds the Chart.js `options` shared by every SKY chart type: responsiveness,
- * layout, interaction, hover, animation, and the themed legend and tooltip.
+ * layout, interaction, hover, animation, and the themed tooltip.
  */
 function buildBaseChartJsOptions(
   themeStyles: SkyChartThemeStyles,
@@ -38,15 +38,7 @@ function buildBaseChartJsOptions(
       : false,
 
     plugins: {
-      legend: {
-        position: 'bottom',
-        labels: {
-          usePointStyle: true,
-          pointStyle: 'circle',
-          color: text.color,
-          font: bodyFont,
-        },
-      },
+      legend: { display: false },
       tooltip: {
         enabled: true,
         position: 'average',
@@ -112,10 +104,6 @@ export function extendBaseChartJsConfig<TType extends ChartType = ChartType>(
     plugins: {
       ...base.plugins,
       ...overrides.options.plugins,
-      legend: {
-        ...base.plugins?.legend,
-        ...overrides.options.plugins?.legend,
-      },
       tooltip: {
         ...base.plugins?.tooltip,
         ...overrides.options.plugins?.tooltip,

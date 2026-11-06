@@ -1,0 +1,133 @@
+:host {
+  display: block;
+  margin-top: var(
+    --sky-override-chart-space-stacked-s,
+    var(--sky-space-stacked-s)
+  );
+}
+
+.sky-chart-legend-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(
+    --sky-override-chart-space-gap-action_group-s,
+    var(--sky-space-gap-action_group-s)
+  );
+}
+
+.sky-chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sky-override-chart-space-gap-icon-s, var(--sky-space-gap-icon-s));
+  padding: var(
+      --sky-override-chart-comp-chart-legend_item-space-inset-top,
+      var(--sky-comp-chart-legend_item-space-inset-top)
+    )
+    var(
+      --sky-override-chart-comp-chart-legend_item-space-inset-right,
+      var(--sky-comp-chart-legend_item-space-inset-right)
+    )
+    var(
+      --sky-override-chart-comp-chart-legend_item-space-inset-bottom,
+      var(--sky-comp-chart-legend_item-space-inset-bottom)
+    )
+    var(
+      --sky-override-chart-comp-chart-legend_item-space-inset-left,
+      var(--sky-comp-chart-legend_item-space-inset-left)
+    );
+  border: none;
+  border-radius: var(
+    --sky-override-chart-border-radius-s,
+    var(--sky-border-radius-s)
+  );
+  background-color: var(
+    --sky-override-chart-color-background-action-tertiary-base,
+    var(--sky-color-background-action-tertiary-base)
+  );
+  // Borders are drawn as inset shadows so width changes don't shift the layout.
+  box-shadow: var(
+    --sky-override-chart-legend-item-box-shadow-base,
+    inset 0 0 0 var(--sky-border-width-action-base)
+      var(--sky-color-border-action-tertiary-base),
+    var(--sky-elevation-action-tertiary-base)
+  );
+  cursor: pointer;
+  font-family: var(
+    --sky-override-chart-font-family-primary,
+    var(--sky-font-family-primary)
+  );
+  font-size: var(
+    --sky-override-chart-font-size-body-s,
+    var(--sky-font-size-body-s)
+  );
+  font-weight: var(
+    --sky-override-chart-font-style-body-s,
+    var(--sky-font-style-body-s)
+  );
+  line-height: var(
+    --sky-override-chart-font-line_height-body-s,
+    var(--sky-font-line_height-body-s)
+  );
+  color: var(
+    --sky-override-chart-color-text-deemphasized,
+    var(--sky-color-text-deemphasized)
+  );
+
+  &:hover {
+    background-color: var(
+      --sky-override-chart-color-background-action-tertiary-hover,
+      var(--sky-color-background-action-tertiary-hover)
+    );
+    box-shadow: var(
+      --sky-override-chart-legend-item-box-shadow-hover,
+      inset 0 0 0 var(--sky-border-width-action-hover)
+        var(--sky-color-border-action-tertiary-hover),
+      var(--sky-elevation-action-tertiary-hover)
+    );
+  }
+
+  &:active {
+    background-color: var(
+      --sky-override-chart-color-background-action-tertiary-active,
+      var(--sky-color-background-action-tertiary-active)
+    );
+    box-shadow: var(
+      --sky-override-chart-legend-item-box-shadow-active,
+      inset 0 0 0 var(--sky-border-width-action-active)
+        var(--sky-color-border-action-tertiary-active),
+      var(--sky-elevation-action-tertiary-active)
+    );
+  }
+
+  &:focus-visible:not(:active) {
+    // Forced-colors mode drops box-shadow but paints this outline.
+    outline: 2px solid transparent;
+    background-color: var(
+      --sky-override-chart-color-background-action-tertiary-focus,
+      var(--sky-color-background-action-tertiary-focus)
+    );
+    box-shadow: var(
+      --sky-override-chart-legend-item-box-shadow-focus,
+      inset 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus),
+      var(--sky-elevation-action-tertiary-focus)
+    );
+  }
+
+  // Strike through hidden series so their state is not conveyed by color alone.
+  &[aria-pressed='false'] {
+    text-decoration: line-through;
+
+    .sky-chart-legend-swatch {
+      opacity: 0.4;
+    }
+  }
+}
+
+.sky-chart-legend-swatch {
+  flex-shrink: 0;
+  width: var(--sky-override-chart-size-icon-xs, var(--sky-size-icon-xs));
+  height: var(--sky-override-chart-size-icon-xs, var(--sky-size-icon-xs));
+  border-radius: 50%;
+}
