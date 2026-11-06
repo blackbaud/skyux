@@ -304,28 +304,14 @@ describe('Chart.js component', () => {
   });
 
   describe('focus', () => {
-    it('should show the tooltip and the themed focus ring for the focused data point', async () => {
+    it('should show the tooltip for the focused data point', async () => {
       await render();
-
-      const strokes: { strokeStyle: string; lineWidth: number }[] = [];
-      const { stroke } = CanvasRenderingContext2D.prototype;
-      spyOn(CanvasRenderingContext2D.prototype, 'stroke').and.callFake(
-        function (this: CanvasRenderingContext2D, ...args: []) {
-          strokes.push({
-            strokeStyle: String(this.strokeStyle),
-            lineWidth: this.lineWidth,
-          });
-          stroke.apply(this, args as unknown as [Path2D]);
-        },
-      );
 
       getDataPoint('b', 'First').focus();
 
       expect(getChart().tooltip?.getActiveElements()).toEqual([
         jasmine.objectContaining({ datasetIndex: 0, index: 1 }),
       ]);
-      // The ring styles come from the custom properties applied to the host.
-      expect(strokes).toContain({ strokeStyle: '#0974a1', lineWidth: 2 });
     });
 
     it('should hide the tooltip when a data point loses focus', async () => {

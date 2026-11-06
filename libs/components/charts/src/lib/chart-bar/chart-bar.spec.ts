@@ -106,6 +106,26 @@ class TestComponent {
   public values = input<SkyChartBarSeriesValue[]>([10, 20]);
 }
 
+// Records the style of every stroke drawn on a canvas, such as the data point
+// rings.
+function spyOnStrokes(): { strokeStyle: string; lineWidth: number }[] {
+  const strokes: { strokeStyle: string; lineWidth: number }[] = [];
+  const { stroke } = CanvasRenderingContext2D.prototype;
+
+  spyOn(CanvasRenderingContext2D.prototype, 'stroke').and.callFake(function (
+    this: CanvasRenderingContext2D,
+    ...args: []
+  ) {
+    strokes.push({
+      strokeStyle: String(this.strokeStyle),
+      lineWidth: this.lineWidth,
+    });
+    stroke.apply(this, args as unknown as [Path2D]);
+  });
+
+  return strokes;
+}
+
 describe('Chart bar component', () => {
   let fixture: ComponentFixture<TestComponent>;
   let destroyed: boolean;
@@ -214,7 +234,11 @@ describe('Chart bar component', () => {
   });
 
   afterEach(() => {
-    document.body.classList.remove('sky-theme-modern', 'sky-theme-brand-base');
+    document.body.classList.remove(
+      'sky-theme-modern',
+      'sky-theme-brand-base',
+      'sky-theme-mode-light',
+    );
 
     if (!destroyed) {
       fixture.destroy();
@@ -493,6 +517,22 @@ describe('Chart bar component', () => {
       jasmine.objectContaining({ datasetIndex: 0, index: 1 }),
       jasmine.objectContaining({ datasetIndex: 1, index: 1 }),
     ]);
+  });
+
+  it('should draw the focus ring from the modern theme tokens', async () => {
+    // The action border colors are defined per theme mode.
+    document.body.classList.add('sky-theme-mode-light');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const strokes = spyOnStrokes();
+    getDataPoints()[0].focus();
+
+    // Themed charts animate, so draw now rather than on a later frame.
+    requireChart().draw();
+
+    expect(strokes).toContain({ strokeStyle: '#2b6bd5', lineWidth: 2 });
   });
 
   it('should present data points as buttons when a click listener is bound', async () => {
@@ -1006,6 +1046,33 @@ describe('Chart bar component in the default theme', () => {
     };
 
     expect(ticks.color).toBe('#212327');
+
+    fixture.destroy();
+  });
+
+  it('should draw the focus ring from the wrapper\u2019s default-theme overrides', async () => {
+    TestBed.configureTestingModule({ imports: [WrappedComponent] });
+
+    const fixture = TestBed.createComponent(WrappedComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // The data points are measured after the chart's first layout.
+    fixture.detectChanges();
+
+    const strokes = spyOnStrokes();
+    (
+      fixture.nativeElement.querySelector(
+        '.sky-chart-data-point',
+      ) as HTMLElement
+    ).focus();
+
+    // Themed charts animate, so draw now rather than on a later frame.
+    (
+      Chart.getChart(fixture.nativeElement.querySelector('canvas')) as Chart
+    ).draw();
+
+    expect(strokes).toContain({ strokeStyle: '#0974a1', lineWidth: 2 });
 
     fixture.destroy();
   });
