@@ -1,4 +1,5 @@
 import { Component, computed, contentChildren, input } from '@angular/core';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { type ChartDataset } from 'chart.js';
 
 import {
@@ -43,6 +44,14 @@ export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
    * @default 'grouped'
    */
   public readonly seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
+
+  /**
+   * Fires when the user clicks a data point, or presses Enter or Space while a
+   * data point has focus.
+   */
+  public readonly dataPointClick = outputFromObservable(
+    this.dataPointClickSource,
+  );
 
   protected override readonly series = contentChildren(SkyChartBarSeries);
   protected override readonly seriesSelector = 'sky-chart-bar-series';

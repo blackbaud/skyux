@@ -15,6 +15,7 @@ import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
+import { type SkyChartDataPointClick } from '../chart-plot/chart-data-point-click';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
 import { SkyChartValueFormat } from '../shared/value-format';
@@ -41,7 +42,7 @@ type ScaleProbe = {
   ],
   template: `
     <sky-chart headingText="Test chart">
-      <sky-chart-line>
+      <sky-chart-line (dataPointClick)="dataPointClick = $event">
         @if (renderCategoryAxis()) {
           <sky-chart-axis-category
             labelText="Year"
@@ -83,6 +84,8 @@ class TestComponent {
   public seriesLabel = input('Acquisitions');
   public valueScaleType = input<'linear' | 'logarithmic'>('linear');
   public values = input<SkyChartLineSeriesValue[]>([10, 20]);
+
+  public dataPointClick: SkyChartDataPointClick | undefined;
 }
 
 describe('Chart line component', () => {
@@ -353,6 +356,25 @@ describe('Chart line component', () => {
     fixture.detectChanges();
 
     expect(getLegendButtons().length).toBe(0);
+  });
+
+  it('should emit the clicked data point', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const dataPoints: HTMLElement[] = Array.from(
+      fixture.nativeElement.querySelectorAll('.sky-chart-data-point'),
+    );
+    dataPoints[1].click();
+
+    expect(fixture.componentInstance.dataPointClick).toEqual({
+      category: '2024',
+      categoryIndex: 1,
+      seriesIndex: 0,
+      seriesLabelText: 'Acquisitions',
+      value: 20,
+    });
   });
 
   it('should toggle a series when its legend button is clicked', async () => {

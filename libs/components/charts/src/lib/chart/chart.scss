@@ -48,10 +48,26 @@
   --sky-override-chart-legend-item-box-shadow-hover: inset 0 0 0 1px #0974a1;
   --sky-override-chart-legend-item-box-shadow-active: inset 0 0 0 2px #0974a1;
   --sky-override-chart-legend-item-box-shadow-focus: inset 0 0 0 2px #0974a1;
+  // The data point rings are drawn on the canvas, which needs each border's
+  // width and color separately rather than as a box shadow.
+  --sky-override-chart-border-width-action-hover: 1px;
+  --sky-override-chart-border-width-action-active: 2px;
+  --sky-override-chart-border-width-action-focus: 2px;
+  --sky-override-chart-color-border-action-tertiary-hover: #0974a1;
+  --sky-override-chart-color-border-action-tertiary-active: #0974a1;
+  --sky-override-chart-color-border-action-tertiary-focus: #0974a1;
 }
 
 :host {
-  display: block;
+  display: grid;
+  grid-template-areas:
+    'header controls'
+    'content content';
+  grid-template-columns: 1fr auto;
+  column-gap: var(
+    --sky-override-chart-space-gap-text_action-m,
+    var(--sky-space-gap-text_action-m)
+  );
 
   // The chart's height bounds, authored once and shared by the loading
   // state's reserved height (below) and the plot heights resolved in
@@ -62,20 +78,22 @@
 }
 
 .sky-chart-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  column-gap: var(
-    --sky-override-chart-space-gap-text_action-m,
-    var(--sky-space-gap-text_action-m)
-  );
+  grid-area: header;
+  align-self: baseline;
   margin-bottom: var(
     --sky-override-chart-space-stacked-s,
     var(--sky-space-stacked-s)
   );
 }
 
+.sky-chart-controls {
+  grid-area: controls;
+  align-self: baseline;
+}
+
 figure.sky-chart-content {
+  grid-area: content;
+  min-width: 0;
   margin: 0;
 }
 

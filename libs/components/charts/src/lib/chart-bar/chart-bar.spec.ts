@@ -15,6 +15,7 @@ import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
+import { type SkyChartDataPointClick } from '../chart-plot/chart-data-point-click';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
 import { SkyChartValueFormat } from '../shared/value-format';
@@ -47,6 +48,7 @@ type ScaleProbe = {
         <sky-chart-bar
           [orientation]="orientation()"
           [seriesLayout]="seriesLayout()"
+          (dataPointClick)="dataPointClick = $event"
         >
           @if (renderCategoryAxis()) {
             <sky-chart-axis-category
@@ -85,6 +87,8 @@ class TestComponent {
   @ViewChild(SkyChartBar)
   public chartBar!: SkyChartBar;
 
+  public dataPointClick: SkyChartDataPointClick | undefined;
+
   public categories = input<(string | number)[]>(['2023', '2024']);
   public currencyCode = input<string | undefined>(undefined);
   public format = input<SkyChartValueFormat>('number');
@@ -100,6 +104,26 @@ class TestComponent {
   public seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
   public valueScaleType = input<'linear' | 'logarithmic'>('linear');
   public values = input<SkyChartBarSeriesValue[]>([10, 20]);
+}
+
+// Records the style of every stroke drawn on a canvas, such as the data point
+// rings.
+function spyOnStrokes(): { strokeStyle: string; lineWidth: number }[] {
+  const strokes: { strokeStyle: string; lineWidth: number }[] = [];
+  const { stroke } = CanvasRenderingContext2D.prototype;
+
+  spyOn(CanvasRenderingContext2D.prototype, 'stroke').and.callFake(function (
+    this: CanvasRenderingContext2D,
+    ...args: []
+  ) {
+    strokes.push({
+      strokeStyle: String(this.strokeStyle),
+      lineWidth: this.lineWidth,
+    });
+    stroke.apply(this, args as unknown as [Path2D]);
+  });
+
+  return strokes;
 }
 
 describe('Chart bar component', () => {
@@ -156,6 +180,12 @@ describe('Chart bar component', () => {
     );
   }
 
+  function getDataPoints(): HTMLElement[] {
+    return Array.from(
+      fixture.nativeElement.querySelectorAll('.sky-chart-data-point'),
+    );
+  }
+
   // Inline styles report colors in rgb() notation.
   function toRgb(color: string): string {
     const probe = document.createElement('span');
@@ -204,7 +234,11 @@ describe('Chart bar component', () => {
   });
 
   afterEach(() => {
-    document.body.classList.remove('sky-theme-modern', 'sky-theme-brand-base');
+    document.body.classList.remove(
+      'sky-theme-modern',
+      'sky-theme-brand-base',
+      'sky-theme-mode-light',
+    );
 
     if (!destroyed) {
       fixture.destroy();
@@ -439,6 +473,74 @@ describe('Chart bar component', () => {
         toRgb(datasets[index].backgroundColor as string),
       );
     });
+  });
+
+  it('should emit the clicked data point', async () => {
+    fixture.componentRef.setInput('renderSecondSeries', true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    getDataPoints()[3].click();
+
+    expect(fixture.componentInstance.dataPointClick).toEqual({
+      category: '2024',
+      categoryIndex: 1,
+      seriesIndex: 1,
+      seriesLabelText: 'Divestitures',
+      value: 20,
+    });
+  });
+
+  it('should emit a floating bar range as the clicked value', async () => {
+    fixture.componentRef.setInput('values', [[5, 15], null]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(getDataPoints().length).toBe(1);
+
+    getDataPoints()[0].click();
+
+    expect(fixture.componentInstance.dataPointClick?.value).toEqual([5, 15]);
+  });
+
+  it('should list every series in the tooltip of a focused data point, like a hover', async () => {
+    fixture.componentRef.setInput('renderSecondSeries', true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    getDataPoints()[1].focus();
+
+    expect(requireChart().tooltip?.getActiveElements()).toEqual([
+      jasmine.objectContaining({ datasetIndex: 0, index: 1 }),
+      jasmine.objectContaining({ datasetIndex: 1, index: 1 }),
+    ]);
+  });
+
+  it('should draw the focus ring from the modern theme tokens', async () => {
+    // The action border colors are defined per theme mode.
+    document.body.classList.add('sky-theme-mode-light');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const strokes = spyOnStrokes();
+    getDataPoints()[0].focus();
+
+    // Themed charts animate, so draw now rather than on a later frame.
+    requireChart().draw();
+
+    expect(strokes).toContain({ strokeStyle: '#2b6bd5', lineWidth: 2 });
+  });
+
+  it('should present data points as buttons when a click listener is bound', async () => {
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(getDataPoints()[0].getAttribute('role')).toBe('button');
   });
 
   it('should toggle a series when its legend button is clicked', async () => {
@@ -948,6 +1050,33 @@ describe('Chart bar component in the default theme', () => {
     fixture.destroy();
   });
 
+  it('should draw the focus ring from the wrapper\u2019s default-theme overrides', async () => {
+    TestBed.configureTestingModule({ imports: [WrappedComponent] });
+
+    const fixture = TestBed.createComponent(WrappedComponent);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    // The data points are measured after the chart's first layout.
+    fixture.detectChanges();
+
+    const strokes = spyOnStrokes();
+    (
+      fixture.nativeElement.querySelector(
+        '.sky-chart-data-point',
+      ) as HTMLElement
+    ).focus();
+
+    // Themed charts animate, so draw now rather than on a later frame.
+    (
+      Chart.getChart(fixture.nativeElement.querySelector('canvas')) as Chart
+    ).draw();
+
+    expect(strokes).toContain({ strokeStyle: '#0974a1', lineWidth: 2 });
+
+    fixture.destroy();
+  });
+
   it('should be accessible as a full sky-chart composition', async () => {
     TestBed.configureTestingModule({ imports: [WrappedComponent] });
 
@@ -955,6 +1084,7 @@ describe('Chart bar component in the default theme', () => {
 
     // Render, then re-render after the async library resources resolve so
     // the context menu button receives its accessible name.
+    fixture.detectChanges();
     fixture.detectChanges();
     await fixture.whenStable();
     fixture.detectChanges();
