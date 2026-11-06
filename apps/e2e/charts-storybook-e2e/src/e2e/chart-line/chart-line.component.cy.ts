@@ -1,20 +1,13 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
 // Data point interaction states are drawn on the canvas, so they are driven
-// with synthetic events rather than story args.
-function getDataPoint(
-  category: string,
-  series: string,
-): Cypress.Chainable<JQuery<HTMLElement>> {
-  return cy.get(
-    `#actual-vs-target-chart .sky-chart-data-point[data-sky-chart-category="${category}"][data-sky-chart-series="${series}"]`,
-  );
-}
-
-// Moves the pointer to the center of a data point. The focusable stand-ins
-// share the canvas's coordinate space and ignore pointer events.
+// with synthetic events rather than story args. This moves the pointer to the
+// center of a data point; the focusable stand-ins share the canvas's
+// coordinate space and ignore pointer events.
 function hoverDataPoint(category: string, series: string): void {
-  getDataPoint(category, series).then(([dataPoint]) => {
+  cy.get(
+    `#actual-vs-target-chart .sky-chart-data-point[data-sky-chart-category="${category}"][data-sky-chart-series="${series}"]`,
+  ).then(([dataPoint]) => {
     const { left, top, width, height } = dataPoint.style;
 
     cy.get('#actual-vs-target-chart canvas').trigger(
@@ -79,7 +72,9 @@ describe('ChartLine', () => {
         });
 
         it('should render a focused data point', () => {
-          getDataPoint('2013', 'Target').focus();
+          cy.get(
+            '#actual-vs-target-chart .sky-chart-data-point[data-sky-chart-category="2013"][data-sky-chart-series="Target"]',
+          ).focus();
 
           cy.get('#actual-vs-target-chart').skyVisualTest(
             `chart-line-data-point-focus-${theme}`,
