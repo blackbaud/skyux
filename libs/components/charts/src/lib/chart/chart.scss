@@ -40,6 +40,14 @@
   --sky-override-chart-comp-chart-legend_item-space-inset-right: 8px;
   --sky-override-chart-comp-chart-legend_item-space-inset-bottom: 4px;
   --sky-override-chart-comp-chart-legend_item-space-inset-left: 8px;
+  --sky-override-chart-color-background-action-tertiary-base: transparent;
+  --sky-override-chart-color-background-action-tertiary-hover: #eeeeef;
+  --sky-override-chart-color-background-action-tertiary-active: transparent;
+  --sky-override-chart-color-background-action-tertiary-focus: transparent;
+  --sky-override-chart-legend-item-box-shadow-base: none;
+  --sky-override-chart-legend-item-box-shadow-hover: inset 0 0 0 1px #0974a1;
+  --sky-override-chart-legend-item-box-shadow-active: inset 0 0 0 2px #0974a1;
+  --sky-override-chart-legend-item-box-shadow-focus: inset 0 0 0 2px #0974a1;
 }
 
 :host {

@@ -42,13 +42,16 @@
     var(--sky-border-radius-s)
   );
   background-color: var(
-    --sky-color-background-action-tertiary-base,
-    transparent
+    --sky-override-chart-color-background-action-tertiary-base,
+    var(--sky-color-background-action-tertiary-base)
   );
-  box-shadow:
-    inset 0 0 0 var(--sky-border-width-action-base, 1px)
-      var(--sky-color-border-action-tertiary-base, transparent),
-    var(--sky-elevation-action-tertiary-base, 0 0 transparent);
+  // Borders are drawn as inset shadows so width changes don't shift the layout.
+  box-shadow: var(
+    --sky-override-chart-legend-item-box-shadow-base,
+    inset 0 0 0 var(--sky-border-width-action-base)
+      var(--sky-color-border-action-tertiary-base),
+    var(--sky-elevation-action-tertiary-base)
+  );
   cursor: pointer;
   font-family: var(
     --sky-override-chart-font-family-primary,
@@ -71,41 +74,45 @@
     var(--sky-color-text-deemphasized)
   );
 
-  // Borders are drawn as inset shadows so width changes don't shift the layout;
-  // `none` is invalid in a shadow list, so elevations fall back to a no-op.
   &:hover {
     background-color: var(
-      --sky-color-background-action-tertiary-hover,
-      #eeeeef
+      --sky-override-chart-color-background-action-tertiary-hover,
+      var(--sky-color-background-action-tertiary-hover)
     );
-    box-shadow:
-      inset 0 0 0 var(--sky-border-width-action-hover, 1px)
-        var(--sky-color-border-action-tertiary-hover, #0974a1),
-      var(--sky-elevation-action-tertiary-hover, 0 0 transparent);
+    box-shadow: var(
+      --sky-override-chart-legend-item-box-shadow-hover,
+      inset 0 0 0 var(--sky-border-width-action-hover)
+        var(--sky-color-border-action-tertiary-hover),
+      var(--sky-elevation-action-tertiary-hover)
+    );
   }
 
   &:active {
     background-color: var(
-      --sky-color-background-action-tertiary-active,
-      transparent
+      --sky-override-chart-color-background-action-tertiary-active,
+      var(--sky-color-background-action-tertiary-active)
     );
-    box-shadow:
-      inset 0 0 0 var(--sky-border-width-action-active, 2px)
-        var(--sky-color-border-action-tertiary-active, #0974a1),
-      var(--sky-elevation-action-tertiary-active, 0 0 transparent);
+    box-shadow: var(
+      --sky-override-chart-legend-item-box-shadow-active,
+      inset 0 0 0 var(--sky-border-width-action-active)
+        var(--sky-color-border-action-tertiary-active),
+      var(--sky-elevation-action-tertiary-active)
+    );
   }
 
   &:focus-visible:not(:active) {
     // Forced-colors mode drops box-shadow but paints this outline.
     outline: 2px solid transparent;
     background-color: var(
-      --sky-color-background-action-tertiary-focus,
-      transparent
+      --sky-override-chart-color-background-action-tertiary-focus,
+      var(--sky-color-background-action-tertiary-focus)
     );
-    box-shadow:
-      inset 0 0 0 var(--sky-border-width-action-focus, 2px)
-        var(--sky-color-border-action-tertiary-focus, #0974a1),
-      var(--sky-elevation-action-tertiary-focus, 0 0 transparent);
+    box-shadow: var(
+      --sky-override-chart-legend-item-box-shadow-focus,
+      inset 0 0 0 var(--sky-border-width-action-focus)
+        var(--sky-color-border-action-tertiary-focus),
+      var(--sky-elevation-action-tertiary-focus)
+    );
   }
 
   // Strike through hidden series so their state is not conveyed by color alone.
