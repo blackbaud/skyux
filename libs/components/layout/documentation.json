@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "action-button": {
+      "summary": "The action button module creates a large button with an icon, heading, and details.",
       "development": {
         "docsIds": [
           "SkyActionButtonModule",
@@ -31,6 +32,7 @@
       }
     },
     "back-to-top": {
+      "summary": "The back to top directive creates a button for users to easily access the top of long lists.",
       "development": {
         "docsIds": [
           "SkyBackToTopModule",
@@ -51,7 +53,21 @@
         ]
       }
     },
+    "blockquote": {
+      "summary": "The blockquote component sets a quotation, such as a customer testimonial, apart from the surrounding body text.",
+      "development": {
+        "docsIds": ["SkyBlockquote"],
+        "primaryDocsId": "SkyBlockquote"
+      },
+      "testing": {
+        "docsIds": ["SkyBlockquoteHarness", "SkyBlockquoteHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["LayoutBlockquoteCustomerTestimonialExample"]
+      }
+    },
     "box": {
+      "summary": "The box module provides a container for related content and actions.",
       "development": {
         "docsIds": [
           "SkyBoxModule",
@@ -74,6 +90,7 @@
       }
     },
     "card": {
+      "summary": "The card module creates a small container to highlight important information.",
       "development": {
         "docsIds": [
           "SkyCardModule",
@@ -92,6 +109,7 @@
       }
     },
     "description-list": {
+      "summary": "Description lists display scannable data in term-description pairs.",
       "development": {
         "docsIds": [
           "SkyDescriptionListModule",
@@ -121,6 +139,7 @@
       }
     },
     "fluid-grid": {
+      "summary": "Fluid grids provide responsive 12-column layouts to organize content for all screen sizes.",
       "development": {
         "docsIds": [
           "SkyFluidGridModule",
@@ -149,6 +168,7 @@
       }
     },
     "format": {
+      "summary": "The format component places formatted text inside a tokenized string template.",
       "development": {
         "docsIds": ["SkyFormatModule", "SkyFormatComponent", "SkyAppFormat"],
         "primaryDocsId": "SkyFormatModule"
@@ -161,6 +181,7 @@
       }
     },
     "inline-delete": {
+      "summary": "The inline delete confirmation component prompts users to confirm that they want to delete an item in a list.",
       "development": {
         "docsIds": ["SkyInlineDeleteModule", "SkyInlineDeleteComponent"],
         "primaryDocsId": "SkyInlineDeleteModule"
@@ -176,6 +197,7 @@
       }
     },
     "text-expand-repeater": {
+      "summary": "The text expand repeater component truncates a list of items and initially displays a limited number of items.",
       "development": {
         "docsIds": [
           "SkyTextExpandRepeaterModule",
@@ -196,6 +218,7 @@
       }
     },
     "text-expand": {
+      "summary": "The text expand component truncates long blocks of text with an ellipsis and a link to expand the full text.",
       "development": {
         "docsIds": ["SkyTextExpandModule", "SkyTextExpandComponent"],
         "primaryDocsId": "SkyTextExpandModule"
@@ -216,6 +239,7 @@
       }
     },
     "toolbar": {
+      "summary": "The toolbar component displays a SKY UX-themed toolbar.",
       "development": {
         "docsIds": [
           "SkyToolbarModule",

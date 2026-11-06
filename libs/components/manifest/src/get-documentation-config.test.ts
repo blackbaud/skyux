@@ -21,6 +21,7 @@ describe('get-documentation-config', () => {
         '@skyux/foo': {
           groups: {
             group1: {
+              summary: 'group1 summary',
               development: {
                 docsIds: ['FooModule'],
                 primaryDocsId: 'FooModule',
@@ -33,6 +34,7 @@ describe('get-documentation-config', () => {
         '@skyux/bar': {
           groups: {
             group2: {
+              summary: 'group2 summary',
               development: {
                 docsIds: ['BarService'],
                 primaryDocsId: 'BarService',

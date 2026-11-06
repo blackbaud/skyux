@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "date-pipe": {
+      "summary": "The date pipe formats date values according to locale rules.",
       "development": {
         "docsIds": [
           "SkyDatePipeModule",
@@ -19,6 +20,7 @@
       }
     },
     "date-range-picker": {
+      "summary": "The date range picker component creates a text input to select a date range from a set of well-known options.",
       "development": {
         "docsIds": [
           "SkyDateRangePickerModule",
@@ -53,6 +55,7 @@
       }
     },
     "datepicker": {
+      "summary": "The datepicker module creates an input and calendar picker to select dates or fuzzy dates.",
       "development": {
         "docsIds": [
           "SkyDatepickerModule",
@@ -86,6 +89,7 @@
       }
     },
     "timepicker": {
+      "summary": "The timepicker module provides an input for users to select times.",
       "development": {
         "docsIds": [
           "SkyTimepickerModule",

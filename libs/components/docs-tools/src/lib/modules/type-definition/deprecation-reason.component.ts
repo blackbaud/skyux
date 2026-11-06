@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { SkyStatusIndicatorModule } from '@skyux/indicators';
 
+import { SkyDocsMarkdownHtmlDirective } from './markdown-html.directive';
 import { SkyDocsMarkdownPipe } from './pipes/markdown.pipe';
 import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
 
@@ -10,6 +11,7 @@ import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    SkyDocsMarkdownHtmlDirective,
     SkyDocsMarkdownPipe,
     SkyStatusIndicatorModule,
     SkyTypeAnchorLinksPipe,
@@ -25,7 +27,9 @@ import { SkyTypeAnchorLinksPipe } from './pipes/type-anchor-links.pipe';
       <sky-status-indicator descriptionType="warning" indicatorType="warning">
         <strong class="sky-font-emphasized">Deprecated. </strong
         ><span
-          [innerHTML]="message() | skyDocsMarkdown | skyTypeAnchorLinks"
+          [skyDocsMarkdownHtml]="
+            message() | skyDocsMarkdown | skyTypeAnchorLinks
+          "
         ></span>
       </sky-status-indicator>
     </p>

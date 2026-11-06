@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "data-grid": {
+      "summary": "Data grids provide advanced grids for scenarios that require direct access to the third-party AG Grid library and its full configuration and APIs.",
       "development": {
         "docsIds": [
           "SkyAgGridModule",
@@ -59,6 +60,7 @@
       }
     },
     "data-entry-grid": {
+      "summary": "Data entry grids use the third-party AG Grid library to enable users to enter and edit large amounts of data.",
       "development": {
         "docsIds": [
           "SkyAgGridModule",

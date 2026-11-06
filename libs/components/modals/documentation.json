@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "confirm": {
+      "summary": "The confirm component launches simple confirmation dialogs for users to confirm actions.",
       "development": {
         "docsIds": [
           "SkyConfirmService",
@@ -31,6 +32,7 @@
       }
     },
     "modal": {
+      "summary": "The modal service launches modals in a consistent way in SKY UX applications.",
       "development": {
         "docsIds": [
           "SkyModalModule",

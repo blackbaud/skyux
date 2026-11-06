@@ -859,6 +859,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
     "@skyux/foo": {
       "groups": {
         "foo": {
+          "summary": "The foo component does a thing.",
           "development": {
             "docsIds": [
               "docs-id-override",

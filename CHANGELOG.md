@@ -1,6 +1,20 @@
 # Changelog
 
 
+## [15.10.0](https://github.com/blackbaud/skyux/compare/15.9.0...15.10.0) (2026-11-05)
+
+### Features
+
+* **components/layout:** add blockquote component ([#4936](https://github.com/blackbaud/skyux/issues/4936)) ([0faae9e](https://github.com/blackbaud/skyux/commit/0faae9e9326e779e52d2a47ae0b198d1d0d18c5e))
+* use `sky-code` for inline code in docs-tools and code examples ([#4933](https://github.com/blackbaud/skyux/issues/4933)) ([7335a25](https://github.com/blackbaud/skyux/commit/7335a2541806373e4995821a4142a136a41bc5e4))
+
+## [15.9.0](https://github.com/blackbaud/skyux/compare/15.8.0...15.9.0) (2026-11-04)
+
+### Features
+
+* add a summary to each documentation group in the manifest ([#4937](https://github.com/blackbaud/skyux/issues/4937)) ([db41bac](https://github.com/blackbaud/skyux/commit/db41bac201f2bc61b38640ad9a817f3b56c8e760))
+* **sdk/skyux-eslint:** add no-nested-help-inline ESLint rule ([#4932](https://github.com/blackbaud/skyux/issues/4932)) ([102cb2c](https://github.com/blackbaud/skyux/commit/102cb2c1f22e8aa8c45b7f774ef8f5d49c6de5b7))
+
 ## [15.8.0](https://github.com/blackbaud/skyux/compare/15.7.1...15.8.0) (2026-11-03)
 
 ### Features

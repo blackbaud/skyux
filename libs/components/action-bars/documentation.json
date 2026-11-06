@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "summary-action-bar": {
+      "summary": "The summary action bar provides a docked container for actions and summary information.",
       "development": {
         "docsIds": [
           "SkySummaryActionBarModule",

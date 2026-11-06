@@ -15,8 +15,7 @@
         "primaryDocsId": "ModuleNotListed",
         "unrecognizedProperty": true
       },
-      "testing": { "docsIds": [] },
-      "codeExamples": { "docsIds": [] }
+      "codeExamples": {}
     }
   }
 }

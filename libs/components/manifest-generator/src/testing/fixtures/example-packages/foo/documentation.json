@@ -2,6 +2,7 @@
   "$schema": "../../../../../documentation-schema.json",
   "groups": {
     "foo": {
+      "summary": "The foo component does a thing.",
       "development": {
         "docsIds": [
           "docs-id-override",

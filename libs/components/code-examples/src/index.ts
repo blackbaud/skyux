@@ -119,6 +119,7 @@ export { LayoutActionButtonBasicExampleComponent } from './lib/modules/layout/ac
 export { LayoutActionButtonPermalinkExampleComponent } from './lib/modules/layout/action-button/permalink/example.component';
 export { LayoutBackToTopInfiniteScrollExampleComponent } from './lib/modules/layout/back-to-top/infinite-scroll/example.component';
 export { LayoutBackToTopRepeaterExampleComponent } from './lib/modules/layout/back-to-top/repeater/example.component';
+export { LayoutBlockquoteCustomerTestimonialExample } from './lib/modules/layout/blockquote/customer-testimonial/example';
 export { LayoutBoxBasicExampleComponent } from './lib/modules/layout/box/basic/example.component';
 export { LayoutBoxHelpKeyExampleComponent } from './lib/modules/layout/box/help-key/example.component';
 export { LayoutCardBasicExampleComponent } from './lib/modules/layout/card/basic/example.component';

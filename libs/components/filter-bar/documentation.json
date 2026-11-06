@@ -2,6 +2,7 @@
   "$schema": "../manifest-generator/documentation-schema.json",
   "groups": {
     "filter-bar": {
+      "summary": "The filter bar presents users with inline filter options to narrow lists.",
       "development": {
         "docsIds": [
           "SkyFilterBarModule",

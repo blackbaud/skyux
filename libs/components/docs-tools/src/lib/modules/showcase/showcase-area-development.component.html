@@ -12,9 +12,9 @@
         <sky-description-list-content>
           <sky-description-list-term> NPM package </sky-description-list-term>
           <sky-description-list-description>
-            <code class="sky-docs-codespan sky-margin-inline-sm">{{
+            <sky-code class="sky-margin-inline-sm">{{
               packageInfo.packageName
-            }}</code>
+            }}</sky-code>
             <a [attr.href]="packageInfo.registryUrl">View in NPM</a
             ><span> | </span
             ><a [attr.href]="packageInfo.repoUrl">View in GitHub</a>
@@ -27,12 +27,11 @@
             Install with NPM
           </sky-description-list-term>
           <sky-description-list-description>
-            <code
-              #installationRef
-              class="sky-docs-codespan sky-margin-inline-sm sky-margin-stacked-sm"
-            >
-              npm install --save-exact {{ packageInfo.packageName }}
-            </code>
+            <sky-code class="sky-margin-inline-sm sky-margin-stacked-sm">
+              <span #installationRef
+                >npm install --save-exact {{ packageInfo.packageName }}</span
+              >
+            </sky-code>
             <button
               class="sky-btn sky-btn-default"
               type="button"

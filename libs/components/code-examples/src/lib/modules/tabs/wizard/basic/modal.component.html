@@ -31,7 +31,7 @@
         </sky-tab>
         <sky-tab
           tabHeading="2. Contact Information"
-          [disabled]="isStep2Disabled"
+          [disabled]="isStep2Disabled()"
         >
           <sky-fluid-grid gutterSize="small">
             <sky-row>
@@ -50,7 +50,10 @@
             </sky-row>
           </sky-fluid-grid>
         </sky-tab>
-        <sky-tab tabHeading="3. More Information" [disabled]="isStep3Disabled">
+        <sky-tab
+          tabHeading="3. More Information"
+          [disabled]="isStep3Disabled()"
+        >
           <sky-fluid-grid gutterSize="small">
             <sky-row>
               <sky-column [screenSmall]="12">
@@ -77,7 +80,7 @@
       <sky-tabset-nav-button
         buttonType="finish"
         [tabset]="wizardDemo"
-        [disabled]="isSaveDisabled"
+        [disabled]="isSaveDisabled()"
       />
       <sky-button
         buttonStyle="link"
