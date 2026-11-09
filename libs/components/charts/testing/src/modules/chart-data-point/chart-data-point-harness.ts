@@ -45,7 +45,10 @@ export class SkyChartDataPointHarness extends SkyComponentHarness {
    * Clicks the data point, which emits the chart's `dataPointClick` event.
    */
   public async click(): Promise<void> {
-    await (await this.host()).click();
+    // The data point ignores pointer events so the canvas beneath it handles
+    // hover. A real click would land on the canvas and could hit an
+    // overlapping point, so the event is dispatched on this data point.
+    await (await this.host()).dispatchEvent('click');
   }
 
   /**
