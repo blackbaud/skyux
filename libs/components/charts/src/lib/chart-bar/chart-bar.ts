@@ -10,6 +10,7 @@ import {
 } from '../chart-js/cartesian-utils';
 import { SkyChartJs, type SkyChartJsConfig } from '../chart-js/chart-js';
 import { extendBaseChartJsConfig } from '../chart-js/chart-js-config-utils';
+import { SkyChartLegend } from '../chart-legend/chart-legend';
 import { SkyChartCartesianPlot } from '../chart-plot/chart-cartesian-plot';
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
@@ -21,7 +22,7 @@ import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
  * series.
  */
 @Component({
-  imports: [SkyChartJs],
+  imports: [SkyChartJs, SkyChartLegend],
   selector: 'sky-chart-bar',
   templateUrl: './chart-bar.html',
 })
@@ -98,6 +99,7 @@ export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
           .values()
           .map((value) => (isValueRange(value) ? [...value] : value)),
         backgroundColor: categorical[index % categorical.length],
+        hidden: this.isSeriesHidden(chartSeries),
       };
 
       if (isHorizontal) {
@@ -166,11 +168,6 @@ export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
           themeStyles,
         }),
         plugins: {
-          legend: {
-            // Show the legend only when there are multiple series to
-            // distinguish; a single-series chart's legend is redundant.
-            display: datasets.length > 1,
-          },
           tooltip: {
             callbacks: {
               label: buildValueTooltipLabel<'bar'>(formatValue, valueDirection),
@@ -339,24 +336,13 @@ export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
   /**
    * Estimates the fixed vertical space a horizontal chart needs outside its
    * plotted rows: the bottom value axis (its tick marks, a row of tick labels,
-   * and its title) plus the legend row when multiple series are shown. Added
-   * to the rows' height, this keeps the plotted area sized to its bars rather
-   * than absorbing the chrome.
+   * and its title). Added to the rows' height, this keeps the plotted area
+   * sized to its bars rather than absorbing the chrome.
    */
   #computeChartOverhead(themeStyles: SkyChartThemeStyles): number {
-    const { axis, font, text, tooltip } = themeStyles;
+    const { axis, font, text } = themeStyles;
     const lineHeight = font.size * text.lineHeight;
 
-    // Bottom value axis: tick marks, a row of tick labels, and the axis title.
-    const valueAxisHeight =
-      axis.tickLength + lineHeight + axis.titleGap + lineHeight;
-
-    // The legend only renders with multiple series.
-    const legendHeight =
-      this.series().length > 1
-        ? Math.max(tooltip.iconSize, lineHeight) + axis.titleGap
-        : 0;
-
-    return valueAxisHeight + legendHeight;
+    return axis.tickLength + lineHeight + axis.titleGap + lineHeight;
   }
 }

@@ -180,15 +180,9 @@ describe('Chart component', () => {
     expect(fixture.componentInstance.chart.headingStyle()).toBe(4);
   });
 
-  it('should mark the figure as an image when it has an accessible name', async () => {
+  it('should not mark the figure as an image so its legend stays interactive', async () => {
     fixture.detectChanges();
     await setPlotSummary('skyux_charts.chart.bar.accessible_summary', [3, 4]);
-
-    expect(getFigure()?.getAttribute('role')).toBe('img');
-  });
-
-  it('should not mark the figure as an image when it has no accessible name', () => {
-    fixture.detectChanges();
 
     expect(getFigure()?.getAttribute('role')).toBeNull();
   });

@@ -54,12 +54,7 @@ describe('extendBaseChartJsConfig', () => {
     // resize on destroy, and the stale timeout throws on destroyed charts.
     expect(config.options.resizeDelay).toBeUndefined();
     expect(config.options.interaction?.mode).toBe('nearest');
-    expect(config.options.plugins?.legend?.labels?.usePointStyle).toBe(true);
-    expect(config.options.plugins?.legend?.labels?.pointStyle).toBe('circle');
-    expect(config.options.plugins?.legend?.labels?.color).toBe('#111111');
-    expect(config.options.plugins?.legend?.labels?.font).toEqual(
-      jasmine.objectContaining({ family: 'Arial', size: 15, weight: 400 }),
-    );
+    expect(config.options.plugins?.legend?.display).toBe(false);
   });
 
   it('should animate for the theme motion duration', () => {
