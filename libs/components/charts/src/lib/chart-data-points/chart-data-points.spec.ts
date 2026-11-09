@@ -6,7 +6,6 @@ import {
   type SkyChartDataPoint,
   SkyChartDataPoints,
   type SkyChartDataPointSeries,
-  type SkyChartSeriesNavigation,
 } from './chart-data-points';
 
 function createDataPoint(
@@ -74,11 +73,10 @@ const TWO_SERIES = [
   template: `
     <div class="container">
       <sky-chart-data-points
+        [chartType]="chartType()"
         [clickable]="clickable()"
         [horizontal]="horizontal()"
-        [seriesNavigation]="seriesNavigation()"
         [series]="series()"
-        [seriesSummaryResourceKeys]="seriesSummaryResourceKeys"
         (dataPointClick)="clicks.push($event.key)"
         (dataPointFocusChange)="focusChanges.push($event?.key)"
       />
@@ -91,13 +89,8 @@ class TestComponent {
   public readonly focusChanges: (string | undefined)[] = [];
   public readonly clickable = signal(true);
   public readonly horizontal = signal(false);
-  public readonly seriesNavigation =
-    signal<SkyChartSeriesNavigation>('adjacent-series');
+  public readonly chartType = signal<'bar' | 'line'>('bar');
   public readonly series = signal<SkyChartDataPointSeries[]>(TWO_SERIES);
-  public readonly seriesSummaryResourceKeys = {
-    singular: 'skyux_charts.chart.bar.series_summary_singular',
-    plural: 'skyux_charts.chart.bar.series_summary_plural',
-  };
 }
 
 describe('Chart data points component', () => {
@@ -360,8 +353,8 @@ describe('Chart data points component', () => {
       expect(getFocusedDataPoint()).toBe('c/Second');
     });
 
-    it('should move to the nearest data point above or below, in any series, with nearest-point navigation', async () => {
-      component.seriesNavigation.set('nearest-point');
+    it('should move to the nearest data point above or below, in any series, in a line chart', async () => {
+      component.chartType.set('line');
       await render();
 
       await focusDataPoint('b', 'First');

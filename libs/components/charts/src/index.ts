@@ -8,7 +8,7 @@ export type { SkyChartBarSeriesValue } from './lib/chart-bar/chart-bar-series-va
 export { SkyChartLine } from './lib/chart-line/chart-line';
 export { SkyChartLineSeries } from './lib/chart-line/chart-line-series';
 export type { SkyChartLineSeriesValue } from './lib/chart-line/chart-line-series-value';
-export type { SkyChartDataPointClick } from './lib/chart-plot/chart-data-point-click';
+export type { SkyChartDataPointClickArgs } from './lib/chart-plot/chart-data-point-click-args';
 export { SkyChart } from './lib/chart/chart';
 export type { SkyChartHeadingLevel } from './lib/chart/chart-heading-level';
 export type { SkyChartHeadingStyle } from './lib/chart/chart-heading-style';

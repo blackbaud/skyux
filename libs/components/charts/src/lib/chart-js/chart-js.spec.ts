@@ -335,8 +335,8 @@ describe('Chart.js component', () => {
       );
 
       expect(component.clicks).toEqual([
-        { datasetIndex: 0, index: 1 },
-        { datasetIndex: 1, index: 2 },
+        jasmine.objectContaining({ datasetIndex: 0, index: 1 }),
+        jasmine.objectContaining({ datasetIndex: 1, index: 2 }),
       ]);
     });
 

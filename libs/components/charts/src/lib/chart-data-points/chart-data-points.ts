@@ -54,21 +54,6 @@ export interface SkyChartDataPointSeries {
 }
 
 /**
- * How the arrow keys that cross series move focus.
- * - `adjacent-series` moves to the nearest data point in the next or previous
- *   series. Highcharts navigates bar series this way.
- * - `nearest-point` moves to the nearest data point drawn above or below, in
- *   any series. Highcharts navigates line series this way.
- * @internal
- */
-export type SkyChartSeriesNavigation = 'adjacent-series' | 'nearest-point';
-
-type SkyChartDataPointMove = (
-  dataPoints: SkyChartDataPoint[],
-  current: SkyChartDataPoint,
-) => SkyChartDataPoint | undefined;
-
-/**
  * Makes a chart's data points reachable by keyboard and assistive technology.
  * Canvas drawings cannot receive focus or be read by assistive technology, so
  * each data point is mirrored by a transparent, focusable element positioned
@@ -107,21 +92,11 @@ export class SkyChartDataPoints {
   public readonly horizontal = input(false);
 
   /**
-   * How the arrow keys that cross series move focus.
-   * @default 'adjacent-series'
+   * The type of chart. Like Highcharts, the arrow keys that cross series move
+   * to the nearest data point drawn above or below in any line chart series,
+   * since lines cross each other, and to the adjacent series in a bar chart.
    */
-  public readonly seriesNavigation =
-    input<SkyChartSeriesNavigation>('adjacent-series');
-
-  /**
-   * The resource keys of the sentence describing each series. The message
-   * receives the series label, the series number, the series count, and the
-   * series' value count as its arguments.
-   */
-  public readonly seriesSummaryResourceKeys = input.required<{
-    singular: string;
-    plural: string;
-  }>();
+  public readonly chartType = input.required<'bar' | 'line'>();
 
   /**
    * Fires when the user clicks a data point, or presses Enter or Space while a
@@ -187,63 +162,62 @@ export class SkyChartDataPoints {
       return;
     }
 
-    const move = this.#getMove(event.key);
+    const [
+      previousCategoryKey,
+      nextCategoryKey,
+      previousSeriesKey,
+      nextSeriesKey,
+    ] = this.horizontal()
+      ? ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']
+      : ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
-    if (!move) {
-      return;
+    const moveAcrossSeries =
+      this.chartType() === 'line'
+        ? getVerticalDataPoint
+        : getAdjacentSeriesDataPoint;
+
+    let target: SkyChartDataPoint | undefined;
+
+    switch (event.key) {
+      case previousCategoryKey:
+      case nextCategoryKey:
+        target = getAdjacentDataPoint(
+          dataPoints,
+          current,
+          event.key === nextCategoryKey,
+        );
+        break;
+      case previousSeriesKey:
+      case nextSeriesKey:
+        target = moveAcrossSeries(
+          dataPoints,
+          current,
+          event.key === nextSeriesKey,
+        );
+        break;
+      case 'PageUp':
+      case 'PageDown':
+        target = getAdjacentSeriesDataPoint(
+          dataPoints,
+          current,
+          event.key === 'PageDown',
+        );
+        break;
+      case 'Home':
+        target = dataPoints[0];
+        break;
+      case 'End':
+        target = dataPoints[dataPoints.length - 1];
+        break;
+      default:
+        return;
     }
 
     event.preventDefault();
 
-    const target = move(dataPoints, current);
-
     if (target) {
       this.#getDataPointElement(target).focus();
     }
-  }
-
-  /**
-   * Resolves how a key moves focus between data points, or `undefined` when
-   * the key does not navigate.
-   */
-  #getMove(key: string): SkyChartDataPointMove | undefined {
-    const horizontal = this.horizontal();
-
-    const categoryKeys = horizontal
-      ? ['ArrowUp', 'ArrowDown']
-      : ['ArrowLeft', 'ArrowRight'];
-
-    const seriesKeys = horizontal
-      ? ['ArrowLeft', 'ArrowRight']
-      : ['ArrowUp', 'ArrowDown'];
-
-    const next = key === 'ArrowRight' || key === 'ArrowDown';
-
-    if (categoryKeys.includes(key)) {
-      return (dataPoints, current) =>
-        getAdjacentDataPoint(dataPoints, current, next);
-    }
-
-    if (seriesKeys.includes(key)) {
-      const moveAcrossSeries =
-        this.seriesNavigation() === 'nearest-point'
-          ? getVerticalDataPoint
-          : getAdjacentSeriesDataPoint;
-
-      return (dataPoints, current) =>
-        moveAcrossSeries(dataPoints, current, next);
-    }
-
-    const moves: Record<string, SkyChartDataPointMove> = {
-      PageDown: (dataPoints, current) =>
-        getAdjacentSeriesDataPoint(dataPoints, current, true),
-      PageUp: (dataPoints, current) =>
-        getAdjacentSeriesDataPoint(dataPoints, current, false),
-      Home: (dataPoints) => dataPoints[0],
-      End: (dataPoints) => dataPoints[dataPoints.length - 1],
-    };
-
-    return moves[key];
   }
 
   #getDataPointElement(dataPoint: SkyChartDataPoint): HTMLElement {

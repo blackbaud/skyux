@@ -7,7 +7,8 @@ import {
   SkyChartAxisValue,
   SkyChartBar,
   SkyChartBarSeries,
-  type SkyChartDataPointClick,
+  type SkyChartBarSeriesValue,
+  type SkyChartDataPointClickArgs,
 } from '@skyux/charts';
 
 import { SkyChartDataPointHarness } from './chart-data-point-harness';
@@ -36,7 +37,8 @@ import { SkyChartDataPointHarnessFilters } from './chart-data-point-harness-filt
   `,
 })
 class TestComponent {
-  public dataPointClick: SkyChartDataPointClick | undefined;
+  public dataPointClick:
+    SkyChartDataPointClickArgs<SkyChartBarSeriesValue> | undefined;
 }
 
 describe('Chart data point harness', () => {

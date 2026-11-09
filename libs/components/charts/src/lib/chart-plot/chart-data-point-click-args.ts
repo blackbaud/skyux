@@ -1,14 +1,16 @@
 /**
  * Describes the data point a user clicked, or activated with Enter or Space.
+ * `TValue` is the chart's series value type, such as `SkyChartBarSeriesValue`.
  */
-export interface SkyChartDataPointClick {
+export interface SkyChartDataPointClickArgs<TValue> {
   /**
    * The category the data point is plotted against.
    */
   category: string | number;
 
   /**
-   * The index of the data point's category on the category axis.
+   * The index of the data point's category, in the order the categories are
+   * declared.
    */
   categoryIndex: number;
 
@@ -25,6 +27,7 @@ export interface SkyChartDataPointClick {
 
   /**
    * The data point's value. A floating bar's value is a `[start, end]` tuple.
+   * Gaps (`null` values) cannot be clicked, so the value is never `null`.
    */
-  value: number | readonly [number, number];
+  value: NonNullable<TValue>;
 }

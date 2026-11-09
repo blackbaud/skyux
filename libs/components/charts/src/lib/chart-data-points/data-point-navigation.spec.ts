@@ -1,3 +1,4 @@
+import { type SkyChartDataPoint } from './chart-data-points';
 import {
   getAdjacentDataPoint,
   getAdjacentSeriesDataPoint,
@@ -9,8 +10,21 @@ describe('Data point navigation', () => {
     datasetIndex: number,
     plotX: number,
     plotY: number,
-  ): { datasetIndex: number; plotX: number; plotY: number } {
-    return { datasetIndex, plotX, plotY };
+  ): SkyChartDataPoint {
+    return {
+      datasetIndex,
+      index: 0,
+      key: `${datasetIndex}-${plotX}`,
+      category: '',
+      seriesLabelText: '',
+      accessibleName: '',
+      left: 0,
+      top: 0,
+      width: 0,
+      height: 0,
+      plotX,
+      plotY,
+    };
   }
 
   // Two series of three categories, 100px apart along the category axis.

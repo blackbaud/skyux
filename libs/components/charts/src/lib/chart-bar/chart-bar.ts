@@ -1,5 +1,4 @@
 import { Component, computed, contentChildren, input } from '@angular/core';
-import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { type ChartDataset } from 'chart.js';
 
 import {
@@ -17,6 +16,7 @@ import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
 import { SkyChartBarSeries } from './chart-bar-series';
 import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
+import { type SkyChartBarSeriesValue } from './chart-bar-series-value';
 
 /**
  * Renders a bar chart from a category axis, a value axis, and one or more
@@ -27,7 +27,10 @@ import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
   selector: 'sky-chart-bar',
   templateUrl: './chart-bar.html',
 })
-export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
+export class SkyChartBar extends SkyChartCartesianPlot<
+  SkyChartBarSeries,
+  SkyChartBarSeriesValue
+> {
   /**
    * The orientation of the bars.
    * @default 'vertical'
@@ -44,14 +47,6 @@ export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
    * @default 'grouped'
    */
   public readonly seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
-
-  /**
-   * Fires when the user clicks a data point, or presses Enter or Space while a
-   * data point has focus.
-   */
-  public readonly dataPointClick = outputFromObservable(
-    this.dataPointClickSource,
-  );
 
   protected override readonly series = contentChildren(SkyChartBarSeries);
   protected override readonly seriesSelector = 'sky-chart-bar-series';

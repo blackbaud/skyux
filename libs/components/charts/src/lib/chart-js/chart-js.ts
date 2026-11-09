@@ -29,7 +29,6 @@ import {
 import {
   SkyChartDataPoints,
   type SkyChartDataPointSeries,
-  type SkyChartSeriesNavigation,
 } from '../chart-data-points/chart-data-points';
 import {
   measureDataPoints,
@@ -100,29 +99,15 @@ export class SkyChartJs<TType extends ChartType = ChartType> {
     () => this.config().options.indexAxis === 'y',
   );
 
-  // Keyboard focus crosses line series by position, since lines cross each other,
-  // and bar series by series order.
-  protected readonly seriesNavigation = computed<SkyChartSeriesNavigation>(
-    () => (this.config().type === 'line' ? 'nearest-point' : 'adjacent-series'),
-  );
-
-  protected readonly seriesSummaryResourceKeys = computed(() =>
-    this.config().type === 'line'
-      ? {
-          singular: 'skyux_charts.chart.line.series_summary_singular',
-          plural: 'skyux_charts.chart.line.series_summary_plural',
-        }
-      : {
-          singular: 'skyux_charts.chart.bar.series_summary_singular',
-          plural: 'skyux_charts.chart.bar.series_summary_plural',
-        },
+  protected readonly chartType = computed(() =>
+    this.config().type === 'line' ? 'line' : 'bar',
   );
 
   readonly #tableSvc = inject(SkyChartTableService);
 
   readonly #dataPointPlugin = createDataPointPlugin({
     isClickable: () => this.dataPointsClickable(),
-    onClick: (dataPoint) => this.onDataPointClick(dataPoint),
+    onClick: (dataPoint) => this.dataPointClick.emit(dataPoint),
     onUpdate: (chart) =>
       this.series.set(
         measureDataPoints(chart, this.#tableSvc.table(), this.horizontal()),
@@ -163,12 +148,5 @@ export class SkyChartJs<TType extends ChartType = ChartType> {
     dataPoint: SkyChartJsDataPointIndex | undefined,
   ): void {
     this.#dataPointPlugin.setFocusedDataPoint(dataPoint);
-  }
-
-  protected onDataPointClick(dataPoint: SkyChartJsDataPointIndex): void {
-    this.dataPointClick.emit({
-      datasetIndex: dataPoint.datasetIndex,
-      index: dataPoint.index,
-    });
   }
 }

@@ -1,21 +1,19 @@
 import { CurrencyPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import {
   SkyChart,
   SkyChartAxisCategory,
   SkyChartAxisValue,
   SkyChartBar,
   SkyChartBarSeries,
-  type SkyChartDataPointClick,
+  type SkyChartBarSeriesValue,
+  type SkyChartDataPointClickArgs,
 } from '@skyux/charts';
 
 /**
  * @title Bar chart with clickable data points
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-chart-bar-data-point-click-example',
-  templateUrl: './example.html',
   imports: [
     CurrencyPipe,
     SkyChart,
@@ -24,6 +22,8 @@ import {
     SkyChartBar,
     SkyChartBarSeries,
   ],
+  selector: 'app-chart-bar-data-point-click-example',
+  templateUrl: './example.html',
 })
 export class ChartsChartBarDataPointClickExample {
   protected readonly quarters = ['Q1', 'Q2', 'Q3', 'Q4'];
@@ -35,7 +35,9 @@ export class ChartsChartBarDataPointClickExample {
     | undefined
   >(undefined);
 
-  protected onDataPointClick(dataPoint: SkyChartDataPointClick): void {
+  protected onDataPointClick(
+    dataPoint: SkyChartDataPointClickArgs<SkyChartBarSeriesValue>,
+  ): void {
     const { category, seriesLabelText, value } = dataPoint;
 
     // Floating bars report their value as a [start, end] range. This chart

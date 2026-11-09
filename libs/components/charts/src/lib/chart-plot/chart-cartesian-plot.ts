@@ -7,7 +7,7 @@ import {
   Signal,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { outputFromObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
 import { EMPTY, map, Subject } from 'rxjs';
@@ -24,7 +24,7 @@ import {
 import { type SkyChartLegendItem } from '../chart-legend/chart-legend';
 import { SkyChartTable } from '../chart-table/chart-table';
 import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
-import { type SkyChartDataPointClick } from './chart-data-point-click';
+import { type SkyChartDataPointClickArgs } from './chart-data-point-click-args';
 import { SkyChartPlot } from './chart-plot';
 
 /**
@@ -39,6 +39,7 @@ import { SkyChartPlot } from './chart-plot';
 @Directive()
 export abstract class SkyChartCartesianPlot<
   TSeries extends SkyChartCartesianSeries,
+  TValue,
 > extends SkyChartPlot {
   readonly #themeSettings = toSignal(
     inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
@@ -78,8 +79,17 @@ export abstract class SkyChartCartesianPlot<
    */
   protected abstract readonly accessibleSummaryResourceKey: string;
 
-  protected readonly dataPointClickSource =
-    new Subject<SkyChartDataPointClick>();
+  protected readonly dataPointClickSource = new Subject<
+    SkyChartDataPointClickArgs<TValue>
+  >();
+
+  /**
+   * Fires when the user clicks a data point, or presses Enter or Space while a
+   * data point has focus.
+   */
+  public readonly dataPointClick = outputFromObservable(
+    this.dataPointClickSource,
+  );
 
   readonly #hiddenSeries = signal<ReadonlySet<TSeries>>(new Set());
 
@@ -170,7 +180,7 @@ export abstract class SkyChartCartesianPlot<
       categoryIndex: index,
       seriesIndex: datasetIndex,
       seriesLabelText: chartSeries.labelText(),
-      value: chartSeries.values()[index] as number | readonly [number, number],
+      value: chartSeries.values()[index] as NonNullable<TValue>,
     });
   }
 

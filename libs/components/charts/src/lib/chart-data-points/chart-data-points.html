@@ -2,10 +2,11 @@
   <div
     [attr.aria-label]="
       chartSeries.seriesCount > 1
-        ? ((chartSeries.valueCount === 1
-            ? seriesSummaryResourceKeys().singular
-            : seriesSummaryResourceKeys().plural
-          )
+        ? ('skyux_charts.chart.' +
+            chartType() +
+            (chartSeries.valueCount === 1
+              ? '.series_summary_singular'
+              : '.series_summary_plural')
           | skyLibResources
             : chartSeries.labelText
             : chartSeries.datasetIndex + 1

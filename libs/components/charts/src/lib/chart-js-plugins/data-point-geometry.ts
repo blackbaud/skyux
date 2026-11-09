@@ -22,19 +22,6 @@ export interface SkyChartJsDataPointIndex {
 }
 
 /**
- * The area a data point occupies on the canvas, and its anchor point: the end
- * of a bar or the center of a line point.
- */
-interface SkyChartJsElementGeometry {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-  x: number;
-  y: number;
-}
-
-/**
  * Builds a stable key that identifies a data point across re-measurements.
  */
 export function toDataPointKey({
@@ -45,12 +32,18 @@ export function toDataPointKey({
 }
 
 /**
- * Measures where a drawn data point sits on the canvas. Final property values
+ * Measures the area a drawn data point occupies on the canvas, and its anchor
+ * point: the end of a bar or the center of a line point. Final property values
  * are used so the geometry matches where an animating element comes to rest.
  */
-export function getElementGeometry(
-  element: ChartJsElement,
-): SkyChartJsElementGeometry {
+export function getElementGeometry(element: ChartJsElement): {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+} {
   if (element instanceof BarElement) {
     // Coordinates are only null for gaps, which are never measured.
     const { x, y, base, horizontal, width, height } = element.getProps(
@@ -65,23 +58,23 @@ export function getElementGeometry(
       height: number;
     };
 
-    return horizontal
-      ? {
-          left: Math.min(x, base),
-          top: y - height / 2,
-          width: Math.abs(x - base),
-          height,
-          x,
-          y,
-        }
-      : {
-          left: x - width / 2,
-          top: Math.min(y, base),
-          width,
-          height: Math.abs(y - base),
-          x,
-          y,
-        };
+    return {
+      x,
+      y,
+      ...(horizontal
+        ? {
+            left: Math.min(x, base),
+            top: y - height / 2,
+            width: Math.abs(x - base),
+            height,
+          }
+        : {
+            left: x - width / 2,
+            top: Math.min(y, base),
+            width,
+            height: Math.abs(y - base),
+          }),
+    };
   }
 
   const point = element as PointElement;

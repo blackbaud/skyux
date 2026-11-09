@@ -9,12 +9,7 @@
  * along the category axis and `plotY` along the value axis, in pixels.
  * https://github.com/highcharts/highcharts/blob/master/ts/Accessibility/Components/SeriesComponent/SeriesKeyboardNavigation.ts
  */
-
-interface SkyChartNavigableDataPoint {
-  datasetIndex: number;
-  plotX: number;
-  plotY: number;
-}
+import { type SkyChartDataPoint } from './chart-data-points';
 
 // Highcharts weighs category-axis distance four times as heavily as value-axis
 // distance, so moving between series favors staying on the same category.
@@ -24,15 +19,25 @@ const CATEGORY_DISTANCE_WEIGHT = 4;
 // vertical navigation from bouncing between points in the same spot.
 const OVERLAP_DISTANCE = 5;
 
+function getWeightedDistance(
+  a: SkyChartDataPoint,
+  b: SkyChartDataPoint,
+): number {
+  return (
+    (a.plotX - b.plotX) ** 2 * CATEGORY_DISTANCE_WEIGHT +
+    (a.plotY - b.plotY) ** 2
+  );
+}
+
 /**
  * Gets the next or previous data point, continuing into the adjacent series
  * at the end of a series and wrapping around at the ends of the chart.
  */
-export function getAdjacentDataPoint<T extends SkyChartNavigableDataPoint>(
-  dataPoints: readonly T[],
-  current: T,
+export function getAdjacentDataPoint(
+  dataPoints: readonly SkyChartDataPoint[],
+  current: SkyChartDataPoint,
   next: boolean,
-): T {
+): SkyChartDataPoint {
   const index = dataPoints.indexOf(current) + (next ? 1 : -1);
 
   return dataPoints[(index + dataPoints.length) % dataPoints.length];
@@ -43,9 +48,11 @@ export function getAdjacentDataPoint<T extends SkyChartNavigableDataPoint>(
  * or `undefined` at the first or last series. Like Highcharts, "down" moves to
  * the previous series.
  */
-export function getAdjacentSeriesDataPoint<
-  T extends SkyChartNavigableDataPoint,
->(dataPoints: readonly T[], current: T, down: boolean): T | undefined {
+export function getAdjacentSeriesDataPoint(
+  dataPoints: readonly SkyChartDataPoint[],
+  current: SkyChartDataPoint,
+  down: boolean,
+): SkyChartDataPoint | undefined {
   const datasetIndexes = [
     ...new Set(dataPoints.map((dataPoint) => dataPoint.datasetIndex)),
   ];
@@ -55,7 +62,7 @@ export function getAdjacentSeriesDataPoint<
       datasetIndexes.indexOf(current.datasetIndex) + (down ? -1 : 1)
     ];
 
-  let nearest: T | undefined;
+  let nearest: SkyChartDataPoint | undefined;
   let minDistance = Infinity;
 
   // Scan from the end, as Highcharts does, so ties resolve the same way.
@@ -64,9 +71,7 @@ export function getAdjacentSeriesDataPoint<
       continue;
     }
 
-    const distance =
-      (dataPoint.plotX - current.plotX) ** 2 * CATEGORY_DISTANCE_WEIGHT +
-      (dataPoint.plotY - current.plotY) ** 2;
+    const distance = getWeightedDistance(dataPoint, current);
 
     if (distance < minDistance) {
       minDistance = distance;
@@ -82,20 +87,18 @@ export function getAdjacentSeriesDataPoint<
  * above the current data point, or `undefined` when there is none. Highcharts
  * uses this for line series instead of moving between series.
  */
-export function getVerticalDataPoint<T extends SkyChartNavigableDataPoint>(
-  dataPoints: readonly T[],
-  current: T,
+export function getVerticalDataPoint(
+  dataPoints: readonly SkyChartDataPoint[],
+  current: SkyChartDataPoint,
   down: boolean,
-): T | undefined {
-  let nearest: T | undefined;
+): SkyChartDataPoint | undefined {
+  let nearest: SkyChartDataPoint | undefined;
   let minDistance = Infinity;
 
   for (const dataPoint of dataPoints) {
     // Canvas y-coordinates grow downward.
     const yDistance = dataPoint.plotY - current.plotY;
-    const distance =
-      yDistance ** 2 +
-      (dataPoint.plotX - current.plotX) ** 2 * CATEGORY_DISTANCE_WEIGHT;
+    const distance = getWeightedDistance(dataPoint, current);
 
     if (
       (down ? yDistance > 0 : yDistance < 0) &&

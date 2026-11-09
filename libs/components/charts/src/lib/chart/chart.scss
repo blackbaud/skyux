@@ -45,9 +45,6 @@
   --sky-override-chart-color-background-action-tertiary-active: transparent;
   --sky-override-chart-color-background-action-tertiary-focus: transparent;
   --sky-override-chart-legend-item-box-shadow-base: none;
-  --sky-override-chart-legend-item-box-shadow-hover: inset 0 0 0 1px #0974a1;
-  --sky-override-chart-legend-item-box-shadow-active: inset 0 0 0 2px #0974a1;
-  --sky-override-chart-legend-item-box-shadow-focus: inset 0 0 0 2px #0974a1;
   // The data point rings are drawn on the canvas, which needs each border's
   // width and color separately rather than as a box shadow.
   --sky-override-chart-border-width-action-hover: 1px;
@@ -56,6 +53,15 @@
   --sky-override-chart-color-border-action-tertiary-hover: #0974a1;
   --sky-override-chart-color-border-action-tertiary-active: #0974a1;
   --sky-override-chart-color-border-action-tertiary-focus: #0974a1;
+  --sky-override-chart-legend-item-box-shadow-hover: inset 0 0 0
+    var(--sky-override-chart-border-width-action-hover)
+    var(--sky-override-chart-color-border-action-tertiary-hover);
+  --sky-override-chart-legend-item-box-shadow-active: inset 0 0 0
+    var(--sky-override-chart-border-width-action-active)
+    var(--sky-override-chart-color-border-action-tertiary-active);
+  --sky-override-chart-legend-item-box-shadow-focus: inset 0 0 0
+    var(--sky-override-chart-border-width-action-focus)
+    var(--sky-override-chart-color-border-action-tertiary-focus);
 }
 
 :host {

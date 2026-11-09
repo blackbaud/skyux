@@ -1,10 +1,9 @@
 <canvas #chartRef aria-hidden="true"></canvas>
 <sky-chart-data-points
+  [chartType]="chartType()"
   [clickable]="dataPointsClickable()"
   [horizontal]="horizontal()"
   [series]="series()"
-  [seriesNavigation]="seriesNavigation()"
-  [seriesSummaryResourceKeys]="seriesSummaryResourceKeys()"
-  (dataPointClick)="onDataPointClick($event)"
+  (dataPointClick)="dataPointClick.emit($event)"
   (dataPointFocusChange)="onDataPointFocusChange($event)"
 />

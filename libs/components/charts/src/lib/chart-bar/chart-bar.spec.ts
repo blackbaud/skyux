@@ -15,7 +15,7 @@ import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
-import { type SkyChartDataPointClick } from '../chart-plot/chart-data-point-click';
+import { type SkyChartDataPointClickArgs } from '../chart-plot/chart-data-point-click-args';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
 import { SkyChartValueFormat } from '../shared/value-format';
@@ -87,7 +87,8 @@ class TestComponent {
   @ViewChild(SkyChartBar)
   public chartBar!: SkyChartBar;
 
-  public dataPointClick: SkyChartDataPointClick | undefined;
+  public dataPointClick:
+    SkyChartDataPointClickArgs<SkyChartBarSeriesValue> | undefined;
 
   public categories = input<(string | number)[]>(['2023', '2024']);
   public currencyCode = input<string | undefined>(undefined);
