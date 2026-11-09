@@ -137,11 +137,12 @@ export class SkyChartDataPoints {
   protected onBlur(event: FocusEvent): void {
     const host = this.#elementRef.nativeElement;
 
+    // Moving between data points refocuses one immediately, so only report
+    // the loss of focus when it leaves the data points.
     if (!host.contains(event.relatedTarget as Node | null)) {
       this.#focusedKey.set(undefined);
+      this.dataPointFocusChange.emit(undefined);
     }
-
-    this.dataPointFocusChange.emit(undefined);
   }
 
   protected onKeydown(
@@ -150,14 +151,9 @@ export class SkyChartDataPoints {
   ): void {
     const dataPoints = this.#dataPoints();
 
-    // Match by key: the template's data point may predate a re-measurement.
-    const current = dataPoints.find(
-      (candidate) => candidate.key === dataPoint.key,
-    ) as SkyChartDataPoint;
-
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      this.dataPointClick.emit(current);
+      this.dataPointClick.emit(dataPoint);
 
       return;
     }
@@ -183,7 +179,7 @@ export class SkyChartDataPoints {
       case nextCategoryKey:
         target = getAdjacentDataPoint(
           dataPoints,
-          current,
+          dataPoint,
           event.key === nextCategoryKey,
         );
         break;
@@ -191,7 +187,7 @@ export class SkyChartDataPoints {
       case nextSeriesKey:
         target = moveAcrossSeries(
           dataPoints,
-          current,
+          dataPoint,
           event.key === nextSeriesKey,
         );
         break;
@@ -199,7 +195,7 @@ export class SkyChartDataPoints {
       case 'PageDown':
         target = getAdjacentSeriesDataPoint(
           dataPoints,
-          current,
+          dataPoint,
           event.key === 'PageDown',
         );
         break;
@@ -216,13 +212,11 @@ export class SkyChartDataPoints {
     event.preventDefault();
 
     if (target) {
-      this.#getDataPointElement(target).focus();
+      (
+        this.#elementRef.nativeElement.querySelector(
+          `[data-sky-chart-point="${target.key}"]`,
+        ) as HTMLElement
+      ).focus();
     }
-  }
-
-  #getDataPointElement(dataPoint: SkyChartDataPoint): HTMLElement {
-    return this.#elementRef.nativeElement.querySelector(
-      `[data-sky-chart-point="${dataPoint.key}"]`,
-    ) as HTMLElement;
   }
 }

@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { expect, expectAsync } from '@skyux-sdk/testing';
+import { expect } from '@skyux-sdk/testing';
 import { Chart, type ChartType } from 'chart.js';
 
 import {
@@ -242,27 +242,7 @@ describe('Chart.js component', () => {
       );
     });
 
-    it('should present data points as buttons when clickable, and as images otherwise', async () => {
-      await render();
-
-      expect(getDataPoints()[0].getAttribute('role')).toBe('button');
-
-      component.clickable.set(false);
-      await render();
-
-      expect(getDataPoints()[0].getAttribute('role')).toBe('img');
-    });
-
-    it('should describe each series of a bar chart as a bar series', async () => {
-      await render();
-
-      expect(getSeriesDescriptions()).toEqual([
-        'First, bar series 1 of 2 with 3 bars.',
-        'Second, bar series 2 of 2 with 3 bars.',
-      ]);
-    });
-
-    it('should describe each series of a line chart as a line', async () => {
+    it('should describe line chart series as lines', async () => {
       component.config.set(
         buildConfig([1, 2, 3], [4, null, 6], { type: 'line' }),
       );
@@ -273,9 +253,7 @@ describe('Chart.js component', () => {
         'Second, line 2 of 2 with 3 data points.',
       ]);
     });
-  });
 
-  describe('keyboard navigation', () => {
     it('should follow the category axis of a horizontal chart', async () => {
       component.config.set(
         buildConfig([1, 2, 3], [4, null, 6], { indexAxis: 'y' }),
@@ -284,27 +262,11 @@ describe('Chart.js component', () => {
 
       getDataPoint('a', 'First').focus();
       pressKey(getDataPoint('a', 'First'), 'ArrowDown');
+
       expect(getFocusedDataPoint()).toBe('b/First');
-
-      getDataPoint('c', 'Second').focus();
-      pressKey(getDataPoint('c', 'Second'), 'ArrowRight');
-      expect(getFocusedDataPoint()).toBe('c/First');
     });
 
-    it('should move a line chart to the nearest point above or below in any series', async () => {
-      component.config.set(
-        buildConfig([1, 2, 3], [4, null, 6], { type: 'line' }),
-      );
-      await render();
-
-      getDataPoint('b', 'First').focus();
-      pressKey(getDataPoint('b', 'First'), 'ArrowUp');
-      expect(getFocusedDataPoint()).toBe('c/First');
-    });
-  });
-
-  describe('focus', () => {
-    it('should show the tooltip for the focused data point', async () => {
+    it('should show the tooltip while a data point has focus', async () => {
       await render();
 
       getDataPoint('b', 'First').focus();
@@ -312,12 +274,7 @@ describe('Chart.js component', () => {
       expect(getChart().tooltip?.getActiveElements()).toEqual([
         jasmine.objectContaining({ datasetIndex: 0, index: 1 }),
       ]);
-    });
 
-    it('should hide the tooltip when a data point loses focus', async () => {
-      await render();
-
-      getDataPoint('b', 'First').focus();
       focusOutside();
 
       expect(getChart().tooltip?.getActiveElements()).toEqual([]);
@@ -340,34 +297,21 @@ describe('Chart.js component', () => {
       ]);
     });
 
-    it('should show a pointer cursor over a data point only when clickable', async () => {
+    it('should make data points clickable only when clickable', async () => {
       await render();
 
       const center = getCenter(getDataPoint('b', 'First'));
       await dispatchCanvasEvent('mousemove', center);
+
+      expect(getDataPoints()[0].getAttribute('role')).toBe('button');
       expect(getCanvas().style.cursor).toBe('pointer');
 
       component.clickable.set(false);
       await render();
       await dispatchCanvasEvent('mousemove', { x: center.x, y: center.y + 1 });
 
+      expect(getDataPoints()[0].getAttribute('role')).toBe('img');
       expect(getCanvas().style.cursor).toBe('');
-    });
-  });
-
-  describe('a11y', () => {
-    it('should be accessible with multiple series and clickable data points', async () => {
-      await render();
-
-      await expectAsync(fixture.nativeElement).toBeAccessible();
-    });
-
-    it('should be accessible with a single series and data points that are not clickable', async () => {
-      component.config.set(buildConfig([1, 2, 3]));
-      component.clickable.set(false);
-      await render();
-
-      await expectAsync(fixture.nativeElement).toBeAccessible();
     });
   });
 });

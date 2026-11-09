@@ -378,13 +378,14 @@ describe('Chart data points component', () => {
   });
 
   describe('events', () => {
-    it('should emit the focused data point, and undefined when it loses focus', async () => {
+    it('should emit the focused data point, and undefined only when focus leaves the data points', async () => {
       await render();
 
       await focusDataPoint('b', 'First');
+      await focusDataPoint('c', 'Second');
       focusOutside();
 
-      expect(component.focusChanges).toEqual(['0-1', undefined]);
+      expect(component.focusChanges).toEqual(['0-1', '1-2', undefined]);
     });
 
     it('should emit the data point when Enter or Space is pressed', async () => {

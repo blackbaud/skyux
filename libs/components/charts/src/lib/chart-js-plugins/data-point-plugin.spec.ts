@@ -47,7 +47,6 @@ describe('Data point plugin', () => {
   let clickable: boolean;
   let onUpdate: jasmine.Spy;
   let onClick: jasmine.Spy;
-  let destroyed: boolean;
 
   // Records each ring drawn on the canvas, with the styles it was filled and
   // stroked with. Chart.js itself never calls roundRect for bar charts, so
@@ -117,7 +116,7 @@ describe('Data point plugin', () => {
 
   // Chart.js throttles canvas events to the next animation frame.
   async function dispatchCanvasEvent(
-    type: 'click' | 'mousemove' | 'mouseout',
+    type: 'click' | 'mousemove' | 'mouseout' | 'pointerdown' | 'pointerup',
     position = { x: 0, y: 0 },
   ): Promise<void> {
     const rect = chart.canvas.getBoundingClientRect();
@@ -149,7 +148,6 @@ describe('Data point plugin', () => {
     document.body.appendChild(container);
 
     clickable = true;
-    destroyed = false;
     onUpdate = jasmine.createSpy('onUpdate');
     onClick = jasmine.createSpy('onClick');
     dataPointPlugin = createDataPointPlugin({
@@ -167,16 +165,17 @@ describe('Data point plugin', () => {
         labels: ['a', 'b', 'c'],
         datasets: [{ label: 'First', data: [1, 2, 3] }],
       },
-      options: { animation: false, maintainAspectRatio: false },
+      options: {
+        animation: false,
+        maintainAspectRatio: false,
+        events: ['mousemove', 'mouseout', 'click', 'pointerdown', 'pointerup'],
+      },
       plugins: [dataPointPlugin.plugin],
     });
   });
 
   afterEach(() => {
-    if (!destroyed) {
-      chart.destroy();
-    }
-
+    chart.destroy();
     container.remove();
   });
 
@@ -337,8 +336,9 @@ describe('Data point plugin', () => {
     it('should draw an active ring while a hovered data point is pressed', async () => {
       await hover({ datasetIndex: 0, index: 1 });
 
+      const center = getCenter({ datasetIndex: 0, index: 1 });
       const rings = spyOnRings();
-      chart.canvas.dispatchEvent(new PointerEvent('pointerdown'));
+      await dispatchCanvasEvent('pointerdown', center);
 
       expect(rings).toEqual([
         jasmine.objectContaining({ fillStyle: 'rgba(0, 0, 0, 0)' }),
@@ -346,24 +346,12 @@ describe('Data point plugin', () => {
       ]);
 
       rings.length = 0;
-      chart.canvas.dispatchEvent(new PointerEvent('pointerup'));
+      await dispatchCanvasEvent('pointerup', center);
 
       expect(rings).toEqual([
         jasmine.objectContaining({ fillStyle: '#eeeeef' }),
         jasmine.objectContaining({ strokeStyle: '#ff0000' }),
       ]);
-    });
-
-    it('should stop listening for presses when the chart is destroyed', () => {
-      const canvas = chart.canvas;
-      const drawSpy = spyOn(chart, 'draw');
-
-      chart.destroy();
-      destroyed = true;
-      canvas.dispatchEvent(new PointerEvent('pointerdown'));
-      canvas.dispatchEvent(new PointerEvent('pointerup'));
-
-      expect(drawSpy).not.toHaveBeenCalled();
     });
   });
 

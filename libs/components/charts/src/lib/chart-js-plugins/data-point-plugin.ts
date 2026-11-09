@@ -1,5 +1,4 @@
 import {
-  type ActiveElement,
   type Chart,
   type ChartEvent,
   type CoreInteractionOptions,
@@ -12,8 +11,6 @@ import {
   type SkyChartJsDataPointIndex,
   toDataPointKey,
 } from './data-point-geometry';
-
-type SkyChartJsRingState = 'hover' | 'active' | 'focus';
 
 const RING_MARGIN = 2;
 
@@ -51,7 +48,7 @@ export interface SkyChartJsDataPointPlugin {
  *
  * The rings are drawn on the canvas rather than on HTML elements, which would
  * sit above the canvas and cover the tooltip. Their themed styles are read
- * from custom properties inherited by the canvas (see `data-point-rings.scss`).
+ * from custom properties inherited by the canvas (see `chart-js.scss`).
  *
  * Callbacks are captured by this factory rather than passed as plugin options,
  * because Chart.js resolves functions in plugin options by calling them with
@@ -67,31 +64,20 @@ export function createDataPointPlugin(callbacks: {
   onClick: (dataPoint: SkyChartJsDataPointIndex) => void;
 }): SkyChartJsDataPointPlugin {
   let chart: Chart | undefined;
-  // Chart.js clears `chart.canvas` before uninstalling plugins, so the canvas
-  // is kept to remove the listeners.
-  let canvas: HTMLCanvasElement | undefined;
 
   let hovered: SkyChartJsDataPointIndex | undefined;
   let pressed: SkyChartJsDataPointIndex | undefined;
   let focused: SkyChartJsDataPointIndex | undefined;
-
-  // These listeners exist only while the plugin is installed on a chart.
-  const onPointerDown = (): void => {
-    pressed = hovered;
-    (chart as Chart).draw();
-  };
-
-  const onPointerUp = (): void => {
-    pressed = undefined;
-    (chart as Chart).draw();
-  };
 
   function drawRings(ringChart: Chart, layer: 'background' | 'border'): void {
     // Later states take precedence, matching the legend buttons: pressed over
     // focused over hovered.
     const rings = new Map<
       string,
-      { dataPoint: SkyChartJsDataPointIndex; state: SkyChartJsRingState }
+      {
+        dataPoint: SkyChartJsDataPointIndex;
+        state: 'hover' | 'active' | 'focus';
+      }
     >();
 
     for (const [dataPoint, state] of [
@@ -149,14 +135,40 @@ export function createDataPointPlugin(callbacks: {
     }
   }
 
+  // Presses only toggle the active ring, so they are handled before Chart.js
+  // and then cancelled, which also skips Chart.js's hover and tooltip update.
+  function onPress(pressChart: Chart, args: { event: ChartEvent }): boolean {
+    // Checks the native type because Chart.js also reports touches as
+    // `mousedown`.
+    const nativeType = args.event.native?.type;
+
+    if (nativeType !== 'pointerdown' && nativeType !== 'pointerup') {
+      return true;
+    }
+
+    pressed = nativeType === 'pointerdown' ? hovered : undefined;
+    pressChart.draw();
+
+    return false;
+  }
+
   function onEvent(
     eventChart: Chart,
     args: { event: ChartEvent; changed?: boolean },
   ): void {
+    // The configured interaction mode may match several points (for example,
+    // every point at a line chart's category), but the pointer targets the
+    // single point under it. Chart.js accepts its own event objects here
+    // despite the DOM event type.
     const element =
       args.event.type === 'mouseout'
         ? undefined
-        : getElementAtEvent(args.event, eventChart);
+        : eventChart.getElementsAtEventForMode(
+            args.event as unknown as Event,
+            'nearest',
+            { intersect: true },
+            true,
+          )[0];
 
     // Chart.js never replays click events after an update, so each click is
     // reported once.
@@ -187,21 +199,10 @@ export function createDataPointPlugin(callbacks: {
       id: 'skyDataPoints',
       install(installedChart: Chart): void {
         chart = installedChart;
-        canvas = installedChart.canvas;
-        canvas.addEventListener('pointerdown', onPointerDown);
-        canvas.addEventListener('pointerup', onPointerUp);
-      },
-      uninstall(): void {
-        const installedCanvas = canvas as HTMLCanvasElement;
-
-        installedCanvas.removeEventListener('pointerdown', onPointerDown);
-        installedCanvas.removeEventListener('pointerup', onPointerUp);
-
-        chart = undefined;
-        canvas = undefined;
       },
       afterUpdate: (updatedChart: Chart): void =>
         callbacks.onUpdate(updatedChart),
+      beforeEvent: onPress,
       afterEvent: onEvent,
       // Backgrounds sit behind the data point; borders sit above it but below
       // the tooltip, which Chart.js draws last.
@@ -259,20 +260,4 @@ export function createDataPointPlugin(callbacks: {
       focusedChart.update();
     },
   };
-}
-
-function getElementAtEvent(
-  event: ChartEvent,
-  chart: Chart,
-): ActiveElement | undefined {
-  // The configured interaction mode may match several points (for example,
-  // every point at a line chart's category), but a click targets the single
-  // point under the pointer. Chart.js accepts its own event objects here
-  // despite the DOM event type.
-  return chart.getElementsAtEventForMode(
-    event as unknown as Event,
-    'nearest',
-    { intersect: true },
-    true,
-  )[0];
 }

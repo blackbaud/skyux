@@ -28,6 +28,17 @@ function buildBaseChartJsOptions(
     // Interaction: hovering and tooltips target the nearest point precisely.
     interaction: { mode: 'nearest', intersect: true },
     hover: { mode: 'nearest', intersect: true },
+    // Chart.js's default events, plus the presses that draw the data point
+    // plugin's active ring.
+    events: [
+      'mousemove',
+      'mouseout',
+      'click',
+      'touchstart',
+      'touchmove',
+      'pointerdown',
+      'pointerup',
+    ],
 
     // Motion: the canvas cannot inherit CSS transitions, so the theme's
     // duration drives the animation. `false` skips the animation frames
