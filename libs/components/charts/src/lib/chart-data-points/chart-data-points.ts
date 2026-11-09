@@ -120,6 +120,12 @@ export class SkyChartDataPoints {
     event: KeyboardEvent,
     dataPoint: SkyChartDataPoint,
   ): void {
+    // Leave browser and assistive technology shortcuts, such as Alt+ArrowLeft
+    // (Back), to the browser.
+    if (event.altKey || event.ctrlKey || event.metaKey) {
+      return;
+    }
+
     const dataPoints = this.#dataPoints();
 
     if (event.key === 'Enter' || event.key === ' ') {

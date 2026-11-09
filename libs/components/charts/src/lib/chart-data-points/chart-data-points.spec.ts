@@ -134,8 +134,12 @@ describe('Chart data points component', () => {
     (fixture.nativeElement.querySelector('button') as HTMLElement).focus();
   }
 
-  function press(key: string): KeyboardEvent {
-    const event = new KeyboardEvent('keydown', { key, cancelable: true });
+  function press(key: string, modifiers?: KeyboardEventInit): KeyboardEvent {
+    const event = new KeyboardEvent('keydown', {
+      key,
+      cancelable: true,
+      ...modifiers,
+    });
     (document.activeElement as HTMLElement).dispatchEvent(event);
     fixture.detectChanges();
 
@@ -372,6 +376,20 @@ describe('Chart data points component', () => {
       expect(press('a').defaultPrevented).toBeFalse();
       expect(press('Escape').defaultPrevented).toBeFalse();
       expect(getFocusedDataPoint()).toBe('a/First');
+    });
+
+    it('should leave keys held with Alt, Ctrl, or Meta to the browser', async () => {
+      await render();
+
+      await focusDataPoint('a', 'First');
+
+      expect(
+        press('ArrowRight', { altKey: true }).defaultPrevented,
+      ).toBeFalse();
+      expect(press('End', { ctrlKey: true }).defaultPrevented).toBeFalse();
+      expect(press('Enter', { metaKey: true }).defaultPrevented).toBeFalse();
+      expect(getFocusedDataPoint()).toBe('a/First');
+      expect(component.clicks).toEqual([]);
     });
   });
 
