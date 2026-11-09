@@ -1,7 +1,9 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+import { forEachThemeAndBrand } from '../support/themes';
+
 describe('Page Viewport Left Data Manager Split View', () => {
-  E2eVariations.forEachTheme((theme) => {
+  forEachThemeAndBrand((theme) => {
     it(`should render the page with split view inside data manager with viewport left set to mimic vertical nav`, () => {
       cy.viewport(E2eVariations.DISPLAY_WIDTHS[0], 1200)
         .visit('/')
