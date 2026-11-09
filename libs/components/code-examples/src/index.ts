@@ -37,6 +37,7 @@ export { ChartsChartBarValueBoundsExample } from './lib/modules/charts/chart-bar
 export { ChartsChartBarValueFormatExample } from './lib/modules/charts/chart-bar/value-format/example';
 export { ChartsChartLineAsyncExample } from './lib/modules/charts/chart-line/async/example';
 export { ChartsChartLineBasicExample } from './lib/modules/charts/chart-line/basic/example';
+export { ChartsChartLineDataPointClickExample } from './lib/modules/charts/chart-line/data-point-click/example';
 export { ChartsChartLineGapsExample } from './lib/modules/charts/chart-line/gaps/example';
 export { ChartsChartLineMultipleSeriesExample } from './lib/modules/charts/chart-line/multiple-series/example';
 export { ChartsChartLineValueFormatExample } from './lib/modules/charts/chart-line/value-format/example';

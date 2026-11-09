@@ -3,10 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect } from '@skyux-sdk/testing';
 import { Chart, type ChartType } from 'chart.js';
 
-import {
-  getElementGeometry,
-  type SkyChartJsDataPointIndex,
-} from '../chart-js-plugins/data-point-geometry';
+import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/chart-js-data-point-index';
+import { getElementGeometry } from '../chart-js-plugins/data-point-geometry';
 import { type SkyChartTable } from '../chart-table/chart-table';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 

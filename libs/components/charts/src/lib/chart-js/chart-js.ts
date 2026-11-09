@@ -26,14 +26,10 @@ import {
   Tooltip,
 } from 'chart.js';
 
-import {
-  SkyChartDataPoints,
-  type SkyChartDataPointSeries,
-} from '../chart-data-points/chart-data-points';
-import {
-  measureDataPoints,
-  type SkyChartJsDataPointIndex,
-} from '../chart-js-plugins/data-point-geometry';
+import { type SkyChartDataPointSeries } from '../chart-data-points/chart-data-point-series';
+import { SkyChartDataPoints } from '../chart-data-points/chart-data-points';
+import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/chart-js-data-point-index';
+import { measureDataPoints } from '../chart-js-plugins/data-point-geometry';
 import { createDataPointPlugin } from '../chart-js-plugins/data-point-plugin';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 

@@ -14,7 +14,7 @@ import { EMPTY, map, Subject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
-import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/data-point-geometry';
+import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/chart-js-data-point-index';
 import {
   buildCartesianTable,
   resolveCartesianData,

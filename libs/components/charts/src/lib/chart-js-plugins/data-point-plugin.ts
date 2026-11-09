@@ -2,36 +2,14 @@ import {
   type Chart,
   type ChartEvent,
   type CoreInteractionOptions,
-  type Plugin,
   type TooltipModel,
 } from 'chart.js';
 
-import {
-  getElementGeometry,
-  type SkyChartJsDataPointIndex,
-  toDataPointKey,
-} from './data-point-geometry';
+import { type SkyChartJsDataPointIndex } from './chart-js-data-point-index';
+import { type SkyChartJsDataPointPlugin } from './chart-js-data-point-plugin';
+import { getElementGeometry, toDataPointKey } from './data-point-geometry';
 
 const RING_MARGIN = 2;
-
-/**
- * Controls the data point plugin of a single chart.
- * @internal
- */
-export interface SkyChartJsDataPointPlugin {
-  /**
-   * The plugin to pass in the chart's `plugins` configuration. It must not be
-   * registered globally with `Chart.register`, which would apply it to every
-   * Chart.js chart in the consumer's application.
-   */
-  plugin: Plugin;
-
-  /**
-   * Shows the tooltip and focus ring for the data point that has keyboard
-   * focus, or clears them when given `undefined`.
-   */
-  setFocusedDataPoint(dataPoint: SkyChartJsDataPointIndex | undefined): void;
-}
 
 /**
  * Creates a Chart.js plugin that adds SKY UX data point interactions to a
@@ -56,15 +34,20 @@ export interface SkyChartJsDataPointPlugin {
  * @internal
  */
 export function createDataPointPlugin(callbacks: {
-  /** Whether clicking a data point performs an action. */
+  /**
+   * Whether clicking a data point performs an action.
+   */
   isClickable: () => boolean;
-  /** Called after every layout, including resizes and series toggles. */
+  /**
+   * Called after every layout, including resizes and series toggles.
+   */
   onUpdate: (chart: Chart) => void;
-  /** Called when the user clicks a data point on the canvas. */
+  /**
+   * Called when the user clicks a data point on the canvas.
+   */
   onClick: (dataPoint: SkyChartJsDataPointIndex) => void;
 }): SkyChartJsDataPointPlugin {
   let chart: Chart | undefined;
-
   let hovered: SkyChartJsDataPointIndex | undefined;
   let pressed: SkyChartJsDataPointIndex | undefined;
   let focused: SkyChartJsDataPointIndex | undefined;

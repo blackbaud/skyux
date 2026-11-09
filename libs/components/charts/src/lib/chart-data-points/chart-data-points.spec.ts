@@ -2,11 +2,9 @@ import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 
-import {
-  type SkyChartDataPoint,
-  SkyChartDataPoints,
-  type SkyChartDataPointSeries,
-} from './chart-data-points';
+import { type SkyChartDataPoint } from './chart-data-point';
+import { type SkyChartDataPointSeries } from './chart-data-point-series';
+import { SkyChartDataPoints } from './chart-data-points';
 
 function createDataPoint(
   datasetIndex: number,

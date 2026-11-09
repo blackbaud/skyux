@@ -9,7 +9,8 @@
  * along the category axis and `plotY` along the value axis, in pixels.
  * https://github.com/highcharts/highcharts/blob/master/ts/Accessibility/Components/SeriesComponent/SeriesKeyboardNavigation.ts
  */
-import { type SkyChartDataPoint } from './chart-data-points';
+
+import { type SkyChartDataPoint } from './chart-data-point';
 
 // Highcharts weighs category-axis distance four times as heavily as value-axis
 // distance, so moving between series favors staying on the same category.

@@ -1,4 +1,4 @@
-import { type SkyChartDataPoint } from './chart-data-points';
+import { type SkyChartDataPoint } from './chart-data-point';
 import {
   getAdjacentDataPoint,
   getAdjacentSeriesDataPoint,

@@ -89,7 +89,8 @@
           "ChartsChartLineAsyncExample",
           "ChartsChartLineMultipleSeriesExample",
           "ChartsChartLineGapsExample",
-          "ChartsChartLineValueFormatExample"
+          "ChartsChartLineValueFormatExample",
+          "ChartsChartLineDataPointClickExample"
         ]
       }
     }

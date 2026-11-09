@@ -5,21 +5,11 @@ import {
   type PointElement,
 } from 'chart.js';
 
-import {
-  type SkyChartDataPoint,
-  type SkyChartDataPointSeries,
-} from '../chart-data-points/chart-data-points';
+import { type SkyChartDataPoint } from '../chart-data-points/chart-data-point';
+import { type SkyChartDataPointSeries } from '../chart-data-points/chart-data-point-series';
 import { type SkyChartTable } from '../chart-table/chart-table';
 
-/**
- * Identifies a plotted data point by its Chart.js dataset (series) index and
- * its data (category) index.
- * @internal
- */
-export interface SkyChartJsDataPointIndex {
-  datasetIndex: number;
-  index: number;
-}
+import { type SkyChartJsDataPointIndex } from './chart-js-data-point-index';
 
 /**
  * Builds a stable key that identifies a data point across re-measurements.

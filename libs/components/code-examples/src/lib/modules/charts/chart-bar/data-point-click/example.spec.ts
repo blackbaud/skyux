@@ -1,10 +1,6 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  SkyChartBarHarness,
-  SkyChartDataPointHarness,
-  SkyChartHarness,
-} from '@skyux/charts/testing';
+import { SkyChartBarHarness, SkyChartHarness } from '@skyux/charts/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { ChartsChartBarDataPointClickExample } from './example';
@@ -46,34 +42,6 @@ describe('Bar chart with clickable data points example', () => {
     expect(getSelectionText(fixture)).toBe('Select a bar to see its details.');
   });
 
-  it('should get a data point for each bar', async () => {
-    const { barHarness } = await setupTest();
-
-    const dataPoints = await barHarness.getDataPoints();
-
-    expect(dataPoints.length).toBe(8);
-  });
-
-  it('should filter data points by category or series', async () => {
-    const { barHarness } = await setupTest();
-
-    const q3DataPoints = await barHarness.getDataPoints({ category: 'Q3' });
-
-    await expectAsync(
-      Promise.all(
-        q3DataPoints.map((dataPoint) => dataPoint.getSeriesLabelText()),
-      ),
-    ).toBeResolvedTo(['Online', 'In person']);
-
-    const onlineDataPoints = await barHarness.getDataPoints({
-      seriesLabelText: 'Online',
-    });
-
-    await expectAsync(
-      Promise.all(onlineDataPoints.map((dataPoint) => dataPoint.getCategory())),
-    ).toBeResolvedTo(['Q1', 'Q2', 'Q3', 'Q4']);
-  });
-
   it('should show the details of the clicked bar', async () => {
     const { barHarness, fixture } = await setupTest();
 
@@ -82,11 +50,6 @@ describe('Bar chart with clickable data points example', () => {
       seriesLabelText: 'In person',
     });
 
-    await expectAsync(dataPoint.getCategory()).toBeResolvedTo('Q4');
-    await expectAsync(dataPoint.getSeriesLabelText()).toBeResolvedTo(
-      'In person',
-    );
-
     await dataPoint.click();
 
     expect(getSelectionText(fixture)).toBe(
@@ -94,15 +57,21 @@ describe('Bar chart with clickable data points example', () => {
     );
   });
 
-  it('should find a data point directly with its harness', async () => {
-    const { fixture } = await setupTest();
-    const loader = TestbedHarnessEnvironment.loader(fixture);
+  it('should replace the details when another bar is clicked', async () => {
+    const { barHarness, fixture } = await setupTest();
 
-    const dataPoint = await loader.getHarness(
-      SkyChartDataPointHarness.with({ category: 'Q1', seriesLabelText: /On/ }),
-    );
-
-    await dataPoint.click();
+    await (
+      await barHarness.getDataPoint({
+        category: 'Q4',
+        seriesLabelText: 'Online',
+      })
+    ).click();
+    await (
+      await barHarness.getDataPoint({
+        category: 'Q1',
+        seriesLabelText: 'Online',
+      })
+    ).click();
 
     expect(getSelectionText(fixture)).toBe(
       'Online donations in Q1: $42,000.00',

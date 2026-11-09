@@ -8,14 +8,10 @@ import {
   Tooltip,
 } from 'chart.js';
 
-import {
-  getElementGeometry,
-  type SkyChartJsDataPointIndex,
-} from './data-point-geometry';
-import {
-  createDataPointPlugin,
-  type SkyChartJsDataPointPlugin,
-} from './data-point-plugin';
+import { type SkyChartJsDataPointIndex } from './chart-js-data-point-index';
+import { type SkyChartJsDataPointPlugin } from './chart-js-data-point-plugin';
+import { getElementGeometry } from './data-point-geometry';
+import { createDataPointPlugin } from './data-point-plugin';
 
 Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip);
 

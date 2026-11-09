@@ -284,6 +284,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ChartsChartLineDataPointClickExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartLineDataPointClickExample: c }) => c,
+      ),
+  },
+  {
     path: 'ChartsChartLineGapsExample',
     loadComponent: () =>
       import('@skyux/code-examples').then(

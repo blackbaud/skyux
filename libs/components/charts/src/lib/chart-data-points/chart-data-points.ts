@@ -10,48 +10,13 @@ import {
 
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 
+import { type SkyChartDataPoint } from './chart-data-point';
+import { type SkyChartDataPointSeries } from './chart-data-point-series';
 import {
   getAdjacentDataPoint,
   getAdjacentSeriesDataPoint,
   getVerticalDataPoint,
 } from './data-point-navigation';
-
-/**
- * A data point drawn on the chart's canvas, measured so a focusable stand-in
- * can be positioned over it.
- * @internal
- */
-export interface SkyChartDataPoint {
-  /** The Chart.js dataset (series) index. */
-  datasetIndex: number;
-  /** The Chart.js data (category) index. */
-  index: number;
-  key: string;
-  category: string;
-  seriesLabelText: string;
-  accessibleName: string;
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-  /** The point's position along the category axis, in pixels. */
-  plotX: number;
-  /** The point's position along the value axis, in pixels. */
-  plotY: number;
-}
-
-/**
- * The data points of a single series, described to assistive technology as a
- * group when the chart has multiple series.
- * @internal
- */
-export interface SkyChartDataPointSeries {
-  datasetIndex: number;
-  labelText: string;
-  seriesCount: number;
-  valueCount: number;
-  dataPoints: SkyChartDataPoint[];
-}
 
 /**
  * Makes a chart's data points reachable by keyboard and assistive technology.
@@ -129,6 +94,12 @@ export class SkyChartDataPoints {
       : dataPoints[0].key;
   });
 
+  protected getSeriesSummaryKey(chartSeries: SkyChartDataPointSeries): string {
+    const plurality = chartSeries.valueCount === 1 ? 'singular' : 'plural';
+
+    return `skyux_charts.chart.${this.chartType()}.series_summary_${plurality}`;
+  }
+
   protected onFocus(dataPoint: SkyChartDataPoint): void {
     this.#focusedKey.set(dataPoint.key);
     this.dataPointFocusChange.emit(dataPoint);
@@ -183,6 +154,7 @@ export class SkyChartDataPoints {
           event.key === nextCategoryKey,
         );
         break;
+
       case previousSeriesKey:
       case nextSeriesKey:
         target = moveAcrossSeries(
@@ -191,6 +163,7 @@ export class SkyChartDataPoints {
           event.key === nextSeriesKey,
         );
         break;
+
       case 'PageUp':
       case 'PageDown':
         target = getAdjacentSeriesDataPoint(
@@ -199,12 +172,15 @@ export class SkyChartDataPoints {
           event.key === 'PageDown',
         );
         break;
+
       case 'Home':
         target = dataPoints[0];
         break;
+
       case 'End':
         target = dataPoints[dataPoints.length - 1];
         break;
+
       default:
         return;
     }
