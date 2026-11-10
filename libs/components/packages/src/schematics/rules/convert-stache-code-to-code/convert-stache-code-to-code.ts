@@ -8,7 +8,10 @@ import {
   isImportedFromPackage,
   parseSourceFile,
 } from '../../utility/typescript/ng-ast';
-import { removeClassReference } from '../../utility/typescript/remove-class-reference';
+import {
+  isDecoratorMetadataArray,
+  removeClassReference,
+} from '../../utility/typescript/remove-class-reference';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
@@ -17,15 +20,20 @@ const STACHE_CLASS_NAME = 'SkyCodeModule';
 const SKYUX_PACKAGE = '@skyux/code';
 const SKYUX_CLASS_NAME = 'SkyCode';
 
+const METADATA_FIELDS = ['imports', 'exports'];
+
 /**
- * True if `reference` sits in an array that already lists `SkyCode`. Swapping
- * it there would list `SkyCode` twice, so it is removed instead.
+ * True if `reference` sits in a decorator or `TestBed` metadata array that
+ * already lists `SkyCode`. Swapping it there would list `SkyCode` twice, so
+ * `removeClassReference` removes it instead. Other arrays are swapped, since
+ * `removeClassReference` leaves them alone.
  */
-function isInArrayWithSkyCode(reference: ts.Identifier): boolean {
+function isInMetadataArrayWithSkyCode(reference: ts.Identifier): boolean {
   const array = reference.parent;
 
   return (
     ts.isArrayLiteralExpression(array) &&
+    isDecoratorMetadataArray(array, METADATA_FIELDS) &&
     array.elements.some(
       (element) =>
         ts.isIdentifier(element) && element.text === SKYUX_CLASS_NAME,
@@ -52,7 +60,7 @@ function convertTypescriptFile(tree: Tree, filePath: string): boolean {
     {
       classNames: { [STACHE_CLASS_NAME]: SKYUX_CLASS_NAME },
       moduleName: { old: STACHE_PACKAGE, new: SKYUX_PACKAGE },
-      filter: (reference): boolean => !isInArrayWithSkyCode(reference),
+      filter: (reference): boolean => !isInMetadataArrayWithSkyCode(reference),
     },
   ]);
   tree.commitUpdate(swapRecorder);
@@ -66,7 +74,7 @@ function convertTypescriptFile(tree: Tree, filePath: string): boolean {
       swappedSource,
       STACHE_CLASS_NAME,
       STACHE_PACKAGE,
-      ['imports', 'exports'],
+      METADATA_FIELDS,
     );
     tree.commitUpdate(removeRecorder);
   }

@@ -249,6 +249,26 @@ describe('Convert Stache code to code', () => {
     `);
   });
 
+  it('should swap SkyCodeModule in a plain array that lists SkyCode', async () => {
+    const tree = await setup({
+      'src/app/foo.ts': stripIndents`
+        import { SkyCodeModule } from '${STACHE_PACKAGE}';
+        import { SkyCode } from '@skyux/code';
+
+        export const IMPORTS = [SkyCodeModule, SkyCode];
+      `,
+    });
+
+    const result = await convert(tree);
+
+    expect(result.readText('src/app/foo.ts')).toEqual(stripIndents`
+      import { SkyCode } from '@skyux/code';
+
+      export const IMPORTS = [SkyCode, SkyCode];
+    `);
+    expect(getDependencies(result)[STACHE_PACKAGE]).toBeUndefined();
+  });
+
   it('should keep an existing @skyux/code version', async () => {
     const tree = await setup({
       'src/app/foo.ts': stripIndents`
