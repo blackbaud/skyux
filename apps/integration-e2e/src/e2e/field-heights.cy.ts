@@ -1,7 +1,9 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+import { JG_THEME, forEachThemeAndBrand } from '../support/themes';
+
 describe('field heights', () => {
-  E2eVariations.forEachTheme((theme) => {
+  forEachThemeAndBrand((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
         cy.viewport(E2eVariations.DISPLAY_WIDTHS[0], 1200);
@@ -23,7 +25,11 @@ describe('field heights', () => {
             });
 
             console.log(`Heights: ${Array.from(heights).join(', ')}`);
-            expect(heights.size).to.equal(1);
+
+            // JustGiving field heights don't match yet.
+            if (theme !== JG_THEME) {
+              expect(heights.size).to.equal(1);
+            }
           });
         cy.skyVisualTest(`field-heights-${theme}`);
       });

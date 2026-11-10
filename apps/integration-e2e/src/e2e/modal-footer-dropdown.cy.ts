@@ -1,9 +1,11 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+import { forEachThemeAndBrand } from '../support/themes';
+
 const viewportHeight = 900;
 
 describe('modal footer dropdown', () => {
-  E2eVariations.forEachTheme((theme) => {
+  forEachThemeAndBrand((theme) => {
     describe(`in ${theme} theme`, () => {
       beforeEach(() => {
         cy.viewport(E2eVariations.DISPLAY_WIDTHS[0], viewportHeight)
