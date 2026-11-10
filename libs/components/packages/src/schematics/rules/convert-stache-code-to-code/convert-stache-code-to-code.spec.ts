@@ -19,15 +19,12 @@ describe('Convert Stache code to code', () => {
 
   async function setup(
     files: Record<string, string>,
-    stacheInstalled = true,
+    dependencies: Record<string, string> = { [STACHE_PACKAGE]: '12.0.0' },
   ): Promise<UnitTestTree> {
     const tree = await createTestApp(runner, { projectName: 'test-app' });
-
-    if (stacheInstalled) {
-      const packageJson = JSON.parse(tree.readText('package.json'));
-      packageJson.dependencies[STACHE_PACKAGE] = '12.0.0';
-      tree.overwrite('package.json', JSON.stringify(packageJson, null, 2));
-    }
+    const packageJson = JSON.parse(tree.readText('package.json'));
+    Object.assign(packageJson.dependencies, dependencies);
+    tree.overwrite('package.json', JSON.stringify(packageJson, null, 2));
 
     for (const [filePath, content] of Object.entries(files)) {
       tree.create(filePath, content);
@@ -42,6 +39,15 @@ describe('Convert Stache code to code', () => {
       { project: 'test-app' },
       tree,
     );
+  }
+
+  async function convertFile(
+    content: string,
+    filePath = 'src/app/foo.component.ts',
+  ): Promise<string> {
+    const result = await convert(await setup({ [filePath]: content }));
+
+    return result.readText(filePath);
   }
 
   function getDependencies(tree: UnitTestTree): Record<string, string> {
@@ -76,13 +82,14 @@ describe('Convert Stache code to code', () => {
       })
       export class FooComponent {}
     `);
-    expect(getDependencies(result)['@skyux/code']).toEqual('0.0.0-PLACEHOLDER');
-    expect(getDependencies(result)[STACHE_PACKAGE]).toBeUndefined();
+    const dependencies = getDependencies(result);
+    expect(dependencies['@skyux/code']).toEqual('0.0.0-PLACEHOLDER');
+    expect(dependencies[STACHE_PACKAGE]).toBeUndefined();
   });
 
   it('should swap SkyCodeModule in NgModule imports and exports', async () => {
-    const tree = await setup({
-      'src/app/shared.module.ts': stripIndents`
+    const result = await convertFile(
+      stripIndents`
         import { NgModule } from '@angular/core';
         import { SkyCodeModule } from '${STACHE_PACKAGE}';
 
@@ -92,11 +99,10 @@ describe('Convert Stache code to code', () => {
         })
         export class SharedModule {}
       `,
-    });
+      'src/app/shared.module.ts',
+    );
 
-    const result = await convert(tree);
-
-    expect(result.readText('src/app/shared.module.ts')).toEqual(stripIndents`
+    expect(result).toEqual(stripIndents`
       import { NgModule } from '@angular/core';
       import { SkyCode } from '@skyux/code';
 
@@ -109,8 +115,8 @@ describe('Convert Stache code to code', () => {
   });
 
   it('should swap SkyCodeModule in TestBed imports', async () => {
-    const tree = await setup({
-      'src/app/foo.component.spec.ts': stripIndents`
+    const result = await convertFile(
+      stripIndents`
         import { TestBed } from '@angular/core/testing';
         import { SkyCodeModule } from '${STACHE_PACKAGE}';
 
@@ -120,22 +126,19 @@ describe('Convert Stache code to code', () => {
           });
         });
       `,
-    });
-
-    const result = await convert(tree);
-
-    expect(result.readText('src/app/foo.component.spec.ts')).toEqual(
-      stripIndents`
-        import { TestBed } from '@angular/core/testing';
-        import { SkyCode } from '@skyux/code';
-
-        beforeEach(() => {
-          TestBed.configureTestingModule({
-            imports: [SkyCode],
-          });
-        });
-      `,
+      'src/app/foo.component.spec.ts',
     );
+
+    expect(result).toEqual(stripIndents`
+      import { TestBed } from '@angular/core/testing';
+      import { SkyCode } from '@skyux/code';
+
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          imports: [SkyCode],
+        });
+      });
+    `);
   });
 
   it('should keep other Stache imports and the Stache dependency', async () => {
@@ -167,8 +170,9 @@ describe('Convert Stache code to code', () => {
       })
       export class FooComponent {}
     `);
-    expect(getDependencies(result)[STACHE_PACKAGE]).toEqual('12.0.0');
-    expect(getDependencies(result)['@skyux/code']).toEqual('0.0.0-PLACEHOLDER');
+    const dependencies = getDependencies(result);
+    expect(dependencies[STACHE_PACKAGE]).toEqual('12.0.0');
+    expect(dependencies['@skyux/code']).toEqual('0.0.0-PLACEHOLDER');
   });
 
   it('should keep the Stache dependency when another file imports from it', async () => {
@@ -205,31 +209,27 @@ describe('Convert Stache code to code', () => {
   });
 
   it('should not list SkyCode twice when it is already imported', async () => {
-    const tree = await setup({
-      'src/app/foo.component.ts': stripIndents`
-        import { Component } from '@angular/core';
-        import { SkyCodeModule } from '${STACHE_PACKAGE}';
-        import { SkyCode } from '@skyux/code';
+    const result = await convertFile(stripIndents`
+      import { Component } from '@angular/core';
+      import { SkyCodeModule } from '${STACHE_PACKAGE}';
+      import { SkyCode } from '@skyux/code';
 
-        @Component({
-          selector: 'app-foo',
-          imports: [SkyCode, SkyCodeModule],
-          template: '',
-        })
-        export class FooComponent {}
+      @Component({
+        selector: 'app-foo',
+        imports: [SkyCode, SkyCodeModule],
+        template: '',
+      })
+      export class FooComponent {}
 
-        @Component({
-          selector: 'app-bar',
-          imports: [SkyCodeModule],
-          template: '',
-        })
-        export class BarComponent {}
-      `,
-    });
+      @Component({
+        selector: 'app-bar',
+        imports: [SkyCodeModule],
+        template: '',
+      })
+      export class BarComponent {}
+    `);
 
-    const result = await convert(tree);
-
-    expect(result.readText('src/app/foo.component.ts')).toEqual(stripIndents`
+    expect(result).toEqual(stripIndents`
       import { Component } from '@angular/core';
       import { SkyCode } from '@skyux/code';
 
@@ -261,6 +261,7 @@ describe('Convert Stache code to code', () => {
 
     const result = await convert(tree);
 
+    // The duplicate is harmless: Angular de-duplicates `imports`.
     expect(result.readText('src/app/foo.ts')).toEqual(stripIndents`
       import { SkyCode } from '@skyux/code';
 
@@ -270,16 +271,16 @@ describe('Convert Stache code to code', () => {
   });
 
   it('should keep an existing @skyux/code version', async () => {
-    const tree = await setup({
-      'src/app/foo.ts': stripIndents`
-        import { SkyCodeModule } from '${STACHE_PACKAGE}';
+    const tree = await setup(
+      {
+        'src/app/foo.ts': stripIndents`
+          import { SkyCodeModule } from '${STACHE_PACKAGE}';
 
-        export const IMPORTS = [SkyCodeModule];
-      `,
-    });
-    const packageJson = JSON.parse(tree.readText('package.json'));
-    packageJson.dependencies['@skyux/code'] = '15.8.0';
-    tree.overwrite('package.json', JSON.stringify(packageJson, null, 2));
+          export const IMPORTS = [SkyCodeModule];
+        `,
+      },
+      { [STACHE_PACKAGE]: '12.0.0', '@skyux/code': '15.8.0' },
+    );
 
     const result = await convert(tree);
 
@@ -338,7 +339,7 @@ describe('Convert Stache code to code', () => {
         `,
         'src/app/types.d.ts': `export declare const SkyCodeModule: unknown;`,
       },
-      false,
+      {},
     );
     const fooContent = tree.readText('src/app/foo.component.ts');
     const packageJson = tree.readText('package.json');
@@ -350,14 +351,6 @@ describe('Convert Stache code to code', () => {
   });
 
   describe('multi-line formatting', () => {
-    async function convertFile(content: string): Promise<string> {
-      const result = await convert(
-        await setup({ 'src/app/foo.component.ts': content }),
-      );
-
-      return result.readText('src/app/foo.component.ts');
-    }
-
     it('should remove SkyCodeModule when it is last in a multi-line import', async () => {
       const result = await convertFile(stripIndent`
         import {
