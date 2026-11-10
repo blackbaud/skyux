@@ -596,6 +596,55 @@ describe('Convert Stache code to code', () => {
       expect(peerDependencies['@skyux/code']).toBeUndefined();
     });
 
+    it.each([
+      ['a caret range', '^15.0.0'],
+      ['an exact version', '15.12.0'],
+    ])(
+      'should mirror %s of @skyux/core from the same section',
+      async (_description, coreVersion) => {
+        const tree = await setupLibrary(
+          {
+            peerDependencies: {
+              [STACHE_PACKAGE]: '^12.0.0',
+              '@skyux/core': coreVersion,
+            },
+          },
+          { 'foo.ts': codeModuleUsage },
+        );
+
+        const { peerDependencies } = await convertLibrary(tree);
+
+        expect(peerDependencies['@skyux/code']).toEqual(coreVersion);
+      },
+    );
+
+    it('should mirror @skyux/core from another section', async () => {
+      const tree = await setupLibrary(
+        {
+          dependencies: { '@skyux/core': '^15.3.0' },
+          peerDependencies: { [STACHE_PACKAGE]: '^12.0.0' },
+        },
+        { 'foo.ts': codeModuleUsage },
+      );
+
+      const { dependencies, peerDependencies } = await convertLibrary(tree);
+
+      expect(peerDependencies['@skyux/code']).toEqual('^15.3.0');
+      expect(dependencies['@skyux/code']).toBeUndefined();
+    });
+
+    it('should use the placeholder when the library has no @skyux/core', async () => {
+      const tree = await setupLibrary(
+        { peerDependencies: { [STACHE_PACKAGE]: '^12.0.0' } },
+        { 'foo.ts': codeModuleUsage },
+      );
+
+      const { peerDependencies } = await convertLibrary(tree);
+
+      expect(peerDependencies['@skyux/core']).toBeUndefined();
+      expect(peerDependencies['@skyux/code']).toEqual('0.0.0-PLACEHOLDER');
+    });
+
     it('should update every section that lists Stache', async () => {
       const tree = await setupLibrary(
         {

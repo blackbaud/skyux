@@ -154,6 +154,19 @@ function convertTypescriptFile(
 }
 
 /**
+ * The library's own `@skyux/core` version, preferring `section`, so
+ * `@skyux/code` gets the same range or exact version the library already uses
+ * for SKY UX. Falls back to the placeholder the root update uses.
+ */
+function getSkyuxCoreVersion(packageJson: JsonFile, section: string): string {
+  return (
+    [section, 'peerDependencies', 'dependencies', 'devDependencies']
+      .map((name) => packageJson.get([name, '@skyux/core']))
+      .find((version) => version !== undefined) ?? '0.0.0-PLACEHOLDER'
+  );
+}
+
+/**
  * A library's own `package.json` lists its dependencies, which the workspace
  * root update doesn't reach. `@skyux/code` goes in each section that listed
  * Stache, so a peer dependency stays a peer dependency.
@@ -187,7 +200,10 @@ async function updateLibraryPackageJson(
 
   for (const section of sections) {
     if (packageJson.get([section, SKYUX_PACKAGE]) === undefined) {
-      packageJson.modify([section, SKYUX_PACKAGE], '0.0.0-PLACEHOLDER');
+      packageJson.modify(
+        [section, SKYUX_PACKAGE],
+        getSkyuxCoreVersion(packageJson, section),
+      );
     }
 
     if (!stacheStillUsed) {
