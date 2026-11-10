@@ -6,7 +6,6 @@ import ts from 'typescript';
 
 import { parseSourceFile } from './typescript/ng-ast';
 import { visitProjectFiles } from './visit-project-files';
-import { getSourceRoot } from './workspace';
 
 export async function isPackageUsed(
   tree: Tree,
@@ -15,10 +14,7 @@ export async function isPackageUsed(
   const workspace = await getWorkspace(tree);
 
   for (const project of workspace.projects.values()) {
-    const sourceRoot = getSourceRoot(project);
-    const found = isPackageFoundInFiles(tree, packageName, sourceRoot);
-
-    if (found) {
+    if (isPackageFoundInFiles(tree, packageName, project.root)) {
       return true;
     }
   }
@@ -34,9 +30,7 @@ export async function getProjectsUsingPackage(
   const projects: ProjectDefinition[] = [];
 
   for (const project of workspace.projects.values()) {
-    const sourceRoot = getSourceRoot(project);
-
-    if (isPackageFoundInFiles(tree, packageName, sourceRoot)) {
+    if (isPackageFoundInFiles(tree, packageName, project.root)) {
       projects.push(project);
     }
   }
@@ -45,17 +39,19 @@ export async function getProjectsUsingPackage(
 }
 
 /**
- * Finds which packages are imported in any TypeScript files within the specified source root.
- * Returns a Set of package names that are used.
+ * True if any TypeScript file under `projectRoot` imports or re-exports
+ * `packageName`. The whole project root is scanned, not just `sourceRoot`,
+ * because converters visit the project root and a file outside `src` (e.g.
+ * `testing/` or `e2e/`) still needs the package installed.
  */
 function isPackageFoundInFiles(
   tree: Tree,
   packageName: string,
-  sourceRoot: string,
+  projectRoot: string,
 ): boolean {
   let found = false;
 
-  visitProjectFiles(tree, sourceRoot, (filePath) => {
+  visitProjectFiles(tree, projectRoot, (filePath) => {
     if (!filePath.endsWith('.ts') || found) {
       return;
     }

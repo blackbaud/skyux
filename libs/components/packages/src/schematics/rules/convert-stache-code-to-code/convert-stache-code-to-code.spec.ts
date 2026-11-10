@@ -7,7 +7,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 
-import { createTestApp } from '../../testing/scaffold';
+import { createTestApp, createTestLibrary } from '../../testing/scaffold';
 
 describe('Convert Stache code to code', () => {
   const runner = new SchematicTestRunner(
@@ -219,6 +219,25 @@ describe('Convert Stache code to code', () => {
     const result = await convert(tree);
 
     expect(result.readText('src/app/bar.component.ts')).toEqual(barContent);
+    expect(getDependencies(result)[STACHE_PACKAGE]).toEqual('12.0.0');
+  });
+
+  it('should keep the Stache dependency when a file outside sourceRoot imports it', async () => {
+    const tree = await setup({
+      'src/app/foo.ts': stripIndents`
+        import { SkyCodeModule } from '${STACHE_PACKAGE}';
+
+        export const IMPORTS = [SkyCodeModule];
+      `,
+      'e2e/fixtures.ts': stripIndents`
+        import { SkyCodeBlockModule } from '${STACHE_PACKAGE}';
+
+        export const E2E_IMPORTS = [SkyCodeBlockModule];
+      `,
+    });
+
+    const result = await convert(tree);
+
     expect(getDependencies(result)[STACHE_PACKAGE]).toEqual('12.0.0');
   });
 
@@ -485,6 +504,134 @@ describe('Convert Stache code to code', () => {
 
     expect(result.readText('src/app/foo.component.ts')).toEqual(fooContent);
     expect(result.readText('package.json')).toEqual(packageJson);
+  });
+
+  describe('library package.json', () => {
+    const LIBRARY_PACKAGE_JSON = 'projects/test-lib/package.json';
+
+    async function setupLibrary(
+      sections: Record<string, Record<string, string>>,
+      files: Record<string, string>,
+    ): Promise<UnitTestTree> {
+      const tree = await createTestLibrary(runner, { projectName: 'test-lib' });
+      const rootPackageJson = JSON.parse(tree.readText('package.json'));
+      rootPackageJson.dependencies[STACHE_PACKAGE] = '12.0.0';
+      tree.overwrite('package.json', JSON.stringify(rootPackageJson, null, 2));
+
+      const packageJson = JSON.parse(tree.readText(LIBRARY_PACKAGE_JSON));
+      for (const [section, dependencies] of Object.entries(sections)) {
+        packageJson[section] = { ...packageJson[section], ...dependencies };
+      }
+      tree.overwrite(
+        LIBRARY_PACKAGE_JSON,
+        JSON.stringify(packageJson, null, 2),
+      );
+
+      for (const [filePath, content] of Object.entries(files)) {
+        tree.create(`projects/test-lib/src/lib/${filePath}`, content);
+      }
+
+      return tree;
+    }
+
+    /**
+     * Runs the schematic twice, so every spec also checks that a second run
+     * leaves the library's `package.json` as the first run left it.
+     */
+    async function convertLibrary(tree: UnitTestTree): Promise<{
+      dependencies: Record<string, string>;
+      peerDependencies: Record<string, string>;
+    }> {
+      const run = (input: UnitTestTree): Promise<UnitTestTree> =>
+        runner.runSchematic(
+          'convert-stache-code-to-code',
+          { project: 'test-lib' },
+          input,
+        );
+      const once = await run(tree);
+      const onceContent = once.readText(LIBRARY_PACKAGE_JSON);
+      const twice = await run(once);
+
+      expect(twice.readText(LIBRARY_PACKAGE_JSON)).toEqual(onceContent);
+
+      return JSON.parse(onceContent);
+    }
+
+    const codeModuleUsage = stripIndents`
+      import { SkyCodeModule } from '${STACHE_PACKAGE}';
+
+      export const IMPORTS = [SkyCodeModule];
+    `;
+
+    it('should swap Stache for @skyux/code in peerDependencies', async () => {
+      const tree = await setupLibrary(
+        { peerDependencies: { [STACHE_PACKAGE]: '^12.0.0' } },
+        { 'foo.ts': codeModuleUsage },
+      );
+      const expectedPeers = {
+        ...JSON.parse(tree.readText(LIBRARY_PACKAGE_JSON)).peerDependencies,
+        '@skyux/code': '0.0.0-PLACEHOLDER',
+      };
+      delete expectedPeers[STACHE_PACKAGE];
+
+      const { peerDependencies } = await convertLibrary(tree);
+
+      expect(peerDependencies).toEqual(expectedPeers);
+    });
+
+    it('should swap Stache for @skyux/code in dependencies', async () => {
+      const tree = await setupLibrary(
+        { dependencies: { [STACHE_PACKAGE]: '12.0.0' } },
+        { 'foo.ts': codeModuleUsage },
+      );
+      const expectedDependencies = {
+        ...JSON.parse(tree.readText(LIBRARY_PACKAGE_JSON)).dependencies,
+        '@skyux/code': '0.0.0-PLACEHOLDER',
+      };
+      delete expectedDependencies[STACHE_PACKAGE];
+
+      const { dependencies, peerDependencies } = await convertLibrary(tree);
+
+      expect(dependencies).toEqual(expectedDependencies);
+      expect(peerDependencies['@skyux/code']).toBeUndefined();
+    });
+
+    it('should keep Stache and add @skyux/code when the library still uses Stache', async () => {
+      const tree = await setupLibrary(
+        { peerDependencies: { [STACHE_PACKAGE]: '^12.0.0' } },
+        {
+          'foo.ts': codeModuleUsage,
+          'bar.ts': stripIndents`
+            import { SkyCodeBlockModule } from '${STACHE_PACKAGE}';
+
+            export const BAR_IMPORTS = [SkyCodeBlockModule];
+          `,
+        },
+      );
+      const originalPeers = JSON.parse(
+        tree.readText(LIBRARY_PACKAGE_JSON),
+      ).peerDependencies;
+
+      const { peerDependencies } = await convertLibrary(tree);
+
+      expect(peerDependencies).toEqual({
+        ...originalPeers,
+        '@skyux/code': '0.0.0-PLACEHOLDER',
+      });
+    });
+
+    it('should not change a library package.json that does not list Stache', async () => {
+      const tree = await setupLibrary({}, { 'foo.ts': codeModuleUsage });
+      const packageJson = tree.readText(LIBRARY_PACKAGE_JSON);
+
+      const result = await runner.runSchematic(
+        'convert-stache-code-to-code',
+        { project: 'test-lib' },
+        tree,
+      );
+
+      expect(result.readText(LIBRARY_PACKAGE_JSON)).toEqual(packageJson);
+    });
   });
 
   describe('multi-line formatting', () => {

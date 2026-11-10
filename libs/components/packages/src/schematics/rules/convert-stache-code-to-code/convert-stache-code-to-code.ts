@@ -1,3 +1,4 @@
+import { join, normalize } from '@angular-devkit/core';
 import {
   Rule,
   SchematicContext,
@@ -11,7 +12,11 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import ts from 'typescript';
 
-import { isPackageUsed } from '../../utility/dependencies';
+import {
+  getProjectsUsingPackage,
+  isPackageUsed,
+} from '../../utility/dependencies';
+import { JsonFile } from '../../utility/json-file';
 import { logOnce } from '../../utility/log-once';
 import {
   getLocalImportName,
@@ -149,6 +154,44 @@ function convertTypescriptFile(
 }
 
 /**
+ * A library's own `package.json` lists its dependencies, which the workspace
+ * root update doesn't reach. `@skyux/code` goes in the section that listed
+ * Stache, so a peer dependency stays a peer dependency.
+ */
+async function updateLibraryPackageJson(
+  tree: Tree,
+  projectPath: string,
+): Promise<void> {
+  const packageJsonPath = join(normalize(projectPath), 'package.json');
+
+  if (!projectPath || !tree.exists(packageJsonPath)) {
+    return;
+  }
+
+  const packageJson = new JsonFile(tree, packageJsonPath);
+  const section = ['peerDependencies', 'dependencies'].find(
+    (name) => packageJson.get([name, STACHE_PACKAGE]) !== undefined,
+  );
+
+  if (!section) {
+    return;
+  }
+
+  if (packageJson.get([section, SKYUX_PACKAGE]) === undefined) {
+    packageJson.modify([section, SKYUX_PACKAGE], '0.0.0-PLACEHOLDER');
+  }
+
+  const projectsUsingStache = await getProjectsUsingPackage(
+    tree,
+    STACHE_PACKAGE,
+  );
+
+  if (!projectsUsingStache.some((project) => project.root === projectPath)) {
+    packageJson.remove([section, STACHE_PACKAGE]);
+  }
+}
+
+/**
  * Replaces Stache's `SkyCodeModule` with SKY UX's standalone `SkyCode`. Both
  * use the `sky-code` selector, so templates are unchanged.
  */
@@ -172,6 +215,8 @@ export function convertStacheCodeToCode(projectPath: string): Rule {
       if (!(await isPackageUsed(tree, STACHE_PACKAGE))) {
         removePackageJsonDependency(tree, STACHE_PACKAGE);
       }
+
+      await updateLibraryPackageJson(tree, projectPath);
 
       // `addDependency` only checks `dependencies`, so it would add a second
       // entry for a package already listed under `devDependencies`.
