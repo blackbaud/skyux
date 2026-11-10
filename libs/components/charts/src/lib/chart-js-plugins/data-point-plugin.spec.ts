@@ -5,6 +5,9 @@ import {
   CategoryScale,
   Chart,
   LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
   Tooltip,
 } from 'chart.js';
 
@@ -13,7 +16,16 @@ import { type SkyChartJsDataPointPlugin } from './chart-js-data-point-plugin';
 import { getElementGeometry } from './data-point-geometry';
 import { createDataPointPlugin } from './data-point-plugin';
 
-Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip);
+Chart.register(
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+  Tooltip,
+);
 
 // Each state gets a distinct border color so a ring's state is observable.
 const RING_STYLES: Record<string, string> = {
@@ -31,6 +43,7 @@ const RING_STYLES: Record<string, string> = {
 
 interface RingProbe {
   bounds: number[];
+  radius?: number;
   fillStyle?: string;
   strokeStyle?: string;
   lineWidth?: number;
@@ -57,7 +70,10 @@ describe('Data point plugin', () => {
       this: CanvasRenderingContext2D,
       ...args: Parameters<CanvasRenderingContext2D['roundRect']>
     ) {
-      pending = { bounds: args.slice(0, 4) as number[] };
+      pending = {
+        bounds: args.slice(0, 4) as number[],
+        radius: args[4] as number,
+      };
       rings.push(pending);
       roundRect.apply(this, args);
     });
@@ -240,6 +256,34 @@ describe('Data point plugin', () => {
       expect(ring.bounds[3]).toBeCloseTo(bounds.height + 4, 5);
       expect(ring.strokeStyle).toBe('#008000');
       expect(ring.lineWidth).toBe(2);
+      expect(ring.radius).toBe(4);
+    });
+
+    it('should draw a circular ring around a line chart data point', () => {
+      const linePlugin = createDataPointPlugin({
+        isClickable: () => false,
+        onUpdate: () => undefined,
+        onClick: () => undefined,
+      });
+      const canvas = document.createElement('canvas');
+      container.appendChild(canvas);
+
+      const lineChart = new Chart(canvas, {
+        type: 'line',
+        data: { labels: ['a', 'b'], datasets: [{ data: [1, 2] }] },
+        options: { animation: false, maintainAspectRatio: false },
+        plugins: [linePlugin.plugin],
+      });
+
+      const rings = spyOnRings();
+      linePlugin.setFocusedDataPoint({ datasetIndex: 0, index: 1 });
+
+      const [, , width, height] = rings[rings.length - 1].bounds;
+
+      expect(width).toBe(height);
+      expect(rings[rings.length - 1].radius).toBe(width / 2);
+
+      lineChart.destroy();
     });
 
     it('should draw rings before the tooltip so the tooltip covers them', () => {

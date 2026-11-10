@@ -1,4 +1,5 @@
 import {
+  BarElement,
   type Chart,
   type ChartEvent,
   type CoreInteractionOptions,
@@ -93,16 +94,19 @@ export function createDataPointPlugin(callbacks: {
       }
 
       const bounds = getElementGeometry(element);
+      const width = bounds.width + RING_MARGIN * 2;
 
       ctx.save();
       ctx.beginPath();
       ctx.roundRect(
         bounds.left - RING_MARGIN,
         bounds.top - RING_MARGIN,
-        bounds.width + RING_MARGIN * 2,
+        width,
         bounds.height + RING_MARGIN * 2,
-
-        parseFloat(ringStyle('radius')),
+        // Line points are circles, so their rings are circles too.
+        element instanceof BarElement
+          ? parseFloat(ringStyle('radius'))
+          : width / 2,
       );
 
       if (layer === 'background') {
