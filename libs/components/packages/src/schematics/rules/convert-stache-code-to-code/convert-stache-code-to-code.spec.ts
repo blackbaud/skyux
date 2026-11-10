@@ -1,4 +1,7 @@
-import { stripIndents } from '@angular-devkit/core/src/utils/literals';
+import {
+  stripIndent,
+  stripIndents,
+} from '@angular-devkit/core/src/utils/literals';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -324,5 +327,279 @@ describe('Convert Stache code to code', () => {
 
     expect(result.readText('src/app/foo.component.ts')).toEqual(fooContent);
     expect(result.readText('package.json')).toEqual(packageJson);
+  });
+
+  describe('multi-line formatting', () => {
+    async function convertFile(content: string): Promise<string> {
+      const result = await convert(
+        await setup({ 'src/app/foo.component.ts': content }),
+      );
+
+      return result.readText('src/app/foo.component.ts');
+    }
+
+    it('should remove SkyCodeModule when it is last in a multi-line import', async () => {
+      const result = await convertFile(stripIndent`
+        import {
+          SkyCodeBlockModule,
+          SkyCodeModule,
+        } from '${STACHE_PACKAGE}';
+
+        export const IMPORTS = [SkyCodeBlockModule, SkyCodeModule];
+      `);
+
+      expect(result).toEqual(stripIndent`
+        import {
+          SkyCodeBlockModule,
+        } from '${STACHE_PACKAGE}';
+        import { SkyCode } from '@skyux/code';
+
+        export const IMPORTS = [SkyCodeBlockModule, SkyCode];
+      `);
+    });
+
+    it('should remove SkyCodeModule when it is first in a multi-line import', async () => {
+      const result = await convertFile(stripIndent`
+        import {
+          SkyCodeModule,
+          SkyCodeBlockModule,
+        } from '${STACHE_PACKAGE}';
+
+        export const IMPORTS = [SkyCodeModule, SkyCodeBlockModule];
+      `);
+
+      expect(result).toEqual(stripIndent`
+        import {
+          SkyCodeBlockModule,
+        } from '${STACHE_PACKAGE}';
+        import { SkyCode } from '@skyux/code';
+
+        export const IMPORTS = [SkyCode, SkyCodeBlockModule];
+      `);
+    });
+
+    it('should remove a multi-line import that only imports SkyCodeModule', async () => {
+      const result = await convertFile(stripIndent`
+        import { Component } from '@angular/core';
+        import {
+          SkyCodeModule,
+        } from '${STACHE_PACKAGE}';
+
+        export const IMPORTS = [SkyCodeModule];
+      `);
+
+      expect(result).toEqual(stripIndent`
+        import { Component } from '@angular/core';
+        import { SkyCode } from '@skyux/code';
+
+        export const IMPORTS = [SkyCode];
+      `);
+    });
+
+    it.each([
+      ['first', ['SkyCodeModule', 'CommonModule', 'FormsModule']],
+      ['in the middle', ['CommonModule', 'SkyCodeModule', 'FormsModule']],
+      ['last', ['CommonModule', 'FormsModule', 'SkyCodeModule']],
+      ['alone', ['SkyCodeModule']],
+    ])(
+      'should swap SkyCodeModule %s in multi-line metadata arrays',
+      async (_position, names) => {
+        function toFile(moduleImport: string, moduleName: string): string {
+          const array = (field: string): string[] => [
+            `  ${field}: [`,
+            ...names.map(
+              (name) => `    ${name === 'SkyCodeModule' ? moduleName : name},`,
+            ),
+            '  ],',
+          ];
+
+          return [
+            `import { Component, NgModule } from '@angular/core';`,
+            `import { TestBed } from '@angular/core/testing';`,
+            moduleImport,
+            '',
+            '@Component({',
+            `  selector: 'app-foo',`,
+            ...array('imports'),
+            `  template: '',`,
+            '})',
+            'export class FooComponent {}',
+            '',
+            '@NgModule({',
+            ...array('imports'),
+            ...array('exports'),
+            '})',
+            'export class FooModule {}',
+            '',
+            'TestBed.configureTestingModule({',
+            ...array('imports'),
+            '});',
+          ].join('\n');
+        }
+
+        const result = await convertFile(
+          toFile(
+            `import { SkyCodeModule } from '${STACHE_PACKAGE}';`,
+            'SkyCodeModule',
+          ),
+        );
+
+        expect(result).toEqual(
+          toFile(`import { SkyCode } from '@skyux/code';`, 'SkyCode'),
+        );
+      },
+    );
+
+    it('should remove SkyCodeModule last in a multi-line array that lists SkyCode', async () => {
+      const result = await convertFile(stripIndent`
+        import { Component } from '@angular/core';
+        import { SkyCodeModule } from '${STACHE_PACKAGE}';
+        import { SkyCode } from '@skyux/code';
+
+        @Component({
+          selector: 'app-foo',
+          imports: [
+            SkyCode,
+            SkyCodeModule,
+          ],
+          template: '',
+        })
+        export class FooComponent {}
+      `);
+
+      expect(result).toEqual(stripIndent`
+        import { Component } from '@angular/core';
+        import { SkyCode } from '@skyux/code';
+
+        @Component({
+          selector: 'app-foo',
+          imports: [
+            SkyCode,
+          ],
+          template: '',
+        })
+        export class FooComponent {}
+      `);
+    });
+
+    it('should remove SkyCodeModule first in a multi-line array that lists SkyCode', async () => {
+      const result = await convertFile(stripIndent`
+        import { NgModule } from '@angular/core';
+        import { SkyCodeModule } from '${STACHE_PACKAGE}';
+        import { SkyCode } from '@skyux/code';
+
+        @NgModule({
+          imports: [
+            SkyCodeModule,
+            SkyCode,
+          ],
+          exports: [
+            SkyCodeModule,
+            SkyCode,
+          ],
+        })
+        export class FooModule {}
+      `);
+
+      expect(result).toEqual(stripIndent`
+        import { NgModule } from '@angular/core';
+        import { SkyCode } from '@skyux/code';
+
+        @NgModule({
+          imports: [
+            SkyCode,
+          ],
+          exports: [
+            SkyCode,
+          ],
+        })
+        export class FooModule {}
+      `);
+    });
+
+    it('should remove SkyCodeModule in the middle of a multi-line TestBed array that lists SkyCode', async () => {
+      const result = await convertFile(stripIndent`
+        import { TestBed } from '@angular/core/testing';
+        import { SkyCodeModule } from '${STACHE_PACKAGE}';
+        import { SkyCode } from '@skyux/code';
+
+        TestBed.configureTestingModule({
+          imports: [
+            SkyCode,
+            SkyCodeModule,
+            FooComponent,
+          ],
+        });
+      `);
+
+      expect(result).toEqual(stripIndent`
+        import { TestBed } from '@angular/core/testing';
+        import { SkyCode } from '@skyux/code';
+
+        TestBed.configureTestingModule({
+          imports: [
+            SkyCode,
+            FooComponent,
+          ],
+        });
+      `);
+    });
+
+    it('should not import SkyCode again when a multi-line @skyux/code import has it', async () => {
+      const result = await convertFile(stripIndent`
+        import { Component } from '@angular/core';
+        import {
+          SkyCodeBlockModule,
+          SkyCodeModule,
+        } from '${STACHE_PACKAGE}';
+        import {
+          SkyCode,
+        } from '@skyux/code';
+
+        @Component({
+          selector: 'app-foo',
+          imports: [SkyCode],
+          template: '',
+        })
+        export class FooComponent {}
+
+        @Component({
+          selector: 'app-bar',
+          imports: [
+            SkyCodeBlockModule,
+            SkyCodeModule,
+          ],
+          template: '',
+        })
+        export class BarComponent {}
+      `);
+
+      expect(result).toEqual(stripIndent`
+        import { Component } from '@angular/core';
+        import {
+          SkyCodeBlockModule,
+        } from '${STACHE_PACKAGE}';
+        import {
+          SkyCode,
+        } from '@skyux/code';
+
+        @Component({
+          selector: 'app-foo',
+          imports: [SkyCode],
+          template: '',
+        })
+        export class FooComponent {}
+
+        @Component({
+          selector: 'app-bar',
+          imports: [
+            SkyCodeBlockModule,
+            SkyCode,
+          ],
+          template: '',
+        })
+        export class BarComponent {}
+      `);
+    });
   });
 });
