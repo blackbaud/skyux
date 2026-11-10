@@ -528,12 +528,18 @@ describe('Chart bar component', () => {
     fixture.detectChanges();
 
     const strokes = spyOnStrokes();
+    const roundRect = spyOn(
+      CanvasRenderingContext2D.prototype,
+      'roundRect',
+    ).and.callThrough();
     getDataPoints()[0].focus();
 
     // Themed charts animate, so draw now rather than on a later frame.
     requireChart().draw();
 
     expect(strokes).toContain({ strokeStyle: '#2b6bd5', lineWidth: 2 });
+    // The modern radius is `.25rem`, which must reach the canvas as pixels.
+    expect(roundRect.calls.mostRecent().args[4]).toBe(4);
   });
 
   it('should present data points as buttons when a click listener is bound', async () => {

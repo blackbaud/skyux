@@ -1,3 +1,11 @@
+// Registered as a length so the computed style resolves theme values such as
+// `.25rem` to pixels, which `data-point-plugin.ts` passes to the canvas.
+@property --sky-chart-data-point-ring-radius {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
 // Chart.js detects size changes from the canvas's parent, not the canvas
 // itself, so the host must be a dedicated, relatively-positioned container
 // for the canvas. Without this, the chart fails to resize responsively and
