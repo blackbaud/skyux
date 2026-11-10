@@ -20,7 +20,9 @@ export class SkyChartDataPointHarness extends SkyComponentHarness {
   public static with(
     filters: SkyChartDataPointHarnessFilters,
   ): HarnessPredicate<SkyChartDataPointHarness> {
-    return SkyChartDataPointHarness.getDataSkyIdPredicate(filters)
+    // Data points are generated from the chart's data, so consumers cannot
+    // set `data-sky-id` on them.
+    return new HarnessPredicate(SkyChartDataPointHarness, filters)
       .addOption(
         'category',
         filters.category,
