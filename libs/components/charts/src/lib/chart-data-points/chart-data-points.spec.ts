@@ -77,6 +77,7 @@ const TWO_SERIES = [
         [series]="series()"
         (dataPointClick)="clicks.push($event.key)"
         (dataPointFocusChange)="focusChanges.push($event?.key)"
+        (tooltipDismiss)="tooltipDismissals = tooltipDismissals + 1"
       />
     </div>
     <button type="button">Outside</button>
@@ -85,6 +86,7 @@ const TWO_SERIES = [
 class TestComponent {
   public readonly clicks: string[] = [];
   public readonly focusChanges: (string | undefined)[] = [];
+  public tooltipDismissals = 0;
   public readonly clickable = signal(true);
   public readonly horizontal = signal(false);
   public readonly chartType = signal<'bar' | 'line'>('bar');
@@ -368,13 +370,12 @@ describe('Chart data points component', () => {
       expect(getFocusedDataPoint()).toBe('a/First');
     });
 
-    it('should ignore other keys, including Escape', async () => {
+    it('should ignore other keys', async () => {
       await render();
 
       await focusDataPoint('a', 'First');
 
       expect(press('a').defaultPrevented).toBeFalse();
-      expect(press('Escape').defaultPrevented).toBeFalse();
       expect(getFocusedDataPoint()).toBe('a/First');
     });
 
@@ -420,8 +421,49 @@ describe('Chart data points component', () => {
       await render();
 
       getDataPoint('b', 'First').click();
+      // Test harnesses dispatch clicks that do not bubble.
+      getDataPoint('c', 'Second').dispatchEvent(new Event('click'));
+
+      expect(component.clicks).toEqual(['0-1', '1-2']);
+    });
+
+    it('should not emit clicks outside a data point', async () => {
+      await render();
+
+      getSeriesRegions()[0].click();
+
+      expect(component.clicks).toEqual([]);
+    });
+
+    it('should listen for clicks only while clickable', async () => {
+      component.clickable.set(false);
+      await render();
+
+      getDataPoint('b', 'First').click();
+
+      expect(component.clicks).toEqual([]);
+
+      component.clickable.set(true);
+      await render();
+      getDataPoint('b', 'First').click();
 
       expect(component.clicks).toEqual(['0-1']);
+
+      component.clickable.set(false);
+      await render();
+      getDataPoint('b', 'First').click();
+
+      expect(component.clicks).toEqual(['0-1']);
+    });
+
+    it('should emit a tooltip dismissal when Escape is pressed, keeping focus', async () => {
+      await render();
+
+      await focusDataPoint('b', 'First');
+
+      expect(press('Escape').defaultPrevented).toBeFalse();
+      expect(component.tooltipDismissals).toBe(1);
+      expect(getFocusedDataPoint()).toBe('b/First');
     });
   });
 

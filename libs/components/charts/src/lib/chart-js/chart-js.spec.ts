@@ -277,6 +277,16 @@ describe('Chart.js component', () => {
 
       expect(getChart().tooltip?.getActiveElements()).toEqual([]);
     });
+
+    it('should dismiss the tooltip when Escape is pressed, keeping focus', async () => {
+      await render();
+
+      getDataPoint('b', 'First').focus();
+      pressKey(getDataPoint('b', 'First'), 'Escape');
+
+      expect(getChart().tooltip?.getActiveElements()).toEqual([]);
+      expect(getFocusedDataPoint()).toBe('b/First');
+    });
   });
 
   describe('click', () => {

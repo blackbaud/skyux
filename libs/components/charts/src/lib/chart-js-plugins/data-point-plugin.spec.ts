@@ -276,6 +276,16 @@ describe('Data point plugin', () => {
       expect(rings).toEqual([]);
     });
 
+    it('should dismiss the tooltip and keep the focus ring', () => {
+      dataPointPlugin.setFocusedDataPoint({ datasetIndex: 0, index: 1 });
+
+      const rings = spyOnRings();
+      dataPointPlugin.dismissTooltip();
+
+      expect(chart.tooltip?.getActiveElements()).toEqual([]);
+      expect(rings[rings.length - 1].strokeStyle).toBe('#008000');
+    });
+
     it('should not draw a ring for a focused data point that was removed', () => {
       dataPointPlugin.setFocusedDataPoint({ datasetIndex: 0, index: 2 });
 

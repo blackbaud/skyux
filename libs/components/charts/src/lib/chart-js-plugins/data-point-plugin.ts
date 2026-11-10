@@ -242,5 +242,17 @@ export function createDataPointPlugin(callbacks: {
 
       focusedChart.update();
     },
+
+    dismissTooltip(): void {
+      // Dismissed only after a data point gains focus, so the plugin is
+      // installed.
+      const focusedChart = chart as Chart;
+
+      (focusedChart.tooltip as TooltipModel<'bar'>).setActiveElements([], {
+        x: 0,
+        y: 0,
+      });
+      focusedChart.update();
+    },
   };
 }

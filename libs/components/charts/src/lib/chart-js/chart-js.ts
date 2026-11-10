@@ -145,4 +145,8 @@ export class SkyChartJs<TType extends ChartType = ChartType> {
   ): void {
     this.#dataPointPlugin.setFocusedDataPoint(dataPoint);
   }
+
+  protected onTooltipDismiss(): void {
+    this.#dataPointPlugin.dismissTooltip();
+  }
 }

@@ -26,7 +26,6 @@
         [style.top.px]="dataPoint.top"
         [style.width.px]="dataPoint.width"
         (blur)="onBlur($event)"
-        (click)="dataPointClick.emit(dataPoint)"
         (focus)="onFocus(dataPoint)"
         (keydown)="onKeydown($event, dataPoint)"
       ></div>

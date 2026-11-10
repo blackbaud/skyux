@@ -19,4 +19,9 @@ export interface SkyChartJsDataPointPlugin {
    * focus, or clears them when given `undefined`.
    */
   setFocusedDataPoint(dataPoint: SkyChartJsDataPointIndex | undefined): void;
+
+  /**
+   * Hides the focused data point's tooltip, keeping its focus ring.
+   */
+  dismissTooltip(): void;
 }

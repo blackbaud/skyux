@@ -1,10 +1,12 @@
 import {
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   input,
   output,
+  Renderer2,
   signal,
 } from '@angular/core';
 
@@ -38,6 +40,7 @@ import {
 })
 export class SkyChartDataPoints {
   readonly #elementRef = inject(ElementRef);
+  readonly #renderer = inject(Renderer2);
 
   /**
    * The measured data points, grouped by series, in series order.
@@ -77,6 +80,12 @@ export class SkyChartDataPoints {
     SkyChartDataPoint | undefined
   >();
 
+  /**
+   * Fires when the user presses Escape to dismiss the focused data point's
+   * tooltip.
+   */
+  public readonly tooltipDismiss = output();
+
   readonly #dataPoints = computed(() =>
     this.series().flatMap((chartSeries) => chartSeries.dataPoints),
   );
@@ -93,6 +102,36 @@ export class SkyChartDataPoints {
       ? focusedKey
       : dataPoints[0].key;
   });
+
+  constructor() {
+    // Safari tells VoiceOver that any element with a click listener, or inside
+    // one, is clickable, so listen only while clicking performs an action.
+    // Captures, rather than bubbles, so clicks that test harnesses dispatch
+    // without bubbling still reach the listener.
+    effect((onCleanup) => {
+      if (!this.clickable()) {
+        return;
+      }
+
+      onCleanup(
+        this.#renderer.listen(
+          this.#elementRef.nativeElement,
+          'click',
+          (event: MouseEvent) => {
+            const key = (event.target as HTMLElement).dataset['skyChartPoint'];
+            const dataPoint = this.#dataPoints().find(
+              (candidate) => candidate.key === key,
+            );
+
+            if (dataPoint) {
+              this.dataPointClick.emit(dataPoint);
+            }
+          },
+          { capture: true },
+        ),
+      );
+    });
+  }
 
   protected getSeriesSummaryKey(chartSeries: SkyChartDataPointSeries): string {
     const plurality = chartSeries.valueCount === 1 ? 'singular' : 'plural';
@@ -123,6 +162,14 @@ export class SkyChartDataPoints {
     // Leave browser and assistive technology shortcuts, such as Alt+ArrowLeft
     // (Back), to the browser.
     if (event.altKey || event.ctrlKey || event.metaKey) {
+      return;
+    }
+
+    // The tooltip can cover nearby data points, so it must be dismissible
+    // without moving focus (WCAG 1.4.13).
+    if (event.key === 'Escape') {
+      this.tooltipDismiss.emit();
+
       return;
     }
 
