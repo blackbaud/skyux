@@ -596,6 +596,23 @@ describe('Convert Stache code to code', () => {
       expect(peerDependencies['@skyux/code']).toBeUndefined();
     });
 
+    it('should update every section that lists Stache', async () => {
+      const tree = await setupLibrary(
+        {
+          dependencies: { [STACHE_PACKAGE]: '12.0.0' },
+          peerDependencies: { [STACHE_PACKAGE]: '^12.0.0' },
+        },
+        { 'foo.ts': codeModuleUsage },
+      );
+
+      const { dependencies, peerDependencies } = await convertLibrary(tree);
+
+      expect(dependencies[STACHE_PACKAGE]).toBeUndefined();
+      expect(dependencies['@skyux/code']).toEqual('0.0.0-PLACEHOLDER');
+      expect(peerDependencies[STACHE_PACKAGE]).toBeUndefined();
+      expect(peerDependencies['@skyux/code']).toEqual('0.0.0-PLACEHOLDER');
+    });
+
     it('should keep Stache and add @skyux/code when the library still uses Stache', async () => {
       const tree = await setupLibrary(
         { peerDependencies: { [STACHE_PACKAGE]: '^12.0.0' } },

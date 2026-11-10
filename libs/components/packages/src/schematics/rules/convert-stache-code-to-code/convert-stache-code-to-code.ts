@@ -155,7 +155,7 @@ function convertTypescriptFile(
 
 /**
  * A library's own `package.json` lists its dependencies, which the workspace
- * root update doesn't reach. `@skyux/code` goes in the section that listed
+ * root update doesn't reach. `@skyux/code` goes in each section that listed
  * Stache, so a peer dependency stays a peer dependency.
  */
 async function updateLibraryPackageJson(
@@ -169,25 +169,30 @@ async function updateLibraryPackageJson(
   }
 
   const packageJson = new JsonFile(tree, packageJsonPath);
-  const section = ['peerDependencies', 'dependencies'].find(
+  const sections = ['peerDependencies', 'dependencies'].filter(
     (name) => packageJson.get([name, STACHE_PACKAGE]) !== undefined,
   );
 
-  if (!section) {
+  if (sections.length === 0) {
     return;
-  }
-
-  if (packageJson.get([section, SKYUX_PACKAGE]) === undefined) {
-    packageJson.modify([section, SKYUX_PACKAGE], '0.0.0-PLACEHOLDER');
   }
 
   const projectsUsingStache = await getProjectsUsingPackage(
     tree,
     STACHE_PACKAGE,
   );
+  const stacheStillUsed = projectsUsingStache.some(
+    (project) => project.root === projectPath,
+  );
 
-  if (!projectsUsingStache.some((project) => project.root === projectPath)) {
-    packageJson.remove([section, STACHE_PACKAGE]);
+  for (const section of sections) {
+    if (packageJson.get([section, SKYUX_PACKAGE]) === undefined) {
+      packageJson.modify([section, SKYUX_PACKAGE], '0.0.0-PLACEHOLDER');
+    }
+
+    if (!stacheStillUsed) {
+      packageJson.remove([section, STACHE_PACKAGE]);
+    }
   }
 }
 
