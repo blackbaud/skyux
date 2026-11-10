@@ -74,17 +74,19 @@ function hasImportStatement(
   sourceFile: ts.SourceFile,
   packageName: string,
 ): boolean {
-  const importDeclarations = findNodes(
-    sourceFile,
-    ts.SyntaxKind.ImportDeclaration,
-  ) as ts.ImportDeclaration[];
+  // A re-export (`export ... from 'package'`) needs the package installed just
+  // like an import does.
+  const declarations = [
+    ...findNodes(sourceFile, ts.SyntaxKind.ImportDeclaration),
+    ...findNodes(sourceFile, ts.SyntaxKind.ExportDeclaration),
+  ] as (ts.ImportDeclaration | ts.ExportDeclaration)[];
 
-  for (const importDecl of importDeclarations) {
+  for (const declaration of declarations) {
     if (
-      importDecl.moduleSpecifier &&
-      ts.isStringLiteral(importDecl.moduleSpecifier)
+      declaration.moduleSpecifier &&
+      ts.isStringLiteral(declaration.moduleSpecifier)
     ) {
-      const moduleSpecifier = importDecl.moduleSpecifier.text;
+      const moduleSpecifier = declaration.moduleSpecifier.text;
 
       if (isPackageMatch(moduleSpecifier, packageName)) {
         return true;
