@@ -25,7 +25,7 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Keep components small and focused on a single responsibility
 - Use `input()` and `output()` functions instead of decorators
 - Use `computed()` for derived state
-- Do NOT set `changeDetection` in the `@Component` decorator; OnPush is the default
+- Do NOT set `changeDetection` in the `@Component` decorator of a new component; OnPush is the default. Leave an existing component's `changeDetection` setting unchanged
 - Prefer Reactive forms instead of Template-driven ones
 - Do NOT use `ngClass`, use `class` bindings instead
 - DO NOT use `ngStyle`, use `style` bindings instead

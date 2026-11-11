@@ -53,9 +53,9 @@ tooling.
 
 ## Procedure
 
-Work top to bottom. Mirror the most recently added component (e.g. `SkyCode`,
-`SkyInputBoxButton`) rather than an older sibling, which likely uses the legacy
-pattern described above.
+Work top to bottom. Look up conventions in the most recently added equivalent
+component (e.g. `SkyCode`, `SkyInputBoxButton`) rather than an older sibling,
+which likely uses the legacy pattern described above.
 
 1. **Confirm placement.** Identify the target `<library>` (directory name,
    not package name) and the `<module>` folder. Inspect a sibling component
