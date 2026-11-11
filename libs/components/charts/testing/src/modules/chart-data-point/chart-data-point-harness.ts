@@ -6,6 +6,7 @@ import { SkyChartDataPointHarnessFilters } from './chart-data-point-harness-filt
 /**
  * Harness for interacting with a chart data point (for example, a bar or a
  * line point) in tests.
+ * @preview
  */
 export class SkyChartDataPointHarness extends SkyComponentHarness {
   /**
@@ -16,6 +17,7 @@ export class SkyChartDataPointHarness extends SkyComponentHarness {
   /**
    * Gets a `HarnessPredicate` that can be used to search for a
    * `SkyChartDataPointHarness` that meets certain criteria.
+   * @preview
    */
   public static with(
     filters: SkyChartDataPointHarnessFilters,

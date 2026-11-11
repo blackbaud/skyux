@@ -2,6 +2,7 @@ import { BaseHarnessFilters } from '@angular/cdk/testing';
 
 /**
  * A set of criteria for filtering `SkyChartDataPointHarness` instances.
+ * @preview
  */
 export interface SkyChartDataPointHarnessFilters extends BaseHarnessFilters {
   /**

@@ -1,6 +1,7 @@
 /**
  * Describes the data point a user clicked, or activated with Enter or Space.
  * `TValue` is the chart's series value type, such as `SkyChartBarSeriesValue`.
+ * @preview
  */
 export interface SkyChartDataPointClickArgs<TValue> {
   /**
