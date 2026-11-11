@@ -16,6 +16,7 @@ import { SkyChartLineSeries } from './chart-line-series';
 /**
  * Renders a line chart from a category axis, a value axis, and one or more
  * series.
+ * @preview
  */
 @Component({
   imports: [SkyChartJs, SkyChartLegend],

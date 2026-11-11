@@ -2,6 +2,7 @@ import { SkyHarnessFilters } from '@skyux/core/testing';
 
 /**
  * A set of criteria for filtering `SkyChartLegendItemHarness` instances.
+ * @preview
  */
 export interface SkyChartLegendItemHarnessFilters extends SkyHarnessFilters {
   /**
