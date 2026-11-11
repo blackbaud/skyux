@@ -129,27 +129,15 @@ can state in a sentence.
   `changeDetection` (OnPush is the default). Existing suffixed files keep their
   names; renaming an exported class is a breaking change.
 
-### Mirror the nearest sibling
+### Look up conventions in a sibling
 
-This monorepo is highly repetitive by design. Before writing a component or
-story, open the equivalent file in a sibling library that already does the same
-job and mirror its structure, naming, and file layout. Do not invent a new
-pattern when an established one exists, and do not import patterns from outside
-this repository. When a sibling predates the Angular style guide naming rule
-above (suffixed file names, `Component`/`Directive`/`Service` class suffixes, an
-`NgModule` wrapper), mirror its structure but follow the naming rule.
-
-Harnesses, unit tests, and code examples are the exceptions. Their scoped
-instruction files —
-[component-harnesses.instructions.md](.github/instructions/component-harnesses.instructions.md),
-[component-unit-testing.instructions.md](.github/instructions/component-unit-testing.instructions.md),
-and
-[component-code-examples.instructions.md](.github/instructions/component-code-examples.instructions.md)
-— are canonical and take precedence over a sibling. Open an existing harness,
-spec, or code example only to look up facts — which sub-harness a child
-component exposes, the CSS classes in a template, or which providers a
-component needs — and do not inherit its structure or naming, which may predate
-the current conventions.
+Before adding a file, open the equivalent file in a sibling library to look up
+repository conventions the Angular docs don't cover — folder layout, barrel
+exports, SCSS theming, resources modules, and `documentation.json` wiring. Take
+facts from the sibling, not its structure or naming; many siblings predate the
+current conventions. When a sibling conflicts with this file, an instruction
+file in [.github/instructions/](.github/instructions/), or a skill, follow the
+instructions.
 
 ### Changing existing code
 

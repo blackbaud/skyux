@@ -34,12 +34,16 @@ Work top to bottom. Do not skip a step because the diff looks small.
 
 Run this skill in a fresh agent session, not the one that wrote the code. A
 review that inherits the author's conversation also inherits its assumptions.
+When delegating to a subagent, pass only the PR number or branch name — no
+summary of the change, its intent, or what to look for.
 Judge the diff only against the files loaded in step 2, not against stored
 agent memories or earlier conversation.
 
 1. **Collect the change.** Every path below sets a `<base-commit>` and a
    `<head-commit>`. Read all context (surrounding code, `package.json`) from
-   those, never from whatever happens to be checked out.
+   those. In the PR path, never read from whatever happens to be checked out;
+   in the no-PR path, `<head-commit>` is the working tree, so read head
+   context from the files on disk.
    - **PR number given:** run
      `gh pr view <n> --json title,body,baseRefName,baseRefOid,headRefOid,files`.
      The PR title and body are the task description. Run
