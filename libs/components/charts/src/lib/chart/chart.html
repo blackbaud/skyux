@@ -22,7 +22,6 @@
   class="sky-chart-content"
   [attr.aria-busy]="loading() ? 'true' : null"
   [attr.aria-label]="figureLabel()"
-  [attr.role]="figureLabel() ? 'img' : null"
   [class.sky-chart-content-loading]="loading()"
 >
   <sky-wait [isWaiting]="loading()" />

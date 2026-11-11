@@ -10,6 +10,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { SkyCode } from '@skyux/code';
 import { SkyDatepickerModule } from '@skyux/datetime';
 import { SkyInputBoxModule } from '@skyux/forms';
 
@@ -44,6 +45,7 @@ function validateDate(
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SkyCode,
     SkyDatepickerModule,
     SkyInputBoxModule,
   ],

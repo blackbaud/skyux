@@ -7,11 +7,11 @@
   />
 </div>
 
-@if (selectedPeople?.length) {
+@if (selectedPeople().length) {
   <div>
     Selected people:
     <ul class="selection-modal-example-selected">
-      @for (selectedPerson of selectedPeople; track selectedPerson) {
+      @for (selectedPerson of selectedPeople(); track selectedPerson) {
         <li>
           {{ selectedPerson.name }}
         </li>

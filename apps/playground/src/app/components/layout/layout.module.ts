@@ -15,6 +15,15 @@ const routes: Routes = [
       import('./back-to-top/back-to-top.module').then((m) => m.BackToTopModule),
   },
   {
+    path: 'blockquote',
+    loadComponent: () => import('./blockquote/blockquote-playground'),
+    data: {
+      name: 'Blockquote',
+      icon: 'text-quote-opening',
+      library: 'layout',
+    },
+  },
+  {
     path: 'box',
     loadChildren: () => import('./box/box.module').then((m) => m.BoxModule),
   },

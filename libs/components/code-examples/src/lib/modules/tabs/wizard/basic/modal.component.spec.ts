@@ -109,4 +109,44 @@ describe('Wizard tabset demo', () => {
     await nextButton.click();
     await expectAsync(tab2.isActive()).toBeResolvedTo(true);
   });
+
+  it('should enable the third step and the finish button as each step is completed', async () => {
+    const { loader, fixture } = await setupTest({
+      dataSkyId: 'sign-up-wizard',
+    });
+
+    const nextButton = await loader.getHarness(
+      SkyTabsetNavButtonHarness.with({ buttonType: 'next' }),
+    );
+
+    const formGroup = fixture.componentInstance.formGroup;
+    formGroup.patchValue({ firstName: 'John', lastName: 'Doe' });
+    fixture.detectChanges();
+
+    await nextButton.click();
+
+    // The next button is disabled until the third step is enabled.
+    await expectAsync(nextButton.isDisabled()).toBeResolvedTo(true);
+
+    formGroup.patchValue({
+      phoneNumber: '6675555309',
+      email: 'john@example.com',
+    });
+    fixture.detectChanges();
+
+    await expectAsync(nextButton.isDisabled()).toBeResolvedTo(false);
+
+    await nextButton.click();
+
+    // The finish button is only displayed on the last step.
+    const finishButton = await loader.getHarness(
+      SkyTabsetNavButtonHarness.with({ buttonType: 'finish' }),
+    );
+    await expectAsync(finishButton.isDisabled()).toBeResolvedTo(true);
+
+    formGroup.patchValue({ termsAccepted: true });
+    fixture.detectChanges();
+
+    await expectAsync(finishButton.isDisabled()).toBeResolvedTo(false);
+  });
 });

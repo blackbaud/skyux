@@ -4,6 +4,9 @@ export { SkyPageSummaryFixture } from './legacy/page-summary-fixture';
 
 export { SkyBackToTopHarness } from './modules/back-to-top/back-to-top-harness';
 
+export { SkyBlockquoteHarness } from './modules/blockquote/blockquote-harness';
+export { SkyBlockquoteHarnessFilters } from './modules/blockquote/blockquote-harness-filters';
+
 export { SkyBoxHarness } from './modules/box/box-harness';
 export { SkyBoxHarnessFilters } from './modules/box/box-harness.filters';
 

@@ -136,10 +136,12 @@ reviews:
         mode: error
         instructions: |
           Consider every changed production source file under libs/ — .ts,
-          .html, and .scss — excluding .spec.ts files. PASS if there are none.
+          .html, and .scss — excluding .spec.ts and .test.ts files. PASS if
+          there are none.
           Otherwise, each such file must be accompanied by a changed .spec.ts
-          that imports or exercises that specific file — a spec covering an
-          unrelated file does not satisfy the requirement. For a changed .html
+          or .test.ts (Jest and Vitest projects use .test.ts) that imports or
+          exercises that specific file — a test covering an unrelated file
+          does not satisfy the requirement. For a changed .html
           or .scss file, a changed .stories.ts also satisfies the requirement,
           but only when that story renders the component the template or style
           belongs to. A file may also be excused when the PR description
@@ -151,6 +153,8 @@ reviews:
           (src/index.ts, testing/src/public-api.ts), or for a file whose header
           marks it AUTO-GENERATED — both are covered by the specs of the files
           they point at.
+          Do not require a spec for a file that declares only types or
+          interfaces, since it has no runtime behavior to test.
       - name: 'Scope is minimal'
         mode: warning
         instructions: |

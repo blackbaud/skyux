@@ -18,21 +18,21 @@
   </sky-docs-heading-anchor>
   @if (def.kind === 'module' || def.name.endsWith('Harness')) {
     <p>
-      <code class="sky-docs-codespan"
+      <sky-code
         >import {{ '{' }} {{ def.name }} {{ '}' }} from '{{
           def.packageName
-        }}';</code
+        }}';</sky-code
       >
     </p>
   }
   @if (selector(); as selector) {
     <p>
-      Selector: <code class="sky-docs-codespan">{{ selector }}</code>
+      Selector: <sky-code>{{ selector }}</sky-code>
     </p>
   }
   @if (pipeName(); as pipeName) {
     <p>
-      Pipe name: <code class="sky-docs-codespan">{{ pipeName }}</code>
+      Pipe name: <sky-code>{{ pipeName }}</sky-code>
     </p>
   }
   @if (def.deprecationReason) {
@@ -56,31 +56,31 @@
   }
   @switch (def.kind) {
     @case ('function') {
-      <sky-docs-code-snippet
-        bordered
-        class="sky-margin-stacked-lg"
-        hideToolbar
-        language="ts"
-        [code]="
-          def
-            | skyDocsFunctionSignature
-            | skyTypeAnchorLinks: { ignore: [def.name] }
-        "
-      />
+      <sky-docs-code-snippet bordered hideToolbar stacked>
+        <code
+          [innerHTML]="
+            def
+              | skyDocsFunctionSignature
+              | skyDocsCodeHighlight: 'typescript'
+              | skyTypeAnchorLinks: { ignore: [def.name] }
+          "
+        ></code>
+      </sky-docs-code-snippet>
       @let parametersValue = parameters();
       @if (parametersValue && parametersValue.length > 0) {
         <h3>Parameters</h3>
         @for (parameter of parametersValue; track parameter.name) {
           <h4 class="sky-font-body-default">
-            <code
-              class="sky-docs-codespan"
-              [innerHTML]="
-                parameter
-                  | skyDocsParameterName
-                  | skyDocsEscapeHtml
-                  | skyTypeAnchorLinks
-              "
-            ></code>
+            <sky-code>
+              <span
+                [innerHTML]="
+                  parameter
+                    | skyDocsParameterName
+                    | skyDocsEscapeHtml
+                    | skyTypeAnchorLinks
+                "
+              ></span>
+            </sky-code>
           </h4>
           @if (parameter.description) {
             <sky-docs-type-definition-description
@@ -152,12 +152,13 @@
             @if (defaultValue) {
               <p>
                 Default:
-                <code
-                  class="sky-docs-codespan"
-                  [innerHTML]="
-                    defaultValue | skyDocsEscapeHtml | skyTypeAnchorLinks
-                  "
-                ></code>
+                <sky-code>
+                  <span
+                    [innerHTML]="
+                      defaultValue | skyDocsEscapeHtml | skyTypeAnchorLinks
+                    "
+                  ></span>
+                </sky-code>
               </p>
             }
           </sky-docs-type-definition-box>
@@ -220,12 +221,13 @@
             @if (defaultValue) {
               <p>
                 Default:
-                <code
-                  class="sky-docs-codespan"
-                  [innerHTML]="
-                    defaultValue | skyDocsEscapeHtml | skyTypeAnchorLinks
-                  "
-                ></code>
+                <sky-code>
+                  <span
+                    [innerHTML]="
+                      defaultValue | skyDocsEscapeHtml | skyTypeAnchorLinks
+                    "
+                  ></span>
+                </sky-code>
               </p>
             }
             @if (property.codeExample) {
@@ -271,15 +273,16 @@
               <h4>Parameters</h4>
               @for (param of method.parameters; track param.name) {
                 <h5 class="sky-font-body-default">
-                  <code
-                    class="sky-docs-codespan"
-                    [innerHTML]="
-                      param
-                        | skyDocsParameterName
-                        | skyDocsEscapeHtml
-                        | skyTypeAnchorLinks
-                    "
-                  ></code>
+                  <sky-code>
+                    <span
+                      [innerHTML]="
+                        param
+                          | skyDocsParameterName
+                          | skyDocsEscapeHtml
+                          | skyTypeAnchorLinks
+                      "
+                    ></span>
+                  </sky-code>
                 </h5>
                 @if (param.description) {
                   <sky-docs-type-definition-description
@@ -291,12 +294,13 @@
             }
             <h4>Returns</h4>
             <p>
-              <code
-                class="sky-docs-codespan"
-                [innerHTML]="
-                  method.type | skyDocsEscapeHtml | skyTypeAnchorLinks
-                "
-              ></code>
+              <sky-code>
+                <span
+                  [innerHTML]="
+                    method.type | skyDocsEscapeHtml | skyTypeAnchorLinks
+                  "
+                ></span>
+              </sky-code>
             </p>
           </sky-docs-type-definition-box>
         }

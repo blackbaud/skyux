@@ -1,6 +1,24 @@
 # Changelog
 
 
+## [15.11.0](https://github.com/blackbaud/skyux/compare/15.10.0...15.11.0) (2026-11-06)
+
+### Features
+
+* **components/charts:** add keyboard-accessible legend ([#4941](https://github.com/blackbaud/skyux/issues/4941)) ([cbc4250](https://github.com/blackbaud/skyux/commit/cbc42509394a9384fa006f7991120dcb5224553e))
+
+### Bug Fixes
+
+* **components/docs-tools:** render type links in function signature snippets ([#4948](https://github.com/blackbaud/skyux/issues/4948)) ([ebdc12c](https://github.com/blackbaud/skyux/commit/ebdc12c2f66d81ddd30da581a69220efaba30c11))
+* **components/packages:** only rename `expectAsync` calls to SKY UX async matchers in `migrate-karma-to-vitest` ([#4947](https://github.com/blackbaud/skyux/issues/4947)) ([50c146a](https://github.com/blackbaud/skyux/commit/50c146a896a6712262a412c0bd38b6994c7062ab))
+
+## [15.10.0](https://github.com/blackbaud/skyux/compare/15.9.0...15.10.0) (2026-11-05)
+
+### Features
+
+* **components/layout:** add blockquote component ([#4936](https://github.com/blackbaud/skyux/issues/4936)) ([0faae9e](https://github.com/blackbaud/skyux/commit/0faae9e9326e779e52d2a47ae0b198d1d0d18c5e))
+* use `sky-code` for inline code in docs-tools and code examples ([#4933](https://github.com/blackbaud/skyux/issues/4933)) ([7335a25](https://github.com/blackbaud/skyux/commit/7335a2541806373e4995821a4142a136a41bc5e4))
+
 ## [15.9.0](https://github.com/blackbaud/skyux/compare/15.8.0...15.9.0) (2026-11-04)
 
 ### Features

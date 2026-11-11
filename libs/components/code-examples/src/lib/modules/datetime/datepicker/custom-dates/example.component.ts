@@ -7,6 +7,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { SkyCode } from '@skyux/code';
 import {
   SkyDatepickerCalendarChange,
   SkyDatepickerCustomDate,
@@ -28,6 +29,7 @@ import { delay } from 'rxjs/operators';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SkyCode,
     SkyDatepickerModule,
     SkyInputBoxModule,
   ],

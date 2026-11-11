@@ -87,7 +87,7 @@ class TestComponent {
 
   public categories = input<(string | number)[]>(['2023', '2024']);
   public currencyCode = input<string | undefined>(undefined);
-  public format = input<SkyChartValueFormat | undefined>(undefined);
+  public format = input<SkyChartValueFormat>('number');
   public orientation = input<SkyChartBarOrientation>('vertical');
   public renderCategoryAxis = input(true);
   public renderChart = input(true);
@@ -149,6 +149,21 @@ describe('Chart bar component', () => {
   function getScale(chart: Chart<'bar'>, key: string): ScaleProbe {
     return chart.options.scales?.[key] as unknown as ScaleProbe;
   }
+
+  function getLegendButtons(): HTMLButtonElement[] {
+    return Array.from(
+      fixture.nativeElement.querySelectorAll('sky-chart-legend button'),
+    );
+  }
+
+  // Inline styles report colors in rgb() notation.
+  function toRgb(color: string): string {
+    const probe = document.createElement('span');
+    probe.style.color = color;
+
+    return probe.style.color;
+  }
+
   function getTooltipLabel(
     chart: Chart<'bar'>,
   ): (context: TooltipItem<'bar'>) => string {
@@ -396,17 +411,79 @@ describe('Chart bar component', () => {
     expect(typeof dataset.backgroundColor).toBe('string');
   });
 
-  it('should hide the legend when there is a single series', () => {
+  it('should not render a legend when there is a single series', () => {
     fixture.detectChanges();
 
-    expect(requireChart().options.plugins?.legend?.display).toBe(false);
+    expect(getLegendButtons().length).toBe(0);
   });
 
-  it('should show the legend when there are multiple series', () => {
+  it('should render a legend toggle button for each series', () => {
     fixture.componentRef.setInput('renderSecondSeries', true);
     fixture.detectChanges();
 
-    expect(requireChart().options.plugins?.legend?.display).toBe(true);
+    const buttons = getLegendButtons();
+    const datasets = requireChart().data.datasets;
+
+    expect(buttons.map((button) => button.textContent?.trim())).toEqual([
+      'Acquisitions',
+      'Divestitures',
+    ]);
+
+    buttons.forEach((button, index) => {
+      expect(button.getAttribute('aria-pressed')).toBe('true');
+
+      const swatch = button.querySelector<HTMLElement>(
+        '.sky-chart-legend-swatch',
+      );
+      expect(swatch?.style.backgroundColor).toBe(
+        toRgb(datasets[index].backgroundColor as string),
+      );
+    });
+  });
+
+  it('should toggle a series when its legend button is clicked', async () => {
+    fixture.componentRef.setInput('renderSecondSeries', true);
+    fixture.detectChanges();
+
+    getLegendButtons()[1].click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(requireChart().data.datasets[0].hidden).toBe(false);
+    expect(requireChart().data.datasets[1].hidden).toBe(true);
+    expect(getLegendButtons()[1].getAttribute('aria-pressed')).toBe('false');
+
+    getLegendButtons()[1].click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(requireChart().data.datasets[1].hidden).toBe(false);
+    expect(getLegendButtons()[1].getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('should keep a hidden series in the data table', async () => {
+    fixture.componentRef.setInput('renderSecondSeries', true);
+    fixture.detectChanges();
+
+    getLegendButtons()[0].click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(tableSvc().table()?.series.length).toBe(2);
+  });
+
+  it('should show a hidden series once it is the only series', async () => {
+    fixture.componentRef.setInput('renderSecondSeries', true);
+    fixture.detectChanges();
+
+    getLegendButtons()[0].click();
+    fixture.detectChanges();
+
+    fixture.componentRef.setInput('renderSecondSeries', false);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(requireChart().data.datasets[0].hidden).toBe(false);
   });
 
   it('should use internal scale keys for the category and value scales', () => {
@@ -700,29 +777,6 @@ describe('Chart bar component', () => {
     expect(getChartContainerHeight()).toBe(sparseHeight);
   });
 
-  it('should add legend space to a multi-series horizontal chart', () => {
-    fixture.componentRef.setInput('orientation', 'horizontal');
-    // Use enough categories that the height exceeds the minimum floor, so the
-    // legend's contribution is visible rather than clamped away.
-    fixture.componentRef.setInput(
-      'categories',
-      Array.from({ length: 12 }, (_, i) => `${i}`),
-    );
-    fixture.componentRef.setInput(
-      'values',
-      Array.from({ length: 12 }, () => 10),
-    );
-    fixture.detectChanges();
-
-    const singleSeriesHeight = Number.parseFloat(getChartContainerHeight());
-
-    fixture.componentRef.setInput('renderSecondSeries', true);
-    fixture.detectChanges();
-
-    const multiSeriesHeight = Number.parseFloat(getChartContainerHeight());
-    expect(multiSeriesHeight).toBeGreaterThan(singleSeriesHeight);
-  });
-
   it('should default the value axis to a linear scale', () => {
     fixture.detectChanges();
 
@@ -813,7 +867,10 @@ describe('Chart bar component', () => {
 
     it('should be accessible with multiple series and a legend', async () => {
       fixture.componentRef.setInput('renderSecondSeries', true);
+      fixture.detectChanges();
       await fixture.whenStable();
+
+      expect(getLegendButtons().length).toBe(2);
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });

@@ -75,7 +75,7 @@ class TestComponent {
 
   public categories = input<(string | number)[]>(['2023', '2024']);
   public currencyCode = input<string | undefined>(undefined);
-  public format = input<SkyChartValueFormat | undefined>(undefined);
+  public format = input<SkyChartValueFormat>('number');
   public renderCategoryAxis = input(true);
   public renderSeries = input(true);
   public renderSecondSeries = input(false);
@@ -125,6 +125,12 @@ describe('Chart line component', () => {
 
   function getScale(chart: Chart<'line'>, key: string): ScaleProbe {
     return chart.options.scales?.[key] as unknown as ScaleProbe;
+  }
+
+  function getLegendButtons(): HTMLButtonElement[] {
+    return Array.from(
+      fixture.nativeElement.querySelectorAll('sky-chart-legend button'),
+    );
   }
 
   function getTooltipLabel(
@@ -343,17 +349,27 @@ describe('Chart line component', () => {
     expect(second.borderColor).not.toBe(first.borderColor);
   });
 
-  it('should hide the legend when there is a single series', () => {
+  it('should not render a legend when there is a single series', () => {
     fixture.detectChanges();
 
-    expect(requireChart().options.plugins?.legend?.display).toBe(false);
+    expect(getLegendButtons().length).toBe(0);
   });
 
-  it('should show the legend when there are multiple series', () => {
+  it('should toggle a series when its legend button is clicked', async () => {
     fixture.componentRef.setInput('renderSecondSeries', true);
     fixture.detectChanges();
 
-    expect(requireChart().options.plugins?.legend?.display).toBe(true);
+    expect(
+      getLegendButtons().map((button) => button.textContent?.trim()),
+    ).toEqual(['Acquisitions', 'Target']);
+
+    getLegendButtons()[1].click();
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(requireChart().data.datasets[0].hidden).toBe(false);
+    expect(requireChart().data.datasets[1].hidden).toBe(true);
+    expect(getLegendButtons()[1].getAttribute('aria-pressed')).toBe('false');
   });
 
   it('should format axis ticks using the value axis format', () => {
@@ -437,7 +453,10 @@ describe('Chart line component', () => {
 
     it('should be accessible with multiple series and a legend', async () => {
       fixture.componentRef.setInput('renderSecondSeries', true);
+      fixture.detectChanges();
       await fixture.whenStable();
+
+      expect(getLegendButtons().length).toBe(2);
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
@@ -454,9 +473,9 @@ describe('Chart line component outside a sky-chart', () => {
     ],
     template: `
       <sky-chart-line>
-        <sky-chart-axis-category labelText="Year" [categories]="categories()" />
+        <sky-chart-axis-category labelText="Year" [categories]="categories" />
         <sky-chart-axis-value labelText="Value" />
-        <sky-chart-line-series labelText="Series" [values]="values()" />
+        <sky-chart-line-series labelText="Series" [values]="values" />
       </sky-chart-line>
     `,
   })

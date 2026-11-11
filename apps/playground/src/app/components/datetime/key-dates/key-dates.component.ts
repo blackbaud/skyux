@@ -12,6 +12,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { SkyCode } from '@skyux/code';
 import {
   SkyDatepickerCalendarChange,
   SkyDatepickerCustomDate,
@@ -25,6 +26,7 @@ import { Observable, delay, of } from 'rxjs';
   selector: 'app-key-dates',
   templateUrl: './key-dates.component.html',
   imports: [
+    SkyCode,
     SkyDatepickerModule,
     SkyInputBoxModule,
     ReactiveFormsModule,

@@ -1,0 +1,28 @@
+<div
+  class="sky-chart-legend-list"
+  role="toolbar"
+  [attr.aria-label]="
+    'skyux_charts.chart.legend.accessible_name' | skyLibResources: headingText()
+  "
+  (focusout)="onFocusOut($event)"
+>
+  @for (item of items(); track $index) {
+    <button
+      #legendItem
+      class="sky-chart-legend-item"
+      type="button"
+      [attr.aria-pressed]="!item.hidden"
+      [attr.tabindex]="$index === activeIndex() ? 0 : -1"
+      (click)="itemToggle.emit($index)"
+      (focus)="focusedIndex.set($index)"
+      (keydown)="onKeydown($event, $index)"
+    >
+      <span
+        aria-hidden="true"
+        class="sky-chart-legend-swatch"
+        [style.background-color]="item.color"
+      ></span>
+      {{ item.labelText }}
+    </button>
+  }
+</div>
