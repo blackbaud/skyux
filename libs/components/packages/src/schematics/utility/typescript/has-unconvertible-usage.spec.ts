@@ -25,6 +25,7 @@ describe('has-unconvertible-usage', () => {
       'an aliased import from another package',
       `import { OldModule as Local } from './local';\nexport const IMPORTS = [Local];`,
     ],
+    ['a local export', `const OldModule = 1;\nexport { OldModule };`],
     ['a re-export from another package', `export * from './local';`],
   ])('should return false for %s', (_description, content) => {
     expect(check(content)).toBe(false);

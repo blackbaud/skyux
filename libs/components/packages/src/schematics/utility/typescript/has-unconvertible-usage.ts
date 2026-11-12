@@ -5,17 +5,6 @@ import { isPackageMatch } from '../dependencies';
 
 import { getLocalImportName } from './ng-ast';
 
-function isPackageSpecifier(
-  specifier: ts.Expression | undefined,
-  packageName: string,
-): boolean {
-  return (
-    !!specifier &&
-    ts.isStringLiteral(specifier) &&
-    isPackageMatch(specifier.text, packageName)
-  );
-}
-
 /**
  * True if the file reaches any of `classNames` from `packageName` through an
  * aliased import, a namespace import (`ns.ClassName`) or a re-export.
@@ -37,25 +26,26 @@ export function hasUnconvertibleUsage(
     return true;
   }
 
-  return source.statements.some((statement) => {
+  const declarationsFromPackage = source.statements.filter(
+    (statement): statement is ts.ImportDeclaration | ts.ExportDeclaration =>
+      (ts.isImportDeclaration(statement) ||
+        ts.isExportDeclaration(statement)) &&
+      !!statement.moduleSpecifier &&
+      ts.isStringLiteral(statement.moduleSpecifier) &&
+      isPackageMatch(statement.moduleSpecifier.text, packageName),
+  );
+
+  return declarationsFromPackage.some((statement) => {
     if (ts.isExportDeclaration(statement)) {
       const exportClause = statement.exportClause;
 
       return (
-        isPackageSpecifier(statement.moduleSpecifier, packageName) &&
-        (!exportClause ||
-          !ts.isNamedExports(exportClause) ||
-          exportClause.elements.some((element) =>
-            classNames.includes((element.propertyName ?? element.name).text),
-          ))
+        !exportClause ||
+        !ts.isNamedExports(exportClause) ||
+        exportClause.elements.some((element) =>
+          classNames.includes((element.propertyName ?? element.name).text),
+        )
       );
-    }
-
-    if (
-      !ts.isImportDeclaration(statement) ||
-      !isPackageSpecifier(statement.moduleSpecifier, packageName)
-    ) {
-      return false;
     }
 
     const namedBindings = statement.importClause?.namedBindings;
