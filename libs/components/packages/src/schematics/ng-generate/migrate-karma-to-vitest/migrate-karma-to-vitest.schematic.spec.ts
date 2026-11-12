@@ -360,6 +360,48 @@ describe('test', () => {
     });
   });
 
+  it('should migrate files outside the source root', async () => {
+    const tree = setupTree({
+      '/projects/my-lib/testing/test.spec.ts': `import { expectAsync } from '@skyux-sdk/testing';
+
+describe('test', () => {
+  it('works', async () => {
+    await expectAsync(el).toBeAccessible();
+  });
+});
+`,
+    });
+
+    tree.overwrite(
+      '/angular.json',
+      JSON.stringify({
+        version: 1,
+        projects: {
+          'my-lib': {
+            projectType: 'library',
+            root: 'projects/my-lib',
+            sourceRoot: 'projects/my-lib/src',
+            architect: {},
+          },
+        },
+      }),
+    );
+
+    const warnings = await runSchematic(tree);
+
+    expect(tree.readText('/projects/my-lib/testing/test.spec.ts')).toBe(`
+describe('test', () => {
+  it('works', async () => {
+    await expect(el).toBeAccessible();
+  });
+});
+`);
+    expect(warnings).toEqual([]);
+    expect(getDevDependencies(tree)).toEqual({
+      '@skyux-sdk/vitest': '^0.0.0-PLACEHOLDER',
+    });
+  });
+
   it('should install the supported package and run its ng-add schematic', async () => {
     const tree = setupTree({
       '/src/app/test.spec.ts': `import { expect } from '@skyux-sdk/testing';\n`,

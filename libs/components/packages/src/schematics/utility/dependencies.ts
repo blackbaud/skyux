@@ -39,10 +39,9 @@ export async function getProjectsUsingPackage(
 }
 
 /**
- * True if any TypeScript file under `projectRoot` imports or re-exports
- * `packageName`. The whole project root is scanned, not just `sourceRoot`,
- * because converters visit the project root and a file outside `src` (e.g.
- * `testing/` or `e2e/`) still needs the package installed.
+ * True if any TypeScript file under `projectRoot` references `packageName`.
+ * The whole project root is scanned because files outside `sourceRoot` (e.g.
+ * a library's `testing/` entry point) still need the package installed.
  */
 function isPackageFoundInFiles(
   tree: Tree,
@@ -70,8 +69,7 @@ function hasImportStatement(
   sourceFile: ts.SourceFile,
   packageName: string,
 ): boolean {
-  // A re-export (`export ... from 'package'`) needs the package installed just
-  // like an import does.
+  // A re-export (`export ... from 'package'`) needs the package installed too.
   const declarations = [
     ...findNodes(sourceFile, ts.SyntaxKind.ImportDeclaration),
     ...findNodes(sourceFile, ts.SyntaxKind.ExportDeclaration),

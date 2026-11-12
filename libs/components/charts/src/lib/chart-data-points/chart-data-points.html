@@ -1,0 +1,34 @@
+@for (chartSeries of series(); track chartSeries.datasetIndex) {
+  <div
+    [attr.aria-label]="
+      chartSeries.seriesCount > 1
+        ? (getSeriesSummaryKey(chartSeries)
+          | skyLibResources
+            : chartSeries.labelText
+            : chartSeries.datasetIndex + 1
+            : chartSeries.seriesCount
+            : chartSeries.valueCount)
+        : null
+    "
+    [attr.role]="chartSeries.seriesCount > 1 ? 'region' : null"
+  >
+    @for (dataPoint of chartSeries.dataPoints; track dataPoint.key) {
+      <div
+        class="sky-chart-data-point"
+        [attr.aria-label]="dataPoint.accessibleName"
+        [attr.data-sky-chart-category]="dataPoint.category"
+        [attr.data-sky-chart-point]="dataPoint.key"
+        [attr.data-sky-chart-series]="dataPoint.seriesLabelText"
+        [attr.role]="clickable() ? 'button' : 'img'"
+        [attr.tabindex]="dataPoint.key === tabStopKey() ? 0 : -1"
+        [style.height.px]="dataPoint.height"
+        [style.left.px]="dataPoint.left"
+        [style.top.px]="dataPoint.top"
+        [style.width.px]="dataPoint.width"
+        (blur)="onBlur($event)"
+        (focus)="onFocus(dataPoint)"
+        (keydown)="onKeydown($event, dataPoint)"
+      ></div>
+    }
+  </div>
+}

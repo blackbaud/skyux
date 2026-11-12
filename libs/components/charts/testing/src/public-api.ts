@@ -1,5 +1,7 @@
 export { SkyChartBarHarness } from './modules/chart-bar/chart-bar-harness';
 export type { SkyChartBarHarnessFilters } from './modules/chart-bar/chart-bar-harness-filters';
+export { SkyChartDataPointHarness } from './modules/chart-data-point/chart-data-point-harness';
+export type { SkyChartDataPointHarnessFilters } from './modules/chart-data-point/chart-data-point-harness-filters';
 export { SkyChartLegendItemHarness } from './modules/chart-legend/chart-legend-item-harness';
 export type { SkyChartLegendItemHarnessFilters } from './modules/chart-legend/chart-legend-item-harness-filters';
 export { SkyChartLineHarness } from './modules/chart-line/chart-line-harness';

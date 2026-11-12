@@ -1,0 +1,20 @@
+// Covers the canvas so data point positions share its coordinate space. Mouse
+// interaction is handled by Chart.js on the canvas, so neither the host nor
+// the stand-ins may intercept the pointer events that drive its hover and
+// tooltips.
+:host {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sky-chart-data-point {
+  position: absolute;
+
+  &:focus-visible {
+    // The parent draws the focus ring on the canvas, but forced colors do not
+    // recolor the canvas, so fall back to an outline, which forced-colors mode
+    // paints in the system highlight color.
+    outline: 2px solid transparent;
+  }
+}

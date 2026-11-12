@@ -38,7 +38,8 @@ export function isOutput(
   return (
     getDecorator(reflection) === 'Output' ||
     (reflection.type instanceof ReferenceType &&
-      reflection.type?.name === 'OutputEmitterRef')
+      (reflection.type?.name === 'OutputEmitterRef' ||
+        reflection.type?.name === 'OutputRef'))
   );
 }
 
