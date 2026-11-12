@@ -1,9 +1,15 @@
-import { Tree } from '@angular-devkit/schematics';
-import { ProjectDefinition } from '@schematics/angular/utility';
+import { join, normalize } from '@angular-devkit/core';
+import { Rule, Tree } from '@angular-devkit/schematics';
+import { ProjectDefinition, addDependency } from '@schematics/angular/utility';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
+import {
+  getPackageJsonDependency,
+  removePackageJsonDependency,
+} from '@schematics/angular/utility/dependencies';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 import ts from 'typescript';
 
+import { JsonFile } from './json-file';
 import { parseSourceFile } from './typescript/ng-ast';
 import { visitProjectFiles } from './visit-project-files';
 
@@ -147,4 +153,89 @@ function isPackageMatch(moduleSpecifier: string, packageName: string): boolean {
     moduleSpecifier === packageName ||
     moduleSpecifier.startsWith(`${packageName}/`)
   );
+}
+
+/**
+ * The library's own `@skyux/core` version, preferring `section`, so a new
+ * SKY UX package gets the same range or exact version the library already
+ * uses for SKY UX. Falls back to the placeholder the root update uses.
+ */
+function getSkyuxCoreVersion(packageJson: JsonFile, section: string): string {
+  return (
+    [section, 'peerDependencies', 'dependencies', 'devDependencies']
+      .map((name) => packageJson.get([name, '@skyux/core']))
+      .find((version) => version !== undefined) ?? '0.0.0-PLACEHOLDER'
+  );
+}
+
+/**
+ * A library's own `package.json` lists its dependencies, which the workspace
+ * root update doesn't reach. `newPackage` goes in each section that listed
+ * `oldPackage`, so a peer dependency stays a peer dependency.
+ */
+async function swapLibraryDependency(
+  tree: Tree,
+  projectPath: string,
+  oldPackage: string,
+  newPackage: string,
+): Promise<void> {
+  const packageJsonPath = join(normalize(projectPath), 'package.json');
+
+  if (!projectPath || !tree.exists(packageJsonPath)) {
+    return;
+  }
+
+  const packageJson = new JsonFile(tree, packageJsonPath);
+  const sections = ['peerDependencies', 'dependencies'].filter(
+    (name) => packageJson.get([name, oldPackage]) !== undefined,
+  );
+
+  if (sections.length === 0) {
+    return;
+  }
+
+  const projectsUsingOldPackage = await getProjectsUsingPackage(
+    tree,
+    oldPackage,
+  );
+  const oldPackageStillUsed = projectsUsingOldPackage.some(
+    (project) => project.root === projectPath,
+  );
+
+  for (const section of sections) {
+    if (packageJson.get([section, newPackage]) === undefined) {
+      packageJson.modify(
+        [section, newPackage],
+        getSkyuxCoreVersion(packageJson, section),
+      );
+    }
+
+    if (!oldPackageStillUsed) {
+      packageJson.remove([section, oldPackage]);
+    }
+  }
+}
+
+/**
+ * After a project's code moves from `oldPackage` to the SKY UX `newPackage`,
+ * adds `newPackage` to the workspace and to the project's own
+ * `package.json`, and removes `oldPackage` from each that no longer uses it.
+ */
+export async function swapPackageDependency(
+  tree: Tree,
+  projectPath: string,
+  oldPackage: string,
+  newPackage: string,
+): Promise<Rule | void> {
+  if (!(await isPackageUsed(tree, oldPackage))) {
+    removePackageJsonDependency(tree, oldPackage);
+  }
+
+  await swapLibraryDependency(tree, projectPath, oldPackage, newPackage);
+
+  // `addDependency` only checks `dependencies`, so it would add a second
+  // entry for a package already listed under `devDependencies`.
+  if (!getPackageJsonDependency(tree, newPackage)) {
+    return addDependency(newPackage, '0.0.0-PLACEHOLDER');
+  }
 }

@@ -1,22 +1,12 @@
-import { join, normalize } from '@angular-devkit/core';
 import {
   Rule,
   SchematicContext,
   Tree,
   chain,
 } from '@angular-devkit/schematics';
-import { addDependency } from '@schematics/angular/utility';
-import {
-  getPackageJsonDependency,
-  removePackageJsonDependency,
-} from '@schematics/angular/utility/dependencies';
 import ts from 'typescript';
 
-import {
-  getProjectsUsingPackage,
-  isPackageUsed,
-} from '../../utility/dependencies';
-import { JsonFile } from '../../utility/json-file';
+import { swapPackageDependency } from '../../utility/dependencies';
 import { logOnce } from '../../utility/log-once';
 import {
   getLocalImportName,
@@ -154,65 +144,6 @@ function convertTypescriptFile(
 }
 
 /**
- * The library's own `@skyux/core` version, preferring `section`, so
- * `@skyux/code` gets the same range or exact version the library already uses
- * for SKY UX. Falls back to the placeholder the root update uses.
- */
-function getSkyuxCoreVersion(packageJson: JsonFile, section: string): string {
-  return (
-    [section, 'peerDependencies', 'dependencies', 'devDependencies']
-      .map((name) => packageJson.get([name, '@skyux/core']))
-      .find((version) => version !== undefined) ?? '0.0.0-PLACEHOLDER'
-  );
-}
-
-/**
- * A library's own `package.json` lists its dependencies, which the workspace
- * root update doesn't reach. `@skyux/code` goes in each section that listed
- * Stache, so a peer dependency stays a peer dependency.
- */
-async function updateLibraryPackageJson(
-  tree: Tree,
-  projectPath: string,
-): Promise<void> {
-  const packageJsonPath = join(normalize(projectPath), 'package.json');
-
-  if (!projectPath || !tree.exists(packageJsonPath)) {
-    return;
-  }
-
-  const packageJson = new JsonFile(tree, packageJsonPath);
-  const sections = ['peerDependencies', 'dependencies'].filter(
-    (name) => packageJson.get([name, STACHE_PACKAGE]) !== undefined,
-  );
-
-  if (sections.length === 0) {
-    return;
-  }
-
-  const projectsUsingStache = await getProjectsUsingPackage(
-    tree,
-    STACHE_PACKAGE,
-  );
-  const stacheStillUsed = projectsUsingStache.some(
-    (project) => project.root === projectPath,
-  );
-
-  for (const section of sections) {
-    if (packageJson.get([section, SKYUX_PACKAGE]) === undefined) {
-      packageJson.modify(
-        [section, SKYUX_PACKAGE],
-        getSkyuxCoreVersion(packageJson, section),
-      );
-    }
-
-    if (!stacheStillUsed) {
-      packageJson.remove([section, STACHE_PACKAGE]);
-    }
-  }
-}
-
-/**
  * Replaces Stache's `SkyCodeModule` with SKY UX's standalone `SkyCode`. Both
  * use the `sky-code` selector, so templates are unchanged.
  */
@@ -229,20 +160,13 @@ export function convertStacheCodeToCode(projectPath: string): Rule {
       });
     },
     async (tree): Promise<Rule | void> => {
-      if (!anyConverted) {
-        return;
-      }
-
-      if (!(await isPackageUsed(tree, STACHE_PACKAGE))) {
-        removePackageJsonDependency(tree, STACHE_PACKAGE);
-      }
-
-      await updateLibraryPackageJson(tree, projectPath);
-
-      // `addDependency` only checks `dependencies`, so it would add a second
-      // entry for a package already listed under `devDependencies`.
-      if (!getPackageJsonDependency(tree, SKYUX_PACKAGE)) {
-        return addDependency(SKYUX_PACKAGE, '0.0.0-PLACEHOLDER');
+      if (anyConverted) {
+        return await swapPackageDependency(
+          tree,
+          projectPath,
+          STACHE_PACKAGE,
+          SKYUX_PACKAGE,
+        );
       }
     },
   ]);
