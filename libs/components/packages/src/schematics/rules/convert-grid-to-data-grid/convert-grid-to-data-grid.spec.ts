@@ -211,6 +211,40 @@ describe('Convert Grid to Data Grid', () => {
     `);
   });
 
+  it('should add a TODO to highlight through selectedRowIds when multiselect is bound to false', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/test.component.html',
+      '<sky-grid [enableMultiselect]="false" [rowHighlightedId]="rid"></sky-grid>',
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.html')}`)
+      .toBe(stripIndents`
+      ${todo('Highlight the row by binding <sky-data-grid> [selectedRowIds]="[rid]": selecting a single row highlights it, even without multiselect. <sky-data-grid> has no rowHighlightedId input.')}
+      <sky-data-grid [multiselect]="false"></sky-data-grid>
+    `);
+  });
+
+  it('should add a TODO for a bound column type', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/test.component.html',
+      stripIndents`
+        <sky-grid>
+          <sky-grid-column field="a" [type]="columnType"></sky-grid-column>
+        </sky-grid>
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/test.component.html')}`)
+      .toBe(stripIndents`
+      <sky-data-grid>
+        ${todo('Set dataType on this <sky-data-grid-column> to match the former [type] binding so its values sort and format correctly: <sky-data-grid-column> has no type input, and columns default to dataType="text".')}
+        <sky-data-grid-column field="a"></sky-data-grid-column>
+      </sky-data-grid>
+    `);
+  });
+
   it('should add a TODO for a bound multiselectRowId', async () => {
     const tree = await createTestApp(runner, { projectName: 'test-app' });
     tree.create(
@@ -243,7 +277,7 @@ describe('Convert Grid to Data Grid', () => {
     `);
   });
 
-  it('should keep description, add TODOs for right alignment and search, and drop column inputs that need no follow-up', async () => {
+  it('should keep description, add TODOs for right alignment, type, and search, and drop column inputs that need no follow-up', async () => {
     const tree = await createTestApp(runner, { projectName: 'test-app' });
     tree.create(
       'src/app/test.component.html',
@@ -259,6 +293,7 @@ describe('Convert Grid to Data Grid', () => {
       .toBe(stripIndents`
       <sky-data-grid>
         ${todo('Set dataType="number" on this <sky-data-grid-column> if it holds numbers, which right-aligns them; otherwise right-align the cell content in a column template. <sky-data-grid-column> has no alignment input.')}
+        ${todo('Set dataType on this <sky-data-grid-column> to match its former type "number" so its values sort and format correctly: <sky-data-grid-column> has no type input, and columns default to dataType="text".')}
         ${todo("Restore this column's custom search with the data manager: host <sky-data-grid> in a <sky-data-view searchEnabled> inside <sky-data-manager>, and apply the search function when filtering [data] by the data manager's [(searchText)]. <sky-data-grid-column> has no search input.")}
         <sky-data-grid-column field="amount" headingText="Amount" description="The gift amount"></sky-data-grid-column>
         <sky-data-grid-column field="name" headingText="Name"></sky-data-grid-column>

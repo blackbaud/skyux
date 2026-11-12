@@ -233,6 +233,20 @@ const GRID_WARNINGS: { attributes: string[]; message: string }[] = [
   },
 ];
 
+/**
+ * `sky-grid` has no boolean transform on `enableMultiselect`, so only a bound
+ * `false` disables multiselect; a plain `enableMultiselect="false"` is a
+ * truthy string.
+ */
+function isMultiselectEnabled(node: ElementWithLocation): boolean {
+  const [, bound] = inputForms('enableMultiselect');
+  const attribute = findAttribute(node, inputForms('enableMultiselect'));
+  return (
+    !!attribute &&
+    !(attribute.name === bound && attribute.value.trim() === 'false')
+  );
+}
+
 function getGridWarnings(node: ElementWithLocation): string[] {
   const warnings = GRID_WARNINGS.filter(({ attributes }) =>
     hasAttribute(node, attributes),
@@ -259,7 +273,7 @@ function getGridWarnings(node: ElementWithLocation): string[] {
   }
   const rowHighlightedId = findAttribute(node, inputForms('rowHighlightedId'));
   if (rowHighlightedId) {
-    if (hasAttribute(node, inputForms('enableMultiselect'))) {
+    if (isMultiselectEnabled(node)) {
       warnings.push(
         'Indicate the highlighted row another way, such as in a column template: <sky-data-grid> highlights a row by selecting it through [selectedRowIds], which this grid already uses for multiselect. <sky-data-grid> has no rowHighlightedId input.',
       );
@@ -313,6 +327,15 @@ function getColumnWarnings(node: ElementWithLocation): string[] {
   } else if (alignment && literalAlignment !== 'left') {
     warnings.push(
       'Recreate the former alignment of this <sky-data-grid-column> in a column template, or set dataType="number" to right-align numbers. <sky-data-grid-column> has no alignment input.',
+    );
+  }
+  const type = findAttribute(node, inputForms('type'));
+  if (type) {
+    const former = type.name.startsWith('[')
+      ? 'the former [type] binding'
+      : `its former type "${type.value}"`;
+    warnings.push(
+      `Set dataType on this <sky-data-grid-column> to match ${former} so its values sort and format correctly: <sky-data-grid-column> has no type input, and columns default to dataType="text".`,
     );
   }
   if (hasAttribute(node, inputForms('search'))) {
