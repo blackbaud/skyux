@@ -1,4 +1,6 @@
+import { normalize } from '@angular-devkit/core';
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { FileVisitor } from '@angular-devkit/schematics/src/tree/interface';
 import { removePackageJsonDependency } from '@schematics/angular/utility/dependencies';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 
@@ -12,7 +14,6 @@ import {
 } from '../../../utility/typescript/ng-ast';
 import { removeClassReference } from '../../../utility/typescript/remove-class-reference';
 import { visitProjectFiles } from '../../../utility/visit-project-files';
-import { getSourceRoot } from '../../../utility/workspace';
 
 const SELECTOR = 'sky-select-field';
 const CLASS_NAME = 'SkySelectFieldModule';
@@ -23,13 +24,35 @@ function contentHasSelector(content: string): boolean {
 }
 
 /**
+ * Visits the project's files, skipping those of other projects nested inside
+ * it (e.g. `projects/*` under a root app), since each project is judged on its
+ * own templates.
+ */
+function visitOwnProjectFiles(
+  tree: Tree,
+  projectRoot: string,
+  otherProjectRoots: string[],
+  visitor: FileVisitor,
+): void {
+  visitProjectFiles(tree, projectRoot, (filePath, entry) => {
+    if (!otherProjectRoots.some((root) => filePath.startsWith(`/${root}/`))) {
+      visitor(filePath, entry);
+    }
+  });
+}
+
+/**
  * True if any `.html` template or inline `@Component({ template })` anywhere
  * in the project contains a `<sky-select-field>` element.
  */
-function projectUsesSelectField(tree: Tree, sourceRoot: string): boolean {
+function projectUsesSelectField(
+  tree: Tree,
+  projectRoot: string,
+  otherProjectRoots: string[],
+): boolean {
   let used = false;
 
-  visitProjectFiles(tree, sourceRoot, (filePath) => {
+  visitOwnProjectFiles(tree, projectRoot, otherProjectRoots, (filePath) => {
     if (used) {
       return;
     }
@@ -64,10 +87,11 @@ function projectUsesSelectField(tree: Tree, sourceRoot: string): boolean {
  */
 function removeModuleReferences(
   tree: Tree,
-  sourceRoot: string,
+  projectRoot: string,
+  otherProjectRoots: string[],
   context: SchematicContext,
 ): void {
-  visitProjectFiles(tree, sourceRoot, (filePath) => {
+  visitOwnProjectFiles(tree, projectRoot, otherProjectRoots, (filePath) => {
     if (!filePath.endsWith('.ts') || filePath.endsWith('.d.ts')) {
       return;
     }
@@ -116,11 +140,17 @@ function removeModuleReferences(
 export default function (): Rule {
   return async (tree: Tree, context: SchematicContext): Promise<void> => {
     const workspace = await getWorkspace(tree);
+    const projectRoots = [...workspace.projects.values()].map((project) =>
+      normalize(project.root),
+    );
 
-    for (const project of workspace.projects.values()) {
-      const sourceRoot = getSourceRoot(project);
-      if (!projectUsesSelectField(tree, sourceRoot)) {
-        removeModuleReferences(tree, sourceRoot, context);
+    for (const projectRoot of projectRoots) {
+      const otherProjectRoots = projectRoots.filter(
+        (root) => root !== projectRoot,
+      );
+
+      if (!projectUsesSelectField(tree, projectRoot, otherProjectRoots)) {
+        removeModuleReferences(tree, projectRoot, otherProjectRoots, context);
       }
     }
 

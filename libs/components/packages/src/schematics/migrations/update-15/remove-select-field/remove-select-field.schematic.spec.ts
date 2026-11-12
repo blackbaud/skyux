@@ -371,6 +371,46 @@ export class OtherSharedModule {}
     });
   });
 
+  it('should remove the module and dependency from files outside the source root', async () => {
+    const tree = setupTree({
+      '/projects/my-lib/testing/testing.module.ts': `import { NgModule } from '@angular/core';
+import { SkySelectFieldModule } from '@skyux/select-field';
+
+@NgModule({
+  exports: [SkySelectFieldModule],
+})
+export class MyLibTestingModule {}
+`,
+    });
+
+    tree.overwrite(
+      '/angular.json',
+      JSON.stringify({
+        version: 1,
+        projects: {
+          'my-lib': {
+            projectType: 'library',
+            root: 'projects/my-lib',
+            sourceRoot: 'projects/my-lib/src',
+            architect: {},
+          },
+        },
+      }),
+    );
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/projects/my-lib/testing/testing.module.ts'))
+      .toBe(`import { NgModule } from '@angular/core';
+
+@NgModule({
+  exports: [],
+})
+export class MyLibTestingModule {}
+`);
+    expect(getDependencies(tree)).toEqual({ '@skyux/core': '^15.0.0' });
+  });
+
   it('should keep the import and warn when SkySelectFieldModule is referenced outside a decorator imports array', async () => {
     const warnSpy = jest.fn();
     runner.logger.subscribe((entry) => {

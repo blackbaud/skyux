@@ -6,7 +6,6 @@ import ts from 'typescript';
 
 import { parseSourceFile } from './typescript/ng-ast';
 import { visitProjectFiles } from './visit-project-files';
-import { getSourceRoot } from './workspace';
 
 export async function isPackageUsed(
   tree: Tree,
@@ -15,10 +14,7 @@ export async function isPackageUsed(
   const workspace = await getWorkspace(tree);
 
   for (const project of workspace.projects.values()) {
-    const sourceRoot = getSourceRoot(project);
-    const found = isPackageFoundInFiles(tree, packageName, sourceRoot);
-
-    if (found) {
+    if (isPackageFoundInFiles(tree, packageName, project.root)) {
       return true;
     }
   }
@@ -34,9 +30,7 @@ export async function getProjectsUsingPackage(
   const projects: ProjectDefinition[] = [];
 
   for (const project of workspace.projects.values()) {
-    const sourceRoot = getSourceRoot(project);
-
-    if (isPackageFoundInFiles(tree, packageName, sourceRoot)) {
+    if (isPackageFoundInFiles(tree, packageName, project.root)) {
       projects.push(project);
     }
   }
@@ -45,17 +39,18 @@ export async function getProjectsUsingPackage(
 }
 
 /**
- * Finds which packages are imported in any TypeScript files within the specified source root.
- * Returns a Set of package names that are used.
+ * True if any TypeScript file under `projectRoot` references `packageName`.
+ * The whole project root is scanned because files outside `sourceRoot` (e.g.
+ * a library's `testing/` entry point) still need the package installed.
  */
 function isPackageFoundInFiles(
   tree: Tree,
   packageName: string,
-  sourceRoot: string,
+  projectRoot: string,
 ): boolean {
   let found = false;
 
-  visitProjectFiles(tree, sourceRoot, (filePath) => {
+  visitProjectFiles(tree, projectRoot, (filePath) => {
     if (!filePath.endsWith('.ts') || found) {
       return;
     }
@@ -74,17 +69,18 @@ function hasImportStatement(
   sourceFile: ts.SourceFile,
   packageName: string,
 ): boolean {
-  const importDeclarations = findNodes(
-    sourceFile,
-    ts.SyntaxKind.ImportDeclaration,
-  ) as ts.ImportDeclaration[];
+  // A re-export (`export ... from 'package'`) needs the package installed too.
+  const declarations = [
+    ...findNodes(sourceFile, ts.SyntaxKind.ImportDeclaration),
+    ...findNodes(sourceFile, ts.SyntaxKind.ExportDeclaration),
+  ] as (ts.ImportDeclaration | ts.ExportDeclaration)[];
 
-  for (const importDecl of importDeclarations) {
+  for (const declaration of declarations) {
     if (
-      importDecl.moduleSpecifier &&
-      ts.isStringLiteral(importDecl.moduleSpecifier)
+      declaration.moduleSpecifier &&
+      ts.isStringLiteral(declaration.moduleSpecifier)
     ) {
-      const moduleSpecifier = importDecl.moduleSpecifier.text;
+      const moduleSpecifier = declaration.moduleSpecifier.text;
 
       if (isPackageMatch(moduleSpecifier, packageName)) {
         return true;
