@@ -240,6 +240,26 @@ describe('SkyAgGridWrapperHarness', () => {
 
       await expectAsync(harness.getRowInlineDelete('2')).toBeResolvedTo(null);
     });
+
+    it('should get the inline delete for a row whose ID contains a double quote', async () => {
+      const rowId = 'a"b';
+      fixture.componentInstance.data = [
+        { id: rowId, column1: '1', column2: 'Apple', column3: true },
+      ];
+      fixture.componentRef.setInput('rowDeleteIds', [rowId]);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const harness = await TestbedHarnessEnvironment.loader(
+        fixture,
+      ).getHarness(
+        SkyAgGridWrapperHarness.with({ dataSkyId: 'ag-grid-wrapper' }),
+      );
+
+      await expectAsync(harness.getRowInlineDelete(rowId)).toBeResolvedTo(
+        jasmine.any(SkyInlineDeleteHarness),
+      );
+    });
   });
 
   describe('using TwoGridsTestComponent', () => {
