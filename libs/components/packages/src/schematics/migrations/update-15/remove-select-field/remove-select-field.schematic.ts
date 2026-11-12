@@ -31,11 +31,11 @@ function contentHasSelector(content: string): boolean {
 function visitOwnProjectFiles(
   tree: Tree,
   projectRoot: string,
-  otherProjectRoots: string[],
+  nestedProjectRoots: string[],
   visitor: FileVisitor,
 ): void {
   visitProjectFiles(tree, projectRoot, (filePath, entry) => {
-    if (!otherProjectRoots.some((root) => filePath.startsWith(`/${root}/`))) {
+    if (!nestedProjectRoots.some((root) => filePath.startsWith(`/${root}/`))) {
       visitor(filePath, entry);
     }
   });
@@ -48,11 +48,11 @@ function visitOwnProjectFiles(
 function projectUsesSelectField(
   tree: Tree,
   projectRoot: string,
-  otherProjectRoots: string[],
+  nestedProjectRoots: string[],
 ): boolean {
   let used = false;
 
-  visitOwnProjectFiles(tree, projectRoot, otherProjectRoots, (filePath) => {
+  visitOwnProjectFiles(tree, projectRoot, nestedProjectRoots, (filePath) => {
     if (used) {
       return;
     }
@@ -88,10 +88,10 @@ function projectUsesSelectField(
 function removeModuleReferences(
   tree: Tree,
   projectRoot: string,
-  otherProjectRoots: string[],
+  nestedProjectRoots: string[],
   context: SchematicContext,
 ): void {
-  visitOwnProjectFiles(tree, projectRoot, otherProjectRoots, (filePath) => {
+  visitOwnProjectFiles(tree, projectRoot, nestedProjectRoots, (filePath) => {
     if (!filePath.endsWith('.ts') || filePath.endsWith('.d.ts')) {
       return;
     }
@@ -145,12 +145,13 @@ export default function (): Rule {
     );
 
     for (const projectRoot of projectRoots) {
-      const otherProjectRoots = projectRoots.filter(
-        (root) => root !== projectRoot,
+      const prefix = projectRoot ? `${projectRoot}/` : '';
+      const nestedProjectRoots = projectRoots.filter(
+        (root) => root !== projectRoot && root.startsWith(prefix),
       );
 
-      if (!projectUsesSelectField(tree, projectRoot, otherProjectRoots)) {
-        removeModuleReferences(tree, projectRoot, otherProjectRoots, context);
+      if (!projectUsesSelectField(tree, projectRoot, nestedProjectRoots)) {
+        removeModuleReferences(tree, projectRoot, nestedProjectRoots, context);
       }
     }
 

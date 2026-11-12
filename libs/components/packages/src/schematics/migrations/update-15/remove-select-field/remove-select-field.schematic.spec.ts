@@ -411,6 +411,52 @@ export class MyLibTestingModule {}
     expect(getDependencies(tree)).toEqual({ '@skyux/core': '^15.0.0' });
   });
 
+  it('should rewrite a library nested under another project that uses <sky-select-field>', async () => {
+    const tree = setupTree({
+      '/projects/app/src/test.component.html': `<sky-select-field></sky-select-field>`,
+      '/projects/app/my-lib/src/feature.module.ts': `import { NgModule } from '@angular/core';
+import { SkySelectFieldModule } from '@skyux/select-field';
+
+@NgModule({
+  imports: [SkySelectFieldModule],
+})
+export class FeatureModule {}
+`,
+    });
+
+    tree.overwrite(
+      '/angular.json',
+      JSON.stringify({
+        version: 1,
+        projects: {
+          app: {
+            projectType: 'application',
+            root: 'projects/app',
+            sourceRoot: 'projects/app/src',
+            architect: {},
+          },
+          'my-lib': {
+            projectType: 'library',
+            root: 'projects/app/my-lib',
+            sourceRoot: 'projects/app/my-lib/src',
+            architect: {},
+          },
+        },
+      }),
+    );
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/projects/app/my-lib/src/feature.module.ts'))
+      .toBe(`import { NgModule } from '@angular/core';
+
+@NgModule({
+  imports: [],
+})
+export class FeatureModule {}
+`);
+  });
+
   it('should keep the import and warn when SkySelectFieldModule is referenced outside a decorator imports array', async () => {
     const warnSpy = jest.fn();
     runner.logger.subscribe((entry) => {
