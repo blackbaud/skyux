@@ -131,7 +131,11 @@ export function swapImportedClass(
                 newModuleName,
               ) as InsertChange;
               shiftLineBreakForInsertedImport(change, eol);
-              applyToUpdateRecorder(recorder, [change]);
+              // `insertRight` rather than `applyToUpdateRecorder`'s
+              // `insertLeft`: the import lands at the end of the import block,
+              // which is also where a fully removed import declaration ends,
+              // and only a right-side insert survives that removal.
+              recorder.insertRight(change.pos, change.toAdd);
               removeImports[oldModuleName] ??= [];
               removeImports[oldModuleName].push(oldClassName);
             }

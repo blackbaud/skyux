@@ -93,8 +93,7 @@ describe('swap-imported-class', () => {
     tree.commitUpdate(recorder);
 
     expect(tree.readText(path)).toBe(
-      `\n` +
-        stripIndents`
+      stripIndents`
     import { D } from 'new-module';
 
     A(D) && C;`,
@@ -169,7 +168,7 @@ describe('swap-imported-class', () => {
     expect(tree.readText(path)).toBe(
       stripIndents`
       import { SkyDataGrid, SkyDataGridColumn } from 'new-module';` +
-        `\n\n\n` +
+        `\n\n` +
         stripIndents`
       A(SkyDataGrid, SkyDataGridColumn) && SkyDataGrid;`,
     );
@@ -199,7 +198,7 @@ describe('swap-imported-class', () => {
     tree.commitUpdate(recorder);
 
     expect(tree.readText(path)).toBe(stripIndents`
-    import { A,  C } from 'module';
+    import { A, C } from 'module';
 
     A(C) && C;`);
   });

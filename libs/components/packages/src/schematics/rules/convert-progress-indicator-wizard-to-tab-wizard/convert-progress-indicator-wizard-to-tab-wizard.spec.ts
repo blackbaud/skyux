@@ -679,7 +679,7 @@ describe('Convert progress indicator wizard to tab wizard', () => {
     tree.create('src/app/test.component.ts', input);
     const output = stripIndents`
       import { Component } from '@angular/core';
-      import {  SkyProgressIndicatorDisplayMode } from '@skyux/progress-indicator';
+      import { SkyProgressIndicatorDisplayMode } from '@skyux/progress-indicator';
       import { SkyTabsModule } from '@skyux/tabs';
 
       @Component({
