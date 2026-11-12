@@ -4,13 +4,16 @@ import {
   Tree,
   chain,
 } from '@angular-devkit/schematics';
+import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
 import ts from 'typescript';
 
 import { swapPackageDependency } from '../../utility/dependencies';
 import { logOnce } from '../../utility/log-once';
 import {
+  addSymbolToClassMetadata,
   getLocalImportName,
   isImportedFromPackage,
+  isSymbolInClassMetadataFieldArray,
   parseSourceFile,
 } from '../../utility/typescript/ng-ast';
 import {
@@ -84,6 +87,33 @@ function hasUnconvertibleStacheUsage(source: ts.SourceFile): boolean {
 }
 
 /**
+ * An NgModule can export `SkyCodeModule` without importing it, but Angular
+ * only lets it export a standalone component it also imports.
+ */
+function importExportedSkyCode(
+  tree: Tree,
+  filePath: string,
+  skyCodeName: string,
+): void {
+  const changes = addSymbolToClassMetadata(
+    parseSourceFile(tree, filePath),
+    'NgModule',
+    filePath,
+    'imports',
+    skyCodeName,
+    null,
+    (metadata) =>
+      isSymbolInClassMetadataFieldArray(metadata, 'exports', skyCodeName),
+  );
+
+  if (changes.length > 0) {
+    const recorder = tree.beginUpdate(filePath);
+    applyToUpdateRecorder(recorder, changes);
+    tree.commitUpdate(recorder);
+  }
+}
+
+/**
  * Returns `true` when the file's `SkyCodeModule` from Stache was converted.
  */
 function convertTypescriptFile(
@@ -139,6 +169,8 @@ function convertTypescriptFile(
     );
     tree.commitUpdate(removeRecorder);
   }
+
+  importExportedSkyCode(tree, filePath, skyCodeName);
 
   return true;
 }

@@ -128,6 +128,35 @@ describe('Convert Stache code to code', () => {
     `);
   });
 
+  it('should also import SkyCode in an NgModule that only exports SkyCodeModule', async () => {
+    const result = await convertFile(
+      stripIndent`
+        import { NgModule } from '@angular/core';
+        import { SkyCodeModule } from '${STACHE_PACKAGE}';
+
+        @NgModule({
+          exports: [SkyCodeModule],
+        })
+        export class SharedModule {}
+      `,
+      'src/app/shared.module.ts',
+    );
+
+    // Angular only lets an NgModule export a standalone component it imports.
+    expect(result).toEqual(stripIndent`
+      import { NgModule } from '@angular/core';
+      import { SkyCode } from '@skyux/code';
+
+      @NgModule({
+        exports: [SkyCode],
+        imports: [
+          SkyCode
+        ],
+      })
+      export class SharedModule {}
+    `);
+  });
+
   it('should swap SkyCodeModule in TestBed imports', async () => {
     const result = await convertFile(
       stripIndents`
