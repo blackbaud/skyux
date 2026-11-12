@@ -7,19 +7,17 @@ import ts from 'typescript';
 import { swapPackageDependency } from '../../utility/dependencies';
 import { logOnce } from '../../utility/log-once';
 import { getElementsByTagName, parseTemplate } from '../../utility/template';
+import { hasUnconvertibleUsage } from '../../utility/typescript/has-unconvertible-usage';
 import {
-  addSymbolToClassMetadata,
   getInlineTemplates,
   getLocalImportName,
   isImportedFromPackage,
-  isSymbolInClassMetadataFieldArray,
   parseSourceFile,
 } from '../../utility/typescript/ng-ast';
 import {
-  isDecoratorMetadataArray,
-  removeClassReference,
-} from '../../utility/typescript/remove-class-reference';
-import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
+  importExportedStandalone,
+  swapModuleForStandalone,
+} from '../../utility/typescript/swap-module-for-standalone';
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
 const STACHE_PACKAGE = '@blackbaud/skyux-lib-stache';
@@ -32,7 +30,6 @@ const SKYUX_PACKAGE = '@skyux/layout';
 const SKYUX_CLASS_NAME = 'SkyBlockquote';
 const SKYUX_TAG = 'sky-blockquote';
 
-const METADATA_FIELDS = ['imports', 'exports'];
 const LEFTOVER_REFERENCE_EXTENSIONS = [
   '.ts',
   '.html',
@@ -41,84 +38,6 @@ const LEFTOVER_REFERENCE_EXTENSIONS = [
   '.sass',
   '.less',
 ];
-
-function isStacheSpecifier(specifier: ts.Expression | undefined): boolean {
-  return (
-    !!specifier &&
-    ts.isStringLiteral(specifier) &&
-    specifier.text === STACHE_PACKAGE
-  );
-}
-
-function listsIdentifier(
-  array: ts.ArrayLiteralExpression,
-  name: string,
-): boolean {
-  return array.elements.some(
-    (element) => ts.isIdentifier(element) && element.text === name,
-  );
-}
-
-function getSkyBlockquoteName(source: ts.SourceFile): string {
-  return (
-    getLocalImportName(source, SKYUX_CLASS_NAME, SKYUX_PACKAGE) ??
-    SKYUX_CLASS_NAME
-  );
-}
-
-/**
- * True if the file reaches Stache's blockquote through an aliased import, a
- * namespace import or a re-export. `swapImportedClass` only rewrites plain
- * named imports, and every `<stache-blockquote>` in the project is renamed, so
- * a blockquote provided this way would be left without `SkyBlockquote`.
- */
-function hasUnconvertibleStacheUsage(source: ts.SourceFile): boolean {
-  const isAliased = STACHE_CLASS_NAMES.some((className) => {
-    const localName = getLocalImportName(source, className, STACHE_PACKAGE);
-
-    return localName !== undefined && localName !== className;
-  });
-
-  if (isAliased) {
-    return true;
-  }
-
-  return source.statements.some((statement) => {
-    if (ts.isExportDeclaration(statement)) {
-      const exportClause = statement.exportClause;
-
-      return (
-        isStacheSpecifier(statement.moduleSpecifier) &&
-        (!exportClause ||
-          !ts.isNamedExports(exportClause) ||
-          exportClause.elements.some((element) =>
-            STACHE_CLASS_NAMES.includes(
-              (element.propertyName ?? element.name).text,
-            ),
-          ))
-      );
-    }
-
-    if (
-      !ts.isImportDeclaration(statement) ||
-      !isStacheSpecifier(statement.moduleSpecifier)
-    ) {
-      return false;
-    }
-
-    const namedBindings = statement.importClause?.namedBindings;
-
-    if (!namedBindings || !ts.isNamespaceImport(namedBindings)) {
-      return false;
-    }
-
-    return findNodes(source, ts.isPropertyAccessExpression).some(
-      (node) =>
-        node.expression.getText() === namedBindings.name.text &&
-        STACHE_CLASS_NAMES.includes(node.name.text),
-    );
-  });
-}
 
 /**
  * Stache's aggregate module stays, since it provides Stache's other
@@ -131,13 +50,18 @@ function addSkyBlockquoteAfterStacheModule(tree: Tree, filePath: string): void {
     return;
   }
 
-  const skyBlockquoteName = getSkyBlockquoteName(source);
+  const skyBlockquoteName =
+    getLocalImportName(source, SKYUX_CLASS_NAME, SKYUX_PACKAGE) ??
+    SKYUX_CLASS_NAME;
   const references = findNodes(source, ts.SyntaxKind.Identifier).filter(
     (node) =>
       ts.isIdentifier(node) &&
       node.text === STACHE_MODULE &&
       ts.isArrayLiteralExpression(node.parent) &&
-      !listsIdentifier(node.parent, skyBlockquoteName),
+      !node.parent.elements.some(
+        (element) =>
+          ts.isIdentifier(element) && element.text === skyBlockquoteName,
+      ),
   );
 
   if (references.length === 0) {
@@ -169,94 +93,8 @@ function addSkyBlockquoteAfterStacheModule(tree: Tree, filePath: string): void {
   }
 
   tree.commitUpdate(recorder);
-}
 
-/**
- * True if `reference` sits in a decorator or `TestBed` metadata array that
- * already lists `skyBlockquoteName`. Swapping it there would list
- * `SkyBlockquote` twice, so `removeClassReference` removes it instead. Other
- * arrays are swapped, since `removeClassReference` leaves them alone.
- */
-function isInMetadataArrayWith(
-  reference: ts.Identifier,
-  skyBlockquoteName: string,
-): boolean {
-  const array = reference.parent;
-
-  return (
-    ts.isArrayLiteralExpression(array) &&
-    isDecoratorMetadataArray(array, METADATA_FIELDS) &&
-    listsIdentifier(array, skyBlockquoteName)
-  );
-}
-
-function swapStacheBlockquoteModule(tree: Tree, filePath: string): void {
-  const source = parseSourceFile(tree, filePath);
-
-  if (
-    !isImportedFromPackage(source, STACHE_BLOCKQUOTE_MODULE, STACHE_PACKAGE)
-  ) {
-    return;
-  }
-
-  const skyBlockquoteName = getSkyBlockquoteName(source);
-
-  const swapRecorder = tree.beginUpdate(filePath);
-  swapImportedClass(swapRecorder, filePath, source, [
-    {
-      classNames: { [STACHE_BLOCKQUOTE_MODULE]: SKYUX_CLASS_NAME },
-      moduleName: { old: STACHE_PACKAGE, new: SKYUX_PACKAGE },
-      filter: (reference): boolean =>
-        !isInMetadataArrayWith(reference, skyBlockquoteName),
-      localNames: { [SKYUX_CLASS_NAME]: skyBlockquoteName },
-    },
-  ]);
-  tree.commitUpdate(swapRecorder);
-
-  const swappedSource = parseSourceFile(tree, filePath);
-
-  if (
-    isImportedFromPackage(
-      swappedSource,
-      STACHE_BLOCKQUOTE_MODULE,
-      STACHE_PACKAGE,
-    )
-  ) {
-    const removeRecorder = tree.beginUpdate(filePath);
-    removeClassReference(
-      removeRecorder,
-      swappedSource,
-      STACHE_BLOCKQUOTE_MODULE,
-      STACHE_PACKAGE,
-      METADATA_FIELDS,
-    );
-    tree.commitUpdate(removeRecorder);
-  }
-}
-
-/**
- * An NgModule can export a Stache module it doesn't import, but Angular only
- * lets it export a standalone component it also imports.
- */
-function importExportedSkyBlockquote(tree: Tree, filePath: string): void {
-  const source = parseSourceFile(tree, filePath);
-  const skyBlockquoteName = getSkyBlockquoteName(source);
-  const changes = addSymbolToClassMetadata(
-    source,
-    'NgModule',
-    filePath,
-    'imports',
-    skyBlockquoteName,
-    null,
-    (metadata) =>
-      isSymbolInClassMetadataFieldArray(metadata, 'exports', skyBlockquoteName),
-  );
-
-  if (changes.length > 0) {
-    const recorder = tree.beginUpdate(filePath);
-    applyToUpdateRecorder(recorder, changes);
-    tree.commitUpdate(recorder);
-  }
+  importExportedStandalone(tree, filePath, skyBlockquoteName);
 }
 
 /**
@@ -288,11 +126,6 @@ function renameTags(
 
 function renameTemplateTags(tree: Tree, filePath: string): void {
   const content = tree.readText(filePath);
-
-  if (!content.includes(`<${STACHE_TAG}`)) {
-    return;
-  }
-
   const recorder = tree.beginUpdate(filePath);
 
   if (filePath.endsWith('.html')) {
@@ -324,20 +157,28 @@ function isTypescriptFile(filePath: string): boolean {
  */
 export function convertStacheBlockquoteToBlockquote(projectPath: string): Rule {
   return async (tree, context) => {
+    const templateFiles: string[] = [];
     const filesToConvert: string[] = [];
     const unconvertibleFiles: string[] = [];
 
     visitProjectFiles(tree, projectPath, (filePath) => {
-      if (
-        !isTypescriptFile(filePath) ||
-        !tree.readText(filePath).includes(STACHE_PACKAGE)
-      ) {
+      if (!isTypescriptFile(filePath) && !filePath.endsWith('.html')) {
+        return;
+      }
+
+      const content = tree.readText(filePath);
+
+      if (content.includes(`<${STACHE_TAG}`)) {
+        templateFiles.push(filePath);
+      }
+
+      if (filePath.endsWith('.html') || !content.includes(STACHE_PACKAGE)) {
         return;
       }
 
       const source = parseSourceFile(tree, filePath);
 
-      if (hasUnconvertibleStacheUsage(source)) {
+      if (hasUnconvertibleUsage(source, STACHE_PACKAGE, STACHE_CLASS_NAMES)) {
         unconvertibleFiles.push(filePath);
       } else if (
         STACHE_CLASS_NAMES.some((className) =>
@@ -348,6 +189,14 @@ export function convertStacheBlockquoteToBlockquote(projectPath: string): Rule {
       }
     });
 
+    // A project that never renders a Stache blockquote has nothing to
+    // convert, so a project that only lists `StacheModule` is left alone.
+    if (templateFiles.length === 0) {
+      return;
+    }
+
+    // Every `<stache-blockquote>` in the project is renamed, so a tag whose
+    // provider this schematic can't convert would lose its component.
     for (const filePath of unconvertibleFiles) {
       logOnce(
         context,
@@ -362,15 +211,17 @@ export function convertStacheBlockquoteToBlockquote(projectPath: string): Rule {
 
     for (const filePath of filesToConvert) {
       addSkyBlockquoteAfterStacheModule(tree, filePath);
-      swapStacheBlockquoteModule(tree, filePath);
-      importExportedSkyBlockquote(tree, filePath);
+      swapModuleForStandalone(
+        tree,
+        filePath,
+        { className: STACHE_BLOCKQUOTE_MODULE, packageName: STACHE_PACKAGE },
+        { className: SKYUX_CLASS_NAME, packageName: SKYUX_PACKAGE },
+      );
     }
 
-    visitProjectFiles(tree, projectPath, (filePath) => {
-      if (isTypescriptFile(filePath) || filePath.endsWith('.html')) {
-        renameTemplateTags(tree, filePath);
-      }
-    });
+    for (const filePath of templateFiles) {
+      renameTemplateTags(tree, filePath);
+    }
 
     visitProjectFiles(tree, projectPath, (filePath) => {
       if (

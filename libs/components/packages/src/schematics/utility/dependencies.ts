@@ -148,7 +148,10 @@ function isCallExpressionMatch(
   return false;
 }
 
-function isPackageMatch(moduleSpecifier: string, packageName: string): boolean {
+export function isPackageMatch(
+  moduleSpecifier: string,
+  packageName: string,
+): boolean {
   return (
     moduleSpecifier === packageName ||
     moduleSpecifier.startsWith(`${packageName}/`)

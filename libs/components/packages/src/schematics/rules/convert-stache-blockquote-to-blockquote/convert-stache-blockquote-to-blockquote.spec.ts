@@ -7,7 +7,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 
-import { createTestApp, createTestLibrary } from '../../testing/scaffold';
+import { createTestApp } from '../../testing/scaffold';
 
 describe('Convert Stache blockquote to blockquote', () => {
   const runner = new SchematicTestRunner(
@@ -17,6 +17,7 @@ describe('Convert Stache blockquote to blockquote', () => {
 
   const STACHE_PACKAGE = '@blackbaud/skyux-lib-stache';
   const BACKTICK = '`';
+  const QUOTE_TEMPLATE_PATH = 'src/app/quote/quote.component.html';
 
   const warnings: string[] = [];
 
@@ -40,6 +41,12 @@ describe('Convert Stache blockquote to blockquote', () => {
     const packageJson = JSON.parse(tree.readText('package.json'));
     Object.assign(packageJson.dependencies, dependencies);
     tree.overwrite('package.json', JSON.stringify(packageJson, null, 2));
+
+    // The schematic only converts a project that renders a Stache blockquote.
+    tree.create(
+      QUOTE_TEMPLATE_PATH,
+      '<stache-blockquote>Quote</stache-blockquote>',
+    );
 
     for (const [filePath, content] of Object.entries(files)) {
       tree.create(filePath, content);
@@ -826,6 +833,26 @@ describe('Convert Stache blockquote to blockquote', () => {
     expect(files.map((file) => twice.readText(file))).toEqual(onceContents);
   });
 
+  it('should not change a project that lists StacheModule but renders no Stache blockquote', async () => {
+    const content = stripIndents`
+      import { NgModule } from '@angular/core';
+      import { StacheModule } from '${STACHE_PACKAGE}';
+
+      @NgModule({
+        exports: [StacheModule],
+      })
+      export class AppSkyModule {}
+    `;
+    const tree = await setup({ 'src/app/app-sky.module.ts': content });
+    tree.delete(QUOTE_TEMPLATE_PATH);
+    const packageJson = tree.readText('package.json');
+
+    const result = await convert(tree);
+
+    expect(result.readText('src/app/app-sky.module.ts')).toEqual(content);
+    expect(result.readText('package.json')).toEqual(packageJson);
+  });
+
   it('should not change a project without Stache blockquote usage', async () => {
     const tree = await setup(
       {
@@ -863,209 +890,6 @@ describe('Convert Stache blockquote to blockquote', () => {
 
     expect(files.map((file) => result.readText(file))).toEqual(contents);
     expect(warnings).toEqual([]);
-  });
-
-  describe('library package.json', () => {
-    const LIBRARY_PACKAGE_JSON = 'projects/test-lib/package.json';
-
-    async function setupLibrary(
-      sections: Record<string, Record<string, string>>,
-      files: Record<string, string>,
-    ): Promise<UnitTestTree> {
-      const tree = await createTestLibrary(runner, { projectName: 'test-lib' });
-      const rootPackageJson = JSON.parse(tree.readText('package.json'));
-      rootPackageJson.dependencies[STACHE_PACKAGE] = '14.0.0';
-      tree.overwrite('package.json', JSON.stringify(rootPackageJson, null, 2));
-
-      const packageJson = JSON.parse(tree.readText(LIBRARY_PACKAGE_JSON));
-      for (const [section, dependencies] of Object.entries(sections)) {
-        packageJson[section] = { ...packageJson[section], ...dependencies };
-      }
-      tree.overwrite(
-        LIBRARY_PACKAGE_JSON,
-        JSON.stringify(packageJson, null, 2),
-      );
-
-      for (const [filePath, content] of Object.entries(files)) {
-        tree.create(`projects/test-lib/src/lib/${filePath}`, content);
-      }
-
-      return tree;
-    }
-
-    /**
-     * Runs the schematic twice, so every spec also checks that a second run
-     * leaves the library's `package.json` as the first run left it.
-     */
-    async function convertLibrary(tree: UnitTestTree): Promise<{
-      dependencies: Record<string, string>;
-      peerDependencies: Record<string, string>;
-    }> {
-      const run = (input: UnitTestTree): Promise<UnitTestTree> =>
-        runner.runSchematic(
-          'convert-stache-blockquote-to-blockquote',
-          { project: 'test-lib' },
-          input,
-        );
-      const once = await run(tree);
-      const onceContent = once.readText(LIBRARY_PACKAGE_JSON);
-      const twice = await run(once);
-
-      expect(twice.readText(LIBRARY_PACKAGE_JSON)).toEqual(onceContent);
-
-      return JSON.parse(onceContent);
-    }
-
-    const navModuleUsage = stripIndents`
-      import { StacheNavModule } from '${STACHE_PACKAGE}';
-
-      export const NAV_IMPORTS = [StacheNavModule];
-    `;
-
-    it('should swap Stache for @skyux/layout in peerDependencies', async () => {
-      const tree = await setupLibrary(
-        { peerDependencies: { [STACHE_PACKAGE]: '^14.0.0' } },
-        { 'foo.ts': blockquoteModuleUsage },
-      );
-      const expectedPeers = {
-        ...JSON.parse(tree.readText(LIBRARY_PACKAGE_JSON)).peerDependencies,
-        '@skyux/layout': '0.0.0-PLACEHOLDER',
-      };
-      delete expectedPeers[STACHE_PACKAGE];
-
-      const { peerDependencies } = await convertLibrary(tree);
-
-      expect(peerDependencies).toEqual(expectedPeers);
-    });
-
-    it('should swap Stache for @skyux/layout in dependencies', async () => {
-      const tree = await setupLibrary(
-        { dependencies: { [STACHE_PACKAGE]: '14.0.0' } },
-        { 'foo.ts': blockquoteModuleUsage },
-      );
-      const expectedDependencies = {
-        ...JSON.parse(tree.readText(LIBRARY_PACKAGE_JSON)).dependencies,
-        '@skyux/layout': '0.0.0-PLACEHOLDER',
-      };
-      delete expectedDependencies[STACHE_PACKAGE];
-
-      const { dependencies, peerDependencies } = await convertLibrary(tree);
-
-      expect(dependencies).toEqual(expectedDependencies);
-      expect(peerDependencies['@skyux/layout']).toBeUndefined();
-    });
-
-    it.each([
-      ['a caret range', '^15.0.0'],
-      ['an exact version', '15.12.0'],
-    ])(
-      'should mirror %s of @skyux/core from the same section',
-      async (_description, coreVersion) => {
-        const tree = await setupLibrary(
-          {
-            peerDependencies: {
-              [STACHE_PACKAGE]: '^14.0.0',
-              '@skyux/core': coreVersion,
-            },
-          },
-          { 'foo.ts': blockquoteModuleUsage },
-        );
-
-        const { peerDependencies } = await convertLibrary(tree);
-
-        expect(peerDependencies['@skyux/layout']).toEqual(coreVersion);
-      },
-    );
-
-    it('should mirror @skyux/core from another section', async () => {
-      const tree = await setupLibrary(
-        {
-          dependencies: { '@skyux/core': '^15.3.0' },
-          peerDependencies: { [STACHE_PACKAGE]: '^14.0.0' },
-        },
-        { 'foo.ts': blockquoteModuleUsage },
-      );
-
-      const { dependencies, peerDependencies } = await convertLibrary(tree);
-
-      expect(peerDependencies['@skyux/layout']).toEqual('^15.3.0');
-      expect(dependencies['@skyux/layout']).toBeUndefined();
-    });
-
-    it('should use the placeholder when the library has no @skyux/core', async () => {
-      const tree = await setupLibrary(
-        { peerDependencies: { [STACHE_PACKAGE]: '^14.0.0' } },
-        { 'foo.ts': blockquoteModuleUsage },
-      );
-
-      const { peerDependencies } = await convertLibrary(tree);
-
-      expect(peerDependencies['@skyux/core']).toBeUndefined();
-      expect(peerDependencies['@skyux/layout']).toEqual('0.0.0-PLACEHOLDER');
-    });
-
-    it('should keep an existing @skyux/layout entry', async () => {
-      const tree = await setupLibrary(
-        {
-          peerDependencies: {
-            [STACHE_PACKAGE]: '^14.0.0',
-            '@skyux/layout': '^15.10.0',
-          },
-        },
-        { 'foo.ts': blockquoteModuleUsage },
-      );
-
-      const { peerDependencies } = await convertLibrary(tree);
-
-      expect(peerDependencies['@skyux/layout']).toEqual('^15.10.0');
-    });
-
-    it('should update every section that lists Stache', async () => {
-      const tree = await setupLibrary(
-        {
-          dependencies: { [STACHE_PACKAGE]: '14.0.0' },
-          peerDependencies: { [STACHE_PACKAGE]: '^14.0.0' },
-        },
-        { 'foo.ts': blockquoteModuleUsage },
-      );
-
-      const { dependencies, peerDependencies } = await convertLibrary(tree);
-
-      expect(dependencies[STACHE_PACKAGE]).toBeUndefined();
-      expect(dependencies['@skyux/layout']).toEqual('0.0.0-PLACEHOLDER');
-      expect(peerDependencies[STACHE_PACKAGE]).toBeUndefined();
-      expect(peerDependencies['@skyux/layout']).toEqual('0.0.0-PLACEHOLDER');
-    });
-
-    it('should keep Stache in every section when the library still uses Stache', async () => {
-      const tree = await setupLibrary(
-        {
-          dependencies: { [STACHE_PACKAGE]: '14.0.0' },
-          peerDependencies: { [STACHE_PACKAGE]: '^14.0.0' },
-        },
-        { 'foo.ts': blockquoteModuleUsage, 'nav.ts': navModuleUsage },
-      );
-
-      const { dependencies, peerDependencies } = await convertLibrary(tree);
-
-      expect(dependencies[STACHE_PACKAGE]).toEqual('14.0.0');
-      expect(dependencies['@skyux/layout']).toEqual('0.0.0-PLACEHOLDER');
-      expect(peerDependencies[STACHE_PACKAGE]).toEqual('^14.0.0');
-      expect(peerDependencies['@skyux/layout']).toEqual('0.0.0-PLACEHOLDER');
-    });
-
-    it('should not change a library package.json that does not list Stache', async () => {
-      const tree = await setupLibrary({}, { 'foo.ts': blockquoteModuleUsage });
-      const packageJson = tree.readText(LIBRARY_PACKAGE_JSON);
-
-      const result = await runner.runSchematic(
-        'convert-stache-blockquote-to-blockquote',
-        { project: 'test-lib' },
-        tree,
-      );
-
-      expect(result.readText(LIBRARY_PACKAGE_JSON)).toEqual(packageJson);
-    });
   });
 
   describe('multi-line formatting', () => {

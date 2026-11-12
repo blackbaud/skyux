@@ -4,114 +4,18 @@ import {
   Tree,
   chain,
 } from '@angular-devkit/schematics';
-import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
-import ts from 'typescript';
 
 import { swapPackageDependency } from '../../utility/dependencies';
 import { logOnce } from '../../utility/log-once';
-import {
-  addSymbolToClassMetadata,
-  getLocalImportName,
-  isImportedFromPackage,
-  isSymbolInClassMetadataFieldArray,
-  parseSourceFile,
-} from '../../utility/typescript/ng-ast';
-import {
-  isDecoratorMetadataArray,
-  removeClassReference,
-} from '../../utility/typescript/remove-class-reference';
-import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
+import { hasUnconvertibleUsage } from '../../utility/typescript/has-unconvertible-usage';
+import { parseSourceFile } from '../../utility/typescript/ng-ast';
+import { swapModuleForStandalone } from '../../utility/typescript/swap-module-for-standalone';
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
 const STACHE_PACKAGE = '@blackbaud/skyux-lib-code-block';
 const STACHE_CLASS_NAME = 'SkyCodeModule';
 const SKYUX_PACKAGE = '@skyux/code';
 const SKYUX_CLASS_NAME = 'SkyCode';
-
-const METADATA_FIELDS = ['imports', 'exports'];
-
-/**
- * True if `reference` sits in a decorator or `TestBed` metadata array that
- * already lists `skyCodeName`. Swapping it there would list `SkyCode` twice,
- * so `removeClassReference` removes it instead. Other arrays are swapped,
- * since `removeClassReference` leaves them alone.
- */
-function isInMetadataArrayWith(
-  reference: ts.Identifier,
-  skyCodeName: string,
-): boolean {
-  const array = reference.parent;
-
-  return (
-    ts.isArrayLiteralExpression(array) &&
-    isDecoratorMetadataArray(array, METADATA_FIELDS) &&
-    array.elements.some(
-      (element) => ts.isIdentifier(element) && element.text === skyCodeName,
-    )
-  );
-}
-
-function isStacheSpecifier(specifier: ts.Expression | undefined): boolean {
-  return (
-    !!specifier &&
-    ts.isStringLiteral(specifier) &&
-    specifier.text === STACHE_PACKAGE
-  );
-}
-
-/**
- * True if the file reaches `SkyCodeModule` through an aliased import, a
- * namespace import or a re-export. `swapImportedClass` only rewrites plain
- * named imports, so converting the rest of such a file could leave a
- * component with both Stache's `sky-code` and `SkyCode` (NG0300).
- */
-function hasUnconvertibleStacheUsage(source: ts.SourceFile): boolean {
-  const localName = getLocalImportName(
-    source,
-    STACHE_CLASS_NAME,
-    STACHE_PACKAGE,
-  );
-
-  if (localName !== undefined && localName !== STACHE_CLASS_NAME) {
-    return true;
-  }
-
-  return source.statements.some((statement) =>
-    ts.isExportDeclaration(statement)
-      ? isStacheSpecifier(statement.moduleSpecifier)
-      : ts.isImportDeclaration(statement) &&
-        !!statement.importClause?.namedBindings &&
-        ts.isNamespaceImport(statement.importClause.namedBindings) &&
-        isStacheSpecifier(statement.moduleSpecifier),
-  );
-}
-
-/**
- * An NgModule can export `SkyCodeModule` without importing it, but Angular
- * only lets it export a standalone component it also imports.
- */
-function importExportedSkyCode(
-  tree: Tree,
-  filePath: string,
-  skyCodeName: string,
-): void {
-  const changes = addSymbolToClassMetadata(
-    parseSourceFile(tree, filePath),
-    'NgModule',
-    filePath,
-    'imports',
-    skyCodeName,
-    null,
-    (metadata) =>
-      isSymbolInClassMetadataFieldArray(metadata, 'exports', skyCodeName),
-  );
-
-  if (changes.length > 0) {
-    const recorder = tree.beginUpdate(filePath);
-    applyToUpdateRecorder(recorder, changes);
-    tree.commitUpdate(recorder);
-  }
-}
 
 /**
  * Returns `true` when the file's `SkyCodeModule` from Stache was converted.
@@ -125,9 +29,13 @@ function convertTypescriptFile(
     return false;
   }
 
-  const source = parseSourceFile(tree, filePath);
-
-  if (hasUnconvertibleStacheUsage(source)) {
+  // Converting the rest of such a file could leave a component with both
+  // Stache's `sky-code` and `SkyCode` (NG0300).
+  if (
+    hasUnconvertibleUsage(parseSourceFile(tree, filePath), STACHE_PACKAGE, [
+      STACHE_CLASS_NAME,
+    ])
+  ) {
     logOnce(
       context,
       'warn',
@@ -136,43 +44,12 @@ function convertTypescriptFile(
     return false;
   }
 
-  if (!isImportedFromPackage(source, STACHE_CLASS_NAME, STACHE_PACKAGE)) {
-    return false;
-  }
-
-  const skyCodeName =
-    getLocalImportName(source, SKYUX_CLASS_NAME, SKYUX_PACKAGE) ??
-    SKYUX_CLASS_NAME;
-
-  const swapRecorder = tree.beginUpdate(filePath);
-  swapImportedClass(swapRecorder, filePath, source, [
-    {
-      classNames: { [STACHE_CLASS_NAME]: SKYUX_CLASS_NAME },
-      moduleName: { old: STACHE_PACKAGE, new: SKYUX_PACKAGE },
-      filter: (reference): boolean =>
-        !isInMetadataArrayWith(reference, skyCodeName),
-      localNames: { [SKYUX_CLASS_NAME]: skyCodeName },
-    },
-  ]);
-  tree.commitUpdate(swapRecorder);
-
-  const swappedSource = parseSourceFile(tree, filePath);
-
-  if (isImportedFromPackage(swappedSource, STACHE_CLASS_NAME, STACHE_PACKAGE)) {
-    const removeRecorder = tree.beginUpdate(filePath);
-    removeClassReference(
-      removeRecorder,
-      swappedSource,
-      STACHE_CLASS_NAME,
-      STACHE_PACKAGE,
-      METADATA_FIELDS,
-    );
-    tree.commitUpdate(removeRecorder);
-  }
-
-  importExportedSkyCode(tree, filePath, skyCodeName);
-
-  return true;
+  return swapModuleForStandalone(
+    tree,
+    filePath,
+    { className: STACHE_CLASS_NAME, packageName: STACHE_PACKAGE },
+    { className: SKYUX_CLASS_NAME, packageName: SKYUX_PACKAGE },
+  );
 }
 
 /**
