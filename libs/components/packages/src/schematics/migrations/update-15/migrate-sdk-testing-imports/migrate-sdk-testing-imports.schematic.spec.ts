@@ -202,6 +202,37 @@ describe('test', () => {
     expect(getDevDependencies(tree)).toEqual({ typescript: '^5.0.0' });
   });
 
+  it('should migrate files outside the source root', async () => {
+    const tree = setupTree({
+      '/testing/test.spec.ts': `import { SkyBy } from '@skyux-sdk/testing';
+
+SkyBy.dataSkyId('a');
+`,
+    });
+
+    await runSchematic(tree);
+
+    expect(tree.readText('/testing/test.spec.ts'))
+      .toBe(`import { SkyBy } from '@skyux/core/testing';
+
+SkyBy.dataSkyId('a');
+`);
+    expect(getDevDependencies(tree)).toEqual({ typescript: '^5.0.0' });
+  });
+
+  it('should retain the deprecated dependency when a file re-exports from it', async () => {
+    const tree = setupTree({
+      '/src/app/index.ts': `export { SkyAppTestModule } from '@skyux-sdk/testing';\n`,
+    });
+
+    await runSchematic(tree);
+
+    expect(getDevDependencies(tree)).toEqual({
+      '@skyux-sdk/testing': '^15.0.0',
+      typescript: '^5.0.0',
+    });
+  });
+
   it('should retain the deprecated dependency when it is still used', async () => {
     const tree = setupTree({
       '/src/app/test.spec.ts': `import { SkyAppTestModule, SkyBy } from '@skyux-sdk/testing';
