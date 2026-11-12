@@ -154,6 +154,20 @@ describe('Convert Stache blockquote to blockquote', () => {
     `);
   });
 
+  it('should rename a tag that follows a self-closing tag', async () => {
+    const tree = await setup({
+      'src/app/foo.ts': blockquoteModuleUsage,
+      'src/app/foo.component.html':
+        '<stache-blockquote quoteSource="https://example.com/" /><stache-blockquote>Quote</stache-blockquote>',
+    });
+
+    const result = await convert(tree);
+
+    expect(result.readText('src/app/foo.component.html')).toEqual(
+      '<sky-blockquote quoteSource="https://example.com/" /><sky-blockquote>Quote</sky-blockquote>',
+    );
+  });
+
   it('should rename a multi-line inline template and a self-closing tag', async () => {
     const result = await convertFile(stripIndent`
       import { Component } from '@angular/core';
@@ -710,23 +724,23 @@ describe('Convert Stache blockquote to blockquote', () => {
       },
     );
 
-    it('should convert a project whose namespace import does not use the blockquote', async () => {
-      const namespaceUsage = stripIndents`
+    it('should convert a file whose namespace import does not use the blockquote', async () => {
+      const result = await convertFile(
+        stripIndents`
+          import * as stache from '${STACHE_PACKAGE}';
+          import { StacheBlockquoteModule } from '${STACHE_PACKAGE}';
+
+          export const NAV_IMPORTS = [stache.StacheNavModule];
+          export const IMPORTS = [StacheBlockquoteModule];
+        `,
+        'src/app/foo.ts',
+      );
+
+      expect(result).toEqual(stripIndents`
         import * as stache from '${STACHE_PACKAGE}';
-
-        export const NAV_IMPORTS = [stache.StacheNavModule];
-      `;
-      const tree = await setup({
-        'src/app/nav.ts': namespaceUsage,
-        'src/app/foo.ts': blockquoteModuleUsage,
-      });
-
-      const result = await convert(tree);
-
-      expect(result.readText('src/app/nav.ts')).toEqual(namespaceUsage);
-      expect(result.readText('src/app/foo.ts')).toEqual(stripIndents`
         import { SkyBlockquote } from '@skyux/layout';
 
+        export const NAV_IMPORTS = [stache.StacheNavModule];
         export const IMPORTS = [SkyBlockquote];
       `);
       expect(warnings).toEqual([]);

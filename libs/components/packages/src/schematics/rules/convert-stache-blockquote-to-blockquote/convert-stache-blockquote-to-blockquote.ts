@@ -6,7 +6,7 @@ import ts from 'typescript';
 
 import { swapPackageDependency } from '../../utility/dependencies';
 import { logOnce } from '../../utility/log-once';
-import { parseTemplate, swapTags } from '../../utility/template';
+import { getElementsByTagName, parseTemplate } from '../../utility/template';
 import {
   addSymbolToClassMetadata,
   getInlineTemplates,
@@ -108,10 +108,14 @@ function hasUnconvertibleStacheUsage(source: ts.SourceFile): boolean {
 
     const namedBindings = statement.importClause?.namedBindings;
 
-    return (
-      !!namedBindings &&
-      ts.isNamespaceImport(namedBindings) &&
-      STACHE_CLASS_NAMES.some((className) => source.text.includes(className))
+    if (!namedBindings || !ts.isNamespaceImport(namedBindings)) {
+      return false;
+    }
+
+    return findNodes(source, ts.isPropertyAccessExpression).some(
+      (node) =>
+        node.expression.getText() === namedBindings.name.text &&
+        STACHE_CLASS_NAMES.includes(node.name.text),
     );
   });
 }
@@ -255,27 +259,31 @@ function importExportedSkyBlockquote(tree: Tree, filePath: string): void {
   }
 }
 
+/**
+ * Renames only the tag names, so attributes, bindings and content stay as
+ * written. Every match is renamed, including one that parse5 nests inside a
+ * self-closing `<stache-blockquote />`, since HTML has no self-closing custom
+ * elements.
+ */
 function renameTags(
   recorder: UpdateRecorder,
   content: string,
   offset: number,
 ): void {
-  swapTags(
-    content,
-    recorder,
-    offset,
-    [STACHE_TAG],
-    (position, _tag, node) =>
-      position === 'open'
-        ? `<${SKYUX_TAG}${content.substring(
-            node.sourceCodeLocation.startTag.startOffset +
-              STACHE_TAG.length +
-              1,
-            node.sourceCodeLocation.startTag.endOffset,
-          )}`
-        : `</${SKYUX_TAG}>`,
+  for (const element of getElementsByTagName(
+    STACHE_TAG,
     parseTemplate(content),
-  );
+  )) {
+    const { startTag, endTag } = element.sourceCodeLocation;
+
+    recorder.remove(offset + startTag.startOffset + 1, STACHE_TAG.length);
+    recorder.insertLeft(offset + startTag.startOffset + 1, SKYUX_TAG);
+
+    if (endTag) {
+      recorder.remove(offset + endTag.startOffset + 2, STACHE_TAG.length);
+      recorder.insertLeft(offset + endTag.startOffset + 2, SKYUX_TAG);
+    }
+  }
 }
 
 function renameTemplateTags(tree: Tree, filePath: string): void {
