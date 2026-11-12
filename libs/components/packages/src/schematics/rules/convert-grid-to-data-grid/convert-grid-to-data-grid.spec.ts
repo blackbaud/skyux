@@ -266,6 +266,7 @@ describe('Convert Grid to Data Grid', () => {
       stripIndents`
         <sky-grid [(selectedColumnIds)]="cols"></sky-grid>
         <sky-grid [selectedColumnIds]="cols"></sky-grid>
+        <sky-grid (selectedColumnIdsChange)="onChange($event)"></sky-grid>
       `,
     );
     const result = await convert(tree);
@@ -274,6 +275,8 @@ describe('Convert Grid to Data Grid', () => {
       ${todo('Initialize the property bound to <sky-data-grid> selectedColumnIds to an array of column IDs: selectedColumnIdsChange does not emit column reorders while selectedColumnIds is undefined.')}
       <sky-data-grid [(selectedColumnIds)]="cols"></sky-data-grid>
       <sky-data-grid [selectedColumnIds]="cols"></sky-data-grid>
+      ${todo('Bind <sky-data-grid> [selectedColumnIds] to a property initialized to an array of column IDs: selectedColumnIdsChange does not emit column reorders while selectedColumnIds is undefined.')}
+      <sky-data-grid (selectedColumnIdsChange)="onChange($event)"></sky-data-grid>
     `);
   });
 
@@ -1093,7 +1096,7 @@ describe('Convert Grid to Data Grid', () => {
     );
   });
 
-  it('should swap the import but warn when a converted grid and a columns-input grid share a file', async () => {
+  it('should keep SkyGridModule alongside the data grid imports and warn when a converted grid and a columns-input grid share a file', async () => {
     const tree = await createTestApp(runner, { projectName: 'test-app' });
     const backtick = '`';
     tree.create(
@@ -1119,7 +1122,8 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
       stripIndents`
         import { Component } from '@angular/core';
-        ${importTodo('Finish migrating the <sky-grid> that uses [columns], or re-add SkyGridModule from @skyux/grids until you do: that grid still requires SkyGridModule, which was replaced with SkyDataGrid and SkyDataGridColumn.')}
+        ${importTodo('Remove SkyGridModule after migrating the <sky-grid> that uses [columns]: SkyDataGrid and SkyDataGridColumn were added alongside it.')}
+        import { SkyGridModule } from '@skyux/grids';
         import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
 
         @Component({
@@ -1132,13 +1136,13 @@ describe('Convert Grid to Data Grid', () => {
             ${columnsInputTodo}
             <sky-grid [data]="b" [columns]="cols"></sky-grid>
           ${backtick},
-          imports: [SkyDataGrid, SkyDataGridColumn],
+          imports: [SkyGridModule, SkyDataGrid, SkyDataGridColumn],
         })
         export class TestComponent {}
       `,
     );
     expect(
-      hasLog('or re-add SkyGridModule from @skyux/grids until you do'),
+      hasLog('SkyDataGrid and SkyDataGridColumn were added alongside it'),
     ).toBe(true);
   });
 
@@ -1304,7 +1308,7 @@ describe('Convert Grid to Data Grid', () => {
     expect(stripIndents`${result.readText('src/app/foo.component.spec.ts')}`)
       .toBe(stripIndents`
       import { TestBed } from '@angular/core/testing';
-      ${importTodo('Remove SkyGridModule and its references: SkyListViewGridModule already exports it.')}
+      ${importTodo('Remove the remaining SkyGridModule references if nothing uses them: it was removed only where SkyListViewGridModule, which already exports it, is also imported.')}
       import { SkyGridModule } from '@skyux/grids';
       import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
 
@@ -1320,7 +1324,154 @@ describe('Convert Grid to Data Grid', () => {
         });
       });
     `);
-    expect(hasLog('SkyListViewGridModule already exports it')).toBe(true);
+    expect(hasLog('which already exports it, is also imported')).toBe(true);
+  });
+
+  it('should keep SkyGridModule in an NgModule export and warn when its imports is not an array literal', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/foo.component.html',
+      stripIndents`
+        <sky-grid [data]="data">
+          <sky-grid-column id="name" heading="Name" field="name" />
+        </sky-grid>
+      `,
+    );
+    createExternalTemplateComponent(tree, 'foo', 'FooComponent');
+    tree.create(
+      'src/app/foo.module.ts',
+      stripIndents`
+        import { NgModule } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+
+        import { FooComponent } from './foo.component';
+
+        const SHARED_IMPORTS = [FooComponent];
+
+        @NgModule({
+          imports: SHARED_IMPORTS,
+          exports: [SkyGridModule],
+        })
+        export class FooModule {}
+
+        @NgModule({
+          declarations: [FooComponent],
+          imports: [SkyGridModule],
+        })
+        export class BarModule {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/foo.module.ts')}`).toBe(
+      stripIndents`
+        import { NgModule } from '@angular/core';
+        ${importTodo('Add SkyDataGrid and SkyDataGridColumn from @skyux/data-grid to the imports and exports of the NgModule that exports SkyGridModule, then remove SkyGridModule from it: its imports is not an array literal the migration can edit.')}
+        import { SkyGridModule } from '@skyux/grids';
+
+        import { FooComponent } from './foo.component';
+        import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+
+        const SHARED_IMPORTS = [FooComponent];
+
+        @NgModule({
+          imports: SHARED_IMPORTS,
+          exports: [SkyGridModule],
+        })
+        export class FooModule {}
+
+        @NgModule({
+          declarations: [FooComponent],
+          imports: [SkyDataGrid, SkyDataGridColumn],
+        })
+        export class BarModule {}
+      `,
+    );
+    expect(hasLog('its imports is not an array literal')).toBe(true);
+  });
+
+  it('should keep SkyGridModule in an uneditable NgModule export alongside a columns-input grid', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/foo.component.html',
+      stripIndents`
+        <sky-grid [data]="a">
+          <sky-grid-column id="x" heading="X" />
+        </sky-grid>
+        <sky-grid [data]="b" [columns]="cols"></sky-grid>
+      `,
+    );
+    createExternalTemplateComponent(tree, 'foo', 'FooComponent');
+    const input = stripIndents`
+      import { NgModule } from '@angular/core';
+      import { SkyGridModule } from '@skyux/grids';
+
+      import { FooComponent } from './foo.component';
+
+      const imports = [FooComponent];
+
+      @NgModule({
+        imports,
+        exports: [SkyGridModule],
+      })
+      export class FooModule {}
+    `;
+    tree.create('src/app/foo.module.ts', input);
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/foo.module.ts')}`).toBe(
+      input.replace(
+        'import { SkyGridModule }',
+        `${importTodo('Remove SkyGridModule after migrating the <sky-grid> that uses [columns]: SkyDataGrid and SkyDataGridColumn were added alongside it.')}\n${importTodo('Add SkyDataGrid and SkyDataGridColumn from @skyux/data-grid to the imports and exports of the NgModule that exports SkyGridModule, then remove SkyGridModule from it: its imports is not an array literal the migration can edit.')}\nimport { SkyGridModule }`,
+      ),
+    );
+  });
+
+  it('should only remove SkyGridModule where SkyListViewGridModule is imported alongside it', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create('src/app/a.component.html', listViewGridHtml);
+    createExternalTemplateComponent(tree, 'a', 'AComponent');
+    tree.create(
+      'src/app/foo.module.ts',
+      stripIndents`
+        import { NgModule } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        import { AComponent } from './a.component';
+
+        @NgModule({
+          declarations: [AComponent],
+          imports: [SkyGridModule, SkyListViewGridModule],
+        })
+        export class FooModule {}
+
+        @NgModule({
+          imports: [SkyGridModule],
+        })
+        export class BarModule {}
+      `,
+    );
+    const result = await convert(tree);
+    expect(stripIndents`${result.readText('src/app/foo.module.ts')}`).toBe(
+      stripIndents`
+        import { NgModule } from '@angular/core';
+        ${importTodo('Remove the remaining SkyGridModule references if nothing uses them: it was removed only where SkyListViewGridModule, which already exports it, is also imported.')}
+        import { SkyGridModule } from '@skyux/grids';
+        import { SkyListViewGridModule } from '@skyux/list-builder-view-grids';
+
+        import { AComponent } from './a.component';
+
+        @NgModule({
+          declarations: [AComponent],
+          imports: [SkyListViewGridModule],
+        })
+        export class FooModule {}
+
+        @NgModule({
+          imports: [SkyGridModule],
+        })
+        export class BarModule {}
+      `,
+    );
   });
 
   it('should leave a module with no associated grid usage unchanged and warn', async () => {

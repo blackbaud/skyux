@@ -11,6 +11,7 @@ import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import {
   findNodes,
   getDecoratorMetadata,
+  insertImport,
 } from '@schematics/angular/utility/ast-utils';
 import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
@@ -194,14 +195,6 @@ const GRID_WARNINGS: { attributes: string[]; message: string }[] = [
       'Give every row in the array bound to <sky-data-grid> [data] a unique string "id" property (SkyDataGridRowData).',
   },
   {
-    attributes: [
-      '[(selectedcolumnids)]',
-      outputForm('selectedColumnIdsChange'),
-    ],
-    message:
-      'Initialize the property bound to <sky-data-grid> selectedColumnIds to an array of column IDs: selectedColumnIdsChange does not emit column reorders while selectedColumnIds is undefined.',
-  },
-  {
     attributes: inputForms('hasToolbar'),
     message:
       'Restore the toolbar with the data manager: host <sky-data-grid> in a <sky-data-view> inside <sky-data-manager>, and move the toolbar content into <sky-data-manager-toolbar>. <sky-data-grid> has no hasToolbar input.',
@@ -251,6 +244,24 @@ function getGridWarnings(node: ElementWithLocation): string[] {
   const warnings = GRID_WARNINGS.filter(({ attributes }) =>
     hasAttribute(node, attributes),
   ).map(({ message }) => message);
+  // selectedColumnIdsChange doesn't emit column reorders while
+  // selectedColumnIds is undefined.
+  const twoWaySelectedColumnIds = '[(selectedcolumnids)]';
+  if (
+    hasAttribute(node, [
+      twoWaySelectedColumnIds,
+      outputForm('selectedColumnIdsChange'),
+    ])
+  ) {
+    warnings.push(
+      hasAttribute(node, [
+        twoWaySelectedColumnIds,
+        ...inputForms('selectedColumnIds'),
+      ])
+        ? 'Initialize the property bound to <sky-data-grid> selectedColumnIds to an array of column IDs: selectedColumnIdsChange does not emit column reorders while selectedColumnIds is undefined.'
+        : 'Bind <sky-data-grid> [selectedColumnIds] to a property initialized to an array of column IDs: selectedColumnIdsChange does not emit column reorders while selectedColumnIds is undefined.',
+    );
+  }
   // Only the literal "width"/"scroll" values are translated; a bound or
   // interpolated value is copied through unchanged.
   const fit = findAttribute(node, inputForms('fit'));
@@ -744,6 +755,23 @@ function getNgModulesExportingGridModuleWithoutImportingIt(
 }
 
 /**
+ * True when `addSymbolToClassMetadata` can add to the NgModule's `imports`:
+ * the field is absent or an array literal. A constant, spread, or shorthand
+ * property can't be edited safely.
+ */
+function hasEditableImports(node: ts.ObjectLiteralExpression): boolean {
+  // getMetadataField skips shorthand properties, so match by name instead.
+  const imports = node.properties.find(
+    (property) => property.name?.getText() === 'imports',
+  );
+  return (
+    !imports ||
+    (ts.isPropertyAssignment(imports) &&
+      ts.isArrayLiteralExpression(imports.initializer))
+  );
+}
+
+/**
  * Second pass: decides what to do with a file's `SkyGridModule` import based
  * on the template evidence associated with the file — its own inline and
  * `templateUrl` templates plus, for NgModule and spec files, the templates of
@@ -801,18 +829,65 @@ function updateTypescriptImports(
     // SkyListViewGridModule, which re-exports SkyGridModule.
     const modulesNeedingGridImportForExport =
       getNgModulesExportingGridModuleWithoutImportingIt(source);
-    swapImportedClass(recorder, filePath, source, [
-      {
-        classNames: {
-          [SKY_GRID_MODULE]: DATA_GRID_CLASS_NAMES,
+    // An NgModule whose `imports` can't be edited keeps exporting
+    // SkyGridModule, since it can't import SkyDataGrid/SkyDataGridColumn.
+    const uneditableModules = modulesNeedingGridImportForExport.filter(
+      (moduleNode) => !hasEditableImports(moduleNode),
+    );
+    const isOutsideUneditableModule = (node: ts.Node): boolean =>
+      !uneditableModules.some(
+        (moduleNode) =>
+          node.getStart() >= moduleNode.getStart() &&
+          node.getEnd() <= moduleNode.getEnd(),
+      );
+    if (total.columnsSkipped > 0) {
+      // The [columns] grid still requires SkyGridModule, so the data grid
+      // classes are added alongside it rather than replacing it.
+      const dataGridClassNames = DATA_GRID_CLASS_NAMES.join(', ');
+      const references = findNodes(source, ts.SyntaxKind.Identifier).filter(
+        (node) =>
+          (node as ts.Identifier).text === SKY_GRID_MODULE &&
+          !ts.isImportSpecifier(node.parent) &&
+          isOutsideUneditableModule(node),
+      );
+      for (const reference of references) {
+        recorder.insertRight(reference.getEnd(), `, ${dataGridClassNames}`);
+      }
+      if (references.length > 0) {
+        applyToUpdateRecorder(recorder, [
+          insertImport(
+            source,
+            filePath,
+            dataGridClassNames,
+            '@skyux/data-grid',
+          ),
+        ]);
+      }
+      warnAtImport(
+        'Remove SkyGridModule after migrating the <sky-grid> that uses [columns]: SkyDataGrid and SkyDataGridColumn were added alongside it.',
+      );
+    } else {
+      swapImportedClass(recorder, filePath, source, [
+        {
+          classNames: {
+            [SKY_GRID_MODULE]: DATA_GRID_CLASS_NAMES,
+          },
+          moduleName: {
+            old: SKY_GRID_MODULE_PACKAGE,
+            new: '@skyux/data-grid',
+          },
+          filter: isOutsideUneditableModule,
         },
-        moduleName: {
-          old: SKY_GRID_MODULE_PACKAGE,
-          new: '@skyux/data-grid',
-        },
-      },
-    ]);
-    for (const moduleNode of modulesNeedingGridImportForExport) {
+      ]);
+    }
+    if (uneditableModules.length > 0) {
+      warnAtImport(
+        'Add SkyDataGrid and SkyDataGridColumn from @skyux/data-grid to the imports and exports of the NgModule that exports SkyGridModule, then remove SkyGridModule from it: its imports is not an array literal the migration can edit.',
+      );
+    }
+    for (const moduleNode of modulesNeedingGridImportForExport.filter(
+      hasEditableImports,
+    )) {
       // The import is already added by swapImportedClass above, so only the
       // metadata array needs the symbols (importPath: null). Restrict the
       // edit to this NgModule, since a file can declare more than one, and
@@ -838,11 +913,6 @@ function updateTypescriptImports(
         ),
       );
     }
-    if (total.columnsSkipped > 0) {
-      warnAtImport(
-        'Finish migrating the <sky-grid> that uses [columns], or re-add SkyGridModule from @skyux/grids until you do: that grid still requires SkyGridModule, which was replaced with SkyDataGrid and SkyDataGridColumn.',
-      );
-    }
   } else if (total.columnsSkipped > 0) {
     warnAtImport(
       'Replace SkyGridModule with SkyDataGrid and SkyDataGridColumn from @skyux/data-grid after migrating the <sky-grid> that uses [columns].',
@@ -854,21 +924,19 @@ function updateTypescriptImports(
       SKY_LIST_VIEW_GRID_MODULE_PACKAGE,
     );
     if (listViewGridModuleImported) {
-      // SkyListViewGridModule already re-exports SkyGridModule, and nothing
-      // associated with this file needs SkyDataGrid/SkyDataGridColumn; it's
-      // redundant.
+      // SkyGridModule is redundant only where SkyListViewGridModule, which
+      // re-exports it, is imported alongside it; other metadata may need it
+      // for templates the evidence didn't associate with this file.
       const removed = removeClassReference(
         recorder,
         source,
         SKY_GRID_MODULE,
         SKY_GRID_MODULE_PACKAGE,
+        SKY_LIST_VIEW_GRID_MODULE,
       );
       if (!removed) {
-        // removeClassReference edits decorator `imports` arrays and
-        // TestBed.configureTestingModule `imports` arrays; a reference
-        // elsewhere keeps the import.
         warnAtImport(
-          'Remove SkyGridModule and its references: SkyListViewGridModule already exports it.',
+          'Remove the remaining SkyGridModule references if nothing uses them: it was removed only where SkyListViewGridModule, which already exports it, is also imported.',
         );
       }
     } else {
