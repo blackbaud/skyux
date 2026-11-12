@@ -1,0 +1,20 @@
+<sky-chart data-sky-id="monthly-donations" headingText="Monthly donations">
+  <sky-chart-line (dataPointClick)="selection.set($event)">
+    <sky-chart-axis-category labelText="Month" [categories]="months" />
+    <sky-chart-axis-value
+      currencyCode="USD"
+      format="currency"
+      labelText="Donations"
+    />
+    <sky-chart-line-series labelText="Online" [values]="online" />
+    <sky-chart-line-series labelText="In person" [values]="inPerson" />
+  </sky-chart-line>
+</sky-chart>
+<p aria-live="polite" class="sky-theme-margin-bottom-l" data-sky-id="selection">
+  @if (selection(); as selection) {
+    {{ selection.seriesLabelText }} donations in {{ selection.category }}:
+    {{ selection.value | currency: 'USD' }}
+  } @else {
+    Select a data point to see its details.
+  }
+</p>

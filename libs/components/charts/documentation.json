@@ -13,6 +13,7 @@
           "SkyChartBarOrientation",
           "SkyChartBarSeriesLayout",
           "SkyChartBarSeriesValue",
+          "SkyChartDataPointClickArgs",
           "SkyChartHeadingLevel",
           "SkyChartHeadingStyle",
           "SkyChartValueFormat",
@@ -26,6 +27,8 @@
           "SkyChartBarHarnessFilters",
           "SkyChartHarness",
           "SkyChartHarnessFilters",
+          "SkyChartDataPointHarness",
+          "SkyChartDataPointHarnessFilters",
           "SkyChartLegendItemHarness",
           "SkyChartLegendItemHarnessFilters",
           "SkyChartTableModalHarness"
@@ -44,7 +47,8 @@
           "ChartsChartBarLogarithmicExample",
           "ChartsChartBarValueBoundsExample",
           "ChartsChartBarValueFormatExample",
-          "ChartsChartBarAsyncExample"
+          "ChartsChartBarAsyncExample",
+          "ChartsChartBarDataPointClickExample"
         ]
       }
     },
@@ -58,6 +62,7 @@
           "SkyChartLine",
           "SkyChartLineSeries",
           "SkyChartLineSeriesValue",
+          "SkyChartDataPointClickArgs",
           "SkyChartHeadingLevel",
           "SkyChartHeadingStyle",
           "SkyChartValueFormat",
@@ -71,6 +76,8 @@
           "SkyChartLineHarnessFilters",
           "SkyChartHarness",
           "SkyChartHarnessFilters",
+          "SkyChartDataPointHarness",
+          "SkyChartDataPointHarnessFilters",
           "SkyChartLegendItemHarness",
           "SkyChartLegendItemHarnessFilters",
           "SkyChartTableModalHarness"
@@ -82,7 +89,8 @@
           "ChartsChartLineAsyncExample",
           "ChartsChartLineMultipleSeriesExample",
           "ChartsChartLineGapsExample",
-          "ChartsChartLineValueFormatExample"
+          "ChartsChartLineValueFormatExample",
+          "ChartsChartLineDataPointClickExample"
         ]
       }
     }

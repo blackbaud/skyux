@@ -1,7 +1,7 @@
-import { E2eVariations } from '@skyux-sdk/e2e-schematics';
+import { forEachThemeAndBrand } from '../support/themes';
 
 describe('Modal Split View Tile Dashboard', () => {
-  E2eVariations.forEachTheme((theme) => {
+  forEachThemeAndBrand((theme) => {
     [1600, 1100, 600].forEach((width) => {
       it(`should show tile dashboard in ${width}x900 viewport, ${theme} theme`, () => {
         cy.viewport(width, 900)
