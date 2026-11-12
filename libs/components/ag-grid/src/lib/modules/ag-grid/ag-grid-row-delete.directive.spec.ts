@@ -107,6 +107,23 @@ describe('SkyAgGridRowDeleteDirective', () => {
       ).toBe(2);
     });
 
+    it('should show for a row whose ID contains a double quote', async () => {
+      setupTest();
+      await fixture.whenStable();
+
+      fixture.componentInstance.gridApi?.setGridOption('rowData', [
+        { id: 'a"b', name: 'Jane', target: 1, selected: false },
+      ]);
+      fixture.componentInstance.rowDeleteIds = ['a"b'];
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(document.getElementById('row-delete-ref-a"b')).not.toBeNull();
+      expect(
+        document.querySelectorAll('.sky-inline-delete-standard').length,
+      ).toBe(1);
+    });
+
     it('should respond to data changes', async () => {
       setupTest();
       await fixture.whenStable();
