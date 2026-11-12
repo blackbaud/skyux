@@ -20,7 +20,7 @@ import { removeImport } from './remove-import';
  * call while preventing an unrelated custom decorator's `exports` array from
  * being mistaken for module metadata.
  */
-function isDecoratorMetadataArray(
+export function isDecoratorMetadataArray(
   array: ts.ArrayLiteralExpression,
   metadataFields: readonly string[],
 ): boolean {
