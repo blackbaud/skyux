@@ -63,6 +63,7 @@ export class DataGridTestComponent {
   public readonly dock = input<SkyDataGridDockType>('none');
   public page = 1;
   public readonly pageSize = input(0);
+  public readonly rowDeleteIds = input<string[]>([]);
   public pageQueryParam = '';
 
   protected readonly showAllColumns = input<boolean>(true);

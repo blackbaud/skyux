@@ -2,6 +2,7 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyDataGridHarness } from '@skyux/data-grid/testing';
+import { SkyInlineDeleteHarness } from '@skyux/layout/testing';
 import {
   SkyDropdownHarness,
   SkyDropdownMenuHarness,
@@ -92,5 +93,65 @@ describe('Basic data grid example', () => {
     expect(moreInfoActionSpy).toHaveBeenCalledWith(
       'More info clicked for Jane Deere',
     );
+  });
+
+  describe('row delete', () => {
+    async function showRowDelete(): Promise<{
+      gridHarness: SkyDataGridHarness;
+      inlineDeleteHarness: SkyInlineDeleteHarness;
+    }> {
+      const { loader } = await setupTest();
+      const gridHarness = await loader.getHarness(
+        SkyDataGridHarness.with({
+          dataSkyId: 'example-data-grid',
+        }),
+      );
+      await expectAsync(gridHarness.getRowInlineDelete('2')).toBeResolvedTo(
+        null,
+      );
+
+      const menuButtonHarness = await gridHarness.queryHarness(
+        SkyDropdownHarness.with({
+          dataSkyId: 'context-menu-2',
+        }),
+      );
+      await menuButtonHarness.clickDropdownButton();
+      const menuHarness = await menuButtonHarness.getDropdownMenu();
+      const deleteItem = await menuHarness.getItem({ text: 'Delete' });
+      await deleteItem.click();
+
+      const inlineDeleteHarness = await gridHarness.getRowInlineDelete('2');
+      if (!inlineDeleteHarness) {
+        throw new Error('Expected an inline delete for row 2.');
+      }
+
+      return { gridHarness, inlineDeleteHarness };
+    }
+
+    // The harness waits out AG Grid's timers outside Angular after a row is
+    // removed, which can exceed the default timeout.
+    it('should remove the row when the deletion is confirmed', async () => {
+      const { gridHarness, inlineDeleteHarness } = await showRowDelete();
+      await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(7);
+      await expectAsync(inlineDeleteHarness.isPending()).toBeResolvedTo(false);
+
+      await inlineDeleteHarness.clickDeleteButton();
+
+      await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(6);
+      await expectAsync(gridHarness.getRowInlineDelete('2')).toBeResolvedTo(
+        null,
+      );
+    }, 15000);
+
+    it('should keep the row when the deletion is cancelled', async () => {
+      const { gridHarness, inlineDeleteHarness } = await showRowDelete();
+
+      await inlineDeleteHarness.clickCancelButton();
+
+      await expectAsync(gridHarness.getDisplayedRowCount()).toBeResolvedTo(7);
+      await expectAsync(gridHarness.getRowInlineDelete('2')).toBeResolvedTo(
+        null,
+      );
+    });
   });
 });
