@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.12.0](https://github.com/blackbaud/skyux/compare/15.11.0...15.12.0) (2026-11-12)
+
+### Features
+
+* **components/charts:** add data point click event and keyboard navigation ([#4946](https://github.com/blackbaud/skyux/issues/4946)) ([3a5a20f](https://github.com/blackbaud/skyux/commit/3a5a20f0977d6192981318d63db1a64d2af3405f))
+
 ## [15.11.0](https://github.com/blackbaud/skyux/compare/15.10.0...15.11.0) (2026-11-06)
 
 ### Features
