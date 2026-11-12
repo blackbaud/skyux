@@ -1,0 +1,23 @@
+<sky-chart
+  data-sky-id="donations-by-channel"
+  headingText="Donations by channel"
+>
+  <sky-chart-bar (dataPointClick)="onDataPointClick($event)">
+    <sky-chart-axis-category labelText="Quarter" [categories]="quarters" />
+    <sky-chart-axis-value
+      currencyCode="USD"
+      format="currency"
+      labelText="Donations"
+    />
+    <sky-chart-bar-series labelText="Online" [values]="online" />
+    <sky-chart-bar-series labelText="In person" [values]="inPerson" />
+  </sky-chart-bar>
+</sky-chart>
+<p aria-live="polite" class="sky-theme-margin-bottom-l" data-sky-id="selection">
+  @if (selection(); as selection) {
+    {{ selection.seriesLabelText }} donations in {{ selection.category }}:
+    {{ selection.value | currency: 'USD' }}
+  } @else {
+    Select a bar to see its details.
+  }
+</p>

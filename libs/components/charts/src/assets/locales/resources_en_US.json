@@ -5,6 +5,22 @@
     "_0": "The number of series",
     "_1": "The number of categories"
   },
+  "skyux_charts.chart.bar.series_summary_plural": {
+    "_description": "The accessible description of one series in a bar chart with multiple series, when the series has zero or several values",
+    "message": "{0}, bar series {1} of {2} with {3} bars.",
+    "_0": "The series label",
+    "_1": "The series number",
+    "_2": "The number of series",
+    "_3": "The number of values in the series"
+  },
+  "skyux_charts.chart.bar.series_summary_singular": {
+    "_description": "The accessible description of one series in a bar chart with multiple series, when the series has one value",
+    "message": "{0}, bar series {1} of {2} with {3} bar.",
+    "_0": "The series label",
+    "_1": "The series number",
+    "_2": "The number of series",
+    "_3": "The number of values in the series"
+  },
   "skyux_charts.chart.controls.context_menu.accessible_name": {
     "_description": "The accessible name for the chart component's controls dropdown menu",
     "message": "Context menu for {0}",
@@ -24,6 +40,22 @@
     "message": "Line chart. Number of series: {0}. Number of categories: {1}. A data table is available from the chart's context menu.",
     "_0": "The number of series",
     "_1": "The number of categories"
+  },
+  "skyux_charts.chart.line.series_summary_plural": {
+    "_description": "The accessible description of one series in a line chart with multiple series, when the series has zero or several values",
+    "message": "{0}, line {1} of {2} with {3} data points.",
+    "_0": "The series label",
+    "_1": "The series number",
+    "_2": "The number of series",
+    "_3": "The number of values in the series"
+  },
+  "skyux_charts.chart.line.series_summary_singular": {
+    "_description": "The accessible description of one series in a line chart with multiple series, when the series has one value",
+    "message": "{0}, line {1} of {2} with {3} data point.",
+    "_0": "The series label",
+    "_1": "The series number",
+    "_2": "The number of series",
+    "_3": "The number of values in the series"
   },
   "skyux_charts.data_table_modal.close_button": {
     "_description": "The label for the close button",

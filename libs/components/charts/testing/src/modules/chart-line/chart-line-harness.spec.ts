@@ -9,6 +9,7 @@ import {
   SkyChartLineSeries,
 } from '@skyux/charts';
 
+import { SkyChartDataPointHarness } from '../chart-data-point/chart-data-point-harness';
 import { SkyChartLegendItemHarness } from '../chart-legend/chart-legend-item-harness';
 
 import { SkyChartLineHarness } from './chart-line-harness';
@@ -114,6 +115,46 @@ describe('Chart line harness', () => {
 
     await expectAsync(
       harness.getLegendItem({ labelText: 'no-such-series' }),
+    ).toBeRejected();
+  });
+
+  it('should get the data points', async () => {
+    const { harness } = await setupTest({ dataSkyId: 'multi-series-chart' });
+    const dataPoints = await harness.getDataPoints();
+
+    await expectAsync(
+      Promise.all(
+        dataPoints.map((dataPoint) => dataPoint.getSeriesLabelText()),
+      ),
+    ).toBeResolvedTo(['2025', '2025', '2026', '2026']);
+  });
+
+  it('should get the data points that match the filters', async () => {
+    const { harness } = await setupTest({ dataSkyId: 'multi-series-chart' });
+
+    await expectAsync(
+      harness.getDataPoints({ category: 'South' }),
+    ).toBeResolvedTo([
+      jasmine.any(SkyChartDataPointHarness),
+      jasmine.any(SkyChartDataPointHarness),
+    ]);
+  });
+
+  it('should get a data point by its category and series', async () => {
+    const { harness } = await setupTest({ dataSkyId: 'multi-series-chart' });
+    const dataPoint = await harness.getDataPoint({
+      category: 'North',
+      seriesLabelText: '2026',
+    });
+
+    await expectAsync(dataPoint.getCategory()).toBeResolvedTo('North');
+  });
+
+  it('should throw when no data point matches the filters', async () => {
+    const { harness } = await setupTest({ dataSkyId: 'multi-series-chart' });
+
+    await expectAsync(
+      harness.getDataPoint({ category: 'no-such-category' }),
     ).toBeRejected();
   });
 });

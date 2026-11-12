@@ -16,6 +16,7 @@ import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
 import { SkyChartBarSeries } from './chart-bar-series';
 import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
+import { type SkyChartBarSeriesValue } from './chart-bar-series-value';
 
 /**
  * Renders a bar chart from a category axis, a value axis, and one or more
@@ -26,7 +27,10 @@ import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
   selector: 'sky-chart-bar',
   templateUrl: './chart-bar.html',
 })
-export class SkyChartBar extends SkyChartCartesianPlot<SkyChartBarSeries> {
+export class SkyChartBar extends SkyChartCartesianPlot<
+  SkyChartBarSeries,
+  SkyChartBarSeriesValue
+> {
   /**
    * The orientation of the bars.
    * @default 'vertical'
