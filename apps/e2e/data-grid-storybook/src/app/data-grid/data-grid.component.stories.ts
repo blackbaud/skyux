@@ -21,3 +21,10 @@ export const DataGrid: Story = {
   },
 };
 DataGrid.args = { columnFit: 'content', sizingVariant: 'fixed' };
+
+export const DataGridRowDelete: Story = {};
+DataGridRowDelete.args = {
+  columnFit: 'content',
+  sizingVariant: 'fixed',
+  rowDeleteIds: ['2'],
+};

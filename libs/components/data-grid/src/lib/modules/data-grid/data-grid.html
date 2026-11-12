@@ -2,9 +2,13 @@
 @if (gridOptions(); as gridOptions) {
   <!-- The grid keeps its column headers visible itself, below. -->
   <sky-ag-grid-wrapper
+    skyAgGridRowDelete
     viewkeeperDisabled
     [compact]="compact()"
     [minHeight]="minHeight()"
+    [(rowDeleteIds)]="rowDeleteIds"
+    (rowDeleteCancel)="rowDeleteCancel.emit($event)"
+    (rowDeleteConfirm)="rowDeleteConfirm.emit($event)"
   >
     <ag-grid-angular
       skyViewkeeperOmitShadow=".ag-body-horizontal-scroll"

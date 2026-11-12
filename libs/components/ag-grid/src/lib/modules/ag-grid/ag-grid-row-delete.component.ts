@@ -60,8 +60,8 @@ export class SkyAgGridRowDeleteComponent {
         .map((rowId) => {
           const element = gridElement[0]?.nativeElement
             .querySelector<HTMLElement>(`
-          [row-id="${rowId}"] div[aria-colindex],
-          .ag-row.sky-ag-grid-row-${rowId} div[aria-colindex]
+          [row-id="${CSS.escape(rowId)}"] div[aria-colindex],
+          .ag-row.${CSS.escape(`sky-ag-grid-row-${rowId}`)} div[aria-colindex]
         `);
           return { rowId, element, increment: `${rowId}-${increment}` };
         });

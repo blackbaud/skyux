@@ -1,5 +1,9 @@
 @if (showAllGrids()) {
-  <sky-ag-grid-wrapper data-sky-id="ag-grid-wrapper">
+  <sky-ag-grid-wrapper
+    data-sky-id="ag-grid-wrapper"
+    skyAgGridRowDelete
+    [rowDeleteIds]="rowDeleteIds()"
+  >
     <ag-grid-angular [gridOptions]="gridOptions" [rowData]="data" />
   </sky-ag-grid-wrapper>
 }
