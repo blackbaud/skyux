@@ -9,6 +9,11 @@
 * add `data-grid` row delete confirmation support and `ag-grid-wrapper` row delete test harness support ([#4886](https://github.com/blackbaud/skyux/issues/4886)) ([#4954](https://github.com/blackbaud/skyux/issues/4954)) ([c71e419](https://github.com/blackbaud/skyux/commit/c71e419673d33ed452de6bd3fdbca8688e980700)), closes [AB#4187790](https://dev.azure.com/blackbaud/Products/_workitems/edit/4187790) [#4577](https://github.com/blackbaud/skyux/issues/4577) [#4885](https://github.com/blackbaud/skyux/issues/4885)
 * **components/packages:** add TODO comments for follow-up work in convert-grid-to-data-grid ([#4958](https://github.com/blackbaud/skyux/issues/4958)) ([b3e3c1a](https://github.com/blackbaud/skyux/commit/b3e3c1a108065b9ab5984628d2c77b22e3c9d7fd)), closes [AB#4187790](https://dev.azure.com/blackbaud/Products/_workitems/edit/4187790) [#4954](https://github.com/blackbaud/skyux/issues/4954) [#4954](https://github.com/blackbaud/skyux/issues/4954) [#4817](https://github.com/blackbaud/skyux/issues/4817)
 
+
+### Bug Fixes
+
+* **components/packages:** keep replaced close tags that directly follow another swapped tag ([#4962](https://github.com/blackbaud/skyux/issues/4962)) ([7d7b3a1](https://github.com/blackbaud/skyux/commit/7d7b3a1e38dbbf5df9e5a32f3970937667afd806)), closes [#4958](https://github.com/blackbaud/skyux/issues/4958)
+
 ## [14.26.0](https://github.com/blackbaud/skyux/compare/14.25.0...14.26.0) (2026-10-23)
 
 
