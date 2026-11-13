@@ -40,8 +40,10 @@ apply here: keep using Jasmine spies (not `vi.*`) and `fakeAsync`/`tick`/`flush`
 ## File & naming
 
 - Co-locate the spec with its subject:
-  `libs/components/<library>/src/lib/modules/<module>/<name>.component.spec.ts`
-  (or `<name>.directive.spec.ts`).
+  `libs/components/<library>/src/lib/modules/<module>/<name>.spec.ts` for a
+  subject in `<name>.ts`. A legacy suffixed file such as
+  `<name>.component.ts` or `<name>.directive.ts` keeps the matching
+  `<name>.component.spec.ts` or `<name>.directive.spec.ts`.
 - Name the top-level `describe` after the subject, e.g.
   `describe('Token component', ...)`. Group variations and accessibility in
   nested `describe` blocks (`describe('a11y', ...)`).
