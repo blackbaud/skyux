@@ -1,6 +1,17 @@
 # Changelog
 
 
+## [15.12.0](https://github.com/blackbaud/skyux/compare/15.11.0...15.12.0) (2026-11-12)
+
+### Features
+
+* **components/charts:** add data point click event and keyboard navigation ([#4946](https://github.com/blackbaud/skyux/issues/4946)) ([3a5a20f](https://github.com/blackbaud/skyux/commit/3a5a20f0977d6192981318d63db1a64d2af3405f))
+* **components/packages:** add schematic to convert Stache code to SKY UX code ([#4952](https://github.com/blackbaud/skyux/issues/4952)) ([d800bc6](https://github.com/blackbaud/skyux/commit/d800bc648c3618fefaaeece8884bf74c624bb241))
+
+### Bug Fixes
+
+* **components/packages:** scan the whole project root when migrating and checking package usage ([#4955](https://github.com/blackbaud/skyux/issues/4955)) ([88f91b2](https://github.com/blackbaud/skyux/commit/88f91b27bb7fd1caf528648ba2aa07f7781c9367))
+
 ## [15.11.0](https://github.com/blackbaud/skyux/compare/15.10.0...15.11.0) (2026-11-06)
 
 ### Features
