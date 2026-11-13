@@ -18,7 +18,6 @@ import { parseSourceFile } from '../../utility/typescript/ng-ast';
 import { removeImport } from '../../utility/typescript/remove-import';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
-import { getSourceRoot } from '../../utility/workspace';
 
 const DEPRECATED_PACKAGE = '@skyux-sdk/testing';
 const SUPPORTED_PACKAGE = '@skyux-sdk/vitest';
@@ -89,7 +88,7 @@ async function visitFilesImportingSdkTesting(
   const workspace = await getWorkspace(tree);
 
   for (const project of workspace.projects.values()) {
-    visitProjectFiles(tree, getSourceRoot(project), (filePath) => {
+    visitProjectFiles(tree, project.root, (filePath) => {
       if (
         filePath.endsWith('.ts') &&
         !filePath.endsWith('.d.ts') &&
