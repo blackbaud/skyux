@@ -1,3 +1,5 @@
+import { Tree } from '@angular-devkit/schematics';
+
 import {
   getElementsByTagName,
   getText,
@@ -47,8 +49,41 @@ describe('template', () => {
     );
     expect(recorder.remove).toHaveBeenCalledWith(0, 4);
     expect(recorder.remove).toHaveBeenCalledWith(9, 5);
-    expect(recorder.insertLeft).toHaveBeenCalledWith(0, '<h2>');
-    expect(recorder.insertLeft).toHaveBeenCalledWith(27, '</p>');
+    expect(recorder.insertRight).toHaveBeenCalledWith(0, '<h2>');
+    expect(recorder.insertRight).toHaveBeenCalledWith(27, '</p>');
+  });
+
+  it('should keep a swapped close tag that directly follows a later-swapped close tag', () => {
+    const path = 'test.html';
+    const template = `<outer><inner></inner></outer>`;
+    const tree = Tree.empty();
+    tree.create(path, template);
+    const parsed = parseTemplate(template);
+    const recorder = tree.beginUpdate(path);
+    const swap = (position: 'open' | 'close', oldTag: string): string =>
+      `${position === 'open' ? '<' : '</'}new-${oldTag}>`;
+
+    swapTags(
+      template,
+      recorder,
+      0,
+      ['outer'],
+      swap,
+      getElementsByTagName('outer', parsed)[0],
+    );
+    swapTags(
+      template,
+      recorder,
+      0,
+      ['inner'],
+      swap,
+      getElementsByTagName('inner', parsed)[0],
+    );
+    tree.commitUpdate(recorder);
+
+    expect(tree.readText(path)).toBe(
+      `<new-outer><new-inner></new-inner></new-outer>`,
+    );
   });
 
   it('should swap attributes', () => {

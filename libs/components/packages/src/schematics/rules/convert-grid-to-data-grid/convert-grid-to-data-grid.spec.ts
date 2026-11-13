@@ -450,6 +450,18 @@ describe('Convert Grid to Data Grid', () => {
     `);
   });
 
+  it('should keep the grid close tag when it directly follows a column close tag', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/test.component.html',
+      `<sky-grid><sky-grid-column field="a"></sky-grid-column></sky-grid>`,
+    );
+    const result = await convert(tree);
+    expect(result.readText('src/app/test.component.html')).toBe(
+      `<sky-data-grid><sky-data-grid-column field="a"></sky-data-grid-column></sky-data-grid>`,
+    );
+  });
+
   it('should indent TODO comments to match the element they precede', async () => {
     const tree = await createTestApp(runner, { projectName: 'test-app' });
     tree.create(
