@@ -26,6 +26,18 @@ import {
 } from './ag-grid-row-delete-context';
 
 /**
+ * AG Grid HTML-escapes row IDs before writing them to the `row-id` attribute,
+ * so a selector must match the escaped form.
+ */
+const AG_GRID_ROW_ID_ESCAPES: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+};
+
+/**
  * A row overlay is "fully clipped" when its anchor element's bounding rect
  * does not intersect the region left visible by the scrollable-host
  * clip-path (e.g. the row has scrolled entirely behind the sticky header).
@@ -88,10 +100,14 @@ export class SkyAgGridRowDeleteComponent {
       return rows
         .filter((rowId) => !!rowId && !!gridApi.getRowNode(rowId))
         .map((rowId) => {
+          const rowIdAttribute = rowId.replace(
+            /[&<>"']/g,
+            (chr) => AG_GRID_ROW_ID_ESCAPES[chr],
+          );
           const element = gridElement[0]?.nativeElement
             .querySelector<HTMLElement>(`
-          [row-id="${rowId}"] div[aria-colindex],
-          .ag-row.sky-ag-grid-row-${rowId} div[aria-colindex]
+          [row-id="${CSS.escape(rowIdAttribute)}"] div[aria-colindex],
+          .ag-row.${CSS.escape(`sky-ag-grid-row-${rowId}`)} div[aria-colindex]
         `);
           return {
             rowId,

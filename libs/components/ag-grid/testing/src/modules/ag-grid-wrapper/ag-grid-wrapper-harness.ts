@@ -89,10 +89,10 @@ export class SkyAgGridWrapperHarness extends SkyComponentHarness {
     await this.forceStabilize();
     // The overlay renders outside the grid, attached to the document body, and
     // is tagged with the grid's ID so rows from other grids are not matched.
-    const gridId = await (await this.#getGrid()).getAttribute('id');
+    const gridId = await (await this.#getGrid()).getProperty<string>('id');
     const rowLoader =
       await this.documentRootLocatorFactory().harnessLoaderForOptional(
-        `[data-sky-ag-grid-id="${gridId}"] [id="row-delete-ref-${rowId}"]`,
+        `[data-sky-ag-grid-id="${CSS.escape(gridId)}"] #${CSS.escape(`row-delete-ref-${rowId}`)}`,
       );
     return (await rowLoader?.getHarnessOrNull(SkyInlineDeleteHarness)) ?? null;
   }
