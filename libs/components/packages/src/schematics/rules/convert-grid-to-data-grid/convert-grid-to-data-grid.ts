@@ -11,8 +11,10 @@ import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import {
   findNodes,
   getDecoratorMetadata,
+  insertImport,
 } from '@schematics/angular/utility/ast-utils';
 import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
+import { getEOL } from '@schematics/angular/utility/eol';
 
 import { logOnce } from '../../utility/log-once';
 import {
@@ -40,6 +42,18 @@ import { visitProjectFiles } from '../../utility/visit-project-files';
 
 const MIGRATION_DOC_URL =
   'https://developer.blackbaud.com/skyux/components/data-grid';
+const DATA_MANAGER_DOC_URL =
+  'https://developer.blackbaud.com/skyux/components/data-manager';
+
+const TODO_PREFIX = 'TODO: data-grid-migration:';
+
+/**
+ * Emitted both when a migration run adds the data grid classes alongside
+ * SkyGridModule and on a later run that only finds the [columns] grid, so a
+ * re-run recognizes its own TODO.
+ */
+const COLUMNS_GRID_IMPORT_TODO =
+  'Replace SkyGridModule with SkyDataGrid and SkyDataGridColumn from @skyux/data-grid after migrating the <sky-grid> that uses [columns].';
 
 const SKY_GRID_MODULE = 'SkyGridModule';
 const SKY_GRID_MODULE_PACKAGE = '@skyux/grids';
@@ -63,8 +77,8 @@ const LIST_VIEW_GRID_TAG = 'sky-list-view-grid';
  * because parse5 treats them as distinct attribute names. `fit`'s unbound
  * `width`/`scroll` literal values are additionally translated to `columnFit`'s
  * `container`/`content` values by `gridAttributeSwapCallback`. Anything not
- * listed (`data`, `selectedRowIds`, `selectedColumnIds`) is copied through
- * unchanged.
+ * listed (`data`, `selectedRowIds`, `selectedColumnIds`, `rowDeleteCancel`,
+ * `rowDeleteConfirm`) is copied through unchanged.
  */
 const GRID_ATTRIBUTE_SWAPS: Record<string, string> = {
   enableMultiselect: 'multiselect',
@@ -82,8 +96,6 @@ const GRID_ATTRIBUTE_SWAPS: Record<string, string> = {
   '[messageStream]': '',
   multiselectRowId: '',
   '[multiselectRowId]': '',
-  '(rowDeleteCancel)': '',
-  '(rowDeleteConfirm)': '',
   rowHighlightedId: '',
   '[rowHighlightedId]': '',
   settingsKey: '',
@@ -97,34 +109,6 @@ const GRID_ATTRIBUTE_SWAPS: Record<string, string> = {
 };
 
 /**
- * Inputs removed from `<sky-grid>` with no `<sky-data-grid>` equivalent.
- */
-const GRID_REMOVED_INPUTS = [
-  'hasToolbar',
-  'height',
-  'highlightText',
-  'messageStream',
-  'multiselectRowId',
-  'rowHighlightedId',
-  'settingsKey',
-  'width',
-];
-
-/** Outputs removed from `<sky-grid>` with no `<sky-data-grid>` equivalent. */
-const GRID_REMOVED_OUTPUTS = [
-  'columnWidthChange',
-  'rowDeleteCancel',
-  'rowDeleteConfirm',
-];
-
-/**
- * Inputs removed from `<sky-grid-column>` with no `<sky-data-grid-column>`
- * equivalent. `alignment` and the help-popover inputs are handled separately
- * because their messages depend on the value or on sibling attributes.
- */
-const COLUMN_REMOVED_INPUTS = ['excludeFromHighlighting', 'search', 'type'];
-
-/**
  * Returns the parse5 attribute names for an input, covering the plain and
  * property-bound (`[x]`) spellings. parse5 lowercases attribute names.
  */
@@ -136,14 +120,6 @@ function inputForms(name: string): string[] {
 /** Returns the parse5 attribute name for an event binding (`(x)`). */
 function outputForm(name: string): string {
   return `(${name.toLowerCase()})`;
-}
-
-function gridRemovedMessage(label: string): string {
-  return `The "${label}" binding on <sky-grid> is not supported on <sky-data-grid> and was removed. Review the component for an alternative.`;
-}
-
-function columnRemovedMessage(label: string): string {
-  return `The "${label}" binding on <sky-grid-column> is not supported on <sky-data-grid-column> and was removed. Review the component for an alternative.`;
 }
 
 function hasAttribute(node: ElementWithLocation, names: string[]): boolean {
@@ -205,177 +181,264 @@ const gridAttributeSwapCallback: SwapAttributeCallback<string, string> = (
   return newAttribute + getAttributeValueText(content, node, oldAttribute);
 };
 
-function gridTagSwap(context: SchematicContext): SwapTagCallback<'sky-grid'> {
-  return (position, _tag, node, content) => {
-    if (position === 'close') {
-      return '</sky-data-grid>';
-    }
-    if (hasAttribute(node, [outputForm('multiselectSelectionChange')])) {
-      logOnce(
-        context,
-        'warn',
-        'The "(multiselectSelectionChange)" output on <sky-grid> was renamed to "(selectedRowIdsChange)" on <sky-data-grid>. The emitted value is now a string[] of selected row IDs instead of a SkyGridSelectedRowsModelChange object (the "source" property is no longer available). Review the handler.',
-      );
-    }
-    if (
-      hasAttribute(node, [
-        ...inputForms('sortField'),
-        outputForm('sortFieldChange'),
-      ])
-    ) {
-      logOnce(
-        context,
-        'warn',
-        'The "sortField"/"(sortFieldChange)" bindings on <sky-grid> were renamed to "sort"/"(sortChange)" on <sky-data-grid>. The value shape changed from { fieldSelector: string, descending: boolean } to { field: string, direction: "asc" | "desc" }. Review the bound value and handler.',
-      );
-    }
-    if (hasAttribute(node, inputForms('fit'))) {
-      logOnce(
-        context,
-        'warn',
-        'The "fit" input on <sky-grid> was renamed to "columnFit" on <sky-data-grid>, with values "width"/"scroll" renamed to "container"/"content". A bound "[fit]" value could not be translated automatically; review it.',
-      );
-    }
-    if (hasAttribute(node, inputForms('data'))) {
-      logOnce(
-        context,
-        'warn',
-        'The "data" binding on <sky-grid> was copied to <sky-data-grid>, whose "data" input is typed as SkyDataGridRowData[]: each row object must have a unique string "id" property. Update the bound array if template type checking reports an assignment error.',
-      );
-    }
-    if (
-      hasAttribute(node, [
-        ...inputForms('selectedColumnIds'),
-        '[(selectedcolumnids)]',
-        outputForm('selectedColumnIdsChange'),
-      ])
-    ) {
-      logOnce(
-        context,
-        'warn',
-        'The "selectedColumnIds"/"(selectedColumnIdsChange)" bindings on <sky-grid> were copied to <sky-data-grid>, which emits "selectedColumnIdsChange" when the user reorders columns only once "selectedColumnIds" is set. Initialize the bound value if it can be undefined.',
-      );
-    }
-    for (const label of GRID_REMOVED_INPUTS) {
-      if (hasAttribute(node, inputForms(label))) {
-        logOnce(context, 'warn', gridRemovedMessage(label));
-      }
-    }
-    for (const label of GRID_REMOVED_OUTPUTS) {
-      if (hasAttribute(node, [outputForm(label)])) {
-        logOnce(context, 'warn', gridRemovedMessage(label));
-      }
-    }
-    return buildOpenTag(
-      'sky-data-grid',
-      GRID_ATTRIBUTE_SWAPS,
-      node,
-      content,
-      gridAttributeSwapCallback,
-    );
-  };
-}
+/**
+ * Follow-up instructions for `<sky-grid>` bindings that need manual work.
+ * Bindings that are fully translated, or dropped without a replacement to
+ * wire up, have no entry.
+ */
+const GRID_WARNINGS: { attributes: string[]; message: string }[] = [
+  {
+    attributes: [outputForm('multiselectSelectionChange')],
+    message:
+      'Update the <sky-data-grid> (selectedRowIdsChange) handler: it receives a string[] of selected row IDs, not a SkyGridSelectedRowsModelChange object.',
+  },
+  {
+    attributes: [...inputForms('sortField'), outputForm('sortFieldChange')],
+    message:
+      'Convert the <sky-data-grid> [sort] value and (sortChange) handler from { fieldSelector, descending } to SkyDataGridSort: { field, direction: "asc" | "desc" }.',
+  },
+  {
+    attributes: inputForms('data'),
+    message:
+      'Give every row in the array bound to <sky-data-grid> [data] a unique string "id" property (SkyDataGridRowData).',
+  },
+  {
+    attributes: inputForms('hasToolbar'),
+    message:
+      'Restore the toolbar with the data manager: host <sky-data-grid> in a <sky-data-view> inside <sky-data-manager>, and move the toolbar content into <sky-data-manager-toolbar>. <sky-data-grid> has no hasToolbar input.',
+  },
+  {
+    attributes: inputForms('height'),
+    message:
+      'Constrain the <sky-data-grid> height through its container: it has no height input and grows to fit its rows. Set dock="fill" inside a fixed-size, positioned container, or set [minHeight] for a minimum.',
+  },
+  {
+    attributes: inputForms('width'),
+    message:
+      'Set the width on an element that wraps <sky-data-grid>: it has no width input and fills its container.',
+  },
+  {
+    attributes: inputForms('highlightText'),
+    message:
+      'Move search-text highlighting to the data manager: host <sky-data-grid> in a <sky-data-view searchHighlightEnabled> inside <sky-data-manager>. <sky-data-grid> has no highlightText input.',
+  },
+  {
+    attributes: inputForms('messageStream'),
+    message:
+      'Replace SkyGridMessage commands sent through messageStream with <sky-data-grid> bindings: for SelectAll set [(selectedRowIds)] to every row ID and for ClearAll set it to []; for PromptDeleteRow add the row ID to [(rowDeleteIds)] and for AbortDeleteRow remove it. <sky-data-grid> has no messageStream input.',
+  },
+  {
+    attributes: inputForms('settingsKey'),
+    message:
+      "To persist the user's grid settings, host <sky-data-grid> in <sky-data-manager> and set settingsKey on the data manager. <sky-data-grid> has no settingsKey input.",
+  },
+];
 
 /**
- * Logs the help-popover, alignment, and removed-input warnings for a single
- * `<sky-grid-column>`.
+ * `sky-grid` has no boolean transform on `enableMultiselect`, so only a bound
+ * `false` disables multiselect; a plain `enableMultiselect="false"` is a
+ * truthy string.
  */
-function warnColumnAttributes(
-  context: SchematicContext,
-  node: ElementWithLocation,
-  hasInlineHelp: boolean,
-  hasDescription: boolean,
-): void {
-  if (hasInlineHelp) {
-    logOnce(
-      context,
-      'warn',
-      'The "inlineHelpPopover" input on <sky-grid-column> was mapped to "helpPopoverContent" on <sky-data-grid-column>. Review the binding: "helpPopoverContent" accepts a string or a TemplateRef.',
+function isMultiselectEnabled(node: ElementWithLocation): boolean {
+  const [, bound] = inputForms('enableMultiselect');
+  const attribute = findAttribute(node, inputForms('enableMultiselect'));
+  return (
+    !!attribute &&
+    !(attribute.name === bound && attribute.value.trim() === 'false')
+  );
+}
+
+function getGridWarnings(node: ElementWithLocation): string[] {
+  const warnings = GRID_WARNINGS.filter(({ attributes }) =>
+    hasAttribute(node, attributes),
+  ).map(({ message }) => message);
+  // selectedColumnIdsChange doesn't emit column reorders while
+  // selectedColumnIds is undefined.
+  const twoWaySelectedColumnIds = '[(selectedcolumnids)]';
+  if (
+    hasAttribute(node, [
+      twoWaySelectedColumnIds,
+      outputForm('selectedColumnIdsChange'),
+    ])
+  ) {
+    warnings.push(
+      hasAttribute(node, [
+        twoWaySelectedColumnIds,
+        ...inputForms('selectedColumnIds'),
+      ])
+        ? 'Initialize the property bound to <sky-data-grid> selectedColumnIds to an array of column IDs: selectedColumnIdsChange does not emit column reorders while selectedColumnIds is undefined.'
+        : 'Bind <sky-data-grid> [selectedColumnIds] to a property initialized to an array of column IDs: selectedColumnIdsChange does not emit column reorders while selectedColumnIds is undefined.',
     );
-    if (hasDescription) {
-      logOnce(
-        context,
-        'warn',
-        'The "description" input on <sky-grid-column> could not be migrated because "helpPopoverContent" was already mapped from "inlineHelpPopover". Review the column.',
+  }
+  // Only the literal "width"/"scroll" values are translated; a bound or
+  // interpolated value is copied through unchanged.
+  const fit = findAttribute(node, inputForms('fit'));
+  if (
+    fit &&
+    (fit.name === '[fit]' || !['width', 'scroll'].includes(fit.value))
+  ) {
+    warnings.push(
+      'Change the value bound to <sky-data-grid> [columnFit] from "width" to "container" and from "scroll" to "content".',
+    );
+  }
+  const multiselectRowId = findAttribute(node, inputForms('multiselectRowId'));
+  if (multiselectRowId) {
+    const source = multiselectRowId.name.startsWith('[')
+      ? 'the property named by the former [multiselectRowId] binding'
+      : `its "${multiselectRowId.value}" property`;
+    warnings.push(
+      `Set each <sky-data-grid> row's "id" property to the value of ${source}: rows and selectedRowIds are identified by "id", and there is no multiselectRowId input.`,
+    );
+  }
+  const rowHighlightedId = findAttribute(node, inputForms('rowHighlightedId'));
+  if (rowHighlightedId) {
+    if (isMultiselectEnabled(node)) {
+      warnings.push(
+        'Indicate the highlighted row another way, such as in a column template: <sky-data-grid> highlights a row by selecting it through [selectedRowIds], which this grid already uses for multiselect. <sky-data-grid> has no rowHighlightedId input.',
+      );
+    } else {
+      const rowId = rowHighlightedId.name.startsWith('[')
+        ? rowHighlightedId.value
+        : `'${rowHighlightedId.value}'`;
+      warnings.push(
+        `Highlight the row by binding <sky-data-grid> [selectedRowIds]="[${rowId}]": selecting a single row highlights it, even without multiselect. <sky-data-grid> has no rowHighlightedId input.`,
       );
     }
-  } else if (hasDescription) {
-    logOnce(
-      context,
-      'warn',
-      'The "description" input on <sky-grid-column> was mapped to "helpPopoverContent" on <sky-data-grid-column>. Review the result.',
+  }
+  return warnings;
+}
+
+const gridTagSwap: SwapTagCallback<'sky-grid'> = (
+  position,
+  _tag,
+  node,
+  content,
+) =>
+  position === 'close'
+    ? '</sky-data-grid>'
+    : buildOpenTag(
+        'sky-data-grid',
+        GRID_ATTRIBUTE_SWAPS,
+        node,
+        content,
+        gridAttributeSwapCallback,
+      );
+
+/**
+ * Returns a follow-up instruction for each `<sky-grid-column>` binding that
+ * needs manual work.
+ */
+function getColumnWarnings(node: ElementWithLocation): string[] {
+  const warnings: string[] = [];
+  if (hasAttribute(node, inputForms('inlineHelpPopover'))) {
+    warnings.push(
+      'Bind a TemplateRef or string to <sky-data-grid-column> [helpPopoverContent], not a <sky-popover> reference: move the popover body into an <ng-template> and its popoverTitle to helpPopoverTitle.',
     );
   }
 
   const alignment = findAttribute(node, inputForms('alignment'));
-  if (alignment) {
-    if (alignment.name === 'alignment' && alignment.value === 'right') {
-      logOnce(
-        context,
-        'warn',
-        'The "alignment" input is not supported on <sky-data-grid-column>. For right alignment, set dataType="number" on the column.',
-      );
-    } else {
-      logOnce(
-        context,
-        'warn',
-        'The "alignment" input is not supported on <sky-data-grid-column> and was removed. Apply alignment via a cell template or CSS.',
-      );
-    }
-  }
-
-  for (const label of COLUMN_REMOVED_INPUTS) {
-    if (hasAttribute(node, inputForms(label))) {
-      logOnce(context, 'warn', columnRemovedMessage(label));
-    }
-  }
-}
-
-function buildColumnSwaps(hasInlineHelp: boolean): Record<string, string> {
-  return {
-    heading: 'headingText',
-    '[heading]': '[headingText]',
-    hidden: 'columnHidden',
-    '[hidden]': '[columnHidden]',
-    id: 'columnId',
-    '[id]': '[columnId]',
-    isSortable: 'sortable',
-    '[isSortable]': '[sortable]',
-    inlineHelpPopover: 'helpPopoverContent',
-    '[inlineHelpPopover]': '[helpPopoverContent]',
-    description: hasInlineHelp ? '' : 'helpPopoverContent',
-    '[description]': hasInlineHelp ? '' : '[helpPopoverContent]',
-    alignment: '',
-    '[alignment]': '',
-    excludeFromHighlighting: '',
-    '[excludeFromHighlighting]': '',
-    search: '',
-    '[search]': '',
-    type: '',
-    '[type]': '',
-  };
-}
-
-function columnTagSwap(
-  context: SchematicContext,
-): SwapTagCallback<'sky-grid-column'> {
-  return (position, _tag, node, content) => {
-    if (position === 'close') {
-      return '</sky-data-grid-column>';
-    }
-
-    const hasInlineHelp = hasAttribute(node, inputForms('inlineHelpPopover'));
-    const hasDescription = hasAttribute(node, inputForms('description'));
-
-    warnColumnAttributes(context, node, hasInlineHelp, hasDescription);
-
-    return buildOpenTag(
-      'sky-data-grid-column',
-      buildColumnSwaps(hasInlineHelp),
-      node,
-      content,
+  const literalAlignment =
+    alignment?.name === 'alignment' ? alignment.value : undefined;
+  if (literalAlignment === 'right') {
+    warnings.push(
+      'Set dataType="number" on this <sky-data-grid-column> if it holds numbers, which right-aligns them; otherwise right-align the cell content in a column template. <sky-data-grid-column> has no alignment input.',
     );
-  };
+  } else if (alignment && literalAlignment !== 'left') {
+    warnings.push(
+      'Recreate the former alignment of this <sky-data-grid-column> in a column template, or set dataType="number" to right-align numbers. <sky-data-grid-column> has no alignment input.',
+    );
+  }
+  const type = findAttribute(node, inputForms('type'));
+  if (type) {
+    const former = type.name.startsWith('[')
+      ? 'the former [type] binding'
+      : `its former type "${type.value}"`;
+    warnings.push(
+      `Set dataType on this <sky-data-grid-column> to match ${former} so its values sort and format correctly: <sky-data-grid-column> has no type input, and columns default to dataType="text".`,
+    );
+  }
+  if (hasAttribute(node, inputForms('search'))) {
+    warnings.push(
+      "Restore this column's custom search with the data manager: host <sky-data-grid> in a <sky-data-view searchEnabled> inside <sky-data-manager>, and apply the search function when filtering [data] by the data manager's [(searchText)]. <sky-data-grid-column> has no search input.",
+    );
+  }
+  return warnings;
+}
+
+const COLUMN_ATTRIBUTE_SWAPS: Record<string, string> = {
+  heading: 'headingText',
+  '[heading]': '[headingText]',
+  hidden: 'columnHidden',
+  '[hidden]': '[columnHidden]',
+  id: 'columnId',
+  '[id]': '[columnId]',
+  isSortable: 'sortable',
+  '[isSortable]': '[sortable]',
+  inlineHelpPopover: 'helpPopoverContent',
+  '[inlineHelpPopover]': '[helpPopoverContent]',
+  alignment: '',
+  '[alignment]': '',
+  excludeFromHighlighting: '',
+  '[excludeFromHighlighting]': '',
+  search: '',
+  '[search]': '',
+  type: '',
+  '[type]': '',
+};
+
+const columnTagSwap: SwapTagCallback<'sky-grid-column'> = (
+  position,
+  _tag,
+  node,
+  content,
+) =>
+  position === 'close'
+    ? '</sky-data-grid-column>'
+    : buildOpenTag(
+        'sky-data-grid-column',
+        COLUMN_ATTRIBUTE_SWAPS,
+        node,
+        content,
+      );
+
+/**
+ * Logs each warning once per run, and inserts a TODO comment for each warning
+ * above every element it applies to so the follow-up is visible in place.
+ * `quote` is the delimiter of the TypeScript string literal holding an inline
+ * template, if any.
+ */
+function warnWithTodo(
+  context: SchematicContext,
+  recorder: UpdateRecorder,
+  content: string,
+  offset: number,
+  node: ElementWithLocation,
+  warnings: string[],
+  quote = '',
+): void {
+  if (warnings.length === 0) {
+    return;
+  }
+  const start = node.sourceCodeLocation.startOffset;
+  const lineStart = content.lastIndexOf('\n', start - 1) + 1;
+  const leadingText = content.slice(lineStart, start);
+  const indent = /^\s*$/.test(leadingText) ? leadingText : '';
+  // A single- or double-quoted string literal can't span lines or contain its
+  // own unescaped delimiter.
+  const isQuoted = quote === "'" || quote === '"';
+  const separator = isQuoted ? ' ' : getEOL(content) + indent;
+  let todos = '';
+  for (const warning of warnings) {
+    logOnce(context, 'warn', warning);
+    todos += `<!-- ${TODO_PREFIX} ${warning} -->${separator}`;
+  }
+  if (isQuoted) {
+    todos = todos.replaceAll(quote, `\\${quote}`);
+  }
+  // Elements the migration leaves in place keep their TODOs from a prior run.
+  if (content.substring(start - todos.length, start) !== todos) {
+    recorder.insertLeft(offset + start, todos);
+  }
 }
 
 interface ConvertTemplateResult {
@@ -400,6 +463,7 @@ function convertTemplate(
   content: string,
   context: SchematicContext,
   offset = 0,
+  quote = '',
 ): ConvertTemplateResult {
   const fragment = parseTemplate(content);
   const grids = getElementsByTagName('sky-grid', fragment).filter(
@@ -415,10 +479,16 @@ function convertTemplate(
 
   for (const grid of grids) {
     if (hasAttribute(grid, ['columns', '[columns]'])) {
-      logOnce(
+      warnWithTodo(
         context,
-        'warn',
-        'A <sky-grid> using the "columns" input was left unchanged. The data grid has no "columns" input; define columns with <sky-data-grid-column> elements and migrate this usage manually.',
+        recorder,
+        content,
+        offset,
+        grid,
+        [
+          'Migrate this <sky-grid> manually: replace it with <sky-data-grid> and declare a <sky-data-grid-column> for each entry in its [columns] array. <sky-data-grid> has no columns input.',
+        ],
+        quote,
       );
       getElementsByTagName('sky-grid-column', grid).forEach((column) =>
         skippedColumns.add(column),
@@ -428,36 +498,70 @@ function convertTemplate(
     }
     // Each grid is swapped on its own so traversal never has to descend into
     // self-closing columns (which parse5 nests instead of treating as siblings).
-    swapTags(content, recorder, offset, GRID_TAG, gridTagSwap(context), grid);
+    warnWithTodo(
+      context,
+      recorder,
+      content,
+      offset,
+      grid,
+      getGridWarnings(grid),
+      quote,
+    );
+    if (hasAttribute(grid, [outputForm('columnWidthChange')])) {
+      logOnce(
+        context,
+        'warn',
+        'Column width change events from <sky-grid> have no <sky-data-grid> equivalent. Remove code that depends on them.',
+      );
+    }
+    swapTags(content, recorder, offset, GRID_TAG, gridTagSwap, grid);
     converted++;
+  }
+
+  // One "TODO" per list-view grid rather than per column keeps the comments
+  // from repeating for every column in the list.
+  for (const listViewGrid of getElementsByTagName(
+    LIST_VIEW_GRID_TAG,
+    fragment,
+  )) {
+    const listViewColumns = getElementsByTagName(
+      'sky-grid-column',
+      listViewGrid,
+    );
+    if (listViewColumns.length > 0) {
+      listViewGridSkipped += listViewColumns.length;
+      warnWithTodo(
+        context,
+        recorder,
+        content,
+        offset,
+        listViewGrid,
+        [
+          `Migrate this <sky-list-view-grid> and its parent <sky-list> to <sky-data-manager> with a <sky-data-view> that contains a <sky-data-grid>, converting each <sky-grid-column> to <sky-data-grid-column>. See ${DATA_MANAGER_DOC_URL}`,
+        ],
+        quote,
+      );
+    }
   }
 
   // Collect columns from the whole fragment (getElementsByTagName traverses
   // unconditionally) and swap each individually for the same reason.
-  const allColumns = getElementsByTagName('sky-grid-column', fragment);
-  const columns = allColumns.filter((column) => {
-    if (hasAncestorTag(column, LIST_VIEW_GRID_TAG)) {
-      listViewGridSkipped++;
-      return false;
-    }
-    return !skippedColumns.has(column);
-  });
-  if (listViewGridSkipped > 0) {
-    logOnce(
-      context,
-      'warn',
-      'A <sky-grid-column> inside <sky-list-view-grid> was left unchanged. <sky-list-view-grid> has no <sky-data-grid> equivalent in this migration.',
-    );
-  }
+  const columns = getElementsByTagName('sky-grid-column', fragment).filter(
+    (column) =>
+      !hasAncestorTag(column, LIST_VIEW_GRID_TAG) &&
+      !skippedColumns.has(column),
+  );
   for (const column of columns) {
-    swapTags(
-      content,
+    warnWithTodo(
+      context,
       recorder,
+      content,
       offset,
-      COLUMN_TAG,
-      columnTagSwap(context),
       column,
+      getColumnWarnings(column),
+      quote,
     );
+    swapTags(content, recorder, offset, COLUMN_TAG, columnTagSwap, column);
   }
 
   if (converted > 0) {
@@ -470,11 +574,6 @@ function convertTemplate(
       context,
       'info',
       'Data grid columns default to dataType="text". Review numeric and date columns and set "dataType" so sorting and formatting behave correctly.',
-    );
-    logOnce(
-      context,
-      'warn',
-      'Some <sky-grid> features have no <sky-data-grid> equivalent (toolbar, text and row highlighting, custom per-column search, message-stream commands such as row delete, settingsKey persistence, and explicit width/height). Reimplement these manually as needed.',
     );
   }
 
@@ -566,6 +665,7 @@ function convertTypescriptTemplates(
           content.slice(template.start, template.end),
           context,
           template.start,
+          content[template.start - 1],
         ),
       );
     }
@@ -645,19 +745,43 @@ function ngModuleExportsGridModuleWithoutImportingIt(
 }
 
 /**
- * True when any `@NgModule` in `source` exports `SkyGridModule` without also
- * importing it.
+ * All `@NgModule` metadata objects in `source` that export `SkyGridModule`
+ * without also importing it.
  */
-function sourceHasNgModuleExportingGridModuleWithoutImportingIt(
+function getNgModulesExportingGridModuleWithoutImportingIt(
   source: ts.SourceFile,
-): boolean {
+): ts.ObjectLiteralExpression[] {
   if (!isImportedFromPackage(source, 'NgModule', '@angular/core')) {
-    return false;
+    return [];
   }
-  return getDecoratorMetadata(source, 'NgModule', '@angular/core').some(
-    (node) =>
+  return getDecoratorMetadata(source, 'NgModule', '@angular/core').filter(
+    (node): node is ts.ObjectLiteralExpression =>
       ts.isObjectLiteralExpression(node) &&
       ngModuleExportsGridModuleWithoutImportingIt(node),
+  );
+}
+
+/**
+ * True when `addSymbolToClassMetadata` can add to the NgModule's `imports`:
+ * the field is absent or an array literal. A constant or shorthand property
+ * can't be edited safely, and neither can any NgModule with a spread, which
+ * may supply `imports` that an added or edited field would override.
+ */
+function hasEditableImports(node: ts.ObjectLiteralExpression): boolean {
+  if (node.properties.some(ts.isSpreadAssignment)) {
+    return false;
+  }
+  // getMetadataField skips shorthand properties, so match by name instead.
+  const imports = node.properties.find(
+    (property) =>
+      !!property.name &&
+      (ts.isIdentifier(property.name) || ts.isStringLiteral(property.name)) &&
+      property.name.text === 'imports',
+  );
+  return (
+    !imports ||
+    (ts.isPropertyAssignment(imports) &&
+      ts.isArrayLiteralExpression(imports.initializer))
   );
 }
 
@@ -679,9 +803,19 @@ function updateTypescriptImports(
     return;
   }
   const source = parseSourceFile(tree, filePath);
-  if (
-    !isImportedFromPackage(source, SKY_GRID_MODULE, SKY_GRID_MODULE_PACKAGE)
-  ) {
+  const gridImport = source.statements.find(
+    (statement): statement is ts.ImportDeclaration =>
+      ts.isImportDeclaration(statement) &&
+      ts.isStringLiteral(statement.moduleSpecifier) &&
+      statement.moduleSpecifier.text === SKY_GRID_MODULE_PACKAGE &&
+      !!statement.importClause?.namedBindings &&
+      ts.isNamedImports(statement.importClause.namedBindings) &&
+      statement.importClause.namedBindings.elements.some(
+        (specifier) =>
+          (specifier.propertyName ?? specifier.name).text === SKY_GRID_MODULE,
+      ),
+  );
+  if (!gridImport) {
     return;
   }
 
@@ -692,36 +826,109 @@ function updateTypescriptImports(
     classToFiles,
   );
 
-  if (total.converted > 0) {
-    if (total.columnsSkipped > 0) {
-      logOnce(
-        context,
-        'warn',
-        'The "SkyGridModule" import was replaced, but a <sky-grid> using the "columns" input was left unchanged and still requires "SkyGridModule". Restore the import or complete the manual migration of that grid.',
-      );
+  const recorder = tree.beginUpdate(filePath);
+  const warnAtImport = (warning: string): void => {
+    logOnce(context, 'warn', warning);
+    const start = gridImport.getStart();
+    const todo = `// ${TODO_PREFIX} ${warning}${getEOL(source.text)}`;
+    // A file the migration leaves unchanged keeps its TODOs from a prior run.
+    if (!source.text.includes(todo)) {
+      recorder.insertLeft(start, todo);
     }
+  };
+
+  if (total.converted > 0) {
     // A real conversion needs SkyDataGrid/SkyDataGridColumn. Any list-view-grid
     // skip stays safe because <sky-list-view-grid> requires
     // SkyListViewGridModule, which re-exports SkyGridModule.
-    const needsGridImportForExport =
-      sourceHasNgModuleExportingGridModuleWithoutImportingIt(source);
-    const recorder = tree.beginUpdate(filePath);
-    swapImportedClass(recorder, filePath, source, [
-      {
-        classNames: {
-          [SKY_GRID_MODULE]: DATA_GRID_CLASS_NAMES,
+    const modulesNeedingGridImportForExport =
+      getNgModulesExportingGridModuleWithoutImportingIt(source);
+    // An NgModule whose `imports` can't be edited keeps exporting
+    // SkyGridModule, since it can't import SkyDataGrid/SkyDataGridColumn.
+    const uneditableModules = modulesNeedingGridImportForExport.filter(
+      (moduleNode) => !hasEditableImports(moduleNode),
+    );
+    const isOutsideUneditableModule = (node: ts.Node): boolean =>
+      !uneditableModules.some(
+        (moduleNode) =>
+          node.getStart() >= moduleNode.getStart() &&
+          node.getEnd() <= moduleNode.getEnd(),
+      );
+    // Listing the data grid classes in place of, or alongside, SkyGridModule
+    // is only valid inside an array; elsewhere (a variable initializer, a
+    // call argument) it would change the code's meaning.
+    const references = findNodes(source, ts.SyntaxKind.Identifier).filter(
+      (node) =>
+        (node as ts.Identifier).text === SKY_GRID_MODULE &&
+        !ts.isImportSpecifier(node.parent) &&
+        isOutsideUneditableModule(node),
+    );
+    const arrayElements = references.filter((node) =>
+      ts.isArrayLiteralExpression(node.parent),
+    );
+    if (total.columnsSkipped > 0) {
+      // The [columns] grid still requires SkyGridModule, so the data grid
+      // classes are added alongside it rather than replacing it.
+      for (const element of arrayElements) {
+        recorder.insertRight(
+          element.getEnd(),
+          `, ${DATA_GRID_CLASS_NAMES.join(', ')}`,
+        );
+      }
+      const missingImports = DATA_GRID_CLASS_NAMES.filter(
+        (className) =>
+          !isImportedFromPackage(source, className, '@skyux/data-grid'),
+      );
+      if (arrayElements.length > 0 && missingImports.length > 0) {
+        applyToUpdateRecorder(recorder, [
+          insertImport(
+            source,
+            filePath,
+            missingImports.join(', '),
+            '@skyux/data-grid',
+          ),
+        ]);
+      }
+      warnAtImport(COLUMNS_GRID_IMPORT_TODO);
+    } else {
+      swapImportedClass(recorder, filePath, source, [
+        {
+          classNames: {
+            [SKY_GRID_MODULE]: DATA_GRID_CLASS_NAMES,
+          },
+          moduleName: {
+            old: SKY_GRID_MODULE_PACKAGE,
+            new: '@skyux/data-grid',
+          },
+          filter: (node): boolean => arrayElements.includes(node),
         },
-        moduleName: {
-          old: SKY_GRID_MODULE_PACKAGE,
-          new: '@skyux/data-grid',
-        },
-      },
-    ]);
-    if (needsGridImportForExport) {
+      ]);
+    }
+    if (arrayElements.length < references.length) {
+      warnAtImport(
+        'Add SkyDataGrid and SkyDataGridColumn from @skyux/data-grid wherever SkyGridModule is referenced outside an array: the migration only updates arrays.',
+      );
+    }
+    if (uneditableModules.length > 0) {
+      warnAtImport(
+        'Add SkyDataGrid and SkyDataGridColumn from @skyux/data-grid to the imports and exports of the NgModule that exports SkyGridModule, then remove SkyGridModule from it: the migration cannot safely edit its imports, which is not an array literal or sits alongside a spread.',
+      );
+    }
+    for (const moduleNode of modulesNeedingGridImportForExport.filter(
+      hasEditableImports,
+    )) {
       // The import is already added by swapImportedClass above, so only the
       // metadata array needs the symbols (importPath: null). Restrict the
-      // edit to the NgModule(s) that actually need it, since a file can
-      // declare more than one NgModule.
+      // edit to this NgModule, since a file can declare more than one, and
+      // only add whichever class names its `imports` array is missing (it
+      // may already reference SkyDataGrid/SkyDataGridColumn directly).
+      const missingClassNames = DATA_GRID_CLASS_NAMES.filter(
+        (className) =>
+          !isSymbolInClassMetadataFieldArray(moduleNode, 'imports', className),
+      );
+      if (!missingClassNames.length) {
+        continue;
+      }
       applyToUpdateRecorder(
         recorder,
         addSymbolToClassMetadata(
@@ -729,19 +936,14 @@ function updateTypescriptImports(
           'NgModule',
           filePath,
           'imports',
-          DATA_GRID_CLASS_NAMES.join(', '),
+          missingClassNames.join(', '),
           null,
-          ngModuleExportsGridModuleWithoutImportingIt,
+          (node) => node === moduleNode,
         ),
       );
     }
-    tree.commitUpdate(recorder);
   } else if (total.columnsSkipped > 0) {
-    logOnce(
-      context,
-      'warn',
-      'The "SkyGridModule" import was left unchanged because a <sky-grid> using the "columns" input still depends on it. Migrate that grid manually before removing the import.',
-    );
+    warnAtImport(COLUMNS_GRID_IMPORT_TODO);
   } else if (total.listViewGridSkipped > 0) {
     const listViewGridModuleImported = isImportedFromPackage(
       source,
@@ -749,40 +951,32 @@ function updateTypescriptImports(
       SKY_LIST_VIEW_GRID_MODULE_PACKAGE,
     );
     if (listViewGridModuleImported) {
-      // SkyListViewGridModule already re-exports SkyGridModule, and nothing
-      // associated with this file needs SkyDataGrid/SkyDataGridColumn; it's
-      // redundant.
-      const recorder = tree.beginUpdate(filePath);
+      // SkyGridModule is redundant only where SkyListViewGridModule, which
+      // re-exports it, is imported alongside it; other metadata may need it
+      // for templates the evidence didn't associate with this file.
       const removed = removeClassReference(
         recorder,
         source,
         SKY_GRID_MODULE,
         SKY_GRID_MODULE_PACKAGE,
+        SKY_LIST_VIEW_GRID_MODULE,
       );
-      tree.commitUpdate(recorder);
       if (!removed) {
-        // removeClassReference only edits decorator `imports` arrays; a
-        // reference elsewhere (e.g. a TestBed configuration) keeps the import.
-        logOnce(
-          context,
-          'warn',
-          'The redundant "SkyGridModule" import was kept because it is referenced outside a decorator "imports" array (for example in a TestBed configuration). "SkyListViewGridModule" re-exports "SkyGridModule", so remove the import manually if nothing else needs it.',
+        warnAtImport(
+          'Remove the remaining SkyGridModule references if nothing uses them: it was removed only where SkyListViewGridModule, which already exports it, is also imported.',
         );
       }
     } else {
-      logOnce(
-        context,
-        'warn',
-        'The "SkyGridModule" import was left unchanged because a <sky-grid-column> inside <sky-list-view-grid> still depends on it and "SkyListViewGridModule" could not be found in this file\'s imports. If "SkyGridModule" is now unused, review it manually.',
+      warnAtImport(
+        'Replace SkyGridModule with SkyDataGrid and SkyDataGridColumn from @skyux/data-grid after migrating the <sky-list-view-grid> to <sky-data-manager>.',
       );
     }
   } else {
-    logOnce(
-      context,
-      'warn',
-      'The "SkyGridModule" import was left unchanged because no <sky-grid> usage associated with this file was converted. If the import is unused, or this file re-exports "SkyGridModule" for use elsewhere, update it manually.',
+    warnAtImport(
+      'Remove SkyGridModule if nothing uses it. Otherwise replace it with SkyDataGrid and SkyDataGridColumn from @skyux/data-grid; an NgModule that re-exports it must list them in both imports and exports.',
     );
   }
+  tree.commitUpdate(recorder);
 }
 
 export function convertGridToDataGrid(projectPath: string): Rule {

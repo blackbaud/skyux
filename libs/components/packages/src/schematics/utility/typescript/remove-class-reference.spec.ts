@@ -28,28 +28,28 @@ describe('remove-class-reference', () => {
   it('should remove the last entry in a decorator imports array and import', () => {
     const content = `import { SkyListViewGridModule, SkyGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule, SkyGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
-      `import { SkyListViewGridModule, } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass Test {}`,
+      `import { SkyListViewGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass Test {}`,
     );
   });
 
   it('should remove the first entry in a decorator imports array and import', () => {
     const content = `import { SkyGridModule, SkyListViewGridModule } from 'module';\n\n@Component({\n  imports: [SkyGridModule, SkyListViewGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
-      `import {  SkyListViewGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass Test {}`,
+      `import { SkyListViewGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass Test {}`,
     );
   });
 
   it('should leave an empty array when it is the only entry', () => {
     const content = `import { SkyGridModule } from 'module';\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
-      `\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
+      `\n@Component({\n  imports: [],\n})\nclass Test {}`,
     );
   });
 
   it('should only remove the matching class from the import statement', () => {
     const content = `import { SkyGridModule, SkyGridComponent } from 'module';\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
-      `import {  SkyGridComponent } from 'module';\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
+      `import { SkyGridComponent } from 'module';\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
     );
   });
 
@@ -76,6 +76,43 @@ describe('remove-class-reference', () => {
     const content = `import { SkyGridModule } from 'module';\n\nconst config = makeConfig({\n  imports: [SkyGridModule],\n});\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass Test {}`;
     expect(run(content)).toBe(
       `import { SkyGridModule } from 'module';\n\nconst config = makeConfig({\n  imports: [SkyGridModule],\n});\n\n@Component({\n  imports: [],\n})\nclass Test {}`,
+    );
+  });
+
+  it('should remove the entry and import from a TestBed.configureTestingModule imports array', () => {
+    const content = `import { SkyGridModule } from 'module';\n\nTestBed.configureTestingModule({\n  imports: [SkyGridModule],\n});`;
+    expect(run(content)).toBe(
+      `\nTestBed.configureTestingModule({\n  imports: [],\n});`,
+    );
+  });
+
+  it('should not modify an imports array passed to the second argument of TestBed.configureTestingModule', () => {
+    const content = `import { SkyGridModule } from 'module';\n\nTestBed.configureTestingModule(otherConfig, {\n  imports: [SkyGridModule],\n});`;
+    expect(run(content)).toBe(content);
+  });
+
+  it('should only modify arrays that also list the required sibling', () => {
+    const path = 'file.ts';
+    const content = `import { SkyGridModule } from 'module';\n\n@Component({\n  imports: [SkyGridModule, SkyListViewGridModule],\n})\nclass A {}\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass B {}`;
+    tree.create(path, content);
+    const sourceFile = ts.createSourceFile(
+      path,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    const recorder = tree.beginUpdate(path);
+    const removed = removeClassReference(
+      recorder,
+      sourceFile,
+      'SkyGridModule',
+      'module',
+      'SkyListViewGridModule',
+    );
+    tree.commitUpdate(recorder);
+    expect(removed).toBe(false);
+    expect(tree.readText(path)).toBe(
+      `import { SkyGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass A {}\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass B {}`,
     );
   });
 
