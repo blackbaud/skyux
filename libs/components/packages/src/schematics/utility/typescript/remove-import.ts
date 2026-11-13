@@ -33,19 +33,39 @@ export function removeImport(
       );
       const otherMatches = importSpecifiers.filter(
         (importSpecifier) =>
-          !options.classNames.includes(importSpecifier.getText()),
+          !options.classNames.includes(importSpecifier.name.text),
       );
       if (classMatches.length > 0) {
         if (otherMatches.length > 0) {
+          const lastOtherMatch = otherMatches[otherMatches.length - 1];
           classMatches.forEach((importSpecifier) => {
-            const importStart = importSpecifier.getStart(sourceFile);
-            const importWidth = importSpecifier.getWidth(sourceFile);
-            recorder.remove(importStart, importWidth + 1);
+            const index = importSpecifiers.indexOf(importSpecifier);
+            // Take the comma after the specifier while a retained specifier
+            // follows it, otherwise the comma before it, so the remaining list
+            // stays well-formed and the removed ranges never overlap.
+            const [start, end] =
+              importSpecifier.pos < lastOtherMatch.pos
+                ? [
+                    importSpecifier.getStart(sourceFile),
+                    importSpecifiers[index + 1].getStart(sourceFile),
+                  ]
+                : [
+                    importSpecifiers[index - 1].getEnd(),
+                    importSpecifier.getEnd(),
+                  ];
+            recorder.remove(start, end - start);
           });
         } else {
           const importStart = importDeclaration.getStart(sourceFile);
-          const importWidth = importDeclaration.getWidth(sourceFile);
-          recorder.remove(importStart, importWidth);
+          const importEnd = importDeclaration.getEnd();
+          // Also remove the rest of the line so no blank line is left behind.
+          const rest = sourceFile.text.substring(importEnd);
+          const trailingLength =
+            rest.length - rest.replace(/^[^\S\n]*\n?/, '').length;
+          recorder.remove(
+            importStart,
+            importEnd - importStart + trailingLength,
+          );
         }
       }
     }

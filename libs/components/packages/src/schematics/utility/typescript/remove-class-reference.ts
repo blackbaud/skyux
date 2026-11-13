@@ -6,7 +6,8 @@ import { removeImport } from './remove-import';
 
 /**
  * True if `array` is the value of an `imports: [...]` property on an object
- * literal passed directly to a decorator (e.g. `@Component({ imports: [...] })`).
+ * literal passed directly to a decorator (e.g. `@Component({ imports: [...] })`)
+ * or as the first argument to `TestBed.configureTestingModule({ imports: [...] })`.
  * A `PropertyAssignment`'s parent is always an `ObjectLiteralExpression` by
  * grammar, so that link doesn't need its own check.
  */
@@ -18,18 +19,30 @@ function isDecoratorImportsArray(array: ts.ArrayLiteralExpression): boolean {
   ) {
     return false;
   }
-  const call = property.parent.parent;
-  return ts.isCallExpression(call) && ts.isDecorator(call.parent);
+  const objectLiteral = property.parent;
+  const call = objectLiteral.parent;
+  if (!ts.isCallExpression(call)) {
+    return false;
+  }
+  return (
+    ts.isDecorator(call.parent) ||
+    (call.arguments[0] === objectLiteral &&
+      call.expression.getText().trim() === 'TestBed.configureTestingModule')
+  );
 }
 
 /**
- * Removes every reference to `className` from an Angular decorator's
- * `imports: [...]` array, consuming the adjacent comma so the remaining
- * entries stay well-formed, then removes the import of `className` from
- * `moduleName` - but only if nothing else in the file still references it.
- * References outside a decorator's `imports` array (unrelated arrays, a
- * parameter that shadows the import, direct assignments, etc.) are left
- * untouched, and the import is kept if any of those remain.
+ * Removes every reference to `className` from the `imports: [...]` array of an
+ * Angular decorator or a `TestBed.configureTestingModule({ ... })` call,
+ * consuming the adjacent comma so the remaining entries stay well-formed, then
+ * removes the import of `className` from `moduleName` - but only if nothing
+ * else in the file still references it. References outside those arrays
+ * (unrelated arrays, a parameter that shadows the import, direct assignments,
+ * etc.) are left untouched, and the import is kept if any of those remain.
+ *
+ * When `requiredSibling` is given, only arrays that also list it are edited;
+ * references in other arrays are left in place like any other unhandled
+ * reference.
  *
  * Returns `true` when the import statement was removed, `false` when
  * unhandled references kept it in place.
@@ -39,6 +52,7 @@ export function removeClassReference(
   sourceFile: ts.SourceFile,
   className: string,
   moduleName: string,
+  requiredSibling?: string,
 ): boolean {
   const endOfImports = findNodes(
     sourceFile,
@@ -57,7 +71,12 @@ export function removeClassReference(
       reference,
     ): reference is ts.Identifier & { parent: ts.ArrayLiteralExpression } =>
       ts.isArrayLiteralExpression(reference.parent) &&
-      isDecoratorImportsArray(reference.parent),
+      isDecoratorImportsArray(reference.parent) &&
+      (!requiredSibling ||
+        reference.parent.elements.some(
+          (element) =>
+            ts.isIdentifier(element) && element.text === requiredSibling,
+        )),
   );
   const hasUnhandledReference =
     decoratorArrayReferences.length !== references.length;
