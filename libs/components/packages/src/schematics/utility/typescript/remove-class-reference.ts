@@ -63,6 +63,10 @@ export function isDecoratorMetadataArray(
  * parameter that shadows the import, direct assignments, etc.) are left
  * untouched, and the import is kept if any of those remain.
  *
+ * When `requiredSibling` is given, only arrays that also list it are edited;
+ * references in other arrays are left in place like any other unhandled
+ * reference.
+ *
  * Returns `true` when the import statement was removed, `false` when
  * unhandled references kept it in place.
  */
@@ -72,6 +76,7 @@ export function removeClassReference(
   className: string,
   moduleName: string,
   metadataFields: readonly string[] = ['imports'],
+  requiredSibling?: string,
 ): boolean {
   const endOfImports = findNodes(
     sourceFile,
@@ -90,7 +95,12 @@ export function removeClassReference(
       reference,
     ): reference is ts.Identifier & { parent: ts.ArrayLiteralExpression } =>
       ts.isArrayLiteralExpression(reference.parent) &&
-      isDecoratorMetadataArray(reference.parent, metadataFields),
+      isDecoratorMetadataArray(reference.parent, metadataFields) &&
+      (!requiredSibling ||
+        reference.parent.elements.some(
+          (element) =>
+            ts.isIdentifier(element) && element.text === requiredSibling,
+        )),
   );
   const hasUnhandledReference =
     decoratorArrayReferences.length !== references.length;
