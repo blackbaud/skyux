@@ -47,6 +47,14 @@ const DATA_MANAGER_DOC_URL =
 
 const TODO_PREFIX = 'TODO: data-grid-migration:';
 
+/**
+ * Emitted both when a migration run adds the data grid classes alongside
+ * SkyGridModule and on a later run that only finds the [columns] grid, so a
+ * re-run recognizes its own TODO.
+ */
+const COLUMNS_GRID_IMPORT_TODO =
+  'Replace SkyGridModule with SkyDataGrid and SkyDataGridColumn from @skyux/data-grid after migrating the <sky-grid> that uses [columns].';
+
 const SKY_GRID_MODULE = 'SkyGridModule';
 const SKY_GRID_MODULE_PACKAGE = '@skyux/grids';
 const SKY_LIST_VIEW_GRID_MODULE = 'SkyListViewGridModule';
@@ -756,13 +764,20 @@ function getNgModulesExportingGridModuleWithoutImportingIt(
 
 /**
  * True when `addSymbolToClassMetadata` can add to the NgModule's `imports`:
- * the field is absent or an array literal. A constant, spread, or shorthand
- * property can't be edited safely.
+ * the field is absent or an array literal. A constant or shorthand property
+ * can't be edited safely, and neither can any NgModule with a spread, which
+ * may supply `imports` that an added or edited field would override.
  */
 function hasEditableImports(node: ts.ObjectLiteralExpression): boolean {
+  if (node.properties.some(ts.isSpreadAssignment)) {
+    return false;
+  }
   // getMetadataField skips shorthand properties, so match by name instead.
   const imports = node.properties.find(
-    (property) => property.name?.getText() === 'imports',
+    (property) =>
+      !!property.name &&
+      (ts.isIdentifier(property.name) || ts.isStringLiteral(property.name)) &&
+      property.name.text === 'imports',
   );
   return (
     !imports ||
@@ -817,8 +832,8 @@ function updateTypescriptImports(
     logOnce(context, 'warn', warning);
     const start = gridImport.getStart();
     const todo = `// ${TODO_PREFIX} ${warning}${getEOL(source.text)}`;
-    // A file the migration leaves unchanged keeps its TODO from a prior run.
-    if (source.text.substring(start - todo.length, start) !== todo) {
+    // A file the migration leaves unchanged keeps its TODOs from a prior run.
+    if (!source.text.includes(todo)) {
       recorder.insertLeft(start, todo);
     }
   };
@@ -840,32 +855,42 @@ function updateTypescriptImports(
           node.getStart() >= moduleNode.getStart() &&
           node.getEnd() <= moduleNode.getEnd(),
       );
+    // Listing the data grid classes in place of, or alongside, SkyGridModule
+    // is only valid inside an array; elsewhere (a variable initializer, a
+    // call argument) it would change the code's meaning.
+    const references = findNodes(source, ts.SyntaxKind.Identifier).filter(
+      (node) =>
+        (node as ts.Identifier).text === SKY_GRID_MODULE &&
+        !ts.isImportSpecifier(node.parent) &&
+        isOutsideUneditableModule(node),
+    );
+    const arrayElements = references.filter((node) =>
+      ts.isArrayLiteralExpression(node.parent),
+    );
     if (total.columnsSkipped > 0) {
       // The [columns] grid still requires SkyGridModule, so the data grid
       // classes are added alongside it rather than replacing it.
-      const dataGridClassNames = DATA_GRID_CLASS_NAMES.join(', ');
-      const references = findNodes(source, ts.SyntaxKind.Identifier).filter(
-        (node) =>
-          (node as ts.Identifier).text === SKY_GRID_MODULE &&
-          !ts.isImportSpecifier(node.parent) &&
-          isOutsideUneditableModule(node),
-      );
-      for (const reference of references) {
-        recorder.insertRight(reference.getEnd(), `, ${dataGridClassNames}`);
+      for (const element of arrayElements) {
+        recorder.insertRight(
+          element.getEnd(),
+          `, ${DATA_GRID_CLASS_NAMES.join(', ')}`,
+        );
       }
-      if (references.length > 0) {
+      const missingImports = DATA_GRID_CLASS_NAMES.filter(
+        (className) =>
+          !isImportedFromPackage(source, className, '@skyux/data-grid'),
+      );
+      if (arrayElements.length > 0 && missingImports.length > 0) {
         applyToUpdateRecorder(recorder, [
           insertImport(
             source,
             filePath,
-            dataGridClassNames,
+            missingImports.join(', '),
             '@skyux/data-grid',
           ),
         ]);
       }
-      warnAtImport(
-        'Remove SkyGridModule after migrating the <sky-grid> that uses [columns]: SkyDataGrid and SkyDataGridColumn were added alongside it.',
-      );
+      warnAtImport(COLUMNS_GRID_IMPORT_TODO);
     } else {
       swapImportedClass(recorder, filePath, source, [
         {
@@ -876,13 +901,18 @@ function updateTypescriptImports(
             old: SKY_GRID_MODULE_PACKAGE,
             new: '@skyux/data-grid',
           },
-          filter: isOutsideUneditableModule,
+          filter: (node): boolean => arrayElements.includes(node),
         },
       ]);
     }
+    if (arrayElements.length < references.length) {
+      warnAtImport(
+        'Add SkyDataGrid and SkyDataGridColumn from @skyux/data-grid wherever SkyGridModule is referenced outside an array: the migration only updates arrays.',
+      );
+    }
     if (uneditableModules.length > 0) {
       warnAtImport(
-        'Add SkyDataGrid and SkyDataGridColumn from @skyux/data-grid to the imports and exports of the NgModule that exports SkyGridModule, then remove SkyGridModule from it: its imports is not an array literal the migration can edit.',
+        'Add SkyDataGrid and SkyDataGridColumn from @skyux/data-grid to the imports and exports of the NgModule that exports SkyGridModule, then remove SkyGridModule from it: the migration cannot safely edit its imports, which is not an array literal or sits alongside a spread.',
       );
     }
     for (const moduleNode of modulesNeedingGridImportForExport.filter(
@@ -914,9 +944,7 @@ function updateTypescriptImports(
       );
     }
   } else if (total.columnsSkipped > 0) {
-    warnAtImport(
-      'Replace SkyGridModule with SkyDataGrid and SkyDataGridColumn from @skyux/data-grid after migrating the <sky-grid> that uses [columns].',
-    );
+    warnAtImport(COLUMNS_GRID_IMPORT_TODO);
   } else if (total.listViewGridSkipped > 0) {
     const listViewGridModuleImported = isImportedFromPackage(
       source,
