@@ -44,6 +44,36 @@
           "ChartsChartBarAsyncExample"
         ]
       }
+    },
+    "chart-pie": {
+      "development": {
+        "docsIds": [
+          "SkyChart",
+          "SkyChartPie",
+          "SkyChartPieSlice",
+          "SkyChartPieDisplayMode",
+          "SkyChartHeadingLevel",
+          "SkyChartHeadingStyle",
+          "SkyChartValueFormat"
+        ],
+        "primaryDocsId": "SkyChart"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyChartPieHarness",
+          "SkyChartPieHarnessFilters",
+          "SkyChartHarness",
+          "SkyChartHarnessFilters",
+          "SkyChartTableModalHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ChartsChartPieBasicExample",
+          "ChartsChartPieDonutExample",
+          "ChartsChartPieAsyncExample"
+        ]
+      }
     }
   }
 }
