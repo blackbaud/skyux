@@ -244,6 +244,277 @@ describe('Convert Stache blockquote to blockquote', () => {
     );
   });
 
+  describe('usage per component or NgModule', () => {
+    function component(
+      name: string,
+      stacheImport: string,
+      templateProperty: string,
+    ): string {
+      return stripIndents`
+        import { Component } from '@angular/core';
+        import { ${stacheImport} } from '${STACHE_PACKAGE}';
+
+        @Component({
+          selector: 'app-${name}',
+          imports: [${stacheImport}],
+          ${templateProperty},
+        })
+        export class ${name}Component {}
+      `;
+    }
+
+    it('should only swap StacheBlockquoteModule in the component that renders a blockquote', async () => {
+      const tree = await setup({
+        'src/app/quote.ts': component(
+          'Quote',
+          'StacheBlockquoteModule',
+          `template: '<stache-blockquote>Quote</stache-blockquote>'`,
+        ),
+        'src/app/plain.ts': component(
+          'Plain',
+          'StacheBlockquoteModule',
+          `template: '<p>No quote</p>'`,
+        ),
+      });
+
+      const result = await convert(tree);
+
+      expect(result.readText('src/app/quote.ts')).toEqual(stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyBlockquote } from '@skyux/layout';
+
+        @Component({
+          selector: 'app-Quote',
+          imports: [SkyBlockquote],
+          template: '<sky-blockquote>Quote</sky-blockquote>',
+        })
+        export class QuoteComponent {}
+      `);
+      // The unused Stache module is removed rather than swapped.
+      expect(result.readText('src/app/plain.ts')).toEqual(stripIndents`
+        import { Component } from '@angular/core';
+
+        @Component({
+          selector: 'app-Plain',
+          imports: [],
+          template: '<p>No quote</p>',
+        })
+        export class PlainComponent {}
+      `);
+    });
+
+    it('should only add SkyBlockquote next to StacheModule in the component that renders a blockquote', async () => {
+      const plain = component(
+        'Plain',
+        'StacheModule',
+        `template: '<stache-nav></stache-nav>'`,
+      );
+      const tree = await setup({
+        'src/app/quote.ts': component(
+          'Quote',
+          'StacheModule',
+          `template: '<stache-blockquote>Quote</stache-blockquote>'`,
+        ),
+        'src/app/plain.ts': plain,
+      });
+
+      const result = await convert(tree);
+
+      expect(result.readText('src/app/quote.ts')).toContain(
+        'imports: [StacheModule, SkyBlockquote]',
+      );
+      expect(result.readText('src/app/plain.ts')).toEqual(plain);
+    });
+
+    it('should use a component templateUrl as well as an inline template', async () => {
+      const tree = await setup({
+        'src/app/url.ts': component(
+          'Url',
+          'StacheBlockquoteModule',
+          `templateUrl: './url.html'`,
+        ),
+        'src/app/url.html': '<stache-blockquote>Quote</stache-blockquote>',
+        'src/app/inline.ts': component(
+          'Inline',
+          'StacheBlockquoteModule',
+          `template: '<stache-blockquote>Quote</stache-blockquote>'`,
+        ),
+        'src/app/plain-url.ts': component(
+          'PlainUrl',
+          'StacheBlockquoteModule',
+          `templateUrl: './plain-url.html'`,
+        ),
+        'src/app/plain-url.html': '<p>No quote</p>',
+      });
+
+      const result = await convert(tree);
+
+      expect(result.readText('src/app/url.ts')).toContain(
+        'imports: [SkyBlockquote]',
+      );
+      expect(result.readText('src/app/inline.ts')).toContain(
+        'imports: [SkyBlockquote]',
+      );
+      expect(result.readText('src/app/plain-url.ts')).toContain('imports: []');
+      expect(result.readText('src/app/plain-url.ts')).not.toContain(
+        'SkyBlockquote',
+      );
+    });
+
+    it('should swap in an NgModule only when a component it declares renders a blockquote', async () => {
+      const declared = (name: string): string =>
+        stripIndents`
+          import { Component } from '@angular/core';
+
+          @Component({
+            selector: 'app-${name}',
+            standalone: false,
+            templateUrl: './${name}.html',
+          })
+          export class ${name}Component {}
+        `;
+      const ngModule = (name: string, declarations: string[]): string =>
+        stripIndents`
+          import { NgModule } from '@angular/core';
+          import { StacheBlockquoteModule } from '${STACHE_PACKAGE}';
+
+          ${declarations.map((declaration) => `import { ${declaration}Component } from './${declaration}';`).join('\n')}
+
+          @NgModule({
+            declarations: [${declarations.map((declaration) => `${declaration}Component`).join(', ')}],
+            imports: [StacheBlockquoteModule],
+          })
+          export class ${name}Module {}
+        `;
+      const tree = await setup({
+        'src/app/quote.ts': declared('quote'),
+        'src/app/quote.html': '<stache-blockquote>Quote</stache-blockquote>',
+        'src/app/plain.ts': declared('plain'),
+        'src/app/plain.html': '<p>No quote</p>',
+        'src/app/mixed.module.ts': ngModule('Mixed', ['quote', 'plain']),
+        'src/app/plain.module.ts': ngModule('Plain', ['plain']),
+      });
+
+      const result = await convert(tree);
+
+      expect(result.readText('src/app/mixed.module.ts')).toContain(
+        'imports: [SkyBlockquote]',
+      );
+      expect(result.readText('src/app/plain.module.ts')).toContain(
+        'imports: []',
+      );
+      expect(result.readText('src/app/plain.module.ts')).not.toContain(
+        'SkyBlockquote',
+      );
+    });
+
+    it('should remove StacheBlockquoteModule from an NgModule whose same-file component renders no blockquote', async () => {
+      const tree = await setup({
+        'src/app/plain.module.ts': stripIndents`
+          import { Component, NgModule } from '@angular/core';
+          import { StacheBlockquoteModule } from '${STACHE_PACKAGE}';
+
+          @Component({
+            selector: 'app-plain',
+            standalone: false,
+            template: '<p>No quote</p>',
+          })
+          export class PlainComponent {}
+
+          @NgModule({
+            declarations: [PlainComponent],
+            imports: [StacheBlockquoteModule],
+          })
+          export class PlainModule {}
+        `,
+        'src/app/quote.ts': component(
+          'Quote',
+          'StacheBlockquoteModule',
+          "template: '<stache-blockquote>Quote</stache-blockquote>'",
+        ),
+      });
+
+      const result = await convert(tree);
+
+      expect(result.readText('src/app/plain.module.ts')).toContain(
+        'imports: []',
+      );
+      expect(result.readText('src/app/plain.module.ts')).not.toContain(
+        'Blockquote',
+      );
+    });
+
+    it('should leave the tags alone when no file in the project uses the blockquote', async () => {
+      const tree = await setup({
+        'src/app/plain.ts': component(
+          'Plain',
+          'StacheBlockquoteModule',
+          "template: '<p>No quote</p>'",
+        ),
+      });
+      const packageJson = tree.readText('package.json');
+
+      const result = await convert(tree);
+
+      expect(result.readText('src/app/plain.ts')).not.toContain(
+        'StacheBlockquoteModule',
+      );
+      // The project's blockquote template gets its component from somewhere
+      // this schematic doesn't convert.
+      expect(result.readText(QUOTE_TEMPLATE_PATH)).toEqual(
+        '<stache-blockquote>Quote</stache-blockquote>',
+      );
+      expect(result.readText('package.json')).toEqual(packageJson);
+    });
+
+    it('should swap in an NgModule whose declaration it cannot resolve', async () => {
+      const tree = await setup({
+        'src/app/barrel.module.ts': stripIndents`
+          import { NgModule } from '@angular/core';
+          import { StacheBlockquoteModule } from '${STACHE_PACKAGE}';
+
+          import { QuoteComponent } from './components';
+
+          @NgModule({
+            declarations: [QuoteComponent],
+            imports: [StacheBlockquoteModule],
+          })
+          export class BarrelModule {}
+        `,
+        'src/app/missing-template.ts': component(
+          'MissingTemplate',
+          'StacheBlockquoteModule',
+          "templateUrl: './missing.html'",
+        ),
+        'src/app/declared-elsewhere.module.ts': stripIndents`
+          import { NgModule } from '@angular/core';
+          import { StacheBlockquoteModule } from '${STACHE_PACKAGE}';
+
+          import { QuoteComponent } from './not-a-component';
+
+          @NgModule({
+            declarations: [QuoteComponent],
+            imports: [StacheBlockquoteModule],
+          })
+          export class DeclaredElsewhereModule {}
+        `,
+        'src/app/not-a-component.ts': "export * from './quote.component';",
+      });
+
+      const result = await convert(tree);
+
+      // A barrel or a missing file can't be checked, so the module keeps the
+      // blockquote rather than risk losing it.
+      for (const filePath of [
+        'src/app/barrel.module.ts',
+        'src/app/missing-template.ts',
+        'src/app/declared-elsewhere.module.ts',
+      ]) {
+        expect(result.readText(filePath)).toContain('imports: [SkyBlockquote]');
+      }
+    });
+  });
+
   describe('StacheModule', () => {
     it('should add SkyBlockquote next to StacheModule and keep the Stache dependency', async () => {
       const tree = await setup({
@@ -362,14 +633,17 @@ describe('Convert Stache blockquote to blockquote', () => {
         @Component({
           selector: 'app-foo',
           imports: [StacheModule, SkyBlockquote],
-          template: '',
+          template: '<stache-blockquote>Quote</stache-blockquote>',
         })
         export class FooComponent {}
       `;
 
       const result = await convertFile(content);
 
-      expect(result).toEqual(content);
+      // Only the tag changes.
+      expect(result).toEqual(
+        content.replaceAll('stache-blockquote', 'sky-blockquote'),
+      );
     });
 
     it('should list SkyBlockquote once when StacheModule and StacheBlockquoteModule share an array', async () => {
@@ -380,7 +654,7 @@ describe('Convert Stache blockquote to blockquote', () => {
         @Component({
           selector: 'app-foo',
           imports: [StacheModule, StacheBlockquoteModule],
-          template: '',
+          template: '<sky-blockquote>Quote</sky-blockquote>',
         })
         export class FooComponent {}
       `);
@@ -393,7 +667,7 @@ describe('Convert Stache blockquote to blockquote', () => {
         @Component({
           selector: 'app-foo',
           imports: [StacheModule, SkyBlockquote],
-          template: '',
+          template: '<sky-blockquote>Quote</sky-blockquote>',
         })
         export class FooComponent {}
       `);
@@ -409,7 +683,7 @@ describe('Convert Stache blockquote to blockquote', () => {
         @Component({
           selector: 'app-foo',
           imports: [StacheNavModule, StacheBlockquoteModule],
-          template: '',
+          template: '<stache-blockquote>Quote</stache-blockquote>',
         })
         export class FooComponent {}
       `,
@@ -425,7 +699,7 @@ describe('Convert Stache blockquote to blockquote', () => {
       @Component({
         selector: 'app-foo',
         imports: [StacheNavModule, SkyBlockquote],
-        template: '',
+        template: '<sky-blockquote>Quote</sky-blockquote>',
       })
       export class FooComponent {}
     `);
@@ -481,21 +755,21 @@ describe('Convert Stache blockquote to blockquote', () => {
       @Component({
         selector: 'app-foo',
         imports: [SkyUxBlockquote, StacheBlockquoteModule],
-        template: '',
+        template: '<sky-blockquote>Quote</sky-blockquote>',
       })
       export class FooComponent {}
 
       @Component({
         selector: 'app-bar',
         imports: [StacheBlockquoteModule],
-        template: '',
+        template: '<sky-blockquote>Quote</sky-blockquote>',
       })
       export class BarComponent {}
 
       @Component({
         selector: 'app-baz',
         imports: [StacheModule],
-        template: '',
+        template: '<sky-blockquote>Quote</sky-blockquote>',
       })
       export class BazComponent {}
     `);
@@ -508,21 +782,21 @@ describe('Convert Stache blockquote to blockquote', () => {
       @Component({
         selector: 'app-foo',
         imports: [SkyUxBlockquote],
-        template: '',
+        template: '<sky-blockquote>Quote</sky-blockquote>',
       })
       export class FooComponent {}
 
       @Component({
         selector: 'app-bar',
         imports: [SkyUxBlockquote],
-        template: '',
+        template: '<sky-blockquote>Quote</sky-blockquote>',
       })
       export class BarComponent {}
 
       @Component({
         selector: 'app-baz',
         imports: [StacheModule, SkyUxBlockquote],
-        template: '',
+        template: '<sky-blockquote>Quote</sky-blockquote>',
       })
       export class BazComponent {}
     `);

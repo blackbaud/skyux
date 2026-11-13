@@ -1,5 +1,11 @@
+import { dirname, join, normalize } from '@angular-devkit/core';
 import { Rule, Tree, UpdateRecorder } from '@angular-devkit/schematics';
-import { findNodes, insertImport } from '@schematics/angular/utility/ast-utils';
+import {
+  findNodes,
+  getDecoratorMetadata,
+  getMetadataField,
+  insertImport,
+} from '@schematics/angular/utility/ast-utils';
 import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 import ts from 'typescript';
@@ -11,9 +17,15 @@ import { hasUnconvertibleUsage } from '../../utility/typescript/has-unconvertibl
 import {
   getInlineTemplates,
   getLocalImportName,
+  getTemplateUrls,
+  getTestingModuleMetadata,
   isImportedFromPackage,
   parseSourceFile,
 } from '../../utility/typescript/ng-ast';
+import {
+  isDecoratorMetadataArray,
+  removeClassReference,
+} from '../../utility/typescript/remove-class-reference';
 import {
   importExportedStandalone,
   swapModuleForStandalone,
@@ -38,6 +50,134 @@ const LEFTOVER_REFERENCE_EXTENSIONS = [
   '.sass',
   '.less',
 ];
+
+function rendersBlockquote(template: string): boolean {
+  return (
+    template.includes(`<${STACHE_TAG}`) || template.includes(`<${SKYUX_TAG}`)
+  );
+}
+
+/**
+ * True if a component in the file renders a blockquote in its inline template
+ * or its `templateUrl`. A template that can't be read counts as rendering
+ * one, so the component keeps its blockquote rather than risk losing it.
+ */
+function componentsRenderBlockquote(tree: Tree, filePath: string): boolean {
+  const source = parseSourceFile(tree, filePath);
+
+  return (
+    getInlineTemplates(source).some((template) =>
+      rendersBlockquote(source.text.slice(template.start, template.end)),
+    ) ||
+    getTemplateUrls(source).some((templateUrl) => {
+      const templatePath = join(dirname(normalize(filePath)), templateUrl);
+
+      return (
+        !tree.exists(templatePath) ||
+        rendersBlockquote(tree.readText(templatePath))
+      );
+    })
+  );
+}
+
+/**
+ * True if a component that an NgModule or `TestBed` in the file declares
+ * renders a blockquote. A component declared in the same file is covered by
+ * `componentsRenderBlockquote`. One imported from a file that doesn't define
+ * it (a barrel, a package or a missing file) counts as rendering one.
+ */
+function declaresBlockquoteComponent(
+  tree: Tree,
+  filePath: string,
+  source: ts.SourceFile,
+): boolean {
+  const declarations = [
+    ...getDecoratorMetadata(source, 'NgModule', '@angular/core'),
+    ...getTestingModuleMetadata(source),
+  ]
+    .filter(ts.isObjectLiteralExpression)
+    .flatMap((metadata) => getMetadataField(metadata, 'declarations'))
+    .filter(ts.isPropertyAssignment)
+    .map((property) => property.initializer)
+    .filter(ts.isArrayLiteralExpression)
+    .flatMap((array) => array.elements)
+    .filter(ts.isIdentifier)
+    .map((element) => element.text);
+
+  return declarations.some((name) => {
+    const specifier = findNodes(source, ts.isImportSpecifier).find(
+      (node) => node.name.text === name,
+    )?.parent.parent.parent.moduleSpecifier;
+
+    if (!specifier) {
+      return false;
+    }
+
+    const componentPath = `${join(
+      dirname(normalize(filePath)),
+      (specifier as ts.StringLiteral).text,
+    )}.ts`;
+
+    return (
+      !tree.exists(componentPath) ||
+      !tree.readText(componentPath).includes(`class ${name}`) ||
+      componentsRenderBlockquote(tree, componentPath)
+    );
+  });
+}
+
+/**
+ * True if the file hands a Stache module to code this schematic can't trace,
+ * through an NgModule's `exports`, a plain array or any other reference
+ * outside `imports`. Every `<stache-blockquote>` in the project is renamed, so
+ * such a file keeps the blockquote whenever the project renders one.
+ */
+function sharesStacheModule(source: ts.SourceFile): boolean {
+  return findNodes(source, ts.isIdentifier).some(
+    (node) =>
+      STACHE_CLASS_NAMES.includes(node.text) &&
+      !ts.isImportSpecifier(node.parent) &&
+      !(
+        ts.isArrayLiteralExpression(node.parent) &&
+        isDecoratorMetadataArray(node.parent, ['imports'])
+      ),
+  );
+}
+
+/**
+ * True if the file's NgModules, components or `TestBed` setups need the
+ * blockquote: one of their own templates, or one of their declared
+ * components' templates, renders it, or the file shares a Stache module.
+ */
+function usesBlockquote(tree: Tree, filePath: string): boolean {
+  const source = parseSourceFile(tree, filePath);
+
+  return (
+    sharesStacheModule(source) ||
+    componentsRenderBlockquote(tree, filePath) ||
+    declaresBlockquoteComponent(tree, filePath, source)
+  );
+}
+
+/**
+ * A file that doesn't render the blockquote doesn't need `SkyBlockquote`, so
+ * its `StacheBlockquoteModule` is removed instead of swapped. `StacheModule`
+ * stays, since it provides Stache's other components.
+ */
+function removeUnusedStacheBlockquoteModule(
+  tree: Tree,
+  filePath: string,
+): void {
+  const source = parseSourceFile(tree, filePath);
+  const recorder = tree.beginUpdate(filePath);
+  removeClassReference(
+    recorder,
+    source,
+    STACHE_BLOCKQUOTE_MODULE,
+    STACHE_PACKAGE,
+  );
+  tree.commitUpdate(recorder);
+}
 
 /**
  * Stache's aggregate module stays, since it provides Stache's other
@@ -209,14 +349,30 @@ export function convertStacheBlockquoteToBlockquote(projectPath: string): Rule {
       return;
     }
 
+    // Decided before anything is rewritten, so every file is judged by the
+    // project's original templates.
+    const filesUsingBlockquote = filesToConvert.filter((filePath) =>
+      usesBlockquote(tree, filePath),
+    );
+
     for (const filePath of filesToConvert) {
-      addSkyBlockquoteAfterStacheModule(tree, filePath);
-      swapModuleForStandalone(
-        tree,
-        filePath,
-        { className: STACHE_BLOCKQUOTE_MODULE, packageName: STACHE_PACKAGE },
-        { className: SKYUX_CLASS_NAME, packageName: SKYUX_PACKAGE },
-      );
+      if (filesUsingBlockquote.includes(filePath)) {
+        addSkyBlockquoteAfterStacheModule(tree, filePath);
+        swapModuleForStandalone(
+          tree,
+          filePath,
+          { className: STACHE_BLOCKQUOTE_MODULE, packageName: STACHE_PACKAGE },
+          { className: SKYUX_CLASS_NAME, packageName: SKYUX_PACKAGE },
+        );
+      } else {
+        removeUnusedStacheBlockquoteModule(tree, filePath);
+      }
+    }
+
+    // Each `<stache-blockquote>` in the project gets its component from
+    // somewhere this schematic doesn't convert, so the tags stay as they are.
+    if (filesUsingBlockquote.length === 0) {
+      return;
     }
 
     for (const filePath of templateFiles) {
