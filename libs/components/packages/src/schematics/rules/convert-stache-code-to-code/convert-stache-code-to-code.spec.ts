@@ -89,6 +89,76 @@ describe('Convert Stache code to code', () => {
     expect(dependencies[STACHE_PACKAGE]).toBeUndefined();
   });
 
+  it('should only swap SkyCodeModule in the component that renders sky-code', async () => {
+    const tree = await setup({
+      'src/app/code.component.ts': stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyCodeModule } from '${STACHE_PACKAGE}';
+
+        @Component({
+          selector: 'app-code',
+          imports: [SkyCodeModule],
+          templateUrl: './code.component.html',
+        })
+        export class CodeComponent {}
+      `,
+      'src/app/code.component.html': '<sky-code>foo</sky-code>',
+      'src/app/plain.component.ts': stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyCodeModule } from '${STACHE_PACKAGE}';
+
+        @Component({
+          selector: 'app-plain',
+          imports: [SkyCodeModule],
+          template: '<p>No code</p>',
+        })
+        export class PlainComponent {}
+      `,
+    });
+
+    const result = await convert(tree);
+
+    expect(result.readText('src/app/code.component.ts')).toContain(
+      'imports: [SkyCode]',
+    );
+    // The unused Stache module is removed rather than swapped.
+    expect(result.readText('src/app/plain.component.ts')).toEqual(stripIndents`
+      import { Component } from '@angular/core';
+
+      @Component({
+        selector: 'app-plain',
+        imports: [],
+        template: '<p>No code</p>',
+      })
+      export class PlainComponent {}
+    `);
+    expect(getDependencies(result)[STACHE_PACKAGE]).toBeUndefined();
+  });
+
+  it('should leave package.json alone when no component renders sky-code', async () => {
+    const tree = await setup({
+      'src/app/plain.component.ts': stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyCodeModule } from '${STACHE_PACKAGE}';
+
+        @Component({
+          selector: 'app-plain',
+          imports: [SkyCodeModule],
+          template: '<p>No code</p>',
+        })
+        export class PlainComponent {}
+      `,
+    });
+    const packageJson = tree.readText('package.json');
+
+    const result = await convert(tree);
+
+    expect(result.readText('src/app/plain.component.ts')).not.toContain(
+      'SkyCode',
+    );
+    expect(result.readText('package.json')).toEqual(packageJson);
+  });
+
   it('should keep other Stache imports and the Stache dependency', async () => {
     const tree = await setup({
       'src/app/foo.component.ts': stripIndents`
@@ -98,7 +168,7 @@ describe('Convert Stache code to code', () => {
         @Component({
           selector: 'app-foo',
           imports: [SkyCodeBlockModule, SkyCodeModule],
-          template: '',
+          template: '<sky-code>foo</sky-code>',
         })
         export class FooComponent {}
       `,
@@ -114,7 +184,7 @@ describe('Convert Stache code to code', () => {
       @Component({
         selector: 'app-foo',
         imports: [SkyCodeBlockModule, SkyCode],
-        template: '',
+        template: '<sky-code>foo</sky-code>',
       })
       export class FooComponent {}
     `);
@@ -132,7 +202,7 @@ describe('Convert Stache code to code', () => {
         @Component({
           selector: 'app-foo',
           imports: [SkyCodeModule],
-          template: '',
+          template: '<sky-code>foo</sky-code>',
         })
         export class FooComponent {}
       `,
@@ -143,7 +213,7 @@ describe('Convert Stache code to code', () => {
         @Component({
           selector: 'app-bar',
           imports: [SkyCodeBlockModule],
-          template: '',
+          template: '<sky-code>foo</sky-code>',
         })
         export class BarComponent {}
       `,
@@ -270,7 +340,7 @@ describe('Convert Stache code to code', () => {
         @Component({
           selector: 'app-foo',
           imports: [SkyCodeBlockModule, SkyCodeModule],
-          template: '',
+          template: '<sky-code>foo</sky-code>',
         })
         export class FooComponent {}
       `,
@@ -296,7 +366,7 @@ describe('Convert Stache code to code', () => {
           @Component({
             selector: 'app-foo',
             imports: [SkyCodeModule],
-            template: '',
+            template: '<sky-code>foo</sky-code>',
           })
           export class FooComponent {}
         `,
