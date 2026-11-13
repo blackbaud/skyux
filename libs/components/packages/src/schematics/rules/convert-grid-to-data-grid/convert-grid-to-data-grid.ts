@@ -404,9 +404,8 @@ const columnTagSwap: SwapTagCallback<'sky-grid-column'> = (
 /**
  * Logs each warning once per run, and inserts a TODO comment for each warning
  * above every element it applies to so the follow-up is visible in place.
- * Must run before `swapTags` rewrites the element, because insertions at the
- * same offset are applied in call order. `quote` is the delimiter of the
- * TypeScript string literal holding an inline template, if any.
+ * `quote` is the delimiter of the TypeScript string literal holding an inline
+ * template, if any.
  */
 function warnWithTodo(
   context: SchematicContext,
