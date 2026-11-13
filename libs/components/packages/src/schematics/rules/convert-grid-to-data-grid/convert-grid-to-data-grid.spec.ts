@@ -119,6 +119,28 @@ describe('Convert Grid to Data Grid', () => {
     `);
   });
 
+  it('should add a TODO for a literal fit value it copies through untranslated', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    tree.create(
+      'src/app/test.component.html',
+      stripIndents`
+        <sky-grid fit = "width"></sky-grid>
+        <sky-grid fit=scroll></sky-grid>
+      `,
+    );
+    const result = await convert(tree);
+    const fitTodo = todo(
+      'Change the value bound to <sky-data-grid> [columnFit] from "width" to "container" and from "scroll" to "content".',
+    );
+    expect(stripIndents`${result.readText('src/app/test.component.html')}`)
+      .toBe(stripIndents`
+      ${fitTodo}
+      <sky-data-grid columnFit = "width"></sky-data-grid>
+      ${fitTodo}
+      <sky-data-grid columnFit=scroll></sky-data-grid>
+    `);
+  });
+
   it('should add a TODO above each grid even though the warning is logged once', async () => {
     const tree = await createTestApp(runner, { projectName: 'test-app' });
     tree.create(
@@ -1946,6 +1968,42 @@ describe('Convert Grid to Data Grid', () => {
         @Component({
           selector: 'app-test',
           template: '${escapedSettingsKeyTodo} <sky-data-grid></sky-data-grid>',
+          imports: [SkyDataGrid, SkyDataGridColumn],
+        })
+        export class TestComponent {}
+      `,
+    );
+  });
+
+  it('should not escape a quote twice when a TODO copies an escaped value from a quoted inline template', async () => {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const escapedRowId = String.raw`\'5\'`;
+    tree.create(
+      'src/app/test.component.ts',
+      stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyGridModule } from '@skyux/grids';
+
+        @Component({
+          selector: 'app-test',
+          template: '<sky-grid [rowHighlightedId]="${escapedRowId}"></sky-grid>',
+          imports: [SkyGridModule],
+        })
+        export class TestComponent {}
+      `,
+    );
+    const result = await convert(tree);
+    const escapedRowHighlightedIdTodo = todo(
+      'Highlight the row by binding <sky-data-grid> [selectedRowIds]="[\'5\']": selecting a single row highlights it, even without multiselect. <sky-data-grid> has no rowHighlightedId input.',
+    ).replaceAll("'", "\\'");
+    expect(stripIndents`${result.readText('src/app/test.component.ts')}`).toBe(
+      stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyDataGrid, SkyDataGridColumn } from '@skyux/data-grid';
+
+        @Component({
+          selector: 'app-test',
+          template: '${escapedRowHighlightedIdTodo} <sky-data-grid></sky-data-grid>',
           imports: [SkyDataGrid, SkyDataGridColumn],
         })
         export class TestComponent {}

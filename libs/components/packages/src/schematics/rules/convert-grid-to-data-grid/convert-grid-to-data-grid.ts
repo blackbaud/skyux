@@ -158,6 +158,8 @@ function buildOpenTag(
   return `<${newTag}${attributes}${selfClosing ? ' />' : '>'}`;
 }
 
+const FIT_LITERAL_VALUE = /^=(["'])(width|scroll)\1$/;
+
 /**
  * Translates `fit`'s unbound `"width"`/`"scroll"` literal values to
  * `columnFit`'s `"container"`/`"content"` values. Falls back to a plain
@@ -173,7 +175,7 @@ const gridAttributeSwapCallback: SwapAttributeCallback<string, string> = (
 ) => {
   if (oldAttribute === 'fit') {
     const valueText = getAttributeValueText(content, node, oldAttribute);
-    const match = /^=(["'])(width|scroll)\1$/.exec(valueText);
+    const match = FIT_LITERAL_VALUE.exec(valueText);
     if (match) {
       const translated = match[2] === 'width' ? 'container' : 'content';
       return `${newAttribute}=${match[1]}${translated}${match[1]}`;
@@ -249,7 +251,7 @@ function isMultiselectEnabled(node: ElementWithLocation): boolean {
   );
 }
 
-function getGridWarnings(node: ElementWithLocation): string[] {
+function getGridWarnings(node: ElementWithLocation, content: string): string[] {
   const warnings = GRID_WARNINGS.filter(({ attributes }) =>
     hasAttribute(node, attributes),
   ).map(({ message }) => message);
@@ -271,12 +273,13 @@ function getGridWarnings(node: ElementWithLocation): string[] {
         : 'Bind <sky-data-grid> [selectedColumnIds] to a property initialized to an array of column IDs: selectedColumnIdsChange does not emit column reorders while selectedColumnIds is undefined.',
     );
   }
-  // Only the literal "width"/"scroll" values are translated; a bound or
-  // interpolated value is copied through unchanged.
+  // gridAttributeSwapCallback copies any value it can't translate through
+  // unchanged, so the same check decides whether a TODO is needed.
   const fit = findAttribute(node, inputForms('fit'));
   if (
     fit &&
-    (fit.name === '[fit]' || !['width', 'scroll'].includes(fit.value))
+    (fit.name === '[fit]' ||
+      !FIT_LITERAL_VALUE.test(getAttributeValueText(content, node, 'fit')))
   ) {
     warnings.push(
       'Change the value bound to <sky-data-grid> [columnFit] from "width" to "container" and from "scroll" to "content".',
@@ -435,7 +438,14 @@ function warnWithTodo(
     todos += `<!-- ${TODO_PREFIX} ${warning} -->${separator}`;
   }
   if (isQuoted) {
-    todos = todos.replaceAll(quote, `\\${quote}`);
+    // Attribute values copied into a warning are raw source text, so their
+    // quotes are already escaped; a quote is unescaped only when an even
+    // number of backslashes precedes it.
+    todos = todos.replace(
+      new RegExp(String.raw`(\\*)${quote}`, 'g'),
+      (match, backslashes: string) =>
+        backslashes.length % 2 === 0 ? `${backslashes}\\${quote}` : match,
+    );
   }
   // Elements the migration leaves in place keep their TODOs from a prior run.
   if (content.substring(start - todos.length, start) !== todos) {
@@ -506,7 +516,7 @@ function convertTemplate(
       content,
       offset,
       grid,
-      getGridWarnings(grid),
+      getGridWarnings(grid, content),
       quote,
     );
     if (hasAttribute(grid, [outputForm('columnWidthChange')])) {
