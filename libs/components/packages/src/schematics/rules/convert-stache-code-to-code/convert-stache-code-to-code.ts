@@ -1,100 +1,32 @@
-import { join, normalize } from '@angular-devkit/core';
 import {
   Rule,
   SchematicContext,
   Tree,
   chain,
 } from '@angular-devkit/schematics';
-import { addDependency } from '@schematics/angular/utility';
-import {
-  getPackageJsonDependency,
-  removePackageJsonDependency,
-} from '@schematics/angular/utility/dependencies';
-import ts from 'typescript';
 
-import {
-  getProjectsUsingPackage,
-  isPackageUsed,
-} from '../../utility/dependencies';
-import { JsonFile } from '../../utility/json-file';
+import { swapPackageDependency } from '../../utility/dependencies';
 import { logOnce } from '../../utility/log-once';
+import { hasUnconvertibleUsage } from '../../utility/typescript/has-unconvertible-usage';
+import { isModuleUsedByFile } from '../../utility/typescript/is-module-used-by-file';
 import {
-  getLocalImportName,
   isImportedFromPackage,
   parseSourceFile,
 } from '../../utility/typescript/ng-ast';
-import {
-  isDecoratorMetadataArray,
-  removeClassReference,
-} from '../../utility/typescript/remove-class-reference';
-import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
+import { removeClassReference } from '../../utility/typescript/remove-class-reference';
+import { swapModuleForStandalone } from '../../utility/typescript/swap-module-for-standalone';
 import { visitProjectFiles } from '../../utility/visit-project-files';
 
 const STACHE_PACKAGE = '@blackbaud/skyux-lib-code-block';
 const STACHE_CLASS_NAME = 'SkyCodeModule';
 const SKYUX_PACKAGE = '@skyux/code';
 const SKYUX_CLASS_NAME = 'SkyCode';
-
-const METADATA_FIELDS = ['imports', 'exports'];
-
-/**
- * True if `reference` sits in a decorator or `TestBed` metadata array that
- * already lists `skyCodeName`. Swapping it there would list `SkyCode` twice,
- * so `removeClassReference` removes it instead. Other arrays are swapped,
- * since `removeClassReference` leaves them alone.
- */
-function isInMetadataArrayWith(
-  reference: ts.Identifier,
-  skyCodeName: string,
-): boolean {
-  const array = reference.parent;
-
-  return (
-    ts.isArrayLiteralExpression(array) &&
-    isDecoratorMetadataArray(array, METADATA_FIELDS) &&
-    array.elements.some(
-      (element) => ts.isIdentifier(element) && element.text === skyCodeName,
-    )
-  );
-}
-
-function isStacheSpecifier(specifier: ts.Expression | undefined): boolean {
-  return (
-    !!specifier &&
-    ts.isStringLiteral(specifier) &&
-    specifier.text === STACHE_PACKAGE
-  );
-}
+const SKYUX_TAG = 'sky-code';
 
 /**
- * True if the file reaches `SkyCodeModule` through an aliased import, a
- * namespace import or a re-export. `swapImportedClass` only rewrites plain
- * named imports, so converting the rest of such a file could leave a
- * component with both Stache's `sky-code` and `SkyCode` (NG0300).
- */
-function hasUnconvertibleStacheUsage(source: ts.SourceFile): boolean {
-  const localName = getLocalImportName(
-    source,
-    STACHE_CLASS_NAME,
-    STACHE_PACKAGE,
-  );
-
-  if (localName !== undefined && localName !== STACHE_CLASS_NAME) {
-    return true;
-  }
-
-  return source.statements.some((statement) =>
-    ts.isExportDeclaration(statement)
-      ? isStacheSpecifier(statement.moduleSpecifier)
-      : ts.isImportDeclaration(statement) &&
-        !!statement.importClause?.namedBindings &&
-        ts.isNamespaceImport(statement.importClause.namedBindings) &&
-        isStacheSpecifier(statement.moduleSpecifier),
-  );
-}
-
-/**
- * Returns `true` when the file's `SkyCodeModule` from Stache was converted.
+ * Returns `true` when the file's `SkyCodeModule` from Stache was swapped for
+ * `SkyCode`. A file whose templates don't render `<sky-code>` has the unused
+ * module removed instead, so it doesn't gain an unused `SkyCode` import.
  */
 function convertTypescriptFile(
   tree: Tree,
@@ -107,7 +39,9 @@ function convertTypescriptFile(
 
   const source = parseSourceFile(tree, filePath);
 
-  if (hasUnconvertibleStacheUsage(source)) {
+  // Converting the rest of such a file could leave a component with both
+  // Stache's `sky-code` and `SkyCode` (NG0300).
+  if (hasUnconvertibleUsage(source, STACHE_PACKAGE, [STACHE_CLASS_NAME])) {
     logOnce(
       context,
       'warn',
@@ -120,96 +54,20 @@ function convertTypescriptFile(
     return false;
   }
 
-  const skyCodeName =
-    getLocalImportName(source, SKYUX_CLASS_NAME, SKYUX_PACKAGE) ??
-    SKYUX_CLASS_NAME;
+  if (!isModuleUsedByFile(tree, filePath, [STACHE_CLASS_NAME], [SKYUX_TAG])) {
+    const recorder = tree.beginUpdate(filePath);
+    removeClassReference(recorder, source, STACHE_CLASS_NAME, STACHE_PACKAGE);
+    tree.commitUpdate(recorder);
 
-  const swapRecorder = tree.beginUpdate(filePath);
-  swapImportedClass(swapRecorder, filePath, source, [
-    {
-      classNames: { [STACHE_CLASS_NAME]: SKYUX_CLASS_NAME },
-      moduleName: { old: STACHE_PACKAGE, new: SKYUX_PACKAGE },
-      filter: (reference): boolean =>
-        !isInMetadataArrayWith(reference, skyCodeName),
-      localNames: { [SKYUX_CLASS_NAME]: skyCodeName },
-    },
-  ]);
-  tree.commitUpdate(swapRecorder);
-
-  const swappedSource = parseSourceFile(tree, filePath);
-
-  if (isImportedFromPackage(swappedSource, STACHE_CLASS_NAME, STACHE_PACKAGE)) {
-    const removeRecorder = tree.beginUpdate(filePath);
-    removeClassReference(
-      removeRecorder,
-      swappedSource,
-      STACHE_CLASS_NAME,
-      STACHE_PACKAGE,
-      METADATA_FIELDS,
-    );
-    tree.commitUpdate(removeRecorder);
+    return false;
   }
 
-  return true;
-}
-
-/**
- * The library's own `@skyux/core` version, preferring `section`, so
- * `@skyux/code` gets the same range or exact version the library already uses
- * for SKY UX. Falls back to the placeholder the root update uses.
- */
-function getSkyuxCoreVersion(packageJson: JsonFile, section: string): string {
-  return (
-    [section, 'peerDependencies', 'dependencies', 'devDependencies']
-      .map((name) => packageJson.get([name, '@skyux/core']))
-      .find((version) => version !== undefined) ?? '0.0.0-PLACEHOLDER'
-  );
-}
-
-/**
- * A library's own `package.json` lists its dependencies, which the workspace
- * root update doesn't reach. `@skyux/code` goes in each section that listed
- * Stache, so a peer dependency stays a peer dependency.
- */
-async function updateLibraryPackageJson(
-  tree: Tree,
-  projectPath: string,
-): Promise<void> {
-  const packageJsonPath = join(normalize(projectPath), 'package.json');
-
-  if (!projectPath || !tree.exists(packageJsonPath)) {
-    return;
-  }
-
-  const packageJson = new JsonFile(tree, packageJsonPath);
-  const sections = ['peerDependencies', 'dependencies'].filter(
-    (name) => packageJson.get([name, STACHE_PACKAGE]) !== undefined,
-  );
-
-  if (sections.length === 0) {
-    return;
-  }
-
-  const projectsUsingStache = await getProjectsUsingPackage(
+  return swapModuleForStandalone(
     tree,
-    STACHE_PACKAGE,
+    filePath,
+    { className: STACHE_CLASS_NAME, packageName: STACHE_PACKAGE },
+    { className: SKYUX_CLASS_NAME, packageName: SKYUX_PACKAGE },
   );
-  const stacheStillUsed = projectsUsingStache.some(
-    (project) => project.root === projectPath,
-  );
-
-  for (const section of sections) {
-    if (packageJson.get([section, SKYUX_PACKAGE]) === undefined) {
-      packageJson.modify(
-        [section, SKYUX_PACKAGE],
-        getSkyuxCoreVersion(packageJson, section),
-      );
-    }
-
-    if (!stacheStillUsed) {
-      packageJson.remove([section, STACHE_PACKAGE]);
-    }
-  }
 }
 
 /**
@@ -229,20 +87,13 @@ export function convertStacheCodeToCode(projectPath: string): Rule {
       });
     },
     async (tree): Promise<Rule | void> => {
-      if (!anyConverted) {
-        return;
-      }
-
-      if (!(await isPackageUsed(tree, STACHE_PACKAGE))) {
-        removePackageJsonDependency(tree, STACHE_PACKAGE);
-      }
-
-      await updateLibraryPackageJson(tree, projectPath);
-
-      // `addDependency` only checks `dependencies`, so it would add a second
-      // entry for a package already listed under `devDependencies`.
-      if (!getPackageJsonDependency(tree, SKYUX_PACKAGE)) {
-        return addDependency(SKYUX_PACKAGE, '0.0.0-PLACEHOLDER');
+      if (anyConverted) {
+        return await swapPackageDependency(
+          tree,
+          projectPath,
+          STACHE_PACKAGE,
+          SKYUX_PACKAGE,
+        );
       }
     },
   ]);
