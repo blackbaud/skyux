@@ -2,6 +2,7 @@ import { SkyHarnessFilters } from '@skyux/core/testing';
 
 /**
  * A set of criteria for filtering `SkyChartHarness` instances.
+ * @preview
  */
 export interface SkyChartHarnessFilters extends SkyHarnessFilters {
   /**
