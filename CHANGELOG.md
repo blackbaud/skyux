@@ -5,6 +5,7 @@
 
 ### Bug Fixes
 
+* **components/charts:** mark public API as preview ([#4953](https://github.com/blackbaud/skyux/issues/4953)) ([db2d8e6](https://github.com/blackbaud/skyux/commit/db2d8e6e90c7c79d90e1b9d264ae7b4229a366f8))
 * **components/code-examples:** remove undocumented `xxxs` and `xxs` sizes from the basic icon example ([#4959](https://github.com/blackbaud/skyux/issues/4959)) ([9eef7e9](https://github.com/blackbaud/skyux/commit/9eef7e93ecda249a81136083cf191b988d897d0c))
 
 ## [15.12.0](https://github.com/blackbaud/skyux/compare/15.11.0...15.12.0) (2026-11-12)
