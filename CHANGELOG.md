@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [15.12.1](https://github.com/blackbaud/skyux/compare/15.12.0...15.12.1) (2026-11-14)
+
+### Bug Fixes
+
+* **components/charts:** mark public API as preview ([#4953](https://github.com/blackbaud/skyux/issues/4953)) ([db2d8e6](https://github.com/blackbaud/skyux/commit/db2d8e6e90c7c79d90e1b9d264ae7b4229a366f8))
+* **components/code-examples:** remove undocumented `xxxs` and `xxs` sizes from the basic icon example ([#4959](https://github.com/blackbaud/skyux/issues/4959)) ([9eef7e9](https://github.com/blackbaud/skyux/commit/9eef7e93ecda249a81136083cf191b988d897d0c))
+* **components/packages:** keep replaced close tags that directly follow another swapped tag ([#4963](https://github.com/blackbaud/skyux/issues/4963)) ([3cd1309](https://github.com/blackbaud/skyux/commit/3cd13091c9d13e2c3ccd6c4d713e4e40e266909c)), references [#4962](https://github.com/blackbaud/skyux/issues/4962)
+
 ## [14.27.0](https://github.com/blackbaud/skyux/compare/14.26.0...14.27.0) (2026-11-13)
 
 
