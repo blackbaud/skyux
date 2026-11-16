@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.12.2](https://github.com/blackbaud/skyux/compare/15.12.1...15.12.2) (2026-11-16)
+
+### Bug Fixes
+
+* **components/ag-grid:** support row IDs with special characters in row delete and its test harness ([#4965](https://github.com/blackbaud/skyux/issues/4965)) ([3e50556](https://github.com/blackbaud/skyux/commit/3e505567e206418be9cfe5335565ac3c43233992)), references [#4954](https://github.com/blackbaud/skyux/issues/4954) [#4954](https://github.com/blackbaud/skyux/issues/4954)
+
 ## [15.12.1](https://github.com/blackbaud/skyux/compare/15.12.0...15.12.1) (2026-11-16)
 
 ### Bug Fixes
