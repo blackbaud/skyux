@@ -36,6 +36,10 @@ export function createThemeStylesFixture(
     series: {
       categoricalPalette: ['#555555', '#666666'],
     },
+    line: {
+      width: 2,
+      emphasizedWidth: 5,
+    },
     tooltip: {
       backgroundColor: '#ffffff',
       borderColor: '#777777',

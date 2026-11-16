@@ -18,6 +18,19 @@
   </sky-chart-line>
 </sky-chart>
 
+<sky-chart headingText="Actual vs. target, emphasized">
+  <sky-chart-line>
+    <sky-chart-axis-category labelText="Year" [categories]="years" />
+    <sky-chart-axis-value labelText="Acquisitions" />
+    <sky-chart-line-series
+      labelText="Actual"
+      [emphasized]="true"
+      [values]="acquisitions"
+    />
+    <sky-chart-line-series labelText="Target" [values]="target" />
+  </sky-chart-line>
+</sky-chart>
+
 <sky-chart headingText="Donations by year">
   <sky-chart-line>
     <sky-chart-axis-category labelText="Year" [categories]="years" />

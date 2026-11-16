@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { booleanAttribute, Component, input } from '@angular/core';
 
 import { type SkyChartLineSeriesValue } from './chart-line-series-value';
 
@@ -12,6 +12,11 @@ import { type SkyChartLineSeriesValue } from './chart-line-series-value';
   template: '',
 })
 export class SkyChartLineSeries {
+  /**
+   * Whether to draw the line thicker so that it stands out from other series.
+   */
+  public readonly emphasized = input(false, { transform: booleanAttribute });
+
   /**
    * The text that identifies this series in the legend and tooltips.
    */
