@@ -108,7 +108,7 @@ export function swapTags<T extends string>(
           currentNode.sourceCodeLocation.startTag.endOffset -
             currentNode.sourceCodeLocation.startTag.startOffset,
         );
-        recorder.insertLeft(
+        recorder.insertRight(
           offset + currentNode.sourceCodeLocation.startTag.startOffset,
           callback('open', tagName, currentNode, content),
         );
@@ -118,7 +118,7 @@ export function swapTags<T extends string>(
             currentNode.sourceCodeLocation.endTag.endOffset -
               currentNode.sourceCodeLocation.endTag.startOffset,
           );
-          recorder.insertLeft(
+          recorder.insertRight(
             offset + currentNode.sourceCodeLocation.endTag.startOffset,
             callback('close', tagName, currentNode, content),
           );

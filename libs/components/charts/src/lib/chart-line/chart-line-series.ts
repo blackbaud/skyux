@@ -5,6 +5,7 @@ import { type SkyChartLineSeriesValue } from './chart-line-series-value';
 /**
  * Defines a single series of values to plot on a line chart, aligned to the
  * category axis by index.
+ * @preview
  */
 @Component({
   selector: 'sky-chart-line-series',

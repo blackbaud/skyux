@@ -47,7 +47,7 @@
       "schema": "./src/schematics/ng-generate/convert-progress-indicator-wizard-to-tab-wizard/schema.json"
     },
     "migrate-karma-to-vitest": {
-      "description": "Replace the @skyux-sdk/testing Jasmine matchers with the @skyux-sdk/vitest matchers.",
+      "description": "Install the @skyux-sdk/vitest matchers, replacing the @skyux-sdk/testing Jasmine matchers.",
       "factory": "./src/schematics/ng-generate/migrate-karma-to-vitest/migrate-karma-to-vitest.schematic"
     },
     "remove-compat-stylesheets": {

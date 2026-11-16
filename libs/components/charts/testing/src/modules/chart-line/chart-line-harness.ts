@@ -10,6 +10,7 @@ import { SkyChartLineHarnessFilters } from './chart-line-harness-filters';
 
 /**
  * Harness for interacting with a line chart component in tests.
+ * @preview
  */
 export class SkyChartLineHarness extends SkyComponentHarness {
   /**
