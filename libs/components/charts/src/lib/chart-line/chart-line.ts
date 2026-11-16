@@ -100,7 +100,7 @@ export class SkyChartLine extends SkyChartCartesianPlot<
       type: 'line',
       data: {
         // Chart.js mutates the arrays it is given, so copy the readonly input.
-        labels: [...categoryAxis.categories()],
+        labels: [...categoryAxis.chartLabels()],
         datasets,
       },
       options: {

@@ -9,6 +9,11 @@ import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import type { SkyChartTable } from '../chart-table/chart-table';
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 
+import {
+  type SkyChartDateAdapterOptions,
+  fullTimeFormat,
+} from './chart-js-date-adapter';
+
 /**
  * The Chart.js chart types that plot a category axis against one or more value
  * axes and share the helpers in this module.
@@ -147,7 +152,7 @@ export function buildCartesianTable(
 ): SkyChartTable {
   return {
     categoryLabel: categoryAxis.labelText(),
-    categories: categoryAxis.categories(),
+    categories: categoryAxis.displayCategories(),
     series: series.map((chartSeries) => ({
       label: chartSeries.labelText(),
       values: chartSeries
@@ -264,43 +269,65 @@ export function buildCartesianScales(options: {
     themeStyles,
   } = options;
 
-  const indexAxis = isHorizontal ? 'y' : 'x';
+  const indexAxis: 'x' | 'y' = isHorizontal ? 'y' : 'x';
   const valueDirection = isHorizontal ? 'x' : 'y';
 
   const base = buildThemedScaleStyle(themeStyles);
 
   const formatValue = valueAxis.formatValue();
   const scaleType = valueAxis.scaleType();
+  const timeUnit =
+    categoryAxis.scaleType() === 'time' ? categoryAxis.timeUnit() : undefined;
+
+  const categoryScale = {
+    axis: indexAxis,
+    position: isHorizontal ? ('left' as const) : ('bottom' as const),
+    stacked: isStacked,
+    grid: {
+      display: true,
+      drawTicks: true,
+      drawOnChartArea: showCategoryGridLines,
+      ...base.grid,
+    },
+    border: {
+      display: true,
+      ...base.border,
+    },
+    ticks: {
+      ...base.ticks,
+      // A horizontal chart's height grows with its category count, so every
+      // label is guaranteed room and none may be dropped. A vertical chart's
+      // width is fixed, so its labels must still be skipped when they crowd.
+      autoSkip: !isHorizontal,
+    },
+    title: {
+      display: !categoryAxis.labelHidden(),
+      text: categoryAxis.labelText(),
+      ...base.title,
+    },
+  };
 
   return {
-    [CATEGORY_AXIS_ID]: {
-      type: 'category',
-      axis: indexAxis,
-      position: isHorizontal ? 'left' : 'bottom',
-      stacked: isStacked,
-      grid: {
-        display: true,
-        drawTicks: true,
-        drawOnChartArea: showCategoryGridLines,
-        ...base.grid,
-      },
-      border: {
-        display: true,
-        ...base.border,
-      },
-      ticks: {
-        ...base.ticks,
-        // A horizontal chart's height grows with its category count, so every
-        // label is guaranteed room and none may be dropped. A vertical chart's
-        // width is fixed, so its labels must still be skipped when they crowd.
-        autoSkip: !isHorizontal,
-      },
-      title: {
-        display: !categoryAxis.labelHidden(),
-        text: categoryAxis.labelText(),
-        ...base.title,
-      },
-    },
+    [CATEGORY_AXIS_ID]: timeUnit
+      ? {
+          ...categoryScale,
+          type: 'time',
+          time: {
+            unit: timeUnit,
+            tooltipFormat: fullTimeFormat(timeUnit),
+          },
+          adapters: {
+            date: {
+              locale: categoryAxis.locale(),
+              quarterLabel: categoryAxis.quarterLabel(),
+            } satisfies SkyChartDateAdapterOptions,
+          },
+          ticks: {
+            ...categoryScale.ticks,
+            stepSize: categoryAxis.timeStep(),
+          },
+        }
+      : { ...categoryScale, type: 'category' },
     [VALUE_AXIS_ID]: {
       type: scaleType,
       axis: valueDirection,

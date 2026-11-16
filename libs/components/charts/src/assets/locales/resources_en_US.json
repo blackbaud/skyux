@@ -65,5 +65,11 @@
     "_description": "The accessible name for the scrollable region containing the chart's data table",
     "message": "Data table for {0}",
     "_0": "The chart heading text"
+  },
+  "skyux_charts.time_scale.quarter_label": {
+    "_description": "The label for a quarter of a year on a chart's time axis, such as Q1 2026",
+    "message": "Q{0} {1}",
+    "_0": "The quarter number, from 1 to 4",
+    "_1": "The year"
   }
 }

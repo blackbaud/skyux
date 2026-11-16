@@ -14,8 +14,10 @@
           "SkyChartBarSeriesLayout",
           "SkyChartBarSeriesValue",
           "SkyChartDataPointClickArgs",
+          "SkyChartCategoryScaleType",
           "SkyChartHeadingLevel",
           "SkyChartHeadingStyle",
+          "SkyChartTimeUnit",
           "SkyChartValueFormat",
           "SkyChartValueScaleType"
         ],
@@ -63,8 +65,10 @@
           "SkyChartLineSeries",
           "SkyChartLineSeriesValue",
           "SkyChartDataPointClickArgs",
+          "SkyChartCategoryScaleType",
           "SkyChartHeadingLevel",
           "SkyChartHeadingStyle",
+          "SkyChartTimeUnit",
           "SkyChartValueFormat",
           "SkyChartValueScaleType"
         ],
@@ -89,6 +93,7 @@
           "ChartsChartLineAsyncExample",
           "ChartsChartLineMultipleSeriesExample",
           "ChartsChartLineGapsExample",
+          "ChartsChartLineTimeScaleExample",
           "ChartsChartLineValueFormatExample",
           "ChartsChartLineDataPointClickExample"
         ]

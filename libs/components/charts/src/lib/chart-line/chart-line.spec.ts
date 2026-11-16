@@ -18,6 +18,8 @@ import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { type SkyChartDataPointClickArgs } from '../chart-plot/chart-data-point-click-args';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
+import { type SkyChartCategoryScaleType } from '../shared/category-scale-type';
+import { type SkyChartTimeUnit } from '../shared/time-unit';
 import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartLine } from './chart-line';
@@ -47,6 +49,9 @@ type ScaleProbe = {
           <sky-chart-axis-category
             labelText="Year"
             [categories]="categories()"
+            [scaleType]="categoryScaleType()"
+            [timeStep]="timeStep()"
+            [timeUnit]="timeUnit()"
           />
         }
         @if (renderValueAxis()) {
@@ -76,6 +81,7 @@ class TestComponent {
   public chartLine!: SkyChartLine;
 
   public categories = input<(string | number)[]>(['2023', '2024']);
+  public categoryScaleType = input<SkyChartCategoryScaleType>('category');
   public currencyCode = input<string | undefined>(undefined);
   public emphasized = input(false);
   public format = input<SkyChartValueFormat>('number');
@@ -85,6 +91,8 @@ class TestComponent {
   public renderValueAxis = input(true);
   public seriesLabel = input('Acquisitions');
   public valueScaleType = input<'linear' | 'logarithmic'>('linear');
+  public timeStep = input<number | undefined>(undefined);
+  public timeUnit = input<SkyChartTimeUnit | undefined>(undefined);
   public values = input<SkyChartLineSeriesValue[]>([10, 20]);
 
   public dataPointClick:
@@ -325,6 +333,125 @@ describe('Chart line component', () => {
     fixture.detectChanges();
 
     expect(getScale(requireChart(), 'category').offset).toBe(true);
+  });
+
+  describe('time scale', () => {
+    const dates = ['2026-01-01', '2026-02-15', '2026-03-01'];
+
+    // Intl separates some parts with narrow or non-breaking spaces.
+    function normalize(text: string): string {
+      return text.replace(/\s/g, ' ');
+    }
+
+    function renderTimeScale(
+      timeUnit: SkyChartTimeUnit,
+      timeStep?: number,
+    ): void {
+      fixture.componentRef.setInput('categories', dates);
+      fixture.componentRef.setInput('values', [10, 20, 30]);
+      fixture.componentRef.setInput('categoryScaleType', 'time');
+      fixture.componentRef.setInput('timeUnit', timeUnit);
+      fixture.componentRef.setInput('timeStep', timeStep);
+      fixture.detectChanges();
+    }
+
+    function getTickLabels(): string[] {
+      return requireChart().scales['category'].ticks.map((tick) =>
+        normalize(String(tick.label)),
+      );
+    }
+
+    it('should position each category by its date', () => {
+      renderTimeScale('month');
+
+      expect(getScale(requireChart(), 'category').type).toBe('time');
+      expect(requireChart().data.labels).toEqual([
+        new Date(2026, 0, 1).getTime(),
+        new Date(2026, 1, 15).getTime(),
+        new Date(2026, 2, 1).getTime(),
+      ]);
+    });
+
+    it('should label the axis once per unit, formatted for the unit', () => {
+      renderTimeScale('month');
+
+      expect(getTickLabels()).toEqual(['Jan 2026', 'Feb 2026', 'Mar 2026']);
+    });
+
+    it('should label quarters by quarter number', () => {
+      fixture.componentRef.setInput('categories', [
+        '2026-01-01',
+        '2026-04-01',
+        '2026-07-01',
+      ]);
+      fixture.componentRef.setInput('values', [10, 20, 30]);
+      fixture.componentRef.setInput('categoryScaleType', 'time');
+      fixture.componentRef.setInput('timeUnit', 'quarter');
+      fixture.detectChanges();
+
+      expect(getTickLabels()).toEqual(['Q1 2026', 'Q2 2026', 'Q3 2026']);
+    });
+
+    it('should skip units between labels by the step size', () => {
+      renderTimeScale('month', 2);
+
+      expect(getTickLabels()).toEqual(['Jan 2026', 'Mar 2026']);
+    });
+
+    it('should show the full date in the tooltip', () => {
+      renderTimeScale('month');
+
+      expect(
+        normalize(
+          requireChart().scales['category'].getLabelForValue(
+            new Date(2026, 1, 15).getTime(),
+          ),
+        ),
+      ).toBe('Feb 15, 2026');
+    });
+
+    it('should show the full date in the data table', () => {
+      renderTimeScale('month');
+
+      expect(tableSvc().table()?.categories.map(String).map(normalize)).toEqual(
+        ['Jan 1, 2026', 'Feb 15, 2026', 'Mar 1, 2026'],
+      );
+    });
+
+    it('should throw when the time scale has no unit', () => {
+      fixture.componentRef.setInput('categories', dates);
+      fixture.componentRef.setInput('values', [10, 20, 30]);
+      fixture.componentRef.setInput('categoryScaleType', 'time');
+
+      expect(() => fixture.detectChanges()).toThrowError(
+        'The <sky-chart-axis-category> must have a "timeUnit" when its ' +
+          '"scaleType" is "time".',
+      );
+    });
+
+    for (const timeStep of [0, -1, 0.5]) {
+      it(`should throw for a time step of ${timeStep}`, () => {
+        fixture.componentRef.setInput('categories', dates);
+        fixture.componentRef.setInput('categoryScaleType', 'time');
+        fixture.componentRef.setInput('timeUnit', 'day');
+        fixture.componentRef.setInput('timeStep', timeStep);
+
+        expect(() => fixture.detectChanges()).toThrowError(
+          `The <sky-chart-axis-category> has a "timeStep" of "${timeStep}", ` +
+            'but it must be a positive whole number.',
+        );
+      });
+    }
+
+    it('should throw for a category that is not a strict date', () => {
+      fixture.componentRef.setInput('categories', ['2026-01-01', 'Feb 1 26']);
+      fixture.componentRef.setInput('categoryScaleType', 'time');
+      fixture.componentRef.setInput('timeUnit', 'month');
+
+      expect(() => fixture.detectChanges()).toThrowError(
+        /The time category "Feb 1 26" is not a valid date/,
+      );
+    });
   });
 
   it('should highlight every series at the hovered category', () => {

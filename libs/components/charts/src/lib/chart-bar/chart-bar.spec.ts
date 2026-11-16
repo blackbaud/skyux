@@ -18,6 +18,7 @@ import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { type SkyChartDataPointClickArgs } from '../chart-plot/chart-data-point-click-args';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
+import { type SkyChartCategoryScaleType } from '../shared/category-scale-type';
 import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartBar } from './chart-bar';
@@ -53,7 +54,9 @@ type ScaleProbe = {
           @if (renderCategoryAxis()) {
             <sky-chart-axis-category
               labelText="Year"
+              timeUnit="year"
               [categories]="categories()"
+              [scaleType]="categoryScaleType()"
             />
           }
           @if (renderValueAxis()) {
@@ -91,6 +94,7 @@ class TestComponent {
     SkyChartDataPointClickArgs<SkyChartBarSeriesValue> | undefined;
 
   public categories = input<(string | number)[]>(['2023', '2024']);
+  public categoryScaleType = input<SkyChartCategoryScaleType>('category');
   public currencyCode = input<string | undefined>(undefined);
   public format = input<SkyChartValueFormat>('number');
   public orientation = input<SkyChartBarOrientation>('vertical');
@@ -244,6 +248,17 @@ describe('Chart bar component', () => {
     if (!destroyed) {
       fixture.destroy();
     }
+  });
+
+  it('should throw for a time scale', () => {
+    fixture.componentRef.setInput('categories', ['2023-01-01', '2024-01-01']);
+    fixture.componentRef.setInput('categoryScaleType', 'time');
+
+    expect(() => fixture.detectChanges()).toThrowError(
+      'The <sky-chart-bar> does not support a "time" scale on its ' +
+        '<sky-chart-axis-category>. Use <sky-chart-line> to plot values ' +
+        'over time.',
+    );
   });
 
   it('should build the data table from the axes and series', () => {

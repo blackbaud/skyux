@@ -40,6 +40,7 @@ export { ChartsChartLineBasicExample } from './lib/modules/charts/chart-line/bas
 export { ChartsChartLineDataPointClickExample } from './lib/modules/charts/chart-line/data-point-click/example';
 export { ChartsChartLineGapsExample } from './lib/modules/charts/chart-line/gaps/example';
 export { ChartsChartLineMultipleSeriesExample } from './lib/modules/charts/chart-line/multiple-series/example';
+export { ChartsChartLineTimeScaleExample } from './lib/modules/charts/chart-line/time-scale/example';
 export { ChartsChartLineValueFormatExample } from './lib/modules/charts/chart-line/value-format/example';
 export { CodeInlineTextExample } from './lib/modules/code/code/inline-text/example';
 export { ColorpickerBasicExampleComponent } from './lib/modules/colorpicker/colorpicker/basic/example.component';

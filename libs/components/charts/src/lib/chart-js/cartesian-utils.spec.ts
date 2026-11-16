@@ -2,6 +2,7 @@ import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 
 import { createThemeStylesFixture } from '../shared/fixtures/theme-styles-fixture';
+import { type SkyChartTimeUnit } from '../shared/time-unit';
 import { type SkyChartValueScaleType } from '../shared/value-scale-type';
 
 import { buildCartesianScales } from './cartesian-utils';
@@ -10,14 +11,25 @@ type ScaleProbe = {
   stacked: boolean;
   min: number | undefined;
   max: number | undefined;
-  ticks: { autoSkip: boolean };
+  ticks: { autoSkip: boolean; stepSize?: number };
+  type: string;
+  time?: { unit: string; tooltipFormat: string };
+  adapters?: { date: { locale: string; quarterLabel: string } };
 };
 
 describe('buildCartesianScales', () => {
-  function createCategoryAxis(): SkyChartAxisCategory {
+  function createCategoryAxis(time?: {
+    unit: SkyChartTimeUnit;
+    step?: number;
+  }): SkyChartAxisCategory {
     return {
       labelHidden: () => false,
       labelText: () => 'Category',
+      locale: () => 'fr-CA',
+      quarterLabel: () => 'T{0} {1}',
+      scaleType: () => (time ? 'time' : 'category'),
+      timeUnit: () => time?.unit,
+      timeStep: () => time?.step,
     } as unknown as SkyChartAxisCategory;
   }
 
@@ -52,6 +64,39 @@ describe('buildCartesianScales', () => {
       themeStyles: createThemeStylesFixture(),
     }) as unknown as Record<string, ScaleProbe>;
   }
+
+  it('should build a time scale from the time scale config', () => {
+    const scale = (
+      buildCartesianScales({
+        categoryAxis: createCategoryAxis({ unit: 'week', step: 2 }),
+        valueAxis: createValueAxis('linear'),
+        isHorizontal: false,
+        themeStyles: createThemeStylesFixture(),
+      }) as unknown as Record<string, ScaleProbe>
+    )['category'];
+
+    expect(scale.type).toBe('time');
+    expect(scale.time).toEqual({ unit: 'week', tooltipFormat: 'full:week' });
+    expect(scale.ticks.stepSize).toBe(2);
+    expect(scale.adapters).toEqual({
+      date: { locale: 'fr-CA', quarterLabel: 'T{0} {1}' },
+    });
+  });
+
+  it('should build a category scale by default', () => {
+    const scale = (
+      buildCartesianScales({
+        categoryAxis: createCategoryAxis(),
+        valueAxis: createValueAxis('linear'),
+        isHorizontal: false,
+        themeStyles: createThemeStylesFixture(),
+      }) as unknown as Record<string, ScaleProbe>
+    )['category'];
+
+    expect(scale.type).toBe('category');
+    expect(scale.time).toBeUndefined();
+    expect(scale.adapters).toBeUndefined();
+  });
 
   it('should default to an unstacked layout when "stacked" is omitted', () => {
     const scales = build('linear');
