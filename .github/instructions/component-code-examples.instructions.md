@@ -29,7 +29,9 @@ examples predate these conventions.
   `example.service.ts`). The `example.*` prefix applies only to the example
   component's own files; never use `demo.*` for them. Many older examples still use the
   legacy `example.component.*` filenames; match the new naming for new work
-  rather than copying the old files.
+  rather than copying the old files. Do not rename an existing example's files
+  or classes to the new convention unless the task requires it — the churn
+  isn't worth it.
 
 ### Component conventions
 
