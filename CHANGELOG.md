@@ -1,7 +1,11 @@
 # Changelog
 
 
-## [15.12.2](https://github.com/blackbaud/skyux/compare/15.12.1...15.12.2) (2026-11-16)
+## [15.13.0](https://github.com/blackbaud/skyux/compare/15.12.1...15.13.0) (2026-11-16)
+
+### Features
+
+* **components/packages:** add TODO comments for follow-up work in convert-grid-to-data-grid ([#4958](https://github.com/blackbaud/skyux/issues/4958)) ([#4966](https://github.com/blackbaud/skyux/issues/4966)) ([95317e8](https://github.com/blackbaud/skyux/commit/95317e8bad95b5db3d32c6d29039b2130daa3599)), references [#4886](https://github.com/blackbaud/skyux/issues/4886)
 
 ### Bug Fixes
 
