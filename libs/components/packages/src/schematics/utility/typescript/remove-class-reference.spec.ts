@@ -91,6 +91,32 @@ describe('remove-class-reference', () => {
     expect(run(content)).toBe(content);
   });
 
+  it('should only modify arrays that also list the required sibling', () => {
+    const path = 'file.ts';
+    const content = `import { SkyGridModule } from 'module';\n\n@Component({\n  imports: [SkyGridModule, SkyListViewGridModule],\n})\nclass A {}\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass B {}`;
+    tree.create(path, content);
+    const sourceFile = ts.createSourceFile(
+      path,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    const recorder = tree.beginUpdate(path);
+    const removed = removeClassReference(
+      recorder,
+      sourceFile,
+      'SkyGridModule',
+      'module',
+      ['imports'],
+      'SkyListViewGridModule',
+    );
+    tree.commitUpdate(recorder);
+    expect(removed).toBe(false);
+    expect(tree.readText(path)).toBe(
+      `import { SkyGridModule } from 'module';\n\n@Component({\n  imports: [SkyListViewGridModule],\n})\nclass A {}\n\n@Component({\n  imports: [SkyGridModule],\n})\nclass B {}`,
+    );
+  });
+
   it('should return whether the import was removed', () => {
     function runReturning(path: string, content: string): boolean {
       tree.create(path, content);
