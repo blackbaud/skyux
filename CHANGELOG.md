@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [14.27.1](https://github.com/blackbaud/skyux/compare/14.27.0...14.27.1) (2026-11-16)
+
+
+### Bug Fixes
+
+* **components/text-editor:** update dompurify dependency ([#4935](https://github.com/blackbaud/skyux/issues/4935)) ([#4970](https://github.com/blackbaud/skyux/issues/4970)) ([cc55680](https://github.com/blackbaud/skyux/commit/cc55680baf9ebc3f7e97835cf272dc8263cafed6))
+
 ## [15.12.1](https://github.com/blackbaud/skyux/compare/15.12.0...15.12.1) (2026-11-16)
 
 ### Bug Fixes
