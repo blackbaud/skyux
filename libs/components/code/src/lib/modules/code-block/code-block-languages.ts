@@ -436,7 +436,9 @@ function findSubLanguages(
     ...(mode.contains ?? []),
     ...(mode.variants ?? []),
     mode.starts,
-  ].filter((child) => typeof child === 'object' && child !== null);
+  ].filter(
+    (child): child is Mode => typeof child === 'object' && child !== null,
+  );
 
   for (const child of children) {
     if (!visited.has(child)) {
