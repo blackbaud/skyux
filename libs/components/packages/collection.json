@@ -31,6 +31,11 @@
       "factory": "./src/schematics/ng-generate/convert-grid-to-data-grid/convert-grid-to-data-grid.schematic",
       "schema": "./src/schematics/ng-generate/convert-grid-to-data-grid/schema.json"
     },
+    "convert-stache-blockquote-to-blockquote": {
+      "description": "Convert Stache's <stache-blockquote> component to SKY UX's <sky-blockquote> component.",
+      "factory": "./src/schematics/ng-generate/convert-stache-blockquote-to-blockquote/convert-stache-blockquote-to-blockquote.schematic",
+      "schema": "./src/schematics/ng-generate/convert-stache-blockquote-to-blockquote/schema.json"
+    },
     "convert-stache-code-to-code": {
       "description": "Convert Stache's SkyCodeModule to SKY UX's SkyCode component.",
       "factory": "./src/schematics/ng-generate/convert-stache-code-to-code/convert-stache-code-to-code.schematic",

@@ -1,9 +1,15 @@
-import { Tree } from '@angular-devkit/schematics';
-import { ProjectDefinition } from '@schematics/angular/utility';
+import { join, normalize } from '@angular-devkit/core';
+import { Rule, Tree } from '@angular-devkit/schematics';
+import { ProjectDefinition, addDependency } from '@schematics/angular/utility';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
+import {
+  getPackageJsonDependency,
+  removePackageJsonDependency,
+} from '@schematics/angular/utility/dependencies';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 import ts from 'typescript';
 
+import { JsonFile } from './json-file';
 import { parseSourceFile } from './typescript/ng-ast';
 import { visitProjectFiles } from './visit-project-files';
 
@@ -142,9 +148,111 @@ function isCallExpressionMatch(
   return false;
 }
 
-function isPackageMatch(moduleSpecifier: string, packageName: string): boolean {
+export function isPackageMatch(
+  moduleSpecifier: string,
+  packageName: string,
+): boolean {
   return (
     moduleSpecifier === packageName ||
     moduleSpecifier.startsWith(`${packageName}/`)
   );
+}
+
+/**
+ * The library's own `@skyux/core` version, preferring `section`, so a new
+ * SKY UX package gets the same range or exact version the library already
+ * uses for SKY UX. Falls back to the placeholder the root update uses.
+ */
+function getSkyuxCoreVersion(packageJson: JsonFile, section: string): string {
+  return (
+    [section, 'peerDependencies', 'dependencies', 'devDependencies']
+      .map((name) => packageJson.get([name, '@skyux/core']))
+      .find((version) => version !== undefined) ?? '0.0.0-PLACEHOLDER'
+  );
+}
+
+/**
+ * The project's own `package.json`, which lists a library's dependencies that
+ * the workspace root update doesn't reach, or `undefined` if it has none.
+ */
+function getLibraryPackageJson(
+  tree: Tree,
+  projectPath: string,
+): JsonFile | undefined {
+  const packageJsonPath = join(normalize(projectPath), 'package.json');
+
+  return projectPath && tree.exists(packageJsonPath)
+    ? new JsonFile(tree, packageJsonPath)
+    : undefined;
+}
+
+const LIBRARY_DEPENDENCY_SECTIONS = ['peerDependencies', 'dependencies'];
+
+/**
+ * Removes `packageName` from the workspace `package.json` when nothing in the
+ * workspace imports it any more, and from the project's own `package.json`
+ * when nothing in the project does.
+ */
+export async function removeUnusedPackageDependency(
+  tree: Tree,
+  projectPath: string,
+  packageName: string,
+): Promise<void> {
+  if (!(await isPackageUsed(tree, packageName))) {
+    removePackageJsonDependency(tree, packageName);
+  }
+
+  const packageJson = getLibraryPackageJson(tree, projectPath);
+  const sections = LIBRARY_DEPENDENCY_SECTIONS.filter(
+    (section) => packageJson?.get([section, packageName]) !== undefined,
+  );
+
+  if (!packageJson || sections.length === 0) {
+    return;
+  }
+
+  const projectsUsingPackage = await getProjectsUsingPackage(tree, packageName);
+
+  if (projectsUsingPackage.some((project) => project.root === projectPath)) {
+    return;
+  }
+
+  for (const section of sections) {
+    packageJson.remove([section, packageName]);
+  }
+}
+
+/**
+ * After a project's code moves from `oldPackage` to the SKY UX `newPackage`,
+ * adds `newPackage` to the workspace and to each section of the project's own
+ * `package.json` that lists `oldPackage` (so a peer dependency stays a peer
+ * dependency), then removes `oldPackage` where it's no longer used.
+ */
+export async function swapPackageDependency(
+  tree: Tree,
+  projectPath: string,
+  oldPackage: string,
+  newPackage: string,
+): Promise<Rule | void> {
+  const packageJson = getLibraryPackageJson(tree, projectPath);
+
+  for (const section of LIBRARY_DEPENDENCY_SECTIONS) {
+    if (
+      packageJson?.get([section, oldPackage]) !== undefined &&
+      packageJson.get([section, newPackage]) === undefined
+    ) {
+      packageJson.modify(
+        [section, newPackage],
+        getSkyuxCoreVersion(packageJson, section),
+      );
+    }
+  }
+
+  await removeUnusedPackageDependency(tree, projectPath, oldPackage);
+
+  // `addDependency` only checks `dependencies`, so it would add a second
+  // entry for a package already listed under `devDependencies`.
+  if (!getPackageJsonDependency(tree, newPackage)) {
+    return addDependency(newPackage, '0.0.0-PLACEHOLDER');
+  }
 }
