@@ -1,6 +1,23 @@
 # Changelog
 
 
+## [15.13.0](https://github.com/blackbaud/skyux/compare/15.12.1...15.13.0) (2026-11-17)
+
+### Features
+
+* **components/packages:** add TODO comments for follow-up work in convert-grid-to-data-grid ([#4958](https://github.com/blackbaud/skyux/issues/4958)) ([#4966](https://github.com/blackbaud/skyux/issues/4966)) ([95317e8](https://github.com/blackbaud/skyux/commit/95317e8bad95b5db3d32c6d29039b2130daa3599)), references [#4886](https://github.com/blackbaud/skyux/issues/4886)
+
+### Bug Fixes
+
+* **components/ag-grid:** support row IDs with special characters in row delete and its test harness ([#4965](https://github.com/blackbaud/skyux/issues/4965)) ([3e50556](https://github.com/blackbaud/skyux/commit/3e505567e206418be9cfe5335565ac3c43233992)), references [#4954](https://github.com/blackbaud/skyux/issues/4954) [#4954](https://github.com/blackbaud/skyux/issues/4954)
+
+## [14.27.1](https://github.com/blackbaud/skyux/compare/14.27.0...14.27.1) (2026-11-16)
+
+
+### Bug Fixes
+
+* **components/text-editor:** update dompurify dependency ([#4935](https://github.com/blackbaud/skyux/issues/4935)) ([#4970](https://github.com/blackbaud/skyux/issues/4970)) ([cc55680](https://github.com/blackbaud/skyux/commit/cc55680baf9ebc3f7e97835cf272dc8263cafed6))
+
 ## [15.12.1](https://github.com/blackbaud/skyux/compare/15.12.0...15.12.1) (2026-11-16)
 
 ### Bug Fixes
