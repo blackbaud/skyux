@@ -115,14 +115,14 @@ describe('Code block component', () => {
   });
 
   it('should re-highlight when languageType changes', async () => {
-    await render({ code: '{ "a": 1 }', languageType: 'ts' });
+    await render({ code: '{ "a": 1 }', languageType: 'typescript' });
     await render({ languageType: 'json' });
 
     expect(getCode().querySelector('.hljs-attr')).toExist();
 
     setInputs({ code: 'const a = 1;', languageType: 'json' });
     fixture.detectChanges();
-    setInputs({ languageType: 'ts' });
+    setInputs({ languageType: 'typescript' });
     await stabilize();
 
     expect(getCode().querySelector('.hljs-keyword')).toHaveText('const');
@@ -130,7 +130,7 @@ describe('Code block component', () => {
   });
 
   it('should show the file name and language name', async () => {
-    await render({ code: 'a', fileName: 'app.ts', languageType: 'ts' });
+    await render({ code: 'a', fileName: 'app.ts', languageType: 'typescript' });
 
     expect(
       fixture.nativeElement.querySelector('.sky-code-block-file-name'),

@@ -91,9 +91,9 @@ export class SkyCodeBlock {
   public readonly hideHeader = input(false, { transform: booleanAttribute });
 
   /**
-   * The language of the code, such as `typescript`, `json`, or `html`. Any
-   * highlight.js language name or alias is supported. When not set, or not
-   * recognized, the code is highlighted as markup and no language name is
+   * The highlight.js name of the code's language, such as `typescript`,
+   * `json`, or `xml`. Aliases such as `ts` aren't supported. When not set, or
+   * not recognized, the code is highlighted as XML and no language name is
    * displayed.
    */
   public readonly languageType = input<string>();

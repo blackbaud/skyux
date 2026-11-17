@@ -2,7 +2,6 @@
 import hljs from 'highlight.js/lib/core';
 
 import {
-  SKY_CODE_BLOCK_LANGUAGE_ALIASES,
   SKY_CODE_BLOCK_LANGUAGE_LOADERS,
   loadCodeBlockLanguage,
 } from './code-block-languages';
@@ -15,14 +14,34 @@ describe('Code block languages', () => {
     });
   });
 
-  it('should resolve aliases case-insensitively', async () => {
-    await expectAsync(loadCodeBlockLanguage('TS')).toBeResolvedTo({
+  it('should resolve names case-insensitively', async () => {
+    await expectAsync(loadCodeBlockLanguage('TypeScript')).toBeResolvedTo({
       name: 'typescript',
       displayName: 'TypeScript',
     });
-    await expectAsync(loadCodeBlockLanguage('cs')).toBeResolvedTo({
-      name: 'csharp',
-      displayName: 'C#',
+  });
+
+  it('should load every highlight.js language', async () => {
+    for (const [name, load] of Object.entries(
+      SKY_CODE_BLOCK_LANGUAGE_LOADERS,
+    )) {
+      expect((await load()).default(hljs))
+        .withContext(name)
+        .toEqual(jasmine.any(Object));
+    }
+  });
+
+  it('should treat object property names as unknown', async () => {
+    await expectAsync(loadCodeBlockLanguage('constructor')).toBeResolvedTo({
+      name: 'xml',
+      displayName: undefined,
+    });
+  });
+
+  it('should treat highlight.js aliases as unknown', async () => {
+    await expectAsync(loadCodeBlockLanguage('ts')).toBeResolvedTo({
+      name: 'xml',
+      displayName: undefined,
     });
   });
 
@@ -80,32 +99,5 @@ describe('Code block languages', () => {
       name: 'abnf',
       displayName: 'Augmented Backus-Naur Form',
     });
-  });
-
-  it("should match each language's own aliases", async () => {
-    // A few aliases (e.g. "ls", "ml") are claimed by two languages.
-    const claimants = new Map<string, string[]>();
-
-    for (const [name, load] of Object.entries(
-      SKY_CODE_BLOCK_LANGUAGE_LOADERS,
-    )) {
-      for (const alias of (await load()).default(hljs).aliases ?? []) {
-        const key = alias.toLowerCase();
-
-        claimants.set(key, [...(claimants.get(key) ?? []), name]);
-      }
-    }
-
-    for (const [alias, names] of claimants) {
-      expect(names)
-        .withContext(`alias "${alias}"`)
-        .toContain(SKY_CODE_BLOCK_LANGUAGE_ALIASES[alias]);
-    }
-  });
-
-  it('should only alias to languages that have a loader', () => {
-    for (const name of Object.values(SKY_CODE_BLOCK_LANGUAGE_ALIASES)) {
-      expect(SKY_CODE_BLOCK_LANGUAGE_LOADERS[name]).toBeDefined();
-    }
   });
 });
