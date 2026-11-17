@@ -1,307 +1,88 @@
-import type { Language, LanguageFn, Mode } from 'highlight.js';
+// cspell:ignore asciidoc gherkin
+import type { HLJSApi, Language } from 'highlight.js';
 import hljs from 'highlight.js/lib/core';
+import arduino from 'highlight.js/lib/languages/arduino';
+import asciidoc from 'highlight.js/lib/languages/asciidoc';
+import bash from 'highlight.js/lib/languages/bash';
+import csharp from 'highlight.js/lib/languages/csharp';
+import css from 'highlight.js/lib/languages/css';
+import dos from 'highlight.js/lib/languages/dos';
+import gherkin from 'highlight.js/lib/languages/gherkin';
+import http from 'highlight.js/lib/languages/http';
+import java from 'highlight.js/lib/languages/java';
+import javascript from 'highlight.js/lib/languages/javascript';
+import json from 'highlight.js/lib/languages/json';
+import markdown from 'highlight.js/lib/languages/markdown';
+import php from 'highlight.js/lib/languages/php';
+import plaintext from 'highlight.js/lib/languages/plaintext';
+import powershell from 'highlight.js/lib/languages/powershell';
+import python from 'highlight.js/lib/languages/python';
+import sql from 'highlight.js/lib/languages/sql';
+import typescript from 'highlight.js/lib/languages/typescript';
+import xml from 'highlight.js/lib/languages/xml';
+import yaml from 'highlight.js/lib/languages/yaml';
 
-// The language names below are highlight.js identifiers, not English words.
-/* cspell:disable */
-
-// Mirrors highlight.js 11.11.1. Each loader is a literal dynamic import so
-// that bundlers emit every language as its own lazily loaded chunk; bundlers
-// can't split a templated import of a package path.
-
-/**
- * Loads the highlight.js definition for each language, keyed by its name.
- */
-export const SKY_CODE_BLOCK_LANGUAGE_LOADERS: Record<
-  string,
-  () => Promise<{ default: LanguageFn }>
-> = {
-  '1c': () => import('highlight.js/lib/languages/1c'),
-  abnf: () => import('highlight.js/lib/languages/abnf'),
-  accesslog: () => import('highlight.js/lib/languages/accesslog'),
-  actionscript: () => import('highlight.js/lib/languages/actionscript'),
-  ada: () => import('highlight.js/lib/languages/ada'),
-  angelscript: () => import('highlight.js/lib/languages/angelscript'),
-  apache: () => import('highlight.js/lib/languages/apache'),
-  applescript: () => import('highlight.js/lib/languages/applescript'),
-  arcade: () => import('highlight.js/lib/languages/arcade'),
-  arduino: () => import('highlight.js/lib/languages/arduino'),
-  armasm: () => import('highlight.js/lib/languages/armasm'),
-  asciidoc: () => import('highlight.js/lib/languages/asciidoc'),
-  aspectj: () => import('highlight.js/lib/languages/aspectj'),
-  autohotkey: () => import('highlight.js/lib/languages/autohotkey'),
-  autoit: () => import('highlight.js/lib/languages/autoit'),
-  avrasm: () => import('highlight.js/lib/languages/avrasm'),
-  awk: () => import('highlight.js/lib/languages/awk'),
-  axapta: () => import('highlight.js/lib/languages/axapta'),
-  bash: () => import('highlight.js/lib/languages/bash'),
-  basic: () => import('highlight.js/lib/languages/basic'),
-  bnf: () => import('highlight.js/lib/languages/bnf'),
-  brainfuck: () => import('highlight.js/lib/languages/brainfuck'),
-  c: () => import('highlight.js/lib/languages/c'),
-  cal: () => import('highlight.js/lib/languages/cal'),
-  capnproto: () => import('highlight.js/lib/languages/capnproto'),
-  ceylon: () => import('highlight.js/lib/languages/ceylon'),
-  clean: () => import('highlight.js/lib/languages/clean'),
-  clojure: () => import('highlight.js/lib/languages/clojure'),
-  'clojure-repl': () => import('highlight.js/lib/languages/clojure-repl'),
-  cmake: () => import('highlight.js/lib/languages/cmake'),
-  coffeescript: () => import('highlight.js/lib/languages/coffeescript'),
-  coq: () => import('highlight.js/lib/languages/coq'),
-  cos: () => import('highlight.js/lib/languages/cos'),
-  cpp: () => import('highlight.js/lib/languages/cpp'),
-  crmsh: () => import('highlight.js/lib/languages/crmsh'),
-  crystal: () => import('highlight.js/lib/languages/crystal'),
-  csharp: () => import('highlight.js/lib/languages/csharp'),
-  csp: () => import('highlight.js/lib/languages/csp'),
-  css: () => import('highlight.js/lib/languages/css'),
-  d: () => import('highlight.js/lib/languages/d'),
-  dart: () => import('highlight.js/lib/languages/dart'),
-  delphi: () => import('highlight.js/lib/languages/delphi'),
-  diff: () => import('highlight.js/lib/languages/diff'),
-  django: () => import('highlight.js/lib/languages/django'),
-  dns: () => import('highlight.js/lib/languages/dns'),
-  dockerfile: () => import('highlight.js/lib/languages/dockerfile'),
-  dos: () => import('highlight.js/lib/languages/dos'),
-  dsconfig: () => import('highlight.js/lib/languages/dsconfig'),
-  dts: () => import('highlight.js/lib/languages/dts'),
-  dust: () => import('highlight.js/lib/languages/dust'),
-  ebnf: () => import('highlight.js/lib/languages/ebnf'),
-  elixir: () => import('highlight.js/lib/languages/elixir'),
-  elm: () => import('highlight.js/lib/languages/elm'),
-  erb: () => import('highlight.js/lib/languages/erb'),
-  erlang: () => import('highlight.js/lib/languages/erlang'),
-  'erlang-repl': () => import('highlight.js/lib/languages/erlang-repl'),
-  excel: () => import('highlight.js/lib/languages/excel'),
-  fix: () => import('highlight.js/lib/languages/fix'),
-  flix: () => import('highlight.js/lib/languages/flix'),
-  fortran: () => import('highlight.js/lib/languages/fortran'),
-  fsharp: () => import('highlight.js/lib/languages/fsharp'),
-  gams: () => import('highlight.js/lib/languages/gams'),
-  gauss: () => import('highlight.js/lib/languages/gauss'),
-  gcode: () => import('highlight.js/lib/languages/gcode'),
-  gherkin: () => import('highlight.js/lib/languages/gherkin'),
-  glsl: () => import('highlight.js/lib/languages/glsl'),
-  gml: () => import('highlight.js/lib/languages/gml'),
-  go: () => import('highlight.js/lib/languages/go'),
-  golo: () => import('highlight.js/lib/languages/golo'),
-  gradle: () => import('highlight.js/lib/languages/gradle'),
-  graphql: () => import('highlight.js/lib/languages/graphql'),
-  groovy: () => import('highlight.js/lib/languages/groovy'),
-  haml: () => import('highlight.js/lib/languages/haml'),
-  handlebars: () => import('highlight.js/lib/languages/handlebars'),
-  haskell: () => import('highlight.js/lib/languages/haskell'),
-  haxe: () => import('highlight.js/lib/languages/haxe'),
-  hsp: () => import('highlight.js/lib/languages/hsp'),
-  http: () => import('highlight.js/lib/languages/http'),
-  hy: () => import('highlight.js/lib/languages/hy'),
-  inform7: () => import('highlight.js/lib/languages/inform7'),
-  ini: () => import('highlight.js/lib/languages/ini'),
-  irpf90: () => import('highlight.js/lib/languages/irpf90'),
-  isbl: () => import('highlight.js/lib/languages/isbl'),
-  java: () => import('highlight.js/lib/languages/java'),
-  javascript: () => import('highlight.js/lib/languages/javascript'),
-  'jboss-cli': () => import('highlight.js/lib/languages/jboss-cli'),
-  json: () => import('highlight.js/lib/languages/json'),
-  julia: () => import('highlight.js/lib/languages/julia'),
-  'julia-repl': () => import('highlight.js/lib/languages/julia-repl'),
-  kotlin: () => import('highlight.js/lib/languages/kotlin'),
-  lasso: () => import('highlight.js/lib/languages/lasso'),
-  latex: () => import('highlight.js/lib/languages/latex'),
-  ldif: () => import('highlight.js/lib/languages/ldif'),
-  leaf: () => import('highlight.js/lib/languages/leaf'),
-  less: () => import('highlight.js/lib/languages/less'),
-  lisp: () => import('highlight.js/lib/languages/lisp'),
-  livecodeserver: () => import('highlight.js/lib/languages/livecodeserver'),
-  livescript: () => import('highlight.js/lib/languages/livescript'),
-  llvm: () => import('highlight.js/lib/languages/llvm'),
-  lsl: () => import('highlight.js/lib/languages/lsl'),
-  lua: () => import('highlight.js/lib/languages/lua'),
-  makefile: () => import('highlight.js/lib/languages/makefile'),
-  markdown: () => import('highlight.js/lib/languages/markdown'),
-  mathematica: () => import('highlight.js/lib/languages/mathematica'),
-  matlab: () => import('highlight.js/lib/languages/matlab'),
-  maxima: () => import('highlight.js/lib/languages/maxima'),
-  mel: () => import('highlight.js/lib/languages/mel'),
-  mercury: () => import('highlight.js/lib/languages/mercury'),
-  mipsasm: () => import('highlight.js/lib/languages/mipsasm'),
-  mizar: () => import('highlight.js/lib/languages/mizar'),
-  mojolicious: () => import('highlight.js/lib/languages/mojolicious'),
-  monkey: () => import('highlight.js/lib/languages/monkey'),
-  moonscript: () => import('highlight.js/lib/languages/moonscript'),
-  n1ql: () => import('highlight.js/lib/languages/n1ql'),
-  nestedtext: () => import('highlight.js/lib/languages/nestedtext'),
-  nginx: () => import('highlight.js/lib/languages/nginx'),
-  nim: () => import('highlight.js/lib/languages/nim'),
-  nix: () => import('highlight.js/lib/languages/nix'),
-  'node-repl': () => import('highlight.js/lib/languages/node-repl'),
-  nsis: () => import('highlight.js/lib/languages/nsis'),
-  objectivec: () => import('highlight.js/lib/languages/objectivec'),
-  ocaml: () => import('highlight.js/lib/languages/ocaml'),
-  openscad: () => import('highlight.js/lib/languages/openscad'),
-  oxygene: () => import('highlight.js/lib/languages/oxygene'),
-  parser3: () => import('highlight.js/lib/languages/parser3'),
-  perl: () => import('highlight.js/lib/languages/perl'),
-  pf: () => import('highlight.js/lib/languages/pf'),
-  pgsql: () => import('highlight.js/lib/languages/pgsql'),
-  php: () => import('highlight.js/lib/languages/php'),
-  'php-template': () => import('highlight.js/lib/languages/php-template'),
-  plaintext: () => import('highlight.js/lib/languages/plaintext'),
-  pony: () => import('highlight.js/lib/languages/pony'),
-  powershell: () => import('highlight.js/lib/languages/powershell'),
-  processing: () => import('highlight.js/lib/languages/processing'),
-  profile: () => import('highlight.js/lib/languages/profile'),
-  prolog: () => import('highlight.js/lib/languages/prolog'),
-  properties: () => import('highlight.js/lib/languages/properties'),
-  protobuf: () => import('highlight.js/lib/languages/protobuf'),
-  puppet: () => import('highlight.js/lib/languages/puppet'),
-  purebasic: () => import('highlight.js/lib/languages/purebasic'),
-  python: () => import('highlight.js/lib/languages/python'),
-  'python-repl': () => import('highlight.js/lib/languages/python-repl'),
-  q: () => import('highlight.js/lib/languages/q'),
-  qml: () => import('highlight.js/lib/languages/qml'),
-  r: () => import('highlight.js/lib/languages/r'),
-  reasonml: () => import('highlight.js/lib/languages/reasonml'),
-  rib: () => import('highlight.js/lib/languages/rib'),
-  roboconf: () => import('highlight.js/lib/languages/roboconf'),
-  routeros: () => import('highlight.js/lib/languages/routeros'),
-  rsl: () => import('highlight.js/lib/languages/rsl'),
-  ruby: () => import('highlight.js/lib/languages/ruby'),
-  ruleslanguage: () => import('highlight.js/lib/languages/ruleslanguage'),
-  rust: () => import('highlight.js/lib/languages/rust'),
-  sas: () => import('highlight.js/lib/languages/sas'),
-  scala: () => import('highlight.js/lib/languages/scala'),
-  scheme: () => import('highlight.js/lib/languages/scheme'),
-  scilab: () => import('highlight.js/lib/languages/scilab'),
-  scss: () => import('highlight.js/lib/languages/scss'),
-  shell: () => import('highlight.js/lib/languages/shell'),
-  smali: () => import('highlight.js/lib/languages/smali'),
-  smalltalk: () => import('highlight.js/lib/languages/smalltalk'),
-  sml: () => import('highlight.js/lib/languages/sml'),
-  sqf: () => import('highlight.js/lib/languages/sqf'),
-  sql: () => import('highlight.js/lib/languages/sql'),
-  stan: () => import('highlight.js/lib/languages/stan'),
-  stata: () => import('highlight.js/lib/languages/stata'),
-  step21: () => import('highlight.js/lib/languages/step21'),
-  stylus: () => import('highlight.js/lib/languages/stylus'),
-  subunit: () => import('highlight.js/lib/languages/subunit'),
-  swift: () => import('highlight.js/lib/languages/swift'),
-  taggerscript: () => import('highlight.js/lib/languages/taggerscript'),
-  tap: () => import('highlight.js/lib/languages/tap'),
-  tcl: () => import('highlight.js/lib/languages/tcl'),
-  thrift: () => import('highlight.js/lib/languages/thrift'),
-  tp: () => import('highlight.js/lib/languages/tp'),
-  twig: () => import('highlight.js/lib/languages/twig'),
-  typescript: () => import('highlight.js/lib/languages/typescript'),
-  vala: () => import('highlight.js/lib/languages/vala'),
-  vbnet: () => import('highlight.js/lib/languages/vbnet'),
-  vbscript: () => import('highlight.js/lib/languages/vbscript'),
-  'vbscript-html': () => import('highlight.js/lib/languages/vbscript-html'),
-  verilog: () => import('highlight.js/lib/languages/verilog'),
-  vhdl: () => import('highlight.js/lib/languages/vhdl'),
-  vim: () => import('highlight.js/lib/languages/vim'),
-  wasm: () => import('highlight.js/lib/languages/wasm'),
-  wren: () => import('highlight.js/lib/languages/wren'),
-  x86asm: () => import('highlight.js/lib/languages/x86asm'),
-  xl: () => import('highlight.js/lib/languages/xl'),
-  xml: () => import('highlight.js/lib/languages/xml'),
-  xquery: () => import('highlight.js/lib/languages/xquery'),
-  yaml: () => import('highlight.js/lib/languages/yaml'),
-  zephir: () => import('highlight.js/lib/languages/zephir'),
+// The languages found in existing Stache code blocks across Blackbaud's GitHub
+// and Azure DevOps repositories.
+const LANGUAGES = {
+  arduino,
+  asciidoc,
+  bash,
+  csharp,
+  css,
+  dos,
+  gherkin,
+  http,
+  java,
+  javascript,
+  json,
+  markdown,
+  php,
+  plaintext,
+  powershell,
+  python,
+  sql,
+  typescript,
+  xml,
+  yaml,
 };
-
-/* cspell:enable */
 
 const DEFAULT_LANGUAGE = 'xml';
 
-const registrations = new Map<string, Promise<void>>();
+let highlighter: HLJSApi | undefined;
 
-function registerLanguage(name: string): Promise<void> {
-  let registration = registrations.get(name);
+// A separate instance keeps these registrations from affecting other users of
+// highlight.js in the same app.
+function getHighlighter(): HLJSApi {
+  if (!highlighter) {
+    highlighter = hljs.newInstance();
 
-  if (!registration) {
-    registration = SKY_CODE_BLOCK_LANGUAGE_LOADERS[name]().then(
-      (module) => hljs.registerLanguage(name, module.default),
-      (error: unknown) => {
-        // Let a later request retry a chunk that failed to load.
-        registrations.delete(name);
-        throw error;
-      },
-    );
-    registrations.set(name, registration);
-  }
-
-  return registration;
-}
-
-function findSubLanguages(
-  mode: Mode | Language,
-  found = new Set<string>(),
-  visited = new Set<Mode | Language>(),
-): Set<string> {
-  visited.add(mode);
-
-  for (const name of [mode.subLanguage ?? []].flat()) {
-    found.add(name);
-  }
-
-  // `contains` can hold the string 'self', and compiled modes hold nulls.
-  const children = [
-    ...(mode.contains ?? []),
-    ...(mode.variants ?? []),
-    mode.starts,
-  ].filter(
-    (child): child is Mode => typeof child === 'object' && child !== null,
-  );
-
-  for (const child of children) {
-    if (!visited.has(child)) {
-      findSubLanguages(child, found, visited);
+    for (const [name, language] of Object.entries(LANGUAGES)) {
+      highlighter.registerLanguage(name, language);
     }
   }
 
-  return found;
-}
-
-// Languages can embed other languages (for example, markdown embeds xml),
-// which highlight.js only colors when they're registered too. Embedded
-// languages can refer back to the language that embeds them, so `visited`
-// stops the recursion.
-async function registerLanguageWithSubLanguages(
-  name: string,
-  visited = new Set<string>(),
-): Promise<void> {
-  visited.add(name);
-
-  await registerLanguage(name);
-
-  const definition = hljs.getLanguage(name) as Language;
-  const subLanguages = [...findSubLanguages(definition)].filter(
-    (subLanguage) => !visited.has(subLanguage),
-  );
-
-  await Promise.all(
-    subLanguages.map((subLanguage) =>
-      registerLanguageWithSubLanguages(subLanguage, visited),
-    ),
-  );
+  return highlighter;
 }
 
 /**
- * Registers the highlight.js language for a code block's `languageType`,
- * loading it on first use. Unset and unknown types fall back to xml without a
- * display name, as Stache did with its `markup` default.
+ * Highlights code in a code block's `languageType`. Unset and unsupported
+ * types are highlighted as xml without a display name, as Stache did with its
+ * `markup` default.
  */
-export async function loadCodeBlockLanguage(
+export function highlightCodeBlock(
+  code: string,
   languageType: string | undefined,
-): Promise<{ name: string; displayName: string | undefined }> {
+): { html: string; displayName: string | undefined } {
   const requested = languageType?.toLowerCase() ?? '';
-  const isKnown = Object.hasOwn(SKY_CODE_BLOCK_LANGUAGE_LOADERS, requested);
-  const name = isKnown ? requested : DEFAULT_LANGUAGE;
-
-  await registerLanguageWithSubLanguages(name);
+  const isSupported = Object.hasOwn(LANGUAGES, requested);
+  const language = isSupported ? requested : DEFAULT_LANGUAGE;
+  const highlighter = getHighlighter();
 
   return {
-    name,
-    displayName: isKnown ? hljs.getLanguage(name)?.name : undefined,
+    html: highlighter.highlight(code, { language }).value,
+    displayName: isSupported
+      ? (highlighter.getLanguage(language) as Language).name
+      : undefined,
   };
 }

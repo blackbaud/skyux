@@ -21,8 +21,7 @@ describe('Code block component', () => {
     await stabilize();
   }
 
-  // Highlighting finishes asynchronously, after projected content is read, so
-  // keep rendering until both are done.
+  // Projected content is read after a render, so keep rendering until stable.
   async function stabilize(): Promise<void> {
     fixture.autoDetectChanges();
     await fixture.whenStable();
@@ -102,13 +101,7 @@ describe('Code block component', () => {
   it('should render markup in code as text', async () => {
     const code = '<script>alert(1)</script>';
 
-    setInputs({ code });
-    fixture.detectChanges();
-
-    expect(getCode().querySelector('script')).toBeNull();
-    expect(getCode().textContent).toBe(code);
-
-    await stabilize();
+    await render({ code });
 
     expect(getCode().querySelector('script')).toBeNull();
     expect(getCode().textContent).toBe(code);
@@ -119,14 +112,7 @@ describe('Code block component', () => {
     await render({ languageType: 'json' });
 
     expect(getCode().querySelector('.hljs-attr')).toExist();
-
-    setInputs({ code: 'const a = 1;', languageType: 'json' });
-    fixture.detectChanges();
-    setInputs({ languageType: 'typescript' });
-    await stabilize();
-
-    expect(getCode().querySelector('.hljs-keyword')).toHaveText('const');
-    expect(getLanguageName()).toHaveText('TypeScript');
+    expect(getLanguageName()).toHaveText('JSON');
   });
 
   it('should show the file name and language name', async () => {

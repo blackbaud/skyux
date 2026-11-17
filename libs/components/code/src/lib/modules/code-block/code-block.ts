@@ -7,7 +7,6 @@ import {
   computed,
   inject,
   input,
-  resource,
   signal,
   viewChild,
 } from '@angular/core';
@@ -16,12 +15,11 @@ import { SkyAppWindowRef, SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyButton } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
-import hljs from 'highlight.js/lib/core';
 import { firstValueFrom } from 'rxjs';
 
 import { SkyCodeResourcesModule } from '../shared/sky-code-resources.module';
 
-import { loadCodeBlockLanguage } from './code-block-languages';
+import { highlightCodeBlock } from './code-block-languages';
 
 // Converts tabs to 2 spaces, removes trailing whitespace, leading and trailing
 // blank lines, and the indentation common to every line.
@@ -93,7 +91,7 @@ export class SkyCodeBlock {
   /**
    * The highlight.js name of the code's language, such as `typescript`,
    * `json`, or `xml`. Aliases such as `ts` aren't supported. When not set, or
-   * not recognized, the code is highlighted as XML and no language name is
+   * not supported, the code is highlighted as XML and no language name is
    * displayed.
    */
   public readonly languageType = input<string>();
@@ -102,26 +100,21 @@ export class SkyCodeBlock {
     normalizeCode(this.code() || this.#projectedCode()),
   );
 
-  protected readonly highlighted = resource({
-    params: () => ({ code: this.source(), languageType: this.languageType() }),
-    loader: async ({ params }) => {
-      const { name, displayName } = await loadCodeBlockLanguage(
-        params.languageType,
-      );
-      const html = hljs.highlight(params.code, { language: name }).value;
+  protected readonly highlighted = computed(() => {
+    const { displayName, html } = highlightCodeBlock(
+      this.source(),
+      this.languageType(),
+    );
 
-      return {
-        displayName,
-        // highlight.js escapes the code before wrapping tokens in spans.
-        html: this.#sanitizer.bypassSecurityTrustHtml(html),
-      };
-    },
+    return {
+      displayName,
+      // highlight.js escapes the code before wrapping tokens in spans.
+      html: this.#sanitizer.bypassSecurityTrustHtml(html),
+    };
   });
 
-  protected readonly languageName = computed(() =>
-    this.highlighted.hasValue()
-      ? this.highlighted.value().displayName
-      : undefined,
+  protected readonly languageName = computed(
+    () => this.highlighted().displayName,
   );
 
   protected readonly showHeader = computed(
