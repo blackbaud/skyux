@@ -426,15 +426,15 @@ function findSubLanguages(
     found.add(name);
   }
 
+  // `contains` can hold the string 'self', and compiled modes hold nulls.
   const children = [
     ...(mode.contains ?? []),
     ...(mode.variants ?? []),
     mode.starts,
-  ];
+  ].filter((child) => typeof child === 'object' && child !== null);
 
   for (const child of children) {
-    // `contains` can hold the string 'self', and compiled modes hold nulls.
-    if (typeof child === 'object' && child !== null && !visited.has(child)) {
+    if (!visited.has(child)) {
       findSubLanguages(child, found, visited);
     }
   }
