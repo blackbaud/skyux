@@ -1,0 +1,53 @@
+<sky-page layout="blocks">
+  <sky-page-content>
+    <sky-box class="sky-margin-stacked-xl" headingText="File name and language">
+      <sky-box-content>
+        <sky-code-block
+          fileName="app.component.ts"
+          languageType="typescript"
+          [code]="typescriptCode"
+        />
+      </sky-box-content>
+    </sky-box>
+
+    <sky-box class="sky-margin-stacked-xl" headingText="Language only">
+      <sky-box-content>
+        <sky-code-block languageType="json" [code]="jsonCode" />
+      </sky-box-content>
+    </sky-box>
+
+    <sky-box class="sky-margin-stacked-xl" headingText="Projected content">
+      <sky-box-content>
+        <!-- Projected text keeps its line breaks only with ngPreserveWhitespaces. -->
+        <!-- prettier-ignore -->
+        <sky-code-block languageType="markup" ngPreserveWhitespaces>
+          &lt;sky-box headingText="Box"&gt;
+            &lt;sky-box-content&gt;Content&lt;/sky-box-content&gt;
+          &lt;/sky-box&gt;
+        </sky-code-block>
+      </sky-box-content>
+    </sky-box>
+
+    <sky-box class="sky-margin-stacked-xl" headingText="Unknown language">
+      <sky-box-content>
+        <sky-code-block languageType="xml1" [code]="unknownLanguageCode" />
+      </sky-box-content>
+    </sky-box>
+
+    <sky-box class="sky-margin-stacked-xl" headingText="Hidden header">
+      <sky-box-content>
+        <sky-code-block
+          hideHeader
+          languageType="bash"
+          code="npm install @skyux/code"
+        />
+      </sky-box-content>
+    </sky-box>
+
+    <sky-box headingText="Long line">
+      <sky-box-content>
+        <sky-code-block languageType="js" [code]="longCode" />
+      </sky-box-content>
+    </sky-box>
+  </sky-page-content>
+</sky-page>
