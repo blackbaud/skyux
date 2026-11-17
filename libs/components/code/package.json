@@ -18,7 +18,10 @@
   "peerDependencies": {
     "@angular/cdk": "^22.2.3",
     "@angular/core": "^22.2.3",
-    "@skyux/core": "0.0.0-PLACEHOLDER"
+    "@angular/platform-browser": "^22.2.3",
+    "@skyux/core": "0.0.0-PLACEHOLDER",
+    "@skyux/forms": "0.0.0-PLACEHOLDER",
+    "@skyux/i18n": "0.0.0-PLACEHOLDER"
   },
   "dependencies": {
     "highlight.js": "11.11.1",

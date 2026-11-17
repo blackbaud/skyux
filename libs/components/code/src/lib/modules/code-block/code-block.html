@@ -1,0 +1,29 @@
+@if (showHeader()) {
+  <div class="sky-code-block-header">
+    <div>
+      @if (fileName()) {
+        <span class="sky-code-block-file-name sky-emphasized">{{
+          fileName()
+        }}</span>
+      }
+      @if (languageName()) {
+        <span class="sky-code-block-language sky-deemphasized">{{
+          languageName()
+        }}</span>
+      }
+    </div>
+    @if (!hideCopyToClipboard()) {
+      <sky-button
+        class="sky-code-block-copy-button"
+        iconName="copy"
+        [labelText]="'skyux_code_block_copy_button' | skyLibResources"
+        (click)="copyCode()"
+      />
+    }
+  </div>
+}
+<div #input class="sky-code-block-input"><ng-content /></div>
+<pre
+  class="sky-code-block-output"
+  tabindex="0"
+>@if (highlighted.hasValue()) {<code class="hljs" [innerHTML]="highlighted.value().html"></code>} @else {<code class="hljs">{{ source() }}</code>}</pre>
