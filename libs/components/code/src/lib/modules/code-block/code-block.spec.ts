@@ -81,10 +81,22 @@ describe('Code block component', () => {
   });
 
   it('should update when projected content changes', async () => {
+    const writeTextSpy = spyOn(
+      navigator.clipboard,
+      'writeText',
+    ).and.resolveTo();
+
     await render({ projected: 'a' });
     await render({ projected: 'b' });
 
     expect(getCode().textContent).toBe('b');
+
+    fixture.nativeElement
+      .querySelector('.sky-code-block-copy-button button')
+      .click();
+    await stabilize();
+
+    expect(writeTextSpy).toHaveBeenCalledOnceWith('b');
   });
 
   it('should render markup in code as text', async () => {
