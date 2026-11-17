@@ -1,41 +1,11 @@
-import type { Mode } from 'highlight.js';
+// cspell:ignore haml mojolicious
 import hljs from 'highlight.js/lib/core';
 
 import {
   SKY_CODE_BLOCK_LANGUAGE_ALIASES,
   SKY_CODE_BLOCK_LANGUAGE_LOADERS,
-  SKY_CODE_BLOCK_SUB_LANGUAGES,
   loadCodeBlockLanguage,
 } from './code-block-languages';
-
-const PRISM_NAMES = ['markup', 'batch', 'plsql', 'shell'];
-
-function collectSubLanguages(
-  mode: Mode,
-  found = new Set<string>(),
-  visited = new Set<Mode>(),
-): Set<string> {
-  visited.add(mode);
-
-  for (const name of [mode.subLanguage ?? []].flat()) {
-    found.add(name);
-  }
-
-  const children = [
-    ...(mode.contains ?? []),
-    ...(mode.variants ?? []),
-    mode.starts,
-  ];
-
-  for (const child of children) {
-    // `contains` can hold the string 'self'.
-    if (typeof child === 'object' && !visited.has(child)) {
-      collectSubLanguages(child, found, visited);
-    }
-  }
-
-  return found;
-}
 
 describe('Code block languages', () => {
   it('should resolve a highlight.js name', async () => {
@@ -56,20 +26,15 @@ describe('Code block languages', () => {
     });
   });
 
-  it('should map Stache language names', async () => {
+  it('should use highlight.js names rather than Stache language names', async () => {
+    await expectAsync(loadCodeBlockLanguage('shell')).toBeResolvedTo({
+      name: 'shell',
+      displayName: 'Shell Session',
+    });
     await expectAsync(loadCodeBlockLanguage('markup')).toBeResolvedTo({
       name: 'xml',
-      displayName: 'HTML, XML',
+      displayName: undefined,
     });
-    await expectAsync(loadCodeBlockLanguage('batch')).toBeResolvedTo(
-      jasmine.objectContaining({ name: 'dos' }),
-    );
-    await expectAsync(loadCodeBlockLanguage('plsql')).toBeResolvedTo(
-      jasmine.objectContaining({ name: 'sql' }),
-    );
-    await expectAsync(loadCodeBlockLanguage('shell')).toBeResolvedTo(
-      jasmine.objectContaining({ name: 'bash' }),
-    );
   });
 
   it('should fall back to xml without a display name', async () => {
@@ -83,9 +48,18 @@ describe('Code block languages', () => {
     });
   });
 
-  it('should register sub-languages', async () => {
-    await loadCodeBlockLanguage('markdown');
+  it('should register the languages a language embeds', async () => {
+    // haml embeds ruby, which no other spec loads.
+    await loadCodeBlockLanguage('haml');
 
+    expect(hljs.getLanguage('ruby')).toBeDefined();
+  });
+
+  it('should register languages that embed each other', async () => {
+    // perl embeds mojolicious, which embeds perl and xml.
+    await loadCodeBlockLanguage('perl');
+
+    expect(hljs.getLanguage('mojolicious')).toBeDefined();
     expect(hljs.getLanguage('xml')).toBeDefined();
   });
 
@@ -99,9 +73,7 @@ describe('Code block languages', () => {
       for (const alias of (await load()).default(hljs).aliases ?? []) {
         const key = alias.toLowerCase();
 
-        if (!PRISM_NAMES.includes(key)) {
-          claimants.set(key, [...(claimants.get(key) ?? []), name]);
-        }
+        claimants.set(key, [...(claimants.get(key) ?? []), name]);
       }
     }
 
@@ -115,22 +87,6 @@ describe('Code block languages', () => {
   it('should only alias to languages that have a loader', () => {
     for (const name of Object.values(SKY_CODE_BLOCK_LANGUAGE_ALIASES)) {
       expect(SKY_CODE_BLOCK_LANGUAGE_LOADERS[name]).toBeDefined();
-    }
-  });
-
-  it('should declare every sub-language a definition uses', async () => {
-    for (const [name, load] of Object.entries(
-      SKY_CODE_BLOCK_LANGUAGE_LOADERS,
-    )) {
-      const definition = (await load()).default(hljs);
-
-      for (const subLanguage of collectSubLanguages(definition)) {
-        if (subLanguage !== name) {
-          expect(SKY_CODE_BLOCK_SUB_LANGUAGES[name] ?? [])
-            .withContext(`sub-language "${subLanguage}" of ${name}`)
-            .toContain(subLanguage);
-        }
-      }
     }
   });
 });

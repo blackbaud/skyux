@@ -1,12 +1,13 @@
-import type { LanguageFn } from 'highlight.js';
+import type { Language, LanguageFn, Mode } from 'highlight.js';
 import hljs from 'highlight.js/lib/core';
 
 // The language names below are highlight.js identifiers, not English words.
 /* cspell:disable */
 
 // Mirrors highlight.js 11.11.1. Each loader is a literal dynamic import so
-// that bundlers emit every language as its own lazily loaded chunk. The
-// aliases and sub-languages are checked against highlight.js by the spec.
+// that bundlers emit every language as its own lazily loaded chunk; bundlers
+// can't split a templated import of a package path. The spec checks the
+// aliases against highlight.js.
 
 /**
  * Loads the highlight.js definition for each language, keyed by its name.
@@ -210,8 +211,8 @@ export const SKY_CODE_BLOCK_LANGUAGE_LOADERS: Record<
 };
 
 /**
- * Maps lower-case aliases, including Stache (Prism) language names, to
- * highlight.js language names.
+ * Maps lower-case highlight.js aliases to language names. Aliases are defined
+ * inside each language's file, so they can't be resolved before loading it.
  */
 export const SKY_CODE_BLOCK_LANGUAGE_ALIASES: Record<string, string> = {
   ado: 'stata',
@@ -223,7 +224,6 @@ export const SKY_CODE_BLOCK_LANGUAGE_ALIASES: Record<string, string> = {
   asc: 'angelscript',
   atom: 'xml',
   bat: 'dos',
-  batch: 'dos',
   bf: 'brainfuck',
   bind: 'dns',
   'c#': 'csharp',
@@ -302,7 +302,6 @@ export const SKY_CODE_BLOCK_LANGUAGE_ALIASES: Record<string, string> = {
   m: 'mercury',
   mak: 'makefile',
   make: 'makefile',
-  markup: 'xml',
   md: 'markdown',
   mikrotik: 'routeros',
   mips: 'mipsasm',
@@ -336,7 +335,6 @@ export const SKY_CODE_BLOCK_LANGUAGE_ALIASES: Record<string, string> = {
   'pf.conf': 'pf',
   pl: 'perl',
   plist: 'xml',
-  plsql: 'sql',
   pluto: 'lua',
   pm: 'perl',
   podspec: 'ruby',
@@ -358,7 +356,6 @@ export const SKY_CODE_BLOCK_LANGUAGE_ALIASES: Record<string, string> = {
   sci: 'scilab',
   scm: 'scheme',
   sh: 'bash',
-  shell: 'bash',
   shellsession: 'shell',
   st: 'smalltalk',
   stanfuncs: 'stan',
@@ -399,57 +396,6 @@ export const SKY_CODE_BLOCK_LANGUAGE_ALIASES: Record<string, string> = {
   zsh: 'bash',
 };
 
-/**
- * Languages that a language embeds, which must be registered with it.
- */
-export const SKY_CODE_BLOCK_SUB_LANGUAGES: Record<string, string[]> = {
-  asciidoc: ['xml'],
-  'clojure-repl': ['clojure'],
-  coffeescript: ['javascript'],
-  cos: ['javascript', 'sql', 'xml'],
-  dart: ['markdown'],
-  django: ['xml'],
-  dockerfile: ['bash'],
-  dust: ['xml'],
-  erb: ['ruby', 'xml'],
-  haml: ['ruby'],
-  handlebars: ['xml'],
-  javascript: ['css', 'graphql', 'xml'],
-  'julia-repl': ['julia'],
-  livescript: ['javascript'],
-  markdown: ['xml'],
-  mojolicious: ['perl', 'xml'],
-  nix: ['markdown'],
-  'node-repl': ['javascript'],
-  parser3: ['xml'],
-  perl: ['mojolicious'],
-  pgsql: [
-    'bash',
-    'java',
-    'json',
-    'lua',
-    'perl',
-    'php',
-    'python',
-    'r',
-    'ruby',
-    'scheme',
-    'tcl',
-    'xml',
-  ],
-  'php-template': ['php', 'xml'],
-  'python-repl': ['python'],
-  qml: ['xml'],
-  shell: ['bash'],
-  tap: ['yaml'],
-  twig: ['xml'],
-  typescript: ['css', 'graphql', 'xml'],
-  'vbscript-html': ['vbscript', 'xml'],
-  xml: ['css', 'handlebars', 'javascript'],
-  xquery: ['xml'],
-  yaml: ['ruby'],
-};
-
 /* cspell:enable */
 
 const DEFAULT_LANGUAGE = 'xml';
@@ -469,21 +415,52 @@ function registerLanguage(name: string): Promise<void> {
   return registration;
 }
 
-// Sub-languages can refer back to the language that embeds them (for
-// example, xml and javascript), so `visited` stops the recursion.
+function findSubLanguages(
+  mode: Mode | Language,
+  found = new Set<string>(),
+  visited = new Set<Mode | Language>(),
+): Set<string> {
+  visited.add(mode);
+
+  for (const name of [mode.subLanguage ?? []].flat()) {
+    found.add(name);
+  }
+
+  const children = [
+    ...(mode.contains ?? []),
+    ...(mode.variants ?? []),
+    mode.starts,
+  ];
+
+  for (const child of children) {
+    // `contains` can hold the string 'self', and compiled modes hold nulls.
+    if (typeof child === 'object' && child !== null && !visited.has(child)) {
+      findSubLanguages(child, found, visited);
+    }
+  }
+
+  return found;
+}
+
+// Languages can embed other languages (for example, markdown embeds xml),
+// which highlight.js only colors when they're registered too. Embedded
+// languages can refer back to the language that embeds them, so `visited`
+// stops the recursion.
 async function registerLanguageWithSubLanguages(
   name: string,
   visited = new Set<string>(),
 ): Promise<void> {
-  if (visited.has(name)) {
-    return;
-  }
-
   visited.add(name);
 
   await registerLanguage(name);
+
+  const definition = hljs.getLanguage(name) as Language;
+  const subLanguages = [...findSubLanguages(definition)].filter(
+    (subLanguage) => !visited.has(subLanguage),
+  );
+
   await Promise.all(
-    (SKY_CODE_BLOCK_SUB_LANGUAGES[name] ?? []).map((subLanguage) =>
+    subLanguages.map((subLanguage) =>
       registerLanguageWithSubLanguages(subLanguage, visited),
     ),
   );
