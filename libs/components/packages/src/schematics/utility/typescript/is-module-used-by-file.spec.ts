@@ -72,6 +72,17 @@ describe('is-module-used-by-file', () => {
       },
     );
 
+    it('should not count an element whose name only starts with the element name', () => {
+      expect(
+        isUsed({
+          [FILE_PATH]: component(
+            'Foo',
+            `template: '<old-element-block>Not it</old-element-block>'`,
+          ),
+        }),
+      ).toBe(false);
+    });
+
     it('should return false when the inline template does not render the element', () => {
       expect(
         isUsed({

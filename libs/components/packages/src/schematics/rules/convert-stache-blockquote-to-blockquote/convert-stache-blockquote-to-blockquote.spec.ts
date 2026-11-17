@@ -334,7 +334,6 @@ describe('Convert Stache blockquote to blockquote', () => {
           "template: '<p>No quote</p>'",
         ),
       });
-      const packageJson = tree.readText('package.json');
 
       const result = await convert(tree);
 
@@ -346,7 +345,10 @@ describe('Convert Stache blockquote to blockquote', () => {
       expect(result.readText(QUOTE_TEMPLATE_PATH)).toEqual(
         '<stache-blockquote>Quote</stache-blockquote>',
       );
-      expect(result.readText('package.json')).toEqual(packageJson);
+      // Nothing imports Stache any more, and nothing needs `@skyux/layout`.
+      const dependencies = getDependencies(result);
+      expect(dependencies[STACHE_PACKAGE]).toBeUndefined();
+      expect(dependencies['@skyux/layout']).toBeUndefined();
     });
   });
 

@@ -135,7 +135,37 @@ describe('Convert Stache code to code', () => {
     expect(getDependencies(result)[STACHE_PACKAGE]).toBeUndefined();
   });
 
-  it('should leave package.json alone when no component renders sky-code', async () => {
+  it('should remove SkyCodeModule from a component that only renders sky-code-block', async () => {
+    const tree = await setup({
+      'src/app/block.component.ts': stripIndents`
+        import { Component } from '@angular/core';
+        import { SkyCodeBlockModule, SkyCodeModule } from '${STACHE_PACKAGE}';
+
+        @Component({
+          selector: 'app-block',
+          imports: [SkyCodeBlockModule, SkyCodeModule],
+          template: '<sky-code-block code="foo"></sky-code-block>',
+        })
+        export class BlockComponent {}
+      `,
+    });
+
+    const result = await convert(tree);
+
+    expect(result.readText('src/app/block.component.ts')).toEqual(stripIndents`
+      import { Component } from '@angular/core';
+      import { SkyCodeBlockModule } from '${STACHE_PACKAGE}';
+
+      @Component({
+        selector: 'app-block',
+        imports: [SkyCodeBlockModule],
+        template: '<sky-code-block code="foo"></sky-code-block>',
+      })
+      export class BlockComponent {}
+    `);
+  });
+
+  it('should remove the unused Stache dependency when no component renders sky-code', async () => {
     const tree = await setup({
       'src/app/plain.component.ts': stripIndents`
         import { Component } from '@angular/core';
@@ -149,14 +179,15 @@ describe('Convert Stache code to code', () => {
         export class PlainComponent {}
       `,
     });
-    const packageJson = tree.readText('package.json');
 
     const result = await convert(tree);
 
     expect(result.readText('src/app/plain.component.ts')).not.toContain(
       'SkyCode',
     );
-    expect(result.readText('package.json')).toEqual(packageJson);
+    const dependencies = getDependencies(result);
+    expect(dependencies[STACHE_PACKAGE]).toBeUndefined();
+    expect(dependencies['@skyux/code']).toBeUndefined();
   });
 
   it('should keep other Stache imports and the Stache dependency', async () => {
@@ -263,30 +294,40 @@ describe('Convert Stache code to code', () => {
     ]);
   });
 
-  it('should warn about a re-export and keep the Stache dependency', async () => {
-    const barrel = `export { SkyCodeModule } from '${STACHE_PACKAGE}';`;
-    const tree = await setup({
-      'src/app/index.ts': barrel,
-      'src/app/foo.ts': stripIndents`
+  it.each([
+    [
+      'a named re-export',
+      'named',
+      `export { SkyCodeModule } from '${STACHE_PACKAGE}';`,
+    ],
+    ['a wildcard re-export', 'wildcard', `export * from '${STACHE_PACKAGE}';`],
+  ])(
+    'should warn about %s and keep the Stache dependency',
+    async (_description, folder, barrel) => {
+      const barrelPath = `src/app/${folder}/index.ts`;
+      const tree = await setup({
+        [barrelPath]: barrel,
+        'src/app/foo.ts': stripIndents`
         import { SkyCodeModule } from '${STACHE_PACKAGE}';
 
         export const IMPORTS = [SkyCodeModule];
       `,
-    });
+      });
 
-    const result = await convert(tree);
+      const result = await convert(tree);
 
-    expect(result.readText('src/app/index.ts')).toEqual(barrel);
-    expect(result.readText('src/app/foo.ts')).toEqual(stripIndents`
+      expect(result.readText(barrelPath)).toEqual(barrel);
+      expect(result.readText('src/app/foo.ts')).toEqual(stripIndents`
       import { SkyCode } from '@skyux/code';
 
       export const IMPORTS = [SkyCode];
     `);
-    expect(getDependencies(result)[STACHE_PACKAGE]).toEqual('12.0.0');
-    expect(warnings).toEqual([
-      `"/src/app/index.ts" uses "SkyCodeModule" from "${STACHE_PACKAGE}" through an alias, a namespace import or a re-export, which this schematic does not convert. Replace it with "SkyCode" from "@skyux/code" manually.`,
-    ]);
-  });
+      expect(getDependencies(result)[STACHE_PACKAGE]).toEqual('12.0.0');
+      expect(warnings).toEqual([
+        `"/${barrelPath}" uses "SkyCodeModule" from "${STACHE_PACKAGE}" through an alias, a namespace import or a re-export, which this schematic does not convert. Replace it with "SkyCode" from "@skyux/code" manually.`,
+      ]);
+    },
+  );
 
   it('should not add @skyux/code to dependencies when it is a dev dependency', async () => {
     const tree = await setup({

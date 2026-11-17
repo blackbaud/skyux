@@ -172,57 +172,61 @@ function getSkyuxCoreVersion(packageJson: JsonFile, section: string): string {
 }
 
 /**
- * A library's own `package.json` lists its dependencies, which the workspace
- * root update doesn't reach. `newPackage` goes in each section that listed
- * `oldPackage`, so a peer dependency stays a peer dependency.
+ * The project's own `package.json`, which lists a library's dependencies that
+ * the workspace root update doesn't reach, or `undefined` if it has none.
  */
-async function swapLibraryDependency(
+function getLibraryPackageJson(
   tree: Tree,
   projectPath: string,
-  oldPackage: string,
-  newPackage: string,
-): Promise<void> {
+): JsonFile | undefined {
   const packageJsonPath = join(normalize(projectPath), 'package.json');
 
-  if (!projectPath || !tree.exists(packageJsonPath)) {
+  return projectPath && tree.exists(packageJsonPath)
+    ? new JsonFile(tree, packageJsonPath)
+    : undefined;
+}
+
+const LIBRARY_DEPENDENCY_SECTIONS = ['peerDependencies', 'dependencies'];
+
+/**
+ * Removes `packageName` from the workspace `package.json` when nothing in the
+ * workspace imports it any more, and from the project's own `package.json`
+ * when nothing in the project does.
+ */
+export async function removeUnusedPackageDependency(
+  tree: Tree,
+  projectPath: string,
+  packageName: string,
+): Promise<void> {
+  if (!(await isPackageUsed(tree, packageName))) {
+    removePackageJsonDependency(tree, packageName);
+  }
+
+  const packageJson = getLibraryPackageJson(tree, projectPath);
+  const sections = LIBRARY_DEPENDENCY_SECTIONS.filter(
+    (section) => packageJson?.get([section, packageName]) !== undefined,
+  );
+
+  if (!packageJson || sections.length === 0) {
     return;
   }
 
-  const packageJson = new JsonFile(tree, packageJsonPath);
-  const sections = ['peerDependencies', 'dependencies'].filter(
-    (name) => packageJson.get([name, oldPackage]) !== undefined,
-  );
+  const projectsUsingPackage = await getProjectsUsingPackage(tree, packageName);
 
-  if (sections.length === 0) {
+  if (projectsUsingPackage.some((project) => project.root === projectPath)) {
     return;
   }
-
-  const projectsUsingOldPackage = await getProjectsUsingPackage(
-    tree,
-    oldPackage,
-  );
-  const oldPackageStillUsed = projectsUsingOldPackage.some(
-    (project) => project.root === projectPath,
-  );
 
   for (const section of sections) {
-    if (packageJson.get([section, newPackage]) === undefined) {
-      packageJson.modify(
-        [section, newPackage],
-        getSkyuxCoreVersion(packageJson, section),
-      );
-    }
-
-    if (!oldPackageStillUsed) {
-      packageJson.remove([section, oldPackage]);
-    }
+    packageJson.remove([section, packageName]);
   }
 }
 
 /**
  * After a project's code moves from `oldPackage` to the SKY UX `newPackage`,
- * adds `newPackage` to the workspace and to the project's own
- * `package.json`, and removes `oldPackage` from each that no longer uses it.
+ * adds `newPackage` to the workspace and to each section of the project's own
+ * `package.json` that lists `oldPackage` (so a peer dependency stays a peer
+ * dependency), then removes `oldPackage` where it's no longer used.
  */
 export async function swapPackageDependency(
   tree: Tree,
@@ -230,11 +234,21 @@ export async function swapPackageDependency(
   oldPackage: string,
   newPackage: string,
 ): Promise<Rule | void> {
-  if (!(await isPackageUsed(tree, oldPackage))) {
-    removePackageJsonDependency(tree, oldPackage);
+  const packageJson = getLibraryPackageJson(tree, projectPath);
+
+  for (const section of LIBRARY_DEPENDENCY_SECTIONS) {
+    if (
+      packageJson?.get([section, oldPackage]) !== undefined &&
+      packageJson.get([section, newPackage]) === undefined
+    ) {
+      packageJson.modify(
+        [section, newPackage],
+        getSkyuxCoreVersion(packageJson, section),
+      );
+    }
   }
 
-  await swapLibraryDependency(tree, projectPath, oldPackage, newPackage);
+  await removeUnusedPackageDependency(tree, projectPath, oldPackage);
 
   // `addDependency` only checks `dependencies`, so it would add a second
   // entry for a package already listed under `devDependencies`.

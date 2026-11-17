@@ -3,6 +3,7 @@ import { Tree } from '@angular-devkit/schematics';
 import {
   getProjectsUsingPackage,
   isPackageUsed,
+  removeUnusedPackageDependency,
   swapPackageDependency,
 } from './dependencies';
 
@@ -264,6 +265,77 @@ describe('dependencies', () => {
       );
 
       expect(tree.readText(LIBRARY_PACKAGE_JSON)).toEqual(packageJson);
+    });
+  });
+
+  describe('removeUnusedPackageDependency', () => {
+    const PACKAGE = '@blackbaud/old';
+    const LIBRARY_PACKAGE_JSON = '/projects/my-lib/package.json';
+
+    function setupPackages(files: Record<string, string> = {}): Tree {
+      const tree = setupTree(files);
+      tree.create(
+        '/package.json',
+        JSON.stringify({ dependencies: { [PACKAGE]: '1.0.0' } }),
+      );
+      tree.create(
+        LIBRARY_PACKAGE_JSON,
+        JSON.stringify({
+          dependencies: { [PACKAGE]: '1.0.0' },
+          peerDependencies: { [PACKAGE]: '^1.0.0' },
+        }),
+      );
+
+      return tree;
+    }
+
+    function getPackageJson(
+      tree: Tree,
+      path: string,
+    ): {
+      dependencies?: Record<string, string>;
+      peerDependencies?: Record<string, string>;
+    } {
+      return JSON.parse(tree.readText(path));
+    }
+
+    it('should remove the package everywhere when nothing imports it', async () => {
+      const tree = setupPackages();
+
+      await removeUnusedPackageDependency(tree, 'projects/my-lib', PACKAGE);
+
+      expect(getPackageJson(tree, '/package.json').dependencies).toEqual({});
+      expect(getPackageJson(tree, LIBRARY_PACKAGE_JSON)).toEqual({
+        dependencies: {},
+        peerDependencies: {},
+      });
+    });
+
+    it('should keep the package where it is still imported', async () => {
+      const tree = setupPackages({
+        '/projects/my-lib/src/foo.ts': `import { Foo } from '${PACKAGE}';
+`,
+      });
+
+      await removeUnusedPackageDependency(tree, 'projects/my-lib', PACKAGE);
+
+      expect(getPackageJson(tree, '/package.json').dependencies).toEqual({
+        [PACKAGE]: '1.0.0',
+      });
+      expect(
+        getPackageJson(tree, LIBRARY_PACKAGE_JSON).peerDependencies,
+      ).toEqual({ [PACKAGE]: '^1.0.0' });
+    });
+
+    it('should not change a library package.json that does not list the package', async () => {
+      const tree = setupPackages();
+      tree.overwrite(LIBRARY_PACKAGE_JSON, JSON.stringify({ name: 'my-lib' }));
+
+      await removeUnusedPackageDependency(tree, 'projects/my-lib', PACKAGE);
+
+      expect(tree.readText(LIBRARY_PACKAGE_JSON)).toEqual(
+        JSON.stringify({ name: 'my-lib' }),
+      );
     });
   });
 });

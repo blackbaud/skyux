@@ -7,6 +7,8 @@ import {
 } from '@schematics/angular/utility/ast-utils';
 import ts from 'typescript';
 
+import { getElementsByTagName, parseTemplate } from '../template';
+
 import {
   getInlineTemplates,
   getTemplateUrls,
@@ -26,8 +28,13 @@ function componentsRenderElement(
   elementNames: string[],
 ): boolean {
   const source = parseSourceFile(tree, filePath);
+  // Parsed, so a longer element name such as `<sky-code-block>` doesn't count
+  // as `<sky-code>`.
   const rendersElement = (template: string): boolean =>
-    elementNames.some((elementName) => template.includes(`<${elementName}`));
+    elementNames.some(
+      (elementName) =>
+        getElementsByTagName(elementName, parseTemplate(template)).length > 0,
+    );
 
   return (
     getInlineTemplates(source).some((template) =>

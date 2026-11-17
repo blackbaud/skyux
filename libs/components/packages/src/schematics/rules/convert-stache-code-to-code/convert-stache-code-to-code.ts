@@ -5,7 +5,10 @@ import {
   chain,
 } from '@angular-devkit/schematics';
 
-import { swapPackageDependency } from '../../utility/dependencies';
+import {
+  removeUnusedPackageDependency,
+  swapPackageDependency,
+} from '../../utility/dependencies';
 import { logOnce } from '../../utility/log-once';
 import { hasUnconvertibleUsage } from '../../utility/typescript/has-unconvertible-usage';
 import { isModuleUsedByFile } from '../../utility/typescript/is-module-used-by-file';
@@ -24,17 +27,18 @@ const SKYUX_CLASS_NAME = 'SkyCode';
 const SKYUX_TAG = 'sky-code';
 
 /**
- * Returns `true` when the file's `SkyCodeModule` from Stache was swapped for
- * `SkyCode`. A file whose templates don't render `<sky-code>` has the unused
- * module removed instead, so it doesn't gain an unused `SkyCode` import.
+ * Swaps the file's `SkyCodeModule` from Stache for `SkyCode`. A file whose
+ * templates don't render `<sky-code>` has the unused module removed instead,
+ * so it doesn't gain an unused `SkyCode` import.
  */
 function convertTypescriptFile(
   tree: Tree,
   filePath: string,
   context: SchematicContext,
-): boolean {
-  if (!tree.readText(filePath).includes(STACHE_CLASS_NAME)) {
-    return false;
+): 'swapped' | 'removed' | undefined {
+  // A wildcard re-export doesn't name `SkyCodeModule`, so look for the package.
+  if (!tree.readText(filePath).includes(STACHE_PACKAGE)) {
+    return undefined;
   }
 
   const source = parseSourceFile(tree, filePath);
@@ -47,11 +51,11 @@ function convertTypescriptFile(
       'warn',
       `"${filePath}" uses "${STACHE_CLASS_NAME}" from "${STACHE_PACKAGE}" through an alias, a namespace import or a re-export, which this schematic does not convert. Replace it with "${SKYUX_CLASS_NAME}" from "${SKYUX_PACKAGE}" manually.`,
     );
-    return false;
+    return undefined;
   }
 
   if (!isImportedFromPackage(source, STACHE_CLASS_NAME, STACHE_PACKAGE)) {
-    return false;
+    return undefined;
   }
 
   if (!isModuleUsedByFile(tree, filePath, [STACHE_CLASS_NAME], [SKYUX_TAG])) {
@@ -59,15 +63,17 @@ function convertTypescriptFile(
     removeClassReference(recorder, source, STACHE_CLASS_NAME, STACHE_PACKAGE);
     tree.commitUpdate(recorder);
 
-    return false;
+    return 'removed';
   }
 
-  return swapModuleForStandalone(
+  swapModuleForStandalone(
     tree,
     filePath,
     { className: STACHE_CLASS_NAME, packageName: STACHE_PACKAGE },
     { className: SKYUX_CLASS_NAME, packageName: SKYUX_PACKAGE },
   );
+
+  return 'swapped';
 }
 
 /**
@@ -75,25 +81,30 @@ function convertTypescriptFile(
  * use the `sky-code` selector, so templates are unchanged.
  */
 export function convertStacheCodeToCode(projectPath: string): Rule {
-  let anyConverted = false;
+  const results = new Set<string | undefined>();
 
   return chain([
     (tree, context): void => {
       visitProjectFiles(tree, projectPath, (filePath) => {
         if (filePath.endsWith('.ts') && !filePath.endsWith('.d.ts')) {
-          anyConverted =
-            convertTypescriptFile(tree, filePath, context) || anyConverted;
+          results.add(convertTypescriptFile(tree, filePath, context));
         }
       });
     },
     async (tree): Promise<Rule | void> => {
-      if (anyConverted) {
+      if (results.has('swapped')) {
         return await swapPackageDependency(
           tree,
           projectPath,
           STACHE_PACKAGE,
           SKYUX_PACKAGE,
         );
+      }
+
+      // Removing unused modules may leave nothing importing Stache, and
+      // nothing needs `@skyux/code`.
+      if (results.has('removed')) {
+        await removeUnusedPackageDependency(tree, projectPath, STACHE_PACKAGE);
       }
     },
   ]);

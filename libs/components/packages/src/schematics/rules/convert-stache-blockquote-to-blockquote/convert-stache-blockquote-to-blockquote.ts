@@ -4,7 +4,10 @@ import { applyToUpdateRecorder } from '@schematics/angular/utility/change';
 import { getEOL } from '@schematics/angular/utility/eol';
 import ts from 'typescript';
 
-import { swapPackageDependency } from '../../utility/dependencies';
+import {
+  removeUnusedPackageDependency,
+  swapPackageDependency,
+} from '../../utility/dependencies';
 import { logOnce } from '../../utility/log-once';
 import { getElementsByTagName, parseTemplate } from '../../utility/template';
 import { hasUnconvertibleUsage } from '../../utility/typescript/has-unconvertible-usage';
@@ -259,6 +262,8 @@ export function convertStacheBlockquoteToBlockquote(projectPath: string): Rule {
     // Each `<stache-blockquote>` in the project gets its component from
     // somewhere this schematic doesn't convert, so the tags stay as they are.
     if (filesUsingBlockquote.length === 0) {
+      // Removing unused modules may leave nothing importing Stache.
+      await removeUnusedPackageDependency(tree, projectPath, STACHE_PACKAGE);
       return;
     }
 
