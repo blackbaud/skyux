@@ -1,3 +1,4 @@
+import type { Mode } from 'highlight.js';
 import hljs from 'highlight.js/lib/core';
 
 import {
@@ -10,29 +11,27 @@ import {
 const PRISM_NAMES = ['markup', 'batch', 'plsql', 'shell'];
 
 function collectSubLanguages(
-  mode: unknown,
+  mode: Mode,
   found = new Set<string>(),
-  visited = new Set<unknown>(),
+  visited = new Set<Mode>(),
 ): Set<string> {
-  if (!mode || typeof mode !== 'object' || visited.has(mode)) {
-    return found;
-  }
-
   visited.add(mode);
 
-  const { subLanguage, contains, starts, variants } = mode as {
-    subLanguage?: string | string[];
-    contains?: unknown[];
-    starts?: unknown;
-    variants?: unknown[];
-  };
-
-  for (const name of [subLanguage ?? []].flat()) {
+  for (const name of [mode.subLanguage ?? []].flat()) {
     found.add(name);
   }
 
-  for (const child of [...(contains ?? []), ...(variants ?? []), starts]) {
-    collectSubLanguages(child, found, visited);
+  const children = [
+    ...(mode.contains ?? []),
+    ...(mode.variants ?? []),
+    mode.starts,
+  ];
+
+  for (const child of children) {
+    // `contains` can hold the string 'self'.
+    if (typeof child === 'object' && !visited.has(child)) {
+      collectSubLanguages(child, found, visited);
+    }
   }
 
   return found;

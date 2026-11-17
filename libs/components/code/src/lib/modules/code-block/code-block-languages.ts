@@ -1,6 +1,9 @@
 import type { LanguageFn } from 'highlight.js';
 import hljs from 'highlight.js/lib/core';
 
+// The language names below are highlight.js identifiers, not English words.
+/* cspell:disable */
+
 // Mirrors highlight.js 11.11.1. Each loader is a literal dynamic import so
 // that bundlers emit every language as its own lazily loaded chunk. The
 // aliases and sub-languages are checked against highlight.js by the spec.
@@ -446,6 +449,8 @@ export const SKY_CODE_BLOCK_SUB_LANGUAGES: Record<string, string[]> = {
   xquery: ['xml'],
   yaml: ['ruby'],
 };
+
+/* cspell:enable */
 
 const DEFAULT_LANGUAGE = 'xml';
 
