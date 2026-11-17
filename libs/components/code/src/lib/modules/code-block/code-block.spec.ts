@@ -176,7 +176,7 @@ describe('Code block component', () => {
 
     expect(
       fixture.nativeElement
-        .querySelector('pre.sky-code-block-output')
+        .querySelector('pre.sky-code-block-output code')
         .getAttribute('tabindex'),
     ).toBe('0');
   });
