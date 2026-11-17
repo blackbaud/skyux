@@ -74,6 +74,19 @@ describe('Code block component', () => {
     expect(getCode().textContent).toBe('a\n  b');
   });
 
+  it('should keep the first line indented relative to the others', async () => {
+    await render({ code: '\n    first()\n  second()\n' });
+
+    expect(getCode().textContent).toBe('  first()\nsecond()');
+  });
+
+  it('should update when projected content changes', async () => {
+    await render({ projected: 'a' });
+    await render({ projected: 'b' });
+
+    expect(getCode().textContent).toBe('b');
+  });
+
   it('should render markup in code as text', async () => {
     const code = '<script>alert(1)</script>';
 
@@ -186,6 +199,20 @@ describe('Code block component', () => {
     it('should be accessible without a header', async () => {
       await render({ code: longCode, hideHeader: true });
 
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible with a header and no copy button', async () => {
+      await render({
+        code: longCode,
+        fileName: 'message.ts',
+        hideCopyToClipboard: true,
+      });
+
+      expect(getHeader()).toExist();
+      expect(
+        fixture.nativeElement.querySelector('.sky-code-block-copy-button'),
+      ).toBeNull();
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 

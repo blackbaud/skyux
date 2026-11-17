@@ -406,8 +406,13 @@ function registerLanguage(name: string): Promise<void> {
   let registration = registrations.get(name);
 
   if (!registration) {
-    registration = SKY_CODE_BLOCK_LANGUAGE_LOADERS[name]().then((module) =>
-      hljs.registerLanguage(name, module.default),
+    registration = SKY_CODE_BLOCK_LANGUAGE_LOADERS[name]().then(
+      (module) => hljs.registerLanguage(name, module.default),
+      (error: unknown) => {
+        // Let a later request retry a chunk that failed to load.
+        registrations.delete(name);
+        throw error;
+      },
     );
     registrations.set(name, registration);
   }

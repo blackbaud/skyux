@@ -2,7 +2,7 @@ import {
   Component,
   ElementRef,
   ViewEncapsulation,
-  afterNextRender,
+  afterEveryRender,
   booleanAttribute,
   computed,
   inject,
@@ -23,22 +23,23 @@ import { SkyCodeResourcesModule } from '../shared/sky-code-resources.module';
 
 import { loadCodeBlockLanguage } from './code-block-languages';
 
-// Matches the Prism normalize-whitespace options that Stache used.
+// Converts tabs to 2 spaces, removes trailing whitespace, leading and trailing
+// blank lines, and the indentation common to every line.
 function normalizeCode(code: string): string {
   const lines = code
     .replace(/\t/g, '  ')
     .split(/\r?\n/)
-    .map((line) => line.trimEnd());
+    .map((line) => line.trimEnd())
+    .join('\n')
+    .replace(/^\n+|\n+$/g, '')
+    .split('\n');
   const indent = Math.min(
     ...lines
       .filter((line) => line)
       .map((line) => line.length - line.trimStart().length),
   );
 
-  return lines
-    .map((line) => line.slice(indent))
-    .join('\n')
-    .trim();
+  return lines.map((line) => line.slice(indent)).join('\n');
 }
 
 /**
@@ -136,7 +137,9 @@ export class SkyCodeBlock {
   readonly #projectedCode = signal('');
 
   constructor() {
-    afterNextRender(() => {
+    // Projected text can change after the first render (for example, when it's
+    // loaded asynchronously). Setting the same text again is a no-op.
+    afterEveryRender(() => {
       this.#projectedCode.set(this.input().nativeElement.textContent);
     });
   }

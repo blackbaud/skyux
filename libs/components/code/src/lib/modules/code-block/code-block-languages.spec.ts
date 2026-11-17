@@ -1,4 +1,4 @@
-// cspell:ignore haml mojolicious
+// cspell:ignore haml mojolicious Naur
 import hljs from 'highlight.js/lib/core';
 
 import {
@@ -61,6 +61,25 @@ describe('Code block languages', () => {
 
     expect(hljs.getLanguage('mojolicious')).toBeDefined();
     expect(hljs.getLanguage('xml')).toBeDefined();
+  });
+
+  it('should retry a language that failed to load', async () => {
+    // abnf isn't loaded by any other spec.
+    const load = SKY_CODE_BLOCK_LANGUAGE_LOADERS['abnf'];
+    const loadSpy = spyOn(SKY_CODE_BLOCK_LANGUAGE_LOADERS, 'abnf');
+
+    loadSpy.and.rejectWith(new Error('Chunk failed to load.'));
+
+    await expectAsync(loadCodeBlockLanguage('abnf')).toBeRejectedWithError(
+      'Chunk failed to load.',
+    );
+
+    loadSpy.and.callFake(load);
+
+    await expectAsync(loadCodeBlockLanguage('abnf')).toBeResolvedTo({
+      name: 'abnf',
+      displayName: 'Augmented Backus-Naur Form',
+    });
   });
 
   it("should match each language's own aliases", async () => {
