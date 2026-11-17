@@ -67,8 +67,8 @@ export class SkyCodeBlock {
   readonly #windowRef = inject(SkyAppWindowRef);
 
   /**
-   * The code to display. When not set or empty, the text content of the component is
-   * displayed instead.
+   * The code to display. When not set or empty, the text content of the
+   * component is displayed instead.
    */
   public readonly code = input<string>();
 
