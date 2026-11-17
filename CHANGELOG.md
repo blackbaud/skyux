@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.14.0](https://github.com/blackbaud/skyux/compare/15.13.0...15.14.0) (2026-11-17)
+
+### Features
+
+* **components/packages:** add schematic to convert Stache blockquote to SKY UX blockquote ([#4957](https://github.com/blackbaud/skyux/issues/4957)) ([525b627](https://github.com/blackbaud/skyux/commit/525b627b559cf7d1d8e43152decae0d539710402))
+
 ## [15.13.0](https://github.com/blackbaud/skyux/compare/15.12.1...15.13.0) (2026-11-17)
 
 ### Features
