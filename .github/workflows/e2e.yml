@@ -54,13 +54,14 @@ jobs:
       base-branch: ${{ steps.set-shas.outputs.base-branch }}
       head: ${{ steps.set-shas.outputs.head }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-      - uses: actions/setup-node@v6
+          allow-unsafe-pr-checkout: true
+      - uses: actions/setup-node@v7
         id: setup-node
         with:
           cache: 'npm'
@@ -98,7 +99,7 @@ jobs:
         env:
           PARAMETERS: ${{ steps.parameters.outputs.parameters }}
       - name: Cache e2e-schematics
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache-e2e-schematics
         with:
           path: ./dist/libs/sdk/e2e-schematics
@@ -121,14 +122,15 @@ jobs:
       matrix:
         project: ${{ fromJSON(needs.install-deps.outputs.parameters).projects }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+          allow-unsafe-pr-checkout: true
         if: ${{ matrix.project != 'skip' }}
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -173,14 +175,15 @@ jobs:
       NX_BASE: ${{ needs.install-deps.outputs.base }}
       NX_HEAD: ${{ needs.install-deps.outputs.head }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+          allow-unsafe-pr-checkout: true
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -239,13 +242,14 @@ jobs:
         run: |
           case "$GH_PAGES_REPO" in skyux-pr-preview|skyux-storybook) ;; *) echo "::error::Unexpected ghPagesRepo."; exit 1 ;; esac
           [[ "$STORYBOOKS_PATH" =~ ^storybooks/([0-9a-z][0-9a-z.-]*/)?$ ]] || { echo "::error::Unexpected storybooksPath."; exit 1; }
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           repository: ${{ github.repository }}
           ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && github.base_ref || github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-      - uses: actions/setup-node@v6
+          allow-unsafe-pr-checkout: true
+      - uses: actions/setup-node@v7
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -255,7 +259,7 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: 0
       - name: Download artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: ./dist/${{ fromJson(needs.install-deps.outputs.parameters).storybooksPath }}
       - name: Move apps
@@ -283,7 +287,7 @@ jobs:
       - name: Build Storybook Composition
         run: npx nx run storybook:build-storybook:ci --outputDir=dist/storybook --no-parallel
       - name: Checkout ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: ${{ env.GH_PAGES_OWNER }}/${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo }}
           ref: 'main'
@@ -312,14 +316,15 @@ jobs:
       matrix:
         include: ${{ fromJSON(needs.install-deps.outputs.parameters).e2eTargets }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+          allow-unsafe-pr-checkout: true
         if: ${{ matrix.project != 'skip' }}
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -331,7 +336,7 @@ jobs:
           npx cypress install
       - name: Cache e2e-schematics
         if: ${{ matrix.project != 'skip' }}
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         id: cache-e2e-schematics
         with:
           path: ./dist/libs/sdk/e2e-schematics
@@ -460,25 +465,26 @@ jobs:
       - publish
     if: ${{ always() && !startsWith( github.head_ref || github.ref_name, 'release-please--' ) && !contains( github.event.pull_request.labels.*.name, 'skip e2e' ) }}
     steps:
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         if: ${{ job.status == 'cancelled' || contains(needs.*.result, 'cancelled') }}
         with:
           script: 'core.setFailed("Cancelled.");'
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         if: ${{ contains(needs.*.result, 'skipped') }}
         with:
           script: 'core.setFailed("Skipped a step.");'
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         if: ${{ contains(needs.*.result, 'failure') }}
         with:
           script: 'core.setFailed("Failed.");'
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           repository: ${{ github.repository }}
           ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && github.base_ref || github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
-      - uses: actions/setup-node@v6
+          allow-unsafe-pr-checkout: true
+      - uses: actions/setup-node@v7
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -489,7 +495,7 @@ jobs:
       - name: Build e2e-schematics
         run: 'npx nx build e2e-schematics --no-parallel'
       - name: Download Percy Build Numbers
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           path: ${{ runner.temp }}/percy-builds
           pattern: percy-build-*
@@ -510,7 +516,7 @@ jobs:
               cat $f
             done
           fi
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         name: Verify E2E Visual Review
         id: verify-e2e
         env:

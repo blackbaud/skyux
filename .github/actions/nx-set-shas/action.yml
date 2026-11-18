@@ -39,7 +39,7 @@ runs:
     - name: Fetch PR information (workflow_dispatch).
       if: ${{ github.event_name == 'workflow_dispatch' }}
       id: workflow-dispatch
-      uses: actions/github-script@v8
+      uses: actions/github-script@v9
       with:
         script: |
           const baseBranch = ${{ toJson(steps.read-default-base.outputs.main-branch-name) }};
