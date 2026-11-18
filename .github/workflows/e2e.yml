@@ -60,6 +60,7 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+          # Assume the environment-check requires fork PR code to be vetted and trusted.
           allow-unsafe-pr-checkout: true
       - uses: actions/setup-node@v7
         id: setup-node
@@ -128,6 +129,7 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+          # Assume the environment-check requires fork PR code to be vetted and trusted.
           allow-unsafe-pr-checkout: true
         if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v7
@@ -181,6 +183,7 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+          # Assume the environment-check requires fork PR code to be vetted and trusted.
           allow-unsafe-pr-checkout: true
         if: ${{ fromJson(needs.install-deps.outputs.parameters).ghPagesRepo == 'skyux-pr-preview' }}
       - uses: actions/setup-node@v7
@@ -248,6 +251,7 @@ jobs:
           repository: ${{ github.repository }}
           ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && github.base_ref || github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+          # Assume the environment-check requires fork PR code to be vetted and trusted.
           allow-unsafe-pr-checkout: true
       - uses: actions/setup-node@v7
         with:
@@ -322,6 +326,7 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+          # Assume the environment-check requires fork PR code to be vetted and trusted.
           allow-unsafe-pr-checkout: true
         if: ${{ matrix.project != 'skip' }}
       - uses: actions/setup-node@v7
@@ -483,6 +488,7 @@ jobs:
           repository: ${{ github.repository }}
           ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && github.base_ref || github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+          # Assume the environment-check requires fork PR code to be vetted and trusted.
           allow-unsafe-pr-checkout: true
       - uses: actions/setup-node@v7
         with:
