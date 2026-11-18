@@ -56,6 +56,9 @@ describe('Pie chart with clickable slices example', () => {
     const { fixture, pieHarness } = await setupTest();
 
     await (await pieHarness.getDataPoint({ category: 'Online' })).click();
+
+    expect(getSelectionText(fixture)).toBe('Online donations: $90,700.00');
+
     await (await pieHarness.getDataPoint({ category: 'Mail' })).click();
 
     expect(getSelectionText(fixture)).toBe('Mail donations: $28,300.00');

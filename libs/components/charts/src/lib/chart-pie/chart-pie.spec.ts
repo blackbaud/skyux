@@ -337,6 +337,10 @@ describe('Chart pie component', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
+    const southColor = (
+      requireChart().data.datasets[0].backgroundColor as string[]
+    )[1];
+
     getLegendButtons()[0].click();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -344,7 +348,9 @@ describe('Chart pie component', () => {
     const chart = requireChart();
     expect(chart.data.datasets[0].data).toEqual([null, 20] as number[]);
     // The remaining slice keeps its color.
-    expect((chart.data.datasets[0].backgroundColor as string[]).length).toBe(2);
+    expect((chart.data.datasets[0].backgroundColor as string[])[1]).toBe(
+      southColor,
+    );
     expect(getLegendButtons()[0].getAttribute('aria-pressed')).toBe('false');
     fixture.detectChanges();
     expect(
@@ -357,6 +363,25 @@ describe('Chart pie component', () => {
 
     expect(requireChart().data.datasets[0].data).toEqual([10, 20]);
     expect(getLegendButtons()[0].getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('should exclude zero-value slices from the plot but not the data table', async () => {
+    component.slices.set([
+      { label: 'North', value: 0 },
+      { label: 'South', value: 20 },
+    ]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(requireChart().data.datasets[0].data).toEqual([
+      null,
+      20,
+    ] as number[]);
+    expect(tableSvc().table()?.series[0].values).toEqual(['0', '20']);
+    expect(
+      getDataPoints().map((dataPoint) => dataPoint.dataset['skyChartCategory']),
+    ).toEqual(['South']);
   });
 
   it('should make each slice focusable', async () => {
@@ -470,6 +495,26 @@ describe('Chart pie component', () => {
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+
+    it('should be accessible with a hidden slice', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      getLegendButtons()[0].click();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible without slices', async () => {
+      component.slices.set([]);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });
 
@@ -509,6 +554,8 @@ describe('Chart pie component in the default theme', () => {
     }
 
     expect(chart.options.elements?.arc?.borderColor).toBe('#ffffff');
+    // The 2px ring margin plus half the default theme's widest (2px) ring.
+    expect(chart.options.layout?.padding).toBe(3);
 
     fixture.destroy();
   });

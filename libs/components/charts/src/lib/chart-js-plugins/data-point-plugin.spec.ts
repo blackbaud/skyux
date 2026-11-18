@@ -354,45 +354,56 @@ describe('Data point plugin', () => {
         );
       });
 
-      it('should draw a lone slice ring as separate circles without a seam', () => {
-        pieChart.data.datasets[0].data = [1];
-        pieChart.update();
+      // Chart.js computes the sweep of a lone slice of 11 a rounding error
+      // short of a full turn, which must still draw as a full circle.
+      for (const value of [1, 11]) {
+        it(`should draw a lone slice ring of ${value} as separate circles without a seam`, () => {
+          pieChart.data.datasets[0].data = [value];
+          pieChart.update();
 
-        const { outerRadius } = getArcProps(
-          pieChart.getDatasetMeta(0).data[0] as ArcElement,
-        );
+          const { outerRadius } = getArcProps(
+            pieChart.getDatasetMeta(0).data[0] as ArcElement,
+          );
 
-        // Records the ring's path calls, starting from its outer circle, which
-        // Chart.js's own drawing never draws at this radius.
-        let calls: string[] = [];
-        let recording = false;
-        const proto = CanvasRenderingContext2D.prototype;
+          // Records the ring's path calls through its stroke, starting from its
+          // outer circle, which Chart.js's own drawing never draws at this
+          // radius.
+          let calls: string[] = [];
+          let recording = false;
+          const proto = CanvasRenderingContext2D.prototype;
 
-        for (const method of ['arc', 'moveTo', 'closePath'] as const) {
-          const original = proto[method] as (...args: unknown[]) => void;
+          for (const method of [
+            'arc',
+            'moveTo',
+            'lineTo',
+            'closePath',
+            'stroke',
+          ] as const) {
+            const original = proto[method] as (...args: unknown[]) => void;
 
-          spyOn(proto, method).and.callFake(function (
-            this: CanvasRenderingContext2D,
-            ...args: unknown[]
-          ) {
-            if (method === 'arc' && args[2] === outerRadius + 2) {
-              calls = [];
-              recording = true;
-            }
+            spyOn(proto, method).and.callFake(function (
+              this: CanvasRenderingContext2D,
+              ...args: unknown[]
+            ) {
+              if (method === 'arc' && args[2] === outerRadius + 2) {
+                calls = [];
+                recording = true;
+              }
 
-            if (recording) {
-              calls.push(method);
-              recording = calls.length < 3;
-            }
+              if (recording) {
+                calls.push(method);
+                recording = method !== 'stroke';
+              }
 
-            original.apply(this, args);
-          });
-        }
+              original.apply(this, args);
+            });
+          }
 
-        piePlugin.setFocusedDataPoint({ datasetIndex: 0, index: 0 });
+          piePlugin.setFocusedDataPoint({ datasetIndex: 0, index: 0 });
 
-        expect(calls).toEqual(['arc', 'moveTo', 'arc']);
-      });
+          expect(calls).toEqual(['arc', 'moveTo', 'arc', 'stroke']);
+        });
+      }
 
       it('should show the tooltip for a focused slice that wraps its bounding box center', () => {
         piePlugin.setFocusedDataPoint({ datasetIndex: 0, index: 0 });

@@ -53,6 +53,11 @@ describe('Donut chart example', () => {
       'Online',
       'Phone',
     ]);
+    await expectAsync(dataTable.getValues()).toBeResolvedTo([
+      ['$412,500.00'],
+      ['$618,200.00'],
+      ['$175,300.00'],
+    ]);
 
     await dataTable.close();
   });

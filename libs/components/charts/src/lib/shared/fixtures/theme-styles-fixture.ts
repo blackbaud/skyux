@@ -63,6 +63,7 @@ export function createThemeStylesFixture(
     },
     arc: {
       borderColor: '#ffffff',
+      ringWidth: 2,
     },
     ...overrides,
   };

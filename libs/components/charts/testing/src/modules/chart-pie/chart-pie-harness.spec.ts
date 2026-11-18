@@ -3,9 +3,6 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SkyChart, SkyChartPie, SkyChartPieSlice } from '@skyux/charts';
 
-import { SkyChartDataPointHarness } from '../chart-data-point/chart-data-point-harness';
-import { SkyChartLegendItemHarness } from '../chart-legend/chart-legend-item-harness';
-
 import { SkyChartPieHarness } from './chart-pie-harness';
 
 @Component({
@@ -73,16 +70,26 @@ describe('Chart pie harness', () => {
   it('should get the legend items that match the filters', async () => {
     const { harness } = await setupTest({ dataSkyId: 'complete-chart' });
 
+    const items = await harness.getLegendItems({ labelText: 'South' });
+
     await expectAsync(
-      harness.getLegendItems({ labelText: 'South' }),
-    ).toBeResolvedTo([jasmine.any(SkyChartLegendItemHarness)]);
+      Promise.all(items.map((item) => item.getLabelText())),
+    ).toBeResolvedTo(['South']);
   });
 
   it('should get a legend item by its label text', async () => {
     const { harness } = await setupTest({ dataSkyId: 'complete-chart' });
-    const item = await harness.getLegendItem({ labelText: 'North' });
+    const item = await harness.getLegendItem({ labelText: 'South' });
 
-    await expectAsync(item.getLabelText()).toBeResolvedTo('North');
+    await expectAsync(item.getLabelText()).toBeResolvedTo('South');
+  });
+
+  it('should throw when no legend item matches the filters', async () => {
+    const { harness } = await setupTest({ dataSkyId: 'complete-chart' });
+
+    await expectAsync(
+      harness.getLegendItem({ labelText: 'no-such-slice' }),
+    ).toBeRejected();
   });
 
   it('should get the data points', async () => {
@@ -97,15 +104,25 @@ describe('Chart pie harness', () => {
   it('should get the data points that match the filters', async () => {
     const { harness } = await setupTest({ dataSkyId: 'complete-chart' });
 
+    const dataPoints = await harness.getDataPoints({ category: 'South' });
+
     await expectAsync(
-      harness.getDataPoints({ category: 'South' }),
-    ).toBeResolvedTo([jasmine.any(SkyChartDataPointHarness)]);
+      Promise.all(dataPoints.map((dataPoint) => dataPoint.getCategory())),
+    ).toBeResolvedTo(['South']);
   });
 
   it('should get a data point by its category', async () => {
     const { harness } = await setupTest({ dataSkyId: 'complete-chart' });
-    const dataPoint = await harness.getDataPoint({ category: 'North' });
+    const dataPoint = await harness.getDataPoint({ category: 'South' });
 
-    await expectAsync(dataPoint.getSeriesLabelText()).toBeResolvedTo('Sales');
+    await expectAsync(dataPoint.getCategory()).toBeResolvedTo('South');
+  });
+
+  it('should throw when no data point matches the filters', async () => {
+    const { harness } = await setupTest({ dataSkyId: 'complete-chart' });
+
+    await expectAsync(
+      harness.getDataPoint({ category: 'no-such-slice' }),
+    ).toBeRejected();
   });
 });

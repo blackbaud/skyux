@@ -15,7 +15,9 @@ import {
   toDataPointKey,
 } from './data-point-geometry';
 
-const RING_MARGIN = 2;
+export const RING_MARGIN = 2;
+
+const FULL_CIRCLE_TOLERANCE = 1e-9;
 
 /**
  * Creates a Chart.js plugin that adds SKY UX data point interactions to a
@@ -108,7 +110,10 @@ export function createDataPointPlugin(callbacks: {
           getArcProps(element);
 
         const innerRingRadius = Math.max(innerRadius - RING_MARGIN, 0);
-        const isFullCircle = endAngle - startAngle >= Math.PI * 2;
+        // Chart.js can compute a lone slice's sweep a rounding error short of a
+        // full turn, so the check allows for a tiny shortfall.
+        const isFullCircle =
+          endAngle - startAngle >= Math.PI * 2 - FULL_CIRCLE_TOLERANCE;
 
         ctx.arc(x, y, outerRadius + RING_MARGIN, startAngle, endAngle);
 

@@ -105,6 +105,8 @@ export interface SkyChartThemeStyles {
   /** The styling of pie and donut arcs (slices). */
   arc: {
     borderColor: string;
+    /** The widest border of the hover, active, and focus data point rings. */
+    ringWidth: number;
   };
 }
 
@@ -297,6 +299,16 @@ export function resolveChartThemeStyles(
         borderColor: readString(
           styles,
           '--sky-color-background-container-base',
+        ),
+        ringWidth: Math.max(
+          ...['hover', 'active', 'focus'].map((state) =>
+            readNumber(
+              styles,
+              probe,
+              `--sky-border-width-action-${state}`,
+              rootFontSize,
+            ),
+          ),
         ),
       },
     };

@@ -15,6 +15,7 @@ import { map } from 'rxjs';
 
 import { optionalNumberAttribute } from '../chart-axis/optional-number-attribute';
 import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/chart-js-data-point-index';
+import { RING_MARGIN } from '../chart-js-plugins/data-point-plugin';
 import { SkyChartJs, type SkyChartJsConfig } from '../chart-js/chart-js';
 import { extendBaseChartJsConfig } from '../chart-js/chart-js-config-utils';
 import {
@@ -231,9 +232,10 @@ export class SkyChartPie extends SkyChartPlot<number> {
       label: this.valueLabelText(),
       // A hidden slice keeps its index, so the remaining slices keep their
       // colors. Chart.js draws a null slice with no size, and null values are
-      // excluded from keyboard navigation like gaps in a line.
+      // excluded from keyboard navigation like gaps in a line. A zero-value
+      // slice is just as invisible, so it is excluded the same way.
       data: slices.map((slice) =>
-        hiddenSlices.has(slice) ? null : slice.value(),
+        hiddenSlices.has(slice) || slice.value() === 0 ? null : slice.value(),
       ) as number[],
       // Unlike a cartesian series, every slice gets its own categorical
       // color, cycling through the palette when there are more slices than
@@ -253,6 +255,11 @@ export class SkyChartPie extends SkyChartPlot<number> {
         // A donut is a pie with its center cut out; the display mode only
         // controls the cutout.
         cutout: this.displayMode() === 'donut' ? DONUT_CUTOUT : 0,
+        // The pie fills the chart area, so the data point rings drawn just
+        // outside its edge need room to avoid being clipped by the canvas.
+        layout: {
+          padding: RING_MARGIN + themeStyles.arc.ringWidth / 2,
+        },
         elements: {
           arc: {
             borderWidth: 1,
