@@ -34,6 +34,9 @@ Work top to bottom. Do not skip a step because the diff looks small.
 
 Run this skill in a fresh agent session, not the one that wrote the code. A
 review that inherits the author's conversation also inherits its assumptions.
+Run the review on the most capable model available to you. If the current
+session uses a small or fast model, start a new session on a more capable one,
+or delegate to a subagent configured with one.
 When delegating to a subagent, pass only the PR number or branch name — no
 summary of the change, its intent, or what to look for.
 Judge the diff only against the files loaded in step 2, not against stored
