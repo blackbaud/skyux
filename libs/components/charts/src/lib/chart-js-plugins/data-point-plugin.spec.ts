@@ -1,5 +1,6 @@
 import { expect } from '@skyux-sdk/testing';
 import {
+  ArcElement,
   BarController,
   BarElement,
   CategoryScale,
@@ -7,22 +8,25 @@ import {
   LinearScale,
   LineController,
   LineElement,
+  PieController,
   PointElement,
   Tooltip,
 } from 'chart.js';
 
 import { type SkyChartJsDataPointIndex } from './chart-js-data-point-index';
 import { type SkyChartJsDataPointPlugin } from './chart-js-data-point-plugin';
-import { getElementGeometry } from './data-point-geometry';
+import { getArcProps, getElementGeometry } from './data-point-geometry';
 import { createDataPointPlugin } from './data-point-plugin';
 
 Chart.register(
+  ArcElement,
   BarController,
   BarElement,
   CategoryScale,
   LinearScale,
   LineController,
   LineElement,
+  PieController,
   PointElement,
   Tooltip,
 );
@@ -284,6 +288,119 @@ describe('Data point plugin', () => {
       expect(rings[rings.length - 1].radius).toBe(width / 2);
 
       lineChart.destroy();
+    });
+
+    describe('in a pie chart', () => {
+      let piePlugin: SkyChartJsDataPointPlugin;
+      let pieChart: Chart;
+
+      beforeEach(() => {
+        piePlugin = createDataPointPlugin({
+          isClickable: () => false,
+          onUpdate: () => undefined,
+          onClick: () => undefined,
+        });
+
+        const canvas = document.createElement('canvas');
+        container.appendChild(canvas);
+
+        // The first slice is three quarters of the pie, so the center of its
+        // bounding box is the pie's center, on the slice's edge.
+        pieChart = new Chart(canvas, {
+          type: 'pie',
+          data: { labels: ['a', 'b'], datasets: [{ data: [3, 1] }] },
+          options: { animation: false, maintainAspectRatio: false },
+          plugins: [piePlugin.plugin],
+        });
+      });
+
+      afterEach(() => {
+        pieChart.destroy();
+      });
+
+      it('should draw a ring that follows the focused slice outline', () => {
+        const arcSpy = spyOn(
+          CanvasRenderingContext2D.prototype,
+          'arc',
+        ).and.callThrough();
+        const roundRectSpy = spyOn(
+          CanvasRenderingContext2D.prototype,
+          'roundRect',
+        ).and.callThrough();
+
+        piePlugin.setFocusedDataPoint({ datasetIndex: 0, index: 0 });
+
+        const { x, y, startAngle, endAngle, outerRadius } = getArcProps(
+          pieChart.getDatasetMeta(0).data[0] as ArcElement,
+        );
+
+        expect(roundRectSpy).not.toHaveBeenCalled();
+        expect(arcSpy).toHaveBeenCalledWith(
+          x,
+          y,
+          outerRadius + 2,
+          startAngle,
+          endAngle,
+        );
+        // A pie slice has no hollow center, so the inner edge meets at the
+        // pie's center.
+        expect(arcSpy).toHaveBeenCalledWith(
+          x,
+          y,
+          0,
+          endAngle,
+          startAngle,
+          true,
+        );
+      });
+
+      it('should draw a lone slice ring as separate circles without a seam', () => {
+        pieChart.data.datasets[0].data = [1];
+        pieChart.update();
+
+        const { outerRadius } = getArcProps(
+          pieChart.getDatasetMeta(0).data[0] as ArcElement,
+        );
+
+        // Records the ring's path calls, starting from its outer circle, which
+        // Chart.js's own drawing never draws at this radius.
+        let calls: string[] = [];
+        let recording = false;
+        const proto = CanvasRenderingContext2D.prototype;
+
+        for (const method of ['arc', 'moveTo', 'closePath'] as const) {
+          const original = proto[method] as (...args: unknown[]) => void;
+
+          spyOn(proto, method).and.callFake(function (
+            this: CanvasRenderingContext2D,
+            ...args: unknown[]
+          ) {
+            if (method === 'arc' && args[2] === outerRadius + 2) {
+              calls = [];
+              recording = true;
+            }
+
+            if (recording) {
+              calls.push(method);
+              recording = calls.length < 3;
+            }
+
+            original.apply(this, args);
+          });
+        }
+
+        piePlugin.setFocusedDataPoint({ datasetIndex: 0, index: 0 });
+
+        expect(calls).toEqual(['arc', 'moveTo', 'arc']);
+      });
+
+      it('should show the tooltip for a focused slice that wraps its bounding box center', () => {
+        piePlugin.setFocusedDataPoint({ datasetIndex: 0, index: 0 });
+
+        expect(pieChart.tooltip?.getActiveElements()).toEqual([
+          jasmine.objectContaining({ datasetIndex: 0, index: 0 }),
+        ]);
+      });
     });
 
     it('should draw rings before the tooltip so the tooltip covers them', () => {

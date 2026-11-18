@@ -6,6 +6,8 @@ export { SkyChartLegendItemHarness } from './modules/chart-legend/chart-legend-i
 export type { SkyChartLegendItemHarnessFilters } from './modules/chart-legend/chart-legend-item-harness-filters';
 export { SkyChartLineHarness } from './modules/chart-line/chart-line-harness';
 export type { SkyChartLineHarnessFilters } from './modules/chart-line/chart-line-harness-filters';
+export { SkyChartPieHarness } from './modules/chart-pie/chart-pie-harness';
+export type { SkyChartPieHarnessFilters } from './modules/chart-pie/chart-pie-harness-filters';
 export { SkyChartTableModalHarness } from './modules/chart-table/chart-table-modal-harness';
 export { SkyChartHarness } from './modules/chart/chart-harness';
 export type { SkyChartHarnessFilters } from './modules/chart/chart-harness-filters';

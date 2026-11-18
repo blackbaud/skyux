@@ -11,6 +11,7 @@ import {
   viewChild,
 } from '@angular/core';
 import {
+  ArcElement,
   BarController,
   BarElement,
   CategoryScale,
@@ -21,6 +22,7 @@ import {
   LineController,
   LineElement,
   LogarithmicScale,
+  PieController,
   type Plugin,
   PointElement,
   Tooltip,
@@ -34,6 +36,7 @@ import { createDataPointPlugin } from '../chart-js-plugins/data-point-plugin';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 
 Chart.register(
+  ArcElement,
   BarController,
   BarElement,
   CategoryScale,
@@ -41,6 +44,7 @@ Chart.register(
   LineController,
   LineElement,
   LogarithmicScale,
+  PieController,
   PointElement,
   Tooltip,
 );

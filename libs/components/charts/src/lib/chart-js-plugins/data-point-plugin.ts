@@ -1,4 +1,5 @@
 import {
+  ArcElement,
   BarElement,
   type Chart,
   type ChartEvent,
@@ -8,7 +9,11 @@ import {
 
 import { type SkyChartJsDataPointIndex } from './chart-js-data-point-index';
 import { type SkyChartJsDataPointPlugin } from './chart-js-data-point-plugin';
-import { getElementGeometry, toDataPointKey } from './data-point-geometry';
+import {
+  getArcProps,
+  getElementGeometry,
+  toDataPointKey,
+} from './data-point-geometry';
 
 const RING_MARGIN = 2;
 
@@ -93,21 +98,49 @@ export function createDataPointPlugin(callbacks: {
         continue;
       }
 
-      const bounds = getElementGeometry(element);
-      const width = bounds.width + RING_MARGIN * 2;
-
       ctx.save();
       ctx.beginPath();
-      ctx.roundRect(
-        bounds.left - RING_MARGIN,
-        bounds.top - RING_MARGIN,
-        width,
-        bounds.height + RING_MARGIN * 2,
-        // Line points are circles, so their rings are circles too.
-        element instanceof BarElement
-          ? parseFloat(ringStyle('radius'))
-          : width / 2,
-      );
+
+      if (element instanceof ArcElement) {
+        // A box would cut across neighboring slices, so a slice's ring follows
+        // its outline instead.
+        const { x, y, startAngle, endAngle, innerRadius, outerRadius } =
+          getArcProps(element);
+
+        const innerRingRadius = Math.max(innerRadius - RING_MARGIN, 0);
+        const isFullCircle = endAngle - startAngle >= Math.PI * 2;
+
+        ctx.arc(x, y, outerRadius + RING_MARGIN, startAngle, endAngle);
+
+        // A lone slice's ring is two separate circles; joining them, as for a
+        // partial slice, would stroke a seam across the ring.
+        if (isFullCircle) {
+          ctx.moveTo(
+            x + Math.cos(endAngle) * innerRingRadius,
+            y + Math.sin(endAngle) * innerRingRadius,
+          );
+        }
+
+        ctx.arc(x, y, innerRingRadius, endAngle, startAngle, true);
+
+        if (!isFullCircle) {
+          ctx.closePath();
+        }
+      } else {
+        const bounds = getElementGeometry(element);
+        const width = bounds.width + RING_MARGIN * 2;
+
+        ctx.roundRect(
+          bounds.left - RING_MARGIN,
+          bounds.top - RING_MARGIN,
+          width,
+          bounds.height + RING_MARGIN * 2,
+          // Line points are circles, so their rings are circles too.
+          element instanceof BarElement
+            ? parseFloat(ringStyle('radius'))
+            : width / 2,
+        );
+      }
 
       if (layer === 'background') {
         ctx.fillStyle = ringStyle(`${state}-background-color`);
@@ -216,16 +249,20 @@ export function createDataPointPlugin(callbacks: {
         return;
       }
 
-      const bounds = getElementGeometry(
-        focusedChart.getDatasetMeta(dataPoint.datasetIndex).data[
-          dataPoint.index
-        ],
-      );
+      const element = focusedChart.getDatasetMeta(dataPoint.datasetIndex).data[
+        dataPoint.index
+      ];
+      const bounds = getElementGeometry(element);
 
-      const position = {
-        x: bounds.left + bounds.width / 2,
-        y: bounds.top + bounds.height / 2,
-      };
+      // The center of a large slice's bounding box can fall outside the slice,
+      // so slices are hit-tested at their centroid.
+      const position =
+        element instanceof ArcElement
+          ? { x: bounds.x, y: bounds.y }
+          : {
+              x: bounds.left + bounds.width / 2,
+              y: bounds.top + bounds.height / 2,
+            };
 
       const event = { native: null, ...position } as unknown as Event;
       const hover = focusedChart.options.hover as CoreInteractionOptions;
