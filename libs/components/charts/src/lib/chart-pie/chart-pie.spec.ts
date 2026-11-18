@@ -2,6 +2,7 @@ import { Component, ViewChild, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
+import { SkyLogService } from '@skyux/core';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -222,6 +223,31 @@ describe('Chart pie component', () => {
     // Covers the destroy path when no chart was created.
     fixture.destroy();
     destroyed = true;
+  });
+
+  it('should warn when a slice has a negative value', () => {
+    const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+    component.slices.set([
+      { label: 'North', value: 10 },
+      { label: 'South', value: -20 },
+    ]);
+    fixture.detectChanges();
+
+    expect(warnSpy).toHaveBeenCalledOnceWith(
+      'The <sky-chart-pie-slice> labeled "South" has a negative value ' +
+        '(-20). Pie chart slices must have values of zero or greater.',
+    );
+  });
+
+  it('should not warn when every slice value is zero or greater', () => {
+    const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+    component.slices.set([
+      { label: 'North', value: 0 },
+      { label: 'South', value: 20 },
+    ]);
+    fixture.detectChanges();
+
+    expect(warnSpy).not.toHaveBeenCalled();
   });
 
   it('should create a pie chart from the slices', () => {

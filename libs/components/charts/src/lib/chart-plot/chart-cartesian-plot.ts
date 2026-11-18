@@ -7,10 +7,7 @@ import {
   Signal,
   signal,
 } from '@angular/core';
-import { outputFromObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
-import { SkyThemeService } from '@skyux/theme';
-import { EMPTY, map, Subject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
@@ -24,14 +21,12 @@ import {
 import { type SkyChartLegendItem } from '../chart-legend/chart-legend';
 import { SkyChartTable } from '../chart-table/chart-table';
 import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
-import { type SkyChartDataPointClickArgs } from './chart-data-point-click-args';
 import { SkyChartPlot } from './chart-plot';
 
 /**
  * Base class for cartesian plot components (for example, `sky-chart-bar` and
  * `sky-chart-line`): plots that render one or more series against a category
- * axis and a value axis. Owns the axis content queries, the theme change
- * signal, the accessible table and summary, and the series/category
+ * axis and a value axis. Owns the axis content queries, the accessible table and summary, and the series/category
  * length-mismatch warning. Subclasses supply the series content query, the
  * series selector, the summary resource key, and their own Chart.js config.
  * @internal
@@ -40,24 +35,7 @@ import { SkyChartPlot } from './chart-plot';
 export abstract class SkyChartCartesianPlot<
   TSeries extends SkyChartCartesianSeries,
   TValue,
-> extends SkyChartPlot {
-  readonly #themeSettings = toSignal(
-    inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
-      map((change) => change.currentSettings),
-    ) ?? EMPTY,
-    { initialValue: undefined },
-  );
-
-  /**
-   * The active theme's resolved chart styling. Resolving forces a style
-   * recalculation, so it is computed once per theme change and shared.
-   */
-  protected readonly themeStyles = computed(() => {
-    this.#themeSettings();
-
-    return this.getThemeStyles();
-  });
-
+> extends SkyChartPlot<TValue> {
   protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
   protected readonly valueAxis = contentChild(SkyChartAxisValue);
 
@@ -78,18 +56,6 @@ export abstract class SkyChartCartesianPlot<
    * the series count and the category count as its arguments.
    */
   protected abstract readonly accessibleSummaryResourceKey: string;
-
-  protected readonly dataPointClickSource = new Subject<
-    SkyChartDataPointClickArgs<TValue>
-  >();
-
-  /**
-   * Fires when the user clicks a data point, or presses Enter or Space while a
-   * data point has focus.
-   */
-  public readonly dataPointClick = outputFromObservable(
-    this.dataPointClickSource,
-  );
 
   readonly #hiddenSeries = signal<ReadonlySet<TSeries>>(new Set());
 

@@ -1,4 +1,5 @@
 import {
+  afterRenderEffect,
   Component,
   computed,
   contentChildren,
@@ -6,11 +7,11 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { outputFromObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SkyLogService } from '@skyux/core';
 import { SkyAppLocaleProvider } from '@skyux/i18n';
-import { SkyThemeService } from '@skyux/theme';
 import { type ChartDataset, type TooltipItem } from 'chart.js';
-import { EMPTY, map, Subject } from 'rxjs';
+import { map } from 'rxjs';
 
 import { optionalNumberAttribute } from '../chart-axis/optional-number-attribute';
 import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/chart-js-data-point-index';
@@ -20,7 +21,6 @@ import {
   SkyChartLegend,
   type SkyChartLegendItem,
 } from '../chart-legend/chart-legend';
-import { type SkyChartDataPointClickArgs } from '../chart-plot/chart-data-point-click-args';
 import { SkyChartPlot } from '../chart-plot/chart-plot';
 import { SkyChartTable } from '../chart-table/chart-table';
 import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
@@ -45,19 +45,12 @@ const DONUT_CUTOUT = '65%';
   selector: 'sky-chart-pie',
   templateUrl: './chart-pie.html',
 })
-export class SkyChartPie extends SkyChartPlot {
+export class SkyChartPie extends SkyChartPlot<number> {
   readonly #localeProvider = inject(SkyAppLocaleProvider);
 
   readonly #locale = toSignal(
     this.#localeProvider.getLocaleInfo().pipe(map((info) => info.locale)),
     { initialValue: this.#localeProvider.defaultLocale },
-  );
-
-  readonly #themeSettings = toSignal(
-    inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
-      map((change) => change.currentSettings),
-    ) ?? EMPTY,
-    { initialValue: undefined },
   );
 
   /**
@@ -101,29 +94,7 @@ export class SkyChartPie extends SkyChartPlot {
    */
   public readonly valueLabelText = input.required<string>();
 
-  protected readonly dataPointClickSource = new Subject<
-    SkyChartDataPointClickArgs<number>
-  >();
-
-  /**
-   * Fires when the user clicks a slice, or presses Enter or Space while a
-   * slice has focus.
-   */
-  public readonly dataPointClick = outputFromObservable(
-    this.dataPointClickSource,
-  );
-
   protected readonly slices = contentChildren(SkyChartPieSlice);
-
-  /**
-   * The active theme's resolved chart styling. Resolving forces a style
-   * recalculation, so it is computed once per theme change and shared.
-   */
-  protected readonly themeStyles = computed(() => {
-    this.#themeSettings();
-
-    return this.getThemeStyles();
-  });
 
   protected readonly chartJsConfig = computed(() => this.#getChartJsConfig());
 
@@ -149,6 +120,27 @@ export class SkyChartPie extends SkyChartPlot {
       hidden: hiddenSlices.has(slice),
     }));
   });
+
+  constructor() {
+    super();
+
+    const logger = inject(SkyLogService);
+
+    // Chart.js sizes a slice by its absolute value, so a negative value draws
+    // as if it were positive while the tooltip and data table show it as
+    // negative.
+    afterRenderEffect(() => {
+      for (const slice of this.slices()) {
+        if (slice.value() < 0) {
+          logger.warn(
+            `The <sky-chart-pie-slice> labeled "${slice.labelText()}" has a ` +
+              `negative value (${slice.value()}). Pie chart slices must have ` +
+              'values of zero or greater.',
+          );
+        }
+      }
+    });
+  }
 
   readonly #formatValue = computed<(value: number) => string>(() =>
     createSkyChartValueFormatter({

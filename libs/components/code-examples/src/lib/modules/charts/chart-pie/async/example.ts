@@ -1,5 +1,6 @@
 import { Component, input, resource } from '@angular/core';
 import { SkyChart, SkyChartPie, SkyChartPieSlice } from '@skyux/charts';
+import { SkyButton } from '@skyux/forms';
 
 interface ChartPieAsyncData {
   slices: { label: string; value: number }[];
@@ -11,7 +12,7 @@ interface ChartPieAsyncData {
 @Component({
   selector: 'app-chart-pie-async-example',
   templateUrl: './example.html',
-  imports: [SkyChart, SkyChartPie, SkyChartPieSlice],
+  imports: [SkyButton, SkyChart, SkyChartPie, SkyChartPieSlice],
 })
 export class ChartsChartPieAsyncExample {
   // Simulate network latency.

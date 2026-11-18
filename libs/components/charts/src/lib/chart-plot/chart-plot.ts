@@ -1,10 +1,14 @@
 import {
   afterRenderEffect,
+  computed,
   DestroyRef,
   Directive,
   ElementRef,
   inject,
 } from '@angular/core';
+import { outputFromObservable, toSignal } from '@angular/core/rxjs-interop';
+import { SkyThemeService } from '@skyux/theme';
+import { EMPTY, map, Subject } from 'rxjs';
 
 import { SkyChartTable } from '../chart-table/chart-table';
 import {
@@ -15,11 +19,13 @@ import {
   resolveChartThemeStyles,
   SkyChartThemeStyles,
 } from '../shared/chart-theme-styles';
+import { type SkyChartDataPointClickArgs } from './chart-data-point-click-args';
 
 /**
  * Base class for chart plot components (for example, `sky-chart-bar`). Owns the
  * bridge that publishes each plot's tabular representation to the accessible
- * data table, so every plot type shares the same lifecycle. Subclasses
+ * data table, so every plot type shares the same lifecycle. Also owns the
+ * theme change signal and the data point click output. Subclasses
  * implement `getChartTable`, `getAccessibleSummary`, and their own rendering.
  *
  * Plots must be rendered inside `sky-chart`: the wrapper provides the data
@@ -28,10 +34,39 @@ import {
  * @internal
  */
 @Directive()
-export abstract class SkyChartPlot {
+export abstract class SkyChartPlot<TValue> {
   readonly #elementRef = inject(ElementRef);
 
   readonly #tableSvc: SkyChartTableService;
+
+  readonly #themeSettings = toSignal(
+    inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
+      map((change) => change.currentSettings),
+    ) ?? EMPTY,
+    { initialValue: undefined },
+  );
+
+  /**
+   * The active theme's resolved chart styling. Resolving forces a style
+   * recalculation, so it is computed once per theme change and shared.
+   */
+  protected readonly themeStyles = computed(() => {
+    this.#themeSettings();
+
+    return this.getThemeStyles();
+  });
+
+  protected readonly dataPointClickSource = new Subject<
+    SkyChartDataPointClickArgs<TValue>
+  >();
+
+  /**
+   * Fires when the user clicks a data point, or presses Enter or Space while a
+   * data point has focus.
+   */
+  public readonly dataPointClick = outputFromObservable(
+    this.dataPointClickSource,
+  );
 
   constructor() {
     const tableSvc = inject(SkyChartTableService, { optional: true });

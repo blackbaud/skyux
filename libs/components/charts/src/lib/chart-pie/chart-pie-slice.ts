@@ -17,7 +17,7 @@ export class SkyChartPieSlice {
   public readonly labelText = input.required<string>();
 
   /**
-   * The value of this slice.
+   * The value of this slice. Values must be zero or greater.
    */
   public readonly value = input.required<number, unknown>({
     transform: numberAttribute,

@@ -1,11 +1,10 @@
-<button
-  class="sky-btn sky-btn-default sky-theme-margin-bottom-s"
-  type="button"
+<sky-button
+  class="sky-theme-margin-bottom-s"
+  data-sky-id="reload-button"
+  labelText="Reload data"
   [disabled]="sales.isLoading()"
-  (click)="sales.reload()"
->
-  Reload data
-</button>
+  (buttonClick)="sales.reload()"
+/>
 <sky-chart
   data-sky-id="sales-by-region"
   headingText="Sales by region"
