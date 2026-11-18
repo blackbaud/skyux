@@ -16,12 +16,12 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         id: setup-node
         with:
           cache: 'npm'
@@ -103,7 +103,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         if: ${{ env.CHERRY_PICK_RESULT != 'failed' }}
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
@@ -147,7 +147,7 @@ jobs:
 
       - name: Comment on the original PR when cherry-pick is successful
         if: ${{ env.CHERRY_PICK_RESULT == 'success' }}
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |
@@ -160,7 +160,7 @@ jobs:
 
       - name: Comment on the original PR when cherry-pick fails
         if: ${{ env.CHERRY_PICK_RESULT != 'success' }}
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           script: |

@@ -56,10 +56,10 @@ jobs:
       !(github.event_name == 'push' && github.ref_name == 'automated-translations' && github.actor == 'blackbaud-sky-build-user')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         id: setup-node
         with:
           node-version-file: '.nvmrc'
