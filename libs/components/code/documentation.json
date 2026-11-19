@@ -13,6 +13,19 @@
       "codeExamples": {
         "docsIds": ["CodeInlineTextExample"]
       }
+    },
+    "code-block": {
+      "summary": "The code block component displays a block of formatted, syntax-highlighted code with an optional file name and copy button.",
+      "development": {
+        "docsIds": ["SkyCodeBlock"],
+        "primaryDocsId": "SkyCodeBlock"
+      },
+      "testing": {
+        "docsIds": ["SkyCodeBlockHarness", "SkyCodeBlockHarnessFilters"]
+      },
+      "codeExamples": {
+        "docsIds": ["CodeCodeBlockFileNameExample"]
+      }
     }
   }
 }
