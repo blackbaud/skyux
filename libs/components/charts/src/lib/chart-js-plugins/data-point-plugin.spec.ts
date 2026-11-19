@@ -496,6 +496,25 @@ describe('Data point plugin', () => {
 
       expect(rings).toEqual([]);
     });
+
+    it('should clear every ring when a hovered, pressed, and focused data point is removed', async () => {
+      const dataPoint = { datasetIndex: 0, index: 2 };
+
+      await hover(dataPoint);
+      await dispatchCanvasEvent('pointerdown', getCenter(dataPoint));
+      dataPointPlugin.setFocusedDataPoint(dataPoint);
+
+      const rings = spyOnRings();
+      chart.data.datasets[0].data = [1, 2];
+      chart.update();
+
+      expect(rings).toEqual([]);
+
+      // No stale state is left to draw on later redraws.
+      chart.draw();
+
+      expect(rings).toEqual([]);
+    });
   });
 
   describe('hover', () => {
