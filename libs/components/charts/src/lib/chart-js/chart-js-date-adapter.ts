@@ -219,8 +219,16 @@ _adapters._date.override({
       const date = new Date(time);
 
       return quarterLabel
-        .replace('{0}', String(Math.floor(date.getMonth() / 3) + 1))
-        .replace('{1}', String(date.getFullYear()));
+        .replace(
+          '{0}',
+          new Intl.NumberFormat(locale).format(
+            Math.floor(date.getMonth() / 3) + 1,
+          ),
+        )
+        .replace(
+          '{1}',
+          new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(date),
+        );
     }
 
     return new Intl.DateTimeFormat(

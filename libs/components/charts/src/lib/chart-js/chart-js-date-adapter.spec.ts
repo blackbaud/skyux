@@ -64,6 +64,12 @@ describe('Chart.js date adapter', () => {
     expect(adapter.format(local(2026, 7, 29), 'quarter')).toBe('T3 2026');
   });
 
+  it('should format the quarter number and year for the locale', () => {
+    const adapter = createAdapter('ar-EG');
+
+    expect(adapter.format(local(2026, 7, 29), 'quarter')).toBe('Q٣ ٢٠٢٦');
+  });
+
   it('should format labels for the locale', () => {
     const adapter = createAdapter('fr-CA');
 
