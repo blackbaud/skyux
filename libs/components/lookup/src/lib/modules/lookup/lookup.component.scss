@@ -255,6 +255,9 @@ sky-input-box .sky-lookup {
         var(--sky-comp-input-value-space-inset-left)
       );
       resize: none;
+      // Input box clips its textarea to keep a scrollbar inside the border. The lookup
+      // textarea never scrolls, and the clip hides the caret when tokens remove its left padding.
+      clip-path: none;
     }
   }
 }

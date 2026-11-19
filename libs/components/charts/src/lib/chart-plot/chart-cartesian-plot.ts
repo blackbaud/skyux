@@ -7,13 +7,14 @@ import {
   Signal,
   signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { outputFromObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
 import { SkyThemeService } from '@skyux/theme';
-import { EMPTY, map } from 'rxjs';
+import { EMPTY, map, Subject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
+import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/chart-js-data-point-index';
 import {
   buildCartesianTable,
   resolveCartesianData,
@@ -23,6 +24,7 @@ import {
 import { type SkyChartLegendItem } from '../chart-legend/chart-legend';
 import { SkyChartTable } from '../chart-table/chart-table';
 import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
+import { type SkyChartDataPointClickArgs } from './chart-data-point-click-args';
 import { SkyChartPlot } from './chart-plot';
 
 /**
@@ -37,6 +39,7 @@ import { SkyChartPlot } from './chart-plot';
 @Directive()
 export abstract class SkyChartCartesianPlot<
   TSeries extends SkyChartCartesianSeries,
+  TValue,
 > extends SkyChartPlot {
   readonly #themeSettings = toSignal(
     inject(SkyThemeService, { optional: true })?.settingsChange.pipe(
@@ -75,6 +78,18 @@ export abstract class SkyChartCartesianPlot<
    * the series count and the category count as its arguments.
    */
   protected abstract readonly accessibleSummaryResourceKey: string;
+
+  protected readonly dataPointClickSource = new Subject<
+    SkyChartDataPointClickArgs<TValue>
+  >();
+
+  /**
+   * Fires when the user clicks a data point, or presses Enter or Space while a
+   * data point has focus.
+   */
+  public readonly dataPointClick = outputFromObservable(
+    this.dataPointClickSource,
+  );
 
   readonly #hiddenSeries = signal<ReadonlySet<TSeries>>(new Set());
 
@@ -148,6 +163,24 @@ export abstract class SkyChartCartesianPlot<
       }
 
       return next;
+    });
+  }
+
+  protected onDataPointClick({
+    datasetIndex,
+    index,
+  }: SkyChartJsDataPointIndex): void {
+    // Data points render only once the chart has data, and gaps (null values)
+    // never render a data point.
+    const data = this.getCartesianData() as SkyChartCartesianData<TSeries>;
+    const chartSeries = data.series[datasetIndex];
+
+    this.dataPointClickSource.next({
+      category: data.categoryAxis.categories()[index],
+      categoryIndex: index,
+      seriesIndex: datasetIndex,
+      seriesLabelText: chartSeries.labelText(),
+      value: chartSeries.values()[index] as NonNullable<TValue>,
     });
   }
 

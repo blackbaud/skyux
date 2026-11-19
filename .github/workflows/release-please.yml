@@ -23,11 +23,11 @@ jobs:
       tag_name: ${{ steps.release.outputs.tag_name || '' }}
       dry_run: ${{ steps.next-release.outputs.dry_run || 'false' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -44,7 +44,7 @@ jobs:
           npx skyux-dev release --dry-run=$DRY_RUN
         env:
           GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-      - uses: actions/github-script@v8
+      - uses: actions/github-script@v9
         name: Release
         if: ${{ github.ref_protected && github.event_name == 'push' && startsWith(github.event.head_commit.message, env.RELEASE_PR_PREFIX) }}
         id: release
@@ -92,11 +92,11 @@ jobs:
     if: ${{ needs.next-release.outputs.release_created || needs.next-release.outputs.dry_run == 'true' }}
     environment: 'npm'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           token: '${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}'
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
@@ -111,7 +111,7 @@ jobs:
       - name: Build
         run: npx skyux-dev create-packages-dist ${{ needs.next-release.outputs.dry_run != 'true' && '--skipNxCache' || '' }}
       # Using Node 24 to publish with NPM 11, which supports trusted publishers.
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       - name: Publish

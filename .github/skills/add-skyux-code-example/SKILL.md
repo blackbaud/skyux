@@ -76,9 +76,9 @@ wiring), not to copy its structure.
 
 6. **Write the example spec.** Add `example.spec.ts` following
    [component-code-examples.instructions.md](../../instructions/component-code-examples.instructions.md).
-   The spec should be a thorough showcase of the component's test harness
-   (all public methods, filters, and relevant sub-harnesses), not a smoke
-   test, and reach the project's coverage threshold.
+   The spec should test the example's behavior the way a consumer would, using
+   the harness (its filters, getters, and sub-harnesses) wherever the scenarios
+   call for it, and reach the project's coverage threshold.
 
 7. **Verify.** Run the code-examples specs headless, then lint and format:
 

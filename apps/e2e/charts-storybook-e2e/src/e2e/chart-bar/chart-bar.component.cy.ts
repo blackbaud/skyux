@@ -1,5 +1,7 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+import { itRendersDataPointStates } from '../shared/data-point-states';
+
 describe('ChartBar', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
@@ -18,6 +20,24 @@ describe('ChartBar', () => {
               disableTimersAndAnimations: true,
               widths: E2eVariations.DISPLAY_WIDTHS,
             },
+          );
+        });
+      }
+
+      for (const orientation of ['vertical', 'horizontal']) {
+        describe(`with ${orientation} bars`, () => {
+          beforeEach(() => {
+            cy.visit(
+              `/iframe.html?globals=theme:${theme}&id=chart-barcomponent--${orientation}`,
+            );
+            cy.skyReady('app-chart-bar').end();
+          });
+
+          itRendersDataPointStates(
+            `chart-bar-${orientation}`,
+            theme,
+            '2013',
+            'Actual',
           );
         });
       }

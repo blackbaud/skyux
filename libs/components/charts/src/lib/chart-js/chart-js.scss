@@ -1,0 +1,62 @@
+// Registered as a length so the computed style resolves theme values such as
+// `.25rem` to pixels, which `data-point-plugin.ts` passes to the canvas.
+@property --sky-chart-data-point-ring-radius {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
+// Chart.js detects size changes from the canvas's parent, not the canvas
+// itself, so the host must be a dedicated, relatively-positioned container
+// for the canvas. Without this, the chart fails to resize responsively and
+// can render blurry or continually shrink.
+// https://www.chartjs.org/docs/latest/configuration/responsive.html#important-note
+:host {
+  display: block;
+  position: relative;
+
+  // The themed styles of the data point rings drawn by `data-point-plugin.ts`,
+  // which reads them from the canvas's computed style because the canvas
+  // cannot use CSS variables. `sky-chart` supplies the default theme's
+  // overrides. The states match the legend items' interaction states.
+  --sky-chart-data-point-ring-radius: var(
+    --sky-override-chart-border-radius-s,
+    var(--sky-border-radius-s)
+  );
+  --sky-chart-data-point-ring-hover-border-width: var(
+    --sky-override-chart-border-width-action-hover,
+    var(--sky-border-width-action-hover)
+  );
+  --sky-chart-data-point-ring-hover-border-color: var(
+    --sky-override-chart-color-border-action-tertiary-hover,
+    var(--sky-color-border-action-tertiary-hover)
+  );
+  --sky-chart-data-point-ring-hover-background-color: var(
+    --sky-override-chart-color-background-action-tertiary-hover,
+    var(--sky-color-background-action-tertiary-hover)
+  );
+  --sky-chart-data-point-ring-active-border-width: var(
+    --sky-override-chart-border-width-action-active,
+    var(--sky-border-width-action-active)
+  );
+  --sky-chart-data-point-ring-active-border-color: var(
+    --sky-override-chart-color-border-action-tertiary-active,
+    var(--sky-color-border-action-tertiary-active)
+  );
+  --sky-chart-data-point-ring-active-background-color: var(
+    --sky-override-chart-color-background-action-tertiary-active,
+    var(--sky-color-background-action-tertiary-active)
+  );
+  --sky-chart-data-point-ring-focus-border-width: var(
+    --sky-override-chart-border-width-action-focus,
+    var(--sky-border-width-action-focus)
+  );
+  --sky-chart-data-point-ring-focus-border-color: var(
+    --sky-override-chart-color-border-action-tertiary-focus,
+    var(--sky-color-border-action-tertiary-focus)
+  );
+  --sky-chart-data-point-ring-focus-background-color: var(
+    --sky-override-chart-color-background-action-tertiary-focus,
+    var(--sky-color-background-action-tertiary-focus)
+  );
+}

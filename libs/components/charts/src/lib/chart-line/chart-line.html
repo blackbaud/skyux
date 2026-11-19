@@ -1,5 +1,10 @@
 @if (chartJsConfig(); as config) {
-  <sky-chart-js [config]="config" [style.height]="chartHeight()" />
+  <sky-chart-js
+    [config]="config"
+    [dataPointsClickable]="dataPointClickSource.observed"
+    [style.height]="chartHeight()"
+    (dataPointClick)="onDataPointClick($event)"
+  />
   @if (legendItems().length > 1) {
     <sky-chart-legend
       [items]="legendItems()"

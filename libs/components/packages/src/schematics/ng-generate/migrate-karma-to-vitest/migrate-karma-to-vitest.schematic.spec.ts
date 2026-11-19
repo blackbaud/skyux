@@ -66,7 +66,7 @@ describe('Generate > Migrate karma to vitest', () => {
     return JSON.parse(tree.readText('/package.json')).devDependencies;
   }
 
-  it('should skip the migration if the deprecated package is not installed', async () => {
+  it('should install the supported package if the deprecated package is not installed', async () => {
     const tree = setupTree(
       {
         '/src/app/test.spec.ts': `import { expect } from '@skyux-sdk/testing';\n`,
@@ -76,12 +76,17 @@ describe('Generate > Migrate karma to vitest', () => {
 
     const warnings = await runSchematic(tree);
 
-    expect(warnings).toEqual([
-      "Dependency '@skyux-sdk/testing' not installed. Skipping migration.",
-    ]);
+    expect(warnings).toEqual([]);
     expect(tree.readText('/src/app/test.spec.ts')).toBe(
       `import { expect } from '@skyux-sdk/testing';\n`,
     );
+    expect(getDevDependencies(tree)).toEqual({
+      '@skyux-sdk/vitest': '^0.0.0-PLACEHOLDER',
+    });
+    expect(runner.tasks.map((task) => task.name)).toEqual([
+      'node-package',
+      'run-schematic',
+    ]);
   });
 
   it('should skip the migration if the supported package is already installed', async () => {
@@ -357,6 +362,48 @@ describe('test', () => {
     expect(getDevDependencies(tree)).toEqual({
       '@skyux-sdk/vitest': '^0.0.0-PLACEHOLDER',
       typescript: '^5.0.0',
+    });
+  });
+
+  it('should migrate files outside the source root', async () => {
+    const tree = setupTree({
+      '/projects/my-lib/testing/test.spec.ts': `import { expectAsync } from '@skyux-sdk/testing';
+
+describe('test', () => {
+  it('works', async () => {
+    await expectAsync(el).toBeAccessible();
+  });
+});
+`,
+    });
+
+    tree.overwrite(
+      '/angular.json',
+      JSON.stringify({
+        version: 1,
+        projects: {
+          'my-lib': {
+            projectType: 'library',
+            root: 'projects/my-lib',
+            sourceRoot: 'projects/my-lib/src',
+            architect: {},
+          },
+        },
+      }),
+    );
+
+    const warnings = await runSchematic(tree);
+
+    expect(tree.readText('/projects/my-lib/testing/test.spec.ts')).toBe(`
+describe('test', () => {
+  it('works', async () => {
+    await expect(el).toBeAccessible();
+  });
+});
+`);
+    expect(warnings).toEqual([]);
+    expect(getDevDependencies(tree)).toEqual({
+      '@skyux-sdk/vitest': '^0.0.0-PLACEHOLDER',
     });
   });
 

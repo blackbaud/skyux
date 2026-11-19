@@ -18,7 +18,6 @@ import { parseSourceFile } from '../../utility/typescript/ng-ast';
 import { removeImport } from '../../utility/typescript/remove-import';
 import { swapImportedClass } from '../../utility/typescript/swap-imported-class';
 import { visitProjectFiles } from '../../utility/visit-project-files';
-import { getSourceRoot } from '../../utility/workspace';
 
 const DEPRECATED_PACKAGE = '@skyux-sdk/testing';
 const SUPPORTED_PACKAGE = '@skyux-sdk/vitest';
@@ -51,26 +50,25 @@ function getMatcherName(node: ts.Identifier): string {
 }
 
 /**
- * This schematic uninstalls our @skyux-sdk/testing jasmine matchers library and
- * replaces it with the @skyux-sdk/vitest matchers library. This schematic assumes
- * the `migrate-sdk-testing-imports` migration ran during the v15 update.
+ * This schematic installs the @skyux-sdk/vitest matchers library, replacing our
+ * @skyux-sdk/testing jasmine matchers library when it is installed. This
+ * schematic assumes the `migrate-sdk-testing-imports` migration ran during the
+ * v15 update.
  */
 export default function migrateKarmaToVitest(): Rule {
   return (tree, context) => {
-    if (!getPackageJsonDependency(tree, DEPRECATED_PACKAGE)) {
-      context.logger.warn(
-        `Dependency '${DEPRECATED_PACKAGE}' not installed. Skipping migration.`,
-      );
-
-      return;
-    }
-
     if (getPackageJsonDependency(tree, SUPPORTED_PACKAGE)) {
       context.logger.warn(
         `Dependency '${SUPPORTED_PACKAGE}' already installed. Skipping migration.`,
       );
 
       return;
+    }
+
+    // Vitest test setups require @skyux-sdk/vitest even when the workspace
+    // never used the @skyux-sdk/testing matchers.
+    if (!getPackageJsonDependency(tree, DEPRECATED_PACKAGE)) {
+      return installSdkVitest();
     }
 
     return chain([
@@ -89,7 +87,7 @@ async function visitFilesImportingSdkTesting(
   const workspace = await getWorkspace(tree);
 
   for (const project of workspace.projects.values()) {
-    visitProjectFiles(tree, getSourceRoot(project), (filePath) => {
+    visitProjectFiles(tree, project.root, (filePath) => {
       if (
         filePath.endsWith('.ts') &&
         !filePath.endsWith('.d.ts') &&

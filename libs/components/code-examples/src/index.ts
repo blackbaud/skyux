@@ -24,6 +24,7 @@ export { AutonumericPresetExampleComponent } from './lib/modules/autonumeric/aut
 export { AvatarExampleComponent } from './lib/modules/avatar/avatar/example.component';
 export { ChartsChartBarAsyncExample } from './lib/modules/charts/chart-bar/async/example';
 export { ChartsChartBarBasicExample } from './lib/modules/charts/chart-bar/basic/example';
+export { ChartsChartBarDataPointClickExample } from './lib/modules/charts/chart-bar/data-point-click/example';
 export { ChartsChartBarFloatingMultipleSeriesExample } from './lib/modules/charts/chart-bar/floating-multiple-series/example';
 export { ChartsChartBarFloatingExample } from './lib/modules/charts/chart-bar/floating/example';
 export { ChartsChartBarGroupedStackedExample } from './lib/modules/charts/chart-bar/grouped-stacked/example';
@@ -36,6 +37,7 @@ export { ChartsChartBarValueBoundsExample } from './lib/modules/charts/chart-bar
 export { ChartsChartBarValueFormatExample } from './lib/modules/charts/chart-bar/value-format/example';
 export { ChartsChartLineAsyncExample } from './lib/modules/charts/chart-line/async/example';
 export { ChartsChartLineBasicExample } from './lib/modules/charts/chart-line/basic/example';
+export { ChartsChartLineDataPointClickExample } from './lib/modules/charts/chart-line/data-point-click/example';
 export { ChartsChartLineGapsExample } from './lib/modules/charts/chart-line/gaps/example';
 export { ChartsChartLineMultipleSeriesExample } from './lib/modules/charts/chart-line/multiple-series/example';
 export { ChartsChartLineValueFormatExample } from './lib/modules/charts/chart-line/value-format/example';

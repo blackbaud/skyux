@@ -1,3 +1,4 @@
+import type { SkyManifestDirectiveDefinition } from '@skyux/manifest-local';
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import fsPromises from 'node:fs/promises';
@@ -112,6 +113,34 @@ describe('generate-manifest', () => {
     });
 
     expect(fsPromises.mkdir).toHaveBeenCalledWith('/dist');
+  }, 60000);
+
+  it('should document outputs created from observables', async () => {
+    const projects = setup({
+      documentationJsonExists: true,
+      outDirExists: true,
+      projectNames: ['code-examples', 'foo'],
+    });
+
+    const { generateManifest } = await import('./generate-manifest.js');
+
+    const { publicApi } = await generateManifest({
+      codeExamplesPackageName: '@skyux/code-examples',
+      outDir: '/dist',
+      projects,
+    });
+
+    const directive = publicApi.packages['@skyux/foo'].find(
+      (definition) => definition.name === 'FooWithInputsOutputsDirective',
+    ) as SkyManifestDirectiveDefinition;
+
+    expect(directive.children).toContainEqual(
+      expect.objectContaining({
+        kind: 'directive-output',
+        name: 'outputC',
+        type: 'OutputRef<void>',
+      }),
+    );
   }, 60000);
 
   it('should throw for invalid docs IDs', async () => {

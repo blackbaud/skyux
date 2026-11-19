@@ -1,12 +1,17 @@
-import { Tree } from '@angular-devkit/schematics';
-import { ProjectDefinition } from '@schematics/angular/utility';
+import { join, normalize } from '@angular-devkit/core';
+import { Rule, Tree } from '@angular-devkit/schematics';
+import { ProjectDefinition, addDependency } from '@schematics/angular/utility';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
+import {
+  getPackageJsonDependency,
+  removePackageJsonDependency,
+} from '@schematics/angular/utility/dependencies';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 import ts from 'typescript';
 
+import { JsonFile } from './json-file';
 import { parseSourceFile } from './typescript/ng-ast';
 import { visitProjectFiles } from './visit-project-files';
-import { getSourceRoot } from './workspace';
 
 export async function isPackageUsed(
   tree: Tree,
@@ -15,10 +20,7 @@ export async function isPackageUsed(
   const workspace = await getWorkspace(tree);
 
   for (const project of workspace.projects.values()) {
-    const sourceRoot = getSourceRoot(project);
-    const found = isPackageFoundInFiles(tree, packageName, sourceRoot);
-
-    if (found) {
+    if (isPackageFoundInFiles(tree, packageName, project.root)) {
       return true;
     }
   }
@@ -34,9 +36,7 @@ export async function getProjectsUsingPackage(
   const projects: ProjectDefinition[] = [];
 
   for (const project of workspace.projects.values()) {
-    const sourceRoot = getSourceRoot(project);
-
-    if (isPackageFoundInFiles(tree, packageName, sourceRoot)) {
+    if (isPackageFoundInFiles(tree, packageName, project.root)) {
       projects.push(project);
     }
   }
@@ -45,17 +45,18 @@ export async function getProjectsUsingPackage(
 }
 
 /**
- * Finds which packages are imported in any TypeScript files within the specified source root.
- * Returns a Set of package names that are used.
+ * True if any TypeScript file under `projectRoot` references `packageName`.
+ * The whole project root is scanned because files outside `sourceRoot` (e.g.
+ * a library's `testing/` entry point) still need the package installed.
  */
 function isPackageFoundInFiles(
   tree: Tree,
   packageName: string,
-  sourceRoot: string,
+  projectRoot: string,
 ): boolean {
   let found = false;
 
-  visitProjectFiles(tree, sourceRoot, (filePath) => {
+  visitProjectFiles(tree, projectRoot, (filePath) => {
     if (!filePath.endsWith('.ts') || found) {
       return;
     }
@@ -74,17 +75,18 @@ function hasImportStatement(
   sourceFile: ts.SourceFile,
   packageName: string,
 ): boolean {
-  const importDeclarations = findNodes(
-    sourceFile,
-    ts.SyntaxKind.ImportDeclaration,
-  ) as ts.ImportDeclaration[];
+  // A re-export (`export ... from 'package'`) needs the package installed too.
+  const declarations = [
+    ...findNodes(sourceFile, ts.SyntaxKind.ImportDeclaration),
+    ...findNodes(sourceFile, ts.SyntaxKind.ExportDeclaration),
+  ] as (ts.ImportDeclaration | ts.ExportDeclaration)[];
 
-  for (const importDecl of importDeclarations) {
+  for (const declaration of declarations) {
     if (
-      importDecl.moduleSpecifier &&
-      ts.isStringLiteral(importDecl.moduleSpecifier)
+      declaration.moduleSpecifier &&
+      ts.isStringLiteral(declaration.moduleSpecifier)
     ) {
-      const moduleSpecifier = importDecl.moduleSpecifier.text;
+      const moduleSpecifier = declaration.moduleSpecifier.text;
 
       if (isPackageMatch(moduleSpecifier, packageName)) {
         return true;
@@ -146,9 +148,111 @@ function isCallExpressionMatch(
   return false;
 }
 
-function isPackageMatch(moduleSpecifier: string, packageName: string): boolean {
+export function isPackageMatch(
+  moduleSpecifier: string,
+  packageName: string,
+): boolean {
   return (
     moduleSpecifier === packageName ||
     moduleSpecifier.startsWith(`${packageName}/`)
   );
+}
+
+/**
+ * The library's own `@skyux/core` version, preferring `section`, so a new
+ * SKY UX package gets the same range or exact version the library already
+ * uses for SKY UX. Falls back to the placeholder the root update uses.
+ */
+function getSkyuxCoreVersion(packageJson: JsonFile, section: string): string {
+  return (
+    [section, 'peerDependencies', 'dependencies', 'devDependencies']
+      .map((name) => packageJson.get([name, '@skyux/core']))
+      .find((version) => version !== undefined) ?? '0.0.0-PLACEHOLDER'
+  );
+}
+
+/**
+ * The project's own `package.json`, which lists a library's dependencies that
+ * the workspace root update doesn't reach, or `undefined` if it has none.
+ */
+function getLibraryPackageJson(
+  tree: Tree,
+  projectPath: string,
+): JsonFile | undefined {
+  const packageJsonPath = join(normalize(projectPath), 'package.json');
+
+  return projectPath && tree.exists(packageJsonPath)
+    ? new JsonFile(tree, packageJsonPath)
+    : undefined;
+}
+
+const LIBRARY_DEPENDENCY_SECTIONS = ['peerDependencies', 'dependencies'];
+
+/**
+ * Removes `packageName` from the workspace `package.json` when nothing in the
+ * workspace imports it any more, and from the project's own `package.json`
+ * when nothing in the project does.
+ */
+export async function removeUnusedPackageDependency(
+  tree: Tree,
+  projectPath: string,
+  packageName: string,
+): Promise<void> {
+  if (!(await isPackageUsed(tree, packageName))) {
+    removePackageJsonDependency(tree, packageName);
+  }
+
+  const packageJson = getLibraryPackageJson(tree, projectPath);
+  const sections = LIBRARY_DEPENDENCY_SECTIONS.filter(
+    (section) => packageJson?.get([section, packageName]) !== undefined,
+  );
+
+  if (!packageJson || sections.length === 0) {
+    return;
+  }
+
+  const projectsUsingPackage = await getProjectsUsingPackage(tree, packageName);
+
+  if (projectsUsingPackage.some((project) => project.root === projectPath)) {
+    return;
+  }
+
+  for (const section of sections) {
+    packageJson.remove([section, packageName]);
+  }
+}
+
+/**
+ * After a project's code moves from `oldPackage` to the SKY UX `newPackage`,
+ * adds `newPackage` to the workspace and to each section of the project's own
+ * `package.json` that lists `oldPackage` (so a peer dependency stays a peer
+ * dependency), then removes `oldPackage` where it's no longer used.
+ */
+export async function swapPackageDependency(
+  tree: Tree,
+  projectPath: string,
+  oldPackage: string,
+  newPackage: string,
+): Promise<Rule | void> {
+  const packageJson = getLibraryPackageJson(tree, projectPath);
+
+  for (const section of LIBRARY_DEPENDENCY_SECTIONS) {
+    if (
+      packageJson?.get([section, oldPackage]) !== undefined &&
+      packageJson.get([section, newPackage]) === undefined
+    ) {
+      packageJson.modify(
+        [section, newPackage],
+        getSkyuxCoreVersion(packageJson, section),
+      );
+    }
+  }
+
+  await removeUnusedPackageDependency(tree, projectPath, oldPackage);
+
+  // `addDependency` only checks `dependencies`, so it would add a second
+  // entry for a package already listed under `devDependencies`.
+  if (!getPackageJsonDependency(tree, newPackage)) {
+    return addDependency(newPackage, '0.0.0-PLACEHOLDER');
+  }
 }

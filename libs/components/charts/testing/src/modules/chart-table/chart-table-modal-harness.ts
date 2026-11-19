@@ -3,6 +3,7 @@ import { ComponentHarness } from '@angular/cdk/testing';
 /**
  * Harness for interacting with a chart's data table modal in tests. Open the
  * modal with `SkyChartHarness.openDataTableModal`.
+ * @preview
  */
 export class SkyChartTableModalHarness extends ComponentHarness {
   /**

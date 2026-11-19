@@ -12,17 +12,22 @@ import { extendBaseChartJsConfig } from '../chart-js/chart-js-config-utils';
 import { SkyChartLegend } from '../chart-legend/chart-legend';
 import { SkyChartCartesianPlot } from '../chart-plot/chart-cartesian-plot';
 import { SkyChartLineSeries } from './chart-line-series';
+import { type SkyChartLineSeriesValue } from './chart-line-series-value';
 
 /**
  * Renders a line chart from a category axis, a value axis, and one or more
  * series.
+ * @preview
  */
 @Component({
   imports: [SkyChartJs, SkyChartLegend],
   selector: 'sky-chart-line',
   templateUrl: './chart-line.html',
 })
-export class SkyChartLine extends SkyChartCartesianPlot<SkyChartLineSeries> {
+export class SkyChartLine extends SkyChartCartesianPlot<
+  SkyChartLineSeries,
+  SkyChartLineSeriesValue
+> {
   protected override readonly series = contentChildren(SkyChartLineSeries);
   protected override readonly seriesSelector = 'sky-chart-line-series';
   protected override readonly accessibleSummaryResourceKey =
@@ -103,6 +108,9 @@ export class SkyChartLine extends SkyChartCartesianPlot<SkyChartLineSeries> {
         // Highlight every series' point at the hovered category, matching the
         // tooltip, which lists every series' value at that category.
         hover: { mode: 'index', intersect: false },
+        // The size of the largest point, so points at the plot's edge aren't
+        // cut in half.
+        datasets: { line: { clip: 8 } },
         elements: {
           line: {
             borderWidth: 2,

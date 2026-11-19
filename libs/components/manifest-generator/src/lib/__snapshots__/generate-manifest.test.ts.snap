@@ -516,7 +516,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts",
         "kind": "directive",
         "name": "FooDirective",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L25",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L27",
         "selector": "[foo]"
       },
       {
@@ -526,7 +526,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts",
         "kind": "directive",
         "name": "FooEmptyDirective",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L33",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L35",
         "selector": "[fooEmpty]"
       },
       {
@@ -585,13 +585,19 @@ exports[`generate-manifest > should generate manifest 1`] = `
             "kind": "directive-output",
             "name": "outputB",
             "type": "OutputEmitterRef<void>"
+          },
+          {
+            "description": "This describes an output from an observable.",
+            "kind": "directive-output",
+            "name": "outputC",
+            "type": "OutputRef<void>"
           }
         ],
         "docsId": "FooWithInputsOutputsDirective",
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts",
         "kind": "directive",
         "name": "FooWithInputsOutputsDirective",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L38",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L40",
         "selector": "[foo]"
       },
       {
@@ -601,7 +607,7 @@ exports[`generate-manifest > should generate manifest 1`] = `
         "filePath": "libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts",
         "kind": "directive",
         "name": "λ2",
-        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L17",
+        "repoUrl": "https://github.com/blackbaud/skyux/blob/CURRENT_BRANCH/libs/components/manifest-generator/src/testing/fixtures/example-packages/foo/src/lib/foo.directive.ts#L19",
         "selector": "[fooLambda]"
       },
       {

@@ -6,6 +6,7 @@ import { SkyChartLegendItemHarnessFilters } from './chart-legend-item-harness-fi
 /**
  * Harness for interacting with a chart legend item in tests. Each legend item
  * represents a series and toggles that series' visibility when clicked.
+ * @preview
  */
 export class SkyChartLegendItemHarness extends SkyComponentHarness {
   /**

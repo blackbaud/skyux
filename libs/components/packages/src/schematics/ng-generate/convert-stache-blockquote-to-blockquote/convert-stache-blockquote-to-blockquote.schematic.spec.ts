@@ -1,0 +1,33 @@
+import {
+  SchematicTestRunner,
+  UnitTestTree,
+} from '@angular-devkit/schematics/testing';
+
+import { createTestApp } from '../../testing/scaffold';
+
+describe('ng-generate/convert-stache-blockquote-to-blockquote.schematic', () => {
+  const collectionPath = require.resolve('../../../../collection.json');
+  const runner = new SchematicTestRunner('generate', collectionPath);
+
+  async function setupTest(): Promise<{
+    runSchematic: () => Promise<UnitTestTree>;
+    tree: UnitTestTree;
+  }> {
+    const tree = await createTestApp(runner, { projectName: 'test-app' });
+    const runSchematic = (): Promise<UnitTestTree> => {
+      return runner.runSchematic(
+        'convert-stache-blockquote-to-blockquote',
+        {
+          project: 'test-app',
+        },
+        tree,
+      );
+    };
+    return { runSchematic, tree };
+  }
+
+  it('should run the schematic without errors', async () => {
+    const { runSchematic } = await setupTest();
+    await expect(runSchematic()).resolves.not.toThrow();
+  });
+});

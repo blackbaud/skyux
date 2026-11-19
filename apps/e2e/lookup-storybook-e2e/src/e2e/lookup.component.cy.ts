@@ -30,6 +30,32 @@ describe('lookup-storybook', () => {
           });
         });
       });
+      describe('in multiple-mode lookup with selected tokens', () => {
+        beforeEach(() =>
+          cy
+            .visit(
+              `/iframe.html?globals=theme:${theme}&id=lookupcomponent-lookup--lookup-multiple-mode`,
+            )
+            .viewport(1300, 900),
+        );
+        it('should not clip the start of the search text', () => {
+          cy.skyReady('app-lookup')
+            .get('[data-sky-id="lookup-preselected"] textarea')
+            .should('be.visible')
+            .type('Wolf');
+
+          cy.get('[data-sky-id="lookup-preselected"]').screenshot(
+            `lookupcomponent-lookup--lookup-multiple-mode-tokens-search-text-${theme}`,
+          );
+          cy.get('[data-sky-id="lookup-preselected"]').percySnapshot(
+            `lookupcomponent-lookup--lookup-multiple-mode-tokens-search-text-${theme}`,
+            {
+              widths: E2eVariations.DISPLAY_WIDTHS,
+              scope: '[data-sky-id="lookup-preselected"]',
+            },
+          );
+        });
+      });
       ['multiple-mode', 'single-mode'].forEach((mode) => {
         describe(`in ${mode} lookup component`, () => {
           beforeEach(() =>

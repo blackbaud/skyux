@@ -7,6 +7,8 @@ import {
   input,
   output,
 } from '@angular/core';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
+import { Subject } from 'rxjs';
 
 /**
  * This is a directive with a lambda name.
@@ -96,6 +98,11 @@ export class FooWithInputsOutputsDirective {
    * This describes a signal output.
    */
   public outputB = output<void>();
+
+  /**
+   * This describes an output from an observable.
+   */
+  public outputC = outputFromObservable(new Subject<void>());
 
   #_inputC = true;
   #_inputD = false;

@@ -1,5 +1,7 @@
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
+import { itRendersDataPointStates } from '../shared/data-point-states';
+
 describe('ChartLine', () => {
   E2eVariations.forEachTheme((theme) => {
     describe(`in ${theme} theme`, () => {
@@ -15,6 +17,17 @@ describe('ChartLine', () => {
           disableTimersAndAnimations: true,
           widths: E2eVariations.DISPLAY_WIDTHS,
         });
+      });
+
+      describe('data point states', () => {
+        beforeEach(() => {
+          cy.visit(
+            `/iframe.html?globals=theme:${theme}&id=chart-linecomponent--default`,
+          );
+          cy.skyReady('app-chart-line').end();
+        });
+
+        itRendersDataPointStates('chart-line', theme, '2013', 'Target');
       });
     });
   });

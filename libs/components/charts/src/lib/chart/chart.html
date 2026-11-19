@@ -1,21 +1,16 @@
 <div class="sky-chart-header">
-  <div>
-    @if (!headingHidden()) {
-      <sky-chart-heading
-        [headingLevel]="headingLevel()"
-        [headingStyle]="headingStyle()"
-        [headingText]="headingText()"
-        [helpKey]="helpKey()"
-        [helpPopoverContent]="helpPopoverContent()"
-        [helpPopoverTitle]="helpPopoverTitle()"
-      />
-      @if (subheadingText(); as subheadingText) {
-        <sky-chart-subheading [subheadingText]="subheadingText" />
-      }
+  @if (!headingHidden()) {
+    <sky-chart-heading
+      [headingLevel]="headingLevel()"
+      [headingStyle]="headingStyle()"
+      [headingText]="headingText()"
+      [helpKey]="helpKey()"
+      [helpPopoverContent]="helpPopoverContent()"
+      [helpPopoverTitle]="helpPopoverTitle()"
+    />
+    @if (subheadingText(); as subheadingText) {
+      <sky-chart-subheading [subheadingText]="subheadingText" />
     }
-  </div>
-  @if (!loading()) {
-    <sky-chart-controls [headingText]="headingText()" />
   }
 </div>
 <figure
@@ -27,3 +22,9 @@
   <sky-wait [isWaiting]="loading()" />
   <ng-content />
 </figure>
+@if (!loading()) {
+  <sky-chart-controls
+    class="sky-chart-controls"
+    [headingText]="headingText()"
+  />
+}
