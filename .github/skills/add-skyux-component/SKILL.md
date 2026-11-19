@@ -1,6 +1,6 @@
 ---
 name: add-skyux-component
-description: 'End-to-end workflow for adding a new component (or directive/service) to an existing @skyux/* library in this Nx monorepo. Use when asked to "add a component", "create a new SKY UX component", scaffold a component with its module, harness, code example, tests, and docs, or wire a new component into a library''s public API. Covers file layout, the src/index.ts barrel and sky/Sky prefix rules, SCSS compat overrides, test harness, code-example unit tests, documentation.json, and the test/lint/format/commit gate.'
+description: 'End-to-end workflow for adding a new component to an existing @skyux/* library in this Nx monorepo. Use when asked to "add a component", "create a new SKY UX component", scaffold a component with its harness, code example, tests, and docs, or wire a new component into a library''s public API. Covers file layout, the src/index.ts barrel and sky/Sky prefix rules, SCSS compat overrides, test harness, code-example unit tests, documentation.json, and the test/lint/format/commit gate.'
 argument-hint: '<library> <ComponentName> (e.g. indicators MyThing)'
 ---
 
@@ -17,7 +17,7 @@ with the monorepo's conventions (Nx tasks, public API discipline, the
 
 ## When to Use
 
-- Adding a new component, directive, or service to an existing library under
+- Adding a new component to an existing library under
   `libs/components/<library>/`.
 - Wiring a new public type/component into a library's `src/index.ts` barrel.
 
@@ -30,43 +30,47 @@ tooling.
 
 - Library source lives at
   `libs/components/<library>/src/lib/modules/<module>/`.
-- Component files follow the pattern:
-  - `<name>.component.ts`, `.html`, `.scss`, `.spec.ts`
-  - a `NgModule` (`<name>.module.ts`) that imports the standalone component
-    and `exports` the public-facing one.
+- Component files follow the Angular style guide naming rule in
+  [AGENTS.md](../../../AGENTS.md): `<name>.ts`, `<name>.html`, `<name>.scss`,
+  and `<name>.spec.ts`, with a `Sky<Name>` class (e.g. `SkyCode` in
+  `libs/components/code/src/lib/modules/code/code.ts`).
+- Do NOT create an `NgModule` for a new component. Consumers import the
+  standalone component directly.
 - Components are **standalone**; do NOT set `standalone: true` explicitly in
-  the decorator. Use `ChangeDetectionStrategy.OnPush`, `input()`/`output()`,
-  and signals. Follow
-  [angular.instructions.md](../../instructions/angular.instructions.md). The
-  thin `NgModule` wrapper above is the SKY UX public-API surface for the
-  standalone component and does not conflict with that file's "standalone over
-  NgModules" guidance.
+  the decorator. OnPush is Angular's default change detection, so do NOT set
+  `changeDetection` in the decorator either. Use `input()`/`output()` and
+  signals. Follow
+  [angular.instructions.md](../../instructions/angular.instructions.md).
+- Many existing components still use `*.component.*` file names, a
+  `Component` class suffix, and an `NgModule` wrapper. That is a legacy
+  pattern — do NOT copy it into new components.
 - The public API is the `src/index.ts` barrel. Public exports MUST be
-  prefixed with `sky`/`Sky` (e.g. `SkyThingComponent`, `SkyThingModule`,
-  `SkyThingHarness`). Export a new component or directive by its own name
-  (e.g. `export { SkyThingComponent } from './lib/.../thing.component';`).
-  Some existing libraries export older components/directives under obscured
-  aliases (e.g. `as λ1`); that is a legacy pattern — do NOT use it for new
-  exports.
+  prefixed with `sky`/`Sky` (e.g. `SkyThing`, `SkyThingHarness`). Export the
+  component by its own name (e.g.
+  `export { SkyThing } from './lib/modules/thing/thing';`). Some existing
+  libraries export older components under obscured aliases (e.g.
+  `as λ1`); that is a legacy pattern — do NOT use it for new exports.
 
 ## Procedure
 
-Work top to bottom. Mirror an existing sibling component in the same library
-for exact style; do not invent new patterns.
+Work top to bottom. Look up conventions in the most recently added equivalent
+component (e.g. `SkyCode`, `SkyInputBoxButton`) rather than an older sibling,
+which likely uses the legacy pattern described above.
 
 1. **Confirm placement.** Identify the target `<library>` (directory name,
    not package name) and the `<module>` folder. Inspect a sibling component
-   in that library and copy its structure. If the library does not exist yet,
+   in that library and copy its folder structure (not its legacy file naming
+   or `NgModule`; see Conventions above). If the library does not exist yet,
    create it first with the
    [add-skyux-library](../add-skyux-library/SKILL.md) skill.
-2. **Scaffold the component.** Create the `.ts`, `.html`, `.scss`, and
-   `.module.ts` files following Angular best practices in
+2. **Scaffold the component.** Create `<name>.ts`, `<name>.html`, and
+   `<name>.scss` following Angular best practices in
    [angular.instructions.md](../../instructions/angular.instructions.md).
-3. **Export from the barrel.** Add the module and any public types to
+3. **Export from the barrel.** Add the component and any public types to
    `libs/components/<library>/src/index.ts`, using the `sky`/`Sky` prefix.
-   Export a new component or directive by its own name (not an obscured
+   Export a new component by its own name (not an obscured
    `as λN` alias).
-4. **Write the component spec.** Add `<name>.component.spec.ts`. Most
+4. **Write the component spec.** Add `<name>.spec.ts`. Most
    `libs/components/*` projects enforce 100% coverage and run on
    **Karma + Jasmine** (SKY UX styles are loaded, so computed styles are
    assertable).
@@ -99,8 +103,9 @@ for exact style; do not invent new patterns.
 
 ## Definition of Done
 
-- Component, module, spec, harness (+ spec), visual-test story, and code
-  example (+ spec) exist and follow a sibling component's structure.
+- Component, spec, harness (+ spec), visual-test story, and code example
+  (+ spec) exist, with no `NgModule`, no type-suffixed file or class names,
+  and no `changeDetection` in the decorator.
 - Public types are exported with the `sky`/`Sky` prefix from `src/index.ts`
   and `testing/src/public-api.ts`.
 - `documentation.json` lists the new development, testing, and code-example
