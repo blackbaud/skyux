@@ -235,6 +235,18 @@ describe('Code block component', () => {
 
         await expectAsync(fixture.nativeElement).toBeAccessible();
       });
+
+      it('should emphasize the file name', async () => {
+        await render({ code: 'a', fileName: 'message.ts' });
+
+        const fileName = fixture.nativeElement.querySelector(
+          '.sky-code-block-file-name',
+        );
+
+        expect(Number(getComputedStyle(fileName).fontWeight)).toBeGreaterThan(
+          400,
+        );
+      });
     });
   });
 });
