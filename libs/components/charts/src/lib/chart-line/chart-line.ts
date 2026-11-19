@@ -108,6 +108,9 @@ export class SkyChartLine extends SkyChartCartesianPlot<
         // Highlight every series' point at the hovered category, matching the
         // tooltip, which lists every series' value at that category.
         hover: { mode: 'index', intersect: false },
+        // The size of the largest point, so points at the plot's edge aren't
+        // cut in half.
+        datasets: { line: { clip: 8 } },
         elements: {
           line: {
             borderWidth: 2,

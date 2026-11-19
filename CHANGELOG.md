@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.14.1](https://github.com/blackbaud/skyux/compare/15.14.0...15.14.1) (2026-11-18)
+
+### Bug Fixes
+
+* **components/lookup:** caret is visible in multi-select lookups with selected tokens ([#4977](https://github.com/blackbaud/skyux/issues/4977)) ([5ccec88](https://github.com/blackbaud/skyux/commit/5ccec88ad5608d5682acd3a6ea65c860b6af59c8)), closes [#4976](https://github.com/blackbaud/skyux/issues/4976), references [#4909](https://github.com/blackbaud/skyux/issues/4909) [#4909](https://github.com/blackbaud/skyux/issues/4909)
+
 ## [15.14.0](https://github.com/blackbaud/skyux/compare/15.13.0...15.14.0) (2026-11-17)
 
 ### Features
