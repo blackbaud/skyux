@@ -1,21 +1,11 @@
 // TODO: Replace placeholder styles when the Code Block design is final.
-// Encapsulation is off so the token colors reach the highlighted markup, which
+// Encapsulation is off so the syntax colors reach the highlighted markup, which
 // is inserted with innerHTML; every rule must stay under `.sky-code-block`.
 
-// Syntax colors use design tokens, which switch between light and dark mode on
-// their own, so one set of rules covers both. Every color meets WCAG AA (4.5:1)
-// on the container background in modern light and dark. The fallbacks are the
-// modern light values, for the default theme.
+// The code area uses the container background in every theme (white in the
+// default theme, as in modern light), so the syntax colors below always meet
+// WCAG AA (4.5:1) against it.
 $text: var(--sky-color-text-default, #1e2229);
-$comment: var(--sky-color-text-deemphasized, #666b70);
-$function: var(--sky-color-text-action, #2b6bd5);
-$title: var(--sky-color-classify-1-heavy, #046e6b);
-$keyword: var(--sky-color-classify-2-heavy, #8d4ec2);
-$built-in: var(--sky-color-classify-3-heavy, #007894);
-$literal: var(--sky-color-classify-4-heavy, #a74500);
-$meta: var(--sky-color-classify-5-heavy, #a542a0);
-$string: var(--sky-color-classify-6-heavy, #077e43);
-$variable: var(--sky-color-classify-7-heavy, #ae2e31);
 
 .sky-code-block {
   display: block;
@@ -59,74 +49,113 @@ $variable: var(--sky-color-classify-7-heavy, #ae2e31);
     }
   }
 
-  // Token classes follow highlight.js's base16 template.
-  .hljs-comment,
-  .hljs-tag {
-    color: $comment;
-  }
-
-  .hljs-bullet,
-  .hljs-variable,
-  .hljs-template-variable,
-  .hljs-selector-tag,
-  .hljs-name,
-  .hljs-deletion {
-    color: $variable;
-  }
-
-  .hljs-symbol,
-  .hljs-number,
-  .hljs-link,
-  .hljs-attr,
-  .hljs-variable.constant_,
-  .hljs-literal {
-    color: $literal;
-  }
-
-  .hljs-title,
-  .hljs-title.class_,
-  .hljs-strong {
-    color: $title;
-  }
-
-  .hljs-code,
-  .hljs-addition,
-  .hljs-title.class_.inherited__,
-  .hljs-string {
-    color: $string;
-  }
-
-  .hljs-built_in,
+  // Syntax colors from the VS Code Modern Light palette in docs-tools.
+  .hljs-keyword,
   .hljs-doctag,
-  .hljs-quote,
-  .hljs-keyword.hljs-atrule,
-  .hljs-regexp {
-    color: $built-in;
-  }
-
-  .hljs-attribute,
-  .hljs-title.function_,
-  .hljs-section {
-    color: $function;
-  }
-
-  .hljs-type,
-  .hljs-template-tag,
-  .hljs-keyword {
-    color: $keyword;
+  .hljs-variable.language_,
+  .hljs-literal,
+  .hljs-function {
+    color: #0000ff;
   }
 
   .hljs-meta,
-  .hljs-meta .hljs-keyword,
-  .hljs-meta .hljs-string {
-    color: $meta;
+  .hljs-title.class_,
+  .hljs-built_in,
+  .hljs-params {
+    color: #267f99;
   }
 
-  .hljs-strong {
-    font-weight: bold;
+  .hljs-attribute,
+  .hljs-title.function_ {
+    color: #795e26;
   }
 
-  .hljs-emphasis {
-    font-style: italic;
+  .hljs-string {
+    color: #a31515;
+  }
+
+  .hljs-comment {
+    color: #008000;
+  }
+
+  .hljs-attr,
+  .hljs-property,
+  .hljs-variable.constant_ {
+    color: #0070c1;
+  }
+
+  .hljs-number {
+    color: #098658;
+  }
+
+  .hljs-tag {
+    .hljs-name {
+      color: #800000;
+    }
+
+    .hljs-attr {
+      color: #e50000;
+    }
+
+    .hljs-string {
+      color: #0000ff;
+    }
+  }
+}
+
+// Syntax colors from the VS Code Modern Dark palette in docs-tools. The comment
+// color is lightened slightly from #6a9955 (4.49:1) to pass on the dark
+// container background.
+.sky-theme-modern.sky-theme-mode-dark .sky-code-block {
+  .hljs-keyword,
+  .hljs-doctag,
+  .hljs-variable.language_,
+  .hljs-literal,
+  .hljs-function {
+    color: #569cd6;
+  }
+
+  .hljs-meta,
+  .hljs-title.class_,
+  .hljs-built_in,
+  .hljs-params {
+    color: #4ec9b0;
+  }
+
+  .hljs-attribute,
+  .hljs-title.function_ {
+    color: #dcdcaa;
+  }
+
+  .hljs-string {
+    color: #ce9178;
+  }
+
+  .hljs-comment {
+    color: #6b9b56;
+  }
+
+  .hljs-attr,
+  .hljs-property,
+  .hljs-variable.constant_ {
+    color: #4fc1ff;
+  }
+
+  .hljs-number {
+    color: #b5cea8;
+  }
+
+  .hljs-tag {
+    .hljs-name {
+      color: #569cd6;
+    }
+
+    .hljs-attr {
+      color: #9cdcfe;
+    }
+
+    .hljs-string {
+      color: #ce9178;
+    }
   }
 }
