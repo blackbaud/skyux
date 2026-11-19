@@ -1,4 +1,4 @@
-import { Component, ViewChild, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
@@ -48,9 +48,6 @@ import { SkyChartPieSlice } from './chart-pie-slice';
   `,
 })
 class TestComponent {
-  @ViewChild(SkyChartPie)
-  public chartPie!: SkyChartPie;
-
   public currencyCode: string | undefined;
   public dataPointClick: SkyChartDataPointClickArgs<number> | undefined;
   public digits: number | undefined;
