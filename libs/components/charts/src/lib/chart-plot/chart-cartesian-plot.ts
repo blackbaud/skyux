@@ -26,9 +26,10 @@ import { SkyChartPlot } from './chart-plot';
 /**
  * Base class for cartesian plot components (for example, `sky-chart-bar` and
  * `sky-chart-line`): plots that render one or more series against a category
- * axis and a value axis. Owns the axis content queries, the accessible table and summary, and the series/category
- * length-mismatch warning. Subclasses supply the series content query, the
- * series selector, the summary resource key, and their own Chart.js config.
+ * axis and a value axis. Owns the axis content queries, the accessible table
+ * and summary, and the series/category length-mismatch warning. Subclasses
+ * supply the series content query, the series selector, the summary resource
+ * key, and their own Chart.js config.
  * @internal
  */
 @Directive()
