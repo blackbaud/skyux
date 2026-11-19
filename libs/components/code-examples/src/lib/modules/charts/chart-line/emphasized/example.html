@@ -1,0 +1,16 @@
+<sky-chart data-sky-id="donations-by-fund" headingText="Donations by fund">
+  <sky-chart-line>
+    <sky-chart-axis-category labelText="Year" [categories]="years" />
+    <sky-chart-axis-value labelText="Donations (thousands)" />
+    <sky-chart-line-series
+      labelText="Annual fund"
+      [emphasized]="true"
+      [values]="annualFund"
+    />
+    <sky-chart-line-series
+      labelText="Capital campaign"
+      [values]="capitalCampaign"
+    />
+    <sky-chart-line-series labelText="Scholarships" [values]="scholarships" />
+  </sky-chart-line>
+</sky-chart>

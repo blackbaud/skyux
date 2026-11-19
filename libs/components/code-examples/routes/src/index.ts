@@ -291,6 +291,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ChartsChartLineEmphasizedExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartLineEmphasizedExample: c }) => c,
+      ),
+  },
+  {
     path: 'ChartsChartLineGapsExample',
     loadComponent: () =>
       import('@skyux/code-examples').then(
