@@ -35,7 +35,11 @@
                 </th>
                 @for (series of table.series; track $index) {
                   <td>
-                    {{ series.values[rowIndex] }}
+                    @if (series.emphasized) {
+                      <strong>{{ series.values[rowIndex] }}</strong>
+                    } @else {
+                      {{ series.values[rowIndex] }}
+                    }
                   </td>
                 }
               </tr>
