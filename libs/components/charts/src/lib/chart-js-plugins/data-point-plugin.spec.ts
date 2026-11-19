@@ -458,8 +458,37 @@ describe('Data point plugin', () => {
       expect(rings[rings.length - 1].strokeStyle).toBe('#008000');
     });
 
-    it('should not draw a ring for a focused data point that was removed', () => {
+    it('should clear the tooltip and focus ring when the focused data point loses its value', () => {
+      dataPointPlugin.setFocusedDataPoint({ datasetIndex: 0, index: 1 });
+
+      const rings = spyOnRings();
+      chart.data.datasets[0].data = [1, null, 3] as number[];
+      chart.update();
+
+      expect(chart.tooltip?.getActiveElements()).toEqual([]);
+      expect(chart.getActiveElements()).toEqual([]);
+      expect(rings).toEqual([]);
+
+      // The focus stays cleared when the value returns.
+      chart.data.datasets[0].data = [1, 2, 3];
+      chart.update();
+
+      expect(rings).toEqual([]);
+    });
+
+    it('should clear the tooltip and focus ring when the focused data point is removed', () => {
       dataPointPlugin.setFocusedDataPoint({ datasetIndex: 0, index: 2 });
+
+      const rings = spyOnRings();
+      chart.data.datasets[0].data = [1, 2];
+      chart.update();
+
+      expect(chart.tooltip?.getActiveElements()).toEqual([]);
+      expect(rings).toEqual([]);
+    });
+
+    it('should not draw a ring for a hovered data point that was removed', async () => {
+      await hover({ datasetIndex: 0, index: 2 });
 
       const rings = spyOnRings();
       chart.data.datasets[0].data = [1, 2];

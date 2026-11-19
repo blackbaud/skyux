@@ -95,11 +95,6 @@ export function createDataPointPlugin(callbacks: {
         dataPoint.index
       ];
 
-      // The data point may have been removed since it gained focus.
-      if (!element) {
-        continue;
-      }
-
       ctx.save();
       ctx.beginPath();
 
@@ -158,6 +153,31 @@ export function createDataPointPlugin(callbacks: {
 
       ctx.restore();
     }
+  }
+
+  // A data point whose value is removed loses its focusable element, but
+  // removing a focused element does not reliably fire `blur`, so its focus
+  // ring and tooltip are cleared here instead.
+  function clearFocusWithoutValue(updatedChart: Chart): void {
+    if (!focused) {
+      return;
+    }
+
+    const value =
+      updatedChart.data.datasets[focused.datasetIndex]?.data[focused.index];
+
+    if (value !== null && value !== undefined) {
+      return;
+    }
+
+    focused = undefined;
+    // Chart.js reads the active elements after this hook, so the cleared
+    // state is drawn by the update in progress.
+    updatedChart.setActiveElements([]);
+    (updatedChart.tooltip as TooltipModel<'bar'>).setActiveElements([], {
+      x: 0,
+      y: 0,
+    });
   }
 
   // Presses only toggle the active ring, so they are handled before Chart.js
@@ -225,8 +245,10 @@ export function createDataPointPlugin(callbacks: {
       install(installedChart: Chart): void {
         chart = installedChart;
       },
-      afterUpdate: (updatedChart: Chart): void =>
-        callbacks.onUpdate(updatedChart),
+      afterUpdate(updatedChart: Chart): void {
+        clearFocusWithoutValue(updatedChart);
+        callbacks.onUpdate(updatedChart);
+      },
       beforeEvent: onPress,
       afterEvent: onEvent,
       // Backgrounds sit behind the data point; borders sit above it but below

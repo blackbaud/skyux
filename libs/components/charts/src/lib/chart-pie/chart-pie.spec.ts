@@ -225,18 +225,34 @@ describe('Chart pie component', () => {
     destroyed = true;
   });
 
-  it('should warn when a slice has a negative value', () => {
-    const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+  for (const value of [-20, Infinity, NaN]) {
+    it(`should warn when a slice has an invalid value of ${value}`, () => {
+      const warnSpy = spyOn(TestBed.inject(SkyLogService), 'warn');
+      component.slices.set([
+        { label: 'North', value: 10 },
+        { label: 'South', value },
+      ]);
+      fixture.detectChanges();
+
+      expect(warnSpy).toHaveBeenCalledOnceWith(
+        `The <sky-chart-pie-slice> labeled "South" has an invalid value ` +
+          `(${value}). Pie chart slices must have finite values of zero or ` +
+          'greater.',
+      );
+    });
+  }
+
+  it('should exclude non-finite slices from the plot', () => {
     component.slices.set([
-      { label: 'North', value: 10 },
-      { label: 'South', value: -20 },
+      { label: 'North', value: Infinity },
+      { label: 'South', value: 20 },
     ]);
     fixture.detectChanges();
 
-    expect(warnSpy).toHaveBeenCalledOnceWith(
-      'The <sky-chart-pie-slice> labeled "South" has a negative value ' +
-        '(-20). Pie chart slices must have values of zero or greater.',
-    );
+    expect(requireChart().data.datasets[0].data).toEqual([
+      null,
+      20,
+    ] as number[]);
   });
 
   it('should not warn when every slice value is zero or greater', () => {
@@ -505,6 +521,22 @@ describe('Chart pie component', () => {
       await fixture.whenStable();
       fixture.detectChanges();
 
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible with every slice hidden', async () => {
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      for (const button of getLegendButtons()) {
+        button.click();
+      }
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(getDataPoints()).toEqual([]);
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
 

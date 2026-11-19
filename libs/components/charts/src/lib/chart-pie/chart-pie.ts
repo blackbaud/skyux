@@ -129,13 +129,16 @@ export class SkyChartPie extends SkyChartPlot<number> {
 
     // Chart.js sizes a slice by its absolute value, so a negative value draws
     // as if it were positive while the tooltip and data table show it as
-    // negative.
+    // negative. A non-finite value cannot be proportional to the other slices,
+    // so it is not drawn.
     afterRenderEffect(() => {
       for (const slice of this.slices()) {
-        if (slice.value() < 0) {
+        const value = slice.value();
+
+        if (!Number.isFinite(value) || value < 0) {
           logger.warn(
-            `The <sky-chart-pie-slice> labeled "${slice.labelText()}" has a ` +
-              `negative value (${slice.value()}). Pie chart slices must have ` +
+            `The <sky-chart-pie-slice> labeled "${slice.labelText()}" has an ` +
+              `invalid value (${value}). Pie chart slices must have finite ` +
               'values of zero or greater.',
           );
         }
@@ -233,10 +236,15 @@ export class SkyChartPie extends SkyChartPlot<number> {
       // A hidden slice keeps its index, so the remaining slices keep their
       // colors. Chart.js draws a null slice with no size, and null values are
       // excluded from keyboard navigation like gaps in a line. A zero-value
-      // slice is just as invisible, so it is excluded the same way.
-      data: slices.map((slice) =>
-        hiddenSlices.has(slice) || slice.value() === 0 ? null : slice.value(),
-      ) as number[],
+      // slice is just as invisible, so it is excluded the same way, as is a
+      // non-finite value, which would leave no room for the other slices.
+      data: slices.map((slice) => {
+        const value = slice.value();
+
+        return hiddenSlices.has(slice) || value === 0 || !Number.isFinite(value)
+          ? null
+          : value;
+      }) as number[],
       // Unlike a cartesian series, every slice gets its own categorical
       // color, cycling through the palette when there are more slices than
       // colors.
