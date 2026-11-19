@@ -538,6 +538,17 @@ describe('Chart line component', () => {
     expect(other.pointBorderWidth).toBeUndefined();
   });
 
+  it('should emphasize only the emphasized series in the data table', () => {
+    fixture.componentRef.setInput('renderSecondSeries', true);
+    fixture.componentRef.setInput('emphasized', true);
+    fixture.detectChanges();
+
+    const [emphasized, other] = tableSvc().table()?.series ?? [];
+
+    expect(emphasized.emphasized).toBe(true);
+    expect(other.emphasized).toBeUndefined();
+  });
+
   it('should format axis ticks using the value axis format', () => {
     fixture.detectChanges();
 
