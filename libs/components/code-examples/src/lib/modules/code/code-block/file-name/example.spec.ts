@@ -30,7 +30,7 @@ describe('Code block with a file name example', () => {
     await expectAsync(codeBlockHarness.getCode()).toBeResolvedTo(
       [
         'export function greet(name: string): string {',
-        '  return `Hello, ${name}!`;',
+        `  return \`Hello, \${name}!\`;`,
         '}',
       ].join('\n'),
     );
