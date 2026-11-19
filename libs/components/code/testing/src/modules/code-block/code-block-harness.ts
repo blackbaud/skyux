@@ -48,7 +48,8 @@ export class SkyCodeBlockHarness extends SkyComponentHarness {
    * Gets the code as displayed, without its syntax highlighting.
    */
   public async getCode(): Promise<string> {
-    return await (await this.#getCode()).text();
+    // `text()` trims, which would drop the first line's indentation.
+    return await (await this.#getCode()).getProperty<string>('textContent');
   }
 
   /**

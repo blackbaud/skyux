@@ -10,7 +10,7 @@ import { SkyCodeBlockHarness } from './code-block-harness';
   template: `
     <sky-code-block
       data-sky-id="test-code-block"
-      [code]="code"
+      [code]="code()"
       [fileName]="fileName()"
       [hideCopyToClipboard]="hideCopyToClipboard()"
       [languageType]="languageType()"
@@ -19,7 +19,7 @@ import { SkyCodeBlockHarness } from './code-block-harness';
   `,
 })
 class TestComponent {
-  public readonly code = 'const a = 1;';
+  public readonly code = signal('const a = 1;');
   public readonly fileName = signal<string | undefined>('app.ts');
   public readonly hideCopyToClipboard = signal(false);
   public readonly languageType = signal<string | undefined>('typescript');
@@ -43,6 +43,16 @@ describe('Code block harness', () => {
     const { harness } = await setupTest();
 
     await expectAsync(harness.getCode()).toBeResolvedTo('const a = 1;');
+  });
+
+  it('should keep the indentation of the code', async () => {
+    const { fixture, harness } = await setupTest();
+
+    fixture.componentInstance.code.set('\n    if (a) {\n  b();\n    }\n');
+
+    await expectAsync(harness.getCode()).toBeResolvedTo(
+      '  if (a) {\nb();\n  }',
+    );
   });
 
   it('should get the file name', async () => {
