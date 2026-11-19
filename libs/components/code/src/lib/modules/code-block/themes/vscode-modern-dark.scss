@@ -1,56 +1,55 @@
-// Syntax colors from the VS Code Modern Dark palette in docs-tools. The comment
-// color is lightened slightly from #6a9955 (4.49:1) to pass on the dark
-// container background.
+// Syntax colors for modern dark, adapted from the VS Code Modern Dark palette
+// in docs-tools. Each meets WCAG AA (4.5:1) on the dark container background.
 .sky-theme-modern.sky-theme-mode-dark .sky-code-block {
   .hljs-keyword,
   .hljs-doctag,
   .hljs-variable.language_,
   .hljs-literal,
   .hljs-function {
-    color: #569cd6;
+    color: #80a6e6;
   }
 
   .hljs-meta,
   .hljs-title.class_,
   .hljs-built_in,
   .hljs-params {
-    color: #4ec9b0;
+    color: #07beb8;
   }
 
   .hljs-attribute,
   .hljs-title.function_ {
-    color: #dcdcaa;
+    color: #fde0a8;
   }
 
   .hljs-string {
-    color: #ce9178;
+    color: #e5895d;
   }
 
   .hljs-comment {
-    color: #6b9b56;
+    color: #00a452;
   }
 
   .hljs-attr,
   .hljs-property,
   .hljs-variable.constant_ {
-    color: #4fc1ff;
+    color: #00cfff;
   }
 
   .hljs-number {
-    color: #b5cea8;
+    color: #aee8c1;
   }
 
   .hljs-tag {
     .hljs-name {
-      color: #569cd6;
+      color: #80a6e6;
     }
 
     .hljs-attr {
-      color: #9cdcfe;
+      color: #b4dbff;
     }
 
     .hljs-string {
-      color: #ce9178;
+      color: #e5895d;
     }
   }
 }
