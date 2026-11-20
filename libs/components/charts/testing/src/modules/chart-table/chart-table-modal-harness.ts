@@ -51,7 +51,8 @@ export class SkyChartTableModalHarness extends ComponentHarness {
   }
 
   /**
-   * Gets the labels of the emphasized series, whose values are shown in bold.
+   * Gets the labels of the emphasized line series, whose values are shown in
+   * bold. Only line chart series can be emphasized.
    */
   public async getEmphasizedSeriesLabels(): Promise<string[]> {
     const headers = await this.#getEmphasizedSeriesHeaders();
