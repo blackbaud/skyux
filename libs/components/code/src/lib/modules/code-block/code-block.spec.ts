@@ -113,6 +113,41 @@ describe('Code block component', () => {
     expect(getCode().textContent).toBe('\t\ta\n        b\nc');
   });
 
+  it('should keep whitespace-only lines within the code', async () => {
+    await render({ code: '    a\n      \n    b' });
+
+    expect(getCode().textContent).toBe('a\n  \nb');
+  });
+
+  it('should not treat non-breaking spaces as indentation', async () => {
+    await render({ code: ' a\n b' });
+
+    expect(getCode().textContent).toBe(' a\n b');
+  });
+
+  it('should color CSS selectors and style Markdown emphasis', async () => {
+    await render({ code: '.a #b:hover { color: red; }', languageType: 'css' });
+
+    const selectorColor = getComputedStyle(
+      getCode().querySelector('.hljs-selector-class') as HTMLElement,
+    ).color;
+
+    expect(selectorColor).not.toBe(getComputedStyle(getCode()).color);
+
+    await render({ code: '*a* **b**', languageType: 'markdown' });
+
+    expect(
+      getComputedStyle(getCode().querySelector('.hljs-emphasis') as HTMLElement)
+        .fontStyle,
+    ).toBe('italic');
+    expect(
+      Number(
+        getComputedStyle(getCode().querySelector('.hljs-strong') as HTMLElement)
+          .fontWeight,
+      ),
+    ).toBeGreaterThan(Number(getComputedStyle(getCode()).fontWeight));
+  });
+
   it('should show nothing for whitespace-only code', async () => {
     await render({ code: ' \n\t' });
 

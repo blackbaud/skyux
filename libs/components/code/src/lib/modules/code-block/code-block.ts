@@ -22,19 +22,26 @@ import { SkyCodeResourcesModule } from '../shared/sky-code-resources.module';
 import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { highlightCodeBlock } from './code-block-languages';
 
-// Removes leading and trailing blank lines and the leading whitespace common to
-// every line. Other whitespace is kept so copied code matches the original (for
-// example, tabs in a Makefile or trailing spaces in Markdown).
+// Removes leading and trailing blank lines and the leading spaces and tabs
+// common to every line. Other whitespace is kept so copied code matches the
+// original (for example, tabs in a Makefile or trailing spaces in Markdown).
+// Only spaces and tabs count as indentation, so characters such as
+// non-breaking spaces are kept.
 function normalizeCode(code: string): string {
-  const lines = code
-    .split(/\r?\n/)
-    .map((line) => (line.trim() ? line : ''))
-    .join('\n')
-    .replace(/^\n+|\n+$/g, '')
-    .split('\n');
+  const lines = code.split(/\r?\n/);
+  const isBlank = (line: string): boolean => /^[ \t]*$/.test(line);
+
+  while (lines.length && isBlank(lines[0])) {
+    lines.shift();
+  }
+
+  while (lines.length && isBlank(lines[lines.length - 1])) {
+    lines.pop();
+  }
+
   const indents = lines
-    .filter((line) => line)
-    .map((line) => line.slice(0, line.length - line.trimStart().length));
+    .filter((line) => !isBlank(line))
+    .map((line) => line.slice(0, line.search(/[^ \t]/)));
 
   // Comparing whitespace characters, not widths, keeps a mix of tabs and spaces
   // from losing uneven amounts of indentation.

@@ -11,6 +11,7 @@
   --sky-override-code-block-number-color: #077e43;
   --sky-override-code-block-prop-const-color: #0066cd;
   --sky-override-code-block-string-attr-value-color: #912528;
+  --sky-override-code-block-strong-font-weight: 700;
   --sky-override-code-block-tag-color: #822325;
   --sky-override-code-block-type-meta-color: #007894;
 }
@@ -20,7 +21,8 @@
   .hljs-doctag,
   .hljs-variable.language_,
   .hljs-literal,
-  .hljs-function {
+  .hljs-function,
+  .hljs-section {
     color: var(
       --sky-override-code-block-keyword-literal-color,
       var(--sky-color-text-code-keyword_literal)
@@ -30,7 +32,8 @@
   .hljs-meta,
   .hljs-title.class_,
   .hljs-built_in,
-  .hljs-params {
+  .hljs-params,
+  .hljs-bullet {
     color: var(
       --sky-override-code-block-type-meta-color,
       var(--sky-color-text-code-type_meta)
@@ -46,14 +49,17 @@
   }
 
   .hljs-string,
-  .hljs-tag .hljs-string {
+  .hljs-tag .hljs-string,
+  .hljs-regexp,
+  .hljs-link {
     color: var(
       --sky-override-code-block-string-attr-value-color,
       var(--sky-color-text-code-string_attr_value)
     );
   }
 
-  .hljs-comment {
+  .hljs-comment,
+  .hljs-quote {
     color: var(
       --sky-override-code-block-comment-color,
       var(--sky-color-text-code-comment)
@@ -62,6 +68,7 @@
 
   .hljs-attr,
   .hljs-property,
+  .hljs-variable,
   .hljs-variable.constant_ {
     color: var(
       --sky-override-code-block-prop-const-color,
@@ -76,17 +83,33 @@
     );
   }
 
-  .hljs-tag .hljs-name {
+  .hljs-tag .hljs-name,
+  .hljs-selector-tag {
     color: var(
       --sky-override-code-block-tag-color,
       var(--sky-color-text-code-tag)
     );
   }
 
-  .hljs-tag .hljs-attr {
+  .hljs-tag .hljs-attr,
+  .hljs-selector-class,
+  .hljs-selector-id,
+  .hljs-selector-pseudo,
+  .hljs-selector-attr {
     color: var(
       --sky-override-code-block-attr-name-color,
       var(--sky-color-text-code-attr_name)
+    );
+  }
+
+  .hljs-emphasis {
+    font-style: italic;
+  }
+
+  .hljs-strong {
+    font-weight: var(
+      --sky-override-code-block-strong-font-weight,
+      var(--sky-font-style-emphasized)
     );
   }
 }
