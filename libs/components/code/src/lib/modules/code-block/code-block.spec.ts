@@ -1,9 +1,28 @@
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 
+import { SkyCodeBlock } from './code-block';
 import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { CodeBlockFixture } from './fixtures/code-block-fixture';
+
+// Renders its text through a binding, after the code block's content is checked.
+@Component({
+  selector: 'sky-code-block-snippet-test',
+  template: '{{ snippet() }}',
+})
+class SnippetTest {
+  protected readonly snippet = signal('const a = 1;');
+}
+
+@Component({
+  imports: [SkyCodeBlock, SnippetTest],
+  template: `<sky-code-block languageType="typescript"
+    ><sky-code-block-snippet-test
+  /></sky-code-block>`,
+})
+class ProjectedComponentTest {}
 
 // Typed consumers can't pass this, but untyped values still fall back to xml.
 const UNSUPPORTED_LANGUAGE = 'xml1' as SkyCodeBlockLanguageType;
@@ -85,6 +104,30 @@ describe('Code block component', () => {
     await render({ code: '\n  \n    a\n   \n    b\n\n' });
 
     expect(getCode().textContent).toBe('a\n\nb');
+  });
+
+  it('should only remove leading whitespace that every line shares', async () => {
+    // Tabs and spaces aren't interchangeable, so only `  ` is common here.
+    await render({ code: '  \t\ta\n          b\n  c' });
+
+    expect(getCode().textContent).toBe('\t\ta\n        b\nc');
+  });
+
+  it('should show nothing for whitespace-only code', async () => {
+    await render({ code: ' \n\t' });
+
+    expect(getCode().textContent).toBe('');
+  });
+
+  it('should show text rendered by a projected component', async () => {
+    const projectedFixture = TestBed.createComponent(ProjectedComponentTest);
+
+    projectedFixture.autoDetectChanges();
+    await projectedFixture.whenStable();
+
+    expect(
+      projectedFixture.nativeElement.querySelector('pre code').textContent,
+    ).toBe('const a = 1;');
   });
 
   it('should keep tabs and trailing spaces within the code', async () => {
@@ -237,7 +280,7 @@ describe('Code block component', () => {
     expect(announceSpy).toHaveBeenCalledOnceWith('Copied');
   });
 
-  it('should not announce a copy when the clipboard is unavailable', async () => {
+  it('should announce when the code cannot be copied', async () => {
     const writeTextSpy = spyOn(navigator.clipboard, 'writeText').and.rejectWith(
       new DOMException('Denied', 'NotAllowedError'),
     );
@@ -254,7 +297,7 @@ describe('Code block component', () => {
     await stabilize();
 
     expect(writeTextSpy).toHaveBeenCalledOnceWith('a');
-    expect(announceSpy).not.toHaveBeenCalled();
+    expect(announceSpy).toHaveBeenCalledOnceWith('Unable to copy');
   });
 
   it('should make the code region keyboard focusable', async () => {

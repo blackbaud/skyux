@@ -3,6 +3,10 @@
     "_description": "Label for the button that copies the code in a code block to the clipboard",
     "message": "Copy"
   },
+  "skyux_code_block_copy_failure": {
+    "_description": "Screen reader announcement when the code in a code block could not be copied to the clipboard",
+    "message": "Unable to copy"
+  },
   "skyux_code_block_copy_success": {
     "_description": "Screen reader announcement after the code in a code block is copied to the clipboard",
     "message": "Copied"

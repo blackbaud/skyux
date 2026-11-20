@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   ViewEncapsulation,
+  afterEveryRender,
   booleanAttribute,
   computed,
   inject,
@@ -21,8 +22,8 @@ import { SkyCodeResourcesModule } from '../shared/sky-code-resources.module';
 import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { highlightCodeBlock } from './code-block-languages';
 
-// Removes leading and trailing blank lines and the indentation common to every
-// line. Other whitespace is kept so copied code matches the original (for
+// Removes leading and trailing blank lines and the leading whitespace common to
+// every line. Other whitespace is kept so copied code matches the original (for
 // example, tabs in a Makefile or trailing spaces in Markdown).
 function normalizeCode(code: string): string {
   const lines = code
@@ -31,13 +32,21 @@ function normalizeCode(code: string): string {
     .join('\n')
     .replace(/^\n+|\n+$/g, '')
     .split('\n');
-  const indent = Math.min(
-    ...lines
-      .filter((line) => line)
-      .map((line) => line.length - line.trimStart().length),
-  );
+  const indents = lines
+    .filter((line) => line)
+    .map((line) => line.slice(0, line.length - line.trimStart().length));
 
-  return lines.map((line) => line.slice(indent)).join('\n');
+  // Comparing whitespace characters, not widths, keeps a mix of tabs and spaces
+  // from losing uneven amounts of indentation.
+  let indent = indents[0] ?? '';
+
+  for (const lineIndent of indents) {
+    while (!lineIndent.startsWith(indent)) {
+      indent = indent.slice(0, -1);
+    }
+  }
+
+  return lines.map((line) => line.slice(indent.length)).join('\n');
 }
 
 /**
@@ -130,10 +139,38 @@ export class SkyCodeBlock implements AfterContentChecked {
 
   readonly #projectedCode = signal('');
 
+  constructor() {
+    // Projected components render their text after this component's content
+    // is checked, so the text is read again after every render. Setting the
+    // same text again is a no-op.
+    afterEveryRender(() => this.#readProjectedCode());
+  }
+
   public ngAfterContentChecked(): void {
-    // Projected text is read before this component's view renders, so it's
-    // displayed on the first render, including on the server. Setting the same
-    // text again is a no-op.
+    // Reading projected text before this component's view renders displays it
+    // on the first render, including on the server.
+    this.#readProjectedCode();
+  }
+
+  protected async copyCode(): Promise<void> {
+    let resourceKey = 'skyux_code_block_copy_success';
+
+    try {
+      await this.#windowRef.nativeWindow.navigator.clipboard.writeText(
+        this.source(),
+      );
+    } catch {
+      // The clipboard is unavailable (for example, on an insecure origin) or
+      // the browser denied access.
+      resourceKey = 'skyux_code_block_copy_failure';
+    }
+
+    this.#liveAnnouncer.announce(
+      await firstValueFrom(this.#resources.getString(resourceKey)),
+    );
+  }
+
+  #readProjectedCode(): void {
     if (!this.code()) {
       this.#projectedCode.set(
         (
@@ -143,23 +180,5 @@ export class SkyCodeBlock implements AfterContentChecked {
         ).textContent,
       );
     }
-  }
-
-  protected async copyCode(): Promise<void> {
-    try {
-      await this.#windowRef.nativeWindow.navigator.clipboard.writeText(
-        this.source(),
-      );
-    } catch {
-      // The clipboard is unavailable (for example, on an insecure origin) or
-      // the browser denied access, so nothing was copied.
-      return;
-    }
-
-    this.#liveAnnouncer.announce(
-      await firstValueFrom(
-        this.#resources.getString('skyux_code_block_copy_success'),
-      ),
-    );
   }
 }

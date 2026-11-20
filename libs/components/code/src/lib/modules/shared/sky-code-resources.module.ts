@@ -16,6 +16,7 @@ import {
 const RESOURCES: Record<string, SkyLibResources> = {
   'EN-US': {
     skyux_code_block_copy_button: { message: 'Copy' },
+    skyux_code_block_copy_failure: { message: 'Unable to copy' },
     skyux_code_block_copy_success: { message: 'Copied' },
   },
 };

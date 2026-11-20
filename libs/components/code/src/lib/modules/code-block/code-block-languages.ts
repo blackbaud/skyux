@@ -1,5 +1,5 @@
 // cspell:ignore asciidoc gherkin
-import type { HLJSApi } from 'highlight.js';
+import type { HLJSApi, Language } from 'highlight.js';
 import hljs from 'highlight.js/lib/core';
 import arduino from 'highlight.js/lib/languages/arduino';
 import asciidoc from 'highlight.js/lib/languages/asciidoc';
@@ -81,14 +81,19 @@ const FALLBACK_LANGUAGE = 'plaintext';
 
 let highlighter: HLJSApi | undefined;
 
+// The registered name of each language, so aliases (for example, `bat`) are
+// labeled like the language they resolve to.
+const languageNames = new Map<Language, string>();
+
 // A separate instance keeps these registrations from affecting other users of
 // highlight.js in the same app.
 function getHighlighter(): HLJSApi {
   if (!highlighter) {
     highlighter = hljs.newInstance();
 
-    for (const [name, language] of Object.entries(LANGUAGES)) {
-      highlighter.registerLanguage(name, language);
+    for (const [name, grammar] of Object.entries(LANGUAGES)) {
+      highlighter.registerLanguage(name, grammar);
+      languageNames.set(highlighter.getLanguage(name) as Language, name);
     }
   }
 
@@ -117,12 +122,10 @@ export function highlightCodeBlock(
     };
   }
 
-  // Aliases (for example, `bat`) take the label of the language they resolve to.
+  // `html` has its own label even though it's an xml alias.
   const supportedName = Object.hasOwn(LABELS, key)
     ? key
-    : Object.keys(LANGUAGES).find(
-        (name) => highlighter.getLanguage(name) === language,
-      );
+    : languageNames.get(language);
 
   return {
     html: highlighter.highlight(code, { language: key }).value,
