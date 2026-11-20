@@ -68,9 +68,15 @@ export class SkyChartBar extends SkyChartCartesianPlot<
   protected override getCategoryAxisError(
     categoryAxis: SkyChartAxisCategory,
   ): string | undefined {
-    return categoryAxis.scaleType() === 'time'
-      ? 'The <sky-chart-bar> does not support a "time" scale on its ' +
-          '<sky-chart-axis-category>. Use <sky-chart-line> to plot values ' +
+    const usesTime =
+      categoryAxis.scaleType() === 'time' ||
+      categoryAxis.timeUnit() !== undefined ||
+      categoryAxis.timeStep() !== undefined;
+
+    return usesTime
+      ? 'The <sky-chart-bar> does not support a time scale, so its ' +
+          '<sky-chart-axis-category> cannot have a "scaleType" of "time", a ' +
+          '"timeUnit", or a "timeStep". Use <sky-chart-line> to plot values ' +
           'over time.'
       : super.getCategoryAxisError(categoryAxis);
   }

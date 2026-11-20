@@ -467,6 +467,23 @@ describe('Chart line component', () => {
       },
     ];
 
+    it('should clear a rendered chart when its time scale becomes misconfigured', async () => {
+      const errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
+
+      renderTimeScale('month');
+
+      expect(getChart()).toBeDefined();
+
+      fixture.componentRef.setInput('timeStep', 0);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(errorSpy).toHaveBeenCalledTimes(1);
+      expect(getChart()).toBeUndefined();
+      expect(tableSvc().table()).toBeUndefined();
+      expect(tableSvc().summary()).toBeUndefined();
+    });
+
     for (const { description, inputs, error } of misconfigurations) {
       it(`should log an error and render nothing for ${description}`, () => {
         const errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
