@@ -1,4 +1,3 @@
-import { stripIndent } from '@angular-devkit/core/src/utils/literals';
 import utils from '@percy/sdk-utils';
 
 import { readFileSync } from 'fs';
@@ -62,29 +61,29 @@ export function sendCypressScreenshotsToPercy(
         const { width, height } = details.dimensions;
         // This HTML wrapper for the image works like `npx percy upload`, but having our own copy allows control
         // over the snapshot names. Inlining the image source is easier than managing multiple resources.
-        const domSnapshot = stripIndent`
-            <!doctype html>
-            <html lang="en">
-              <head>
-                <meta charset="utf-8">
-                <title>${details.name}</title>
-                <style>
-                  *, *::before, *::after { margin: 0; padding: 0; font-size: 0; }
-                  html, body { width: 100%; }
-                  img { max-width: 100%; }
-                </style>
-              </head>
-              <body>
-                <img
-                  id="root"
-                  alt="${details.name}"
-                  src="data:image/png;base64,${imageDataBase64}"
-                  width="${width / 2}"
-                  style="aspect-ratio: ${width}/${height}; opacity: 0.999;"
-                />
-              </body>
-            </html>
-            `;
+        // Kept flush-left rather than using a stripIndent helper, because Cypress bundles this file for the browser
+        // (via the package barrel) and `@angular-devkit/core` pulls in `node:` built-ins that webpack cannot resolve.
+        const domSnapshot = `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>${details.name}</title>
+    <style>
+      *, *::before, *::after { margin: 0; padding: 0; font-size: 0; }
+      html, body { width: 100%; }
+      img { max-width: 100%; }
+    </style>
+  </head>
+  <body>
+    <img
+      id="root"
+      alt="${details.name}"
+      src="data:image/png;base64,${imageDataBase64}"
+      width="${width / 2}"
+      style="aspect-ratio: ${width}/${height}; opacity: 0.999;"
+    />
+  </body>
+</html>`;
         // Without `async`, the Percy CLI holds the request open until asset discovery finishes, which blocks the
         // test. `percy exec` still waits for queued snapshots before finalizing the build.
         await utils.postSnapshot(

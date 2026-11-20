@@ -1,12 +1,11 @@
-import { JsonObject } from '@angular-devkit/core';
-import { LogLevel } from '@angular-devkit/core/src/logger/logger';
+import { JsonObject, logging } from '@angular-devkit/core';
 import { SchematicContext } from '@angular-devkit/schematics';
 
 const loggedMessages: Set<string> = new Set<string>();
 
 export function logOnce(
   context: SchematicContext,
-  level: LogLevel,
+  level: logging.LogLevel,
   message: string,
   metadata: JsonObject = {},
 ): void {

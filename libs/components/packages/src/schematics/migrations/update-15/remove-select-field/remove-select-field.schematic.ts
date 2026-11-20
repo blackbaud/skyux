@@ -1,6 +1,10 @@
 import { normalize } from '@angular-devkit/core';
-import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { FileVisitor } from '@angular-devkit/schematics/src/tree/interface';
+import {
+  FileVisitor,
+  Rule,
+  SchematicContext,
+  Tree,
+} from '@angular-devkit/schematics';
 import { removePackageJsonDependency } from '@schematics/angular/utility/dependencies';
 import { getWorkspace } from '@schematics/angular/utility/workspace';
 

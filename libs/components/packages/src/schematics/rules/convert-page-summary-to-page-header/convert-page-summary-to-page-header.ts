@@ -5,7 +5,6 @@ import {
   UpdateRecorder,
   chain,
 } from '@angular-devkit/schematics';
-import { empty } from '@angular-devkit/schematics/src/tree/static';
 import { ExistingBehavior, addDependency } from '@schematics/angular/utility';
 import { getEOL } from '@schematics/angular/utility/eol';
 
@@ -117,7 +116,7 @@ function modifyDetailsContent(detailsContent: {
   if (detailsContent.tag === 'sky-page-summary-key-info') {
     // Add class="sky-margin-inline-xxl" and remove layout input from sky-key-info.
     const content = detailsContent.content.trim();
-    const tree = empty();
+    const tree = Tree.empty();
     tree.create('template.html', content);
     const recorder = tree.beginUpdate('template.html');
     const partial = parseTemplate(content);

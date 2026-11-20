@@ -1,4 +1,4 @@
-import { stripIndents } from '@angular-devkit/core/src/utils/literals';
+import { tags } from '@angular-devkit/core';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import { applyChangesToFile } from '@schematics/angular/utility/standalone/util';
 
@@ -15,6 +15,8 @@ import {
 } from '../../utility/typescript/ng-ast';
 
 import { convertProgressIndicatorWizardToTabWizard } from './convert-progress-indicator-wizard-to-tab-wizard';
+
+const { stripIndents } = tags;
 
 describe('Convert progress indicator wizard to tab wizard', () => {
   const runner = new SchematicTestRunner(

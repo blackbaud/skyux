@@ -1,8 +1,10 @@
-import { stripIndents } from '@angular-devkit/core/src/utils/literals';
+import { tags } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 import ts from 'typescript';
 
 import { swapImportedClass } from './swap-imported-class';
+
+const { stripIndents } = tags;
 
 describe('swap-imported-class', () => {
   let tree: Tree;

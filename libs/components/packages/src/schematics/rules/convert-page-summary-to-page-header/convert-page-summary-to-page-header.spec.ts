@@ -1,4 +1,4 @@
-import { stripIndents } from '@angular-devkit/core/src/utils/literals';
+import { tags } from '@angular-devkit/core';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import { firstValueFrom } from 'rxjs';
@@ -6,6 +6,8 @@ import { firstValueFrom } from 'rxjs';
 import { createTestApp } from '../../testing/scaffold';
 
 import { convertPageSummaryToPageHeader } from './convert-page-summary-to-page-header';
+
+const { stripIndents } = tags;
 
 describe('Convert Page Summary to Page Header', () => {
   const runner = new SchematicTestRunner(
