@@ -18,13 +18,13 @@
   </sky-chart-line>
 </sky-chart>
 
-<sky-chart headingText="Actual vs. target, emphasized">
+<sky-chart headingText="Actual vs. target, highlighted">
   <sky-chart-line>
     <sky-chart-axis-category labelText="Year" [categories]="years" />
     <sky-chart-axis-value labelText="Acquisitions" />
     <sky-chart-line-series
       labelText="Actual"
-      [emphasized]="true"
+      [highlighted]="true"
       [values]="acquisitions"
     />
     <sky-chart-line-series labelText="Target" [values]="target" />

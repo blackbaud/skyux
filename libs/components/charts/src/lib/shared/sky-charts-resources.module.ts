@@ -36,11 +36,11 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message:
         "Line chart. Number of series: {0}. Number of categories: {1}. A data table is available from the chart's context menu.",
     },
-    'skyux_charts.chart.line.emphasized_series_summary_plural': {
-      message: '{0}, emphasized line {1} of {2} with {3} data points.',
+    'skyux_charts.chart.line.highlighted_series_summary_plural': {
+      message: '{0}, line {1} of {2}, highlighted, with {3} data points.',
     },
-    'skyux_charts.chart.line.emphasized_series_summary_singular': {
-      message: '{0}, emphasized line {1} of {2} with {3} data point.',
+    'skyux_charts.chart.line.highlighted_series_summary_singular': {
+      message: '{0}, line {1} of {2}, highlighted, with {3} data point.',
     },
     'skyux_charts.chart.line.series_summary_plural': {
       message: '{0}, line {1} of {2} with {3} data points.',
@@ -49,6 +49,9 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: '{0}, line {1} of {2} with {3} data point.',
     },
     'skyux_charts.data_table_modal.close_button': { message: 'Close' },
+    'skyux_charts.data_table_modal.highlighted_series': {
+      message: ', highlighted',
+    },
     'skyux_charts.data_table_modal.table_region_label': {
       message: 'Data table for {0}',
     },

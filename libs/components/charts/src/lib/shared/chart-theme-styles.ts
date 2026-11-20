@@ -57,7 +57,7 @@ export interface SkyChartThemeStyles {
   };
   line: {
     width: number;
-    emphasizedWidth: number;
+    highlightedWidth: number;
   };
   /**
    * The styling of the tooltip container and its contents.
@@ -276,7 +276,7 @@ export function resolveChartThemeStyles(
           '--sky-size-viz-data_line-base',
           rootFontSize,
         ),
-        emphasizedWidth: readNumber(
+        highlightedWidth: readNumber(
           styles,
           probe,
           '--sky-size-viz-data_line-emphasized',

@@ -92,7 +92,7 @@
           "ChartsChartLineBasicExample",
           "ChartsChartLineAsyncExample",
           "ChartsChartLineMultipleSeriesExample",
-          "ChartsChartLineEmphasizedExample",
+          "ChartsChartLineHighlightedExample",
           "ChartsChartLineGapsExample",
           "ChartsChartLineTimeScaleExample",
           "ChartsChartLineValueFormatExample",
