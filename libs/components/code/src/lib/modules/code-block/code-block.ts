@@ -65,8 +65,10 @@ export class SkyCodeBlock {
   readonly #windowRef = inject(SkyAppWindowRef);
 
   /**
-   * The code to display. When not set or empty, the text content of the
-   * component is displayed instead.
+   * The code to display. Bind this input to a property in your component when
+   * the code spans multiple lines or contains characters that Angular templates
+   * treat specially. When not set or empty, the text content of the component
+   * is displayed instead.
    */
   public readonly code = input<string>();
 
@@ -89,10 +91,9 @@ export class SkyCodeBlock {
   public readonly hideHeader = input(false, { transform: booleanAttribute });
 
   /**
-   * The highlight.js name of the code's language, such as `typescript`,
-   * `json`, or `xml`. Aliases such as `ts` aren't supported. When not set, or
-   * not supported, the code is highlighted as XML and no language name is
-   * displayed.
+   * The highlight.js name or alias of the code's language, such as
+   * `typescript`, `ts`, `json`, or `html`. When not set, or not supported, the
+   * code is highlighted as XML and no language name is displayed.
    */
   public readonly languageType = input<string>();
 
