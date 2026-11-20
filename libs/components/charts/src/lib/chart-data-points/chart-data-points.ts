@@ -134,10 +134,10 @@ export class SkyChartDataPoints {
   }
 
   protected getSeriesSummaryKey(chartSeries: SkyChartDataPointSeries): string {
-    const emphasis = chartSeries.emphasized ? 'emphasized_' : '';
+    const highlight = chartSeries.highlighted ? 'highlighted_' : '';
     const plurality = chartSeries.valueCount === 1 ? 'singular' : 'plural';
 
-    return `skyux_charts.chart.${this.chartType()}.${emphasis}series_summary_${plurality}`;
+    return `skyux_charts.chart.${this.chartType()}.${highlight}series_summary_${plurality}`;
   }
 
   protected onFocus(dataPoint: SkyChartDataPoint): void {

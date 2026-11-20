@@ -227,7 +227,9 @@ describe('Chart harness', () => {
       '2025',
       '2026',
     ]);
-    await expectAsync(dataTable.getEmphasizedSeriesLabels()).toBeResolvedTo([]);
+    await expectAsync(dataTable.getHighlightedSeriesLabels()).toBeResolvedTo(
+      [],
+    );
     await expectAsync(dataTable.getCategories()).toBeResolvedTo([
       'North',
       'South',

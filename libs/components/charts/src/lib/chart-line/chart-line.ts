@@ -68,9 +68,9 @@ export class SkyChartLine extends SkyChartCartesianPlot<
         // The background colors the points; the line itself is drawn from the
         // border color.
         backgroundColor: color,
-        ...(chartSeries.emphasized() && {
-          borderWidth: themeStyles.line.emphasizedWidth,
-          pointBorderWidth: themeStyles.line.emphasizedWidth,
+        ...(chartSeries.highlighted() && {
+          borderWidth: themeStyles.line.highlightedWidth,
+          pointBorderWidth: themeStyles.line.highlightedWidth,
           pointHoverRadius: 7,
         }),
         hidden: this.isSeriesHidden(chartSeries),

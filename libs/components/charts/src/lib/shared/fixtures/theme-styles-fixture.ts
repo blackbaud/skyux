@@ -38,7 +38,7 @@ export function createThemeStylesFixture(
     },
     line: {
       width: 2,
-      emphasizedWidth: 5,
+      highlightedWidth: 5,
     },
     tooltip: {
       backgroundColor: '#ffffff',

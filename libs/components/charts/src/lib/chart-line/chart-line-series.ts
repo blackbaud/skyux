@@ -15,7 +15,7 @@ export class SkyChartLineSeries {
   /**
    * Whether to draw the line thicker so that it stands out from other series.
    */
-  public readonly emphasized = input(false, { transform: booleanAttribute });
+  public readonly highlighted = input(false, { transform: booleanAttribute });
 
   /**
    * The text that identifies this series in the legend and tooltips.
