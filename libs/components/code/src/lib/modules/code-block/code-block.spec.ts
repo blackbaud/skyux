@@ -49,6 +49,10 @@ describe('Code block component', () => {
     return fixture.nativeElement.querySelector('.sky-code-block-language');
   }
 
+  function getSeparator(): HTMLElement | null {
+    return fixture.nativeElement.querySelector('.sky-code-block-separator');
+  }
+
   beforeEach(() => {
     fixture = TestBed.createComponent(SkyCodeBlockTestComponent);
   });
@@ -122,17 +126,32 @@ describe('Code block component', () => {
       fixture.nativeElement.querySelector('.sky-code-block-file-name'),
     ).toHaveText('app.ts');
     expect(getLanguageName()).toHaveText('TypeScript');
-    expect(
-      fixture.nativeElement.querySelector('.sky-code-block-title').textContent,
-    ).toBe('app.ts - TypeScript');
+    expect(getSeparator()).toHaveText('-');
   });
 
-  it('should show the file name alone when there is no language name', async () => {
+  it('should only separate the file name and language name when both are shown', async () => {
     await render({ code: 'a', fileName: 'app.ts' });
 
-    expect(
-      fixture.nativeElement.querySelector('.sky-code-block-title').textContent,
-    ).toBe('app.ts');
+    expect(getSeparator()).toBeNull();
+
+    await render({ fileName: undefined, languageType: 'typescript' });
+
+    expect(getSeparator()).toBeNull();
+  });
+
+  it('should style the header like Stache in the default theme', async () => {
+    await render({ code: 'a', fileName: 'app.ts', languageType: 'typescript' });
+
+    const fileNameStyle = getComputedStyle(
+      fixture.nativeElement.querySelector('.sky-code-block-file-name'),
+    );
+    const languageStyle = getComputedStyle(getLanguageName() as HTMLElement);
+
+    expect(getComputedStyle(getSeparator() as HTMLElement).display).toBe(
+      'none',
+    );
+    expect(languageStyle.fontStyle).toBe('italic');
+    expect(languageStyle.color).not.toBe(fileNameStyle.color);
   });
 
   it('should show an icon-only copy button labeled Copy', async () => {
@@ -259,6 +278,21 @@ describe('Code block component', () => {
         });
 
         await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+
+      it('should separate the file name and language name with a dash', async () => {
+        await render({
+          code: 'a',
+          fileName: 'app.ts',
+          languageType: 'typescript',
+        });
+
+        expect(getComputedStyle(getSeparator() as HTMLElement).display).toBe(
+          'inline',
+        );
+        expect(
+          getComputedStyle(getLanguageName() as HTMLElement).fontStyle,
+        ).toBe('normal');
       });
     });
   });
