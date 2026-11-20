@@ -55,7 +55,7 @@ export class CodeBlockComponent {
     echo "Installing in $HOME"
   `;
 
-  protected readonly htmlCode =`<sky-box headingText="Box">Content</sky-box>`;
+  protected readonly htmlCode = `<sky-box headingText="Box">Content</sky-box>`;
 
   protected readonly longCode = `const message = '${'This line is long enough to scroll horizontally. '.repeat(4)}';`;
 }
