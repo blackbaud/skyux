@@ -1,5 +1,4 @@
-import { Rule } from '@angular-devkit/schematics';
-import { externalSchematic } from '@angular-devkit/schematics/src/rules/schematic';
+import { Rule, externalSchematic } from '@angular-devkit/schematics';
 
 import { VERSION } from '../../../../version';
 

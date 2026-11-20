@@ -1,4 +1,4 @@
-import { decamelize } from '@angular-devkit/core/src/utils/strings';
+import { strings } from '@angular-devkit/core';
 
 export function basename(path: string): string {
   const start = path.lastIndexOf('/');
@@ -15,7 +15,8 @@ export function dirname(path: string): string {
 }
 
 export function capitalizeWords(string: string): string {
-  return decamelize(string)
+  return strings
+    .decamelize(string)
     .replace(/[-_]/g, ' ')
     .replace(/\b[a-z]/g, (char) => char.toUpperCase());
 }

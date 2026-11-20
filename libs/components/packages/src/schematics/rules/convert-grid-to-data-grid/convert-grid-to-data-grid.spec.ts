@@ -1,10 +1,12 @@
-import { stripIndents } from '@angular-devkit/core/src/utils/literals';
+import { tags } from '@angular-devkit/core';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 
 import { createTestApp } from '../../testing/scaffold';
+
+const { stripIndents } = tags;
 
 describe('Convert Grid to Data Grid', () => {
   const runner = new SchematicTestRunner(
