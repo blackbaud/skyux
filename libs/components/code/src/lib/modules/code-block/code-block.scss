@@ -10,6 +10,10 @@
   --sky-override-code-block-border-radius: 0;
   --sky-override-code-block-border-width: 1px;
   --sky-override-code-block-code-background-color: #fff;
+  // Like a focused default-theme input, drawn inside so the block doesn't clip it.
+  --sky-override-code-block-code-box-shadow-focus:
+    inset 0 0 0 1px #{$sky-highlight-color-info},
+    inset 0 0 8px #{rgba($sky-highlight-color-info, 0.6)};
   --sky-override-code-block-code-padding: 20px;
   --sky-override-code-block-font-family:
     Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
@@ -127,6 +131,19 @@ $border: var(
       line-height: 1.5;
       white-space: pre;
       tab-size: 2;
+
+      // The focus ring is drawn inside the code area because the block clips
+      // anything outside it. Forced-colors mode drops box-shadow but paints
+      // the transparent outline.
+      &:focus-visible {
+        outline: 2px solid transparent;
+        outline-offset: -2px;
+        box-shadow: var(
+          --sky-override-code-block-code-box-shadow-focus,
+          inset 0 0 0 var(--sky-border-width-input-focus)
+            var(--sky-color-border-input-focus)
+        );
+      }
     }
   }
 }

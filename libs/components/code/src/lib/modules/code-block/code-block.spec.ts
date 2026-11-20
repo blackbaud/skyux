@@ -366,6 +366,19 @@ describe('Code block component', () => {
     ).toBe('0');
   });
 
+  it('should show an input-style focus ring inside the code region', async () => {
+    await render({ code: 'a' });
+
+    getCode().focus({ focusVisible: true });
+
+    const style = getComputedStyle(getCode());
+
+    expect(getCode().matches(':focus-visible')).toBeTrue();
+    // Default theme: the info-colored border of a focused input.
+    expect(style.boxShadow).toContain('rgb(0, 180, 241) 0px 0px 0px 1px inset');
+    expect(style.outlineColor).toBe('rgba(0, 0, 0, 0)');
+  });
+
   describe('a11y', () => {
     const longCode = `const message = '${'A long line that scrolls. '.repeat(20)}';`;
 
@@ -419,6 +432,18 @@ describe('Code block component', () => {
         });
 
         await expectAsync(fixture.nativeElement).toBeAccessible();
+      });
+
+      it('should show the input focus ring tokens inside the code region', async () => {
+        document.body.classList.add('sky-theme-mode-light');
+        await render({ code: 'a' });
+
+        getCode().focus({ focusVisible: true });
+        const boxShadow = getComputedStyle(getCode()).boxShadow;
+        document.body.classList.remove('sky-theme-mode-light');
+
+        expect(boxShadow).toMatch(/^rgb\(.+\) 0px 0px 0px [1-9]\d*px inset$/);
+        expect(boxShadow).not.toContain('rgb(0, 180, 241)');
       });
 
       it('should separate the file name and language name with a dash', async () => {

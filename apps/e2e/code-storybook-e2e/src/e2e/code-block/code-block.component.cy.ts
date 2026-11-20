@@ -20,6 +20,19 @@ describe('Code Block', () => {
           widths: E2eVariations.DISPLAY_WIDTHS,
         });
       });
+
+      // Percy's DOM snapshots don't keep focus, so the focus ring is captured
+      // as a screenshot.
+      it('should render the focused code area', () => {
+        cy.skyReady('app-code-block');
+        cy.get('#screenshot-wrapper sky-code-block pre code').first().focus();
+        cy.get('#screenshot-wrapper sky-code-block')
+          .first()
+          .skyVisualTest(`code-block-focus-${theme}`, {
+            overwrite: true,
+            disableTimersAndAnimations: true,
+          });
+      });
     });
   });
 });
