@@ -39,7 +39,10 @@ const MEDIUM_DATE: Intl.DateTimeFormatOptions = {
   day: 'numeric',
 };
 
-const FULL_FORMATS: Record<SkyChartTimeUnit, Intl.DateTimeFormatOptions> = {
+const FULL_FORMATS: Record<
+  Exclude<SkyChartTimeUnit, 'quarter'>,
+  Intl.DateTimeFormatOptions
+> = {
   millisecond: { ...MEDIUM_DATE, ...AXIS_FORMATS.millisecond },
   second: { ...MEDIUM_DATE, ...AXIS_FORMATS.second },
   minute: { ...MEDIUM_DATE, ...AXIS_FORMATS.minute },
@@ -47,8 +50,7 @@ const FULL_FORMATS: Record<SkyChartTimeUnit, Intl.DateTimeFormatOptions> = {
   day: MEDIUM_DATE,
   week: MEDIUM_DATE,
   month: MEDIUM_DATE,
-  quarter: MEDIUM_DATE,
-  year: MEDIUM_DATE,
+  year: AXIS_FORMATS.year,
 };
 
 const FULL_FORMAT_PREFIX = 'full:';
@@ -76,8 +78,30 @@ export function formatTimeCategory(
   time: number,
   unit: SkyChartTimeUnit,
   locale: string,
+  quarterLabel: string,
 ): string {
-  return new Intl.DateTimeFormat(locale, FULL_FORMATS[unit]).format(time);
+  return unit === 'quarter'
+    ? formatQuarter(time, locale, quarterLabel)
+    : new Intl.DateTimeFormat(locale, FULL_FORMATS[unit]).format(time);
+}
+
+// Intl has no quarter format.
+function formatQuarter(
+  time: number,
+  locale: string,
+  quarterLabel: string,
+): string {
+  const date = new Date(time);
+
+  return quarterLabel
+    .replace(
+      '{0}',
+      new Intl.NumberFormat(locale).format(Math.floor(date.getMonth() / 3) + 1),
+    )
+    .replace(
+      '{1}',
+      new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(date),
+    );
 }
 
 function startOf(time: number, unit: TimeUnit): number {
@@ -211,24 +235,12 @@ _adapters._date.override({
         time,
         format.slice(FULL_FORMAT_PREFIX.length) as SkyChartTimeUnit,
         locale,
+        quarterLabel,
       );
     }
 
-    // Intl has no quarter format.
     if (format === 'quarter') {
-      const date = new Date(time);
-
-      return quarterLabel
-        .replace(
-          '{0}',
-          new Intl.NumberFormat(locale).format(
-            Math.floor(date.getMonth() / 3) + 1,
-          ),
-        )
-        .replace(
-          '{1}',
-          new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(date),
-        );
+      return formatQuarter(time, locale, quarterLabel);
     }
 
     return new Intl.DateTimeFormat(

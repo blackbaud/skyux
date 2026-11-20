@@ -378,7 +378,7 @@ describe('Chart line component', () => {
       expect(getTickLabels()).toEqual(['Jan 2026', 'Feb 2026', 'Mar 2026']);
     });
 
-    it('should label quarters by quarter number', () => {
+    it('should label quarters by quarter number on the axis and in the data table', () => {
       fixture.componentRef.setInput('categories', [
         '2026-01-01',
         '2026-04-01',
@@ -390,6 +390,11 @@ describe('Chart line component', () => {
       fixture.detectChanges();
 
       expect(getTickLabels()).toEqual(['Q1 2026', 'Q2 2026', 'Q3 2026']);
+      expect(tableSvc().table()?.categories).toEqual([
+        'Q1 2026',
+        'Q2 2026',
+        'Q3 2026',
+      ]);
     });
 
     it('should skip units between labels by the step size', () => {

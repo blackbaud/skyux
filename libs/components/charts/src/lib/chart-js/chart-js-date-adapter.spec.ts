@@ -79,18 +79,25 @@ describe('Chart.js date adapter', () => {
   });
 
   it('should format a full date and time for the tooltip and data table', () => {
-    expect(normalize(formatTimeCategory(time, 'day', 'en-US'))).toBe(
-      'Jan 15, 2026',
+    expect(
+      normalize(formatTimeCategory(time, 'day', 'en-US', 'Q{0} {1}')),
+    ).toBe('Jan 15, 2026');
+    expect(
+      normalize(formatTimeCategory(time, 'hour', 'en-US', 'Q{0} {1}')),
+    ).toBe('Jan 15, 2026, 10:30 AM');
+    expect(
+      normalize(formatTimeCategory(time, 'second', 'en-US', 'Q{0} {1}')),
+    ).toBe('Jan 15, 2026, 10:30:45 AM');
+    expect(
+      normalize(formatTimeCategory(time, 'millisecond', 'en-US', 'Q{0} {1}')),
+    ).toBe('Jan 15, 2026, 10:30:45.123 AM');
+  });
+
+  it('should format a quarter or year for the tooltip and data table as the axis does', () => {
+    expect(formatTimeCategory(time, 'quarter', 'en-US', 'Q{0} {1}')).toBe(
+      'Q1 2026',
     );
-    expect(normalize(formatTimeCategory(time, 'hour', 'en-US'))).toBe(
-      'Jan 15, 2026, 10:30 AM',
-    );
-    expect(normalize(formatTimeCategory(time, 'second', 'en-US'))).toBe(
-      'Jan 15, 2026, 10:30:45 AM',
-    );
-    expect(normalize(formatTimeCategory(time, 'millisecond', 'en-US'))).toBe(
-      'Jan 15, 2026, 10:30:45.123 AM',
-    );
+    expect(formatTimeCategory(time, 'year', 'en-US', 'Q{0} {1}')).toBe('2026');
   });
 
   it('should parse timestamps and ISO 8601 strings', () => {

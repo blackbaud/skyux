@@ -125,9 +125,10 @@ export class SkyChartAxisCategory {
 
       const unit = this.#requireTimeUnit();
       const locale = this.locale();
+      const quarterLabel = this.quarterLabel();
 
       return labels.map((time) =>
-        formatTimeCategory(time as number, unit, locale),
+        formatTimeCategory(time as number, unit, locale, quarterLabel),
       );
     },
   );
