@@ -23,6 +23,7 @@ import {
   LogarithmicScale,
   type Plugin,
   PointElement,
+  TimeScale,
   Tooltip,
 } from 'chart.js';
 
@@ -42,6 +43,7 @@ Chart.register(
   LineElement,
   LogarithmicScale,
   PointElement,
+  TimeScale,
   Tooltip,
 );
 

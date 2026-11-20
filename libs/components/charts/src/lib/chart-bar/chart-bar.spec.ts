@@ -18,6 +18,8 @@ import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { type SkyChartDataPointClickArgs } from '../chart-plot/chart-data-point-click-args';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
+import { type SkyChartCategoryScaleType } from '../shared/category-scale-type';
+import { type SkyChartTimeUnit } from '../shared/time-unit';
 import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartBar } from './chart-bar';
@@ -54,6 +56,9 @@ type ScaleProbe = {
             <sky-chart-axis-category
               labelText="Year"
               [categories]="categories()"
+              [scaleType]="categoryScaleType()"
+              [timeStep]="timeStep()"
+              [timeUnit]="timeUnit()"
             />
           }
           @if (renderValueAxis()) {
@@ -91,6 +96,9 @@ class TestComponent {
     SkyChartDataPointClickArgs<SkyChartBarSeriesValue> | undefined;
 
   public categories = input<(string | number)[]>(['2023', '2024']);
+  public categoryScaleType = input<SkyChartCategoryScaleType>('category');
+  public timeStep = input<number | undefined>(undefined);
+  public timeUnit = input<SkyChartTimeUnit | undefined>(undefined);
   public currencyCode = input<string | undefined>(undefined);
   public format = input<SkyChartValueFormat>('number');
   public orientation = input<SkyChartBarOrientation>('vertical');
@@ -245,6 +253,35 @@ describe('Chart bar component', () => {
       fixture.destroy();
     }
   });
+
+  const timeInputs: Record<string, unknown>[] = [
+    { categoryScaleType: 'time', categories: ['2023-01-01', '2024-01-01'] },
+    { categoryScaleType: 'time', timeUnit: 'year' },
+    { timeUnit: 'year' },
+    { timeStep: 2 },
+  ];
+
+  for (const inputs of timeInputs) {
+    it(`should log an error and render nothing for ${JSON.stringify(inputs)}`, () => {
+      const errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
+
+      for (const [name, value] of Object.entries(inputs)) {
+        fixture.componentRef.setInput(name, value);
+      }
+
+      fixture.detectChanges();
+
+      expect(errorSpy).toHaveBeenCalledOnceWith(
+        'The <sky-chart-bar> does not support a time scale, so its ' +
+          '<sky-chart-axis-category> cannot have a "scaleType" of "time", a ' +
+          '"timeUnit", or a "timeStep". Use <sky-chart-line> to plot values ' +
+          'over time.',
+      );
+      expect(getChart()).toBeUndefined();
+      expect(tableSvc().table()).toBeUndefined();
+      expect(tableSvc().summary()).toBeUndefined();
+    });
+  }
 
   it('should build the data table from the axes and series', () => {
     fixture.detectChanges();
@@ -997,6 +1034,18 @@ describe('Chart bar component', () => {
     it('should be accessible when horizontal', async () => {
       fixture.componentRef.setInput('orientation', 'horizontal');
       await fixture.whenStable();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+
+    it('should be accessible when a time input renders nothing', async () => {
+      spyOn(TestBed.inject(SkyLogService), 'error');
+
+      fixture.componentRef.setInput('timeUnit', 'year');
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(getChart()).toBeUndefined();
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });

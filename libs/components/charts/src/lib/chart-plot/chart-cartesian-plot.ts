@@ -31,8 +31,8 @@ import { SkyChartPlot } from './chart-plot';
  * Base class for cartesian plot components (for example, `sky-chart-bar` and
  * `sky-chart-line`): plots that render one or more series against a category
  * axis and a value axis. Owns the axis content queries, the theme change
- * signal, the accessible table and summary, and the series/category
- * length-mismatch warning. Subclasses supply the series content query, the
+ * signal, the accessible table and summary, the series/category
+ * length-mismatch warning, and the category axis error. Subclasses supply the series content query, the
  * series selector, the summary resource key, and their own Chart.js config.
  * @internal
  */
@@ -93,6 +93,12 @@ export abstract class SkyChartCartesianPlot<
 
   readonly #hiddenSeries = signal<ReadonlySet<TSeries>>(new Set());
 
+  readonly #categoryAxisError = computed(() => {
+    const categoryAxis = this.categoryAxis();
+
+    return categoryAxis && this.getCategoryAxisError(categoryAxis);
+  });
+
   protected readonly legendItems = computed((): SkyChartLegendItem[] => {
     const palette = this.themeStyles().series.categoricalPalette;
 
@@ -107,6 +113,14 @@ export abstract class SkyChartCartesianPlot<
     super();
 
     const logger = inject(SkyLogService);
+
+    afterRenderEffect(() => {
+      const error = this.#categoryAxisError();
+
+      if (error) {
+        logger.error(error);
+      }
+    });
 
     // Values align to categories by index, so a length mismatch silently
     // misaligns or drops data. Warn about the one alignment mistake that is
@@ -135,10 +149,24 @@ export abstract class SkyChartCartesianPlot<
   }
 
   /**
+   * Explains why the category axis can't be plotted, if it can't.
+   */
+  protected getCategoryAxisError(
+    categoryAxis: SkyChartAxisCategory,
+  ): string | undefined {
+    return categoryAxis.timeScaleError();
+  }
+
+  /**
    * Resolves the axes and series into the data the plot needs to render, or
-   * `undefined` when a required axis or series is missing.
+   * `undefined` when a required axis or series is missing or the category axis
+   * can't be plotted.
    */
   protected getCartesianData(): SkyChartCartesianData<TSeries> | undefined {
+    if (this.#categoryAxisError()) {
+      return undefined;
+    }
+
     return resolveCartesianData(
       this.categoryAxis(),
       this.valueAxis(),
