@@ -19,6 +19,12 @@
               @for (series of table.series; track $index) {
                 <th scope="col">
                   {{ series.label }}
+                  @if (series.emphasized) {
+                    <span class="sky-screen-reader-only">{{
+                      'skyux_charts.data_table_modal.highlighted_series'
+                        | skyLibResources
+                    }}</span>
+                  }
                 </th>
               }
             </tr>

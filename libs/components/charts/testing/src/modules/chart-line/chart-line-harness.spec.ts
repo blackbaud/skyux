@@ -8,9 +8,11 @@ import {
   SkyChartLine,
   SkyChartLineSeries,
 } from '@skyux/charts';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { SkyChartDataPointHarness } from '../chart-data-point/chart-data-point-harness';
 import { SkyChartLegendItemHarness } from '../chart-legend/chart-legend-item-harness';
+import { SkyChartHarness } from '../chart/chart-harness';
 
 import { SkyChartLineHarness } from './chart-line-harness';
 
@@ -44,7 +46,11 @@ import { SkyChartLineHarness } from './chart-line-harness';
         />
         <sky-chart-axis-value labelText="Sales" />
         <sky-chart-line-series labelText="2025" [values]="[5, 15]" />
-        <sky-chart-line-series labelText="2026" [values]="[10, 20]" />
+        <sky-chart-line-series
+          labelText="2026"
+          [emphasized]="true"
+          [values]="[10, 20]"
+        />
       </sky-chart-line>
     </sky-chart>
   `,
@@ -156,5 +162,25 @@ describe('Chart line harness', () => {
     await expectAsync(
       harness.getDataPoint({ category: 'no-such-category' }),
     ).toBeRejected();
+  });
+
+  it('should get the series labels of a data table with a highlighted series', async () => {
+    TestBed.configureTestingModule({
+      providers: [provideNoopSkyAnimations()],
+    });
+
+    const fixture = TestBed.createComponent(TestComponent);
+    const chartHarness = await TestbedHarnessEnvironment.loader(
+      fixture,
+    ).getHarness(SkyChartHarness.with({ headingText: 'Multi-series chart' }));
+
+    const dataTable = await chartHarness.openDataTableModal();
+
+    await expectAsync(dataTable.getSeriesLabels()).toBeResolvedTo([
+      '2025',
+      '2026',
+    ]);
+
+    await dataTable.close();
   });
 });

@@ -53,7 +53,11 @@ export class SkyChartTableModalHarness extends ComponentHarness {
   public async getSeriesLabels(): Promise<string[]> {
     const [, ...seriesHeaders] = await this.#getColumnHeaders();
 
-    return await Promise.all(seriesHeaders.map((header) => header.text()));
+    return await Promise.all(
+      seriesHeaders.map((header) =>
+        header.text({ exclude: '.sky-screen-reader-only' }),
+      ),
+    );
   }
 
   /**
