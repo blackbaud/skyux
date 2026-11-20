@@ -254,6 +254,27 @@ describe('Code block component', () => {
     expect(languageStyle.color).not.toBe(fileNameStyle.color);
   });
 
+  it('should wrap a long file name to keep the copy button in view', async () => {
+    await render({
+      code: 'a',
+      fileName: 'src/app/components/greeting/greeting.component.ts',
+    });
+
+    const codeBlock: HTMLElement =
+      fixture.nativeElement.querySelector('sky-code-block');
+    codeBlock.style.width = '200px';
+
+    const header = getHeader() as HTMLElement;
+    const button = fixture.nativeElement.querySelector(
+      '.sky-code-block-copy-button',
+    );
+
+    expect(getComputedStyle(header).columnGap).toBe('5px');
+    expect(button.getBoundingClientRect().right).toBeLessThanOrEqual(
+      codeBlock.getBoundingClientRect().right,
+    );
+  });
+
   it('should show an icon-only copy button labeled Copy', async () => {
     await render({ code: 'a' });
 

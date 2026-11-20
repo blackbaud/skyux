@@ -14,6 +14,7 @@
   --sky-override-code-block-font-family:
     Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
   --sky-override-code-block-header-background-color: #fff;
+  --sky-override-code-block-header-gap: 5px;
   --sky-override-code-block-header-padding: 5px 5px 5px 20px;
   --sky-override-code-block-language-color: #{$sky-text-color-deemphasized};
   --sky-override-code-block-language-font-style: italic;
@@ -44,7 +45,10 @@ $border: var(
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: var(--sky-comp-code_block-header-space-inset-right);
+    gap: var(
+      --sky-override-code-block-header-gap,
+      var(--sky-comp-code_block-header-space-inset-right)
+    );
     padding: var(
       --sky-override-code-block-header-padding,
       var(--sky-comp-code_block-header-space-inset-top)
@@ -64,6 +68,9 @@ $border: var(
   // colors: the file name and dash in the default color, then the language
   // deemphasized.
   .sky-code-block-title {
+    // Lets a long file name wrap instead of pushing the copy button out of view.
+    min-width: 0;
+    overflow-wrap: anywhere;
     color: var(
       --sky-override-code-block-title-color,
       var(--sky-color-text-deemphasized)
