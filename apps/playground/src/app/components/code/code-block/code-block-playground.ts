@@ -62,7 +62,5 @@ export default class CodeBlockPlayground {
   "dependencies": { "@skyux/code": "^15.14.0" }
 }`;
 
-  protected readonly unknownLanguageCode = `<note>Unknown languages fall back to markup.</note>`;
-
   protected readonly longCode = `const message = '${'This line is long enough to scroll horizontally. '.repeat(6)}';`;
 }

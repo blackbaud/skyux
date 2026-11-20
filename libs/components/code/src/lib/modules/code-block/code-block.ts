@@ -19,6 +19,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { SkyCodeResourcesModule } from '../shared/sky-code-resources.module';
 
+import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { highlightCodeBlock } from './code-block-languages';
 
 // Converts tabs to 2 spaces, removes trailing whitespace, leading and trailing
@@ -79,6 +80,7 @@ export class SkyCodeBlock {
 
   /**
    * Whether to hide the button that copies the code.
+   * @default false
    */
   public readonly hideCopyToClipboard = input(false, {
     transform: booleanAttribute,
@@ -87,15 +89,15 @@ export class SkyCodeBlock {
   /**
    * Whether to hide the header, which displays the file name, the language
    * name, and the button that copies the code.
+   * @default false
    */
   public readonly hideHeader = input(false, { transform: booleanAttribute });
 
   /**
-   * The highlight.js name or alias of the code's language, such as
-   * `typescript`, `ts`, `json`, or `html`. When not set, or not supported, the
-   * code is highlighted as XML and no language name is displayed.
+   * The language of the code, which determines its syntax highlighting and the
+   * language name in the header.
    */
-  public readonly languageType = input<string>();
+  public readonly languageType = input.required<SkyCodeBlockLanguageType>();
 
   protected readonly source = computed(() =>
     normalizeCode(this.code() || this.#projectedCode()),

@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 
 import { SkyCodeBlock } from '../code-block';
+import { SkyCodeBlockLanguageType } from '../code-block-language-type';
 
 @Component({
   selector: 'sky-code-block-test',
@@ -22,6 +23,6 @@ export class SkyCodeBlockTestComponent {
   public readonly fileName = signal<string | undefined>(undefined);
   public readonly hideCopyToClipboard = signal(false);
   public readonly hideHeader = signal(false);
-  public readonly languageType = signal<string | undefined>(undefined);
+  public readonly languageType = signal<SkyCodeBlockLanguageType>('xml');
   public readonly projected = signal<string | undefined>(undefined);
 }

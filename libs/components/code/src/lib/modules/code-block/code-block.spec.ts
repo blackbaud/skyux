@@ -2,7 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 
+import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { SkyCodeBlockTestComponent } from './fixtures/code-block.component.fixture';
+
+// Typed consumers can't pass this, but untyped values still fall back to xml.
+const UNSUPPORTED_LANGUAGE = 'xml1' as SkyCodeBlockLanguageType;
 
 describe('Code block component', () => {
   let fixture: ComponentFixture<SkyCodeBlockTestComponent>;
@@ -13,7 +17,7 @@ describe('Code block component', () => {
       fileName: string;
       hideCopyToClipboard: boolean;
       hideHeader: boolean;
-      languageType: string;
+      languageType: SkyCodeBlockLanguageType;
       projected: string;
     }>,
   ): Promise<void> {
@@ -130,7 +134,11 @@ describe('Code block component', () => {
   });
 
   it('should only separate the file name and language name when both are shown', async () => {
-    await render({ code: 'a', fileName: 'app.ts' });
+    await render({
+      code: 'a',
+      fileName: 'app.ts',
+      languageType: UNSUPPORTED_LANGUAGE,
+    });
 
     expect(getSeparator()).toBeNull();
 
@@ -170,12 +178,8 @@ describe('Code block component', () => {
     expect(document.getElementById(labelId)).toHaveText('Copy');
   });
 
-  it('should not show a language name for unknown or unset languageType', async () => {
-    await render({ code: 'a' });
-
-    expect(getLanguageName()).toBeNull();
-
-    await render({ languageType: 'xml1' });
+  it('should not show a language name for an unsupported languageType', async () => {
+    await render({ code: 'a', languageType: UNSUPPORTED_LANGUAGE });
 
     expect(getLanguageName()).toBeNull();
   });
@@ -187,7 +191,11 @@ describe('Code block component', () => {
   });
 
   it('should hide the header when there is no file name, no language name and the copy button is hidden', async () => {
-    await render({ code: 'a', hideCopyToClipboard: true });
+    await render({
+      code: 'a',
+      hideCopyToClipboard: true,
+      languageType: UNSUPPORTED_LANGUAGE,
+    });
 
     expect(getHeader()).toBeNull();
 

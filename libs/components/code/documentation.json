@@ -17,7 +17,7 @@
     "code-block": {
       "summary": "The code block component displays a block of formatted, syntax-highlighted code with an optional file name and copy button.",
       "development": {
-        "docsIds": ["SkyCodeBlock"],
+        "docsIds": ["SkyCodeBlock", "SkyCodeBlockLanguageType"],
         "primaryDocsId": "SkyCodeBlock"
       },
       "testing": {

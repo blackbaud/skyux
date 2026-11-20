@@ -1,28 +1,31 @@
 // cspell:ignore asciidoc gherkin
+import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { highlightCodeBlock } from './code-block-languages';
 
-const SUPPORTED_LANGUAGES = [
-  'arduino',
-  'asciidoc',
-  'bash',
-  'csharp',
-  'css',
-  'dos',
-  'gherkin',
-  'http',
-  'java',
-  'javascript',
-  'json',
-  'markdown',
-  'php',
-  'plaintext',
-  'powershell',
-  'python',
-  'sql',
-  'typescript',
-  'xml',
-  'yaml',
-];
+// The label shown for every language type.
+const LABELS: Record<SkyCodeBlockLanguageType, string> = {
+  arduino: 'Arduino',
+  asciidoc: 'AsciiDoc',
+  bash: 'Bash',
+  csharp: 'C#',
+  css: 'CSS',
+  dos: 'Batch',
+  gherkin: 'Gherkin',
+  html: 'HTML',
+  http: 'HTTP',
+  java: 'Java',
+  javascript: 'JavaScript',
+  json: 'JSON',
+  markdown: 'Markdown',
+  php: 'PHP',
+  plaintext: 'Plain text',
+  powershell: 'PowerShell',
+  python: 'Python',
+  sql: 'SQL',
+  typescript: 'TypeScript',
+  xml: 'XML',
+  yaml: 'YAML',
+};
 
 describe('Code block languages', () => {
   it('should highlight a supported language', () => {
@@ -35,12 +38,16 @@ describe('Code block languages', () => {
     expect(displayName).toBe('TypeScript');
   });
 
-  it('should support the languages found in existing code blocks', () => {
-    for (const language of SUPPORTED_LANGUAGES) {
-      expect(highlightCodeBlock('a', language).displayName)
-        .withContext(language)
-        .toEqual(jasmine.any(String));
+  it('should label every language type', () => {
+    for (const [languageType, label] of Object.entries(LABELS)) {
+      expect(highlightCodeBlock('a', languageType).displayName)
+        .withContext(languageType)
+        .toBe(label);
     }
+  });
+
+  it('should highlight html as markup', () => {
+    expect(highlightCodeBlock('<p>a</p>', 'html').html).toContain('hljs-tag');
   });
 
   it('should match language names case-insensitively', () => {
@@ -54,7 +61,6 @@ describe('Code block languages', () => {
       ['ts', 'TypeScript'],
       ['TS', 'TypeScript'],
       ['js', 'JavaScript'],
-      ['html', 'HTML, XML'],
       ['cs', 'C#'],
       ['sh', 'Bash'],
       ['yml', 'YAML'],
@@ -78,13 +84,13 @@ describe('Code block languages', () => {
     'constructor',
     '__proto__',
   ]) {
-    it(`should highlight as xml without a display name for ${languageType}`, () => {
+    it(`should show plain text without a display name for ${languageType}`, () => {
       const { displayName, html } = highlightCodeBlock(
         '<p>a</p>',
         languageType,
       );
 
-      expect(html).toContain('hljs-tag');
+      expect(html).toBe('&lt;p&gt;a&lt;/p&gt;');
       expect(displayName).toBeUndefined();
     });
   }

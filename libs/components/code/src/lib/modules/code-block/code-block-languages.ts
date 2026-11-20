@@ -22,6 +22,8 @@ import typescript from 'highlight.js/lib/languages/typescript';
 import xml from 'highlight.js/lib/languages/xml';
 import yaml from 'highlight.js/lib/languages/yaml';
 
+import { SkyCodeBlockLanguageType } from './code-block-language-type';
+
 // The languages found in existing Stache code blocks across Blackbaud's GitHub
 // and Azure DevOps repositories.
 const LANGUAGES = {
@@ -47,7 +49,35 @@ const LANGUAGES = {
   yaml,
 };
 
-const DEFAULT_LANGUAGE = 'xml';
+// highlight.js names a few languages awkwardly ("php", "HTML, XML",
+// "Batch file (DOS)"), so every language type gets its own label. `html`
+// highlights with the xml grammar.
+const LABELS: Record<SkyCodeBlockLanguageType, string> = {
+  arduino: 'Arduino',
+  asciidoc: 'AsciiDoc',
+  bash: 'Bash',
+  csharp: 'C#',
+  css: 'CSS',
+  dos: 'Batch',
+  gherkin: 'Gherkin',
+  html: 'HTML',
+  http: 'HTTP',
+  java: 'Java',
+  javascript: 'JavaScript',
+  json: 'JSON',
+  markdown: 'Markdown',
+  php: 'PHP',
+  plaintext: 'Plain text',
+  powershell: 'PowerShell',
+  python: 'Python',
+  sql: 'SQL',
+  typescript: 'TypeScript',
+  xml: 'XML',
+  yaml: 'YAML',
+};
+
+// Unsupported values (only possible without type checking) aren't highlighted.
+const FALLBACK_LANGUAGE = 'plaintext';
 
 let highlighter: HLJSApi | undefined;
 
@@ -66,23 +96,31 @@ function getHighlighter(): HLJSApi {
 }
 
 /**
- * Highlights code in a code block's `languageType`, which can be the name or
- * any alias of a supported language (for example, `typescript` or `ts`). Unset
- * and unsupported types are highlighted as xml without a display name, as
- * Stache did with its `markup` default.
+ * Highlights code in a code block's `languageType`. Untyped values can also be
+ * highlight.js aliases of a supported language (for example, `ts`), which are
+ * labeled with highlight.js's name. Unsupported values are shown as plain text
+ * without a display name.
  */
 export function highlightCodeBlock(
   code: string,
   languageType: string | undefined,
 ): { html: string; displayName: string | undefined } {
   const highlighter = getHighlighter();
-  // highlight.js resolves names and aliases case-insensitively.
-  const language = languageType && highlighter.getLanguage(languageType);
+  const key = languageType?.toLowerCase() ?? '';
+  // highlight.js resolves names and aliases (`html` is an xml alias).
+  const language = key ? highlighter.getLanguage(key) : undefined;
+
+  if (!language) {
+    return {
+      html: highlighter.highlight(code, { language: FALLBACK_LANGUAGE }).value,
+      displayName: undefined,
+    };
+  }
 
   return {
-    html: highlighter.highlight(code, {
-      language: language ? (languageType as string) : DEFAULT_LANGUAGE,
-    }).value,
-    displayName: language ? language.name : undefined,
+    html: highlighter.highlight(code, { language: key }).value,
+    displayName: Object.hasOwn(LABELS, key)
+      ? LABELS[key as SkyCodeBlockLanguageType]
+      : language.name,
   };
 }

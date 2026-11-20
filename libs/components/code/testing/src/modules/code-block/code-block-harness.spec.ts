@@ -1,7 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SkyCodeBlock } from '@skyux/code';
+import { SkyCodeBlock, SkyCodeBlockLanguageType } from '@skyux/code';
 
 import { SkyCodeBlockHarness } from './code-block-harness';
 
@@ -15,14 +15,18 @@ import { SkyCodeBlockHarness } from './code-block-harness';
       [hideCopyToClipboard]="hideCopyToClipboard()"
       [languageType]="languageType()"
     />
-    <sky-code-block data-sky-id="other-code-block" code="a" />
+    <sky-code-block
+      data-sky-id="other-code-block"
+      code="a"
+      languageType="plaintext"
+    />
   `,
 })
 class TestComponent {
   public readonly code = signal('const a = 1;');
   public readonly fileName = signal<string | undefined>('app.ts');
   public readonly hideCopyToClipboard = signal(false);
-  public readonly languageType = signal<string | undefined>('typescript');
+  public readonly languageType = signal<SkyCodeBlockLanguageType>('typescript');
 }
 
 describe('Code block harness', () => {
@@ -70,7 +74,10 @@ describe('Code block harness', () => {
 
     await expectAsync(harness.getLanguageName()).toBeResolvedTo('TypeScript');
 
-    fixture.componentInstance.languageType.set(undefined);
+    // An unsupported value (only possible without type checking) has no label.
+    fixture.componentInstance.languageType.set(
+      'xml1' as SkyCodeBlockLanguageType,
+    );
 
     await expectAsync(harness.getLanguageName()).toBeResolvedTo(undefined);
   });
