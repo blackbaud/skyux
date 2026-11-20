@@ -49,7 +49,35 @@ describe('Code block languages', () => {
     );
   });
 
-  for (const languageType of [undefined, 'xml1', 'ts', 'constructor']) {
+  it('should resolve highlight.js aliases of the supported languages', () => {
+    for (const [alias, displayName] of [
+      ['ts', 'TypeScript'],
+      ['TS', 'TypeScript'],
+      ['js', 'JavaScript'],
+      ['html', 'HTML, XML'],
+      ['cs', 'C#'],
+      ['sh', 'Bash'],
+      ['yml', 'YAML'],
+    ]) {
+      expect(highlightCodeBlock('a', alias).displayName)
+        .withContext(alias)
+        .toBe(displayName);
+    }
+  });
+
+  it('should highlight an alias in its language', () => {
+    expect(highlightCodeBlock('const a = 1;', 'ts').html).toContain(
+      '<span class="hljs-keyword">const</span>',
+    );
+  });
+
+  for (const languageType of [
+    undefined,
+    'xml1',
+    'markup',
+    'constructor',
+    '__proto__',
+  ]) {
     it(`should highlight as xml without a display name for ${languageType}`, () => {
       const { displayName, html } = highlightCodeBlock(
         '<p>a</p>',

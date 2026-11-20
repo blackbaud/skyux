@@ -1,5 +1,5 @@
 // cspell:ignore asciidoc gherkin
-import type { HLJSApi, Language } from 'highlight.js';
+import type { HLJSApi } from 'highlight.js';
 import hljs from 'highlight.js/lib/core';
 import arduino from 'highlight.js/lib/languages/arduino';
 import asciidoc from 'highlight.js/lib/languages/asciidoc';
@@ -66,23 +66,23 @@ function getHighlighter(): HLJSApi {
 }
 
 /**
- * Highlights code in a code block's `languageType`. Unset and unsupported
- * types are highlighted as xml without a display name, as Stache did with its
- * `markup` default.
+ * Highlights code in a code block's `languageType`, which can be the name or
+ * any alias of a supported language (for example, `typescript` or `ts`). Unset
+ * and unsupported types are highlighted as xml without a display name, as
+ * Stache did with its `markup` default.
  */
 export function highlightCodeBlock(
   code: string,
   languageType: string | undefined,
 ): { html: string; displayName: string | undefined } {
-  const requested = languageType?.toLowerCase() ?? '';
-  const isSupported = Object.hasOwn(LANGUAGES, requested);
-  const language = isSupported ? requested : DEFAULT_LANGUAGE;
   const highlighter = getHighlighter();
+  // highlight.js resolves names and aliases case-insensitively.
+  const language = languageType && highlighter.getLanguage(languageType);
 
   return {
-    html: highlighter.highlight(code, { language }).value,
-    displayName: isSupported
-      ? (highlighter.getLanguage(language) as Language).name
-      : undefined,
+    html: highlighter.highlight(code, {
+      language: language ? (languageType as string) : DEFAULT_LANGUAGE,
+    }).value,
+    displayName: language ? language.name : undefined,
   };
 }
