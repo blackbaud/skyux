@@ -1037,6 +1037,18 @@ describe('Chart bar component', () => {
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+
+    it('should be accessible when a time input renders nothing', async () => {
+      spyOn(TestBed.inject(SkyLogService), 'error');
+
+      fixture.componentRef.setInput('timeUnit', 'year');
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(getChart()).toBeUndefined();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });
 

@@ -690,6 +690,26 @@ describe('Chart line component', () => {
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+
+    it('should be accessible when a misconfigured time scale clears the chart', async () => {
+      spyOn(TestBed.inject(SkyLogService), 'error');
+
+      fixture.componentRef.setInput('categories', ['2026-01-01', '2026-02-01']);
+      fixture.componentRef.setInput('categoryScaleType', 'time');
+      fixture.componentRef.setInput('timeUnit', 'month');
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(getChart()).toBeDefined();
+
+      fixture.componentRef.setInput('timeStep', 0);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(getChart()).toBeUndefined();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
   });
 });
 
