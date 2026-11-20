@@ -1,5 +1,10 @@
-import { Path, dirname, normalize, strings } from '@angular-devkit/core';
-import type { ProjectDefinition } from '@angular-devkit/core/src/workspace/definitions';
+import {
+  Path,
+  dirname,
+  normalize,
+  strings,
+  workspaces,
+} from '@angular-devkit/core';
 import {
   MergeStrategy,
   Rule,
@@ -34,7 +39,10 @@ function parseLocaleIdFromFileName(fileName: string): string {
     .replace('_', '-');
 }
 
-function getLibrarySourceRoot(tree: Tree, project: ProjectDefinition): Path {
+function getLibrarySourceRoot(
+  tree: Tree,
+  project: workspaces.ProjectDefinition,
+): Path {
   const ngPackageJson = JSON.parse(
     readRequiredFile(tree, normalize(`${project.root}/ng-package.json`)),
   );
@@ -44,7 +52,10 @@ function getLibrarySourceRoot(tree: Tree, project: ProjectDefinition): Path {
   return dirname(entryPath);
 }
 
-function getResources(tree: Tree, project: ProjectDefinition): string {
+function getResources(
+  tree: Tree,
+  project: workspaces.ProjectDefinition,
+): string {
   let resourcesVar = 'const RESOURCES: Record<string, SkyLibResources> = {';
 
   const sourceRoot = getLibrarySourceRoot(tree, project);
@@ -72,7 +83,7 @@ function getResources(tree: Tree, project: ProjectDefinition): string {
 /**
  * Adds `@skyux/i18n` to the project's package.json `peerDependencies`.
  */
-function addI18nPeerDependency(project: ProjectDefinition): Rule {
+function addI18nPeerDependency(project: workspaces.ProjectDefinition): Rule {
   return (tree) => {
     const packageJsonPath = normalize(`${project.root}/package.json`);
     const packageJsonContent = readRequiredFile(tree, packageJsonPath);
@@ -90,7 +101,9 @@ function addI18nPeerDependency(project: ProjectDefinition): Rule {
   };
 }
 
-function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
+function ensureDefaultResourcesFileExists(
+  project: workspaces.ProjectDefinition,
+): Rule {
   return (tree) => {
     const sourceRoot = getLibrarySourceRoot(tree, project);
     const defaultResourcePath = normalize(
@@ -120,7 +133,7 @@ function ensureDefaultResourcesFileExists(project: ProjectDefinition): Rule {
 }
 
 function generateTemplateFiles(
-  project: ProjectDefinition,
+  project: workspaces.ProjectDefinition,
   projectName: string,
   options: Schema,
 ): Rule {

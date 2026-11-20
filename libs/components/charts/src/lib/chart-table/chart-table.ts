@@ -28,7 +28,7 @@ export interface SkyChartTableSeries {
   /**
    * Whether the series' values are shown in bold.
    */
-  highlighted?: boolean;
+  emphasized?: boolean;
 
   /**
    * The series label, shown as a column header.

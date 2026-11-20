@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [15.14.2](https://github.com/blackbaud/skyux/compare/15.14.1...15.14.2) (2026-11-20)
+
+### Bug Fixes
+
+* **components/charts:** stop clipping line chart points at the edge of the plot ([#4982](https://github.com/blackbaud/skyux/issues/4982)) ([b08b756](https://github.com/blackbaud/skyux/commit/b08b756b538aef4161323fce11fc912446adedfa))
+* import `@angular-devkit` APIs from public entry points so schematics run on Angular 22.3 ([#4985](https://github.com/blackbaud/skyux/issues/4985)) ([642242d](https://github.com/blackbaud/skyux/commit/642242d851e2cfe2e232553307524f20c77c80e8))
+
 ## [15.14.1](https://github.com/blackbaud/skyux/compare/15.14.0...15.14.1) (2026-11-18)
 
 ### Bug Fixes

@@ -38,8 +38,8 @@ export { ChartsChartBarValueFormatExample } from './lib/modules/charts/chart-bar
 export { ChartsChartLineAsyncExample } from './lib/modules/charts/chart-line/async/example';
 export { ChartsChartLineBasicExample } from './lib/modules/charts/chart-line/basic/example';
 export { ChartsChartLineDataPointClickExample } from './lib/modules/charts/chart-line/data-point-click/example';
+export { ChartsChartLineEmphasizedExample } from './lib/modules/charts/chart-line/emphasized/example';
 export { ChartsChartLineGapsExample } from './lib/modules/charts/chart-line/gaps/example';
-export { ChartsChartLineHighlightedExample } from './lib/modules/charts/chart-line/highlighted/example';
 export { ChartsChartLineMultipleSeriesExample } from './lib/modules/charts/chart-line/multiple-series/example';
 export { ChartsChartLineTimeScaleExample } from './lib/modules/charts/chart-line/time-scale/example';
 export { ChartsChartLineValueFormatExample } from './lib/modules/charts/chart-line/value-format/example';

@@ -36,7 +36,7 @@
             <sky-chart-axis-value labelText="Score" [max]="100" [min]="0" />
             @for (item of series(); track item.labelText; let first = $first) {
               <sky-chart-line-series
-                [highlighted]="first"
+                [emphasized]="first"
                 [labelText]="item.labelText"
                 [values]="item.values"
               />

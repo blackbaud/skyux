@@ -18,8 +18,11 @@ export class SkyChartTableModalHarness extends ComponentHarness {
   readonly #getColumnHeaders = this.locatorForAll(
     '.sky-chart-data-table thead th',
   );
-  readonly #getHighlightedSeriesHeaders = this.locatorForAll(
-    '.sky-chart-data-table thead th.sky-chart-data-table-highlighted-series',
+  readonly #getEmphasizedSeriesLabels = this.locatorForAll(
+    '.sky-chart-data-table thead th.sky-chart-data-table-emphasized-series .sky-chart-data-table-series-label',
+  );
+  readonly #getSeriesLabels = this.locatorForAll(
+    '.sky-chart-data-table thead th .sky-chart-data-table-series-label',
   );
   readonly #getRowHeaders = this.locatorForAll(
     '.sky-chart-data-table tbody th',
@@ -51,30 +54,22 @@ export class SkyChartTableModalHarness extends ComponentHarness {
   }
 
   /**
-   * Gets the labels of the highlighted line series, whose values are shown in
-   * bold. Only line chart series can be highlighted.
+   * Gets the labels of the emphasized line series, whose values are shown in
+   * bold. Only line chart series can be emphasized.
    */
-  public async getHighlightedSeriesLabels(): Promise<string[]> {
-    const headers = await this.#getHighlightedSeriesHeaders();
+  public async getEmphasizedSeriesLabels(): Promise<string[]> {
+    const labels = await this.#getEmphasizedSeriesLabels();
 
-    return await Promise.all(
-      headers.map((header) =>
-        header.text({ exclude: '.sky-screen-reader-only' }),
-      ),
-    );
+    return await Promise.all(labels.map((label) => label.text()));
   }
 
   /**
    * Gets the series labels, shown as the table's column headers.
    */
   public async getSeriesLabels(): Promise<string[]> {
-    const [, ...seriesHeaders] = await this.#getColumnHeaders();
+    const labels = await this.#getSeriesLabels();
 
-    return await Promise.all(
-      seriesHeaders.map((header) =>
-        header.text({ exclude: '.sky-screen-reader-only' }),
-      ),
-    );
+    return await Promise.all(labels.map((label) => label.text()));
   }
 
   /**

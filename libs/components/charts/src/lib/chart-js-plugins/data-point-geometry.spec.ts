@@ -169,18 +169,18 @@ describe('Data point geometry', () => {
       ]);
     });
 
-    it('should mark the series the data table highlights', () => {
+    it('should mark the series the data table emphasizes', () => {
       const [first, second] = measureDataPoints(
         createChart(),
         {
           ...TABLE,
-          series: [{ ...TABLE.series[0], highlighted: true }, TABLE.series[1]],
+          series: [{ ...TABLE.series[0], emphasized: true }, TABLE.series[1]],
         },
         false,
       );
 
-      expect(first.highlighted).toBe(true);
-      expect(second.highlighted).toBeUndefined();
+      expect(first.emphasized).toBe(true);
+      expect(second.emphasized).toBeUndefined();
     });
 
     it('should name each data point from the data table, like Highcharts', () => {

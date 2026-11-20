@@ -1,6 +1,5 @@
 import { normalize } from '@angular-devkit/core';
-import { Tree } from '@angular-devkit/schematics';
-import { FileVisitor } from '@angular-devkit/schematics/src/tree/interface';
+import { FileVisitor, Tree } from '@angular-devkit/schematics';
 
 const rootIgnore = ['dist', 'coverage'];
 const alwaysIgnore = ['node_modules', '__skyux'];

@@ -41,16 +41,16 @@
     "_0": "The number of series",
     "_1": "The number of categories"
   },
-  "skyux_charts.chart.line.highlighted_series_summary_plural": {
-    "_description": "The accessible description of one highlighted series in a line chart with multiple series, when the series has zero or several values",
+  "skyux_charts.chart.line.emphasized_series_summary_plural": {
+    "_description": "The accessible description of one emphasized (highlighted) series in a line chart with multiple series, when the series has zero or several values",
     "message": "{0}, line {1} of {2}, highlighted, with {3} data points.",
     "_0": "The series label",
     "_1": "The series number",
     "_2": "The number of series",
     "_3": "The number of values in the series"
   },
-  "skyux_charts.chart.line.highlighted_series_summary_singular": {
-    "_description": "The accessible description of one highlighted series in a line chart with multiple series, when the series has one value",
+  "skyux_charts.chart.line.emphasized_series_summary_singular": {
+    "_description": "The accessible description of one emphasized (highlighted) series in a line chart with multiple series, when the series has one value",
     "message": "{0}, line {1} of {2}, highlighted, with {3} data point.",
     "_0": "The series label",
     "_1": "The series number",
@@ -77,9 +77,10 @@
     "_description": "The label for the close button",
     "message": "Close"
   },
-  "skyux_charts.data_table_modal.highlighted_series": {
-    "_description": "Text read by screen readers after the column header of a highlighted series in a chart's data table",
-    "message": ", highlighted"
+  "skyux_charts.data_table_modal.emphasized_series_label": {
+    "_description": "The column header that screen readers read for an emphasized (highlighted) series in a chart's data table",
+    "message": "{0}, highlighted",
+    "_0": "The series label"
   },
   "skyux_charts.data_table_modal.table_region_label": {
     "_description": "The accessible name for the scrollable region containing the chart's data table",
