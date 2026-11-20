@@ -122,6 +122,31 @@ describe('Code block component', () => {
       fixture.nativeElement.querySelector('.sky-code-block-file-name'),
     ).toHaveText('app.ts');
     expect(getLanguageName()).toHaveText('TypeScript');
+    expect(
+      fixture.nativeElement.querySelector('.sky-code-block-title').textContent,
+    ).toBe('app.ts - TypeScript');
+  });
+
+  it('should show the file name alone when there is no language name', async () => {
+    await render({ code: 'a', fileName: 'app.ts' });
+
+    expect(
+      fixture.nativeElement.querySelector('.sky-code-block-title').textContent,
+    ).toBe('app.ts');
+  });
+
+  it('should show an icon-only copy button labeled Copy', async () => {
+    await render({ code: 'a' });
+
+    const button: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.sky-code-block-copy-button button',
+    );
+
+    const labelId = button.getAttribute('aria-labelledby') ?? '';
+
+    expect(button).toHaveCssClass('sky-btn-icon-borderless');
+    expect(button.querySelector('sky-icon')).toExist();
+    expect(document.getElementById(labelId)).toHaveText('Copy');
   });
 
   it('should not show a language name for unknown or unset languageType', async () => {
@@ -234,18 +259,6 @@ describe('Code block component', () => {
         });
 
         await expectAsync(fixture.nativeElement).toBeAccessible();
-      });
-
-      it('should emphasize the file name', async () => {
-        await render({ code: 'a', fileName: 'message.ts' });
-
-        const fileName = fixture.nativeElement.querySelector(
-          '.sky-code-block-file-name',
-        );
-
-        expect(Number(getComputedStyle(fileName).fontWeight)).toBeGreaterThan(
-          400,
-        );
       });
     });
   });

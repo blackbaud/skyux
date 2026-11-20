@@ -48,11 +48,7 @@ function normalizeCode(code: string): string {
 @Component({
   selector: 'sky-code-block',
   templateUrl: './code-block.html',
-  styleUrls: [
-    './code-block.scss',
-    './themes/vscode-modern-light.scss',
-    './themes/vscode-modern-dark.scss',
-  ],
+  styleUrls: ['./code-block.scss', './themes/syntax.scss'],
   // The highlighted code is inserted with innerHTML, so its elements never get
   // Angular's emulated-encapsulation attribute. Styles are scoped by the
   // `sky-code-block` class instead.

@@ -1,23 +1,24 @@
 @if (showHeader()) {
   <div class="sky-code-block-header">
-    <div>
+    <span class="sky-code-block-title">
       @if (fileName()) {
-        <span class="sky-code-block-file-name sky-font-emphasized">{{
-          fileName()
-        }}</span>
+        <span class="sky-code-block-file-name">{{ fileName() }}</span>
+      }
+      @if (fileName() && languageName()) {
+        -
       }
       @if (languageName()) {
-        <span class="sky-code-block-language sky-deemphasized">{{
-          languageName()
-        }}</span>
+        <span class="sky-code-block-language">{{ languageName() }}</span>
       }
-    </div>
+    </span>
     @if (!hideCopyToClipboard()) {
       <sky-button
+        buttonStyle="icon-borderless"
         class="sky-code-block-copy-button"
         iconName="copy"
+        labelHidden
         [labelText]="'skyux_code_block_copy_button' | skyLibResources"
-        (click)="copyCode()"
+        (buttonClick)="copyCode()"
       />
     }
   </div>
