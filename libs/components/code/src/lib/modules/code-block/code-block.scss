@@ -17,8 +17,6 @@
   --sky-override-code-block-header-padding: 5px 5px 5px 20px;
   --sky-override-code-block-language-color: #{$sky-text-color-deemphasized};
   --sky-override-code-block-language-font-style: italic;
-  --sky-override-code-block-language-gap: 0.25em;
-  --sky-override-code-block-separator-display: none;
   --sky-override-code-block-text-color: #{$sky-text-color-default};
   --sky-override-code-block-title-color: #{$sky-text-color-default};
 }
@@ -63,8 +61,8 @@ $border: var(
 
   // Modern shows "fileName - languageType" in body text with the deemphasized
   // color, without the deemphasized italics. The default theme keeps Stache's
-  // header: the file name in the default color, then the language
-  // deemphasized, separated by a space.
+  // colors: the file name and dash in the default color, then the language
+  // deemphasized.
   .sky-code-block-title {
     color: var(
       --sky-override-code-block-title-color,
@@ -76,7 +74,6 @@ $border: var(
   }
 
   .sky-code-block-separator {
-    display: var(--sky-override-code-block-separator-display, inline);
     white-space: pre;
   }
 
@@ -86,10 +83,6 @@ $border: var(
       var(--sky-color-text-deemphasized)
     );
     font-style: var(--sky-override-code-block-language-font-style, normal);
-  }
-
-  .sky-code-block-separator + .sky-code-block-language {
-    margin-inline-start: var(--sky-override-code-block-language-gap, 0);
   }
 
   .sky-code-block-input {

@@ -145,11 +145,13 @@ describe('Code block component', () => {
     const fileNameStyle = getComputedStyle(
       fixture.nativeElement.querySelector('.sky-code-block-file-name'),
     );
+    const separatorStyle = getComputedStyle(getSeparator() as HTMLElement);
     const languageStyle = getComputedStyle(getLanguageName() as HTMLElement);
 
-    expect(getComputedStyle(getSeparator() as HTMLElement).display).toBe(
-      'none',
-    );
+    // The dash is styled like the file name.
+    expect(separatorStyle.display).toBe('inline');
+    expect(separatorStyle.color).toBe(fileNameStyle.color);
+    expect(separatorStyle.fontStyle).toBe(fileNameStyle.fontStyle);
     expect(languageStyle.fontStyle).toBe('italic');
     expect(languageStyle.color).not.toBe(fileNameStyle.color);
   });
