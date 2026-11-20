@@ -1,4 +1,4 @@
-import { stripIndent } from '@angular-devkit/core/src/utils/literals';
+import { tags } from '@angular-devkit/core';
 import utils from '@percy/sdk-utils';
 
 import { readFileSync } from 'fs';
@@ -123,7 +123,7 @@ describe('SendCypressScreenshotsToPercy', () => {
     expect(utils.postSnapshot).toHaveBeenCalledWith(
       {
         clientInfo: 'undefined/1.0.0',
-        domSnapshot: stripIndent`
+        domSnapshot: tags.stripIndent`
         <!doctype html>
         <html lang="en">
           <head>

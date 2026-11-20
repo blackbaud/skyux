@@ -1,4 +1,4 @@
-import { stripIndents } from '@angular-devkit/core/src/utils/literals';
+import { tags } from '@angular-devkit/core';
 import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 
 import { firstValueFrom } from 'rxjs';
@@ -6,6 +6,8 @@ import { firstValueFrom } from 'rxjs';
 import { createTestApp } from '../../testing/scaffold';
 
 import { convertDefinitionListToDescriptionList } from './convert-definition-list-to-description-list';
+
+const { stripIndents } = tags;
 
 describe('Convert Definition List to Description List', () => {
   const runner = new SchematicTestRunner(

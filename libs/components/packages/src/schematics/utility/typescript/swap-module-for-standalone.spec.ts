@@ -1,13 +1,12 @@
-import {
-  stripIndent,
-  stripIndents,
-} from '@angular-devkit/core/src/utils/literals';
+import { tags } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 
 import {
   importExportedStandalone,
   swapModuleForStandalone,
 } from './swap-module-for-standalone';
+
+const { stripIndent, stripIndents } = tags;
 
 describe('swap-module-for-standalone', () => {
   const FILE_PATH = 'foo.ts';

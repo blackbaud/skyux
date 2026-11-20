@@ -1,13 +1,12 @@
-import {
-  stripIndent,
-  stripIndents,
-} from '@angular-devkit/core/src/utils/literals';
+import { tags } from '@angular-devkit/core';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 
 import { createTestApp } from '../../testing/scaffold';
+
+const { stripIndent, stripIndents } = tags;
 
 describe('Convert Stache blockquote to blockquote', () => {
   const runner = new SchematicTestRunner(

@@ -1,4 +1,4 @@
-import { stripIndents } from '@angular-devkit/core/src/utils/literals';
+import { tags } from '@angular-devkit/core';
 import { HostTree } from '@angular-devkit/schematics';
 import { getDecoratorMetadata } from '@schematics/angular/utility/ast-utils';
 import { Change, InsertChange } from '@schematics/angular/utility/change';
@@ -11,6 +11,8 @@ import {
   isSymbolInClassMetadataFieldArray,
   parseSourceFile,
 } from './ng-ast';
+
+const { stripIndents } = tags;
 
 function getTsSource(path: string, content: string): ts.SourceFile {
   return ts.createSourceFile(path, content, ts.ScriptTarget.Latest, true);
