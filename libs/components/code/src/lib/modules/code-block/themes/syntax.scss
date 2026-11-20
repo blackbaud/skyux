@@ -32,8 +32,7 @@
   .hljs-meta,
   .hljs-title.class_,
   .hljs-built_in,
-  .hljs-params,
-  .hljs-bullet {
+  .hljs-params {
     color: var(
       --sky-override-code-block-type-meta-color,
       var(--sky-color-text-code-type_meta)
@@ -58,8 +57,7 @@
     );
   }
 
-  .hljs-comment,
-  .hljs-quote {
+  .hljs-comment {
     color: var(
       --sky-override-code-block-comment-color,
       var(--sky-color-text-code-comment)
