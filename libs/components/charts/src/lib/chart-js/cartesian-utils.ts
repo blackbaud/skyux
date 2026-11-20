@@ -98,6 +98,7 @@ export type SkyChartCartesianValue = number | readonly [number, number] | null;
  * plotted against the category axis.
  */
 export interface SkyChartCartesianSeries {
+  emphasized?: Signal<boolean>;
   labelText: Signal<string>;
   values: Signal<readonly SkyChartCartesianValue[]>;
 }
@@ -150,6 +151,7 @@ export function buildCartesianTable(
     categories: categoryAxis.categories(),
     series: series.map((chartSeries) => ({
       label: chartSeries.labelText(),
+      ...(chartSeries.emphasized?.() && { emphasized: true }),
       values: chartSeries
         .values()
         .map((value) => formatCartesianValue(value, formatValue)),

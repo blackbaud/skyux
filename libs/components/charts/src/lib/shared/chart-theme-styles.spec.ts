@@ -132,6 +132,16 @@ describe('resolveChartThemeStyles', () => {
     expect(themeStyles.series.categoricalPalette[7]).toBe('#last');
   });
 
+  it('should resolve the base and emphasized line widths', () => {
+    const themeStyles = resolve({
+      '--sky-size-viz-data_line-base': '2px',
+      '--sky-size-viz-data_line-emphasized': '5px',
+    });
+
+    expect(themeStyles.line.width).toBe(2);
+    expect(themeStyles.line.emphasizedWidth).toBe(5);
+  });
+
   it('should prefer the default-theme override over the theme token', () => {
     const themeStyles = resolve({
       '--sky-override-chart-color-text-default': '#override',

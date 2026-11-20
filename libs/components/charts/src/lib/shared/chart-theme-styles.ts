@@ -55,6 +55,10 @@ export interface SkyChartThemeStyles {
   series: {
     categoricalPalette: string[];
   };
+  line: {
+    width: number;
+    emphasizedWidth: number;
+  };
   /**
    * The styling of the tooltip container and its contents.
    */
@@ -262,6 +266,20 @@ export function resolveChartThemeStyles(
           styles,
           probe,
           '--sky-space-stacked-0',
+          rootFontSize,
+        ),
+      },
+      line: {
+        width: readNumber(
+          styles,
+          probe,
+          '--sky-size-viz-data_line-base',
+          rootFontSize,
+        ),
+        emphasizedWidth: readNumber(
+          styles,
+          probe,
+          '--sky-size-viz-data_line-emphasized',
           rootFontSize,
         ),
       },

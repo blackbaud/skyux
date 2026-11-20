@@ -82,6 +82,51 @@ describe('Chart data table modal', () => {
     instance.close();
   });
 
+  it('should show the values of an emphasized series in bold', async () => {
+    const { instance } = await openModal('My chart', {
+      ...TEST_TABLE,
+      series: [
+        { label: 'Actual', emphasized: true, values: ['$10.00', '$20.00'] },
+        { label: 'Target', values: ['$12.00', '$18.00'] },
+      ],
+    });
+
+    const cells = document.querySelectorAll(
+      '.sky-chart-data-table tbody tr:first-child td',
+    );
+
+    expect(cells[0].querySelector('strong')?.textContent).toBe('$10.00');
+    expect(cells[1].querySelector('strong')).toBeNull();
+
+    instance.close();
+  });
+
+  it('should tell screen readers which series is highlighted', async () => {
+    const { instance } = await openModal('My chart', {
+      ...TEST_TABLE,
+      series: [
+        { label: 'Actual', emphasized: true, values: ['$10.00', '$20.00'] },
+        { label: 'Target', values: ['$12.00', '$18.00'] },
+      ],
+    });
+
+    const [, actual, target] = Array.from(
+      document.querySelectorAll('.sky-chart-data-table thead th'),
+    );
+
+    expect(actual.querySelector('.sky-screen-reader-only')?.textContent).toBe(
+      'Actual, highlighted',
+    );
+    expect(
+      actual
+        .querySelector('.sky-chart-data-table-series-label')
+        ?.getAttribute('aria-hidden'),
+    ).toBe('true');
+    expect(target.querySelector('.sky-screen-reader-only')).toBeNull();
+
+    instance.close();
+  });
+
   it('should render the table in a focusable, horizontally scrollable region', async () => {
     const { instance } = await openModal('My chart', TEST_TABLE);
 

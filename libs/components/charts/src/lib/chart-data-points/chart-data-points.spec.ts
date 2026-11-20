@@ -220,6 +220,22 @@ describe('Chart data points component', () => {
       );
     });
 
+    it('should describe an emphasized line series as highlighted', async () => {
+      component.chartType.set('line');
+      component.series.set([
+        { ...TWO_SERIES[0], emphasized: true },
+        { ...TWO_SERIES[1], emphasized: true, valueCount: 1 },
+      ]);
+      await render();
+
+      expect(
+        getSeriesRegions().map((region) => region.getAttribute('aria-label')),
+      ).toEqual([
+        'First, line 1 of 2, highlighted, with 3 data points.',
+        'Second, line 2 of 2, highlighted, with 1 data point.',
+      ]);
+    });
+
     it('should not describe the series of a single-series chart', async () => {
       component.series.set([{ ...TWO_SERIES[0], seriesCount: 1 }]);
       await render();

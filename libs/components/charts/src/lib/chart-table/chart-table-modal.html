@@ -17,8 +17,27 @@
                 {{ table.categoryLabel }}
               </th>
               @for (series of table.series; track $index) {
-                <th scope="col">
-                  {{ series.label }}
+                <th
+                  scope="col"
+                  [class.sky-chart-data-table-emphasized-series]="
+                    series.emphasized
+                  "
+                >
+                  @if (series.emphasized) {
+                    <span
+                      class="sky-chart-data-table-series-label"
+                      aria-hidden="true"
+                      >{{ series.label }}</span
+                    >
+                    <span class="sky-screen-reader-only">{{
+                      'skyux_charts.data_table_modal.emphasized_series_label'
+                        | skyLibResources: series.label
+                    }}</span>
+                  } @else {
+                    <span class="sky-chart-data-table-series-label">{{
+                      series.label
+                    }}</span>
+                  }
                 </th>
               }
             </tr>
@@ -35,7 +54,11 @@
                 </th>
                 @for (series of table.series; track $index) {
                   <td>
-                    {{ series.values[rowIndex] }}
+                    @if (series.emphasized) {
+                      <strong>{{ series.values[rowIndex] }}</strong>
+                    } @else {
+                      {{ series.values[rowIndex] }}
+                    }
                   </td>
                 }
               </tr>

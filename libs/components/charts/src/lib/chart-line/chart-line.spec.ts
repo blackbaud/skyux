@@ -59,6 +59,7 @@ type ScaleProbe = {
         }
         @if (renderSeries()) {
           <sky-chart-line-series
+            [emphasized]="emphasized()"
             [labelText]="seriesLabel()"
             [values]="values()"
           />
@@ -76,6 +77,7 @@ class TestComponent {
 
   public categories = input<(string | number)[]>(['2023', '2024']);
   public currencyCode = input<string | undefined>(undefined);
+  public emphasized = input(false);
   public format = input<SkyChartValueFormat>('number');
   public renderCategoryAxis = input(true);
   public renderSeries = input(true);
@@ -393,6 +395,31 @@ describe('Chart line component', () => {
     expect(requireChart().data.datasets[0].hidden).toBe(false);
     expect(requireChart().data.datasets[1].hidden).toBe(true);
     expect(getLegendButtons()[1].getAttribute('aria-pressed')).toBe('false');
+  });
+
+  it('should widen only the emphasized series to the emphasized line width', () => {
+    fixture.componentRef.setInput('renderSecondSeries', true);
+    fixture.componentRef.setInput('emphasized', true);
+    fixture.detectChanges();
+
+    const [emphasized, other] = requireChart().data.datasets;
+
+    expect(requireChart().options.elements?.line?.borderWidth).toBe(2);
+    expect(emphasized.borderWidth).toBe(5);
+    expect(emphasized.pointBorderWidth).toBe(5);
+    expect(other.borderWidth).toBeUndefined();
+    expect(other.pointBorderWidth).toBeUndefined();
+  });
+
+  it('should emphasize only the emphasized series in the data table', () => {
+    fixture.componentRef.setInput('renderSecondSeries', true);
+    fixture.componentRef.setInput('emphasized', true);
+    fixture.detectChanges();
+
+    const [emphasized, other] = tableSvc().table()?.series ?? [];
+
+    expect(emphasized.emphasized).toBe(true);
+    expect(other.emphasized).toBeUndefined();
   });
 
   it('should format axis ticks using the value axis format', () => {
