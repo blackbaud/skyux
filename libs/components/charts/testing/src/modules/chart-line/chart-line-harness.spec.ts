@@ -48,7 +48,7 @@ import { SkyChartLineHarness } from './chart-line-harness';
         <sky-chart-line-series labelText="2025" [values]="[5, 15]" />
         <sky-chart-line-series
           labelText="2026"
-          [highlighted]="true"
+          [emphasized]="true"
           [values]="[10, 20]"
         />
       </sky-chart-line>
@@ -164,7 +164,7 @@ describe('Chart line harness', () => {
     ).toBeRejected();
   });
 
-  it('should get the series labels and highlighted series labels of a data table', async () => {
+  it('should get the series labels and emphasized series labels of a data table', async () => {
     TestBed.configureTestingModule({
       providers: [provideNoopSkyAnimations()],
     });
@@ -180,7 +180,7 @@ describe('Chart line harness', () => {
       '2025',
       '2026',
     ]);
-    await expectAsync(dataTable.getHighlightedSeriesLabels()).toBeResolvedTo([
+    await expectAsync(dataTable.getEmphasizedSeriesLabels()).toBeResolvedTo([
       '2026',
     ]);
 

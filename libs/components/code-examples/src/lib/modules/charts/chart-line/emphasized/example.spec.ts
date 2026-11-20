@@ -3,18 +3,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SkyChartHarness, SkyChartLineHarness } from '@skyux/charts/testing';
 import { provideNoopSkyAnimations } from '@skyux/core';
 
-import { ChartsChartLineHighlightedExample } from './example';
+import { ChartsChartLineEmphasizedExample } from './example';
 
-describe('Line chart with a highlighted series example', () => {
+describe('Line chart with an emphasized series example', () => {
   async function setupTest(): Promise<{
-    fixture: ComponentFixture<ChartsChartLineHighlightedExample>;
+    fixture: ComponentFixture<ChartsChartLineEmphasizedExample>;
     harness: SkyChartHarness;
   }> {
     TestBed.configureTestingModule({
       providers: [provideNoopSkyAnimations()],
     });
 
-    const fixture = TestBed.createComponent(ChartsChartLineHighlightedExample);
+    const fixture = TestBed.createComponent(ChartsChartLineEmphasizedExample);
     const loader = TestbedHarnessEnvironment.loader(fixture);
     const harness = await loader.getHarness(
       SkyChartHarness.with({ dataSkyId: 'donations-by-fund' }),
@@ -49,7 +49,7 @@ describe('Line chart with a highlighted series example', () => {
       'Capital campaign',
       'Scholarships',
     ]);
-    await expectAsync(dataTable.getHighlightedSeriesLabels()).toBeResolvedTo([
+    await expectAsync(dataTable.getEmphasizedSeriesLabels()).toBeResolvedTo([
       'Annual fund',
     ]);
 

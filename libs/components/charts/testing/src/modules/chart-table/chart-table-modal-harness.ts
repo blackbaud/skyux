@@ -18,8 +18,8 @@ export class SkyChartTableModalHarness extends ComponentHarness {
   readonly #getColumnHeaders = this.locatorForAll(
     '.sky-chart-data-table thead th',
   );
-  readonly #getHighlightedSeriesHeaders = this.locatorForAll(
-    '.sky-chart-data-table thead th.sky-chart-data-table-highlighted-series',
+  readonly #getEmphasizedSeriesHeaders = this.locatorForAll(
+    '.sky-chart-data-table thead th.sky-chart-data-table-emphasized-series',
   );
   readonly #getRowHeaders = this.locatorForAll(
     '.sky-chart-data-table tbody th',
@@ -51,11 +51,11 @@ export class SkyChartTableModalHarness extends ComponentHarness {
   }
 
   /**
-   * Gets the labels of the highlighted line series, whose values are shown in
-   * bold. Only line chart series can be highlighted.
+   * Gets the labels of the emphasized line series, whose values are shown in
+   * bold. Only line chart series can be emphasized.
    */
-  public async getHighlightedSeriesLabels(): Promise<string[]> {
-    const headers = await this.#getHighlightedSeriesHeaders();
+  public async getEmphasizedSeriesLabels(): Promise<string[]> {
+    const headers = await this.#getEmphasizedSeriesHeaders();
 
     return await Promise.all(
       headers.map((header) =>

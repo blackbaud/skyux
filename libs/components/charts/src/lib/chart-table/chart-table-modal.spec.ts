@@ -82,11 +82,11 @@ describe('Chart data table modal', () => {
     instance.close();
   });
 
-  it('should show the values of a highlighted series in bold', async () => {
+  it('should show the values of an emphasized series in bold', async () => {
     const { instance } = await openModal('My chart', {
       ...TEST_TABLE,
       series: [
-        { label: 'Actual', highlighted: true, values: ['$10.00', '$20.00'] },
+        { label: 'Actual', emphasized: true, values: ['$10.00', '$20.00'] },
         { label: 'Target', values: ['$12.00', '$18.00'] },
       ],
     });
@@ -105,7 +105,7 @@ describe('Chart data table modal', () => {
     const { instance } = await openModal('My chart', {
       ...TEST_TABLE,
       series: [
-        { label: 'Actual', highlighted: true, values: ['$10.00', '$20.00'] },
+        { label: 'Actual', emphasized: true, values: ['$10.00', '$20.00'] },
         { label: 'Target', values: ['$12.00', '$18.00'] },
       ],
     });

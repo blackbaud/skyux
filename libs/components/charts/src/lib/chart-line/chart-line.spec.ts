@@ -59,7 +59,7 @@ type ScaleProbe = {
         }
         @if (renderSeries()) {
           <sky-chart-line-series
-            [highlighted]="highlighted()"
+            [emphasized]="emphasized()"
             [labelText]="seriesLabel()"
             [values]="values()"
           />
@@ -77,7 +77,7 @@ class TestComponent {
 
   public categories = input<(string | number)[]>(['2023', '2024']);
   public currencyCode = input<string | undefined>(undefined);
-  public highlighted = input(false);
+  public emphasized = input(false);
   public format = input<SkyChartValueFormat>('number');
   public renderCategoryAxis = input(true);
   public renderSeries = input(true);
@@ -397,29 +397,29 @@ describe('Chart line component', () => {
     expect(getLegendButtons()[1].getAttribute('aria-pressed')).toBe('false');
   });
 
-  it('should widen only the highlighted series to the highlighted line width', () => {
+  it('should widen only the emphasized series to the emphasized line width', () => {
     fixture.componentRef.setInput('renderSecondSeries', true);
-    fixture.componentRef.setInput('highlighted', true);
+    fixture.componentRef.setInput('emphasized', true);
     fixture.detectChanges();
 
-    const [highlighted, other] = requireChart().data.datasets;
+    const [emphasized, other] = requireChart().data.datasets;
 
     expect(requireChart().options.elements?.line?.borderWidth).toBe(2);
-    expect(highlighted.borderWidth).toBe(5);
-    expect(highlighted.pointBorderWidth).toBe(5);
+    expect(emphasized.borderWidth).toBe(5);
+    expect(emphasized.pointBorderWidth).toBe(5);
     expect(other.borderWidth).toBeUndefined();
     expect(other.pointBorderWidth).toBeUndefined();
   });
 
-  it('should highlight only the highlighted series in the data table', () => {
+  it('should emphasize only the emphasized series in the data table', () => {
     fixture.componentRef.setInput('renderSecondSeries', true);
-    fixture.componentRef.setInput('highlighted', true);
+    fixture.componentRef.setInput('emphasized', true);
     fixture.detectChanges();
 
-    const [highlighted, other] = tableSvc().table()?.series ?? [];
+    const [emphasized, other] = tableSvc().table()?.series ?? [];
 
-    expect(highlighted.highlighted).toBe(true);
-    expect(other.highlighted).toBeUndefined();
+    expect(emphasized.emphasized).toBe(true);
+    expect(other.emphasized).toBeUndefined();
   });
 
   it('should format axis ticks using the value axis format', () => {

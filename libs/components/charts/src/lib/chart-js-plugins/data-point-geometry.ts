@@ -127,7 +127,7 @@ export function measureDataPoints(
     series.push({
       datasetIndex,
       labelText: seriesLabelText,
-      ...(tableSeries?.highlighted && { highlighted: true }),
+      ...(tableSeries?.emphasized && { emphasized: true }),
       seriesCount,
       valueCount: dataset.data.length,
       dataPoints,

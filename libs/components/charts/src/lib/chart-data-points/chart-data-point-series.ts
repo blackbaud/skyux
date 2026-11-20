@@ -8,7 +8,7 @@ import { type SkyChartDataPoint } from './chart-data-point';
 export interface SkyChartDataPointSeries {
   datasetIndex: number;
   dataPoints: SkyChartDataPoint[];
-  highlighted?: boolean;
+  emphasized?: boolean;
   labelText: string;
   seriesCount: number;
   valueCount: number;
