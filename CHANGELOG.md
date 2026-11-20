@@ -1,6 +1,12 @@
 # Changelog
 
 
+## [15.15.0](https://github.com/blackbaud/skyux/compare/15.14.2...15.15.0) (2026-11-20)
+
+### Features
+
+* **components/charts:** add an emphasized input to line chart series ([#4983](https://github.com/blackbaud/skyux/issues/4983)) ([4fa9835](https://github.com/blackbaud/skyux/commit/4fa9835b86b2f0f1872daeda2ac1548a0edd89bf))
+
 ## [15.14.2](https://github.com/blackbaud/skyux/compare/15.14.1...15.14.2) (2026-11-20)
 
 ### Bug Fixes
