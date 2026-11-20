@@ -1,6 +1,7 @@
 import { Component, computed, contentChildren, input } from '@angular/core';
 import { type ChartDataset } from 'chart.js';
 
+import { type SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import {
   buildCartesianScales,
   buildValueTooltipLabel,
@@ -64,6 +65,16 @@ export class SkyChartBar extends SkyChartCartesianPlot<
    */
   protected readonly chartHeight = computed(() => this.#getChartHeight());
 
+  protected override getCategoryAxisError(
+    categoryAxis: SkyChartAxisCategory,
+  ): string | undefined {
+    return categoryAxis.scaleType() === 'time'
+      ? 'The <sky-chart-bar> does not support a "time" scale on its ' +
+          '<sky-chart-axis-category>. Use <sky-chart-line> to plot values ' +
+          'over time.'
+      : super.getCategoryAxisError(categoryAxis);
+  }
+
   #getChartJsConfig(): SkyChartJsConfig<'bar'> | undefined {
     const data = this.getCartesianData();
 
@@ -72,14 +83,6 @@ export class SkyChartBar extends SkyChartCartesianPlot<
     }
 
     const { categoryAxis, valueAxis, series } = data;
-
-    if (categoryAxis.scaleType() === 'time') {
-      throw new Error(
-        'The <sky-chart-bar> does not support a "time" scale on its ' +
-          '<sky-chart-axis-category>. Use <sky-chart-line> to plot values ' +
-          'over time.',
-      );
-    }
 
     const themeStyles = this.themeStyles();
     const categorical = themeStyles.series.categoricalPalette;
@@ -156,7 +159,7 @@ export class SkyChartBar extends SkyChartCartesianPlot<
       type: 'bar',
       data: {
         // Chart.js mutates the arrays it is given, so copy the readonly input.
-        labels: [...categoryAxis.chartLabels()],
+        labels: [...categoryAxis.categories()],
         datasets,
       },
       options: {

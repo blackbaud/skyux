@@ -50,18 +50,12 @@ describe('parseTimeCategory', () => {
     '2026-01-15T10:30:00+0500',
     '',
   ]) {
-    it(`should throw for the string "${value}"`, () => {
-      expect(() => parseTimeCategory(value)).toThrowError(
-        `The time category "${value}" is not a valid date. Time categories ` +
-          'must be ISO 8601 date or date-time strings, such as ' +
-          '"2026-01-15" or "2026-01-15T10:30:00Z".',
-      );
+    it(`should return NaN for the string "${value}"`, () => {
+      expect(parseTimeCategory(value)).toBeNaN();
     });
   }
 
-  it('should throw for a number', () => {
-    expect(() => parseTimeCategory(2026)).toThrowError(
-      /The time category "2026" is not a valid date/,
-    );
+  it('should return NaN for a number', () => {
+    expect(parseTimeCategory(2026)).toBeNaN();
   });
 });

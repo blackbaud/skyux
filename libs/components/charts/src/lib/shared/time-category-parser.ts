@@ -54,20 +54,10 @@ function parseIsoString(value: string): number {
 }
 
 /**
- * Reads an ISO 8601 time category as a timestamp. A string without an offset
- * is read in local time.
+ * Reads an ISO 8601 time category as a timestamp, or `NaN` when it is not one.
+ * A string without an offset is read in local time.
  * @internal
  */
 export function parseTimeCategory(value: string | number): number {
-  const time = typeof value === 'string' ? parseIsoString(value) : Number.NaN;
-
-  if (Number.isNaN(time)) {
-    throw new Error(
-      `The time category "${String(value)}" is not a valid date. Time ` +
-        'categories must be ISO 8601 date or date-time strings, such as ' +
-        '"2026-01-15" or "2026-01-15T10:30:00Z".',
-    );
-  }
-
-  return time;
+  return typeof value === 'string' ? parseIsoString(value) : Number.NaN;
 }

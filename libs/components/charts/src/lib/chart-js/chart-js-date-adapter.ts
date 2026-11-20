@@ -223,9 +223,13 @@ _adapters._date.override({
       return null;
     }
 
-    return typeof value === 'number'
-      ? value
-      : parseTimeCategory(value as string);
+    if (typeof value === 'number') {
+      return value;
+    }
+
+    const time = parseTimeCategory(value as string);
+
+    return Number.isNaN(time) ? null : time;
   },
   format(time: number, format: string): string {
     const { locale, quarterLabel } = this.options as SkyChartDateAdapterOptions;

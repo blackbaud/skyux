@@ -423,40 +423,71 @@ describe('Chart line component', () => {
       );
     });
 
-    it('should throw when the time scale has no unit', () => {
-      fixture.componentRef.setInput('categories', dates);
-      fixture.componentRef.setInput('values', [10, 20, 30]);
-      fixture.componentRef.setInput('categoryScaleType', 'time');
-
-      expect(() => fixture.detectChanges()).toThrowError(
-        'The <sky-chart-axis-category> must have a "timeUnit" when its ' +
+    const misconfigurations: {
+      description: string;
+      inputs: Record<string, unknown>;
+      error: string | RegExp;
+    }[] = [
+      {
+        description: 'a time unit without a time scale',
+        inputs: { timeUnit: 'month' },
+        error:
+          'The <sky-chart-axis-category> has a "timeUnit", which requires a ' +
+          '"scaleType" of "time".',
+      },
+      {
+        description: 'a time step without a time scale',
+        inputs: { timeStep: 2 },
+        error:
+          'The <sky-chart-axis-category> has a "timeStep", which requires a ' +
+          '"scaleType" of "time".',
+      },
+      {
+        description: 'a time scale without a unit',
+        inputs: { categoryScaleType: 'time' },
+        error:
+          'The <sky-chart-axis-category> must have a "timeUnit" when its ' +
           '"scaleType" is "time".',
-      );
-    });
+      },
+      ...[0, -1, 0.5, 'abc'].map((timeStep) => ({
+        description: `a time step of "${timeStep}"`,
+        inputs: { categoryScaleType: 'time', timeUnit: 'day', timeStep },
+        error:
+          `The <sky-chart-axis-category> has a "timeStep" of "${Number(timeStep)}", ` +
+          'but it must be a positive whole number.',
+      })),
+      {
+        description: 'a category that is not a strict date',
+        inputs: {
+          categories: ['2026-01-01', 'Feb 1 26'],
+          categoryScaleType: 'time',
+          timeUnit: 'month',
+        },
+        error: /The time category "Feb 1 26" is not a valid date/,
+      },
+    ];
 
-    for (const timeStep of [0, -1, 0.5]) {
-      it(`should throw for a time step of ${timeStep}`, () => {
+    for (const { description, inputs, error } of misconfigurations) {
+      it(`should log an error and render nothing for ${description}`, () => {
+        const errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
+
         fixture.componentRef.setInput('categories', dates);
-        fixture.componentRef.setInput('categoryScaleType', 'time');
-        fixture.componentRef.setInput('timeUnit', 'day');
-        fixture.componentRef.setInput('timeStep', timeStep);
+        fixture.componentRef.setInput('values', [10, 20, 30]);
 
-        expect(() => fixture.detectChanges()).toThrowError(
-          `The <sky-chart-axis-category> has a "timeStep" of "${timeStep}", ` +
-            'but it must be a positive whole number.',
+        for (const [name, value] of Object.entries(inputs)) {
+          fixture.componentRef.setInput(name, value);
+        }
+
+        fixture.detectChanges();
+
+        expect(errorSpy).toHaveBeenCalledOnceWith(
+          typeof error === 'string' ? error : jasmine.stringMatching(error),
         );
+        expect(getChart()).toBeUndefined();
+        expect(tableSvc().table()).toBeUndefined();
+        expect(tableSvc().summary()).toBeUndefined();
       });
     }
-
-    it('should throw for a category that is not a strict date', () => {
-      fixture.componentRef.setInput('categories', ['2026-01-01', 'Feb 1 26']);
-      fixture.componentRef.setInput('categoryScaleType', 'time');
-      fixture.componentRef.setInput('timeUnit', 'month');
-
-      expect(() => fixture.detectChanges()).toThrowError(
-        /The time category "Feb 1 26" is not a valid date/,
-      );
-    });
   });
 
   it('should highlight every series at the hovered category', () => {

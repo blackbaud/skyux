@@ -107,9 +107,7 @@ describe('Chart.js date adapter', () => {
     expect(adapter.parse('2026-01-15')).toBe(local(2026, 0, 15));
     expect(adapter.parse(null)).toBeNull();
     expect(adapter.parse(undefined)).toBeNull();
-    expect(() => adapter.parse('Jan 15 26')).toThrowError(
-      /is not a valid date/,
-    );
+    expect(adapter.parse('Jan 15 26')).toBeNull();
   });
 
   it('should find the start of each unit', () => {

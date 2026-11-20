@@ -4,6 +4,7 @@ import {
   computed,
   inject,
   input,
+  numberAttribute,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
@@ -16,8 +17,6 @@ import { type SkyChartCategoryScaleType } from '../shared/category-scale-type';
 import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 import { parseTimeCategory } from '../shared/time-category-parser';
 import { type SkyChartTimeUnit } from '../shared/time-unit';
-
-import { optionalNumberAttribute } from './optional-number-attribute';
 
 /**
  * Defines the category axis of a chart. Its categories are shared by every
@@ -61,17 +60,22 @@ export class SkyChartAxisCategory {
 
   /**
    * The unit of time between labels on a `time` scale. It also sets how
-   * labels and tooltips format dates. Required when `scaleType` is `time`.
+   * labels and tooltips format dates. Required when `scaleType` is `time`,
+   * and only valid then.
    */
   public readonly timeUnit = input<SkyChartTimeUnit>();
 
   /**
    * The number of `timeUnit`s between labels on a `time` scale, as a positive
-   * whole number. Labels that would overlap are skipped.
+   * whole number. Labels that would overlap are skipped. Only valid when
+   * `scaleType` is `time`.
    * @default 1
    */
   public readonly timeStep = input(undefined, {
-    transform: optionalNumberAttribute,
+    transform: (value: unknown): number | undefined =>
+      value === undefined || value === null
+        ? undefined
+        : numberAttribute(value),
   });
 
   /**
@@ -95,20 +99,62 @@ export class SkyChartAxisCategory {
   );
 
   /**
+   * Why the time options can't be plotted, if they can't.
+   * @internal
+   */
+  public readonly timeScaleError = computed((): string | undefined => {
+    const unit = this.timeUnit();
+    const step = this.timeStep();
+
+    if (this.scaleType() !== 'time') {
+      const name =
+        unit !== undefined
+          ? 'timeUnit'
+          : step !== undefined
+            ? 'timeStep'
+            : undefined;
+
+      return name
+        ? `The <sky-chart-axis-category> has a "${name}", which requires a ` +
+            '"scaleType" of "time".'
+        : undefined;
+    }
+
+    if (!unit) {
+      return (
+        'The <sky-chart-axis-category> must have a "timeUnit" when its ' +
+        '"scaleType" is "time".'
+      );
+    }
+
+    if (step !== undefined && !(Number.isInteger(step) && step > 0)) {
+      return (
+        `The <sky-chart-axis-category> has a "timeStep" of "${step}", but it ` +
+        'must be a positive whole number.'
+      );
+    }
+
+    const invalid = this.categories().find((category) =>
+      Number.isNaN(parseTimeCategory(category)),
+    );
+
+    return invalid === undefined
+      ? undefined
+      : `The time category "${String(invalid)}" is not a valid date. Time ` +
+          'categories must be ISO 8601 date or date-time strings, such as ' +
+          '"2026-01-15" or "2026-01-15T10:30:00Z".';
+  });
+
+  /**
    * The categories as Chart.js labels.
    * @internal
    */
   public readonly chartLabels = computed<readonly (string | number)[]>(() => {
     const categories = this.categories();
 
-    if (this.scaleType() === 'time') {
-      this.#requireTimeUnit();
-      this.#validateTimeStep();
-
-      return categories.map(parseTimeCategory);
-    }
-
-    return categories;
+    return this.scaleType() === 'time'
+      ? categories.map(parseTimeCategory)
+      : categories;
   });
 
   /**
@@ -118,12 +164,12 @@ export class SkyChartAxisCategory {
   public readonly displayCategories = computed<readonly (string | number)[]>(
     () => {
       const labels = this.chartLabels();
+      const unit = this.timeUnit();
 
-      if (this.scaleType() !== 'time') {
+      if (this.scaleType() !== 'time' || !unit) {
         return labels;
       }
 
-      const unit = this.#requireTimeUnit();
       const locale = this.locale();
       const quarterLabel = this.quarterLabel();
 
@@ -132,29 +178,4 @@ export class SkyChartAxisCategory {
       );
     },
   );
-
-  #requireTimeUnit(): SkyChartTimeUnit {
-    const unit = this.timeUnit();
-
-    if (!unit) {
-      throw new Error(
-        'The <sky-chart-axis-category> must have a "timeUnit" when its ' +
-          '"scaleType" is "time".',
-      );
-    }
-
-    return unit;
-  }
-
-  // Chart.js loops forever on a step that does not advance the date.
-  #validateTimeStep(): void {
-    const step = this.timeStep();
-
-    if (step !== undefined && !(Number.isInteger(step) && step > 0)) {
-      throw new Error(
-        `The <sky-chart-axis-category> has a "timeStep" of "${step}", but it ` +
-          'must be a positive whole number.',
-      );
-    }
-  }
 }
