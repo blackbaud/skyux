@@ -7585,6 +7585,49 @@ describe('Lookup component', function () {
       expect(containerEl).toHaveCssClass('sky-lookup');
     }));
 
+    // Input box clips its textarea so a scrollbar can't cover the border; the
+    // lookup removes that clip, which is only safe while its textarea never scrolls.
+    it('should not render a scrollbar in the search textarea when its text overflows', async () => {
+      document.body.classList.add('sky-theme-modern');
+
+      try {
+        component.setMultiSelect();
+        component.setValue(1);
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const inputElement = getInputElement(lookupComponent);
+        // The textarea doesn't wrap, so long lines overflow horizontally and
+        // line breaks overflow vertically.
+        inputElement.value =
+          `${'Lorem ipsum dolor sit amet '.repeat(200)}\n`.repeat(10);
+
+        expect(inputElement.scrollWidth).toBeGreaterThan(
+          inputElement.clientWidth,
+        );
+        expect(inputElement.scrollHeight).toBeGreaterThan(
+          inputElement.clientHeight,
+        );
+
+        const styles = getComputedStyle(inputElement);
+        const scrollbarWidth =
+          inputElement.offsetWidth -
+          inputElement.clientWidth -
+          parseFloat(styles.borderLeftWidth) -
+          parseFloat(styles.borderRightWidth);
+        const scrollbarHeight =
+          inputElement.offsetHeight -
+          inputElement.clientHeight -
+          parseFloat(styles.borderTopWidth) -
+          parseFloat(styles.borderBottomWidth);
+
+        expect(scrollbarWidth).toBeCloseTo(0, 0);
+        expect(scrollbarHeight).toBeCloseTo(0, 0);
+      } finally {
+        document.body.classList.remove('sky-theme-modern');
+      }
+    });
+
     it('should show and hide the show more search button when `enableShowMore` changes after init', fakeAsync(() => {
       fixture.detectChanges();
 

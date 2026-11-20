@@ -1,4 +1,3 @@
-import { capitalize } from '@angular-devkit/core/src/utils/strings';
 import { E2eVariations } from '@skyux-sdk/e2e-schematics';
 
 describe('theme-storybook', () => {
@@ -11,9 +10,10 @@ describe('theme-storybook', () => {
         );
       });
       it('should render the component', () => {
+        const themeName = String(theme.split('-').shift());
         cy.skyReady('app-theming')
           .contains(
-            `${capitalize(String(theme.split('-').shift()))} Theme Element`,
+            `${themeName.charAt(0).toUpperCase()}${themeName.slice(1)} Theme Element`,
           )
           .should('exist')
           .should('be.visible')
