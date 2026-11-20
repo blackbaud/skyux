@@ -42,6 +42,7 @@ export { ChartsChartLineEmphasizedExample } from './lib/modules/charts/chart-lin
 export { ChartsChartLineGapsExample } from './lib/modules/charts/chart-line/gaps/example';
 export { ChartsChartLineMultipleSeriesExample } from './lib/modules/charts/chart-line/multiple-series/example';
 export { ChartsChartLineValueFormatExample } from './lib/modules/charts/chart-line/value-format/example';
+export { CodeCodeBlockFileNameExample } from './lib/modules/code/code-block/file-name/example';
 export { CodeInlineTextExample } from './lib/modules/code/code/inline-text/example';
 export { ColorpickerBasicExampleComponent } from './lib/modules/colorpicker/colorpicker/basic/example.component';
 export { ColorpickerHelpKeyExampleComponent } from './lib/modules/colorpicker/colorpicker/help-key/example.component';

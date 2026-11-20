@@ -10,6 +10,15 @@ const routes: Routes = [
       library: 'code',
     },
   },
+  {
+    path: 'code-block',
+    loadComponent: () => import('./code-block/code-block-playground'),
+    data: {
+      name: 'Code block',
+      icon: 'code',
+      library: 'code',
+    },
+  },
 ];
 
 export default routes;
