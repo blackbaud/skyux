@@ -23,11 +23,14 @@ describe('Line chart with an emphasized series example', () => {
     return { fixture, harness };
   }
 
-  it('should render the chart with the expected heading', async () => {
+  it('should render the chart with the expected heading and subheading', async () => {
     const { harness } = await setupTest();
 
     await expectAsync(harness.getHeadingText()).toBeResolvedTo(
       'Donations by fund',
+    );
+    await expectAsync(harness.getSubheadingText()).toBeResolvedTo(
+      'Annual fund compared with other funds',
     );
   });
 
