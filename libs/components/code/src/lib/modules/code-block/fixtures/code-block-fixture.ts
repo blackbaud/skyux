@@ -18,7 +18,7 @@ import { SkyCodeBlockLanguageType } from '../code-block-language-type';
     >
   `,
 })
-export class SkyCodeBlockTestComponent {
+export class CodeBlockFixture {
   public readonly code = signal<string | undefined>(undefined);
   public readonly fileName = signal<string | undefined>(undefined);
   public readonly hideCopyToClipboard = signal(false);

@@ -1,14 +1,13 @@
 import {
+  AfterContentChecked,
   Component,
   ElementRef,
   ViewEncapsulation,
-  afterEveryRender,
   booleanAttribute,
   computed,
   inject,
   input,
   signal,
-  viewChild,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SkyAppWindowRef, SkyLiveAnnouncerService } from '@skyux/core';
@@ -22,13 +21,13 @@ import { SkyCodeResourcesModule } from '../shared/sky-code-resources.module';
 import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { highlightCodeBlock } from './code-block-languages';
 
-// Converts tabs to 2 spaces, removes trailing whitespace, leading and trailing
-// blank lines, and the indentation common to every line.
+// Removes leading and trailing blank lines and the indentation common to every
+// line. Other whitespace is kept so copied code matches the original (for
+// example, tabs in a Makefile or trailing spaces in Markdown).
 function normalizeCode(code: string): string {
   const lines = code
-    .replace(/\t/g, '  ')
     .split(/\r?\n/)
-    .map((line) => line.trimEnd())
+    .map((line) => (line.trim() ? line : ''))
     .join('\n')
     .replace(/^\n+|\n+$/g, '')
     .split('\n');
@@ -59,7 +58,8 @@ function normalizeCode(code: string): string {
   },
   imports: [SkyButton, SkyCodeResourcesModule],
 })
-export class SkyCodeBlock {
+export class SkyCodeBlock implements AfterContentChecked {
+  readonly #elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly #liveAnnouncer = inject(SkyLiveAnnouncerService);
   readonly #resources = inject(SkyLibResourcesService);
   readonly #sanitizer = inject(DomSanitizer);
@@ -128,22 +128,33 @@ export class SkyCodeBlock {
         !this.hideCopyToClipboard()),
   );
 
-  protected readonly input =
-    viewChild.required<ElementRef<HTMLElement>>('input');
   readonly #projectedCode = signal('');
 
-  constructor() {
-    // Projected text can change after the first render (for example, when it's
-    // loaded asynchronously). Setting the same text again is a no-op.
-    afterEveryRender(() => {
-      this.#projectedCode.set(this.input().nativeElement.textContent);
-    });
+  public ngAfterContentChecked(): void {
+    // Projected text is read before this component's view renders, so it's
+    // displayed on the first render, including on the server. Setting the same
+    // text again is a no-op.
+    if (!this.code()) {
+      this.#projectedCode.set(
+        (
+          this.#elementRef.nativeElement.querySelector(
+            ':scope > .sky-code-block-input',
+          ) as HTMLElement
+        ).textContent,
+      );
+    }
   }
 
   protected async copyCode(): Promise<void> {
-    await this.#windowRef.nativeWindow.navigator.clipboard.writeText(
-      this.source(),
-    );
+    try {
+      await this.#windowRef.nativeWindow.navigator.clipboard.writeText(
+        this.source(),
+      );
+    } catch {
+      // The clipboard is unavailable (for example, on an insecure origin) or
+      // the browser denied access, so nothing was copied.
+      return;
+    }
 
     this.#liveAnnouncer.announce(
       await firstValueFrom(

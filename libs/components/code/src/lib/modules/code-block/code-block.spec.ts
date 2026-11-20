@@ -3,13 +3,13 @@ import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLiveAnnouncerService } from '@skyux/core';
 
 import { SkyCodeBlockLanguageType } from './code-block-language-type';
-import { SkyCodeBlockTestComponent } from './fixtures/code-block.component.fixture';
+import { CodeBlockFixture } from './fixtures/code-block-fixture';
 
 // Typed consumers can't pass this, but untyped values still fall back to xml.
 const UNSUPPORTED_LANGUAGE = 'xml1' as SkyCodeBlockLanguageType;
 
 describe('Code block component', () => {
-  let fixture: ComponentFixture<SkyCodeBlockTestComponent>;
+  let fixture: ComponentFixture<CodeBlockFixture>;
 
   async function render(
     inputs: Partial<{
@@ -25,7 +25,6 @@ describe('Code block component', () => {
     await stabilize();
   }
 
-  // Projected content is read after a render, so keep rendering until stable.
   async function stabilize(): Promise<void> {
     fixture.autoDetectChanges();
     await fixture.whenStable();
@@ -58,7 +57,7 @@ describe('Code block component', () => {
   }
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SkyCodeBlockTestComponent);
+    fixture = TestBed.createComponent(CodeBlockFixture);
   });
 
   it('should highlight the code input', async () => {
@@ -74,11 +73,24 @@ describe('Code block component', () => {
     expect(getCode().querySelector('.hljs-tag')).toExist();
   });
 
-  it('should normalize whitespace', async () => {
-    // The tab becomes 2 spaces, then the common 4-space indent is removed.
-    await render({ code: '\n\n    a\n\t    b   \n\n' });
+  it('should display projected content on the first render', () => {
+    fixture.componentInstance.projected.set('<p>Hi</p>');
+    fixture.detectChanges();
 
-    expect(getCode().textContent).toBe('a\n  b');
+    expect(getCode().textContent).toBe('<p>Hi</p>');
+  });
+
+  it('should normalize whitespace', async () => {
+    // Blank lines at either end and the common 4-space indent are removed.
+    await render({ code: '\n  \n    a\n   \n    b\n\n' });
+
+    expect(getCode().textContent).toBe('a\n\nb');
+  });
+
+  it('should keep tabs and trailing spaces within the code', async () => {
+    await render({ code: '\n    a:\n    \tb  \n' });
+
+    expect(getCode().textContent).toBe('a:\n\tb  ');
   });
 
   it('should keep the first line indented relative to the others', async () => {
@@ -223,6 +235,26 @@ describe('Code block component', () => {
 
     expect(writeTextSpy).toHaveBeenCalledOnceWith('<p>Hi</p>');
     expect(announceSpy).toHaveBeenCalledOnceWith('Copied');
+  });
+
+  it('should not announce a copy when the clipboard is unavailable', async () => {
+    const writeTextSpy = spyOn(navigator.clipboard, 'writeText').and.rejectWith(
+      new DOMException('Denied', 'NotAllowedError'),
+    );
+    const announceSpy = spyOn(
+      TestBed.inject(SkyLiveAnnouncerService),
+      'announce',
+    );
+
+    await render({ code: 'a' });
+
+    fixture.nativeElement
+      .querySelector('.sky-code-block-copy-button button')
+      .click();
+    await stabilize();
+
+    expect(writeTextSpy).toHaveBeenCalledOnceWith('a');
+    expect(announceSpy).not.toHaveBeenCalled();
   });
 
   it('should make the code region keyboard focusable', async () => {

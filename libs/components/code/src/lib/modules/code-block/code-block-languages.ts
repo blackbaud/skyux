@@ -98,7 +98,7 @@ function getHighlighter(): HLJSApi {
 /**
  * Highlights code in a code block's `languageType`. Untyped values can also be
  * highlight.js aliases of a supported language (for example, `ts`), which are
- * labeled with highlight.js's name. Unsupported values are shown as plain text
+ * labeled like that language. Unsupported values are shown as plain text
  * without a display name.
  */
 export function highlightCodeBlock(
@@ -117,10 +117,15 @@ export function highlightCodeBlock(
     };
   }
 
+  // Aliases (for example, `bat`) take the label of the language they resolve to.
+  const supportedName = Object.hasOwn(LABELS, key)
+    ? key
+    : Object.keys(LANGUAGES).find(
+        (name) => highlighter.getLanguage(name) === language,
+      );
+
   return {
     html: highlighter.highlight(code, { language: key }).value,
-    displayName: Object.hasOwn(LABELS, key)
-      ? LABELS[key as SkyCodeBlockLanguageType]
-      : language.name,
+    displayName: LABELS[supportedName as SkyCodeBlockLanguageType],
   };
 }

@@ -64,6 +64,8 @@ describe('Code block languages', () => {
       ['cs', 'C#'],
       ['sh', 'Bash'],
       ['yml', 'YAML'],
+      ['bat', 'Batch'],
+      ['svg', 'XML'],
     ]) {
       expect(highlightCodeBlock('a', alias).displayName)
         .withContext(alias)
