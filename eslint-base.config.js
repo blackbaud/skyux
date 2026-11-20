@@ -53,6 +53,18 @@ module.exports = [
           ],
         },
       ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@angular-devkit/*/src/*'],
+              message:
+                'Import from the package entry point instead. Deep paths are private and are blocked by "exports" maps (e.g. @angular-devkit/schematics 22.3+).',
+            },
+          ],
+        },
+      ],
     },
   },
   cspell,

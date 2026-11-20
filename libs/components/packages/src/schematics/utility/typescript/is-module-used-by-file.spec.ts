@@ -1,7 +1,9 @@
-import { stripIndents } from '@angular-devkit/core/src/utils/literals';
+import { tags } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 
 import { isModuleUsedByFile } from './is-module-used-by-file';
+
+const { stripIndents } = tags;
 
 describe('is-module-used-by-file', () => {
   const FILE_PATH = 'app/foo.ts';
