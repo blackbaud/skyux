@@ -8,7 +8,7 @@ import { SkyCodeBlock } from '@skyux/code';
   styleUrls: ['./code-block.component.scss'],
 })
 export class CodeBlockComponent {
-  // Uses every syntax color.
+  // Together with the CSS, Markdown, and Bash blocks, uses every syntax style.
   protected readonly typescriptCode = `
     import { Component } from '@angular/core';
 
@@ -38,7 +38,24 @@ export class CodeBlockComponent {
   "version": 1
 }`;
 
-  protected readonly htmlCode = `<sky-box headingText="Box">Content</sky-box>`;
+  protected readonly cssCode = `
+    main .card#featured:hover,
+    input[type='text'] {
+      color: red;
+    }
+  `;
+
+  protected readonly markdownCode = `
+    # Getting started
+
+    Read the *guide* for **important** steps, or see [the docs](https://developer.blackbaud.com/skyux).
+  `;
+
+  protected readonly bashCode = `
+    echo "Installing in $HOME"
+  `;
+
+  protected readonly htmlCode =`<sky-box headingText="Box">Content</sky-box>`;
 
   protected readonly longCode = `const message = '${'This line is long enough to scroll horizontally. '.repeat(4)}';`;
 }
