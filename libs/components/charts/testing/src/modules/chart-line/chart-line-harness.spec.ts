@@ -164,7 +164,7 @@ describe('Chart line harness', () => {
     ).toBeRejected();
   });
 
-  it('should get the series labels of a data table with a highlighted series', async () => {
+  it('should get the series labels and emphasized series labels of a data table', async () => {
     TestBed.configureTestingModule({
       providers: [provideNoopSkyAnimations()],
     });
@@ -178,6 +178,9 @@ describe('Chart line harness', () => {
 
     await expectAsync(dataTable.getSeriesLabels()).toBeResolvedTo([
       '2025',
+      '2026',
+    ]);
+    await expectAsync(dataTable.getEmphasizedSeriesLabels()).toBeResolvedTo([
       '2026',
     ]);
 

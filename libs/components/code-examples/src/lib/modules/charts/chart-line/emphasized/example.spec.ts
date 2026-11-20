@@ -49,6 +49,9 @@ describe('Line chart with an emphasized series example', () => {
       'Capital campaign',
       'Scholarships',
     ]);
+    await expectAsync(dataTable.getEmphasizedSeriesLabels()).toBeResolvedTo([
+      'Annual fund',
+    ]);
 
     await dataTable.close();
   });

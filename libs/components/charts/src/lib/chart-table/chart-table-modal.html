@@ -17,7 +17,12 @@
                 {{ table.categoryLabel }}
               </th>
               @for (series of table.series; track $index) {
-                <th scope="col">
+                <th
+                  scope="col"
+                  [class.sky-chart-data-table-emphasized-series]="
+                    series.emphasized
+                  "
+                >
                   {{ series.label }}
                   @if (series.emphasized) {
                     <span class="sky-screen-reader-only">{{
