@@ -49,8 +49,8 @@ const RESOURCES: Record<string, SkyLibResources> = {
       message: '{0}, line {1} of {2} with {3} data point.',
     },
     'skyux_charts.data_table_modal.close_button': { message: 'Close' },
-    'skyux_charts.data_table_modal.highlighted_series': {
-      message: ', highlighted',
+    'skyux_charts.data_table_modal.emphasized_series_label': {
+      message: '{0}, highlighted',
     },
     'skyux_charts.data_table_modal.table_region_label': {
       message: 'Data table for {0}',

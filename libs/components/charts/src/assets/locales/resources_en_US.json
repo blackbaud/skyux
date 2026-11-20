@@ -77,9 +77,10 @@
     "_description": "The label for the close button",
     "message": "Close"
   },
-  "skyux_charts.data_table_modal.highlighted_series": {
-    "_description": "Text read by screen readers after the column header of an emphasized (highlighted) series in a chart's data table",
-    "message": ", highlighted"
+  "skyux_charts.data_table_modal.emphasized_series_label": {
+    "_description": "The column header that screen readers read for an emphasized (highlighted) series in a chart's data table",
+    "message": "{0}, highlighted",
+    "_0": "The series label"
   },
   "skyux_charts.data_table_modal.table_region_label": {
     "_description": "The accessible name for the scrollable region containing the chart's data table",

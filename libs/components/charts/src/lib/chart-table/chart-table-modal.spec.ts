@@ -115,8 +115,13 @@ describe('Chart data table modal', () => {
     );
 
     expect(actual.querySelector('.sky-screen-reader-only')?.textContent).toBe(
-      ', highlighted',
+      'Actual, highlighted',
     );
+    expect(
+      actual
+        .querySelector('.sky-chart-data-table-series-label')
+        ?.getAttribute('aria-hidden'),
+    ).toBe('true');
     expect(target.querySelector('.sky-screen-reader-only')).toBeNull();
 
     instance.close();
