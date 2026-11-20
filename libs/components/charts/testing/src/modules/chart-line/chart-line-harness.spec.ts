@@ -48,7 +48,7 @@ import { SkyChartLineHarness } from './chart-line-harness';
         <sky-chart-line-series labelText="2025" [values]="[5, 15]" />
         <sky-chart-line-series
           labelText="2026"
-          [emphasized]="true"
+          emphasized
           [values]="[10, 20]"
         />
       </sky-chart-line>
