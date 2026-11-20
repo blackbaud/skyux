@@ -41,6 +41,22 @@
     "_0": "The number of series",
     "_1": "The number of categories"
   },
+  "skyux_charts.chart.line.emphasized_series_summary_plural": {
+    "_description": "The accessible description of one emphasized series in a line chart with multiple series, when the series has zero or several values",
+    "message": "{0}, emphasized line {1} of {2} with {3} data points.",
+    "_0": "The series label",
+    "_1": "The series number",
+    "_2": "The number of series",
+    "_3": "The number of values in the series"
+  },
+  "skyux_charts.chart.line.emphasized_series_summary_singular": {
+    "_description": "The accessible description of one emphasized series in a line chart with multiple series, when the series has one value",
+    "message": "{0}, emphasized line {1} of {2} with {3} data point.",
+    "_0": "The series label",
+    "_1": "The series number",
+    "_2": "The number of series",
+    "_3": "The number of values in the series"
+  },
   "skyux_charts.chart.line.series_summary_plural": {
     "_description": "The accessible description of one series in a line chart with multiple series, when the series has zero or several values",
     "message": "{0}, line {1} of {2} with {3} data points.",
