@@ -319,6 +319,34 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ChartsChartPieAsyncExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartPieAsyncExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartPieBasicExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartPieBasicExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartPieDataPointClickExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartPieDataPointClickExample: c }) => c,
+      ),
+  },
+  {
+    path: 'ChartsChartPieDonutExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartPieDonutExample: c }) => c,
+      ),
+  },
+  {
     path: 'CodeInlineTextExample',
     loadComponent: () =>
       import('@skyux/code-examples').then(({ CodeInlineTextExample: c }) => c),

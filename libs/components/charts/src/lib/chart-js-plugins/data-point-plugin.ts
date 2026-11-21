@@ -1,4 +1,5 @@
 import {
+  ArcElement,
   BarElement,
   type Chart,
   type ChartEvent,
@@ -8,9 +9,15 @@ import {
 
 import { type SkyChartJsDataPointIndex } from './chart-js-data-point-index';
 import { type SkyChartJsDataPointPlugin } from './chart-js-data-point-plugin';
-import { getElementGeometry, toDataPointKey } from './data-point-geometry';
+import {
+  getArcProps,
+  getElementGeometry,
+  toDataPointKey,
+} from './data-point-geometry';
 
-const RING_MARGIN = 2;
+export const RING_MARGIN = 2;
+
+const FULL_CIRCLE_TOLERANCE = 1e-9;
 
 /**
  * Creates a Chart.js plugin that adds SKY UX data point interactions to a
@@ -88,26 +95,52 @@ export function createDataPointPlugin(callbacks: {
         dataPoint.index
       ];
 
-      // The data point may have been removed since it gained focus.
-      if (!element) {
-        continue;
-      }
-
-      const bounds = getElementGeometry(element);
-      const width = bounds.width + RING_MARGIN * 2;
-
       ctx.save();
       ctx.beginPath();
-      ctx.roundRect(
-        bounds.left - RING_MARGIN,
-        bounds.top - RING_MARGIN,
-        width,
-        bounds.height + RING_MARGIN * 2,
-        // Line points are circles, so their rings are circles too.
-        element instanceof BarElement
-          ? parseFloat(ringStyle('radius'))
-          : width / 2,
-      );
+
+      if (element instanceof ArcElement) {
+        // A box would cut across neighboring slices, so a slice's ring follows
+        // its outline instead.
+        const { x, y, startAngle, endAngle, innerRadius, outerRadius } =
+          getArcProps(element);
+
+        const innerRingRadius = Math.max(innerRadius - RING_MARGIN, 0);
+        // Chart.js can compute a lone slice's sweep a rounding error short of a
+        // full turn, so the check allows for a tiny shortfall.
+        const isFullCircle =
+          endAngle - startAngle >= Math.PI * 2 - FULL_CIRCLE_TOLERANCE;
+
+        ctx.arc(x, y, outerRadius + RING_MARGIN, startAngle, endAngle);
+
+        // A lone slice's ring is two separate circles; joining them, as for a
+        // partial slice, would stroke a seam across the ring.
+        if (isFullCircle) {
+          ctx.moveTo(
+            x + Math.cos(endAngle) * innerRingRadius,
+            y + Math.sin(endAngle) * innerRingRadius,
+          );
+        }
+
+        ctx.arc(x, y, innerRingRadius, endAngle, startAngle, true);
+
+        if (!isFullCircle) {
+          ctx.closePath();
+        }
+      } else {
+        const bounds = getElementGeometry(element);
+        const width = bounds.width + RING_MARGIN * 2;
+
+        ctx.roundRect(
+          bounds.left - RING_MARGIN,
+          bounds.top - RING_MARGIN,
+          width,
+          bounds.height + RING_MARGIN * 2,
+          // Line points are circles, so their rings are circles too.
+          element instanceof BarElement
+            ? parseFloat(ringStyle('radius'))
+            : width / 2,
+        );
+      }
 
       if (layer === 'background') {
         ctx.fillStyle = ringStyle(`${state}-background-color`);
@@ -120,6 +153,45 @@ export function createDataPointPlugin(callbacks: {
 
       ctx.restore();
     }
+  }
+
+  function hasValue(
+    updatedChart: Chart,
+    dataPoint: SkyChartJsDataPointIndex | undefined,
+  ): dataPoint is SkyChartJsDataPointIndex {
+    const value =
+      dataPoint &&
+      updatedChart.data.datasets[dataPoint.datasetIndex]?.data[dataPoint.index];
+
+    return value !== null && value !== undefined;
+  }
+
+  // Chart.js replays the last pointer event after an update, which normally
+  // clears a stale hover, but not once its active elements are cleared below,
+  // so rings for data points without a value are cleared here. A focused data
+  // point loses its focusable element too, but removing a focused element
+  // does not reliably fire `blur`, so its tooltip is cleared as well.
+  function clearStatesWithoutValue(updatedChart: Chart): void {
+    if (!hasValue(updatedChart, hovered)) {
+      hovered = undefined;
+    }
+
+    if (!hasValue(updatedChart, pressed)) {
+      pressed = undefined;
+    }
+
+    if (!focused || hasValue(updatedChart, focused)) {
+      return;
+    }
+
+    focused = undefined;
+    // Chart.js reads the active elements after this hook, so the cleared
+    // state is drawn by the update in progress.
+    updatedChart.setActiveElements([]);
+    (updatedChart.tooltip as TooltipModel<'bar'>).setActiveElements([], {
+      x: 0,
+      y: 0,
+    });
   }
 
   // Presses only toggle the active ring, so they are handled before Chart.js
@@ -187,8 +259,10 @@ export function createDataPointPlugin(callbacks: {
       install(installedChart: Chart): void {
         chart = installedChart;
       },
-      afterUpdate: (updatedChart: Chart): void =>
-        callbacks.onUpdate(updatedChart),
+      afterUpdate(updatedChart: Chart): void {
+        clearStatesWithoutValue(updatedChart);
+        callbacks.onUpdate(updatedChart);
+      },
       beforeEvent: onPress,
       afterEvent: onEvent,
       // Backgrounds sit behind the data point; borders sit above it but below
@@ -216,16 +290,20 @@ export function createDataPointPlugin(callbacks: {
         return;
       }
 
-      const bounds = getElementGeometry(
-        focusedChart.getDatasetMeta(dataPoint.datasetIndex).data[
-          dataPoint.index
-        ],
-      );
+      const element = focusedChart.getDatasetMeta(dataPoint.datasetIndex).data[
+        dataPoint.index
+      ];
+      const bounds = getElementGeometry(element);
 
-      const position = {
-        x: bounds.left + bounds.width / 2,
-        y: bounds.top + bounds.height / 2,
-      };
+      // The center of a large slice's bounding box can fall outside the slice,
+      // so slices are hit-tested at their centroid.
+      const position =
+        element instanceof ArcElement
+          ? { x: bounds.x, y: bounds.y }
+          : {
+              x: bounds.left + bounds.width / 2,
+              y: bounds.top + bounds.height / 2,
+            };
 
       const event = { native: null, ...position } as unknown as Event;
       const hover = focusedChart.options.hover as CoreInteractionOptions;

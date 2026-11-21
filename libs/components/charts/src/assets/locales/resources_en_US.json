@@ -30,6 +30,11 @@
     "_description": "The label for the 'View data table' chart menu item",
     "message": "View data table"
   },
+  "skyux_charts.chart.donut.accessible_summary": {
+    "_description": "The accessible summary announced for a donut chart figure, describing its shape and noting that a data table alternative is available",
+    "message": "Donut chart. Number of slices: {0}. A data table is available from the chart's context menu.",
+    "_0": "The number of slices"
+  },
   "skyux_charts.chart.legend.accessible_name": {
     "_description": "The accessible name for the chart's legend, which lists each series as a button that shows or hides it",
     "message": "Legend for {0}",
@@ -72,6 +77,11 @@
     "_1": "The series number",
     "_2": "The number of series",
     "_3": "The number of values in the series"
+  },
+  "skyux_charts.chart.pie.accessible_summary": {
+    "_description": "The accessible summary announced for a pie chart figure, describing its shape and noting that a data table alternative is available",
+    "message": "Pie chart. Number of slices: {0}. A data table is available from the chart's context menu.",
+    "_0": "The number of slices"
   },
   "skyux_charts.data_table_modal.close_button": {
     "_description": "The label for the close button",

@@ -252,6 +252,22 @@ describe('Chart.js component', () => {
       ]);
     });
 
+    it('should move between the slices of a pie chart, which has one series', async () => {
+      component.config.set(buildConfig([1, 2, 3], undefined, { type: 'pie' }));
+      tableSvc.table.set({ ...TABLE, series: [TABLE.series[0]] });
+      await render();
+
+      getDataPoint('a', 'First').focus();
+      pressKey(getDataPoint('a', 'First'), 'ArrowRight');
+      expect(getFocusedDataPoint()).toBe('b/First');
+
+      pressKey(getDataPoint('b', 'First'), 'ArrowDown');
+      expect(getFocusedDataPoint()).toBe('b/First');
+      expect(getChart().tooltip?.getActiveElements()).toEqual([
+        jasmine.objectContaining({ datasetIndex: 0, index: 1 }),
+      ]);
+    });
+
     it('should follow the category axis of a horizontal chart', async () => {
       component.config.set(
         buildConfig([1, 2, 3], [4, null, 6], { indexAxis: 'y' }),

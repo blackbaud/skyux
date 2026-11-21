@@ -31,6 +31,10 @@ const RESOURCES: Record<string, SkyLibResources> = {
     'skyux_charts.chart.controls.context_menu.view_data_table': {
       message: 'View data table',
     },
+    'skyux_charts.chart.donut.accessible_summary': {
+      message:
+        "Donut chart. Number of slices: {0}. A data table is available from the chart's context menu.",
+    },
     'skyux_charts.chart.legend.accessible_name': { message: 'Legend for {0}' },
     'skyux_charts.chart.line.accessible_summary': {
       message:
@@ -47,6 +51,10 @@ const RESOURCES: Record<string, SkyLibResources> = {
     },
     'skyux_charts.chart.line.series_summary_singular': {
       message: '{0}, line {1} of {2} with {3} data point.',
+    },
+    'skyux_charts.chart.pie.accessible_summary': {
+      message:
+        "Pie chart. Number of slices: {0}. A data table is available from the chart's context menu.",
     },
     'skyux_charts.data_table_modal.close_button': { message: 'Close' },
     'skyux_charts.data_table_modal.emphasized_series_label': {

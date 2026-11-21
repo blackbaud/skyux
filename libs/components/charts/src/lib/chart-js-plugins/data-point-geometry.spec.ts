@@ -1,5 +1,6 @@
 import { expect } from '@skyux-sdk/testing';
 import {
+  ArcElement,
   BarController,
   BarElement,
   CategoryScale,
@@ -8,24 +9,28 @@ import {
   LinearScale,
   LineController,
   LineElement,
+  PieController,
   PointElement,
 } from 'chart.js';
 
 import { type SkyChartTable } from '../chart-table/chart-table';
 
 import {
+  getArcProps,
   getElementGeometry,
   measureDataPoints,
   toDataPointKey,
 } from './data-point-geometry';
 
 Chart.register(
+  ArcElement,
   BarController,
   BarElement,
   CategoryScale,
   LinearScale,
   LineController,
   LineElement,
+  PieController,
   PointElement,
 );
 
@@ -139,6 +144,79 @@ describe('Data point geometry', () => {
         height: radius * 2,
         x: point.x,
         y: point.y,
+      });
+    });
+
+    describe('pie slices', () => {
+      function createPie(data: number[], cutout: string | number): Chart {
+        const canvas = document.createElement('canvas');
+        container.appendChild(canvas);
+
+        chart = new Chart(canvas, {
+          type: 'pie',
+          data: { labels: data.map(String), datasets: [{ data }] },
+          options: { animation: false, maintainAspectRatio: false, cutout },
+        });
+
+        return chart;
+      }
+
+      it('should measure a slice by the bounding box of its sector', () => {
+        // Chart.js starts at 12 o'clock, so the first quarter spans from the
+        // center up to the top and right edges of the pie.
+        const arc = createPie([1, 3], 0).getDatasetMeta(0)
+          .data[0] as ArcElement;
+        const { x, y, outerRadius } = getArcProps(arc);
+
+        const geometry = getElementGeometry(arc);
+
+        expect(geometry.left).toBeCloseTo(x, 5);
+        expect(geometry.top).toBeCloseTo(y - outerRadius, 5);
+        expect(geometry.width).toBeCloseTo(outerRadius, 5);
+        expect(geometry.height).toBeCloseTo(outerRadius, 5);
+      });
+
+      it('should include every edge a slice sweeps past', () => {
+        const arc = createPie([3, 1], 0).getDatasetMeta(0)
+          .data[0] as ArcElement;
+        const { x, y, outerRadius } = getArcProps(arc);
+
+        const geometry = getElementGeometry(arc);
+
+        // Three quarters from 12 o'clock reach the right, bottom, and left
+        // edges, and the top edge where the slice starts.
+        expect(geometry.left).toBeCloseTo(x - outerRadius, 5);
+        expect(geometry.top).toBeCloseTo(y - outerRadius, 5);
+        expect(geometry.width).toBeCloseTo(outerRadius * 2, 5);
+        expect(geometry.height).toBeCloseTo(outerRadius * 2, 5);
+      });
+
+      it('should exclude the hollow center of a donut slice', () => {
+        // The first slice spans 60 degrees clockwise from 12 o'clock, so the
+        // inner edge, not the center, bounds the bottom of the slice.
+        const arc = createPie([1, 5], '50%').getDatasetMeta(0)
+          .data[0] as ArcElement;
+        const { x, y, innerRadius, outerRadius } = getArcProps(arc);
+
+        const geometry = getElementGeometry(arc);
+
+        expect(innerRadius).toBeGreaterThan(0);
+        expect(geometry.left).toBeCloseTo(x, 5);
+        expect(geometry.top).toBeCloseTo(y - outerRadius, 5);
+        expect(geometry.height).toBeCloseTo(outerRadius - innerRadius / 2, 5);
+        expect(geometry.width).toBeCloseTo(
+          outerRadius * Math.cos(Math.PI / 6),
+          5,
+        );
+      });
+
+      it('should anchor a slice at its centroid, which is inside the slice', () => {
+        const arc = createPie([3, 1], 0).getDatasetMeta(0)
+          .data[0] as ArcElement;
+        const { x, y } = getElementGeometry(arc);
+
+        expect({ x, y }).toEqual(arc.tooltipPosition(true));
+        expect(arc.inRange(x, y, true)).toBeTrue();
       });
     });
   });

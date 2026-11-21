@@ -1,0 +1,26 @@
+<sky-chart
+  data-sky-id="donations-by-channel"
+  headingText="Donations by channel"
+>
+  <sky-chart-pie
+    categoryLabelText="Channel"
+    valueFormat="currency"
+    valueLabelText="Donations"
+    (dataPointClick)="selection.set($event)"
+  >
+    @for (channel of channels; track channel.name) {
+      <sky-chart-pie-slice
+        [labelText]="channel.name"
+        [value]="channel.donations"
+      />
+    }
+  </sky-chart-pie>
+</sky-chart>
+<p aria-live="polite" class="sky-theme-margin-bottom-l" data-sky-id="selection">
+  @if (selection(); as selection) {
+    {{ selection.category }} donations:
+    {{ selection.value | currency: 'USD' }}
+  } @else {
+    Select a slice to see its details.
+  }
+</p>

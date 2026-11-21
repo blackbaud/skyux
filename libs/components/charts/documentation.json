@@ -94,6 +94,43 @@
           "ChartsChartLineDataPointClickExample"
         ]
       }
+    },
+    "chart-pie": {
+      "summary": "Pie charts provide a simple, declarative way to show how parts make up a whole.",
+      "development": {
+        "docsIds": [
+          "SkyChart",
+          "SkyChartPie",
+          "SkyChartPieSlice",
+          "SkyChartPieDisplayMode",
+          "SkyChartDataPointClickArgs",
+          "SkyChartHeadingLevel",
+          "SkyChartHeadingStyle",
+          "SkyChartValueFormat"
+        ],
+        "primaryDocsId": "SkyChart"
+      },
+      "testing": {
+        "docsIds": [
+          "SkyChartPieHarness",
+          "SkyChartPieHarnessFilters",
+          "SkyChartHarness",
+          "SkyChartHarnessFilters",
+          "SkyChartDataPointHarness",
+          "SkyChartDataPointHarnessFilters",
+          "SkyChartLegendItemHarness",
+          "SkyChartLegendItemHarnessFilters",
+          "SkyChartTableModalHarness"
+        ]
+      },
+      "codeExamples": {
+        "docsIds": [
+          "ChartsChartPieBasicExample",
+          "ChartsChartPieDonutExample",
+          "ChartsChartPieAsyncExample",
+          "ChartsChartPieDataPointClickExample"
+        ]
+      }
     }
   }
 }
