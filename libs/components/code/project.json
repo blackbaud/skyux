@@ -10,13 +10,7 @@
       "executor": "@nx/angular:package",
       "outputs": ["{workspaceRoot}/dist/libs/components/code"],
       "defaultConfiguration": "production",
-      "dependsOn": [
-        "^build",
-        {
-          "projects": ["core"],
-          "target": "build"
-        }
-      ],
+      "dependsOn": ["^build"],
       "inputs": [
         "buildInputs",
         "^buildInputs",
