@@ -1,0 +1,86 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+// The default theme matches Stache's code block.
+@include compatMixins.sky-default-overrides(':host') {
+  --sky-override-code-block-border-color: #{$sky-border-color-neutral-medium};
+  --sky-override-code-block-border-radius: 0;
+  --sky-override-code-block-border-width: 1px;
+  --sky-override-code-block-header-background-color: #fff;
+  --sky-override-code-block-header-gap: 5px;
+  --sky-override-code-block-header-padding: 5px 5px 5px 20px;
+  --sky-override-code-block-language-color: #{$sky-text-color-deemphasized};
+  --sky-override-code-block-language-font-style: italic;
+  --sky-override-code-block-title-color: #{$sky-text-color-default};
+}
+
+$border: var(
+    --sky-override-code-block-border-width,
+    var(--sky-border-width-container-base)
+  )
+  solid
+  var(
+    --sky-override-code-block-border-color,
+    var(--sky-color-border-container-base)
+  );
+
+:host {
+  display: block;
+  overflow: hidden;
+  border: $border;
+  border-radius: var(
+    --sky-override-code-block-border-radius,
+    var(--sky-border-radius-s)
+  );
+}
+
+.sky-code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(
+    --sky-override-code-block-header-gap,
+    var(--sky-comp-code_block-header-space-inset-right)
+  );
+  padding: var(
+    --sky-override-code-block-header-padding,
+    var(--sky-comp-code_block-header-space-inset-top)
+      var(--sky-comp-code_block-header-space-inset-right)
+      var(--sky-comp-code_block-header-space-inset-bottom)
+      var(--sky-comp-code_block-header-space-inset-left)
+  );
+  border-bottom: $border;
+  background-color: var(
+    --sky-override-code-block-header-background-color,
+    var(--sky-color-background-container-dimmed)
+  );
+}
+
+.sky-code-block-title {
+  // Wraps long file names so the copy button stays in view.
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(
+    --sky-override-code-block-title-color,
+    var(--sky-color-text-deemphasized)
+  );
+  font-size: var(--sky-font-size-body-m);
+  font-weight: var(--sky-font-style-body-m);
+  line-height: var(--sky-font-line_height-body-m);
+}
+
+.sky-code-block-separator {
+  white-space: pre;
+}
+
+.sky-code-block-language {
+  color: var(
+    --sky-override-code-block-language-color,
+    var(--sky-color-text-deemphasized)
+  );
+  font-style: var(--sky-override-code-block-language-font-style, normal);
+}
+
+.sky-code-block-input {
+  display: none;
+}

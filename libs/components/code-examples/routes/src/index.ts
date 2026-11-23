@@ -319,6 +319,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'CodeCodeBlockFileNameExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ CodeCodeBlockFileNameExample: c }) => c,
+      ),
+  },
+  {
     path: 'CodeInlineTextExample',
     loadComponent: () =>
       import('@skyux/code-examples').then(({ CodeInlineTextExample: c }) => c),

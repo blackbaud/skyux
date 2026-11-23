@@ -1,0 +1,81 @@
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+@use 'libs/components/theme/src/lib/styles/variables' as *;
+
+// These styles aren't encapsulated, so every rule stays scoped to
+// `sky-code-block-output`.
+
+@include compatMixins.sky-default-overrides('sky-code-block-output') {
+  --sky-override-code-block-code-background-color: #fff;
+  // Matches a focused default-theme input.
+  --sky-override-code-block-code-box-shadow-focus:
+    inset 0 0 0 1px #{$sky-highlight-color-info},
+    inset 0 0 8px #{rgba($sky-highlight-color-info, 0.6)};
+  --sky-override-code-block-code-focus-width: 1px;
+  --sky-override-code-block-code-line-height: 1.5;
+  --sky-override-code-block-code-padding: 20px;
+  --sky-override-code-block-font-family:
+    Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  --sky-override-code-block-text-color: #{$sky-text-color-default};
+}
+
+$focus-width: var(
+  --sky-override-code-block-code-focus-width,
+  var(--sky-border-width-input-focus)
+);
+
+sky-code-block-output {
+  display: block;
+}
+
+.sky-code-block-output {
+  margin: 0;
+  background-color: var(
+    --sky-override-code-block-code-background-color,
+    var(--sky-color-background-container-base)
+  );
+
+  // `code` scrolls, not `pre`, so it can take the keyboard focus.
+  code {
+    display: block;
+    overflow-x: auto;
+    padding: var(
+      --sky-override-code-block-code-padding,
+      var(--sky-comp-code_block-content-space-inset-top)
+        var(--sky-comp-code_block-content-space-inset-right)
+        var(--sky-comp-code_block-content-space-inset-bottom)
+        var(--sky-comp-code_block-content-space-inset-left)
+    );
+    color: var(
+      --sky-override-code-block-text-color,
+      var(--sky-color-text-default)
+    );
+    font-family: var(
+      --sky-override-code-block-font-family,
+      var(--sky-font-family-monospaced)
+    );
+    line-height: var(
+      --sky-override-code-block-code-line-height,
+      var(--sky-font-line_height-paragraph-m)
+    );
+    white-space: pre;
+    tab-size: 4;
+
+    &:focus-visible {
+      outline: none;
+      // Keeps the scrollbar from painting over the focus ring on the `pre`.
+      clip-path: inset($focus-width);
+    }
+  }
+
+  // Inset because the block clips its overflow. Forced-colors mode drops the
+  // box-shadow and shows the transparent outline instead.
+  &:has(> code:focus-visible) {
+    outline: $focus-width solid transparent;
+    outline-offset: calc(-1 * #{$focus-width});
+    box-shadow: var(
+      --sky-override-code-block-code-box-shadow-focus,
+      inset 0 0 0 var(--sky-border-width-input-focus)
+        var(--sky-color-border-input-focus)
+    );
+  }
+}
