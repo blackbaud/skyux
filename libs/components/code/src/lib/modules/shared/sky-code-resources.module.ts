@@ -18,6 +18,7 @@ const RESOURCES: Record<string, SkyLibResources> = {
     skyux_code_block_copy_button: { message: 'Copy' },
     skyux_code_block_copy_failure: { message: 'Unable to copy' },
     skyux_code_block_copy_success: { message: 'Copied' },
+    skyux_code_block_plain_text: { message: 'Plain text' },
   },
 };
 

@@ -289,6 +289,44 @@ describe('Code block component', () => {
     expect(document.getElementById(labelId)).toHaveText('Copy');
   });
 
+  it('should name every language type in the header', async () => {
+    const names: Record<SkyCodeBlockLanguageType, string> = {
+      arduino: 'Arduino',
+      asciidoc: 'AsciiDoc',
+      bash: 'Bash',
+      csharp: 'C#',
+      css: 'CSS',
+      dos: 'Batch',
+      gherkin: 'Gherkin',
+      html: 'HTML',
+      http: 'HTTP',
+      java: 'Java',
+      javascript: 'JavaScript',
+      json: 'JSON',
+      markdown: 'Markdown',
+      php: 'PHP',
+      // From the resource strings.
+      plaintext: 'Plain text',
+      powershell: 'PowerShell',
+      python: 'Python',
+      sql: 'SQL',
+      typescript: 'TypeScript',
+      xml: 'XML',
+      yaml: 'YAML',
+    };
+
+    for (const [languageType, name] of Object.entries(names)) {
+      await render({
+        code: 'a',
+        languageType: languageType as SkyCodeBlockLanguageType,
+      });
+
+      expect(getLanguageName()?.textContent?.trim())
+        .withContext(languageType)
+        .toBe(name);
+    }
+  });
+
   it('should not show a language name for an unsupported languageType', async () => {
     await render({ code: 'a', languageType: UNSUPPORTED_LANGUAGE });
 

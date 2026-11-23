@@ -49,41 +49,14 @@ const LANGUAGES = {
   yaml,
 };
 
-// highlight.js names a few languages awkwardly ("php", "HTML, XML",
-// "Batch file (DOS)"), so every language type gets its own label. `html`
-// highlights with the xml grammar.
-const LABELS: Record<SkyCodeBlockLanguageType, string> = {
-  arduino: 'Arduino',
-  asciidoc: 'AsciiDoc',
-  bash: 'Bash',
-  csharp: 'C#',
-  css: 'CSS',
-  dos: 'Batch',
-  gherkin: 'Gherkin',
-  html: 'HTML',
-  http: 'HTTP',
-  java: 'Java',
-  javascript: 'JavaScript',
-  json: 'JSON',
-  markdown: 'Markdown',
-  php: 'PHP',
-  plaintext: 'Plain text',
-  powershell: 'PowerShell',
-  python: 'Python',
-  sql: 'SQL',
-  typescript: 'TypeScript',
-  xml: 'XML',
-  yaml: 'YAML',
-};
-
 // Unsupported values (only possible without type checking) aren't highlighted.
 const FALLBACK_LANGUAGE = 'plaintext';
 
 let highlighter: HLJSApi | undefined;
 
-// The registered name of each language, so aliases (for example, `bat`) are
-// labeled like the language they resolve to.
-const languageNames = new Map<Language, string>();
+// The registered name of each language, so aliases (for example, `bat`)
+// resolve to their language type.
+const languageNames = new Map<Language, SkyCodeBlockLanguageType>();
 
 // A separate instance keeps these registrations from affecting other users of
 // highlight.js in the same app.
@@ -93,7 +66,10 @@ function getHighlighter(): HLJSApi {
 
     for (const [name, grammar] of Object.entries(LANGUAGES)) {
       highlighter.registerLanguage(name, grammar);
-      languageNames.set(highlighter.getLanguage(name) as Language, name);
+      languageNames.set(
+        highlighter.getLanguage(name) as Language,
+        name as SkyCodeBlockLanguageType,
+      );
     }
   }
 
@@ -101,34 +77,30 @@ function getHighlighter(): HLJSApi {
 }
 
 /**
- * Highlights code in a code block's `languageType`. Untyped values can also be
- * highlight.js aliases of a supported language (for example, `ts`), which are
- * labeled like that language. Unsupported values are shown as plain text
- * without a display name.
+ * Highlights code in a code block's `languageType` and returns the supported
+ * language type it resolved to. Untyped values can also be highlight.js aliases
+ * of a supported language (for example, `ts`). Unsupported values are shown as
+ * plain text with no language type.
  */
 export function highlightCodeBlock(
   code: string,
   languageType: string | undefined,
-): { html: string; displayName: string | undefined } {
+): { html: string; languageType: SkyCodeBlockLanguageType | undefined } {
   const highlighter = getHighlighter();
   const key = languageType?.toLowerCase() ?? '';
-  // highlight.js resolves names and aliases (`html` is an xml alias).
+  // highlight.js resolves names and aliases.
   const language = key ? highlighter.getLanguage(key) : undefined;
 
   if (!language) {
     return {
       html: highlighter.highlight(code, { language: FALLBACK_LANGUAGE }).value,
-      displayName: undefined,
+      languageType: undefined,
     };
   }
 
-  // `html` has its own label even though it's an xml alias.
-  const supportedName = Object.hasOwn(LABELS, key)
-    ? key
-    : languageNames.get(language);
-
   return {
     html: highlighter.highlight(code, { language: key }).value,
-    displayName: LABELS[supportedName as SkyCodeBlockLanguageType],
+    // `html` is its own language type even though it's an xml alias.
+    languageType: key === 'html' ? 'html' : languageNames.get(language),
   };
 }

@@ -1,75 +1,47 @@
-// cspell:ignore asciidoc gherkin
 import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { highlightCodeBlock } from './code-block-languages';
 
-// The label shown for every language type.
-const LABELS: Record<SkyCodeBlockLanguageType, string> = {
-  arduino: 'Arduino',
-  asciidoc: 'AsciiDoc',
-  bash: 'Bash',
-  csharp: 'C#',
-  css: 'CSS',
-  dos: 'Batch',
-  gherkin: 'Gherkin',
-  html: 'HTML',
-  http: 'HTTP',
-  java: 'Java',
-  javascript: 'JavaScript',
-  json: 'JSON',
-  markdown: 'Markdown',
-  php: 'PHP',
-  plaintext: 'Plain text',
-  powershell: 'PowerShell',
-  python: 'Python',
-  sql: 'SQL',
-  typescript: 'TypeScript',
-  xml: 'XML',
-  yaml: 'YAML',
-};
-
 describe('Code block languages', () => {
   it('should highlight a supported language', () => {
-    const { displayName, html } = highlightCodeBlock(
+    const { html, languageType } = highlightCodeBlock(
       'const a = 1;',
       'typescript',
     );
 
     expect(html).toContain('<span class="hljs-keyword">const</span>');
-    expect(displayName).toBe('TypeScript');
-  });
-
-  it('should label every language type', () => {
-    for (const [languageType, label] of Object.entries(LABELS)) {
-      expect(highlightCodeBlock('a', languageType).displayName)
-        .withContext(languageType)
-        .toBe(label);
-    }
+    expect(languageType).toBe('typescript');
   });
 
   it('should highlight html as markup', () => {
-    expect(highlightCodeBlock('<p>a</p>', 'html').html).toContain('hljs-tag');
+    const { html, languageType } = highlightCodeBlock('<p>a</p>', 'html');
+
+    expect(html).toContain('hljs-tag');
+    expect(languageType).toBe('html');
   });
 
   it('should match language names case-insensitively', () => {
-    expect(highlightCodeBlock('a', 'TypeScript').displayName).toBe(
-      'TypeScript',
+    expect(highlightCodeBlock('a', 'TypeScript').languageType).toBe(
+      'typescript',
     );
   });
 
   it('should resolve highlight.js aliases of the supported languages', () => {
-    for (const [alias, displayName] of [
-      ['ts', 'TypeScript'],
-      ['TS', 'TypeScript'],
-      ['js', 'JavaScript'],
-      ['cs', 'C#'],
-      ['sh', 'Bash'],
-      ['yml', 'YAML'],
-      ['bat', 'Batch'],
-      ['svg', 'XML'],
-    ]) {
-      expect(highlightCodeBlock('a', alias).displayName)
+    const aliases: [string, SkyCodeBlockLanguageType][] = [
+      ['ts', 'typescript'],
+      ['TS', 'typescript'],
+      ['js', 'javascript'],
+      ['cs', 'csharp'],
+      ['sh', 'bash'],
+      ['yml', 'yaml'],
+      ['bat', 'dos'],
+      ['svg', 'xml'],
+      ['txt', 'plaintext'],
+    ];
+
+    for (const [alias, languageType] of aliases) {
+      expect(highlightCodeBlock('a', alias).languageType)
         .withContext(alias)
-        .toBe(displayName);
+        .toBe(languageType);
     }
   });
 
@@ -86,14 +58,11 @@ describe('Code block languages', () => {
     'constructor',
     '__proto__',
   ]) {
-    it(`should show plain text without a display name for ${languageType}`, () => {
-      const { displayName, html } = highlightCodeBlock(
-        '<p>a</p>',
-        languageType,
-      );
+    it(`should show plain text without a language type for ${languageType}`, () => {
+      const result = highlightCodeBlock('<p>a</p>', languageType);
 
-      expect(html).toBe('&lt;p&gt;a&lt;/p&gt;');
-      expect(displayName).toBeUndefined();
+      expect(result.html).toBe('&lt;p&gt;a&lt;/p&gt;');
+      expect(result.languageType).toBeUndefined();
     });
   }
 

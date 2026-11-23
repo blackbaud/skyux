@@ -10,6 +10,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SkyAppWindowRef, SkyLiveAnnouncerService } from '@skyux/core';
 import { SkyButton } from '@skyux/forms';
@@ -21,6 +22,36 @@ import { SkyCodeResourcesModule } from '../shared/sky-code-resources.module';
 
 import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { highlightCodeBlock } from './code-block-languages';
+
+// Language names are proper nouns that stay the same in every locale, so only
+// "Plain text" comes from the resource strings. highlight.js names a few
+// languages awkwardly ("php", "HTML, XML", "Batch file (DOS)"), so each language
+// type gets its own name.
+const LANGUAGE_NAMES: Record<
+  Exclude<SkyCodeBlockLanguageType, 'plaintext'>,
+  string
+> = {
+  arduino: 'Arduino',
+  asciidoc: 'AsciiDoc',
+  bash: 'Bash',
+  csharp: 'C#',
+  css: 'CSS',
+  dos: 'Batch',
+  gherkin: 'Gherkin',
+  html: 'HTML',
+  http: 'HTTP',
+  java: 'Java',
+  javascript: 'JavaScript',
+  json: 'JSON',
+  markdown: 'Markdown',
+  php: 'PHP',
+  powershell: 'PowerShell',
+  python: 'Python',
+  sql: 'SQL',
+  typescript: 'TypeScript',
+  xml: 'XML',
+  yaml: 'YAML',
+};
 
 // Removes leading and trailing blank lines and the leading spaces and tabs
 // common to every line. Other whitespace is kept so copied code matches the
@@ -120,21 +151,31 @@ export class SkyCodeBlock implements AfterContentChecked {
   );
 
   protected readonly highlighted = computed(() => {
-    const { displayName, html } = highlightCodeBlock(
+    const { html, languageType } = highlightCodeBlock(
       this.source(),
       this.languageType(),
     );
 
     return {
-      displayName,
       // highlight.js escapes the code before wrapping tokens in spans.
       html: this.#sanitizer.bypassSecurityTrustHtml(html),
+      languageType,
     };
   });
 
-  protected readonly languageName = computed(
-    () => this.highlighted().displayName,
+  readonly #plainTextLabel = toSignal(
+    this.#resources.getString('skyux_code_block_plain_text'),
   );
+
+  protected readonly languageName = computed(() => {
+    const languageType = this.highlighted().languageType;
+
+    if (languageType === 'plaintext') {
+      return this.#plainTextLabel();
+    }
+
+    return languageType && LANGUAGE_NAMES[languageType];
+  });
 
   protected readonly showHeader = computed(
     () =>
