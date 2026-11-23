@@ -27,10 +27,8 @@ import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { highlightCodeBlock } from './code-block-languages';
 import { SkyCodeBlockOutput } from './code-block-output';
 
-// Language names are proper nouns that stay the same in every locale, so only
-// "Plain text" comes from the resource strings. highlight.js names a few
-// languages awkwardly ("php", "HTML, XML", "Batch file (DOS)"), so each language
-// type gets its own name.
+// highlight.js's own names are awkward (for example, "Batch file (DOS)"). As
+// proper nouns these aren't localized; "Plain text" is a resource string.
 const LANGUAGE_NAMES: Record<
   Exclude<SkyCodeBlockLanguageType, 'plaintext'>,
   string
@@ -57,11 +55,8 @@ const LANGUAGE_NAMES: Record<
   yaml: 'YAML',
 };
 
-// Removes leading and trailing blank lines and the leading spaces and tabs
-// common to every line. Other whitespace is kept so copied code matches the
-// original (for example, tabs in a Makefile or trailing spaces in Markdown).
-// Only spaces and tabs count as indentation, so characters such as
-// non-breaking spaces are kept.
+// Removes surrounding blank lines and the shared indentation, keeping all other
+// whitespace so copied code matches the original.
 function normalizeCode(code: string): string {
   const lines = code.split(/\r?\n/);
   const isBlank = (line: string): boolean => /^[ \t]*$/.test(line);
@@ -78,8 +73,7 @@ function normalizeCode(code: string): string {
     .filter((line) => !isBlank(line))
     .map((line) => line.slice(0, line.search(/[^ \t]/)));
 
-  // Comparing whitespace characters, not widths, keeps a mix of tabs and spaces
-  // from losing uneven amounts of indentation.
+  // Compares characters, not widths, so mixed tabs and spaces dedent evenly.
   let indent = indents[0] ?? '';
 
   for (const lineIndent of indents) {
@@ -187,9 +181,8 @@ export class SkyCodeBlock implements AfterViewInit {
   readonly #projectedCode = signal('');
 
   public ngAfterViewInit(): void {
-    // The projected nodes stay hidden while a highlighted copy of their text is
-    // displayed, so the copy is updated whenever the text changes. Reading it
-    // here, after projected components render, also covers server rendering.
+    // The projected nodes stay hidden behind a highlighted copy of their text,
+    // so the copy is refreshed whenever the text changes.
     const input = this.#elementRef.nativeElement.querySelector(
       ':scope > .sky-code-block-input',
     ) as HTMLElement;
@@ -216,8 +209,7 @@ export class SkyCodeBlock implements AfterViewInit {
         this.source(),
       );
     } catch {
-      // The clipboard is unavailable (for example, on an insecure origin) or
-      // the browser denied access.
+      // The clipboard is unavailable or access was denied.
       resourceKey = 'skyux_code_block_copy_failure';
     }
 

@@ -7,7 +7,7 @@ import { SkyCodeBlock } from './code-block';
 import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { CodeBlockFixture } from './fixtures/code-block-fixture';
 
-// Renders its text through a binding, after the code block's content is checked.
+// Renders its text through its own binding.
 @Component({
   selector: 'sky-code-block-snippet-test',
   template: '{{ snippet() }}',
@@ -24,7 +24,7 @@ class SnippetTest {
 })
 class ProjectedComponentTest {}
 
-// Typed consumers can't pass this, but untyped values still fall back to xml.
+// Only possible without type checking.
 const UNSUPPORTED_LANGUAGE = 'xml1' as SkyCodeBlockLanguageType;
 
 describe('Code block component', () => {
@@ -47,8 +47,7 @@ describe('Code block component', () => {
   async function stabilize(): Promise<void> {
     fixture.autoDetectChanges();
     await fixture.whenStable();
-    // A mutation observer reads projected text after Angular renders it, then
-    // triggers another render.
+    // Lets the mutation observer re-read projected text and render again.
     await new Promise((resolve) => setTimeout(resolve));
     await fixture.whenStable();
   }
@@ -250,7 +249,6 @@ describe('Code block component', () => {
     const separatorStyle = getComputedStyle(getSeparator() as HTMLElement);
     const languageStyle = getComputedStyle(getLanguageName() as HTMLElement);
 
-    // The dash is styled like the file name.
     expect(separatorStyle.display).toBe('inline');
     expect(separatorStyle.color).toBe(fileNameStyle.color);
     expect(separatorStyle.fontStyle).toBe(fileNameStyle.fontStyle);
@@ -309,7 +307,6 @@ describe('Code block component', () => {
       json: 'JSON',
       markdown: 'Markdown',
       php: 'PHP',
-      // From the resource strings.
       plaintext: 'Plain text',
       powershell: 'PowerShell',
       python: 'Python',
@@ -418,14 +415,12 @@ describe('Code block component', () => {
     );
 
     expect(getCode().matches(':focus-visible')).toBeTrue();
-    // Default theme: the info-colored border of a focused input.
     expect(outputStyle.boxShadow).toContain(
       'rgb(0, 180, 241) 0px 0px 0px 1px inset',
     );
     expect(outputStyle.outlineColor).toBe('rgba(0, 0, 0, 0)');
     expect(outputStyle.outlineWidth).toBe('1px');
     expect(outputStyle.outlineOffset).toBe('-1px');
-    // The scrolling code area is clipped so its scrollbar can't cover the ring.
     expect(getComputedStyle(getCode()).clipPath).toBe('inset(1px)');
   });
 

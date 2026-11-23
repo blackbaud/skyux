@@ -1,7 +1,20 @@
-// Syntax colors come from the `--sky-color-text-code-*` design tokens, which
-// switch between light and dark mode on their own. The default theme uses the
-// light values the code block sets. Every color meets WCAG AA (4.5:1) on the
-// code background.
+@use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
+
+// The default theme doesn't define these tokens, so it uses their light values.
+// Every color meets WCAG AA (4.5:1) on the code background.
+@include compatMixins.sky-default-overrides('sky-code-block-output') {
+  --sky-override-code-block-attr-name-color: #d93a3d;
+  --sky-override-code-block-comment-color: #008435;
+  --sky-override-code-block-emphasis-font-style: italic;
+  --sky-override-code-block-function-color: #6e4d17;
+  --sky-override-code-block-keyword-literal-color: #0000ff;
+  --sky-override-code-block-number-color: #077e43;
+  --sky-override-code-block-prop-const-color: #0066cd;
+  --sky-override-code-block-string-attr-value-color: #912528;
+  --sky-override-code-block-strong-font-weight: 700;
+  --sky-override-code-block-tag-color: #822325;
+  --sky-override-code-block-type-meta-color: #007894;
+}
 
 .sky-code-block-output {
   .hljs-keyword,

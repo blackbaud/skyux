@@ -54,12 +54,11 @@ const FALLBACK_LANGUAGE = 'plaintext';
 
 let highlighter: HLJSApi | undefined;
 
-// The registered name of each language, so aliases (for example, `bat`)
-// resolve to their language type.
+// Maps aliases (for example, `bat`) to their language type.
 const languageNames = new Map<Language, SkyCodeBlockLanguageType>();
 
-// A separate instance keeps these registrations from affecting other users of
-// highlight.js in the same app.
+// A separate instance keeps these registrations from affecting other
+// highlight.js users in the app.
 function getHighlighter(): HLJSApi {
   if (!highlighter) {
     highlighter = hljs.newInstance();
@@ -77,10 +76,8 @@ function getHighlighter(): HLJSApi {
 }
 
 /**
- * Highlights code in a code block's `languageType` and returns the supported
- * language type it resolved to. Untyped values can also be highlight.js aliases
- * of a supported language (for example, `ts`). Unsupported values are shown as
- * plain text with no language type.
+ * Highlights code and resolves untyped values, such as highlight.js aliases, to
+ * a supported language type. Unsupported values are shown as plain text.
  */
 export function highlightCodeBlock(
   code: string,
@@ -88,7 +85,6 @@ export function highlightCodeBlock(
 ): { html: string; languageType: SkyCodeBlockLanguageType | undefined } {
   const highlighter = getHighlighter();
   const key = languageType?.toLowerCase() ?? '';
-  // highlight.js resolves names and aliases.
   const language = key ? highlighter.getLanguage(key) : undefined;
 
   if (!language) {
