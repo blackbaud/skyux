@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
+import { type SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -11,7 +12,7 @@ import {
   type SkyThemeSettingsChange,
 } from '@skyux/theme';
 import { _adapters, Chart, type DateAdapter, type TooltipItem } from 'chart.js';
-import { ReplaySubject } from 'rxjs';
+import { type Observable, of, ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
@@ -856,6 +857,41 @@ describe('Chart line component with a theme service', () => {
 
     expect(container.style.height).not.toBe(initialHeight);
     expect(container.style.height).toContain('33vh');
+
+    fixture.destroy();
+  });
+});
+
+describe('Chart line component with a locale', () => {
+  it('should format a time scale for the current locale', () => {
+    TestBed.configureTestingModule({
+      imports: [TestComponent],
+      providers: [
+        {
+          provide: SkyAppLocaleProvider,
+          useValue: {
+            defaultLocale: 'en-US',
+            getLocaleInfo: (): Observable<SkyAppLocaleInfo> =>
+              of({ locale: 'de-DE' }),
+          },
+        },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(TestComponent);
+    fixture.componentRef.setInput('categories', ['2026-01-15', '2026-04-01']);
+    fixture.componentRef.setInput('categoryScaleType', 'time');
+    fixture.componentRef.setInput('timeUnit', 'month');
+    fixture.detectChanges();
+
+    const tableSvc = fixture.debugElement
+      .query(By.directive(SkyChart))
+      .injector.get(SkyChartTableService);
+
+    expect(tableSvc.table()?.categories).toEqual([
+      '15. Jan. 2026',
+      '1. Apr. 2026',
+    ]);
 
     fixture.destroy();
   });

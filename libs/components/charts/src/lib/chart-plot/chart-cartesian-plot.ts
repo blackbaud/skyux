@@ -9,10 +9,12 @@ import {
 } from '@angular/core';
 import { outputFromObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
+import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 import { EMPTY, map, Subject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { getTimeScaleError } from '../chart-axis/chart-axis-category-utils';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/chart-js-data-point-index';
 import {
@@ -21,6 +23,7 @@ import {
   type SkyChartCartesianData,
   type SkyChartCartesianSeries,
 } from '../chart-js/cartesian-utils';
+import { type SkyChartDateAdapterOptions } from '../chart-js/chart-js-date-adapter';
 import { type SkyChartLegendItem } from '../chart-legend/chart-legend';
 import { SkyChartTable } from '../chart-table/chart-table';
 import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
@@ -59,6 +62,32 @@ export abstract class SkyChartCartesianPlot<
   });
 
   protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
+
+  readonly #localeProvider = inject(SkyAppLocaleProvider);
+
+  readonly #locale = toSignal(
+    this.#localeProvider.getLocaleInfo().pipe(map((info) => info.locale)),
+    { initialValue: this.#localeProvider.defaultLocale },
+  );
+
+  readonly #resourcesSvc = inject(SkyLibResourcesService);
+
+  /**
+   * How a time scale formats dates for the current locale.
+   */
+  protected readonly dateAdapterOptions = computed(
+    (): SkyChartDateAdapterOptions => {
+      const locale = this.#locale();
+
+      return {
+        locale,
+        quarterLabel: this.#resourcesSvc.getStringForLocale(
+          { locale },
+          'skyux_charts.time_scale.quarter_label',
+        ),
+      };
+    },
+  );
   protected readonly valueAxis = contentChild(SkyChartAxisValue);
 
   /**
@@ -154,7 +183,7 @@ export abstract class SkyChartCartesianPlot<
   protected getCategoryAxisError(
     categoryAxis: SkyChartAxisCategory,
   ): string | undefined {
-    return categoryAxis.timeScaleError();
+    return getTimeScaleError(categoryAxis);
   }
 
   /**
@@ -223,6 +252,7 @@ export abstract class SkyChartCartesianPlot<
       data.categoryAxis,
       data.series,
       data.valueAxis.formatValue(),
+      this.dateAdapterOptions(),
     );
   }
 

@@ -25,8 +25,6 @@ describe('buildCartesianScales', () => {
     return {
       labelHidden: () => false,
       labelText: () => 'Category',
-      locale: () => 'fr-CA',
-      quarterLabel: () => 'T{0} {1}',
       scaleType: () => (time ? 'time' : 'category'),
       timeUnit: () => time?.unit,
       timeStep: () => time?.step,
@@ -72,6 +70,7 @@ describe('buildCartesianScales', () => {
         valueAxis: createValueAxis('linear'),
         isHorizontal: false,
         themeStyles: createThemeStylesFixture(),
+        dateAdapterOptions: { locale: 'fr-CA', quarterLabel: 'T{0} {1}' },
       }) as unknown as Record<string, ScaleProbe>
     )['category'];
 

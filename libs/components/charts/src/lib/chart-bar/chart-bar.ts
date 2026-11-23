@@ -14,6 +14,7 @@ import { extendBaseChartJsConfig } from '../chart-js/chart-js-config-utils';
 import { SkyChartLegend } from '../chart-legend/chart-legend';
 import { SkyChartCartesianPlot } from '../chart-plot/chart-cartesian-plot';
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
+import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 import { SkyChartBarOrientation } from './chart-bar-orientation';
 import { SkyChartBarSeries } from './chart-bar-series';
 import { SkyChartBarSeriesLayout } from './chart-bar-series-layout';
@@ -25,7 +26,7 @@ import { type SkyChartBarSeriesValue } from './chart-bar-series-value';
  * @preview
  */
 @Component({
-  imports: [SkyChartJs, SkyChartLegend],
+  imports: [SkyChartJs, SkyChartLegend, SkyChartsResourcesModule],
   selector: 'sky-chart-bar',
   templateUrl: './chart-bar.html',
 })

@@ -5,6 +5,7 @@ import {
 } from 'chart.js';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { getDisplayCategories } from '../chart-axis/chart-axis-category-utils';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import type { SkyChartTable } from '../chart-table/chart-table';
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
@@ -151,10 +152,11 @@ export function buildCartesianTable(
   categoryAxis: SkyChartAxisCategory,
   series: readonly SkyChartCartesianSeries[],
   formatValue: (value: number) => string,
+  { locale, quarterLabel }: SkyChartDateAdapterOptions,
 ): SkyChartTable {
   return {
     categoryLabel: categoryAxis.labelText(),
-    categories: categoryAxis.displayCategories(),
+    categories: getDisplayCategories(categoryAxis, locale, quarterLabel),
     series: series.map((chartSeries) => ({
       label: chartSeries.labelText(),
       ...(chartSeries.emphasized?.() && { emphasized: true }),
@@ -262,6 +264,7 @@ export function buildCartesianScales(options: {
   isStacked?: boolean;
   showCategoryGridLines?: boolean;
   themeStyles: SkyChartThemeStyles;
+  dateAdapterOptions?: SkyChartDateAdapterOptions;
 }): ChartJsCartesianScales {
   const {
     categoryAxis,
@@ -270,6 +273,7 @@ export function buildCartesianScales(options: {
     isStacked = false,
     showCategoryGridLines = false,
     themeStyles,
+    dateAdapterOptions,
   } = options;
 
   const indexAxis: 'x' | 'y' = isHorizontal ? 'y' : 'x';
@@ -319,12 +323,7 @@ export function buildCartesianScales(options: {
             unit: timeUnit,
             tooltipFormat: fullTimeFormat(timeUnit),
           },
-          adapters: {
-            date: {
-              locale: categoryAxis.locale(),
-              quarterLabel: categoryAxis.quarterLabel(),
-            } satisfies SkyChartDateAdapterOptions,
-          },
+          adapters: { date: dateAdapterOptions },
           ticks: {
             ...categoryScale.ticks,
             stepSize: categoryAxis.timeStep(),

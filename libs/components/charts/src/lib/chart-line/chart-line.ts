@@ -1,6 +1,7 @@
 import { Component, computed, contentChildren } from '@angular/core';
 import { type ChartDataset } from 'chart.js';
 
+import { getChartLabels } from '../chart-axis/chart-axis-category-utils';
 import {
   buildCartesianScales,
   buildValueTooltipLabel,
@@ -11,6 +12,7 @@ import { SkyChartJs, type SkyChartJsConfig } from '../chart-js/chart-js';
 import { extendBaseChartJsConfig } from '../chart-js/chart-js-config-utils';
 import { SkyChartLegend } from '../chart-legend/chart-legend';
 import { SkyChartCartesianPlot } from '../chart-plot/chart-cartesian-plot';
+import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 import { SkyChartLineSeries } from './chart-line-series';
 import { type SkyChartLineSeriesValue } from './chart-line-series-value';
 
@@ -20,7 +22,7 @@ import { type SkyChartLineSeriesValue } from './chart-line-series-value';
  * @preview
  */
 @Component({
-  imports: [SkyChartJs, SkyChartLegend],
+  imports: [SkyChartJs, SkyChartLegend, SkyChartsResourcesModule],
   selector: 'sky-chart-line',
   templateUrl: './chart-line.html',
 })
@@ -87,6 +89,7 @@ export class SkyChartLine extends SkyChartCartesianPlot<
       // float in open space, so category grid lines anchor them.
       showCategoryGridLines: true,
       themeStyles,
+      dateAdapterOptions: this.dateAdapterOptions(),
     });
 
     // Lines run edge to edge, but a lone category's point would draw on top
@@ -100,7 +103,7 @@ export class SkyChartLine extends SkyChartCartesianPlot<
       type: 'line',
       data: {
         // Chart.js mutates the arrays it is given, so copy the readonly input.
-        labels: [...categoryAxis.chartLabels()],
+        labels: [...getChartLabels(categoryAxis)],
         datasets,
       },
       options: {
