@@ -1,9 +1,8 @@
 import {
-  AfterContentChecked,
+  AfterViewInit,
   Component,
   ElementRef,
   ViewEncapsulation,
-  afterEveryRender,
   booleanAttribute,
   computed,
   inject,
@@ -105,7 +104,7 @@ function normalizeCode(code: string): string {
   },
   imports: [SkyButton, SkyCodeResourcesModule],
 })
-export class SkyCodeBlock implements AfterContentChecked {
+export class SkyCodeBlock implements AfterViewInit {
   readonly #elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly #liveAnnouncer = inject(SkyLiveAnnouncerService);
   readonly #resources = inject(SkyLibResourcesService);
@@ -187,17 +186,16 @@ export class SkyCodeBlock implements AfterContentChecked {
 
   readonly #projectedCode = signal('');
 
-  constructor() {
-    // Projected components render their text after this component's content
-    // is checked, so the text is read again after every render. Setting the
-    // same text again is a no-op.
-    afterEveryRender(() => this.#readProjectedCode());
-  }
-
-  public ngAfterContentChecked(): void {
-    // Reading projected text before this component's view renders displays it
-    // on the first render, including on the server.
-    this.#readProjectedCode();
+  public ngAfterViewInit(): void {
+    // Like Stache, projected code is read once, after projected components
+    // have rendered their text. Bind `code` for code that changes.
+    this.#projectedCode.set(
+      (
+        this.#elementRef.nativeElement.querySelector(
+          ':scope > .sky-code-block-input',
+        ) as HTMLElement
+      ).textContent,
+    );
   }
 
   protected async copyCode(): Promise<void> {
@@ -218,15 +216,4 @@ export class SkyCodeBlock implements AfterContentChecked {
     );
   }
 
-  #readProjectedCode(): void {
-    if (!this.code()) {
-      this.#projectedCode.set(
-        (
-          this.#elementRef.nativeElement.querySelector(
-            ':scope > .sky-code-block-input',
-          ) as HTMLElement
-        ).textContent,
-      );
-    }
-  }
 }
