@@ -6,6 +6,7 @@
 @include compatMixins.sky-default-overrides('.sky-code-block') {
   --sky-override-code-block-attr-name-color: #d93a3d;
   --sky-override-code-block-comment-color: #008435;
+  --sky-override-code-block-emphasis-font-style: italic;
   --sky-override-code-block-function-color: #6e4d17;
   --sky-override-code-block-keyword-literal-color: #0000ff;
   --sky-override-code-block-number-color: #077e43;
@@ -101,13 +102,16 @@
   }
 
   .hljs-emphasis {
-    font-style: italic;
+    font-style: var(
+      --sky-override-code-block-emphasis-font-style,
+      var(--sky-font-style-em-style)
+    );
   }
 
   .hljs-strong {
     font-weight: var(
       --sky-override-code-block-strong-font-weight,
-      var(--sky-font-style-emphasized)
+      var(--sky-font-style-strong)
     );
   }
 }

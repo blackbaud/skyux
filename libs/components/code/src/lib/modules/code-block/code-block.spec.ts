@@ -458,6 +458,21 @@ describe('Code block component', () => {
         expect(clipPath).toBe(`inset(${ringWidth})`);
       });
 
+      it('should style Markdown emphasis and strong text with the font tokens', async () => {
+        await render({ code: '*a* **b**', languageType: 'markdown' });
+
+        expect(
+          getComputedStyle(
+            getCode().querySelector('.hljs-emphasis') as HTMLElement,
+          ).fontStyle,
+        ).toBe('italic');
+        expect(
+          getComputedStyle(
+            getCode().querySelector('.hljs-strong') as HTMLElement,
+          ).fontWeight,
+        ).toBe('700');
+      });
+
       it('should separate the file name and language name with a dash', async () => {
         await render({
           code: 'a',
