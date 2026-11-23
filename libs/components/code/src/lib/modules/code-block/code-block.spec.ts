@@ -419,6 +419,8 @@ describe('Code block component', () => {
       'rgb(0, 180, 241) 0px 0px 0px 1px inset',
     );
     expect(outputStyle.outlineColor).toBe('rgba(0, 0, 0, 0)');
+    expect(outputStyle.outlineWidth).toBe('1px');
+    expect(outputStyle.outlineOffset).toBe('-1px');
     // The scrolling code area is clipped so its scrollbar can't cover the ring.
     expect(getComputedStyle(getCode()).clipPath).toBe('inset(1px)');
   });
@@ -483,9 +485,11 @@ describe('Code block component', () => {
         await render({ code: 'a' });
 
         getCode().focus({ focusVisible: true });
-        const boxShadow = getComputedStyle(
+        const outputStyle = getComputedStyle(
           getCode().parentElement as HTMLElement,
-        ).boxShadow;
+        );
+        const boxShadow = outputStyle.boxShadow;
+        const outline = [outputStyle.outlineWidth, outputStyle.outlineOffset];
         const clipPath = getComputedStyle(getCode()).clipPath;
         document.body.classList.remove('sky-theme-mode-light');
 
@@ -494,6 +498,7 @@ describe('Code block component', () => {
         expect(boxShadow).not.toContain('rgb(0, 180, 241)');
         expect(ringWidth).toBeDefined();
         expect(clipPath).toBe(`inset(${ringWidth})`);
+        expect(outline).toEqual([`${ringWidth}`, `-${ringWidth}`]);
       });
 
       it('should style Markdown emphasis and strong text with the font tokens', async () => {
