@@ -75,7 +75,7 @@ describe('buildCartesianScales', () => {
       }) as unknown as Record<string, ScaleProbe>
     )['category'];
 
-    expect(scale.type).toBe('time');
+    expect(scale.type).toBe('skyTime');
     expect(scale.time).toEqual({ unit: 'week', tooltipFormat: 'full:week' });
     expect(scale.ticks.stepSize).toBe(2);
     expect(scale.adapters).toEqual({

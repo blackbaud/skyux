@@ -1,4 +1,4 @@
-import { _adapters, type TimeUnit } from 'chart.js';
+import { type DateAdapter, type TimeUnit } from 'chart.js';
 
 import { parseTimeCategory } from '../shared/time-category-parser';
 import { type SkyChartTimeUnit } from '../shared/time-unit';
@@ -205,9 +205,24 @@ function diff(max: number, min: number, unit: TimeUnit): number {
   }
 }
 
-// Chart.js has no built-in date adapter, so the time scale needs one.
-_adapters._date.override({
-  formats(): Record<TimeUnit | 'datetime', string> {
+/**
+ * The date adapter of SKY UX time scales. It is created by
+ * `SkyChartTimeScale` instead of being registered with Chart.js, so it doesn't
+ * replace a date adapter the consumer registers for their own Chart.js charts.
+ * @internal
+ */
+export class SkyChartDateAdapter implements DateAdapter<SkyChartDateAdapterOptions> {
+  public readonly options: SkyChartDateAdapterOptions;
+
+  constructor(options: SkyChartDateAdapterOptions) {
+    this.options = options;
+  }
+
+  public init(): void {
+    // Chart.js's DateAdapter requires it, but there is nothing to set up.
+  }
+
+  public formats(): Record<TimeUnit | 'datetime', string> {
     const units = Object.keys(AXIS_FORMATS) as SkyChartTimeUnit[];
 
     return {
@@ -217,8 +232,9 @@ _adapters._date.override({
       ),
       datetime: fullTimeFormat('second'),
     } as Record<TimeUnit | 'datetime', string>;
-  },
-  parse(value: unknown): number | null {
+  }
+
+  public parse(value: unknown): number | null {
     if (value === null || value === undefined) {
       return null;
     }
@@ -230,9 +246,10 @@ _adapters._date.override({
     const time = parseTimeCategory(value as string);
 
     return Number.isNaN(time) ? null : time;
-  },
-  format(time: number, format: string): string {
-    const { locale, quarterLabel } = this.options as SkyChartDateAdapterOptions;
+  }
+
+  public format(time: number, format: string): string {
+    const { locale, quarterLabel } = this.options;
 
     if (format.startsWith(FULL_FORMAT_PREFIX)) {
       return formatTimeCategory(
@@ -251,11 +268,21 @@ _adapters._date.override({
       locale,
       AXIS_FORMATS[format as SkyChartTimeUnit],
     ).format(time);
-  },
-  add,
-  diff,
-  startOf,
-  endOf(time: number, unit: TimeUnit): number {
+  }
+
+  public add(time: number, amount: number, unit: TimeUnit): number {
+    return add(time, amount, unit);
+  }
+
+  public diff(max: number, min: number, unit: TimeUnit): number {
+    return diff(max, min, unit);
+  }
+
+  public startOf(time: number, unit: TimeUnit | 'isoWeek'): number {
+    return startOf(time, unit as TimeUnit);
+  }
+
+  public endOf(time: number, unit: TimeUnit): number {
     return add(startOf(time, unit), 1, unit) - 1;
-  },
-});
+  }
+}

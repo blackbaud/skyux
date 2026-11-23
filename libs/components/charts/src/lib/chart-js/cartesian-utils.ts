@@ -13,6 +13,7 @@ import {
   type SkyChartDateAdapterOptions,
   fullTimeFormat,
 } from './chart-js-date-adapter';
+import { SKY_CHART_TIME_SCALE_TYPE } from './chart-js-time-scale';
 
 /**
  * The Chart.js chart types that plot a category axis against one or more value
@@ -313,7 +314,7 @@ export function buildCartesianScales(options: {
     [CATEGORY_AXIS_ID]: timeUnit
       ? {
           ...categoryScale,
-          type: 'time',
+          type: SKY_CHART_TIME_SCALE_TYPE,
           time: {
             unit: timeUnit,
             tooltipFormat: fullTimeFormat(timeUnit),

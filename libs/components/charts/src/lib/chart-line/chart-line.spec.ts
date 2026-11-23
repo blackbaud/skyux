@@ -1,4 +1,4 @@
-import { Component, ViewChild, input } from '@angular/core';
+import { Component, input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
@@ -10,7 +10,7 @@ import {
   SkyThemeSettings,
   type SkyThemeSettingsChange,
 } from '@skyux/theme';
-import { Chart, type TooltipItem } from 'chart.js';
+import { _adapters, Chart, type DateAdapter, type TooltipItem } from 'chart.js';
 import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
@@ -364,12 +364,39 @@ describe('Chart line component', () => {
     it('should position each category by its date', () => {
       renderTimeScale('month');
 
-      expect(getScale(requireChart(), 'category').type).toBe('time');
+      expect(getScale(requireChart(), 'category').type).toBe('skyTime');
       expect(requireChart().data.labels).toEqual([
         new Date(2026, 0, 1).getTime(),
         new Date(2026, 1, 15).getTime(),
         new Date(2026, 2, 1).getTime(),
       ]);
+    });
+
+    it('should not register a global Chart.js date adapter', () => {
+      renderTimeScale('month');
+
+      expect(() => new _adapters._date().formats()).toThrowError(
+        /not implemented/,
+      );
+    });
+
+    it("should ignore a consumer's global Chart.js date adapter", () => {
+      const prototype = _adapters._date.prototype as object;
+      const original = Object.getOwnPropertyDescriptors(prototype);
+
+      _adapters._date.override({
+        formats: () => ({}) as ReturnType<DateAdapter['formats']>,
+        format: () => 'Consumer label',
+        parse: () => 0,
+      });
+
+      try {
+        renderTimeScale('month');
+
+        expect(getTickLabels()).toEqual(['Jan 2026', 'Feb 2026', 'Mar 2026']);
+      } finally {
+        Object.defineProperties(prototype, original);
+      }
     });
 
     it('should label the axis once per unit, formatted for the unit', () => {

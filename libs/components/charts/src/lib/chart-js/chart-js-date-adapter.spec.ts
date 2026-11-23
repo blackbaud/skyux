@@ -1,14 +1,15 @@
-import { _adapters, type TimeUnit } from 'chart.js';
+import { type TimeUnit } from 'chart.js';
 
-import { formatTimeCategory } from './chart-js-date-adapter';
+import {
+  SkyChartDateAdapter,
+  formatTimeCategory,
+} from './chart-js-date-adapter';
 
 describe('Chart.js date adapter', () => {
   const time = new Date(2026, 0, 15, 10, 30, 45, 123).getTime();
 
-  function createAdapter(
-    locale = 'en-US',
-  ): InstanceType<typeof _adapters._date> {
-    return new _adapters._date({ locale, quarterLabel: 'Q{0} {1}' });
+  function createAdapter(locale = 'en-US'): SkyChartDateAdapter {
+    return new SkyChartDateAdapter({ locale, quarterLabel: 'Q{0} {1}' });
   }
 
   // Intl separates some parts with narrow or non-breaking spaces.
@@ -56,7 +57,7 @@ describe('Chart.js date adapter', () => {
   });
 
   it('should label quarters from the quarter label template', () => {
-    const adapter = new _adapters._date({
+    const adapter = new SkyChartDateAdapter({
       locale: 'fr-CA',
       quarterLabel: 'T{0} {1}',
     });
