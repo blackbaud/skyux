@@ -1,6 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TestBed } from '@angular/core/testing';
 import { SkyCodeBlockHarness } from '@skyux/code/testing';
+import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { CodeCodeBlockFileNameExample } from './example';
 
@@ -8,6 +9,10 @@ describe('Code block with a file name example', () => {
   async function setupTest(): Promise<{
     codeBlockHarness: SkyCodeBlockHarness;
   }> {
+    TestBed.configureTestingModule({
+      providers: [provideNoopSkyAnimations()],
+    });
+
     const fixture = TestBed.createComponent(CodeCodeBlockFileNameExample);
     const loader = TestbedHarnessEnvironment.loader(fixture);
 
