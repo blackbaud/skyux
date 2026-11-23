@@ -215,5 +215,4 @@ export class SkyCodeBlock implements AfterViewInit {
       await firstValueFrom(this.#resources.getString(resourceKey)),
     );
   }
-
 }
