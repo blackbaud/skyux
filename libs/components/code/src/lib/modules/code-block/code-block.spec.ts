@@ -47,6 +47,10 @@ describe('Code block component', () => {
   async function stabilize(): Promise<void> {
     fixture.autoDetectChanges();
     await fixture.whenStable();
+    // A mutation observer reads projected text after Angular renders it, then
+    // triggers another render.
+    await new Promise((resolve) => setTimeout(resolve));
+    await fixture.whenStable();
   }
 
   function setInputs(inputs: Parameters<typeof render>[0]): void {
@@ -175,6 +179,25 @@ describe('Code block component', () => {
     await render({ code: '\n    first()\n  second()\n' });
 
     expect(getCode().textContent).toBe('  first()\nsecond()');
+  });
+
+  it('should update when projected content changes', async () => {
+    const writeTextSpy = spyOn(
+      navigator.clipboard,
+      'writeText',
+    ).and.resolveTo();
+
+    await render({ projected: 'a' });
+    await render({ projected: 'b' });
+
+    expect(getCode().textContent).toBe('b');
+
+    fixture.nativeElement
+      .querySelector('.sky-code-block-copy-button button')
+      .click();
+    await stabilize();
+
+    expect(writeTextSpy).toHaveBeenCalledOnceWith('b');
   });
 
   it('should render markup in code as text', async () => {

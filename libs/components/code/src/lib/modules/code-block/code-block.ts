@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  DestroyRef,
   ElementRef,
   ViewEncapsulation,
   booleanAttribute,
@@ -11,7 +12,11 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SkyAppWindowRef, SkyLiveAnnouncerService } from '@skyux/core';
+import {
+  SkyAppWindowRef,
+  SkyLiveAnnouncerService,
+  SkyMutationObserverService,
+} from '@skyux/core';
 import { SkyButton } from '@skyux/forms';
 import { SkyLibResourcesService } from '@skyux/i18n';
 
@@ -105,8 +110,10 @@ function normalizeCode(code: string): string {
   imports: [SkyButton, SkyCodeResourcesModule],
 })
 export class SkyCodeBlock implements AfterViewInit {
+  readonly #destroyRef = inject(DestroyRef);
   readonly #elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly #liveAnnouncer = inject(SkyLiveAnnouncerService);
+  readonly #mutationObserver = inject(SkyMutationObserverService);
   readonly #resources = inject(SkyLibResourcesService);
   readonly #sanitizer = inject(DomSanitizer);
   readonly #windowRef = inject(SkyAppWindowRef);
@@ -187,15 +194,25 @@ export class SkyCodeBlock implements AfterViewInit {
   readonly #projectedCode = signal('');
 
   public ngAfterViewInit(): void {
-    // Like Stache, projected code is read once, after projected components
-    // have rendered their text. Bind `code` for code that changes.
-    this.#projectedCode.set(
-      (
-        this.#elementRef.nativeElement.querySelector(
-          ':scope > .sky-code-block-input',
-        ) as HTMLElement
-      ).textContent,
-    );
+    // The projected nodes stay hidden while a highlighted copy of their text is
+    // displayed, so the copy is updated whenever the text changes. Reading it
+    // here, after projected components render, also covers server rendering.
+    const input = this.#elementRef.nativeElement.querySelector(
+      ':scope > .sky-code-block-input',
+    ) as HTMLElement;
+    const readProjectedCode = (): void =>
+      this.#projectedCode.set(input.textContent);
+
+    readProjectedCode();
+
+    const observer = this.#mutationObserver.create(readProjectedCode);
+
+    observer.observe(input, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    this.#destroyRef.onDestroy(() => observer.disconnect());
   }
 
   protected async copyCode(): Promise<void> {
