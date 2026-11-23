@@ -371,12 +371,18 @@ describe('Code block component', () => {
 
     getCode().focus({ focusVisible: true });
 
-    const style = getComputedStyle(getCode());
+    const outputStyle = getComputedStyle(
+      getCode().parentElement as HTMLElement,
+    );
 
     expect(getCode().matches(':focus-visible')).toBeTrue();
     // Default theme: the info-colored border of a focused input.
-    expect(style.boxShadow).toContain('rgb(0, 180, 241) 0px 0px 0px 1px inset');
-    expect(style.outlineColor).toBe('rgba(0, 0, 0, 0)');
+    expect(outputStyle.boxShadow).toContain(
+      'rgb(0, 180, 241) 0px 0px 0px 1px inset',
+    );
+    expect(outputStyle.outlineColor).toBe('rgba(0, 0, 0, 0)');
+    // The scrolling code area is clipped so its scrollbar can't cover the ring.
+    expect(getComputedStyle(getCode()).clipPath).toBe('inset(1px)');
   });
 
   describe('a11y', () => {
@@ -439,11 +445,17 @@ describe('Code block component', () => {
         await render({ code: 'a' });
 
         getCode().focus({ focusVisible: true });
-        const boxShadow = getComputedStyle(getCode()).boxShadow;
+        const boxShadow = getComputedStyle(
+          getCode().parentElement as HTMLElement,
+        ).boxShadow;
+        const clipPath = getComputedStyle(getCode()).clipPath;
         document.body.classList.remove('sky-theme-mode-light');
 
-        expect(boxShadow).toMatch(/^rgb\(.+\) 0px 0px 0px [1-9]\d*px inset$/);
+        const ringWidth = /0px 0px 0px (\d+px) inset$/.exec(boxShadow)?.[1];
+
         expect(boxShadow).not.toContain('rgb(0, 180, 241)');
+        expect(ringWidth).toBeDefined();
+        expect(clipPath).toBe(`inset(${ringWidth})`);
       });
 
       it('should separate the file name and language name with a dash', async () => {
