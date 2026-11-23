@@ -3,7 +3,6 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  ViewEncapsulation,
   booleanAttribute,
   computed,
   inject,
@@ -26,6 +25,7 @@ import { SkyCodeResourcesModule } from '../shared/sky-code-resources.module';
 
 import { SkyCodeBlockLanguageType } from './code-block-language-type';
 import { highlightCodeBlock } from './code-block-languages';
+import { SkyCodeBlockOutput } from './code-block-output';
 
 // Language names are proper nouns that stay the same in every locale, so only
 // "Plain text" comes from the resource strings. highlight.js names a few
@@ -99,15 +99,8 @@ function normalizeCode(code: string): string {
 @Component({
   selector: 'sky-code-block',
   templateUrl: './code-block.html',
-  styleUrls: ['./code-block.scss', './themes/syntax.scss'],
-  // The highlighted code is inserted with innerHTML, so its elements never get
-  // Angular's emulated-encapsulation attribute. Styles are scoped by the
-  // `sky-code-block` class instead.
-  encapsulation: ViewEncapsulation.None,
-  host: {
-    class: 'sky-code-block',
-  },
-  imports: [SkyButton, SkyCodeResourcesModule],
+  styleUrl: './code-block.scss',
+  imports: [SkyButton, SkyCodeBlockOutput, SkyCodeResourcesModule],
 })
 export class SkyCodeBlock implements AfterViewInit {
   readonly #destroyRef = inject(DestroyRef);

@@ -1,11 +1,10 @@
 @use 'libs/components/theme/src/lib/styles/compat-tokens-mixins' as compatMixins;
 @use 'libs/components/theme/src/lib/styles/variables' as *;
 
-// Encapsulation is off so the syntax colors reach the highlighted markup, which
-// is inserted with innerHTML; every rule must stay under `.sky-code-block`.
-
-// The default theme keeps the Stache Code Block look.
-@include compatMixins.sky-default-overrides('.sky-code-block') {
+// The default theme keeps the Stache Code Block look. The custom properties
+// cascade to the output component, which draws the code and its syntax colors.
+@include compatMixins.sky-default-overrides(':host') {
+  --sky-override-code-block-attr-name-color: #d93a3d;
   --sky-override-code-block-border-color: #{$sky-border-color-neutral-medium};
   --sky-override-code-block-border-radius: 0;
   --sky-override-code-block-border-width: 1px;
@@ -17,15 +16,25 @@
   --sky-override-code-block-code-focus-width: 1px;
   --sky-override-code-block-code-line-height: 1.5;
   --sky-override-code-block-code-padding: 20px;
+  --sky-override-code-block-comment-color: #008435;
+  --sky-override-code-block-emphasis-font-style: italic;
   --sky-override-code-block-font-family:
     Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  --sky-override-code-block-function-color: #6e4d17;
   --sky-override-code-block-header-background-color: #fff;
   --sky-override-code-block-header-gap: 5px;
   --sky-override-code-block-header-padding: 5px 5px 5px 20px;
+  --sky-override-code-block-keyword-literal-color: #0000ff;
   --sky-override-code-block-language-color: #{$sky-text-color-deemphasized};
   --sky-override-code-block-language-font-style: italic;
+  --sky-override-code-block-number-color: #077e43;
+  --sky-override-code-block-prop-const-color: #0066cd;
+  --sky-override-code-block-string-attr-value-color: #912528;
+  --sky-override-code-block-strong-font-weight: 700;
+  --sky-override-code-block-tag-color: #822325;
   --sky-override-code-block-text-color: #{$sky-text-color-default};
   --sky-override-code-block-title-color: #{$sky-text-color-default};
+  --sky-override-code-block-type-meta-color: #007894;
 }
 
 $border: var(
@@ -38,12 +47,7 @@ $border: var(
     var(--sky-color-border-container-base)
   );
 
-$focus-width: var(
-  --sky-override-code-block-code-focus-width,
-  var(--sky-border-width-input-focus)
-);
-
-.sky-code-block {
+:host {
   display: block;
   overflow: hidden;
   border: $border;
@@ -51,116 +55,59 @@ $focus-width: var(
     --sky-override-code-block-border-radius,
     var(--sky-border-radius-s)
   );
+}
 
-  .sky-code-block-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(
-      --sky-override-code-block-header-gap,
+.sky-code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(
+    --sky-override-code-block-header-gap,
+    var(--sky-comp-code_block-header-space-inset-right)
+  );
+  padding: var(
+    --sky-override-code-block-header-padding,
+    var(--sky-comp-code_block-header-space-inset-top)
       var(--sky-comp-code_block-header-space-inset-right)
-    );
-    padding: var(
-      --sky-override-code-block-header-padding,
-      var(--sky-comp-code_block-header-space-inset-top)
-        var(--sky-comp-code_block-header-space-inset-right)
-        var(--sky-comp-code_block-header-space-inset-bottom)
-        var(--sky-comp-code_block-header-space-inset-left)
-    );
-    border-bottom: $border;
-    background-color: var(
-      --sky-override-code-block-header-background-color,
-      var(--sky-color-background-container-dimmed)
-    );
-  }
+      var(--sky-comp-code_block-header-space-inset-bottom)
+      var(--sky-comp-code_block-header-space-inset-left)
+  );
+  border-bottom: $border;
+  background-color: var(
+    --sky-override-code-block-header-background-color,
+    var(--sky-color-background-container-dimmed)
+  );
+}
 
-  // Modern shows "fileName - languageType" in body text with the deemphasized
-  // color, without the deemphasized italics. The default theme keeps Stache's
-  // colors: the file name and dash in the default color, then the language
-  // deemphasized.
-  .sky-code-block-title {
-    // Lets a long file name wrap instead of pushing the copy button out of view.
-    min-width: 0;
-    overflow-wrap: anywhere;
-    color: var(
-      --sky-override-code-block-title-color,
-      var(--sky-color-text-deemphasized)
-    );
-    font-size: var(--sky-font-size-body-m);
-    font-weight: var(--sky-font-style-body-m);
-    line-height: var(--sky-font-line_height-body-m);
-  }
+// Modern shows "fileName - languageType" in body text with the deemphasized
+// color, without the deemphasized italics. The default theme keeps Stache's
+// colors: the file name and dash in the default color, then the language
+// deemphasized.
+.sky-code-block-title {
+  // Lets a long file name wrap instead of pushing the copy button out of view.
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(
+    --sky-override-code-block-title-color,
+    var(--sky-color-text-deemphasized)
+  );
+  font-size: var(--sky-font-size-body-m);
+  font-weight: var(--sky-font-style-body-m);
+  line-height: var(--sky-font-line_height-body-m);
+}
 
-  .sky-code-block-separator {
-    white-space: pre;
-  }
+.sky-code-block-separator {
+  white-space: pre;
+}
 
-  .sky-code-block-language {
-    color: var(
-      --sky-override-code-block-language-color,
-      var(--sky-color-text-deemphasized)
-    );
-    font-style: var(--sky-override-code-block-language-font-style, normal);
-  }
+.sky-code-block-language {
+  color: var(
+    --sky-override-code-block-language-color,
+    var(--sky-color-text-deemphasized)
+  );
+  font-style: var(--sky-override-code-block-language-font-style, normal);
+}
 
-  .sky-code-block-input {
-    display: none;
-  }
-
-  // The code area uses the container background (white in the default theme),
-  // so the syntax colors in ./themes always meet WCAG AA (4.5:1) against it.
-  .sky-code-block-output {
-    margin: 0;
-    background-color: var(
-      --sky-override-code-block-code-background-color,
-      var(--sky-color-background-container-base)
-    );
-
-    // `code` scrolls (rather than `pre`) so it can take the keyboard focus.
-    code {
-      display: block;
-      overflow-x: auto;
-      padding: var(
-        --sky-override-code-block-code-padding,
-        var(--sky-comp-code_block-content-space-inset-top)
-          var(--sky-comp-code_block-content-space-inset-right)
-          var(--sky-comp-code_block-content-space-inset-bottom)
-          var(--sky-comp-code_block-content-space-inset-left)
-      );
-      color: var(
-        --sky-override-code-block-text-color,
-        var(--sky-color-text-default)
-      );
-      font-family: var(
-        --sky-override-code-block-font-family,
-        var(--sky-font-family-monospaced)
-      );
-      line-height: var(
-        --sky-override-code-block-code-line-height,
-        var(--sky-font-line_height-paragraph-m)
-      );
-      white-space: pre;
-      tab-size: 4;
-
-      &:focus-visible {
-        outline: none;
-        // The focus ring is an inset box-shadow on the `pre`, which this
-        // element's scrollbar would otherwise paint over.
-        clip-path: inset($focus-width);
-      }
-    }
-
-    // The focus ring is drawn inside the code area because the block clips
-    // anything outside it. Forced-colors mode drops box-shadow but paints the
-    // transparent outline.
-    &:has(> code:focus-visible) {
-      outline: $focus-width solid transparent;
-      outline-offset: calc(-1 * #{$focus-width});
-      box-shadow: var(
-        --sky-override-code-block-code-box-shadow-focus,
-        inset 0 0 0 var(--sky-border-width-input-focus)
-          var(--sky-color-border-input-focus)
-      );
-    }
-  }
+.sky-code-block-input {
+  display: none;
 }

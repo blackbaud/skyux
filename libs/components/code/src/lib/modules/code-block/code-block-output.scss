@@ -1,0 +1,68 @@
+// Encapsulation is off so these styles reach the highlighted markup, which is
+// inserted with innerHTML; every rule must stay under `sky-code-block-output`.
+
+$focus-width: var(
+  --sky-override-code-block-code-focus-width,
+  var(--sky-border-width-input-focus)
+);
+
+sky-code-block-output {
+  display: block;
+}
+
+// The code area uses the container background (white in the default theme),
+// so the syntax colors in ./themes always meet WCAG AA (4.5:1) against it.
+.sky-code-block-output {
+  margin: 0;
+  background-color: var(
+    --sky-override-code-block-code-background-color,
+    var(--sky-color-background-container-base)
+  );
+
+  // `code` scrolls (rather than `pre`) so it can take the keyboard focus.
+  code {
+    display: block;
+    overflow-x: auto;
+    padding: var(
+      --sky-override-code-block-code-padding,
+      var(--sky-comp-code_block-content-space-inset-top)
+        var(--sky-comp-code_block-content-space-inset-right)
+        var(--sky-comp-code_block-content-space-inset-bottom)
+        var(--sky-comp-code_block-content-space-inset-left)
+    );
+    color: var(
+      --sky-override-code-block-text-color,
+      var(--sky-color-text-default)
+    );
+    font-family: var(
+      --sky-override-code-block-font-family,
+      var(--sky-font-family-monospaced)
+    );
+    line-height: var(
+      --sky-override-code-block-code-line-height,
+      var(--sky-font-line_height-paragraph-m)
+    );
+    white-space: pre;
+    tab-size: 4;
+
+    &:focus-visible {
+      outline: none;
+      // The focus ring is an inset box-shadow on the `pre`, which this
+      // element's scrollbar would otherwise paint over.
+      clip-path: inset($focus-width);
+    }
+  }
+
+  // The focus ring is drawn inside the code area because the block clips
+  // anything outside it. Forced-colors mode drops box-shadow but paints the
+  // transparent outline.
+  &:has(> code:focus-visible) {
+    outline: $focus-width solid transparent;
+    outline-offset: calc(-1 * #{$focus-width});
+    box-shadow: var(
+      --sky-override-code-block-code-box-shadow-focus,
+      inset 0 0 0 var(--sky-border-width-input-focus)
+        var(--sky-color-border-input-focus)
+    );
+  }
+}

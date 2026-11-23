@@ -24,6 +24,4 @@
   </div>
 }
 <div class="sky-code-block-input"><ng-content /></div>
-<pre
-  class="sky-code-block-output"
-><code class="hljs" tabindex="0" [innerHTML]="highlighted().html"></code></pre>
+<sky-code-block-output [html]="highlighted().html" />
