@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { outputFromObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
-import { SkyAppLocaleProvider, SkyLibResourcesService } from '@skyux/i18n';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 import { EMPTY, map, Subject } from 'rxjs';
 
@@ -62,6 +62,7 @@ export abstract class SkyChartCartesianPlot<
   });
 
   protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
+  protected readonly valueAxis = contentChild(SkyChartAxisValue);
 
   readonly #localeProvider = inject(SkyAppLocaleProvider);
 
@@ -70,25 +71,12 @@ export abstract class SkyChartCartesianPlot<
     { initialValue: this.#localeProvider.defaultLocale },
   );
 
-  readonly #resourcesSvc = inject(SkyLibResourcesService);
-
   /**
    * How a time scale formats dates for the current locale.
    */
   protected readonly dateAdapterOptions = computed(
-    (): SkyChartDateAdapterOptions => {
-      const locale = this.#locale();
-
-      return {
-        locale,
-        quarterLabel: this.#resourcesSvc.getStringForLocale(
-          { locale },
-          'skyux_charts.time_scale.quarter_label',
-        ),
-      };
-    },
+    (): SkyChartDateAdapterOptions => ({ locale: this.#locale() }),
   );
-  protected readonly valueAxis = contentChild(SkyChartAxisValue);
 
   /**
    * The projected series components. Subclasses implement this with a

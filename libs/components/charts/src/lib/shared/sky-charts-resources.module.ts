@@ -55,7 +55,6 @@ const RESOURCES: Record<string, SkyLibResources> = {
     'skyux_charts.data_table_modal.table_region_label': {
       message: 'Data table for {0}',
     },
-    'skyux_charts.time_scale.quarter_label': { message: 'Q{0} {1}' },
   },
   ES: {
     'skyux_charts.chart.bar.accessible_summary': {

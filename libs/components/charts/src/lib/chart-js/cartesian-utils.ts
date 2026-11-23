@@ -152,11 +152,11 @@ export function buildCartesianTable(
   categoryAxis: SkyChartAxisCategory,
   series: readonly SkyChartCartesianSeries[],
   formatValue: (value: number) => string,
-  { locale, quarterLabel }: SkyChartDateAdapterOptions,
+  { locale }: SkyChartDateAdapterOptions,
 ): SkyChartTable {
   return {
     categoryLabel: categoryAxis.labelText(),
-    categories: getDisplayCategories(categoryAxis, locale, quarterLabel),
+    categories: getDisplayCategories(categoryAxis, locale),
     series: series.map((chartSeries) => ({
       label: chartSeries.labelText(),
       ...(chartSeries.emphasized?.() && { emphasized: true }),

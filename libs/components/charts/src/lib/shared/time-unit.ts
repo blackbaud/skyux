@@ -10,5 +10,4 @@ export type SkyChartTimeUnit =
   | 'day'
   | 'week'
   | 'month'
-  | 'quarter'
   | 'year';

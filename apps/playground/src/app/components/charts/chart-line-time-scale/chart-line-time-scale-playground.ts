@@ -28,7 +28,6 @@ const TIME_UNITS: SkyChartTimeUnit[] = [
   'day',
   'week',
   'month',
-  'quarter',
   'year',
 ];
 

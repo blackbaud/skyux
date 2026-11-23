@@ -12,7 +12,6 @@ import { SkyChartJs, type SkyChartJsConfig } from '../chart-js/chart-js';
 import { extendBaseChartJsConfig } from '../chart-js/chart-js-config-utils';
 import { SkyChartLegend } from '../chart-legend/chart-legend';
 import { SkyChartCartesianPlot } from '../chart-plot/chart-cartesian-plot';
-import { SkyChartsResourcesModule } from '../shared/sky-charts-resources.module';
 import { SkyChartLineSeries } from './chart-line-series';
 import { type SkyChartLineSeriesValue } from './chart-line-series-value';
 
@@ -22,7 +21,7 @@ import { type SkyChartLineSeriesValue } from './chart-line-series-value';
  * @preview
  */
 @Component({
-  imports: [SkyChartJs, SkyChartLegend, SkyChartsResourcesModule],
+  imports: [SkyChartJs, SkyChartLegend],
   selector: 'sky-chart-line',
   templateUrl: './chart-line.html',
 })

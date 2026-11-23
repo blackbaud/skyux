@@ -74,7 +74,6 @@ export function getChartLabels(
 export function getDisplayCategories(
   categoryAxis: SkyChartAxisCategory,
   locale: string,
-  quarterLabel: string,
 ): readonly (string | number)[] {
   const labels = getChartLabels(categoryAxis);
   const unit = categoryAxis.timeUnit();
@@ -83,7 +82,5 @@ export function getDisplayCategories(
     return labels;
   }
 
-  return labels.map((time) =>
-    formatTimeCategory(time as number, unit, locale, quarterLabel),
-  );
+  return labels.map((time) => formatTimeCategory(time as number, unit, locale));
 }

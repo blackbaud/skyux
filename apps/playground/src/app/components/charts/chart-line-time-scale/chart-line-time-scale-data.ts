@@ -171,9 +171,6 @@ function addUnits(date: Date, unit: SkyChartTimeUnit, amount: number): Date {
     case 'month':
       next.setMonth(next.getMonth() + amount);
       break;
-    case 'quarter':
-      next.setMonth(next.getMonth() + amount * 3);
-      break;
     case 'year':
       next.setFullYear(next.getFullYear() + amount);
       break;
@@ -205,7 +202,6 @@ function startOfUnit(unit: SkyChartTimeUnit): Date {
       date.setDate(date.getDate() - date.getDay());
       break;
     case 'month':
-    case 'quarter':
       date.setHours(0, 0, 0, 0);
       date.setDate(1);
       break;

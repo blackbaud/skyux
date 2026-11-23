@@ -14,7 +14,7 @@ type ScaleProbe = {
   ticks: { autoSkip: boolean; stepSize?: number };
   type: string;
   time?: { unit: string; tooltipFormat: string };
-  adapters?: { date: { locale: string; quarterLabel: string } };
+  adapters?: { date: { locale: string } };
 };
 
 describe('buildCartesianScales', () => {
@@ -70,7 +70,7 @@ describe('buildCartesianScales', () => {
         valueAxis: createValueAxis('linear'),
         isHorizontal: false,
         themeStyles: createThemeStylesFixture(),
-        dateAdapterOptions: { locale: 'fr-CA', quarterLabel: 'T{0} {1}' },
+        dateAdapterOptions: { locale: 'fr-CA' },
       }) as unknown as Record<string, ScaleProbe>
     )['category'];
 
@@ -78,7 +78,7 @@ describe('buildCartesianScales', () => {
     expect(scale.time).toEqual({ unit: 'week', tooltipFormat: 'full:week' });
     expect(scale.ticks.stepSize).toBe(2);
     expect(scale.adapters).toEqual({
-      date: { locale: 'fr-CA', quarterLabel: 'T{0} {1}' },
+      date: { locale: 'fr-CA' },
     });
   });
 

@@ -9,10 +9,6 @@ import { type SkyChartTimeUnit } from '../shared/time-unit';
  */
 export interface SkyChartDateAdapterOptions {
   locale: string;
-  /**
-   * `{0}` is the quarter number and `{1}` is the year.
-   */
-  quarterLabel: string;
 }
 
 const TIME_WITH_SECONDS: Intl.DateTimeFormatOptions = {
@@ -29,7 +25,6 @@ const AXIS_FORMATS: Record<SkyChartTimeUnit, Intl.DateTimeFormatOptions> = {
   day: { month: 'short', day: 'numeric' },
   week: { month: 'short', day: 'numeric' },
   month: { month: 'short', year: 'numeric' },
-  quarter: { month: 'short', year: 'numeric' },
   year: { year: 'numeric' },
 };
 
@@ -39,10 +34,7 @@ const MEDIUM_DATE: Intl.DateTimeFormatOptions = {
   day: 'numeric',
 };
 
-const FULL_FORMATS: Record<
-  Exclude<SkyChartTimeUnit, 'quarter'>,
-  Intl.DateTimeFormatOptions
-> = {
+const FULL_FORMATS: Record<SkyChartTimeUnit, Intl.DateTimeFormatOptions> = {
   millisecond: { ...MEDIUM_DATE, ...AXIS_FORMATS.millisecond },
   second: { ...MEDIUM_DATE, ...AXIS_FORMATS.second },
   minute: { ...MEDIUM_DATE, ...AXIS_FORMATS.minute },
@@ -78,30 +70,8 @@ export function formatTimeCategory(
   time: number,
   unit: SkyChartTimeUnit,
   locale: string,
-  quarterLabel: string,
 ): string {
-  return unit === 'quarter'
-    ? formatQuarter(time, locale, quarterLabel)
-    : new Intl.DateTimeFormat(locale, FULL_FORMATS[unit]).format(time);
-}
-
-// Intl has no quarter format.
-function formatQuarter(
-  time: number,
-  locale: string,
-  quarterLabel: string,
-): string {
-  const date = new Date(time);
-
-  return quarterLabel
-    .replace(
-      '{0}',
-      new Intl.NumberFormat(locale).format(Math.floor(date.getMonth() / 3) + 1),
-    )
-    .replace(
-      '{1}',
-      new Intl.DateTimeFormat(locale, { year: 'numeric' }).format(date),
-    );
+  return new Intl.DateTimeFormat(locale, FULL_FORMATS[unit]).format(time);
 }
 
 function startOf(time: number, unit: TimeUnit): number {
@@ -128,10 +98,6 @@ function startOf(time: number, unit: TimeUnit): number {
       break;
     case 'month':
       date.setDate(1);
-      date.setHours(0, 0, 0, 0);
-      break;
-    case 'quarter':
-      date.setMonth(date.getMonth() - (date.getMonth() % 3), 1);
       date.setHours(0, 0, 0, 0);
       break;
     case 'year':
@@ -162,9 +128,6 @@ function add(time: number, amount: number, unit: TimeUnit): number {
       break;
     case 'month':
       date.setMonth(date.getMonth() + amount);
-      break;
-    case 'quarter':
-      date.setMonth(date.getMonth() + amount * 3);
       break;
     case 'year':
       date.setFullYear(date.getFullYear() + amount);
@@ -198,8 +161,6 @@ function diff(max: number, min: number, unit: TimeUnit): number {
       return Math.trunc(diff(max, min, 'day') / 7);
     case 'month':
       return months;
-    case 'quarter':
-      return Math.trunc(months / 3);
     default:
       return later.getFullYear() - earlier.getFullYear();
   }
@@ -249,19 +210,14 @@ export class SkyChartDateAdapter implements DateAdapter<SkyChartDateAdapterOptio
   }
 
   public format(time: number, format: string): string {
-    const { locale, quarterLabel } = this.options;
+    const { locale } = this.options;
 
     if (format.startsWith(FULL_FORMAT_PREFIX)) {
       return formatTimeCategory(
         time,
         format.slice(FULL_FORMAT_PREFIX.length) as SkyChartTimeUnit,
         locale,
-        quarterLabel,
       );
-    }
-
-    if (format === 'quarter') {
-      return formatQuarter(time, locale, quarterLabel);
     }
 
     return new Intl.DateTimeFormat(

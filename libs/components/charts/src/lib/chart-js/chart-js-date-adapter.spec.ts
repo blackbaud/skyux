@@ -9,7 +9,7 @@ describe('Chart.js date adapter', () => {
   const time = new Date(2026, 0, 15, 10, 30, 45, 123).getTime();
 
   function createAdapter(locale = 'en-US'): SkyChartDateAdapter {
-    return new SkyChartDateAdapter({ locale, quarterLabel: 'Q{0} {1}' });
+    return new SkyChartDateAdapter({ locale });
   }
 
   // Intl separates some parts with narrow or non-breaking spaces.
@@ -37,7 +37,6 @@ describe('Chart.js date adapter', () => {
           'day',
           'week',
           'month',
-          'quarter',
           'year',
         ] as TimeUnit[]
       ).map((unit) => [unit, normalize(adapter.format(time, formats[unit]))]),
@@ -51,24 +50,8 @@ describe('Chart.js date adapter', () => {
       day: 'Jan 15',
       week: 'Jan 15',
       month: 'Jan 2026',
-      quarter: 'Q1 2026',
       year: '2026',
     });
-  });
-
-  it('should label quarters from the quarter label template', () => {
-    const adapter = new SkyChartDateAdapter({
-      locale: 'fr-CA',
-      quarterLabel: 'T{0} {1}',
-    });
-
-    expect(adapter.format(local(2026, 7, 29), 'quarter')).toBe('T3 2026');
-  });
-
-  it('should format the quarter number and year for the locale', () => {
-    const adapter = createAdapter('ar-EG');
-
-    expect(adapter.format(local(2026, 7, 29), 'quarter')).toBe('Q٣ ٢٠٢٦');
   });
 
   it('should format labels for the locale', () => {
@@ -80,25 +63,22 @@ describe('Chart.js date adapter', () => {
   });
 
   it('should format a full date and time for the tooltip and data table', () => {
-    expect(
-      normalize(formatTimeCategory(time, 'day', 'en-US', 'Q{0} {1}')),
-    ).toBe('Jan 15, 2026');
-    expect(
-      normalize(formatTimeCategory(time, 'hour', 'en-US', 'Q{0} {1}')),
-    ).toBe('Jan 15, 2026, 10:30 AM');
-    expect(
-      normalize(formatTimeCategory(time, 'second', 'en-US', 'Q{0} {1}')),
-    ).toBe('Jan 15, 2026, 10:30:45 AM');
-    expect(
-      normalize(formatTimeCategory(time, 'millisecond', 'en-US', 'Q{0} {1}')),
-    ).toBe('Jan 15, 2026, 10:30:45.123 AM');
+    expect(normalize(formatTimeCategory(time, 'day', 'en-US'))).toBe(
+      'Jan 15, 2026',
+    );
+    expect(normalize(formatTimeCategory(time, 'hour', 'en-US'))).toBe(
+      'Jan 15, 2026, 10:30 AM',
+    );
+    expect(normalize(formatTimeCategory(time, 'second', 'en-US'))).toBe(
+      'Jan 15, 2026, 10:30:45 AM',
+    );
+    expect(normalize(formatTimeCategory(time, 'millisecond', 'en-US'))).toBe(
+      'Jan 15, 2026, 10:30:45.123 AM',
+    );
   });
 
-  it('should format a quarter or year for the tooltip and data table as the axis does', () => {
-    expect(formatTimeCategory(time, 'quarter', 'en-US', 'Q{0} {1}')).toBe(
-      'Q1 2026',
-    );
-    expect(formatTimeCategory(time, 'year', 'en-US', 'Q{0} {1}')).toBe('2026');
+  it('should format a year for the tooltip and data table as the axis does', () => {
+    expect(formatTimeCategory(time, 'year', 'en-US')).toBe('2026');
   });
 
   it('should parse timestamps and ISO 8601 strings', () => {
@@ -124,9 +104,6 @@ describe('Chart.js date adapter', () => {
     // Weeks start on Sunday.
     expect(adapter.startOf(time, 'week')).toBe(local(2026, 0, 11));
     expect(adapter.startOf(time, 'month')).toBe(local(2026, 0, 1));
-    expect(adapter.startOf(local(2026, 4, 20), 'quarter')).toBe(
-      local(2026, 3, 1),
-    );
     expect(adapter.startOf(time, 'year')).toBe(local(2026, 0, 1));
   });
 
@@ -149,9 +126,6 @@ describe('Chart.js date adapter', () => {
     );
     expect(adapter.add(time, 2, 'month')).toBe(
       local(2026, 2, 15, 10, 30, 45, 123),
-    );
-    expect(adapter.add(time, 2, 'quarter')).toBe(
-      local(2026, 6, 15, 10, 30, 45, 123),
     );
     expect(adapter.add(time, 2, 'year')).toBe(
       local(2028, 0, 15, 10, 30, 45, 123),
@@ -180,7 +154,6 @@ describe('Chart.js date adapter', () => {
       2,
     );
     expect(adapter.diff(later, time, 'month')).toBe(15);
-    expect(adapter.diff(later, time, 'quarter')).toBe(5);
     expect(adapter.diff(later, time, 'year')).toBe(1);
   });
 });
