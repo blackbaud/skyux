@@ -26,9 +26,8 @@
       <sky-box-content>
         <sky-chart headingText="Scores over time" [headingHidden]="true">
           <sky-chart-line>
-            <sky-chart-axis-category
+            <sky-chart-axis-category-time
               labelText="Date"
-              scaleType="time"
               timeUnit="week"
               [categories]="dates()"
               [labelHidden]="true"
@@ -58,9 +57,8 @@
               >
                 <sky-chart headingLevel="3" [headingText]="chart.unit">
                   <sky-chart-line>
-                    <sky-chart-axis-category
+                    <sky-chart-axis-category-time
                       labelText="Date"
-                      scaleType="time"
                       [categories]="chart.dates"
                       [labelHidden]="true"
                       [timeUnit]="chart.unit"

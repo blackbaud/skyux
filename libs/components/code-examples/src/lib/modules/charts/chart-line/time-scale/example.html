@@ -4,9 +4,8 @@
   subheadingText="Events are spaced by date, so longer stretches between events show as wider gaps."
 >
   <sky-chart-line>
-    <sky-chart-axis-category
+    <sky-chart-axis-category-time
       labelText="Event date"
-      scaleType="time"
       timeUnit="month"
       [categories]="eventDates"
     />

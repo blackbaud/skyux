@@ -2,55 +2,40 @@ import { formatTimeCategory } from '../chart-js/chart-js-date-adapter';
 import { parseTimeCategory } from '../shared/time-category-parser';
 
 import { type SkyChartAxisCategory } from './chart-axis-category';
+import { SkyChartAxisCategoryTime } from './chart-axis-category-time';
 
 /**
- * Explains why a category axis's time options can't be plotted, if they
- * can't.
+ * Either kind of category axis a cartesian plot accepts.
  * @internal
  */
-export function getTimeScaleError(
-  categoryAxis: SkyChartAxisCategory,
+export type SkyChartCategoryAxis =
+  SkyChartAxisCategory | SkyChartAxisCategoryTime;
+
+/**
+ * Explains why a time axis can't be plotted, if it can't.
+ * @internal
+ */
+export function getTimeAxisError(
+  timeAxis: SkyChartAxisCategoryTime,
 ): string | undefined {
-  const unit = categoryAxis.timeUnit();
-  const step = categoryAxis.timeStep();
-
-  if (categoryAxis.scaleType() !== 'time') {
-    const name =
-      unit !== undefined
-        ? 'timeUnit'
-        : step !== undefined
-          ? 'timeStep'
-          : undefined;
-
-    return name
-      ? `The <sky-chart-axis-category> has a "${name}", which requires a ` +
-          '"scaleType" of "time".'
-      : undefined;
-  }
-
-  if (!unit) {
-    return (
-      'The <sky-chart-axis-category> must have a "timeUnit" when its ' +
-      '"scaleType" is "time".'
-    );
-  }
+  const step = timeAxis.timeStep();
 
   if (step !== undefined && !(Number.isInteger(step) && step > 0)) {
     return (
-      `The <sky-chart-axis-category> has a "timeStep" of "${step}", but it ` +
-      'must be a positive whole number.'
+      `The <sky-chart-axis-category-time> has a "timeStep" of "${step}", ` +
+      'but it must be a positive whole number.'
     );
   }
 
-  const invalid = categoryAxis
+  const invalid = timeAxis
     .categories()
     .find((category) => Number.isNaN(parseTimeCategory(category)));
 
   return invalid === undefined
     ? undefined
-    : `The time category "${String(invalid)}" is not a valid date. Time ` +
-        'categories must be ISO 8601 date or date-time strings, such as ' +
-        '"2026-01-15" or "2026-01-15T10:30:00Z".';
+    : `The time category "${invalid}" is not a valid date. Time categories ` +
+        'must be ISO 8601 date or date-time strings, such as "2026-01-15" or ' +
+        '"2026-01-15T10:30:00Z".';
 }
 
 /**
@@ -58,11 +43,11 @@ export function getTimeScaleError(
  * @internal
  */
 export function getChartLabels(
-  categoryAxis: SkyChartAxisCategory,
+  categoryAxis: SkyChartCategoryAxis,
 ): readonly (string | number)[] {
   const categories = categoryAxis.categories();
 
-  return categoryAxis.scaleType() === 'time'
+  return categoryAxis instanceof SkyChartAxisCategoryTime
     ? categories.map(parseTimeCategory)
     : categories;
 }
@@ -72,15 +57,16 @@ export function getChartLabels(
  * @internal
  */
 export function getDisplayCategories(
-  categoryAxis: SkyChartAxisCategory,
+  categoryAxis: SkyChartCategoryAxis,
   locale: string,
 ): readonly (string | number)[] {
-  const labels = getChartLabels(categoryAxis);
-  const unit = categoryAxis.timeUnit();
-
-  if (categoryAxis.scaleType() !== 'time' || !unit) {
-    return labels;
+  if (!(categoryAxis instanceof SkyChartAxisCategoryTime)) {
+    return categoryAxis.categories();
   }
 
-  return labels.map((time) => formatTimeCategory(time as number, unit, locale));
+  const unit = categoryAxis.timeUnit();
+
+  return getChartLabels(categoryAxis).map((time) =>
+    formatTimeCategory(time as number, unit, locale),
+  );
 }

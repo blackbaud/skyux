@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
   SkyChart,
-  SkyChartAxisCategory,
+  SkyChartAxisCategoryTime,
   SkyChartAxisValue,
   SkyChartLine,
   SkyChartLineSeries,
@@ -16,7 +16,7 @@ import {
   templateUrl: './example.html',
   imports: [
     SkyChart,
-    SkyChartAxisCategory,
+    SkyChartAxisCategoryTime,
     SkyChartAxisValue,
     SkyChartLine,
     SkyChartLineSeries,

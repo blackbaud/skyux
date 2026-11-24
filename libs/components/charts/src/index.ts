@@ -1,4 +1,5 @@
 export { SkyChartAxisCategory } from './lib/chart-axis/chart-axis-category';
+export { SkyChartAxisCategoryTime } from './lib/chart-axis/chart-axis-category-time';
 export { SkyChartAxisValue } from './lib/chart-axis/chart-axis-value';
 export { SkyChartBar } from './lib/chart-bar/chart-bar';
 export type { SkyChartBarOrientation } from './lib/chart-bar/chart-bar-orientation';
@@ -12,7 +13,6 @@ export type { SkyChartDataPointClickArgs } from './lib/chart-plot/chart-data-poi
 export { SkyChart } from './lib/chart/chart';
 export type { SkyChartHeadingLevel } from './lib/chart/chart-heading-level';
 export type { SkyChartHeadingStyle } from './lib/chart/chart-heading-style';
-export type { SkyChartCategoryScaleType } from './lib/shared/category-scale-type';
 export type { SkyChartTimeUnit } from './lib/shared/time-unit';
 export type { SkyChartValueFormat } from './lib/shared/value-format';
 export type { SkyChartValueScaleType } from './lib/shared/value-scale-type';

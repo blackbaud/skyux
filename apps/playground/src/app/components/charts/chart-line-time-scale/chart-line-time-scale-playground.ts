@@ -2,7 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   SkyChart,
-  SkyChartAxisCategory,
+  SkyChartAxisCategoryTime,
   SkyChartAxisValue,
   SkyChartLine,
   SkyChartLineSeries,
@@ -36,7 +36,7 @@ const TIME_UNITS: SkyChartTimeUnit[] = [
     FormsModule,
     SkyBoxModule,
     SkyChart,
-    SkyChartAxisCategory,
+    SkyChartAxisCategoryTime,
     SkyChartAxisValue,
     SkyChartLine,
     SkyChartLineSeries,

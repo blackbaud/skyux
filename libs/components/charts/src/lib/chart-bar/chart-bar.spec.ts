@@ -14,12 +14,11 @@ import { Chart, type TooltipItem } from 'chart.js';
 import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { type SkyChartDataPointClickArgs } from '../chart-plot/chart-data-point-click-args';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
-import { type SkyChartCategoryScaleType } from '../shared/category-scale-type';
-import { type SkyChartTimeUnit } from '../shared/time-unit';
 import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartBar } from './chart-bar';
@@ -56,9 +55,6 @@ type ScaleProbe = {
             <sky-chart-axis-category
               labelText="Year"
               [categories]="categories()"
-              [scaleType]="categoryScaleType()"
-              [timeStep]="timeStep()"
-              [timeUnit]="timeUnit()"
             />
           }
           @if (renderValueAxis()) {
@@ -95,10 +91,7 @@ class TestComponent {
   public dataPointClick:
     SkyChartDataPointClickArgs<SkyChartBarSeriesValue> | undefined;
 
-  public categories = input<(string | number)[]>(['2023', '2024']);
-  public categoryScaleType = input<SkyChartCategoryScaleType>('category');
-  public timeStep = input<number | undefined>(undefined);
-  public timeUnit = input<SkyChartTimeUnit | undefined>(undefined);
+  public categories = input<string[]>(['2023', '2024']);
   public currencyCode = input<string | undefined>(undefined);
   public format = input<SkyChartValueFormat>('number');
   public orientation = input<SkyChartBarOrientation>('vertical');
@@ -253,35 +246,6 @@ describe('Chart bar component', () => {
       fixture.destroy();
     }
   });
-
-  const timeInputs: Record<string, unknown>[] = [
-    { categoryScaleType: 'time', categories: ['2023-01-01', '2024-01-01'] },
-    { categoryScaleType: 'time', timeUnit: 'year' },
-    { timeUnit: 'year' },
-    { timeStep: 2 },
-  ];
-
-  for (const inputs of timeInputs) {
-    it(`should log an error and render nothing for ${JSON.stringify(inputs)}`, () => {
-      const errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
-
-      for (const [name, value] of Object.entries(inputs)) {
-        fixture.componentRef.setInput(name, value);
-      }
-
-      fixture.detectChanges();
-
-      expect(errorSpy).toHaveBeenCalledOnceWith(
-        'The <sky-chart-bar> does not support a time scale, so its ' +
-          '<sky-chart-axis-category> cannot have a "scaleType" of "time", a ' +
-          '"timeUnit", or a "timeStep". Use <sky-chart-line> to plot values ' +
-          'over time.',
-      );
-      expect(getChart()).toBeUndefined();
-      expect(tableSvc().table()).toBeUndefined();
-      expect(tableSvc().summary()).toBeUndefined();
-    });
-  }
 
   it('should build the data table from the axes and series', () => {
     fixture.detectChanges();
@@ -1037,18 +1001,6 @@ describe('Chart bar component', () => {
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
-
-    it('should be accessible when a time input renders nothing', async () => {
-      spyOn(TestBed.inject(SkyLogService), 'error');
-
-      fixture.componentRef.setInput('timeUnit', 'year');
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      expect(getChart()).toBeUndefined();
-
-      await expectAsync(fixture.nativeElement).toBeAccessible();
-    });
   });
 });
 
@@ -1148,6 +1100,73 @@ describe('Chart bar component in the default theme', () => {
     await expectAsync(fixture.nativeElement).toBeAccessible();
 
     fixture.destroy();
+  });
+});
+
+describe('Chart bar component with a time axis', () => {
+  @Component({
+    imports: [
+      SkyChart,
+      SkyChartBar,
+      SkyChartAxisCategoryTime,
+      SkyChartAxisValue,
+      SkyChartBarSeries,
+    ],
+    template: `
+      <sky-chart headingText="Test chart">
+        <sky-chart-bar>
+          <sky-chart-axis-category-time
+            labelText="Year"
+            timeUnit="year"
+            [categories]="categories"
+          />
+          <sky-chart-axis-value labelText="Value" />
+          <sky-chart-bar-series labelText="Series" [values]="values" />
+        </sky-chart-bar>
+      </sky-chart>
+    `,
+  })
+  class TimeAxisComponent {
+    public categories = ['2023-01-01', '2024-01-01'];
+    public values = [10, 20];
+  }
+
+  let fixture: ComponentFixture<TimeAxisComponent>;
+  let errorSpy: jasmine.Spy;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({ imports: [TimeAxisComponent] });
+
+    errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
+    fixture = TestBed.createComponent(TimeAxisComponent);
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  it('should log an error and render nothing', () => {
+    const tableSvc = fixture.debugElement
+      .query(By.directive(SkyChart))
+      .injector.get(SkyChartTableService);
+
+    expect(errorSpy).toHaveBeenCalledOnceWith(
+      'The <sky-chart-bar> does not support <sky-chart-axis-category-time>. ' +
+        'Use <sky-chart-axis-category>, or use <sky-chart-line> to plot ' +
+        'values over time.',
+    );
+    expect(
+      Chart.getChart(fixture.nativeElement.querySelector('canvas')),
+    ).toBeUndefined();
+    expect(tableSvc.table()).toBeUndefined();
+    expect(tableSvc.summary()).toBeUndefined();
+  });
+
+  it('should be accessible', async () => {
+    await fixture.whenStable();
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
   });
 });
 

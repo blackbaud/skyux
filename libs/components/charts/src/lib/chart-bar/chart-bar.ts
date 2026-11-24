@@ -1,7 +1,8 @@
 import { Component, computed, contentChildren, input } from '@angular/core';
 import { type ChartDataset } from 'chart.js';
 
-import { type SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
+import { type SkyChartCategoryAxis } from '../chart-axis/chart-axis-category-utils';
 import {
   buildCartesianScales,
   buildValueTooltipLabel,
@@ -66,19 +67,13 @@ export class SkyChartBar extends SkyChartCartesianPlot<
   protected readonly chartHeight = computed(() => this.#getChartHeight());
 
   protected override getCategoryAxisError(
-    categoryAxis: SkyChartAxisCategory,
+    categoryAxis: SkyChartCategoryAxis,
   ): string | undefined {
-    const usesTime =
-      categoryAxis.scaleType() === 'time' ||
-      categoryAxis.timeUnit() !== undefined ||
-      categoryAxis.timeStep() !== undefined;
-
-    return usesTime
-      ? 'The <sky-chart-bar> does not support a time scale, so its ' +
-          '<sky-chart-axis-category> cannot have a "scaleType" of "time", a ' +
-          '"timeUnit", or a "timeStep". Use <sky-chart-line> to plot values ' +
-          'over time.'
-      : super.getCategoryAxisError(categoryAxis);
+    return categoryAxis instanceof SkyChartAxisCategoryTime
+      ? 'The <sky-chart-bar> does not support <sky-chart-axis-category-time>. ' +
+          'Use <sky-chart-axis-category>, or use <sky-chart-line> to plot ' +
+          'values over time.'
+      : undefined;
   }
 
   #getChartJsConfig(): SkyChartJsConfig<'bar'> | undefined {

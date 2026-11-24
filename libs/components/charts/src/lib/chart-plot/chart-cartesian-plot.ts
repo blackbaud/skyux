@@ -14,7 +14,11 @@ import { SkyThemeService } from '@skyux/theme';
 import { EMPTY, map, Subject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
-import { getTimeScaleError } from '../chart-axis/chart-axis-category-utils';
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
+import {
+  getTimeAxisError,
+  type SkyChartCategoryAxis,
+} from '../chart-axis/chart-axis-category-utils';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/chart-js-data-point-index';
 import {
@@ -61,7 +65,14 @@ export abstract class SkyChartCartesianPlot<
     return this.getThemeStyles();
   });
 
-  protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
+  protected readonly categoryAxisDefault = contentChild(SkyChartAxisCategory);
+  protected readonly categoryAxisTime = contentChild(SkyChartAxisCategoryTime);
+
+  protected readonly categoryAxis = computed(
+    (): SkyChartCategoryAxis | undefined =>
+      this.categoryAxisTime() ?? this.categoryAxisDefault(),
+  );
+
   protected readonly valueAxis = contentChild(SkyChartAxisValue);
 
   readonly #localeProvider = inject(SkyAppLocaleProvider);
@@ -169,9 +180,11 @@ export abstract class SkyChartCartesianPlot<
    * Explains why the category axis can't be plotted, if it can't.
    */
   protected getCategoryAxisError(
-    categoryAxis: SkyChartAxisCategory,
+    categoryAxis: SkyChartCategoryAxis,
   ): string | undefined {
-    return getTimeScaleError(categoryAxis);
+    return categoryAxis instanceof SkyChartAxisCategoryTime
+      ? getTimeAxisError(categoryAxis)
+      : undefined;
   }
 
   /**

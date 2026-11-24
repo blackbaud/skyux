@@ -15,11 +15,11 @@ import { _adapters, Chart, type DateAdapter, type TooltipItem } from 'chart.js';
 import { type Observable, of, ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { type SkyChartDataPointClickArgs } from '../chart-plot/chart-data-point-click-args';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
-import { type SkyChartCategoryScaleType } from '../shared/category-scale-type';
 import { type SkyChartTimeUnit } from '../shared/time-unit';
 import { SkyChartValueFormat } from '../shared/value-format';
 
@@ -40,6 +40,7 @@ type ScaleProbe = {
     SkyChart,
     SkyChartLine,
     SkyChartAxisCategory,
+    SkyChartAxisCategoryTime,
     SkyChartAxisValue,
     SkyChartLineSeries,
   ],
@@ -47,13 +48,19 @@ type ScaleProbe = {
     <sky-chart headingText="Test chart">
       <sky-chart-line (dataPointClick)="dataPointClick = $event">
         @if (renderCategoryAxis()) {
-          <sky-chart-axis-category
-            labelText="Year"
-            [categories]="categories()"
-            [scaleType]="categoryScaleType()"
-            [timeStep]="timeStep()"
-            [timeUnit]="timeUnit()"
-          />
+          @if (timeUnit(); as timeUnit) {
+            <sky-chart-axis-category-time
+              labelText="Year"
+              [categories]="categories()"
+              [timeStep]="timeStep()"
+              [timeUnit]="timeUnit"
+            />
+          } @else {
+            <sky-chart-axis-category
+              labelText="Year"
+              [categories]="categories()"
+            />
+          }
         }
         @if (renderValueAxis()) {
           <sky-chart-axis-value
@@ -81,8 +88,7 @@ class TestComponent {
   @ViewChild(SkyChartLine)
   public chartLine!: SkyChartLine;
 
-  public categories = input<(string | number)[]>(['2023', '2024']);
-  public categoryScaleType = input<SkyChartCategoryScaleType>('category');
+  public categories = input<string[]>(['2023', '2024']);
   public currencyCode = input<string | undefined>(undefined);
   public emphasized = input(false);
   public format = input<SkyChartValueFormat>('number');
@@ -350,7 +356,6 @@ describe('Chart line component', () => {
     ): void {
       fixture.componentRef.setInput('categories', dates);
       fixture.componentRef.setInput('values', [10, 20, 30]);
-      fixture.componentRef.setInput('categoryScaleType', 'time');
       fixture.componentRef.setInput('timeUnit', timeUnit);
       fixture.componentRef.setInput('timeStep', timeStep);
       fixture.detectChanges();
@@ -413,7 +418,6 @@ describe('Chart line component', () => {
         '2026-01-01',
       ]);
       fixture.componentRef.setInput('values', [10, 20, 30]);
-      fixture.componentRef.setInput('categoryScaleType', 'time');
       fixture.componentRef.setInput('timeUnit', 'year');
       fixture.detectChanges();
 
@@ -452,39 +456,17 @@ describe('Chart line component', () => {
       inputs: Record<string, unknown>;
       error: string | RegExp;
     }[] = [
-      {
-        description: 'a time unit without a time scale',
-        inputs: { timeUnit: 'month' },
-        error:
-          'The <sky-chart-axis-category> has a "timeUnit", which requires a ' +
-          '"scaleType" of "time".',
-      },
-      {
-        description: 'a time step without a time scale',
-        inputs: { timeStep: 2 },
-        error:
-          'The <sky-chart-axis-category> has a "timeStep", which requires a ' +
-          '"scaleType" of "time".',
-      },
-      {
-        description: 'a time scale without a unit',
-        inputs: { categoryScaleType: 'time' },
-        error:
-          'The <sky-chart-axis-category> must have a "timeUnit" when its ' +
-          '"scaleType" is "time".',
-      },
       ...[0, -1, 0.5, 'abc'].map((timeStep) => ({
         description: `a time step of "${timeStep}"`,
-        inputs: { categoryScaleType: 'time', timeUnit: 'day', timeStep },
+        inputs: { timeUnit: 'day', timeStep },
         error:
-          `The <sky-chart-axis-category> has a "timeStep" of "${Number(timeStep)}", ` +
+          `The <sky-chart-axis-category-time> has a "timeStep" of "${Number(timeStep)}", ` +
           'but it must be a positive whole number.',
       })),
       {
         description: 'a category that is not a strict date',
         inputs: {
           categories: ['2026-01-01', 'Feb 1 26'],
-          categoryScaleType: 'time',
           timeUnit: 'month',
         },
         error: /The time category "Feb 1 26" is not a valid date/,
@@ -719,7 +701,6 @@ describe('Chart line component', () => {
       spyOn(TestBed.inject(SkyLogService), 'error');
 
       fixture.componentRef.setInput('categories', ['2026-01-01', '2026-02-01']);
-      fixture.componentRef.setInput('categoryScaleType', 'time');
       fixture.componentRef.setInput('timeUnit', 'month');
       fixture.detectChanges();
       await fixture.whenStable();
@@ -876,7 +857,6 @@ describe('Chart line component with a locale', () => {
 
     const fixture = TestBed.createComponent(TestComponent);
     fixture.componentRef.setInput('categories', ['2026-01-15', '2026-04-01']);
-    fixture.componentRef.setInput('categoryScaleType', 'time');
     fixture.componentRef.setInput('timeUnit', 'month');
     fixture.detectChanges();
 

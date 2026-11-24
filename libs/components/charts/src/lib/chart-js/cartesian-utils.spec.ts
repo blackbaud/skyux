@@ -1,4 +1,5 @@
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 
 import { createThemeStylesFixture } from '../shared/fixtures/theme-styles-fixture';
@@ -21,14 +22,19 @@ describe('buildCartesianScales', () => {
   function createCategoryAxis(time?: {
     unit: SkyChartTimeUnit;
     step?: number;
-  }): SkyChartAxisCategory {
-    return {
-      labelHidden: () => false,
-      labelText: () => 'Category',
-      scaleType: () => (time ? 'time' : 'category'),
-      timeUnit: () => time?.unit,
-      timeStep: () => time?.step,
-    } as unknown as SkyChartAxisCategory;
+  }): SkyChartAxisCategory | SkyChartAxisCategoryTime {
+    const axis = {
+      labelHidden: (): boolean => false,
+      labelText: (): string => 'Category',
+    };
+
+    return time
+      ? Object.assign(Object.create(SkyChartAxisCategoryTime.prototype), {
+          ...axis,
+          timeUnit: () => time.unit,
+          timeStep: () => time.step,
+        })
+      : Object.assign(Object.create(SkyChartAxisCategory.prototype), axis);
   }
 
   function createValueAxis(

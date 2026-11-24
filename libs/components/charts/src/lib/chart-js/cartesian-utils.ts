@@ -4,15 +4,18 @@ import {
   type TooltipItem as ChartJsTooltipItem,
 } from 'chart.js';
 
-import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
-import { getDisplayCategories } from '../chart-axis/chart-axis-category-utils';
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
+import {
+  getDisplayCategories,
+  type SkyChartCategoryAxis,
+} from '../chart-axis/chart-axis-category-utils';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import type { SkyChartTable } from '../chart-table/chart-table';
 import { type SkyChartThemeStyles } from '../shared/chart-theme-styles';
 
 import {
-  type SkyChartDateAdapterOptions,
   fullTimeFormat,
+  type SkyChartDateAdapterOptions,
 } from './chart-js-date-adapter';
 import { SKY_CHART_TIME_SCALE_TYPE } from './chart-js-time-scale';
 
@@ -117,7 +120,7 @@ export interface SkyChartCartesianSeries {
 export interface SkyChartCartesianData<
   TSeries extends SkyChartCartesianSeries,
 > {
-  categoryAxis: SkyChartAxisCategory;
+  categoryAxis: SkyChartCategoryAxis;
   valueAxis: SkyChartAxisValue;
   series: readonly TSeries[];
 }
@@ -127,7 +130,7 @@ export interface SkyChartCartesianData<
  * `undefined` when a required axis or series is missing.
  */
 export function resolveCartesianData<TSeries extends SkyChartCartesianSeries>(
-  categoryAxis: SkyChartAxisCategory | undefined,
+  categoryAxis: SkyChartCategoryAxis | undefined,
   valueAxis: SkyChartAxisValue | undefined,
   series: readonly TSeries[],
 ): SkyChartCartesianData<TSeries> | undefined {
@@ -149,7 +152,7 @@ export function resolveCartesianData<TSeries extends SkyChartCartesianSeries>(
  * render as empty cells, mirroring the gaps in the plot.
  */
 export function buildCartesianTable(
-  categoryAxis: SkyChartAxisCategory,
+  categoryAxis: SkyChartCategoryAxis,
   series: readonly SkyChartCartesianSeries[],
   formatValue: (value: number) => string,
   { locale }: SkyChartDateAdapterOptions,
@@ -258,7 +261,7 @@ function keepDecadeLogTicks(axis: { ticks: { value: number }[] }): void {
  * single bar per category.
  */
 export function buildCartesianScales(options: {
-  categoryAxis: SkyChartAxisCategory;
+  categoryAxis: SkyChartCategoryAxis;
   valueAxis: SkyChartAxisValue;
   isHorizontal: boolean;
   isStacked?: boolean;
@@ -283,8 +286,6 @@ export function buildCartesianScales(options: {
 
   const formatValue = valueAxis.formatValue();
   const scaleType = valueAxis.scaleType();
-  const timeUnit =
-    categoryAxis.scaleType() === 'time' ? categoryAxis.timeUnit() : undefined;
 
   const categoryScale = {
     axis: indexAxis,
@@ -315,21 +316,22 @@ export function buildCartesianScales(options: {
   };
 
   return {
-    [CATEGORY_AXIS_ID]: timeUnit
-      ? {
-          ...categoryScale,
-          type: SKY_CHART_TIME_SCALE_TYPE,
-          time: {
-            unit: timeUnit,
-            tooltipFormat: fullTimeFormat(timeUnit),
-          },
-          adapters: { date: dateAdapterOptions },
-          ticks: {
-            ...categoryScale.ticks,
-            stepSize: categoryAxis.timeStep(),
-          },
-        }
-      : { ...categoryScale, type: 'category' },
+    [CATEGORY_AXIS_ID]:
+      categoryAxis instanceof SkyChartAxisCategoryTime
+        ? {
+            ...categoryScale,
+            type: SKY_CHART_TIME_SCALE_TYPE,
+            time: {
+              unit: categoryAxis.timeUnit(),
+              tooltipFormat: fullTimeFormat(categoryAxis.timeUnit()),
+            },
+            adapters: { date: dateAdapterOptions },
+            ticks: {
+              ...categoryScale.ticks,
+              stepSize: categoryAxis.timeStep(),
+            },
+          }
+        : { ...categoryScale, type: 'category' },
     [VALUE_AXIS_ID]: {
       type: scaleType,
       axis: valueDirection,
