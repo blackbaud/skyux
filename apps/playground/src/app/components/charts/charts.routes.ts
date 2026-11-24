@@ -28,6 +28,16 @@ const routes: Routes = [
       library: 'charts',
     },
   },
+  {
+    path: 'chart-line-time-scale',
+    loadComponent: () =>
+      import('./chart-line-time-scale/chart-line-time-scale-playground'),
+    data: {
+      name: 'Charts: Line Chart (time axis)',
+      icon: 'data-line',
+      library: 'charts',
+    },
+  },
 ];
 
 export default routes;

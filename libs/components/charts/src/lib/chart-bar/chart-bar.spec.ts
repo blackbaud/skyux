@@ -14,6 +14,7 @@ import { Chart, type TooltipItem } from 'chart.js';
 import { ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { type SkyChartDataPointClickArgs } from '../chart-plot/chart-data-point-click-args';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
@@ -90,7 +91,7 @@ class TestComponent {
   public dataPointClick:
     SkyChartDataPointClickArgs<SkyChartBarSeriesValue> | undefined;
 
-  public categories = input<(string | number)[]>(['2023', '2024']);
+  public categories = input<string[]>(['2023', '2024']);
   public currencyCode = input<string | undefined>(undefined);
   public format = input<SkyChartValueFormat>('number');
   public orientation = input<SkyChartBarOrientation>('vertical');
@@ -1097,6 +1098,125 @@ describe('Chart bar component in the default theme', () => {
     fixture.detectChanges();
 
     await expectAsync(fixture.nativeElement).toBeAccessible();
+
+    fixture.destroy();
+  });
+});
+
+describe('Chart bar component with a time axis', () => {
+  @Component({
+    imports: [
+      SkyChart,
+      SkyChartBar,
+      SkyChartAxisCategoryTime,
+      SkyChartAxisValue,
+      SkyChartBarSeries,
+    ],
+    template: `
+      <sky-chart headingText="Test chart">
+        <sky-chart-bar>
+          <sky-chart-axis-category-time
+            labelText="Year"
+            timeUnit="year"
+            [categories]="categories"
+          />
+          <sky-chart-axis-value labelText="Value" />
+          <sky-chart-bar-series labelText="Series" [values]="values" />
+        </sky-chart-bar>
+      </sky-chart>
+    `,
+  })
+  class TimeAxisComponent {
+    public categories = ['2023-01-01', '2024-01-01'];
+    public values = [10, 20];
+  }
+
+  let fixture: ComponentFixture<TimeAxisComponent>;
+  let errorSpy: jasmine.Spy;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({ imports: [TimeAxisComponent] });
+
+    errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
+    fixture = TestBed.createComponent(TimeAxisComponent);
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  it('should log an error and render nothing', () => {
+    const tableSvc = fixture.debugElement
+      .query(By.directive(SkyChart))
+      .injector.get(SkyChartTableService);
+
+    expect(errorSpy).toHaveBeenCalledOnceWith(
+      'The <sky-chart-bar> does not support <sky-chart-axis-category-time>. ' +
+        'Use <sky-chart-axis-category> instead.',
+    );
+    expect(
+      Chart.getChart(fixture.nativeElement.querySelector('canvas')),
+    ).toBeUndefined();
+    expect(tableSvc.table()).toBeUndefined();
+    expect(tableSvc.summary()).toBeUndefined();
+  });
+
+  it('should be accessible', async () => {
+    await fixture.whenStable();
+
+    await expectAsync(fixture.nativeElement).toBeAccessible();
+  });
+});
+
+describe('Chart bar component with two category axes', () => {
+  @Component({
+    imports: [
+      SkyChart,
+      SkyChartBar,
+      SkyChartAxisCategory,
+      SkyChartAxisCategoryTime,
+      SkyChartAxisValue,
+      SkyChartBarSeries,
+    ],
+    template: `
+      <sky-chart headingText="Test chart">
+        <sky-chart-bar>
+          <sky-chart-axis-category labelText="Year" [categories]="categories" />
+          <sky-chart-axis-category-time
+            labelText="Year"
+            timeUnit="year"
+            [categories]="categories"
+          />
+          <sky-chart-axis-value labelText="Value" />
+          <sky-chart-bar-series labelText="Series" [values]="values" />
+        </sky-chart-bar>
+      </sky-chart>
+    `,
+  })
+  class TwoAxesComponent {
+    public categories = ['2023-01-01', '2024-01-01'];
+    public values = [10, 20];
+  }
+
+  it('should log an error and render nothing', () => {
+    TestBed.configureTestingModule({ imports: [TwoAxesComponent] });
+
+    const errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
+    const fixture = TestBed.createComponent(TwoAxesComponent);
+    fixture.detectChanges();
+
+    const tableSvc = fixture.debugElement
+      .query(By.directive(SkyChart))
+      .injector.get(SkyChartTableService);
+
+    expect(errorSpy).toHaveBeenCalledOnceWith(
+      'The <sky-chart-bar> can have only one category axis.',
+    );
+    expect(
+      Chart.getChart(fixture.nativeElement.querySelector('canvas')),
+    ).toBeUndefined();
+    expect(tableSvc.table()).toBeUndefined();
 
     fixture.destroy();
   });

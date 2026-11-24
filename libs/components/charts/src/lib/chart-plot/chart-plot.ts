@@ -1,10 +1,23 @@
 import {
   afterRenderEffect,
+  type ComponentMirror,
+  computed,
+  contentChildren,
   DestroyRef,
   Directive,
   ElementRef,
   inject,
+  reflectComponentType,
+  type Type,
 } from '@angular/core';
+import { SkyLogService } from '@skyux/core';
+
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
+import {
+  getTimeAxisError,
+  type SkyChartCategoryAxis,
+} from '../chart-axis/chart-axis-category-utils';
+import { SKY_CHART_CATEGORY_AXIS } from '../chart-axis/chart-category-axis-token';
 
 import { SkyChartTable } from '../chart-table/chart-table';
 import {
@@ -19,8 +32,10 @@ import {
 /**
  * Base class for chart plot components (for example, `sky-chart-bar`). Owns the
  * bridge that publishes each plot's tabular representation to the accessible
- * data table, so every plot type shares the same lifecycle. Subclasses
- * implement `getChartTable`, `getAccessibleSummary`, and their own rendering.
+ * data table, so every plot type shares the same lifecycle. It also owns the
+ * category axis content query and its configuration error. Subclasses declare
+ * the category axes they support and implement `getChartTable`,
+ * `getAccessibleSummary`, and their own rendering.
  *
  * Plots must be rendered inside `sky-chart`: the wrapper provides the data
  * table bridge and the default-theme styling the plot resolves its themed
@@ -32,6 +47,52 @@ export abstract class SkyChartPlot {
   readonly #elementRef = inject(ElementRef);
 
   readonly #tableSvc: SkyChartTableService;
+
+  protected readonly categoryAxes = contentChildren(SKY_CHART_CATEGORY_AXIS, {
+    descendants: true,
+  });
+
+  protected readonly categoryAxis = computed(
+    (): SkyChartCategoryAxis | undefined => this.categoryAxes()[0],
+  );
+
+  /**
+   * The category axis components the plot can render. Any other category axis
+   * logs an error, and the plot should render nothing.
+   */
+  protected abstract readonly supportedCategoryAxes: readonly Type<SkyChartCategoryAxis>[];
+
+  /**
+   * Why the category axis can't be plotted, if it can't.
+   */
+  protected readonly categoryAxisError = computed(() => {
+    const categoryAxes = this.categoryAxes();
+
+    if (categoryAxes.length === 0) {
+      return undefined;
+    }
+
+    const plot = tagOf(this.constructor as Type<unknown>);
+
+    if (categoryAxes.length > 1) {
+      return `The ${plot} can have only one category axis.`;
+    }
+
+    const [categoryAxis] = categoryAxes;
+
+    if (
+      !this.supportedCategoryAxes.some((axis) => categoryAxis instanceof axis)
+    ) {
+      const axis = tagOf(categoryAxis.constructor as Type<unknown>);
+      const supported = this.supportedCategoryAxes.map(tagOf).join(' or ');
+
+      return `The ${plot} does not support ${axis}. Use ${supported} instead.`;
+    }
+
+    return categoryAxis instanceof SkyChartAxisCategoryTime
+      ? getTimeAxisError(categoryAxis)
+      : undefined;
+  });
 
   constructor() {
     const tableSvc = inject(SkyChartTableService, { optional: true });
@@ -52,6 +113,16 @@ export abstract class SkyChartPlot {
     inject(DestroyRef).onDestroy(() => {
       this.#tableSvc.table.set(undefined);
       this.#tableSvc.summary.set(undefined);
+    });
+
+    const logger = inject(SkyLogService);
+
+    afterRenderEffect(() => {
+      const error = this.categoryAxisError();
+
+      if (error) {
+        logger.error(error);
+      }
     });
 
     afterRenderEffect(() => {
@@ -83,4 +154,12 @@ export abstract class SkyChartPlot {
       this.#elementRef.nativeElement as HTMLElement,
     );
   }
+}
+
+function tagOf(component: Type<unknown>): string {
+  const { selector } = reflectComponentType(
+    component,
+  ) as ComponentMirror<unknown>;
+
+  return `<${selector}>`;
 }

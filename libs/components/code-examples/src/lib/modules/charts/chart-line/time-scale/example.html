@@ -1,0 +1,15 @@
+<sky-chart
+  data-sky-id="event-attendance"
+  headingText="Event attendance"
+  subheadingText="Events are spaced by date, so longer stretches between events show as wider gaps."
+>
+  <sky-chart-line>
+    <sky-chart-axis-category-time
+      labelText="Event date"
+      timeUnit="month"
+      [categories]="eventDates"
+    />
+    <sky-chart-axis-value labelText="Attendees" />
+    <sky-chart-line-series labelText="Attendees" [values]="attendance" />
+  </sky-chart-line>
+</sky-chart>

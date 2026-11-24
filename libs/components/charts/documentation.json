@@ -58,6 +58,7 @@
         "docsIds": [
           "SkyChart",
           "SkyChartAxisCategory",
+          "SkyChartAxisCategoryTime",
           "SkyChartAxisValue",
           "SkyChartLine",
           "SkyChartLineSeries",
@@ -65,6 +66,7 @@
           "SkyChartDataPointClickArgs",
           "SkyChartHeadingLevel",
           "SkyChartHeadingStyle",
+          "SkyChartTimeUnit",
           "SkyChartValueFormat",
           "SkyChartValueScaleType"
         ],
@@ -90,6 +92,7 @@
           "ChartsChartLineMultipleSeriesExample",
           "ChartsChartLineEmphasizedExample",
           "ChartsChartLineGapsExample",
+          "ChartsChartLineTimeScaleExample",
           "ChartsChartLineValueFormatExample",
           "ChartsChartLineDataPointClickExample"
         ]

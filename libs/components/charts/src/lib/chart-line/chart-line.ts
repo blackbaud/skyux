@@ -1,6 +1,9 @@
 import { Component, computed, contentChildren } from '@angular/core';
 import { type ChartDataset } from 'chart.js';
 
+import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
+import { getChartLabels } from '../chart-axis/chart-axis-category-utils';
 import {
   buildCartesianScales,
   buildValueTooltipLabel,
@@ -29,6 +32,10 @@ export class SkyChartLine extends SkyChartCartesianPlot<
   SkyChartLineSeriesValue
 > {
   protected override readonly series = contentChildren(SkyChartLineSeries);
+  protected override readonly supportedCategoryAxes = [
+    SkyChartAxisCategory,
+    SkyChartAxisCategoryTime,
+  ];
   protected override readonly seriesSelector = 'sky-chart-line-series';
   protected override readonly accessibleSummaryResourceKey =
     'skyux_charts.chart.line.accessible_summary';
@@ -87,6 +94,7 @@ export class SkyChartLine extends SkyChartCartesianPlot<
       // float in open space, so category grid lines anchor them.
       showCategoryGridLines: true,
       themeStyles,
+      dateAdapterOptions: this.dateAdapterOptions(),
     });
 
     // Lines run edge to edge, but a lone category's point would draw on top
@@ -100,7 +108,7 @@ export class SkyChartLine extends SkyChartCartesianPlot<
       type: 'line',
       data: {
         // Chart.js mutates the arrays it is given, so copy the readonly input.
-        labels: [...categoryAxis.categories()],
+        labels: [...getChartLabels(categoryAxis)],
         datasets,
       },
       options: {

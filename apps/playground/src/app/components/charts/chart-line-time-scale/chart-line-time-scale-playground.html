@@ -1,0 +1,85 @@
+<sky-page layout="blocks">
+  <sky-page-content>
+    <sky-box class="sky-margin-stacked-xl" headingText="Settings">
+      <sky-box-content>
+        <sky-fluid-grid gutterSize="medium">
+          <sky-row>
+            <sky-column [screenSmall]="4">
+              <sky-input-box labelText="Data">
+                <select
+                  class="sky-form-control"
+                  [ngModel]="scenario()"
+                  (ngModelChange)="scenario.set($event)"
+                >
+                  @for (option of scenarios; track option[0]) {
+                    <option [value]="option[0]">{{ option[1] }}</option>
+                  }
+                </select>
+              </sky-input-box>
+            </sky-column>
+          </sky-row>
+        </sky-fluid-grid>
+      </sky-box-content>
+    </sky-box>
+
+    <sky-box headingText="Time axis">
+      <sky-box-content>
+        <sky-chart headingText="Scores over time" [headingHidden]="true">
+          <sky-chart-line>
+            <sky-chart-axis-category-time
+              labelText="Date"
+              timeUnit="week"
+              [categories]="dates()"
+              [labelHidden]="true"
+            />
+            <sky-chart-axis-value labelText="Score" [max]="100" [min]="0" />
+            @for (item of series(); track item.labelText; let first = $first) {
+              <sky-chart-line-series
+                [emphasized]="first"
+                [labelText]="item.labelText"
+                [values]="item.values"
+              />
+            }
+          </sky-chart-line>
+        </sky-chart>
+      </sky-box-content>
+    </sky-box>
+
+    <sky-box class="sky-margin-stacked-xl" headingText="Formatting by unit">
+      <sky-box-content>
+        <sky-fluid-grid gutterSize="medium">
+          <sky-row>
+            @for (chart of unitCharts; track chart.unit) {
+              <sky-column
+                class="sky-margin-stacked-lg"
+                [screenMedium]="4"
+                [screenSmall]="6"
+              >
+                <sky-chart headingLevel="3" [headingText]="chart.unit">
+                  <sky-chart-line>
+                    <sky-chart-axis-category-time
+                      labelText="Date"
+                      [categories]="chart.dates"
+                      [labelHidden]="true"
+                      [timeUnit]="chart.unit"
+                    />
+                    <sky-chart-axis-value
+                      labelText="Score"
+                      [labelHidden]="true"
+                      [max]="100"
+                      [min]="0"
+                    />
+                    <sky-chart-line-series
+                      labelText="Score"
+                      [values]="chart.scores"
+                    />
+                  </sky-chart-line>
+                </sky-chart>
+              </sky-column>
+            }
+          </sky-row>
+        </sky-fluid-grid>
+      </sky-box-content>
+    </sky-box>
+  </sky-page-content>
+</sky-page>

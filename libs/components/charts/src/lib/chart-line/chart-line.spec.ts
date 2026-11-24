@@ -1,8 +1,9 @@
-import { Component, ViewChild, input } from '@angular/core';
+import { Component, input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { expect, expectAsync } from '@skyux-sdk/testing';
 import { SkyLogService } from '@skyux/core';
+import { type SkyAppLocaleInfo, SkyAppLocaleProvider } from '@skyux/i18n';
 import {
   SkyTheme,
   SkyThemeMode,
@@ -10,14 +11,16 @@ import {
   SkyThemeSettings,
   type SkyThemeSettingsChange,
 } from '@skyux/theme';
-import { Chart, type TooltipItem } from 'chart.js';
-import { ReplaySubject } from 'rxjs';
+import { _adapters, Chart, type DateAdapter, type TooltipItem } from 'chart.js';
+import { type Observable, of, ReplaySubject } from 'rxjs';
 
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { type SkyChartDataPointClickArgs } from '../chart-plot/chart-data-point-click-args';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 import { SkyChart } from '../chart/chart';
+import { type SkyChartTimeUnit } from '../shared/time-unit';
 import { SkyChartValueFormat } from '../shared/value-format';
 
 import { SkyChartLine } from './chart-line';
@@ -37,6 +40,7 @@ type ScaleProbe = {
     SkyChart,
     SkyChartLine,
     SkyChartAxisCategory,
+    SkyChartAxisCategoryTime,
     SkyChartAxisValue,
     SkyChartLineSeries,
   ],
@@ -44,10 +48,19 @@ type ScaleProbe = {
     <sky-chart headingText="Test chart">
       <sky-chart-line (dataPointClick)="dataPointClick = $event">
         @if (renderCategoryAxis()) {
-          <sky-chart-axis-category
-            labelText="Year"
-            [categories]="categories()"
-          />
+          @if (timeUnit(); as timeUnit) {
+            <sky-chart-axis-category-time
+              labelText="Year"
+              [categories]="categories()"
+              [timeStep]="timeStep()"
+              [timeUnit]="timeUnit"
+            />
+          } @else {
+            <sky-chart-axis-category
+              labelText="Year"
+              [categories]="categories()"
+            />
+          }
         }
         @if (renderValueAxis()) {
           <sky-chart-axis-value
@@ -75,7 +88,7 @@ class TestComponent {
   @ViewChild(SkyChartLine)
   public chartLine!: SkyChartLine;
 
-  public categories = input<(string | number)[]>(['2023', '2024']);
+  public categories = input<string[]>(['2023', '2024']);
   public currencyCode = input<string | undefined>(undefined);
   public emphasized = input(false);
   public format = input<SkyChartValueFormat>('number');
@@ -85,6 +98,8 @@ class TestComponent {
   public renderValueAxis = input(true);
   public seriesLabel = input('Acquisitions');
   public valueScaleType = input<'linear' | 'logarithmic'>('linear');
+  public timeStep = input<number | undefined>(undefined);
+  public timeUnit = input<SkyChartTimeUnit | undefined>(undefined);
   public values = input<SkyChartLineSeriesValue[]>([10, 20]);
 
   public dataPointClick:
@@ -327,6 +342,177 @@ describe('Chart line component', () => {
     expect(getScale(requireChart(), 'category').offset).toBe(true);
   });
 
+  describe('time scale', () => {
+    const dates = ['2026-01-01', '2026-02-15', '2026-03-01'];
+
+    // Intl separates some parts with narrow or non-breaking spaces.
+    function normalize(text: string): string {
+      return text.replace(/\s/g, ' ');
+    }
+
+    function renderTimeScale(
+      timeUnit: SkyChartTimeUnit,
+      timeStep?: number,
+    ): void {
+      fixture.componentRef.setInput('categories', dates);
+      fixture.componentRef.setInput('values', [10, 20, 30]);
+      fixture.componentRef.setInput('timeUnit', timeUnit);
+      fixture.componentRef.setInput('timeStep', timeStep);
+      fixture.detectChanges();
+    }
+
+    function getTickLabels(): string[] {
+      return requireChart().scales['category'].ticks.map((tick) =>
+        normalize(String(tick.label)),
+      );
+    }
+
+    it('should position each category by its date', () => {
+      renderTimeScale('month');
+
+      expect(getScale(requireChart(), 'category').type).toBe('skyTime');
+      expect(requireChart().data.labels).toEqual([
+        new Date(2026, 0, 1).getTime(),
+        new Date(2026, 1, 15).getTime(),
+        new Date(2026, 2, 1).getTime(),
+      ]);
+    });
+
+    it('should not register a global Chart.js date adapter', () => {
+      renderTimeScale('month');
+
+      expect(() => new _adapters._date().formats()).toThrowError(
+        /not implemented/,
+      );
+    });
+
+    it("should ignore a consumer's global Chart.js date adapter", () => {
+      const prototype = _adapters._date.prototype as object;
+      const original = Object.getOwnPropertyDescriptors(prototype);
+
+      _adapters._date.override({
+        formats: () => ({}) as ReturnType<DateAdapter['formats']>,
+        format: () => 'Consumer label',
+        parse: () => 0,
+      });
+
+      try {
+        renderTimeScale('month');
+
+        expect(getTickLabels()).toEqual(['Jan 2026', 'Feb 2026', 'Mar 2026']);
+      } finally {
+        Object.defineProperties(prototype, original);
+      }
+    });
+
+    it('should label the axis once per unit, formatted for the unit', () => {
+      renderTimeScale('month');
+
+      expect(getTickLabels()).toEqual(['Jan 2026', 'Feb 2026', 'Mar 2026']);
+    });
+
+    it('should label years the same on the axis and in the data table', () => {
+      fixture.componentRef.setInput('categories', [
+        '2024-01-01',
+        '2025-01-01',
+        '2026-01-01',
+      ]);
+      fixture.componentRef.setInput('values', [10, 20, 30]);
+      fixture.componentRef.setInput('timeUnit', 'year');
+      fixture.detectChanges();
+
+      expect(getTickLabels()).toEqual(['2024', '2025', '2026']);
+      expect(tableSvc().table()?.categories).toEqual(['2024', '2025', '2026']);
+    });
+
+    it('should skip units between labels by the step size', () => {
+      renderTimeScale('month', 2);
+
+      expect(getTickLabels()).toEqual(['Jan 2026', 'Mar 2026']);
+    });
+
+    it('should show the full date in the tooltip', () => {
+      renderTimeScale('month');
+
+      expect(
+        normalize(
+          requireChart().scales['category'].getLabelForValue(
+            new Date(2026, 1, 15).getTime(),
+          ),
+        ),
+      ).toBe('Feb 15, 2026');
+    });
+
+    it('should show the full date in the data table', () => {
+      renderTimeScale('month');
+
+      expect(tableSvc().table()?.categories.map(String).map(normalize)).toEqual(
+        ['Jan 1, 2026', 'Feb 15, 2026', 'Mar 1, 2026'],
+      );
+    });
+
+    const misconfigurations: {
+      description: string;
+      inputs: Record<string, unknown>;
+      error: string | RegExp;
+    }[] = [
+      ...[0, -1, 0.5, 'abc'].map((timeStep) => ({
+        description: `a time step of "${timeStep}"`,
+        inputs: { timeUnit: 'day', timeStep },
+        error:
+          `The <sky-chart-axis-category-time> has a "timeStep" of "${Number(timeStep)}", ` +
+          'but it must be a positive whole number.',
+      })),
+      {
+        description: 'a category that is not a strict date',
+        inputs: {
+          categories: ['2026-01-01', 'Feb 1 26'],
+          timeUnit: 'month',
+        },
+        error: /The time category "Feb 1 26" is not a valid date/,
+      },
+    ];
+
+    it('should clear a rendered chart when its time scale becomes misconfigured', async () => {
+      const errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
+
+      renderTimeScale('month');
+
+      expect(getChart()).toBeDefined();
+
+      fixture.componentRef.setInput('timeStep', 0);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(errorSpy).toHaveBeenCalledTimes(1);
+      expect(getChart()).toBeUndefined();
+      expect(tableSvc().table()).toBeUndefined();
+      expect(tableSvc().summary()).toBeUndefined();
+    });
+
+    for (const { description, inputs, error } of misconfigurations) {
+      it(`should log an error and render nothing for ${description}`, () => {
+        const errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
+
+        fixture.componentRef.setInput('categories', dates);
+        fixture.componentRef.setInput('values', [10, 20, 30]);
+
+        for (const [name, value] of Object.entries(inputs)) {
+          fixture.componentRef.setInput(name, value);
+        }
+
+        fixture.detectChanges();
+
+        expect(errorSpy).toHaveBeenCalledOnceWith(
+          typeof error === 'string' ? error : jasmine.stringMatching(error),
+        );
+        expect(getChart()).toBeUndefined();
+        expect(tableSvc().table()).toBeUndefined();
+        expect(tableSvc().summary()).toBeUndefined();
+      });
+    }
+  });
+
   it('should highlight every series at the hovered category', () => {
     fixture.detectChanges();
 
@@ -510,6 +696,78 @@ describe('Chart line component', () => {
 
       await expectAsync(fixture.nativeElement).toBeAccessible();
     });
+
+    it('should be accessible when a misconfigured time scale clears the chart', async () => {
+      spyOn(TestBed.inject(SkyLogService), 'error');
+
+      fixture.componentRef.setInput('categories', ['2026-01-01', '2026-02-01']);
+      fixture.componentRef.setInput('timeUnit', 'month');
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(getChart()).toBeDefined();
+
+      fixture.componentRef.setInput('timeStep', 0);
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      expect(getChart()).toBeUndefined();
+
+      await expectAsync(fixture.nativeElement).toBeAccessible();
+    });
+  });
+});
+
+describe('Chart line component with two category axes', () => {
+  @Component({
+    imports: [
+      SkyChart,
+      SkyChartLine,
+      SkyChartAxisCategory,
+      SkyChartAxisCategoryTime,
+      SkyChartAxisValue,
+      SkyChartLineSeries,
+    ],
+    template: `
+      <sky-chart headingText="Test chart">
+        <sky-chart-line>
+          <sky-chart-axis-category labelText="Year" [categories]="categories" />
+          <sky-chart-axis-category-time
+            labelText="Year"
+            timeUnit="year"
+            [categories]="categories"
+          />
+          <sky-chart-axis-value labelText="Value" />
+          <sky-chart-line-series labelText="Series" [values]="values" />
+        </sky-chart-line>
+      </sky-chart>
+    `,
+  })
+  class TwoAxesComponent {
+    public categories = ['2023-01-01', '2024-01-01'];
+    public values = [10, 20];
+  }
+
+  it('should log an error and render nothing', () => {
+    TestBed.configureTestingModule({ imports: [TwoAxesComponent] });
+
+    const errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
+    const fixture = TestBed.createComponent(TwoAxesComponent);
+    fixture.detectChanges();
+
+    const tableSvc = fixture.debugElement
+      .query(By.directive(SkyChart))
+      .injector.get(SkyChartTableService);
+
+    expect(errorSpy).toHaveBeenCalledOnceWith(
+      'The <sky-chart-line> can have only one category axis.',
+    );
+    expect(
+      Chart.getChart(fixture.nativeElement.querySelector('canvas')),
+    ).toBeUndefined();
+    expect(tableSvc.table()).toBeUndefined();
+
+    fixture.destroy();
   });
 });
 
@@ -629,6 +887,40 @@ describe('Chart line component with a theme service', () => {
 
     expect(container.style.height).not.toBe(initialHeight);
     expect(container.style.height).toContain('33vh');
+
+    fixture.destroy();
+  });
+});
+
+describe('Chart line component with a locale', () => {
+  it('should format a time scale for the current locale', () => {
+    TestBed.configureTestingModule({
+      imports: [TestComponent],
+      providers: [
+        {
+          provide: SkyAppLocaleProvider,
+          useValue: {
+            defaultLocale: 'en-US',
+            getLocaleInfo: (): Observable<SkyAppLocaleInfo> =>
+              of({ locale: 'de-DE' }),
+          },
+        },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(TestComponent);
+    fixture.componentRef.setInput('categories', ['2026-01-15', '2026-04-01']);
+    fixture.componentRef.setInput('timeUnit', 'month');
+    fixture.detectChanges();
+
+    const tableSvc = fixture.debugElement
+      .query(By.directive(SkyChart))
+      .injector.get(SkyChartTableService);
+
+    expect(tableSvc.table()?.categories).toEqual([
+      '15. Jan. 2026',
+      '1. Apr. 2026',
+    ]);
 
     fixture.destroy();
   });

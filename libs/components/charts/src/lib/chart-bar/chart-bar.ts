@@ -1,6 +1,7 @@
 import { Component, computed, contentChildren, input } from '@angular/core';
 import { type ChartDataset } from 'chart.js';
 
+import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import {
   buildCartesianScales,
   buildValueTooltipLabel,
@@ -50,6 +51,7 @@ export class SkyChartBar extends SkyChartCartesianPlot<
   public readonly seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
 
   protected override readonly series = contentChildren(SkyChartBarSeries);
+  protected override readonly supportedCategoryAxes = [SkyChartAxisCategory];
   protected override readonly seriesSelector = 'sky-chart-bar-series';
   protected override readonly accessibleSummaryResourceKey =
     'skyux_charts.chart.bar.accessible_summary';

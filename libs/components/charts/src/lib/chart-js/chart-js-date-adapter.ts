@@ -1,0 +1,244 @@
+import { type DateAdapter, type TimeUnit } from 'chart.js';
+
+import { parseTimeCategory } from '../shared/time-category-parser';
+import { type SkyChartTimeUnit } from '../shared/time-unit';
+
+/**
+ * A time scale's `adapters.date` option.
+ * @internal
+ */
+export interface SkyChartDateAdapterOptions {
+  locale: string;
+}
+
+const TIME_WITH_SECONDS: Intl.DateTimeFormatOptions = {
+  hour: 'numeric',
+  minute: '2-digit',
+  second: '2-digit',
+};
+
+const AXIS_FORMATS: Record<SkyChartTimeUnit, Intl.DateTimeFormatOptions> = {
+  millisecond: { ...TIME_WITH_SECONDS, fractionalSecondDigits: 3 },
+  second: TIME_WITH_SECONDS,
+  minute: { hour: 'numeric', minute: '2-digit' },
+  hour: { hour: 'numeric' },
+  day: { month: 'short', day: 'numeric' },
+  week: { month: 'short', day: 'numeric' },
+  month: { month: 'short', year: 'numeric' },
+  year: { year: 'numeric' },
+};
+
+const MEDIUM_DATE: Intl.DateTimeFormatOptions = {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+};
+
+const FULL_FORMATS: Record<SkyChartTimeUnit, Intl.DateTimeFormatOptions> = {
+  millisecond: { ...MEDIUM_DATE, ...AXIS_FORMATS.millisecond },
+  second: { ...MEDIUM_DATE, ...AXIS_FORMATS.second },
+  minute: { ...MEDIUM_DATE, ...AXIS_FORMATS.minute },
+  hour: { ...MEDIUM_DATE, ...AXIS_FORMATS.minute },
+  day: MEDIUM_DATE,
+  week: MEDIUM_DATE,
+  month: MEDIUM_DATE,
+  year: AXIS_FORMATS.year,
+};
+
+const FULL_FORMAT_PREFIX = 'full:';
+
+const FIXED_UNIT_MS: Partial<Record<TimeUnit, number>> = {
+  millisecond: 1,
+  second: 1_000,
+  minute: 60_000,
+  hour: 3_600_000,
+};
+
+/**
+ * The adapter format name for a unit's full format.
+ * @internal
+ */
+export function fullTimeFormat(unit: SkyChartTimeUnit): string {
+  return FULL_FORMAT_PREFIX + unit;
+}
+
+/**
+ * Formats a time category as tooltips and the data table show it.
+ * @internal
+ */
+export function formatTimeCategory(
+  time: number,
+  unit: SkyChartTimeUnit,
+  locale: string,
+): string {
+  return new Intl.DateTimeFormat(locale, FULL_FORMATS[unit]).format(time);
+}
+
+function startOf(time: number, unit: TimeUnit): number {
+  const date = new Date(time);
+
+  switch (unit) {
+    case 'second':
+      date.setMilliseconds(0);
+      break;
+    case 'minute':
+      date.setSeconds(0, 0);
+      break;
+    case 'hour':
+      date.setMinutes(0, 0, 0);
+      break;
+    case 'day':
+      date.setHours(0, 0, 0, 0);
+      break;
+    // The date is set before midnight, which some time zones skip on the day
+    // daylight saving time starts.
+    case 'week':
+      date.setDate(date.getDate() - date.getDay());
+      date.setHours(0, 0, 0, 0);
+      break;
+    case 'month':
+      date.setDate(1);
+      date.setHours(0, 0, 0, 0);
+      break;
+    case 'year':
+      date.setMonth(0, 1);
+      date.setHours(0, 0, 0, 0);
+      break;
+  }
+
+  return date.getTime();
+}
+
+function add(time: number, amount: number, unit: TimeUnit): number {
+  const fixed = FIXED_UNIT_MS[unit];
+
+  if (fixed) {
+    return time + amount * fixed;
+  }
+
+  // Local date parts keep a day a calendar day across daylight saving changes.
+  const date = new Date(time);
+
+  switch (unit) {
+    case 'day':
+      date.setDate(date.getDate() + amount);
+      break;
+    case 'week':
+      date.setDate(date.getDate() + amount * 7);
+      break;
+    case 'month':
+      date.setMonth(date.getMonth() + amount);
+      break;
+    case 'year':
+      date.setFullYear(date.getFullYear() + amount);
+      break;
+  }
+
+  return date.getTime();
+}
+
+function diff(max: number, min: number, unit: TimeUnit): number {
+  const fixed = FIXED_UNIT_MS[unit];
+
+  if (fixed) {
+    return Math.trunc((max - min) / fixed);
+  }
+
+  const later = new Date(max);
+  const earlier = new Date(min);
+  const months =
+    (later.getFullYear() - earlier.getFullYear()) * 12 +
+    later.getMonth() -
+    earlier.getMonth();
+
+  switch (unit) {
+    case 'day':
+      // Rounding absorbs the hour a daylight saving change adds or removes.
+      return Math.round(
+        (startOf(max, 'day') - startOf(min, 'day')) / 86_400_000,
+      );
+    case 'week':
+      return Math.trunc(diff(max, min, 'day') / 7);
+    case 'month':
+      return months;
+    default:
+      return later.getFullYear() - earlier.getFullYear();
+  }
+}
+
+/**
+ * The date adapter of SKY UX time scales. It is created by
+ * `SkyChartTimeScale` instead of being registered with Chart.js, so it doesn't
+ * replace a date adapter the consumer registers for their own Chart.js charts.
+ * @internal
+ */
+export class SkyChartDateAdapter implements DateAdapter<SkyChartDateAdapterOptions> {
+  public readonly options: SkyChartDateAdapterOptions;
+
+  constructor(options: SkyChartDateAdapterOptions) {
+    this.options = options;
+  }
+
+  public init(): void {
+    // Chart.js's DateAdapter requires it, but there is nothing to set up.
+  }
+
+  public formats(): Record<TimeUnit | 'datetime', string> {
+    const units = Object.keys(AXIS_FORMATS) as SkyChartTimeUnit[];
+
+    return {
+      ...Object.fromEntries(units.map((unit) => [unit, unit])),
+      ...Object.fromEntries(
+        units.map((unit) => [fullTimeFormat(unit), fullTimeFormat(unit)]),
+      ),
+      datetime: fullTimeFormat('second'),
+    } as Record<TimeUnit | 'datetime', string>;
+  }
+
+  public parse(value: unknown): number | null {
+    if (value === null || value === undefined) {
+      return null;
+    }
+
+    if (typeof value === 'number') {
+      return value;
+    }
+
+    const time = parseTimeCategory(value as string);
+
+    return Number.isNaN(time) ? null : time;
+  }
+
+  public format(time: number, format: string): string {
+    const { locale } = this.options;
+
+    if (format.startsWith(FULL_FORMAT_PREFIX)) {
+      return formatTimeCategory(
+        time,
+        format.slice(FULL_FORMAT_PREFIX.length) as SkyChartTimeUnit,
+        locale,
+      );
+    }
+
+    return new Intl.DateTimeFormat(
+      locale,
+      AXIS_FORMATS[format as SkyChartTimeUnit],
+    ).format(time);
+  }
+
+  public add(time: number, amount: number, unit: TimeUnit): number {
+    return add(time, amount, unit);
+  }
+
+  public diff(max: number, min: number, unit: TimeUnit): number {
+    return diff(max, min, unit);
+  }
+
+  public startOf(time: number, unit: TimeUnit | 'isoWeek'): number {
+    return startOf(time, unit as TimeUnit);
+  }
+
+  public endOf(time: number, unit: TimeUnit): number {
+    return add(startOf(time, unit), 1, unit) - 1;
+  }
+}

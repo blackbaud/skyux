@@ -33,6 +33,8 @@ import { measureDataPoints } from '../chart-js-plugins/data-point-geometry';
 import { createDataPointPlugin } from '../chart-js-plugins/data-point-plugin';
 import { SkyChartTableService } from '../chart-table/chart-table-service';
 
+import { SkyChartTimeScale } from './chart-js-time-scale';
+
 Chart.register(
   BarController,
   BarElement,
@@ -42,6 +44,7 @@ Chart.register(
   LineElement,
   LogarithmicScale,
   PointElement,
+  SkyChartTimeScale,
   Tooltip,
 );
 

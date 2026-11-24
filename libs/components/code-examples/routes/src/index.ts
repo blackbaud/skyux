@@ -312,6 +312,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ChartsChartLineTimeScaleExample',
+    loadComponent: () =>
+      import('@skyux/code-examples').then(
+        ({ ChartsChartLineTimeScaleExample: c }) => c,
+      ),
+  },
+  {
     path: 'ChartsChartLineValueFormatExample',
     loadComponent: () =>
       import('@skyux/code-examples').then(

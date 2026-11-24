@@ -1,7 +1,9 @@
 import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 
 import { createThemeStylesFixture } from '../shared/fixtures/theme-styles-fixture';
+import { type SkyChartTimeUnit } from '../shared/time-unit';
 import { type SkyChartValueScaleType } from '../shared/value-scale-type';
 
 import { buildCartesianScales } from './cartesian-utils';
@@ -10,15 +12,29 @@ type ScaleProbe = {
   stacked: boolean;
   min: number | undefined;
   max: number | undefined;
-  ticks: { autoSkip: boolean };
+  ticks: { autoSkip: boolean; stepSize?: number };
+  type: string;
+  time?: { unit: string; tooltipFormat: string };
+  adapters?: { date: { locale: string } };
 };
 
 describe('buildCartesianScales', () => {
-  function createCategoryAxis(): SkyChartAxisCategory {
-    return {
-      labelHidden: () => false,
-      labelText: () => 'Category',
-    } as unknown as SkyChartAxisCategory;
+  function createCategoryAxis(time?: {
+    unit: SkyChartTimeUnit;
+    step?: number;
+  }): SkyChartAxisCategory | SkyChartAxisCategoryTime {
+    const axis = {
+      labelHidden: (): boolean => false,
+      labelText: (): string => 'Category',
+    };
+
+    return time
+      ? Object.assign(Object.create(SkyChartAxisCategoryTime.prototype), {
+          ...axis,
+          timeUnit: () => time.unit,
+          timeStep: () => time.step,
+        })
+      : Object.assign(Object.create(SkyChartAxisCategory.prototype), axis);
   }
 
   function createValueAxis(
@@ -52,6 +68,40 @@ describe('buildCartesianScales', () => {
       themeStyles: createThemeStylesFixture(),
     }) as unknown as Record<string, ScaleProbe>;
   }
+
+  it('should build a time scale from the time scale config', () => {
+    const scale = (
+      buildCartesianScales({
+        categoryAxis: createCategoryAxis({ unit: 'week', step: 2 }),
+        valueAxis: createValueAxis('linear'),
+        isHorizontal: false,
+        themeStyles: createThemeStylesFixture(),
+        dateAdapterOptions: { locale: 'fr-CA' },
+      }) as unknown as Record<string, ScaleProbe>
+    )['category'];
+
+    expect(scale.type).toBe('skyTime');
+    expect(scale.time).toEqual({ unit: 'week', tooltipFormat: 'full:week' });
+    expect(scale.ticks.stepSize).toBe(2);
+    expect(scale.adapters).toEqual({
+      date: { locale: 'fr-CA' },
+    });
+  });
+
+  it('should build a category scale by default', () => {
+    const scale = (
+      buildCartesianScales({
+        categoryAxis: createCategoryAxis(),
+        valueAxis: createValueAxis('linear'),
+        isHorizontal: false,
+        themeStyles: createThemeStylesFixture(),
+      }) as unknown as Record<string, ScaleProbe>
+    )['category'];
+
+    expect(scale.type).toBe('category');
+    expect(scale.time).toBeUndefined();
+    expect(scale.adapters).toBeUndefined();
+  });
 
   it('should default to an unstacked layout when "stacked" is omitted', () => {
     const scales = build('linear');

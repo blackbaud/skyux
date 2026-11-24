@@ -9,10 +9,10 @@ import {
 } from '@angular/core';
 import { outputFromObservable, toSignal } from '@angular/core/rxjs-interop';
 import { SkyLogService } from '@skyux/core';
+import { SkyAppLocaleProvider } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 import { EMPTY, map, Subject } from 'rxjs';
 
-import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/chart-js-data-point-index';
 import {
@@ -21,6 +21,7 @@ import {
   type SkyChartCartesianData,
   type SkyChartCartesianSeries,
 } from '../chart-js/cartesian-utils';
+import { type SkyChartDateAdapterOptions } from '../chart-js/chart-js-date-adapter';
 import { type SkyChartLegendItem } from '../chart-legend/chart-legend';
 import { SkyChartTable } from '../chart-table/chart-table';
 import { SkyChartAccessibleSummary } from '../chart-table/chart-table-service';
@@ -30,7 +31,7 @@ import { SkyChartPlot } from './chart-plot';
 /**
  * Base class for cartesian plot components (for example, `sky-chart-bar` and
  * `sky-chart-line`): plots that render one or more series against a category
- * axis and a value axis. Owns the axis content queries, the theme change
+ * axis and a value axis. Owns the value axis content query, the theme change
  * signal, the accessible table and summary, and the series/category
  * length-mismatch warning. Subclasses supply the series content query, the
  * series selector, the summary resource key, and their own Chart.js config.
@@ -58,8 +59,21 @@ export abstract class SkyChartCartesianPlot<
     return this.getThemeStyles();
   });
 
-  protected readonly categoryAxis = contentChild(SkyChartAxisCategory);
   protected readonly valueAxis = contentChild(SkyChartAxisValue);
+
+  readonly #localeProvider = inject(SkyAppLocaleProvider);
+
+  readonly #locale = toSignal(
+    this.#localeProvider.getLocaleInfo().pipe(map((info) => info.locale)),
+    { initialValue: this.#localeProvider.defaultLocale },
+  );
+
+  /**
+   * How a time scale formats dates for the current locale.
+   */
+  protected readonly dateAdapterOptions = computed(
+    (): SkyChartDateAdapterOptions => ({ locale: this.#locale() }),
+  );
 
   /**
    * The projected series components. Subclasses implement this with a
@@ -136,9 +150,14 @@ export abstract class SkyChartCartesianPlot<
 
   /**
    * Resolves the axes and series into the data the plot needs to render, or
-   * `undefined` when a required axis or series is missing.
+   * `undefined` when a required axis or series is missing or the category axis
+   * can't be plotted.
    */
   protected getCartesianData(): SkyChartCartesianData<TSeries> | undefined {
+    if (this.categoryAxisError()) {
+      return undefined;
+    }
+
     return resolveCartesianData(
       this.categoryAxis(),
       this.valueAxis(),
@@ -195,6 +214,7 @@ export abstract class SkyChartCartesianPlot<
       data.categoryAxis,
       data.series,
       data.valueAxis.formatValue(),
+      this.dateAdapterOptions(),
     );
   }
 
