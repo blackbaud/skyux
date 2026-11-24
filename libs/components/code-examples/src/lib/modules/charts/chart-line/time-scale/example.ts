@@ -9,7 +9,7 @@ import {
 } from '@skyux/charts';
 
 /**
- * @title Line chart with a time scale
+ * @title Line chart with a time axis
  */
 @Component({
   selector: 'app-chart-line-time-scale-example',

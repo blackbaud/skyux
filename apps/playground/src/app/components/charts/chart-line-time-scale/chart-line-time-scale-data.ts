@@ -13,7 +13,7 @@ export interface TimeScaleReading {
 
 export const TIME_SCALE_SCENARIOS = {
   year: 'A year of mostly daily readings',
-  quarter: 'Three months, sometimes several a day',
+  'three-months': 'Three months, sometimes several a day',
   'flat-then-drop': 'Two months unchanged, then a drop',
   sparse: 'Two readings a day apart',
 } as const;
@@ -116,7 +116,7 @@ export function timeScaleReadings(
         skipChance: 0.25,
         extraChance: 0.05,
       });
-    case 'quarter':
+    case 'three-months':
       return randomWalk({
         days: 90,
         seed: 21,

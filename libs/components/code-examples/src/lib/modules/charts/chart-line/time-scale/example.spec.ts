@@ -5,7 +5,7 @@ import { provideNoopSkyAnimations } from '@skyux/core';
 
 import { ChartsChartLineTimeScaleExample } from './example';
 
-describe('Line chart with a time scale example', () => {
+describe('Line chart with a time axis example', () => {
   async function setupTest(): Promise<{
     fixture: ComponentFixture<ChartsChartLineTimeScaleExample>;
     harness: SkyChartHarness;
