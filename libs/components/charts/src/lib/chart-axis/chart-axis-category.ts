@@ -1,5 +1,7 @@
 import { booleanAttribute, Component, input } from '@angular/core';
 
+import { SKY_CHART_CATEGORY_AXIS } from './chart-category-axis-token';
+
 /**
  * Defines the category axis of a chart. Its categories are shared by every
  * series plotted against it, and each series' values align to them by index.
@@ -8,6 +10,9 @@ import { booleanAttribute, Component, input } from '@angular/core';
 @Component({
   selector: 'sky-chart-axis-category',
   template: '',
+  providers: [
+    { provide: SKY_CHART_CATEGORY_AXIS, useExisting: SkyChartAxisCategory },
+  ],
 })
 export class SkyChartAxisCategory {
   /**

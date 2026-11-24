@@ -2,7 +2,7 @@ import {
   afterRenderEffect,
   type ComponentMirror,
   computed,
-  contentChild,
+  contentChildren,
   DestroyRef,
   Directive,
   ElementRef,
@@ -12,12 +12,12 @@ import {
 } from '@angular/core';
 import { SkyLogService } from '@skyux/core';
 
-import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
 import {
   getTimeAxisError,
   type SkyChartCategoryAxis,
 } from '../chart-axis/chart-axis-category-utils';
+import { SKY_CHART_CATEGORY_AXIS } from '../chart-axis/chart-category-axis-token';
 
 import { SkyChartTable } from '../chart-table/chart-table';
 import {
@@ -48,12 +48,12 @@ export abstract class SkyChartPlot {
 
   readonly #tableSvc: SkyChartTableService;
 
-  protected readonly categoryAxisDefault = contentChild(SkyChartAxisCategory);
-  protected readonly categoryAxisTime = contentChild(SkyChartAxisCategoryTime);
+  protected readonly categoryAxes = contentChildren(SKY_CHART_CATEGORY_AXIS, {
+    descendants: true,
+  });
 
   protected readonly categoryAxis = computed(
-    (): SkyChartCategoryAxis | undefined =>
-      this.categoryAxisTime() ?? this.categoryAxisDefault(),
+    (): SkyChartCategoryAxis | undefined => this.categoryAxes()[0],
   );
 
   /**
@@ -66,16 +66,23 @@ export abstract class SkyChartPlot {
    * Why the category axis can't be plotted, if it can't.
    */
   protected readonly categoryAxisError = computed(() => {
-    const categoryAxis = this.categoryAxis();
+    const categoryAxes = this.categoryAxes();
 
-    if (!categoryAxis) {
+    if (categoryAxes.length === 0) {
       return undefined;
     }
+
+    const plot = tagOf(this.constructor as Type<unknown>);
+
+    if (categoryAxes.length > 1) {
+      return `The ${plot} can have only one category axis.`;
+    }
+
+    const [categoryAxis] = categoryAxes;
 
     if (
       !this.supportedCategoryAxes.some((axis) => categoryAxis instanceof axis)
     ) {
-      const plot = tagOf(this.constructor as Type<unknown>);
       const axis = tagOf(categoryAxis.constructor as Type<unknown>);
       const supported = this.supportedCategoryAxes.map(tagOf).join(' or ');
 

@@ -718,6 +718,59 @@ describe('Chart line component', () => {
   });
 });
 
+describe('Chart line component with two category axes', () => {
+  @Component({
+    imports: [
+      SkyChart,
+      SkyChartLine,
+      SkyChartAxisCategory,
+      SkyChartAxisCategoryTime,
+      SkyChartAxisValue,
+      SkyChartLineSeries,
+    ],
+    template: `
+      <sky-chart headingText="Test chart">
+        <sky-chart-line>
+          <sky-chart-axis-category labelText="Year" [categories]="categories" />
+          <sky-chart-axis-category-time
+            labelText="Year"
+            timeUnit="year"
+            [categories]="categories"
+          />
+          <sky-chart-axis-value labelText="Value" />
+          <sky-chart-line-series labelText="Series" [values]="values" />
+        </sky-chart-line>
+      </sky-chart>
+    `,
+  })
+  class TwoAxesComponent {
+    public categories = ['2023-01-01', '2024-01-01'];
+    public values = [10, 20];
+  }
+
+  it('should log an error and render nothing', () => {
+    TestBed.configureTestingModule({ imports: [TwoAxesComponent] });
+
+    const errorSpy = spyOn(TestBed.inject(SkyLogService), 'error');
+    const fixture = TestBed.createComponent(TwoAxesComponent);
+    fixture.detectChanges();
+
+    const tableSvc = fixture.debugElement
+      .query(By.directive(SkyChart))
+      .injector.get(SkyChartTableService);
+
+    expect(errorSpy).toHaveBeenCalledOnceWith(
+      'The <sky-chart-line> can have only one category axis.',
+    );
+    expect(
+      Chart.getChart(fixture.nativeElement.querySelector('canvas')),
+    ).toBeUndefined();
+    expect(tableSvc.table()).toBeUndefined();
+
+    fixture.destroy();
+  });
+});
+
 describe('Chart line component outside a sky-chart', () => {
   @Component({
     imports: [

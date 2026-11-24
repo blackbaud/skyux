@@ -7,6 +7,8 @@ import {
 
 import { type SkyChartTimeUnit } from '../shared/time-unit';
 
+import { SKY_CHART_CATEGORY_AXIS } from './chart-category-axis-token';
+
 /**
  * Defines a category axis whose categories are dates. Unlike
  * `sky-chart-axis-category`, which spaces categories evenly, it spaces them by
@@ -16,6 +18,9 @@ import { type SkyChartTimeUnit } from '../shared/time-unit';
 @Component({
   selector: 'sky-chart-axis-category-time',
   template: '',
+  providers: [
+    { provide: SKY_CHART_CATEGORY_AXIS, useExisting: SkyChartAxisCategoryTime },
+  ],
 })
 export class SkyChartAxisCategoryTime {
   /**
