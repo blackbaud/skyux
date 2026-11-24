@@ -63,7 +63,7 @@ export function fullTimeFormat(unit: SkyChartTimeUnit): string {
 }
 
 /**
- * Formats a time category as tooltips show it.
+ * Formats a time category as tooltips and the data table show it.
  * @internal
  */
 export function formatTimeCategory(

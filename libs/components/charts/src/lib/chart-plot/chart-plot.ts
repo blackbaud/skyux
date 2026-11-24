@@ -32,10 +32,10 @@ import {
 /**
  * Base class for chart plot components (for example, `sky-chart-bar`). Owns the
  * bridge that publishes each plot's tabular representation to the accessible
- * data table, so every plot type shares the same lifecycle, and the category
- * axis content queries and error. Subclasses declare the category axes they
- * support and implement `getChartTable`, `getAccessibleSummary`, and their own
- * rendering.
+ * data table, so every plot type shares the same lifecycle. It also owns the
+ * category axis content query and its configuration error. Subclasses declare
+ * the category axes they support and implement `getChartTable`,
+ * `getAccessibleSummary`, and their own rendering.
  *
  * Plots must be rendered inside `sky-chart`: the wrapper provides the data
  * table bridge and the default-theme styling the plot resolves its themed

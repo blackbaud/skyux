@@ -5,6 +5,8 @@ import { SKY_CHART_CATEGORY_AXIS } from './chart-category-axis-token';
 /**
  * Defines the category axis of a chart. Its categories are shared by every
  * series plotted against it, and each series' values align to them by index.
+ * Categories are spaced evenly. To space dates by the time between them, use
+ * `sky-chart-axis-category-time`.
  * @preview
  */
 @Component({
