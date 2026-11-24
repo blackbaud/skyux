@@ -1153,8 +1153,7 @@ describe('Chart bar component with a time axis', () => {
 
     expect(errorSpy).toHaveBeenCalledOnceWith(
       'The <sky-chart-bar> does not support <sky-chart-axis-category-time>. ' +
-        'Use <sky-chart-axis-category>, or use <sky-chart-line> to plot ' +
-        'values over time.',
+        'Use <sky-chart-axis-category> instead.',
     );
     expect(
       Chart.getChart(fixture.nativeElement.querySelector('canvas')),

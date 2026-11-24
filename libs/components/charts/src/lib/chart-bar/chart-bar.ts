@@ -1,8 +1,7 @@
 import { Component, computed, contentChildren, input } from '@angular/core';
 import { type ChartDataset } from 'chart.js';
 
-import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
-import { type SkyChartCategoryAxis } from '../chart-axis/chart-axis-category-utils';
+import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
 import {
   buildCartesianScales,
   buildValueTooltipLabel,
@@ -52,6 +51,7 @@ export class SkyChartBar extends SkyChartCartesianPlot<
   public readonly seriesLayout = input<SkyChartBarSeriesLayout>('grouped');
 
   protected override readonly series = contentChildren(SkyChartBarSeries);
+  protected override readonly supportedCategoryAxes = [SkyChartAxisCategory];
   protected override readonly seriesSelector = 'sky-chart-bar-series';
   protected override readonly accessibleSummaryResourceKey =
     'skyux_charts.chart.bar.accessible_summary';
@@ -65,16 +65,6 @@ export class SkyChartBar extends SkyChartCartesianPlot<
    * with their content so every bar stays legible.
    */
   protected readonly chartHeight = computed(() => this.#getChartHeight());
-
-  protected override getCategoryAxisError(
-    categoryAxis: SkyChartCategoryAxis,
-  ): string | undefined {
-    return categoryAxis instanceof SkyChartAxisCategoryTime
-      ? 'The <sky-chart-bar> does not support <sky-chart-axis-category-time>. ' +
-          'Use <sky-chart-axis-category>, or use <sky-chart-line> to plot ' +
-          'values over time.'
-      : undefined;
-  }
 
   #getChartJsConfig(): SkyChartJsConfig<'bar'> | undefined {
     const data = this.getCartesianData();

@@ -1,6 +1,8 @@
 import { Component, computed, contentChildren } from '@angular/core';
 import { type ChartDataset } from 'chart.js';
 
+import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
+import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
 import { getChartLabels } from '../chart-axis/chart-axis-category-utils';
 import {
   buildCartesianScales,
@@ -30,6 +32,10 @@ export class SkyChartLine extends SkyChartCartesianPlot<
   SkyChartLineSeriesValue
 > {
   protected override readonly series = contentChildren(SkyChartLineSeries);
+  protected override readonly supportedCategoryAxes = [
+    SkyChartAxisCategory,
+    SkyChartAxisCategoryTime,
+  ];
   protected override readonly seriesSelector = 'sky-chart-line-series';
   protected override readonly accessibleSummaryResourceKey =
     'skyux_charts.chart.line.accessible_summary';

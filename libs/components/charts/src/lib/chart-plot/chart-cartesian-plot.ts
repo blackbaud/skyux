@@ -13,12 +13,6 @@ import { SkyAppLocaleProvider } from '@skyux/i18n';
 import { SkyThemeService } from '@skyux/theme';
 import { EMPTY, map, Subject } from 'rxjs';
 
-import { SkyChartAxisCategory } from '../chart-axis/chart-axis-category';
-import { SkyChartAxisCategoryTime } from '../chart-axis/chart-axis-category-time';
-import {
-  getTimeAxisError,
-  type SkyChartCategoryAxis,
-} from '../chart-axis/chart-axis-category-utils';
 import { SkyChartAxisValue } from '../chart-axis/chart-axis-value';
 import { type SkyChartJsDataPointIndex } from '../chart-js-plugins/chart-js-data-point-index';
 import {
@@ -37,9 +31,9 @@ import { SkyChartPlot } from './chart-plot';
 /**
  * Base class for cartesian plot components (for example, `sky-chart-bar` and
  * `sky-chart-line`): plots that render one or more series against a category
- * axis and a value axis. Owns the axis content queries, the theme change
- * signal, the accessible table and summary, the series/category
- * length-mismatch warning, and the category axis error. Subclasses supply the series content query, the
+ * axis and a value axis. Owns the value axis content query, the theme change
+ * signal, the accessible table and summary, and the series/category
+ * length-mismatch warning. Subclasses supply the series content query, the
  * series selector, the summary resource key, and their own Chart.js config.
  * @internal
  */
@@ -64,14 +58,6 @@ export abstract class SkyChartCartesianPlot<
 
     return this.getThemeStyles();
   });
-
-  protected readonly categoryAxisDefault = contentChild(SkyChartAxisCategory);
-  protected readonly categoryAxisTime = contentChild(SkyChartAxisCategoryTime);
-
-  protected readonly categoryAxis = computed(
-    (): SkyChartCategoryAxis | undefined =>
-      this.categoryAxisTime() ?? this.categoryAxisDefault(),
-  );
 
   protected readonly valueAxis = contentChild(SkyChartAxisValue);
 
@@ -121,12 +107,6 @@ export abstract class SkyChartCartesianPlot<
 
   readonly #hiddenSeries = signal<ReadonlySet<TSeries>>(new Set());
 
-  readonly #categoryAxisError = computed(() => {
-    const categoryAxis = this.categoryAxis();
-
-    return categoryAxis && this.getCategoryAxisError(categoryAxis);
-  });
-
   protected readonly legendItems = computed((): SkyChartLegendItem[] => {
     const palette = this.themeStyles().series.categoricalPalette;
 
@@ -141,14 +121,6 @@ export abstract class SkyChartCartesianPlot<
     super();
 
     const logger = inject(SkyLogService);
-
-    afterRenderEffect(() => {
-      const error = this.#categoryAxisError();
-
-      if (error) {
-        logger.error(error);
-      }
-    });
 
     // Values align to categories by index, so a length mismatch silently
     // misaligns or drops data. Warn about the one alignment mistake that is
@@ -177,23 +149,12 @@ export abstract class SkyChartCartesianPlot<
   }
 
   /**
-   * Explains why the category axis can't be plotted, if it can't.
-   */
-  protected getCategoryAxisError(
-    categoryAxis: SkyChartCategoryAxis,
-  ): string | undefined {
-    return categoryAxis instanceof SkyChartAxisCategoryTime
-      ? getTimeAxisError(categoryAxis)
-      : undefined;
-  }
-
-  /**
    * Resolves the axes and series into the data the plot needs to render, or
    * `undefined` when a required axis or series is missing or the category axis
    * can't be plotted.
    */
   protected getCartesianData(): SkyChartCartesianData<TSeries> | undefined {
-    if (this.#categoryAxisError()) {
+    if (this.categoryAxisError()) {
       return undefined;
     }
 
